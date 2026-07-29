@@ -20,9 +20,9 @@ The addon adds:
 - a smoke script at
   `res://addons/world_transvoxel_cell_lab/tests/wt_cell_lab_smoke.gd`.
 
-When `WorldTransvoxelCellProbe` is available from `res://addons/world_transvoxel`,
-the lab defaults to exact native regular-cell output from the official MIT
-Transvoxel backend and reports:
+The lab requires `WorldTransvoxelCellProbe` from `res://addons/world_transvoxel`.
+It does not include a fallback mesher. All rendered and reported surface output
+comes from the official MIT Transvoxel backend and reports:
 
 - render authority and correctness claim;
 - backend identity;
@@ -32,6 +32,5 @@ Transvoxel backend and reports:
   orientation conflicts;
 - rebuild timing and edit count.
 
-The `Exact backend` toggle can switch back to the local deterministic
-surface-nets preview for comparison. The authoritative validator now covers the
-regular-cell patch plus an isolated native transition-cell probe.
+The authoritative validator covers the regular-cell patch plus an isolated
+native transition-cell probe.

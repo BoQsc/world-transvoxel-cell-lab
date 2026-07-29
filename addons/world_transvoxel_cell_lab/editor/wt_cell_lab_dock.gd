@@ -4,7 +4,6 @@ extends Control
 const LabScript := preload("res://addons/world_transvoxel_cell_lab/lab/wt_transvoxel_cell_lab.gd")
 
 var plugin: EditorPlugin
-var _native_toggle: CheckBox
 var _field_option: OptionButton
 var _status_label: Label
 
@@ -25,12 +24,6 @@ func _build_ui() -> void:
 	create_button.text = "Create Lab"
 	create_button.pressed.connect(_create_lab)
 	root.add_child(create_button)
-
-	_native_toggle = CheckBox.new()
-	_native_toggle.text = "Exact backend"
-	_native_toggle.button_pressed = true
-	_native_toggle.toggled.connect(_set_native_backend)
-	root.add_child(_native_toggle)
 
 	_field_option = OptionButton.new()
 	for name in LabScript.FieldMode.keys():
@@ -137,16 +130,6 @@ func _set_field_mode(index: int) -> void:
 	_refresh_status()
 
 
-func _set_native_backend(enabled: bool) -> void:
-	var lab = _selected_lab()
-	if lab == null:
-		_refresh_status()
-		return
-	lab.prefer_native_cell_probe = enabled
-	lab.rebuild()
-	_refresh_status()
-
-
 func _rebuild_selected() -> void:
 	var lab = _selected_lab()
 	if lab != null:
@@ -203,5 +186,4 @@ func _refresh_status() -> void:
 		_status_label.text = "No lab selected"
 		return
 	_field_option.select(int(lab.field_mode))
-	_native_toggle.button_pressed = bool(lab.prefer_native_cell_probe)
 	_status_label.text = lab.get_status_line()

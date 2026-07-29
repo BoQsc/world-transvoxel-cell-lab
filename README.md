@@ -22,8 +22,8 @@ res://addons/world_transvoxel/world_transvoxel.gdextension
 ```
 
 Use the `World Transvoxel Lab` dock in the editor, or press Play to run the
-minimal preview scene. Press `B` in the preview scene to toggle between exact
-native regular-cell output and the local preview fallback.
+minimal preview scene. The lab requires `WorldTransvoxelCellProbe` from
+`res://addons/world_transvoxel`; there is no local fallback mesher.
 
 The default scene also shows a native transition-cell probe in front of the
 patch and reports its status in the overlay.

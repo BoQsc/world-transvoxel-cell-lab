@@ -41,9 +41,6 @@ func _unhandled_input(event: InputEvent) -> void:
 			KEY_W:
 				lab.wireframe = not lab.wireframe
 				lab.rebuild()
-			KEY_B:
-				lab.prefer_native_cell_probe = not lab.prefer_native_cell_probe
-				lab.rebuild()
 		_update_status()
 
 
@@ -51,7 +48,7 @@ func _update_status() -> void:
 	if lab == null or status_label == null:
 		return
 	var report := lab.get_last_report()
-	status_label.text = "Render authority: %s\nClaim: %s\n%s\nBoundary open edges are expected when a surface is cut by the finite patch.\n1-5 field  X/Y/Z expand  D dig  C construct  R reset  W wire  B backend" % [
+	status_label.text = "Render authority: %s\nClaim: %s\n%s\nWorldTransvoxelCellProbe is required; no fallback mesher is used.\nBoundary open edges are expected when a surface is cut by the finite patch.\n1-5 field  X/Y/Z expand  D dig  C construct  R reset  W wire" % [
 		str(report.get("render_authority", "unknown")),
 		str(report.get("correctness_claim", "unknown")),
 		lab.get_status_line(),

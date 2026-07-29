@@ -5,42 +5,10 @@ class_name WtTransvoxelCellLab
 enum FieldMode { PLANE, SPHERE, TUNNEL, SADDLE, WAVES }
 
 const REPORT_SCHEMA := "world_transvoxel.cell_lab.report.v1"
-const LOCAL_PREVIEW_IMPLEMENTATION := "editor_local_surface_nets_preview_v1"
 const NATIVE_REGULAR_IMPLEMENTATION := "native_transvoxel_regular_cell_probe_v1"
-const LOCAL_PREVIEW_AUTHORITY := "LOCAL_PREVIEW_NOT_EXACT_TRANSVOXEL"
 const NATIVE_AUTHORITY := "NATIVE_TRANSVOXEL_BACKEND_AUTHORITATIVE"
 const CORNER_COUNT := 8
 const TRANSITION_ORIENTATION_POSITIVE_Z := 4
-const TETS := [
-	[0, 1, 3, 7],
-	[0, 3, 2, 7],
-	[0, 2, 6, 7],
-	[0, 6, 4, 7],
-	[0, 4, 5, 7],
-	[0, 5, 1, 7],
-]
-const TET_EDGES := [
-	[0, 1],
-	[0, 2],
-	[0, 3],
-	[1, 2],
-	[1, 3],
-	[2, 3],
-]
-const CUBE_EDGES := [
-	[0, 1],
-	[1, 3],
-	[3, 2],
-	[2, 0],
-	[4, 5],
-	[5, 7],
-	[7, 6],
-	[6, 4],
-	[0, 4],
-	[1, 5],
-	[3, 7],
-	[2, 6],
-]
 
 @export_range(1, 24, 1) var cells_x: int = 4:
 	set(value):
@@ -76,10 +44,6 @@ const CUBE_EDGES := [
 		_request_rebuild()
 @export_range(0.1, 16.0, 0.05) var edit_radius: float = 1.25
 @export_range(1, 65535, 1) var construct_material: int = 4
-@export var prefer_native_cell_probe: bool = true:
-	set(value):
-		prefer_native_cell_probe = value
-		_request_rebuild()
 @export var show_sample_points: bool = true:
 	set(value):
 		show_sample_points = value
@@ -91,10 +55,6 @@ const CUBE_EDGES := [
 @export var show_transition_frame: bool = true:
 	set(value):
 		show_transition_frame = value
-		_request_rebuild()
-@export var show_transition_probe: bool = true:
-	set(value):
-		show_transition_probe = value
 		_request_rebuild()
 @export var wireframe: bool = false:
 	set(value):
@@ -150,19 +110,18 @@ func rebuild() -> Dictionary:
 		line_instance.mesh = _make_edge_line_mesh(mesh_data)
 		line_instance.material_override = _wire_material
 		_mesh_root.add_child(line_instance)
-	if show_transition_probe:
-		var transition_mesh := _make_array_mesh(transition_data)
-		var transition_instance := MeshInstance3D.new()
-		transition_instance.name = "cell_lab_transition_probe_mesh"
-		transition_instance.mesh = transition_mesh
-		transition_instance.material_override = _transition_surface_material
-		_mesh_root.add_child(transition_instance)
-		if wireframe:
-			var transition_line_instance := MeshInstance3D.new()
-			transition_line_instance.name = "cell_lab_transition_probe_wire"
-			transition_line_instance.mesh = _make_edge_line_mesh(transition_data)
-			transition_line_instance.material_override = _wire_material
-			_mesh_root.add_child(transition_line_instance)
+	var transition_mesh := _make_array_mesh(transition_data)
+	var transition_instance := MeshInstance3D.new()
+	transition_instance.name = "cell_lab_transition_probe_mesh"
+	transition_instance.mesh = transition_mesh
+	transition_instance.material_override = _transition_surface_material
+	_mesh_root.add_child(transition_instance)
+	if wireframe:
+		var transition_line_instance := MeshInstance3D.new()
+		transition_line_instance.name = "cell_lab_transition_probe_wire"
+		transition_line_instance.mesh = _make_edge_line_mesh(transition_data)
+		transition_line_instance.material_override = _wire_material
+		_mesh_root.add_child(transition_line_instance)
 
 	if show_sample_points:
 		_build_sample_markers()
@@ -341,77 +300,13 @@ func _corner_position(cell_origin: Vector3, corner: int) -> Vector3:
 
 
 func _build_patch_mesh_data() -> Dictionary:
-	if prefer_native_cell_probe and ClassDB.class_exists("WorldTransvoxelCellProbe"):
-		return _build_native_regular_patch_mesh_data()
-	return _build_local_preview_patch_mesh_data()
-
-
-func _build_local_preview_patch_mesh_data() -> Dictionary:
-	var vertices: PackedVector3Array = PackedVector3Array()
-	var normal_array: PackedVector3Array = PackedVector3Array()
-	var indices: PackedInt32Array = PackedInt32Array()
-	var cell_vertices := {}
-	var case_histogram := {}
-	var active_cells := 0
-	var degenerate_triangles := 0
-	var origin := _patch_origin()
-	var samples := _build_sample_cache(origin)
-	for z in range(cells_z):
-		for y in range(cells_y):
-			for x in range(cells_x):
-				var cell_origin := origin + Vector3(x, y, z) * cell_size
-				var positions: Array[Vector3] = []
-				var densities: Array[float] = []
-				var case_code := 0
-				for corner in range(CORNER_COUNT):
-					var p := _corner_position(cell_origin, corner)
-					var d := _density(p)
-					positions.append(p)
-					densities.append(d)
-					if d < isovalue:
-						case_code |= 1 << corner
-				case_histogram[case_code] = int(case_histogram.get(case_code, 0)) + 1
-				if case_code == 0 or case_code == 255:
-					continue
-				active_cells += 1
-				var centroid := _surface_net_cell_vertex(positions, densities)
-				cell_vertices[_cell_key(x, y, z)] = vertices.size()
-				vertices.append(centroid)
-				var normal := _gradient(centroid)
-				normal_array.append(normal.normalized() if normal.length() > 0.0 else Vector3.UP)
-	degenerate_triangles += _mesh_surface_net_axis(samples, cell_vertices, vertices, indices, "x")
-	degenerate_triangles += _mesh_surface_net_axis(samples, cell_vertices, vertices, indices, "y")
-	degenerate_triangles += _mesh_surface_net_axis(samples, cell_vertices, vertices, indices, "z")
-	var edge_metrics := _edge_metrics(vertices, indices)
-	var orientation_metrics := _orientation_metrics(vertices, indices)
-	return {
-		"implementation": LOCAL_PREVIEW_IMPLEMENTATION,
-		"render_authority": LOCAL_PREVIEW_AUTHORITY,
-		"correctness_claim": "preview_mesh_health_only",
-		"native_cell_probe_available": ClassDB.class_exists("WorldTransvoxelCellProbe"),
-		"backend_runtime_available": ClassDB.class_exists("WorldTransvoxelTerrain"),
-		"vertices": vertices,
-		"normals": normal_array,
-		"indices": indices,
-		"active_cells": active_cells,
-		"triangles": int(indices.size() / 3),
-		"degenerate_triangles": degenerate_triangles,
-		"open_edges": int(edge_metrics.get("open_edges", 0)),
-		"boundary_open_edges": int(edge_metrics.get("boundary_open_edges", 0)),
-		"interior_open_edges": int(edge_metrics.get("interior_open_edges", 0)),
-		"nonmanifold_edges": int(edge_metrics.get("nonmanifold_edges", 0)),
-		"orientation_conflict_edges": int(orientation_metrics.get("orientation_conflict_edges", 0)),
-		"case_histogram": case_histogram,
-		"empty_cells": (cells_x * cells_y * cells_z) - active_cells,
-		"failed_cells": 0,
-		"native_status_histogram": {},
-	}
+	return _build_native_regular_patch_mesh_data()
 
 
 func _build_native_regular_patch_mesh_data() -> Dictionary:
 	var probe := _get_native_cell_probe()
 	if probe == null:
-		return _build_local_preview_patch_mesh_data()
+		return _missing_world_transvoxel_mesh_data("WorldTransvoxelCellProbe is unavailable")
 	var identity: Dictionary = probe.call("get_backend_identity")
 	var vertices: PackedVector3Array = PackedVector3Array()
 	var normal_array: PackedVector3Array = PackedVector3Array()
@@ -480,7 +375,7 @@ func _build_native_regular_patch_mesh_data() -> Dictionary:
 	return {
 		"implementation": NATIVE_REGULAR_IMPLEMENTATION,
 		"render_authority": NATIVE_AUTHORITY,
-		"correctness_claim": "exact_regular_cell_backend_patch_v1",
+		"correctness_claim": "exact_regular_and_transition_cell_backend_probe_v1",
 		"native_cell_probe_available": true,
 		"backend_runtime_available": ClassDB.class_exists("WorldTransvoxelTerrain"),
 		"backend_identity": identity,
@@ -505,6 +400,39 @@ func _build_native_regular_patch_mesh_data() -> Dictionary:
 		"orientation_conflict_edges": int(orientation_metrics.get("orientation_conflict_edges", 0)),
 		"case_histogram": case_histogram,
 		"native_status_histogram": status_histogram,
+	}
+
+
+func _missing_world_transvoxel_mesh_data(error: String) -> Dictionary:
+	return {
+		"implementation": NATIVE_REGULAR_IMPLEMENTATION,
+		"render_authority": NATIVE_AUTHORITY,
+		"correctness_claim": "world_transvoxel_required_no_fallback",
+		"native_cell_probe_available": false,
+		"backend_runtime_available": ClassDB.class_exists("WorldTransvoxelTerrain"),
+		"backend_identity": {},
+		"dependency_error": error,
+		"vertices": PackedVector3Array(),
+		"normals": PackedVector3Array(),
+		"indices": PackedInt32Array(),
+		"backend_indices": PackedInt32Array(),
+		"materials": PackedInt32Array(),
+		"material_authored": PackedInt32Array(),
+		"endpoint_a": PackedInt32Array(),
+		"endpoint_b": PackedInt32Array(),
+		"reuse_data": PackedInt32Array(),
+		"active_cells": 0,
+		"empty_cells": 0,
+		"failed_cells": cells_x * cells_y * cells_z,
+		"triangles": 0,
+		"degenerate_triangles": 0,
+		"open_edges": 0,
+		"boundary_open_edges": 0,
+		"interior_open_edges": 0,
+		"nonmanifold_edges": 0,
+		"orientation_conflict_edges": 0,
+		"case_histogram": {},
+		"native_status_histogram": { "DependencyMissing": cells_x * cells_y * cells_z },
 	}
 
 
@@ -636,6 +564,7 @@ func _get_native_cell_probe() -> RefCounted:
 	if _native_cell_probe != null and is_instance_valid(_native_cell_probe):
 		return _native_cell_probe
 	if not ClassDB.class_exists("WorldTransvoxelCellProbe"):
+		push_error("World Transvoxel Cell Lab requires WorldTransvoxelCellProbe from res://addons/world_transvoxel; no fallback mesher is available.")
 		return null
 	var instance := ClassDB.instantiate("WorldTransvoxelCellProbe")
 	if instance is RefCounted:
@@ -679,208 +608,6 @@ func _append_native_cell_mesh(
 		indices.append(int(cell_indices[index]) + vertex_offset)
 	for index in range(cell_backend_indices.size()):
 		backend_indices.append(int(cell_backend_indices[index]) + vertex_offset)
-
-
-func _build_sample_cache(origin: Vector3) -> Dictionary:
-	var samples := {}
-	for z in range(cells_z + 1):
-		for y in range(cells_y + 1):
-			for x in range(cells_x + 1):
-				var p := origin + Vector3(x, y, z) * cell_size
-				samples[_cell_key(x, y, z)] = _density(p)
-	return samples
-
-
-func _sample_density(samples: Dictionary, x: int, y: int, z: int) -> float:
-	return float(samples.get(_cell_key(x, y, z), 1.0))
-
-
-func _surface_net_cell_vertex(positions: Array[Vector3], densities: Array[float]) -> Vector3:
-	var sum := Vector3.ZERO
-	var count := 0
-	for edge in CUBE_EDGES:
-		var ai := int(edge[0])
-		var bi := int(edge[1])
-		var da := float(densities[ai])
-		var db := float(densities[bi])
-		if (da < isovalue) == (db < isovalue):
-			continue
-		sum += _interpolate(positions[ai], positions[bi], da, db)
-		count += 1
-	if count == 0:
-		for p in positions:
-			sum += p
-		count = positions.size()
-	return sum / float(count)
-
-
-func _mesh_surface_net_axis(
-	samples: Dictionary,
-	cell_vertices: Dictionary,
-	vertices: PackedVector3Array,
-	indices: PackedInt32Array,
-	axis: String
-) -> int:
-	var degenerate := 0
-	match axis:
-		"x":
-			for z in range(cells_z + 1):
-				for y in range(cells_y + 1):
-					for x in range(cells_x):
-						if (_sample_density(samples, x, y, z) < isovalue) == (_sample_density(samples, x + 1, y, z) < isovalue):
-							continue
-						degenerate += _append_surface_net_quad([
-							Vector3i(x, y - 1, z - 1),
-							Vector3i(x, y, z - 1),
-							Vector3i(x, y, z),
-							Vector3i(x, y - 1, z),
-						], cell_vertices, vertices, indices)
-		"y":
-			for z in range(cells_z + 1):
-				for y in range(cells_y):
-					for x in range(cells_x + 1):
-						if (_sample_density(samples, x, y, z) < isovalue) == (_sample_density(samples, x, y + 1, z) < isovalue):
-							continue
-						degenerate += _append_surface_net_quad([
-							Vector3i(x - 1, y, z - 1),
-							Vector3i(x, y, z - 1),
-							Vector3i(x, y, z),
-							Vector3i(x - 1, y, z),
-						], cell_vertices, vertices, indices)
-		"z":
-			for z in range(cells_z):
-				for y in range(cells_y + 1):
-					for x in range(cells_x + 1):
-						if (_sample_density(samples, x, y, z) < isovalue) == (_sample_density(samples, x, y, z + 1) < isovalue):
-							continue
-						degenerate += _append_surface_net_quad([
-							Vector3i(x - 1, y - 1, z),
-							Vector3i(x, y - 1, z),
-							Vector3i(x, y, z),
-							Vector3i(x - 1, y, z),
-						], cell_vertices, vertices, indices)
-	return degenerate
-
-
-func _append_surface_net_quad(
-	cells: Array[Vector3i],
-	cell_vertices: Dictionary,
-	vertices: PackedVector3Array,
-	indices: PackedInt32Array
-) -> int:
-	var ids: Array[int] = []
-	for cell in cells:
-		if cell.x < 0 or cell.y < 0 or cell.z < 0 or cell.x >= cells_x or cell.y >= cells_y or cell.z >= cells_z:
-			return 0
-		var key := _cell_key(cell.x, cell.y, cell.z)
-		if not cell_vertices.has(key):
-			return 0
-		ids.append(int(cell_vertices[key]))
-	var a := vertices[ids[0]]
-	var b := vertices[ids[1]]
-	var c := vertices[ids[2]]
-	var d := vertices[ids[3]]
-	var face_normal := (b - a).cross(c - a)
-	if face_normal.length_squared() <= 0.00000001:
-		return 1
-	var center := (a + b + c + d) * 0.25
-	var gradient := _gradient(center)
-	if gradient.length_squared() > 0.0 and face_normal.normalized().dot(gradient.normalized()) < 0.0:
-		ids = [ids[0], ids[3], ids[2], ids[1]]
-	indices.append(ids[0])
-	indices.append(ids[1])
-	indices.append(ids[2])
-	indices.append(ids[0])
-	indices.append(ids[2])
-	indices.append(ids[3])
-	return 0
-
-
-func _cell_key(x: int, y: int, z: int) -> String:
-	return "%d,%d,%d" % [x, y, z]
-
-
-func _mesh_cell(
-	positions: Array[Vector3],
-	densities: Array[float],
-	vertices: PackedVector3Array,
-	normals: Array[Vector3],
-	indices: PackedInt32Array,
-	vertex_lookup: Dictionary
-) -> int:
-	var degenerate := 0
-	for tet in TETS:
-		var points: Array[Vector3] = []
-		for edge in TET_EDGES:
-			var ai := int(tet[int(edge[0])])
-			var bi := int(tet[int(edge[1])])
-			var da := float(densities[ai])
-			var db := float(densities[bi])
-			if (da < isovalue) == (db < isovalue):
-				continue
-			points.append(_interpolate(positions[ai], positions[bi], da, db))
-		if points.size() == 3:
-			degenerate += _append_triangle(
-				points[0], points[1], points[2], vertices, normals, indices, vertex_lookup
-			)
-		elif points.size() == 4:
-			degenerate += _append_triangle(
-				points[0], points[1], points[2], vertices, normals, indices, vertex_lookup
-			)
-			degenerate += _append_triangle(
-				points[0], points[2], points[3], vertices, normals, indices, vertex_lookup
-			)
-	return degenerate
-
-
-func _interpolate(a: Vector3, b: Vector3, da: float, db: float) -> Vector3:
-	var denom := db - da
-	if absf(denom) <= 0.000001:
-		return a.lerp(b, 0.5)
-	var t := clampf((isovalue - da) / denom, 0.0, 1.0)
-	return a.lerp(b, t)
-
-
-func _append_triangle(
-	a: Vector3,
-	b: Vector3,
-	c: Vector3,
-	vertices: PackedVector3Array,
-	normals: Array[Vector3],
-	indices: PackedInt32Array,
-	vertex_lookup: Dictionary
-) -> int:
-	var face_normal := (b - a).cross(c - a)
-	if face_normal.length_squared() <= 0.00000001:
-		return 1
-	face_normal = face_normal.normalized()
-	var gradient := _gradient((a + b + c) / 3.0)
-	if gradient.length_squared() > 0.0 and face_normal.dot(gradient.normalized()) < 0.0:
-		var tmp := b
-		b = c
-		c = tmp
-		face_normal = -face_normal
-	for point in [a, b, c]:
-		var index := _vertex_index(point, vertices, normals, vertex_lookup)
-		normals[index] += face_normal
-		indices.append(index)
-	return 0
-
-
-func _vertex_index(
-	point: Vector3,
-	vertices: PackedVector3Array,
-	normals: Array[Vector3],
-	vertex_lookup: Dictionary
-) -> int:
-	var key := _point_key(point)
-	if vertex_lookup.has(key):
-		return int(vertex_lookup[key])
-	var index := vertices.size()
-	vertex_lookup[key] = index
-	vertices.append(point)
-	normals.append(Vector3.ZERO)
-	return index
 
 
 func _make_array_mesh(mesh_data: Dictionary) -> ArrayMesh:
@@ -1216,15 +943,15 @@ func _make_report(mesh_data: Dictionary, transition_data: Dictionary, elapsed_ms
 	var status := "PASS"
 	if failed_cells > 0 or interior_open_edges > 0 or nonmanifold_edges > 0 or orientation_conflict_edges > 0:
 		status = "FAIL"
-	if transition_available and (not transition_ok or transition_nonmanifold_edges > 0 or transition_orientation_conflict_edges > 0):
+	if not transition_available or not transition_ok or transition_nonmanifold_edges > 0 or transition_orientation_conflict_edges > 0:
 		status = "FAIL"
 	var backend_identity: Dictionary = mesh_data.get("backend_identity", {})
 	return {
 		"schema": REPORT_SCHEMA,
 		"status": status,
-		"implementation": str(mesh_data.get("implementation", LOCAL_PREVIEW_IMPLEMENTATION)),
-		"render_authority": str(mesh_data.get("render_authority", LOCAL_PREVIEW_AUTHORITY)),
-		"correctness_claim": str(mesh_data.get("correctness_claim", "preview_mesh_health_only")),
+		"implementation": str(mesh_data.get("implementation", NATIVE_REGULAR_IMPLEMENTATION)),
+		"render_authority": str(mesh_data.get("render_authority", NATIVE_AUTHORITY)),
+		"correctness_claim": str(mesh_data.get("correctness_claim", "exact_regular_and_transition_cell_backend_probe_v1")),
 		"native_cell_probe_available": bool(mesh_data.get("native_cell_probe_available", ClassDB.class_exists("WorldTransvoxelCellProbe"))),
 		"backend_runtime_available": bool(mesh_data.get("backend_runtime_available", ClassDB.class_exists("WorldTransvoxelTerrain"))),
 		"backend_identity": backend_identity,
