@@ -43,15 +43,18 @@ Enable the `World Transvoxel Lab` plugin and use its dock to:
   mixed-LOD or Reference Terrain inspection;
 - inspect a contiguous 12-chunk terrain with a coarse LOD ring, fine center,
   four transition interfaces, feature fields, materials, and exact metrics;
-- select terrain chunks, move the terrain edit cursor, toggle chunk bounds,
-  and apply cross-chunk digging or construction;
+- switch the Terrain Observatory between surface, LOD, material, triangle,
+  normal, seam, and density views;
+- isolate a selected terrain chunk, toggle transitions and bounds, inspect a
+  movable density slice, and expose sample, normal, seam, and feature overlays;
+- move the terrain edit cursor and apply cross-chunk digging or construction;
 - expand the patch and apply dig or construct edits;
 - run the 256-case regular corpus and 512-case by 6-orientation transition
   corpus;
 - validate same-LOD seams, LOD 1-3 transition chunks, and 12 coarse/fine
   neighbor fixtures;
 - run deterministic edit sequences and terrain edit fixtures;
-- measure cell, transition, chunk, patch, and edit performance;
+- measure cell, transition, chunk, patch, observatory, and edit performance;
 - browse, label, save, and restore repros;
 - import integration-game JSON snapshots and classify the suspected fix layer;
 - execute the committed standards corpus.
@@ -62,7 +65,9 @@ orientation basis, and mixed-LOD seam results.
 
 The standalone scene now opens in the canonical Reference Terrain view. Press
 `T` to return to it, then use `D`, `C`, and `R` to dig, construct, and clear
-terrain edits at the exported terrain cursor.
+terrain edits at the exported terrain cursor. `V` cycles observatory views;
+`I`, `B`, `N`, `S`, and `G` toggle chunk isolation, bounds, normals, seams,
+and density slicing.
 
 ## Validation
 

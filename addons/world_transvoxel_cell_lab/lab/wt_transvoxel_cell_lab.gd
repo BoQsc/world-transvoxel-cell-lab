@@ -4,6 +4,7 @@ class_name WtTransvoxelCellLab
 
 enum FieldMode { PLANE, SPHERE, TUNNEL, SADDLE, WAVES }
 enum InspectionMode { PATCH, REGULAR_CASE, TRANSITION_CASE, MIXED_LOD, REFERENCE_TERRAIN }
+enum ReferenceViewMode { SURFACE, LOD, MATERIAL, TRIANGLES, NORMALS, SEAMS, DENSITY }
 
 const Contracts := preload("res://addons/world_transvoxel_cell_lab/lab/services/wt_cell_lab_contracts.gd")
 const MeshAnalysis := preload("res://addons/world_transvoxel_cell_lab/lab/services/wt_cell_lab_mesh_analysis.gd")
@@ -17,6 +18,7 @@ const IntegrationAdapter := preload("res://addons/world_transvoxel_cell_lab/lab/
 const InspectionPresenter := preload("res://addons/world_transvoxel_cell_lab/lab/services/wt_cell_lab_inspection_presenter.gd")
 const StandardsRunner := preload("res://addons/world_transvoxel_cell_lab/lab/services/wt_cell_lab_standards_runner.gd")
 const ReferenceTerrain := preload("res://addons/world_transvoxel_cell_lab/lab/services/wt_cell_lab_reference_terrain.gd")
+const TerrainObservatory := preload("res://addons/world_transvoxel_cell_lab/lab/services/wt_cell_lab_terrain_observatory.gd")
 
 const REPORT_SCHEMA := Contracts.REPORT_SCHEMA
 const REPRO_SCHEMA := Contracts.REPRO_SCHEMA
@@ -77,9 +79,49 @@ const TRANSITION_ORIENTATION_POSITIVE_Z := Contracts.TRANSITION_ORIENTATION_POSI
 	set(value):
 		reference_edit_cursor = value
 		_request_rebuild()
-@export var show_reference_chunk_bounds: bool = true:
+@export var reference_view_mode: ReferenceViewMode = ReferenceViewMode.SURFACE:
+	set(value):
+		reference_view_mode = value
+		_request_rebuild()
+@export var reference_isolate_selected_chunk: bool = false:
+	set(value):
+		reference_isolate_selected_chunk = value
+		_request_rebuild()
+@export var show_reference_chunk_bounds: bool = false:
 	set(value):
 		show_reference_chunk_bounds = value
+		_request_rebuild()
+@export var show_reference_transitions: bool = true:
+	set(value):
+		show_reference_transitions = value
+		_request_rebuild()
+@export var show_reference_normals: bool = false:
+	set(value):
+		show_reference_normals = value
+		_request_rebuild()
+@export var show_reference_seams: bool = false:
+	set(value):
+		show_reference_seams = value
+		_request_rebuild()
+@export var show_reference_density_slice: bool = false:
+	set(value):
+		show_reference_density_slice = value
+		_request_rebuild()
+@export var show_reference_sample_grid: bool = false:
+	set(value):
+		show_reference_sample_grid = value
+		_request_rebuild()
+@export var show_reference_feature_labels: bool = false:
+	set(value):
+		show_reference_feature_labels = value
+		_request_rebuild()
+@export_range(0, 2, 1) var reference_slice_axis: int = 1:
+	set(value):
+		reference_slice_axis = clampi(value, 0, 2)
+		_request_rebuild()
+@export_range(-32.0, 64.0, 0.25) var reference_slice_position: float = 10.0:
+	set(value):
+		reference_slice_position = clampf(value, -32.0, 64.0)
 		_request_rebuild()
 
 @export_range(1, 24, 1) var cells_x: int = 4:
@@ -170,12 +212,18 @@ var _inspection_normal_material: StandardMaterial3D
 var _inspection_low_sample_material: StandardMaterial3D
 var _inspection_fine_chunk_material: StandardMaterial3D
 var _inspection_basis_material: StandardMaterial3D
+var _observatory_surface_material: StandardMaterial3D
+var _observatory_diagnostic_material: StandardMaterial3D
+var _observatory_overlay_surface_material: StandardMaterial3D
+var _observatory_line_material: StandardMaterial3D
+var _observatory_slice_material: StandardMaterial3D
 var _chunk_validator := ChunkValidator.new()
 var _edit_validator := EditValidator.new()
 var _performance_service := PerformanceService.new()
 var _inspection_presenter := InspectionPresenter.new()
 var _standards_runner := StandardsRunner.new()
 var _reference_terrain := ReferenceTerrain.new()
+var _terrain_observatory := TerrainObservatory.new()
 
 
 func _ready() -> void:
@@ -365,18 +413,53 @@ func build_reference_terrain() -> Dictionary:
 	return _reference_terrain.build(_get_native_cell_probe())
 
 
+func build_reference_terrain_observatory(
+	fixture: Dictionary = {},
+	overrides: Dictionary = {}
+) -> Dictionary:
+	if fixture.is_empty():
+		fixture = build_reference_terrain()
+	return _terrain_observatory.build(self, fixture, overrides)
+
+
 func validate_reference_terrain() -> Dictionary:
 	var result := _reference_terrain.validate(_get_native_cell_probe())
+	var fixture := build_reference_terrain()
+	var observatory := _terrain_observatory.validate(self, fixture)
+	result["terrain_observatory"] = observatory
+	if str(observatory.get("status", "")) != "PASS":
+		result["status"] = "FAIL"
+		result["sample_failures"].append(
+			"terrain observatory validation failed"
+		)
 	_attach_validation_result("reference_terrain_validation", result)
+	_attach_validation_result("terrain_observatory_validation", observatory)
+	return result
+
+
+func validate_terrain_observatory() -> Dictionary:
+	var result := _terrain_observatory.validate(self, build_reference_terrain())
+	_attach_validation_result("terrain_observatory_validation", result)
 	return result
 
 
 func describe_reference_terrain_standard() -> Dictionary:
-	return _reference_terrain.standard_signature(_get_native_cell_probe())
+	var fixture := build_reference_terrain()
+	var result := _reference_terrain.standard_signature(_get_native_cell_probe())
+	result["terrain_observatory"] = _terrain_observatory.standard_signature(self, fixture)
+	return result
 
 
 func benchmark_reference_terrain(iterations: int = 2) -> Dictionary:
 	return _reference_terrain.benchmark(_get_native_cell_probe(), iterations)
+
+
+func benchmark_terrain_observatory(iterations: int = 2) -> Dictionary:
+	return _terrain_observatory.benchmark(self, build_reference_terrain(), iterations)
+
+
+func sample_reference_terrain(point: Vector3) -> Dictionary:
+	return _reference_terrain.sample_point(point)
 
 
 func get_reference_terrain_edits() -> Array[Dictionary]:
@@ -708,6 +791,11 @@ func _make_materials() -> void:
 	_inspection_low_sample_material = _material(Color(0.78, 0.42, 1.0, 1.0), false)
 	_inspection_fine_chunk_material = _material(Color(0.18, 0.68, 0.92, 0.74), false)
 	_inspection_basis_material = _material(Color(1.0, 0.96, 0.36, 1.0), true)
+	_observatory_surface_material = _vertex_color_material(false, false)
+	_observatory_diagnostic_material = _vertex_color_material(true, false)
+	_observatory_overlay_surface_material = _vertex_color_material(true, true)
+	_observatory_line_material = _vertex_color_material(true, false)
+	_observatory_slice_material = _vertex_color_material(true, true)
 
 
 func _inspection_materials() -> Dictionary:
@@ -725,6 +813,11 @@ func _inspection_materials() -> Dictionary:
 		"low_sample": _inspection_low_sample_material,
 		"dig_marker": _dig_marker_material,
 		"construct_marker": _construct_marker_material,
+		"observatory_surface": _observatory_surface_material,
+		"observatory_diagnostic": _observatory_diagnostic_material,
+		"observatory_overlay_surface": _observatory_overlay_surface_material,
+		"observatory_line": _observatory_line_material,
+		"observatory_slice": _observatory_slice_material,
 	}
 
 
@@ -734,6 +827,17 @@ func _material(color: Color, as_wireframe: bool) -> StandardMaterial3D:
 	material.cull_mode = BaseMaterial3D.CULL_DISABLED
 	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED if as_wireframe else BaseMaterial3D.SHADING_MODE_PER_PIXEL
 	if color.a < 1.0:
+		material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	return material
+
+
+func _vertex_color_material(unshaded: bool, transparent: bool) -> StandardMaterial3D:
+	var material := StandardMaterial3D.new()
+	material.vertex_color_use_as_albedo = true
+	material.cull_mode = BaseMaterial3D.CULL_DISABLED
+	if unshaded:
+		material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	if transparent:
 		material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	return material
 

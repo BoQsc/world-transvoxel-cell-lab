@@ -30,6 +30,8 @@ func run(
 		"reference_terrain_maximum_ms": 0.0,
 		"reference_terrain_samples_per_ms": 0.0,
 		"reference_terrain_triangles_per_ms": 0.0,
+		"terrain_observatory_average_ms": 0.0,
+		"terrain_observatory_maximum_ms": 0.0,
 		"edit_rebuild_average_ms": 0.0,
 		"chunk_lod_validation_ms": 0.0,
 		"edit_sequence_validation_ms": 0.0,
@@ -86,6 +88,15 @@ func run(
 		reference_benchmark.get("triangles_per_ms", 0.0)
 	)
 	if str(reference_benchmark.get("status", "")) != "PASS":
+		result["status"] = "FAIL"
+	var observatory_benchmark: Dictionary = lab.benchmark_terrain_observatory(iterations)
+	result["terrain_observatory_average_ms"] = float(
+		observatory_benchmark.get("average_all_views_ms", 0.0)
+	)
+	result["terrain_observatory_maximum_ms"] = float(
+		observatory_benchmark.get("maximum_all_views_ms", 0.0)
+	)
+	if str(observatory_benchmark.get("status", "")) != "PASS":
 		result["status"] = "FAIL"
 
 	var original_edits: Array = lab.edits.duplicate(true)
@@ -172,6 +183,7 @@ func _compare_with_history(result: Dictionary, history: Array) -> void:
 		"transition_cell_average_us",
 		"chunk_average_ms",
 		"reference_terrain_average_ms",
+		"terrain_observatory_average_ms",
 		"edit_rebuild_average_ms",
 	]:
 		var baseline := float(previous.get(key, 0.0))
@@ -219,6 +231,7 @@ func _history_entry(result: Dictionary) -> Dictionary:
 		"transition_cell_average_us": result["transition_cell_average_us"],
 		"chunk_average_ms": result["chunk_average_ms"],
 		"reference_terrain_average_ms": result["reference_terrain_average_ms"],
+		"terrain_observatory_average_ms": result["terrain_observatory_average_ms"],
 		"edit_rebuild_average_ms": result["edit_rebuild_average_ms"],
 		"triangles_per_ms": result["triangles_per_ms"],
 		"samples_per_ms": result["samples_per_ms"],

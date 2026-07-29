@@ -48,7 +48,17 @@ static func make_snapshot(lab: Object, metadata: Dictionary = {}) -> Dictionary:
 			"selected_chunk_lod": int(lab.get("selected_chunk_lod")),
 			"selected_reference_chunk": int(lab.get("selected_reference_chunk")),
 			"reference_edit_cursor": lab.get("reference_edit_cursor"),
+			"reference_view_mode": int(lab.get("reference_view_mode")),
+			"reference_isolate_selected_chunk": bool(lab.get("reference_isolate_selected_chunk")),
 			"show_reference_chunk_bounds": bool(lab.get("show_reference_chunk_bounds")),
+			"show_reference_transitions": bool(lab.get("show_reference_transitions")),
+			"show_reference_feature_labels": bool(lab.get("show_reference_feature_labels")),
+			"show_reference_normals": bool(lab.get("show_reference_normals")),
+			"show_reference_seams": bool(lab.get("show_reference_seams")),
+			"show_reference_density_slice": bool(lab.get("show_reference_density_slice")),
+			"show_reference_sample_grid": bool(lab.get("show_reference_sample_grid")),
+			"reference_slice_axis": int(lab.get("reference_slice_axis")),
+			"reference_slice_position": float(lab.get("reference_slice_position")),
 		},
 		"edits": lab.edits.duplicate(true),
 		"reference_terrain_edits": lab.call("get_reference_terrain_edits") \
@@ -112,6 +122,34 @@ static func apply_snapshot(lab: Object, snapshot: Dictionary) -> Dictionary:
 		lab.set(
 			"show_reference_chunk_bounds",
 			bool(parameters.get("show_reference_chunk_bounds", lab.get("show_reference_chunk_bounds")))
+		)
+	for property_name in [
+		"reference_isolate_selected_chunk",
+		"show_reference_transitions",
+		"show_reference_feature_labels",
+		"show_reference_normals",
+		"show_reference_seams",
+		"show_reference_density_slice",
+		"show_reference_sample_grid",
+	]:
+		if _has_property(lab, property_name):
+			lab.set(
+				property_name,
+				bool(parameters.get(property_name, lab.get(property_name)))
+			)
+	for property_name in ["reference_view_mode", "reference_slice_axis"]:
+		if _has_property(lab, property_name):
+			lab.set(
+				property_name,
+				int(parameters.get(property_name, lab.get(property_name)))
+			)
+	if _has_property(lab, "reference_slice_position"):
+		lab.set(
+			"reference_slice_position",
+			float(parameters.get(
+				"reference_slice_position",
+				lab.get("reference_slice_position")
+			))
 		)
 	lab.edits.clear()
 	var raw_edits: Array = snapshot.get("edits", [])

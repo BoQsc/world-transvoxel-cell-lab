@@ -37,7 +37,7 @@ func _run() -> void:
 	if str(report.get("render_authority", "")) != "NATIVE_TRANSVOXEL_BACKEND_AUTHORITATIVE":
 		_fail("native render authority was not used")
 		return
-	if str(report.get("correctness_claim", "")) != "exact_cell_chunk_and_reference_terrain_backend_probe_v4":
+	if str(report.get("correctness_claim", "")) != "exact_cell_chunk_reference_terrain_and_observatory_backend_probe_v5":
 		_fail("native correctness claim was not explicit")
 		return
 	if str(report.get("lab_scope", "")) != "cell_first_transvoxel_preview_and_validator":
@@ -175,6 +175,11 @@ func _run() -> void:
 	if int(reference_terrain.get("determinism_failures", -1)) != 0:
 		_fail("reference terrain was not deterministic")
 		return
+	var feature_validation: Dictionary = reference_terrain.get("feature_validation", {})
+	if int(feature_validation.get("passing_probes", 0)) != 15 \
+			or int(feature_validation.get("failing_probes", -1)) != 0:
+		_fail("reference terrain feature probes did not pass")
+		return
 	var reference_seams: Dictionary = reference_terrain.get("seam_validation", {})
 	if int(reference_seams.get("same_lod_matching_pairs", 0)) != 12:
 		_fail("reference terrain same-LOD seams changed")
@@ -185,6 +190,15 @@ func _run() -> void:
 	var reference_edits: Dictionary = reference_terrain.get("edit_validation", {})
 	if int(reference_edits.get("passing_steps", 0)) != 2:
 		_fail("reference terrain edit workflow changed")
+		return
+	var observatory: Dictionary = reference_terrain.get("terrain_observatory", {})
+	if str(observatory.get("schema", "")) \
+			!= "world_transvoxel.cell_lab.terrain_observatory_validation.v1":
+		_fail("unexpected terrain observatory validation schema")
+		return
+	if str(observatory.get("status", "")) != "PASS" \
+			or int(observatory.get("passing_views", 0)) != 7:
+		_fail("terrain observatory validation did not pass")
 		return
 	var edit_sequence: Dictionary = lab.validate_edit_sequence()
 	if str(edit_sequence.get("schema", "")) != "world_transvoxel.cell_lab.edit_sequence_validation.v2":
@@ -219,7 +233,7 @@ func _run() -> void:
 	if int(standards.get("passing_reference_terrain_standards", 0)) != 1:
 		_fail("reference terrain standard changed")
 		return
-	if int(standards.get("passing_visual_standards", 0)) != 5:
+	if int(standards.get("passing_visual_standards", 0)) != 8:
 		_fail("visual standards count changed")
 		return
 	lab.inspection_mode = LabScript.InspectionMode.REGULAR_CASE
@@ -250,7 +264,8 @@ func _run() -> void:
 	inspection = report.get("inspection", {})
 	if str(inspection.get("status", "")) != "PASS" \
 		or int(inspection.get("chunk_count", 0)) != 12 \
-		or int(inspection.get("triangles", 0)) != 9414:
+		or int(inspection.get("triangles", 0)) != 11142 \
+		or str(inspection.get("observatory_view", "")) != "SURFACE":
 		_fail("reference terrain inspection fixture changed")
 		return
 	lab.inspection_mode = LabScript.InspectionMode.PATCH
@@ -291,6 +306,9 @@ func _run() -> void:
 		return
 	if float(performance.get("reference_terrain_average_ms", 0.0)) <= 0.0:
 		_fail("reference terrain benchmark did not record time")
+		return
+	if float(performance.get("terrain_observatory_average_ms", 0.0)) <= 0.0:
+		_fail("terrain observatory benchmark did not record time")
 		return
 	lab.apply_dig_at(Vector3.ZERO, 1.0)
 	report = lab.get_last_report()

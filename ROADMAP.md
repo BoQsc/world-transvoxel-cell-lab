@@ -3,7 +3,7 @@
 The roadmap standard is cell-first, terrain-focused, native-authoritative,
 reproducible, measurable, visually inspectable, and evidence-driven.
 
-All original milestones and the Reference Terrain milestone are complete. Future milestones must preserve the
+Milestones 1 through 13 are complete. Future milestones must preserve the
 ownership boundaries in `ARCHITECTURE.md` and add committed evidence before
 claiming a broader correctness domain.
 
@@ -101,7 +101,7 @@ Status: complete.
 Status: complete.
 
 - Committed repro and selected-case signature standards.
-- Four rendered visual references with dimensions, nonblank checks, and
+- Eight rendered visual references with dimensions, nonblank checks, and
   SHA-256 locks.
 - Headless smoke and full-suite runner.
 - Windows CI with the official Godot 4.7.1 artifact pinned by SHA-256.
@@ -130,6 +130,67 @@ Status: complete.
   markers.
 - Committed numeric and SHA-256 geometry standards plus a rendered visual
   standard protect the canonical result.
+
+## Milestone 12: Terrain Observatory
+
+Status: complete.
+
+- Seven switchable views: surface, LOD, material, triangles, normals, seams,
+  and density.
+- Selected-chunk isolation, transition visibility, bounds, and feature-label
+  controls.
+- Movable X/Y/Z density slice with 1,089 authoritative field samples, color
+  classification, and sample crosses.
+- Native normal vectors, same-LOD and mixed-LOD interface frames, transition
+  ownership frames, and explicit red failure overlays.
+- Repro snapshots preserve every observatory control.
+- All views, isolation, transition toggling, and overlay counts have automated
+  validation and a locked standards signature.
+- Dedicated all-view timing is included in performance history and thresholds.
+
+## Milestone 13: Reference Terrain Quality
+
+Status: complete.
+
+- Canonical field responsibility is isolated from terrain assembly.
+- Terrain includes rolling hills, cliff, crossing tunnels, connected cave,
+  undercut overhang, volumetric arch, thin fin, and material strata.
+- Nine named features and 15 signed-density probes are permanently validated.
+- Exact same-LOD and mixed-LOD seam signatures still pass after the richer
+  field and after cross-chunk edits.
+- Epsilon-sensitive boundary degeneracy is excluded by a non-coplanar
+  deterministic field baseline.
+- Surface, materials, seams, and density are committed as visual standards.
+- The geometry, feature, seam, and observatory signatures are locked together
+  in the canonical reference-terrain standard.
+
+## Future Milestones
+
+14. Adversarial scalar-field corpus: ambiguous cases, near-isovalue samples,
+    thin features, high curvature, and deterministic fuzz seeds.
+15. Failure localization and minimization: select unmatched seam signatures,
+    jump to owning cells, and export the smallest native repro.
+16. Independent specification checks: table invariants and topology properties
+    that do not duplicate or replace the production mesher.
+17. Edit stress corpus: long deterministic dig/construct sequences,
+    cancellation, overlapping edits, and incremental/full equivalence.
+18. Scaling baselines: chunk size, LOD depth, active-cell ratio, and feature
+    complexity distributions rather than single timings.
+19. Memory and allocation observability: peak memory, buffer churn, reuse, and
+    per-stage allocation budgets.
+20. Rendering quality qualification: tangents, material blending, lighting,
+    precision, and camera-distance artifacts.
+21. Collision and query qualification against the exact rendered geometry.
+22. Streaming simulation: load/unload order, moving LOD windows, stale work,
+    and boundary stability.
+23. Persistence standards for fields, edits, chunk versions, and deterministic
+    reloads.
+24. Integration-game parity corpus reduced to canonical lab fixtures.
+25. Platform and renderer matrix across supported Godot targets.
+26. Release qualification bundles with machine-readable evidence and visual
+    diffs.
+27. Upstream correction governance: minimized repro, invariant, fix review,
+    retained regression standard, and downstream parity proof.
 
 ## Next Standard
 

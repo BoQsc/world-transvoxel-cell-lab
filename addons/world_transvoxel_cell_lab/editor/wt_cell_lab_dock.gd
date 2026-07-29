@@ -14,6 +14,10 @@ var _transition_orientation_option: OptionButton
 var _chunk_lod_spin: SpinBox
 var _chunk_face_option: OptionButton
 var _reference_chunk_spin: SpinBox
+var _reference_view_option: OptionButton
+var _reference_slice_axis_option: OptionButton
+var _reference_slice_position_spin: SpinBox
+var _reference_toggle_controls: Dictionary = {}
 var _reference_cursor_x: SpinBox
 var _reference_cursor_y: SpinBox
 var _reference_cursor_z: SpinBox
@@ -110,6 +114,44 @@ func _build_ui() -> void:
 	_reference_chunk_spin.step = 1
 	_reference_chunk_spin.value_changed.connect(_set_reference_chunk)
 	inspection_grid.add_child(_reference_chunk_spin)
+
+	inspection_grid.add_child(_control_label("Terrain view"))
+	_reference_view_option = OptionButton.new()
+	for view_name in LabScript.ReferenceViewMode.keys():
+		_reference_view_option.add_item(view_name.capitalize())
+	_reference_view_option.item_selected.connect(_set_reference_view)
+	inspection_grid.add_child(_reference_view_option)
+
+	for toggle_spec in [
+		["Isolate chunk", "reference_isolate_selected_chunk"],
+		["Chunk bounds", "show_reference_chunk_bounds"],
+		["Transitions", "show_reference_transitions"],
+		["Feature labels", "show_reference_feature_labels"],
+		["Normals", "show_reference_normals"],
+		["Seams", "show_reference_seams"],
+		["Density slice", "show_reference_density_slice"],
+		["Density samples", "show_reference_sample_grid"],
+	]:
+		inspection_grid.add_child(_control_label(str(toggle_spec[0])))
+		var toggle := CheckButton.new()
+		toggle.toggled.connect(_set_reference_toggle.bind(str(toggle_spec[1])))
+		inspection_grid.add_child(toggle)
+		_reference_toggle_controls[str(toggle_spec[1])] = toggle
+
+	inspection_grid.add_child(_control_label("Slice axis"))
+	_reference_slice_axis_option = OptionButton.new()
+	for axis_name in ["X", "Y", "Z"]:
+		_reference_slice_axis_option.add_item(axis_name)
+	_reference_slice_axis_option.item_selected.connect(_set_reference_slice_axis)
+	inspection_grid.add_child(_reference_slice_axis_option)
+
+	inspection_grid.add_child(_control_label("Slice position"))
+	_reference_slice_position_spin = SpinBox.new()
+	_reference_slice_position_spin.min_value = -32.0
+	_reference_slice_position_spin.max_value = 64.0
+	_reference_slice_position_spin.step = 0.25
+	_reference_slice_position_spin.value_changed.connect(_set_reference_slice_position)
+	inspection_grid.add_child(_reference_slice_position_spin)
 
 	for cursor_spec in [
 		["Terrain cursor X", 0],
@@ -209,6 +251,10 @@ func _build_ui() -> void:
 	reference_terrain_button.text = "Reference Terrain"
 	reference_terrain_button.pressed.connect(_validate_reference_terrain_selected)
 	validator_row.add_child(reference_terrain_button)
+	var terrain_observatory_button := Button.new()
+	terrain_observatory_button.text = "Terrain Observatory"
+	terrain_observatory_button.pressed.connect(_validate_terrain_observatory_selected)
+	validator_row.add_child(terrain_observatory_button)
 	var edit_sequence_button := Button.new()
 	edit_sequence_button.text = "Edit Sequence"
 	edit_sequence_button.pressed.connect(_validate_edit_sequence_selected)
@@ -428,6 +474,46 @@ func _set_reference_chunk(value: float) -> void:
 	_refresh_status()
 
 
+func _set_reference_view(index: int) -> void:
+	var lab = _selected_lab()
+	if lab == null:
+		return
+	lab.reference_view_mode = index
+	lab.inspection_mode = LabScript.InspectionMode.REFERENCE_TERRAIN
+	lab.rebuild()
+	_refresh_status()
+
+
+func _set_reference_toggle(value: bool, property_name: String) -> void:
+	var lab = _selected_lab()
+	if lab == null:
+		return
+	lab.set(property_name, value)
+	if lab.inspection_mode == LabScript.InspectionMode.REFERENCE_TERRAIN:
+		lab.rebuild()
+	_refresh_status()
+
+
+func _set_reference_slice_axis(index: int) -> void:
+	var lab = _selected_lab()
+	if lab == null:
+		return
+	lab.reference_slice_axis = index
+	if lab.inspection_mode == LabScript.InspectionMode.REFERENCE_TERRAIN:
+		lab.rebuild()
+	_refresh_status()
+
+
+func _set_reference_slice_position(value: float) -> void:
+	var lab = _selected_lab()
+	if lab == null:
+		return
+	lab.reference_slice_position = value
+	if lab.inspection_mode == LabScript.InspectionMode.REFERENCE_TERRAIN:
+		lab.rebuild()
+	_refresh_status()
+
+
 func _set_reference_cursor_component(value: float, axis: int) -> void:
 	var lab = _selected_lab()
 	if lab == null:
@@ -531,6 +617,13 @@ func _validate_reference_terrain_selected() -> void:
 	_refresh_status()
 
 
+func _validate_terrain_observatory_selected() -> void:
+	var lab = _selected_lab()
+	if lab != null:
+		lab.validate_terrain_observatory()
+	_refresh_status()
+
+
 func _validate_edit_sequence_selected() -> void:
 	var lab = _selected_lab()
 	if lab != null:
@@ -596,6 +689,12 @@ func _refresh_status() -> void:
 	_chunk_lod_spin.set_value_no_signal(float(lab.selected_chunk_lod))
 	_chunk_face_option.select(int(lab.selected_chunk_face))
 	_reference_chunk_spin.set_value_no_signal(float(lab.selected_reference_chunk))
+	_reference_view_option.select(int(lab.reference_view_mode))
+	_reference_slice_axis_option.select(int(lab.reference_slice_axis))
+	_reference_slice_position_spin.set_value_no_signal(float(lab.reference_slice_position))
+	for property_name in _reference_toggle_controls.keys():
+		var toggle: CheckButton = _reference_toggle_controls[property_name]
+		toggle.set_pressed_no_signal(bool(lab.get(property_name)))
 	var terrain_cursor: Vector3 = lab.reference_edit_cursor
 	_reference_cursor_x.set_value_no_signal(terrain_cursor.x)
 	_reference_cursor_y.set_value_no_signal(terrain_cursor.y)
@@ -646,6 +745,7 @@ func _render_report(report: Dictionary) -> void:
 		["Integration role", report.get("integration_game_role", "")],
 		["Integration policy", report.get("integration_game_diagnostic_policy", "")],
 		["Reference terrain", report.get("reference_terrain_role", "")],
+		["Terrain observatory", report.get("terrain_observatory_role", "")],
 		["Dependency", report.get("validation_standard", "")],
 	])
 	var inspection: Dictionary = report.get("inspection", {})
@@ -866,6 +966,27 @@ func _render_report(report: Dictionary) -> void:
 			["Elapsed", "%.3f ms" % float(reference_terrain.get("elapsed_ms", 0.0))],
 			["Sample failures", _format_sample_failures(reference_terrain.get("sample_failures", []))],
 		])
+	var terrain_observatory: Dictionary = report.get("terrain_observatory_validation", {})
+	if not terrain_observatory.is_empty():
+		var observatory_standard: Dictionary = terrain_observatory.get("standard_signature", {})
+		_add_section("Terrain Observatory", [
+			["Status", terrain_observatory.get("status", "Unavailable")],
+			["Views pass / fail", "%d / %d" % [
+				int(terrain_observatory.get("passing_views", 0)),
+				int(terrain_observatory.get("failing_views", 0)),
+			]],
+			["Chunk isolation", terrain_observatory.get("isolation_status", "Unavailable")],
+			["Transition toggle", terrain_observatory.get("transition_toggle_status", "Unavailable")],
+			["Density slice samples", observatory_standard.get("density_slice_samples", 0)],
+			["Normal lines", observatory_standard.get("normal_lines", 0)],
+			["Seam overlays pass / fail", "%d / %d" % [
+				int(observatory_standard.get("passing_seam_overlays", 0)),
+				int(observatory_standard.get("failing_seam_overlays", 0)),
+			]],
+			["Transition overlays", observatory_standard.get("transition_overlays", 0)],
+			["Elapsed", "%.3f ms" % float(terrain_observatory.get("elapsed_ms", 0.0))],
+			["Sample failures", _format_sample_failures(terrain_observatory.get("sample_failures", []))],
+		])
 	var edit_sequence: Dictionary = report.get("edit_sequence_validation", {})
 	if not edit_sequence.is_empty():
 		_add_section("Edit Sequence", [
@@ -915,6 +1036,10 @@ func _render_report(report: Dictionary) -> void:
 			]],
 			["Reference terrain samples / ms", performance.get("reference_terrain_samples_per_ms", 0.0)],
 			["Reference terrain triangles / ms", performance.get("reference_terrain_triangles_per_ms", 0.0)],
+			["Terrain observatory avg / max", "%.3f / %.3f ms" % [
+				float(performance.get("terrain_observatory_average_ms", 0.0)),
+				float(performance.get("terrain_observatory_maximum_ms", 0.0)),
+			]],
 			["Edit rebuild average", "%.3f ms" % float(performance.get("edit_rebuild_average_ms", 0.0))],
 			["Triangles / ms", performance.get("triangles_per_ms", 0.0)],
 			["Samples / ms", performance.get("samples_per_ms", 0.0)],

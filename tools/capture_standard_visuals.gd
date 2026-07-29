@@ -25,6 +25,7 @@ func _run() -> void:
 	if lab == null:
 		_fail("lab node is missing")
 		return
+	lab.auto_rebuild = false
 	var specs: Array[Dictionary] = [
 		{"id": "overview", "mode": LabScript.InspectionMode.PATCH},
 		{
@@ -47,6 +48,24 @@ func _run() -> void:
 		{
 			"id": "reference_terrain",
 			"mode": LabScript.InspectionMode.REFERENCE_TERRAIN,
+			"reference_view": LabScript.ReferenceViewMode.SURFACE,
+		},
+		{
+			"id": "reference_terrain_materials",
+			"mode": LabScript.InspectionMode.REFERENCE_TERRAIN,
+			"reference_view": LabScript.ReferenceViewMode.MATERIAL,
+		},
+		{
+			"id": "reference_terrain_seams",
+			"mode": LabScript.InspectionMode.REFERENCE_TERRAIN,
+			"reference_view": LabScript.ReferenceViewMode.SEAMS,
+		},
+		{
+			"id": "reference_terrain_density",
+			"mode": LabScript.InspectionMode.REFERENCE_TERRAIN,
+			"reference_view": LabScript.ReferenceViewMode.DENSITY,
+			"slice_axis": 2,
+			"slice_position": 16.0,
 		},
 	]
 	for spec in specs:
@@ -56,6 +75,17 @@ func _run() -> void:
 		lab.selected_transition_orientation = int(spec.get("orientation", lab.selected_transition_orientation))
 		lab.selected_chunk_lod = int(spec.get("coarse_lod", lab.selected_chunk_lod))
 		lab.selected_chunk_face = int(spec.get("face", lab.selected_chunk_face))
+		lab.reference_view_mode = int(
+			spec.get("reference_view", LabScript.ReferenceViewMode.SURFACE)
+		)
+		lab.show_reference_feature_labels = bool(spec.get("show_features", false))
+		lab.show_reference_chunk_bounds = false
+		lab.show_reference_normals = false
+		lab.show_reference_seams = false
+		lab.show_reference_density_slice = false
+		lab.show_reference_sample_grid = false
+		lab.reference_slice_axis = int(spec.get("slice_axis", 1))
+		lab.reference_slice_position = float(spec.get("slice_position", 10.0))
 		lab.rebuild()
 		var overlay: CanvasLayer = scene.get_node("Overlay")
 		overlay.visible = int(spec["mode"]) == LabScript.InspectionMode.PATCH

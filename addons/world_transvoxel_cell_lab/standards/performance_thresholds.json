@@ -6,6 +6,7 @@
 		"transition_cell_average_us": 250.0,
 		"chunk_average_ms": 2500.0,
 		"reference_terrain_average_ms": 15000.0,
+		"terrain_observatory_average_ms": 5000.0,
 		"edit_rebuild_average_ms": 350.0
 	}
 }

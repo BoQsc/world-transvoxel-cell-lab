@@ -32,4 +32,4 @@ jobs:
         run: Godot_v4.7.1-stable_win64.exe --headless --path . --script addons/world_transvoxel_cell_lab/tests/wt_cell_lab_smoke.gd
 
       - name: Run authoritative standards suite
-        run: Godot_v4.7.1-stable_win64.exe --headless --path . --script tools/run_cell_lab_validation.gd -- base regular transition chunk edit standards performance
+        run: Godot_v4.7.1-stable_win64.exe --headless --path . --script tools/run_cell_lab_validation.gd -- all

@@ -132,6 +132,12 @@ func _run_reference_terrain_standard(lab: Object, result: Dictionary) -> void:
 		"regular_triangles",
 		"transition_triangles",
 		"material_ids",
+		"feature_count",
+		"feature_ids",
+		"feature_probe_count",
+		"same_lod_matching_pairs",
+		"mixed_lod_matching_interfaces",
+		"terrain_observatory",
 		"geometry_signature",
 		"status",
 	]
@@ -167,6 +173,16 @@ func _standard_values_equal(left: Variant, right: Variant) -> bool:
 			return false
 		for index in range(left_array.size()):
 			if not _standard_values_equal(left_array[index], right_array[index]):
+				return false
+		return true
+	if typeof(left) == TYPE_DICTIONARY and typeof(right) == TYPE_DICTIONARY:
+		var left_dictionary: Dictionary = left
+		var right_dictionary: Dictionary = right
+		if left_dictionary.size() != right_dictionary.size():
+			return false
+		for key in right_dictionary.keys():
+			if not left_dictionary.has(key) \
+					or not _standard_values_equal(left_dictionary[key], right_dictionary[key]):
 				return false
 		return true
 	return left == right

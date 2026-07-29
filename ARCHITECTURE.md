@@ -27,7 +27,7 @@ lab; it does not define lab correctness.
 `WtTransvoxelCellLab` is the live scene orchestrator. It owns:
 
 - exported editor parameters and edit state;
-- field density, gradient, and material sampling;
+- patch field density, gradient, and material sampling;
 - scene roots, materials, and overview mesh instances;
 - the public compatibility API used by the dock and tests;
 - delegation and persistence of validation results.
@@ -50,8 +50,10 @@ integration classification, or standards execution.
 | `wt_cell_lab_standards_runner.gd` | Committed repro, case, visual, and threshold standards |
 | `wt_cell_lab_report_builder.gd` | Canonical live report construction |
 | `wt_cell_lab_inspection_presenter.gd` | Selected-case and mixed-LOD close-up rendering |
-| `wt_cell_lab_reference_terrain.gd` | Canonical field, multi-chunk LOD fixture, seam/edit proof, signature, and benchmark |
-| `wt_cell_lab_reference_terrain_presenter.gd` | Reference terrain, chunk bounds, selection, and edit visualization |
+| `wt_cell_lab_reference_field.gd` | Canonical terrain density, materials, feature catalog, probes, and edit composition |
+| `wt_cell_lab_reference_terrain.gd` | Multi-chunk LOD assembly, seam/edit proof, deterministic signature, and benchmark |
+| `wt_cell_lab_terrain_observatory.gd` | Derived terrain views, overlays, density slices, view validation, and observatory benchmark |
+| `wt_cell_lab_reference_terrain_presenter.gd` | Rendering of observatory buffers, overlays, selection, labels, and edit markers |
 
 The editor dock owns controls and report presentation only.
 
@@ -90,6 +92,11 @@ The canonical terrain is the first layer that proves regular surfaces,
 transition surfaces, same-LOD neighbors, mixed-LOD neighbors, materials,
 feature fields, and edits together in one contiguous world-space fixture.
 See `REFERENCE_TERRAIN_STANDARD.md` for the exact layout and invariants.
+
+The Terrain Observatory is downstream of that fixture. It can recolor native
+buffers, derive lines, sample the canonical field, and hide or isolate existing
+buffers. It cannot generate replacement terrain geometry. A view failure fails
+observatory validation; it does not substitute another implementation.
 
 ## Evidence Rule
 

@@ -7,12 +7,46 @@
 		"coarse_chunk_count": 8,
 		"fine_chunk_count": 4,
 		"transition_chunk_count": 4,
-		"sample_count": 113705,
-		"triangle_count": 9414,
-		"regular_triangles": 9162,
-		"transition_triangles": 252,
-		"material_ids": [1, 2, 4],
-		"geometry_signature": "10cceefa944d4ebf8b73877ef8ebe1032a42cf89ef7fe3d43c60a6f469d98fa8",
+		"sample_count": 115406,
+		"triangle_count": 11142,
+		"regular_triangles": 10844,
+		"transition_triangles": 298,
+		"material_ids": [1, 2, 3, 4, 6],
+		"feature_count": 9,
+		"feature_ids": [
+			"rolling_hills",
+			"cliff",
+			"main_tunnel",
+			"branch_tunnel",
+			"cave_chamber",
+			"overhang",
+			"arch",
+			"thin_feature",
+			"material_strata"
+		],
+		"feature_probe_count": 15,
+		"same_lod_matching_pairs": 12,
+		"mixed_lod_matching_interfaces": 4,
+		"terrain_observatory": {
+			"view_count": 7,
+			"view_names": [
+				"SURFACE",
+				"LOD",
+				"MATERIAL",
+				"TRIANGLES",
+				"NORMALS",
+				"SEAMS",
+				"DENSITY"
+			],
+			"density_slice_samples": 1089,
+			"density_slice_triangles": 2048,
+			"sample_grid_lines": 243,
+			"normal_lines": 636,
+			"passing_seam_overlays": 20,
+			"failing_seam_overlays": 0,
+			"transition_overlays": 4
+		},
+		"geometry_signature": "43f357d7c085438391b18de46e812698f84bef2280311ee4a753e4a2b09e34a3",
 		"status": "PASS"
 	}
 }

@@ -4,6 +4,7 @@ class_name WtCellLabReferenceTerrain
 
 const Contracts := preload("res://addons/world_transvoxel_cell_lab/lab/services/wt_cell_lab_contracts.gd")
 const MeshAnalysis := preload("res://addons/world_transvoxel_cell_lab/lab/services/wt_cell_lab_mesh_analysis.gd")
+const ReferenceField := preload("res://addons/world_transvoxel_cell_lab/lab/services/wt_cell_lab_reference_field.gd")
 
 const FIXTURE_ID := "canonical_lod_ring_v1"
 const FINE_LOD := 0
@@ -13,7 +14,12 @@ const TRANSITION_WIDTH_RATIO := 0.25
 const CONSTRUCT_MATERIAL := 5
 const TERRAIN_BOUNDS := AABB(Vector3(-32.0, 0.0, -32.0), Vector3(96.0, 32.0, 96.0))
 
-var edits: Array[Dictionary] = []
+var _field := ReferenceField.new()
+var edits: Array[Dictionary]:
+	get:
+		return _field.edits
+	set(value):
+		_field.set_edits(value)
 
 
 func build(probe: RefCounted) -> Dictionary:
@@ -40,6 +46,7 @@ func build(probe: RefCounted) -> Dictionary:
 			transition_triangles += int(transition.get("triangle_count", 0))
 	var buffers := _all_rendered_buffers(chunks)
 	var material_ids := _material_ids(buffers)
+	var seam_validation := _validate_seams(chunks)
 	return {
 		"schema": Contracts.REFERENCE_TERRAIN_FIXTURE_SCHEMA,
 		"authority": Contracts.NATIVE_AUTHORITY,
@@ -59,6 +66,10 @@ func build(probe: RefCounted) -> Dictionary:
 		"regular_triangles": regular_triangles,
 		"transition_triangles": transition_triangles,
 		"material_ids": material_ids,
+		"feature_count": _field.feature_catalog().size(),
+		"feature_ids": _field.feature_ids(),
+		"feature_catalog": _field.feature_catalog(),
+		"seam_validation": seam_validation,
 		"edit_count": edits.size(),
 		"chunks": chunks,
 		"buffers": buffers,
@@ -74,8 +85,8 @@ func validate(probe: RefCounted) -> Dictionary:
 	var baseline := build(probe)
 	var repeated := build(probe)
 	var buffer_validation := _validate_buffers(baseline.get("buffers", []))
-	var seam_validation := _validate_seams(baseline.get("chunks", []))
-	var feature_validation := _validate_feature_probes()
+	var seam_validation: Dictionary = baseline.get("seam_validation", {})
+	var feature_validation := _field.validate_feature_probes()
 	var deterministic := str(baseline.get("geometry_signature", "")) == str(
 		repeated.get("geometry_signature", "")
 	)
@@ -110,6 +121,8 @@ func validate(probe: RefCounted) -> Dictionary:
 		"regular_triangles": int(baseline.get("regular_triangles", 0)),
 		"transition_triangles": int(baseline.get("transition_triangles", 0)),
 		"material_ids": baseline.get("material_ids", []),
+		"feature_count": int(baseline.get("feature_count", 0)),
+		"feature_ids": baseline.get("feature_ids", []),
 		"geometry_signature": str(baseline.get("geometry_signature", "")),
 		"determinism_failures": 0 if deterministic else 1,
 		"buffer_validation": buffer_validation,
@@ -169,52 +182,44 @@ func standard_signature(probe: RefCounted) -> Dictionary:
 		"regular_triangles": int(fixture.get("regular_triangles", 0)),
 		"transition_triangles": int(fixture.get("transition_triangles", 0)),
 		"material_ids": fixture.get("material_ids", []),
+		"feature_count": int(fixture.get("feature_count", 0)),
+		"feature_ids": fixture.get("feature_ids", []),
+		"feature_probe_count": int(
+			_field.validate_feature_probes().get("probe_count", 0)
+		),
+		"same_lod_matching_pairs": int(
+			fixture.get("seam_validation", {}).get("same_lod_matching_pairs", 0)
+		),
+		"mixed_lod_matching_interfaces": int(
+			fixture.get("seam_validation", {}).get("mixed_lod_matching_interfaces", 0)
+		),
 		"geometry_signature": str(fixture.get("geometry_signature", "")),
 		"status": str(fixture.get("status", "FAIL")),
 	}
 
 
 func apply_edit(mode: String, center: Vector3, radius: float, material: int = CONSTRUCT_MATERIAL) -> void:
-	if mode not in ["dig", "construct"]:
-		return
-	edits.append({
-		"mode": mode,
-		"center": center,
-		"radius": maxf(radius, 0.05),
-		"material": clampi(material, 1, 65535) if mode == "construct" else 0,
-	})
+	_field.apply_edit(mode, center, radius, material)
 
 
 func clear_edits() -> void:
-	edits.clear()
+	_field.clear_edits()
 
 
 func set_edits(values: Array) -> void:
-	edits.clear()
-	for value in values:
-		var edit: Dictionary = value
-		var mode := str(edit.get("mode", ""))
-		if mode not in ["dig", "construct"]:
-			continue
-		edits.append({
-			"mode": mode,
-			"center": MeshAnalysis.vector3_from_variant(edit.get("center", Vector3.ZERO)),
-			"radius": maxf(float(edit.get("radius", 1.0)), 0.05),
-			"material": int(edit.get("material", CONSTRUCT_MATERIAL)),
-		})
+	_field.set_edits(values)
 
 
 func dirty_region() -> AABB:
-	if edits.is_empty():
-		return AABB()
-	var minimum := Vector3(INF, INF, INF)
-	var maximum := Vector3(-INF, -INF, -INF)
-	for edit in edits:
-		var center: Vector3 = edit.get("center", Vector3.ZERO)
-		var radius := float(edit.get("radius", 1.0))
-		minimum = minimum.min(center - Vector3.ONE * radius)
-		maximum = maximum.max(center + Vector3.ONE * radius)
-	return AABB(minimum, maximum - minimum)
+	return _field.dirty_region()
+
+
+func sample_point(point: Vector3) -> Dictionary:
+	return _field.sample_point(point)
+
+
+func feature_catalog() -> Array[Dictionary]:
+	return _field.feature_catalog()
 
 
 func affected_chunk_ids(center: Vector3, radius: float) -> Array[String]:
@@ -268,71 +273,7 @@ func _mesh_spec(probe: RefCounted, spec: Dictionary) -> Dictionary:
 
 
 func _sample(point: Vector3i) -> Dictionary:
-	var p := Vector3(point)
-	var density := _density_without_edits(p)
-	for edit in edits:
-		var center: Vector3 = edit.get("center", Vector3.ZERO)
-		var radius := float(edit.get("radius", 1.0))
-		var influence := radius - p.distance_to(center)
-		if influence <= 0.0:
-			continue
-		if str(edit.get("mode", "")) == "dig":
-			density = maxf(density, influence)
-		else:
-			density = minf(density, -influence)
-	var material := _material_at(p, density)
-	return {
-		"density": density,
-		"material": material,
-		"material_authored": material > 0,
-	}
-
-
-func _density_without_edits(p: Vector3) -> float:
-	var height := 10.0 \
-		+ 2.0 * sin((p.x + 8.0) * 0.08) \
-		+ 1.5 * cos((p.z - 3.0) * 0.11) \
-		+ 0.8 * sin((p.x + p.z) * 0.05)
-	var density := p.y - height
-	var tunnel_void := 2.25 - Vector2(p.y - 6.5, p.z - 15.0).length()
-	density = maxf(density, tunnel_void)
-	var shelf_local := Vector3(
-		(p.x - 25.0) / 7.0,
-		(p.y - 14.0) / 2.4,
-		(p.z - 8.0) / 5.0
-	)
-	var shelf := (shelf_local.length() - 1.0) * 2.4
-	density = minf(density, shelf)
-	var thin_feature := _box_sdf(
-		p - Vector3(8.0, 13.0, 24.0),
-		Vector3(0.6, 3.5, 4.5)
-	)
-	density = minf(density, thin_feature)
-	return density
-
-
-func _material_at(p: Vector3, density: float) -> int:
-	if density >= ISO_VALUE:
-		return 0
-	for edit in edits:
-		if str(edit.get("mode", "")) != "construct":
-			continue
-		var center: Vector3 = edit.get("center", Vector3.ZERO)
-		if p.distance_to(center) <= float(edit.get("radius", 1.0)):
-			return int(edit.get("material", CONSTRUCT_MATERIAL))
-	if absf(p.x - 8.0) <= 0.75 and absf(p.z - 24.0) <= 4.75 and p.y >= 9.0:
-		return 4
-	if p.y < 4.0:
-		return 3
-	if p.y > 9.0:
-		return 2
-	return 1
-
-
-func _box_sdf(local: Vector3, half_size: Vector3) -> float:
-	var q := local.abs() - half_size
-	var outside := Vector3(maxf(q.x, 0.0), maxf(q.y, 0.0), maxf(q.z, 0.0))
-	return outside.length() + minf(maxf(q.x, maxf(q.y, q.z)), 0.0)
+	return _field.sample(point)
 
 
 func _validate_buffers(buffers: Array) -> Dictionary:
@@ -409,6 +350,7 @@ func _validate_seams(chunks: Array) -> Dictionary:
 	var same_mismatched := 0
 	var same_left_only := 0
 	var same_right_only := 0
+	var same_interfaces: Array = []
 	for pair in same_lod_specs:
 		var left: Dictionary = by_id.get(str(pair[0]), {})
 		var right: Dictionary = by_id.get(str(pair[1]), {})
@@ -417,10 +359,25 @@ func _validate_seams(chunks: Array) -> Dictionary:
 		var difference := MeshAnalysis.set_difference_counts(left_signatures, right_signatures)
 		same_left_only += int(difference.get("left_only", 0))
 		same_right_only += int(difference.get("right_only", 0))
-		if int(difference.get("left_only", 0)) == 0 and int(difference.get("right_only", 0)) == 0:
+		var matches := int(difference.get("left_only", 0)) == 0 \
+			and int(difference.get("right_only", 0)) == 0
+		if matches:
 			same_matching += 1
 		else:
 			same_mismatched += 1
+		same_interfaces.append({
+			"left_chunk": pair[0],
+			"right_chunk": pair[1],
+			"left_face_index": int(pair[2]),
+			"right_face_index": int(pair[3]),
+			"left_face": Contracts.CHUNK_FACE_NAMES[int(pair[2])],
+			"right_face": Contracts.CHUNK_FACE_NAMES[int(pair[3])],
+			"matches": matches,
+			"left_only": int(difference.get("left_only", 0)),
+			"right_only": int(difference.get("right_only", 0)),
+			"left_only_signatures": _set_only_keys(left_signatures, right_signatures),
+			"right_only_signatures": _set_only_keys(right_signatures, left_signatures),
+		})
 	var mixed_specs := [
 		["coarse_west", 1, ["fine_00", "fine_01"], 0],
 		["coarse_east", 0, ["fine_10", "fine_11"], 1],
@@ -456,9 +413,13 @@ func _validate_seams(chunks: Array) -> Dictionary:
 		mixed_mismatched += 0 if matches else 1
 		mixed_interfaces.append({
 			"coarse_chunk": interface_spec[0],
+			"coarse_face_index": coarse_face,
 			"coarse_face": Contracts.CHUNK_FACE_NAMES[coarse_face],
 			"fine_chunks": interface_spec[2],
+			"fine_face_index": int(interface_spec[3]),
 			"fine_face": Contracts.CHUNK_FACE_NAMES[int(interface_spec[3])],
+			"axis": axis,
+			"plane": plane,
 			"matches": matches,
 			"coarse_only": int(difference.get("left_only", 0)),
 			"fine_only": int(difference.get("right_only", 0)),
@@ -477,40 +438,8 @@ func _validate_seams(chunks: Array) -> Dictionary:
 		"mixed_lod_coarse_only_edges": coarse_only,
 		"mixed_lod_fine_only_edges": fine_only,
 		"visible_crack_count": visible_cracks,
+		"same_interfaces": same_interfaces,
 		"interfaces": mixed_interfaces,
-	}
-
-
-func _validate_feature_probes() -> Dictionary:
-	var probes := [
-		{"name": "bedrock", "point": Vector3(-12.0, 2.0, -12.0), "solid": true},
-		{"name": "open_air", "point": Vector3(16.0, 28.0, 16.0), "solid": false},
-		{"name": "tunnel_core", "point": Vector3(0.0, 6.5, 15.0), "solid": false},
-		{"name": "overhang_shelf", "point": Vector3(25.0, 14.0, 8.0), "solid": true},
-		{"name": "thin_feature", "point": Vector3(8.0, 14.0, 24.0), "solid": true},
-		{"name": "thin_feature_clearance", "point": Vector3(10.0, 14.0, 24.0), "solid": false},
-	]
-	var passing := 0
-	var results: Array = []
-	for probe in probes:
-		var density := _density_without_edits(probe.get("point", Vector3.ZERO))
-		var actual_solid := density < ISO_VALUE
-		var matches := actual_solid == bool(probe.get("solid", false))
-		passing += 1 if matches else 0
-		results.append({
-			"name": probe.get("name", ""),
-			"point": probe.get("point", Vector3.ZERO),
-			"expected_solid": probe.get("solid", false),
-			"actual_solid": actual_solid,
-			"density": density,
-			"matches": matches,
-		})
-	return {
-		"status": "PASS" if passing == probes.size() else "FAIL",
-		"probe_count": probes.size(),
-		"passing_probes": passing,
-		"failing_probes": probes.size() - passing,
-		"probes": results,
 	}
 
 
@@ -663,6 +592,15 @@ func _chunk_face_signatures(chunk: Dictionary, face: int, include_transition: bo
 		axis,
 		plane
 	)
+
+
+func _set_only_keys(left: Dictionary, right: Dictionary) -> Array[String]:
+	var result: Array[String] = []
+	for key in left.keys():
+		if not right.has(key):
+			result.append(str(key))
+	result.sort()
+	return result
 
 
 func _face_plane(chunk: Dictionary, face: int) -> float:

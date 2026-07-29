@@ -28,6 +28,22 @@ func _unhandled_input(event: InputEvent) -> void:
 				lab.field_mode = LabScript.FieldMode.WAVES
 			KEY_T:
 				lab.inspection_mode = LabScript.InspectionMode.REFERENCE_TERRAIN
+			KEY_V:
+				lab.reference_view_mode = (
+					int(lab.reference_view_mode) + 1
+				) % LabScript.ReferenceViewMode.size()
+			KEY_I:
+				lab.reference_isolate_selected_chunk = \
+					not lab.reference_isolate_selected_chunk
+			KEY_B:
+				lab.show_reference_chunk_bounds = not lab.show_reference_chunk_bounds
+			KEY_N:
+				lab.show_reference_normals = not lab.show_reference_normals
+			KEY_S:
+				lab.show_reference_seams = not lab.show_reference_seams
+			KEY_G:
+				lab.show_reference_density_slice = not lab.show_reference_density_slice
+				lab.show_reference_sample_grid = lab.show_reference_density_slice
 			KEY_X:
 				lab.expand_cells("x", 1)
 			KEY_Y:
@@ -60,7 +76,7 @@ func _update_status() -> void:
 		return
 	var report := lab.get_last_report()
 	var inspection: Dictionary = report.get("inspection", {})
-	status_label.text = "Status: %s\nAuthority: %s\nClaim: %s\nRegular patch: %s cells, %d tris, %d interior open, %d nonmanifold\nTransition cell: %s, case %d, %d tris\nProduction chunk: LOD%d, %d samples, %d tris\nInspection: %s %s\nReference terrain: %s chunks, %s tris, %s edits, %s ms" % [
+	status_label.text = "Status: %s\nAuthority: %s\nClaim: %s\nRegular patch: %s cells, %d tris, %d interior open, %d nonmanifold\nTransition cell: %s, case %d, %d tris\nProduction chunk: LOD%d, %d samples, %d tris\nInspection: %s %s\nReference terrain: %s view, %s chunks, %s tris, %s edits, %s ms" % [
 		str(report.get("status", "UNKNOWN")),
 		str(report.get("render_authority", "unknown")),
 		str(report.get("correctness_claim", "unknown")),
@@ -76,6 +92,7 @@ func _update_status() -> void:
 		int(report.get("chunk_probe_triangles", 0)),
 		str(report.get("inspection_mode", "PATCH")),
 		str(inspection.get("status", "")),
+		str(inspection.get("observatory_view", "")),
 		str(inspection.get("chunk_count", "")),
 		str(inspection.get("triangles", "")),
 		str(inspection.get("edit_count", "")),

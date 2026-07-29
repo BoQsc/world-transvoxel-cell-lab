@@ -16,11 +16,13 @@ const STANDARDS_CORPUS_SCHEMA := "world_transvoxel.cell_lab.standards_corpus.v1"
 const INTEGRATION_IMPORT_SCHEMA := "world_transvoxel.cell_lab.integration_import.v1"
 const REFERENCE_TERRAIN_FIXTURE_SCHEMA := "world_transvoxel.cell_lab.reference_terrain_fixture.v1"
 const REFERENCE_TERRAIN_VALIDATION_SCHEMA := "world_transvoxel.cell_lab.reference_terrain_validation.v1"
+const TERRAIN_OBSERVATORY_SCHEMA := "world_transvoxel.cell_lab.terrain_observatory.v1"
+const TERRAIN_OBSERVATORY_VALIDATION_SCHEMA := "world_transvoxel.cell_lab.terrain_observatory_validation.v1"
 
 const NATIVE_REGULAR_IMPLEMENTATION := "native_transvoxel_regular_cell_probe_v1"
 const NATIVE_AUTHORITY := "NATIVE_TRANSVOXEL_BACKEND_AUTHORITATIVE"
 const CELL_PROBE_CORRECTNESS_CLAIM := "exact_regular_and_transition_cell_backend_probe_v2"
-const LAB_CORRECTNESS_CLAIM := "exact_cell_chunk_and_reference_terrain_backend_probe_v4"
+const LAB_CORRECTNESS_CLAIM := "exact_cell_chunk_reference_terrain_and_observatory_backend_probe_v5"
 const LAB_SCOPE := "cell_first_transvoxel_preview_and_validator"
 const PRIMARY_VALIDATION_DOMAIN := "volumetric_terrain"
 const PRIMITIVE_SCOPE := "transvoxel_scalar_field_cell_unit"
@@ -33,6 +35,7 @@ const CHUNK_PROBE_IMPLEMENTATION := "native_transvoxel_multilod_chunk_mesher_pro
 const CHUNK_PROBE_CELLS_PER_AXIS := 16
 const REFERENCE_TERRAIN_IMPLEMENTATION := "native_transvoxel_canonical_multichunk_terrain_v1"
 const REFERENCE_TERRAIN_ROLE := "canonical_deterministic_terrain_standard_not_production_runtime"
+const TERRAIN_OBSERVATORY_ROLE := "derived_inspection_and_measurement_of_authoritative_reference_terrain"
 
 const SOURCE_LAYERS := [
 	"unknown",
@@ -80,4 +83,5 @@ static func authority_metadata() -> Dictionary:
 		"integration_game_role": INTEGRATION_GAME_ROLE,
 		"integration_game_diagnostic_policy": INTEGRATION_GAME_DIAGNOSTIC_POLICY,
 		"reference_terrain_role": REFERENCE_TERRAIN_ROLE,
+		"terrain_observatory_role": TERRAIN_OBSERVATORY_ROLE,
 	}

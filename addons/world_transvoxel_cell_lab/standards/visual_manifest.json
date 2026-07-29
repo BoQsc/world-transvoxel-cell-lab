@@ -6,7 +6,7 @@
 			"path": "res://addons/world_transvoxel_cell_lab/standards/visuals/overview.png",
 			"width": 1152,
 			"height": 648,
-			"sha256": "972b81678a3147f19b9b0835863df128ff4989ab39cbb09d268f4eda0458c0f3"
+			"sha256": "93db54ba2705f576c770fe785bc3a20f94f8ee4d07e7b20339ca22df39664d31"
 		},
 		{
 			"id": "regular_case_42",
@@ -34,7 +34,28 @@
 			"path": "res://addons/world_transvoxel_cell_lab/standards/visuals/reference_terrain.png",
 			"width": 1152,
 			"height": 648,
-			"sha256": "4533c172f5e922375fb682f1f539526aaa4caf6f86d1d7237ac29e7ba8319b41"
+			"sha256": "c136c62c5bb9199379a414f96bb1a8bbe150cb45174eaf648e0469a6c4c5c1b4"
+		},
+		{
+			"id": "reference_terrain_materials",
+			"path": "res://addons/world_transvoxel_cell_lab/standards/visuals/reference_terrain_materials.png",
+			"width": 1152,
+			"height": 648,
+			"sha256": "dc0eca944cf42b5e92160863c700d0287cedee70f78e964115d57150ffbb3dc7"
+		},
+		{
+			"id": "reference_terrain_seams",
+			"path": "res://addons/world_transvoxel_cell_lab/standards/visuals/reference_terrain_seams.png",
+			"width": 1152,
+			"height": 648,
+			"sha256": "56c47348aecf17734970054ec365f5ffad364906bde3092cfbd825c1195602dd"
+		},
+		{
+			"id": "reference_terrain_density",
+			"path": "res://addons/world_transvoxel_cell_lab/standards/visuals/reference_terrain_density.png",
+			"width": 1152,
+			"height": 648,
+			"sha256": "040a15c1c51279a4343b9d83ccea45bdec908cef111c11342a019fedebacdd7b"
 		}
 	]
 }
