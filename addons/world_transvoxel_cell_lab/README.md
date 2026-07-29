@@ -42,6 +42,9 @@ The addon adds:
   integration, and gameplay/runtime issues to a small case;
 - all-case regular cell corpus validation;
 - all-case, all-orientation transition cell corpus validation;
+- same-LOD chunk seam validation and LOD transition-mask validation;
+- deterministic edit-sequence validation;
+- performance baseline reporting;
 - a smoke script at
   `res://addons/world_transvoxel_cell_lab/tests/wt_cell_lab_smoke.gd`.
 

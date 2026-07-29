@@ -8,6 +8,9 @@ const REPORT_SCHEMA := "world_transvoxel.cell_lab.report.v1"
 const REPRO_SCHEMA := "world_transvoxel.cell_lab.repro.v1"
 const REGULAR_CASE_CORPUS_SCHEMA := "world_transvoxel.cell_lab.regular_case_corpus.v1"
 const TRANSITION_CASE_CORPUS_SCHEMA := "world_transvoxel.cell_lab.transition_case_corpus.v1"
+const CHUNK_LOD_VALIDATION_SCHEMA := "world_transvoxel.cell_lab.chunk_lod_validation.v1"
+const EDIT_SEQUENCE_VALIDATION_SCHEMA := "world_transvoxel.cell_lab.edit_sequence_validation.v1"
+const PERFORMANCE_BASELINES_SCHEMA := "world_transvoxel.cell_lab.performance_baselines.v1"
 const NATIVE_REGULAR_IMPLEMENTATION := "native_transvoxel_regular_cell_probe_v1"
 const NATIVE_AUTHORITY := "NATIVE_TRANSVOXEL_BACKEND_AUTHORITATIVE"
 const CELL_PROBE_CORRECTNESS_CLAIM := "exact_regular_and_transition_cell_backend_probe_v1"
@@ -22,6 +25,14 @@ const INTEGRATION_GAME_ROLE := "downstream_proving_ground_not_correctness_author
 const INTEGRATION_GAME_DIAGNOSTIC_POLICY := "reduce_game_artifact_to_lab_repro_then_classify_fix_layer"
 const CHUNK_PROBE_IMPLEMENTATION := "native_transvoxel_lod0_chunk_mesher_probe_v1"
 const CHUNK_PROBE_CELLS_PER_AXIS := 16
+const CHUNK_FACE_NAMES := [
+	"NegativeX",
+	"PositiveX",
+	"NegativeY",
+	"PositiveY",
+	"NegativeZ",
+	"PositiveZ",
+]
 const CORNER_COUNT := 8
 const TRANSITION_SAMPLE_COUNT := 9
 const TRANSITION_ORIENTATION_NAMES := [
@@ -393,6 +404,184 @@ func validate_transition_case_corpus() -> Dictionary:
 	return result
 
 
+func validate_chunk_lod_seams() -> Dictionary:
+	var start_usec := Time.get_ticks_usec()
+	var probe := _get_native_cell_probe()
+	var result := {
+		"schema": CHUNK_LOD_VALIDATION_SCHEMA,
+		"available": probe != null and probe.has_method("mesh_chunk_with_callable"),
+		"authority": NATIVE_AUTHORITY,
+		"same_lod_pairs": 3,
+		"same_lod_matching_pairs": 0,
+		"same_lod_mismatched_pairs": 0,
+		"same_lod_left_only_edges": 0,
+		"same_lod_right_only_edges": 0,
+		"lod_transition_probe_status": "Unavailable",
+		"lod_transition_faces_with_geometry": 0,
+		"lod_transition_triangles": 0,
+		"lod_transition_nonmanifold_edges": 0,
+		"lod_transition_orientation_conflict_edges": 0,
+		"mixed_lod_scope": "transition_mask_probe_without_adjacent_neighbor_crack_proof",
+		"sample_failures": [],
+		"status": "Unavailable",
+		"elapsed_ms": 0.0,
+	}
+	if probe == null or not probe.has_method("mesh_chunk_with_callable"):
+		_attach_validation_result("chunk_lod_validation", result)
+		return result
+	result["status"] = "PASS"
+	for spec in [
+		{"axis": 0, "face_a": 1, "face_b": 0, "neighbor": Vector3i(1, 0, 0)},
+		{"axis": 1, "face_a": 3, "face_b": 2, "neighbor": Vector3i(0, 1, 0)},
+		{"axis": 2, "face_a": 5, "face_b": 4, "neighbor": Vector3i(0, 0, 1)},
+	]:
+		var chunk_a := _mesh_validator_chunk(probe, Vector3i.ZERO, 0, 0, 0)
+		var chunk_b := _mesh_validator_chunk(probe, spec.get("neighbor", Vector3i.ZERO), 0, 0, 0)
+		var axis := int(spec.get("axis", 0))
+		var face_a := int(spec.get("face_a", 0))
+		var face_b := int(spec.get("face_b", 0))
+		if not bool(chunk_a.get("ok", false)) or not bool(chunk_b.get("ok", false)):
+			result["same_lod_mismatched_pairs"] = int(result["same_lod_mismatched_pairs"]) + 1
+			_append_sample_failure(result, axis, -1, "same LOD chunk probe failed")
+			continue
+		var edges_a := _chunk_face_edge_signature_set(chunk_a, face_a)
+		var edges_b := _chunk_face_edge_signature_set(chunk_b, face_b)
+		var diff := _set_difference_counts(edges_a, edges_b)
+		result["same_lod_left_only_edges"] = int(result["same_lod_left_only_edges"]) + int(diff.get("left_only", 0))
+		result["same_lod_right_only_edges"] = int(result["same_lod_right_only_edges"]) + int(diff.get("right_only", 0))
+		if int(diff.get("left_only", 0)) == 0 and int(diff.get("right_only", 0)) == 0:
+			result["same_lod_matching_pairs"] = int(result["same_lod_matching_pairs"]) + 1
+		else:
+			result["same_lod_mismatched_pairs"] = int(result["same_lod_mismatched_pairs"]) + 1
+			_append_sample_failure(result, axis, -1, "same LOD face signatures differed")
+	var transition_chunk := _mesh_validator_chunk(probe, Vector3i.ZERO, 1, 0x3F, 0x3F)
+	result["lod_transition_probe_status"] = str(transition_chunk.get("status", "Unavailable"))
+	if bool(transition_chunk.get("ok", false)):
+		var transitions: Array = transition_chunk.get("transitions", [])
+		for face_index in range(transitions.size()):
+			var transition: Dictionary = transitions[face_index]
+			var vertices: PackedVector3Array = transition.get("vertices", PackedVector3Array())
+			var indices: PackedInt32Array = transition.get("indices", PackedInt32Array())
+			if indices.size() > 0:
+				result["lod_transition_faces_with_geometry"] = int(result["lod_transition_faces_with_geometry"]) + 1
+			result["lod_transition_triangles"] = int(result["lod_transition_triangles"]) + int(indices.size() / 3)
+			var edge_metrics := _isolated_edge_metrics(vertices, indices)
+			var orientation_metrics := _orientation_metrics(vertices, indices)
+			result["lod_transition_nonmanifold_edges"] = int(result["lod_transition_nonmanifold_edges"]) + int(edge_metrics.get("nonmanifold_edges", 0))
+			result["lod_transition_orientation_conflict_edges"] = int(result["lod_transition_orientation_conflict_edges"]) + int(orientation_metrics.get("orientation_conflict_edges", 0))
+	else:
+		_append_sample_failure(result, -1, -1, "LOD transition mask chunk failed: %s" % str(transition_chunk.get("sample_error", transition_chunk.get("error", ""))))
+	if int(result["same_lod_mismatched_pairs"]) > 0 or str(result["lod_transition_probe_status"]) != "Ok" or int(result["lod_transition_nonmanifold_edges"]) > 0 or int(result["lod_transition_orientation_conflict_edges"]) > 0:
+		result["status"] = "FAIL"
+	result["elapsed_ms"] = float(Time.get_ticks_usec() - start_usec) / 1000.0
+	_attach_validation_result("chunk_lod_validation", result)
+	return result
+
+
+func validate_edit_sequence() -> Dictionary:
+	var start_usec := Time.get_ticks_usec()
+	var original := make_repro_snapshot()
+	var result := {
+		"schema": EDIT_SEQUENCE_VALIDATION_SCHEMA,
+		"authority": NATIVE_AUTHORITY,
+		"sequence_steps": 4,
+		"passing_steps": 0,
+		"failing_steps": 0,
+		"triangle_counts": [],
+		"edit_counts": [],
+		"sample_failures": [],
+		"status": "PASS",
+		"elapsed_ms": 0.0,
+	}
+	var previous_auto_rebuild := auto_rebuild
+	auto_rebuild = false
+	cells_x = 6
+	cells_y = 6
+	cells_z = 6
+	field_mode = FieldMode.SPHERE
+	edits.clear()
+	auto_rebuild = previous_auto_rebuild
+	var steps: Array = [
+		{"name": "initial", "mode": "none", "center": Vector3.ZERO, "radius": 0.0},
+		{"name": "dig_center", "mode": "dig", "center": Vector3.ZERO, "radius": 1.0},
+		{"name": "construct_right", "mode": "construct", "center": Vector3(1.0, 0.0, 0.0), "radius": 0.75},
+		{"name": "dig_left", "mode": "dig", "center": Vector3(-1.0, 0.0, 0.0), "radius": 0.65},
+	]
+	for index in range(steps.size()):
+		var step: Dictionary = steps[index]
+		match str(step.get("mode", "none")):
+			"dig":
+				apply_dig_at(step.get("center", Vector3.ZERO), float(step.get("radius", 1.0)))
+			"construct":
+				apply_construct_at(step.get("center", Vector3.ZERO), float(step.get("radius", 1.0)))
+			_:
+				rebuild()
+		var report := get_last_report()
+		var ok := str(report.get("status", "")) == "PASS"
+		var topology_ok := int(report.get("interior_open_edges", 0)) == 0 and int(report.get("nonmanifold_edges", 0)) == 0 and int(report.get("orientation_conflict_edges", 0)) == 0
+		var chunk_ok := bool(report.get("chunk_probe_ok", false))
+		if ok and topology_ok and chunk_ok:
+			result["passing_steps"] = int(result["passing_steps"]) + 1
+		else:
+			result["failing_steps"] = int(result["failing_steps"]) + 1
+			_append_sample_failure(result, index, -1, "edit step failed: %s" % str(step.get("name", index)))
+		var triangle_counts: Array = result.get("triangle_counts", [])
+		triangle_counts.append(int(report.get("triangles", 0)))
+		result["triangle_counts"] = triangle_counts
+		var edit_counts: Array = result.get("edit_counts", [])
+		edit_counts.append(int(report.get("edit_count", 0)))
+		result["edit_counts"] = edit_counts
+	if int(result["failing_steps"]) > 0:
+		result["status"] = "FAIL"
+	result["elapsed_ms"] = float(Time.get_ticks_usec() - start_usec) / 1000.0
+	apply_repro_snapshot(original)
+	_attach_validation_result("edit_sequence_validation", result)
+	return result
+
+
+func run_performance_baselines(iterations: int = 3) -> Dictionary:
+	iterations = clampi(iterations, 1, 24)
+	var result := {
+		"schema": PERFORMANCE_BASELINES_SCHEMA,
+		"authority": NATIVE_AUTHORITY,
+		"iterations": iterations,
+		"patch_rebuild_average_ms": 0.0,
+		"patch_rebuild_maximum_ms": 0.0,
+		"chunk_lod_validation_ms": 0.0,
+		"edit_sequence_validation_ms": 0.0,
+		"regular_case_corpus_ms": 0.0,
+		"transition_case_corpus_ms": 0.0,
+		"status": "PASS",
+	}
+	var total := 0.0
+	var maximum := 0.0
+	for _index in range(iterations):
+		var start_usec := Time.get_ticks_usec()
+		rebuild()
+		var elapsed := float(Time.get_ticks_usec() - start_usec) / 1000.0
+		total += elapsed
+		maximum = maxf(maximum, elapsed)
+	result["patch_rebuild_average_ms"] = total / float(iterations)
+	result["patch_rebuild_maximum_ms"] = maximum
+	var chunk_start := Time.get_ticks_usec()
+	var chunk_result := validate_chunk_lod_seams()
+	result["chunk_lod_validation_ms"] = float(Time.get_ticks_usec() - chunk_start) / 1000.0
+	var edit_start := Time.get_ticks_usec()
+	var edit_result := validate_edit_sequence()
+	result["edit_sequence_validation_ms"] = float(Time.get_ticks_usec() - edit_start) / 1000.0
+	_attach_validation_result("chunk_lod_validation", chunk_result)
+	_attach_validation_result("edit_sequence_validation", edit_result)
+	var report := get_last_report()
+	var regular_corpus: Dictionary = report.get("regular_case_corpus", {})
+	var transition_corpus: Dictionary = report.get("transition_case_corpus", {})
+	result["regular_case_corpus_ms"] = float(regular_corpus.get("elapsed_ms", 0.0))
+	result["transition_case_corpus_ms"] = float(transition_corpus.get("elapsed_ms", 0.0))
+	if str(chunk_result.get("status", "")) != "PASS" or str(edit_result.get("status", "")) != "PASS":
+		result["status"] = "FAIL"
+	_attach_validation_result("performance_baselines", result)
+	return result
+
+
 func get_status_line() -> String:
 	var report := get_last_report()
 	return "scope=%s primary=%s primitive=%s authority_model=%s integration=%s status=%s regular_patch cells=%s tris=%d interior_open=%d boundary_open=%d nonmanifold=%d orient=%d transition_cell=%s tris=%d production_chunk=%s tris=%d edits=%d %.2fms exact_backend=%s" % [
@@ -517,6 +706,123 @@ func _mesh_transition_case_code(probe: RefCounted, case_code: int, orientation: 
 		0.25,
 		0.0
 	)
+
+
+func _mesh_validator_chunk(
+	probe: RefCounted,
+	chunk_coordinate: Vector3i,
+	lod: int,
+	transition_mask: int,
+	cached_transition_mask: int
+) -> Dictionary:
+	if probe == null or not probe.has_method("mesh_chunk_with_callable"):
+		return {
+			"ok": false,
+			"status": "Unavailable",
+			"error": "mesh_chunk_with_callable unavailable",
+		}
+	return probe.call(
+		"mesh_chunk_with_callable",
+		Callable(self, "_validator_chunk_sample"),
+		chunk_coordinate,
+		lod,
+		transition_mask,
+		cached_transition_mask,
+		0.0,
+		0.25
+	)
+
+
+func _validator_chunk_sample(point: Vector3i) -> Dictionary:
+	var p := Vector3(float(point.x), float(point.y), float(point.z))
+	var terrain_height := 8.0 + 3.0 * sin(p.x * 0.13) + 2.0 * cos(p.z * 0.17)
+	var density := p.y - terrain_height
+	return {
+		"density": density,
+		"material": 1 if density < 0.0 else 0,
+		"material_authored": density < 0.0,
+	}
+
+
+func _chunk_face_edge_signature_set(chunk_mesh: Dictionary, face: int) -> Dictionary:
+	var regular: Dictionary = chunk_mesh.get("regular", {})
+	var vertices: PackedVector3Array = regular.get("vertices", PackedVector3Array())
+	var indices: PackedInt32Array = regular.get("indices", PackedInt32Array())
+	var world_origin := Vector3(
+		float(chunk_mesh.get("world_origin_x", 0)),
+		float(chunk_mesh.get("world_origin_y", 0)),
+		float(chunk_mesh.get("world_origin_z", 0))
+	)
+	var lod := int(chunk_mesh.get("lod", 0))
+	var extent := float(CHUNK_PROBE_CELLS_PER_AXIS * (1 << lod))
+	var axis := _chunk_face_axis(face)
+	var plane := world_origin[axis] + (extent if _chunk_face_is_positive(face) else 0.0)
+	var counts := {}
+	var endpoints := {}
+	for i in range(0, indices.size(), 3):
+		for pair in [
+			[int(indices[i]), int(indices[i + 1])],
+			[int(indices[i + 1]), int(indices[i + 2])],
+			[int(indices[i + 2]), int(indices[i])],
+		]:
+			var a := vertices[pair[0]] + world_origin
+			var b := vertices[pair[1]] + world_origin
+			if absf(a[axis] - plane) > 0.0001 or absf(b[axis] - plane) > 0.0001:
+				continue
+			var key := _edge_key(a, b)
+			counts[key] = int(counts.get(key, 0)) + 1
+			endpoints[key] = [a, b]
+	var signatures := {}
+	for key in counts.keys():
+		if int(counts[key]) == 1:
+			var edge: Array = endpoints[key]
+			signatures[_face_edge_signature(edge[0] as Vector3, edge[1] as Vector3, axis)] = true
+	return signatures
+
+
+func _face_edge_signature(a: Vector3, b: Vector3, axis: int) -> String:
+	var components := []
+	for component in range(3):
+		if component == axis:
+			continue
+		components.append(component)
+	var a0 := roundi(a[int(components[0])] * 10000.0)
+	var a1 := roundi(a[int(components[1])] * 10000.0)
+	var b0 := roundi(b[int(components[0])] * 10000.0)
+	var b1 := roundi(b[int(components[1])] * 10000.0)
+	var first := "%d,%d" % [a0, a1]
+	var second := "%d,%d" % [b0, b1]
+	if first < second:
+		return first + "|" + second
+	return second + "|" + first
+
+
+func _set_difference_counts(left: Dictionary, right: Dictionary) -> Dictionary:
+	var left_only := 0
+	var right_only := 0
+	for key in left.keys():
+		if not right.has(key):
+			left_only += 1
+	for key in right.keys():
+		if not left.has(key):
+			right_only += 1
+	return {
+		"left_only": left_only,
+		"right_only": right_only,
+	}
+
+
+func _chunk_face_axis(face: int) -> int:
+	match face:
+		0, 1:
+			return 0
+		2, 3:
+			return 1
+	return 2
+
+
+func _chunk_face_is_positive(face: int) -> bool:
+	return face == 1 or face == 3 or face == 5
 
 
 func _validate_cell_mesh_buffers(cell_mesh: Dictionary, sample_count: int, topology_sample_count: int) -> Dictionary:

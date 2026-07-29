@@ -89,6 +89,18 @@ func _build_ui() -> void:
 	transition_corpus_button.text = "Transition Corpus"
 	transition_corpus_button.pressed.connect(_validate_transition_corpus_selected)
 	validator_row.add_child(transition_corpus_button)
+	var chunk_lod_button := Button.new()
+	chunk_lod_button.text = "Chunk LOD"
+	chunk_lod_button.pressed.connect(_validate_chunk_lod_selected)
+	validator_row.add_child(chunk_lod_button)
+	var edit_sequence_button := Button.new()
+	edit_sequence_button.text = "Edit Sequence"
+	edit_sequence_button.pressed.connect(_validate_edit_sequence_selected)
+	validator_row.add_child(edit_sequence_button)
+	var performance_button := Button.new()
+	performance_button.text = "Performance"
+	performance_button.pressed.connect(_run_performance_baselines_selected)
+	validator_row.add_child(performance_button)
 	var load_repro_button := Button.new()
 	load_repro_button.text = "Load Last Repro"
 	load_repro_button.pressed.connect(_load_last_repro_snapshot)
@@ -228,6 +240,27 @@ func _validate_transition_corpus_selected() -> void:
 	var lab = _selected_lab()
 	if lab != null:
 		lab.validate_transition_case_corpus()
+	_refresh_status()
+
+
+func _validate_chunk_lod_selected() -> void:
+	var lab = _selected_lab()
+	if lab != null:
+		lab.validate_chunk_lod_seams()
+	_refresh_status()
+
+
+func _validate_edit_sequence_selected() -> void:
+	var lab = _selected_lab()
+	if lab != null:
+		lab.validate_edit_sequence()
+	_refresh_status()
+
+
+func _run_performance_baselines_selected() -> void:
+	var lab = _selected_lab()
+	if lab != null:
+		lab.run_performance_baselines(3)
 	_refresh_status()
 
 
@@ -400,6 +433,55 @@ func _render_report(report: Dictionary) -> void:
 			]],
 			["Elapsed", "%.3f ms" % float(transition_corpus.get("elapsed_ms", 0.0))],
 			["Sample failures", _format_sample_failures(transition_corpus.get("sample_failures", []))],
+		])
+	var chunk_lod: Dictionary = report.get("chunk_lod_validation", {})
+	if not chunk_lod.is_empty():
+		_add_section("Chunk LOD", [
+			["Status", chunk_lod.get("status", "Unavailable")],
+			["Same LOD pairs", "%d / %d matching" % [
+				int(chunk_lod.get("same_lod_matching_pairs", 0)),
+				int(chunk_lod.get("same_lod_pairs", 0)),
+			]],
+			["Same LOD mismatches", chunk_lod.get("same_lod_mismatched_pairs", 0)],
+			["Left / right only seam edges", "%d / %d" % [
+				int(chunk_lod.get("same_lod_left_only_edges", 0)),
+				int(chunk_lod.get("same_lod_right_only_edges", 0)),
+			]],
+			["LOD transition status", chunk_lod.get("lod_transition_probe_status", "Unavailable")],
+			["LOD transition faces", chunk_lod.get("lod_transition_faces_with_geometry", 0)],
+			["LOD transition triangles", chunk_lod.get("lod_transition_triangles", 0)],
+			["LOD transition nonmanifold", chunk_lod.get("lod_transition_nonmanifold_edges", 0)],
+			["LOD transition orientation", chunk_lod.get("lod_transition_orientation_conflict_edges", 0)],
+			["Mixed LOD scope", chunk_lod.get("mixed_lod_scope", "")],
+			["Elapsed", "%.3f ms" % float(chunk_lod.get("elapsed_ms", 0.0))],
+			["Sample failures", _format_sample_failures(chunk_lod.get("sample_failures", []))],
+		])
+	var edit_sequence: Dictionary = report.get("edit_sequence_validation", {})
+	if not edit_sequence.is_empty():
+		_add_section("Edit Sequence", [
+			["Status", edit_sequence.get("status", "Unavailable")],
+			["Passing / failing steps", "%d / %d" % [
+				int(edit_sequence.get("passing_steps", 0)),
+				int(edit_sequence.get("failing_steps", 0)),
+			]],
+			["Triangle counts", edit_sequence.get("triangle_counts", [])],
+			["Edit counts", edit_sequence.get("edit_counts", [])],
+			["Elapsed", "%.3f ms" % float(edit_sequence.get("elapsed_ms", 0.0))],
+			["Sample failures", _format_sample_failures(edit_sequence.get("sample_failures", []))],
+		])
+	var performance: Dictionary = report.get("performance_baselines", {})
+	if not performance.is_empty():
+		_add_section("Performance", [
+			["Status", performance.get("status", "Unavailable")],
+			["Iterations", performance.get("iterations", 0)],
+			["Patch rebuild avg / max", "%.3f / %.3f ms" % [
+				float(performance.get("patch_rebuild_average_ms", 0.0)),
+				float(performance.get("patch_rebuild_maximum_ms", 0.0)),
+			]],
+			["Chunk LOD validation", "%.3f ms" % float(performance.get("chunk_lod_validation_ms", 0.0))],
+			["Edit sequence validation", "%.3f ms" % float(performance.get("edit_sequence_validation_ms", 0.0))],
+			["Regular corpus", "%.3f ms" % float(performance.get("regular_case_corpus_ms", 0.0))],
+			["Transition corpus", "%.3f ms" % float(performance.get("transition_case_corpus_ms", 0.0))],
 		])
 	if not _last_saved_repro_path.is_empty():
 		_add_section("Repro", [

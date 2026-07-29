@@ -137,6 +137,33 @@ func _run() -> void:
 	if int(transition_corpus.get("ok_cases", 0)) != 3060 or int(transition_corpus.get("empty_cases", 0)) != 12:
 		_fail("transition case corpus counts changed")
 		return
+	var chunk_lod: Dictionary = lab.validate_chunk_lod_seams()
+	if str(chunk_lod.get("schema", "")) != "world_transvoxel.cell_lab.chunk_lod_validation.v1":
+		_fail("unexpected chunk LOD validation schema")
+		return
+	if str(chunk_lod.get("status", "")) != "PASS":
+		_fail("chunk LOD validation did not pass: %s" % str(chunk_lod.get("sample_failures", [])))
+		return
+	if int(chunk_lod.get("same_lod_matching_pairs", 0)) != 3:
+		_fail("same LOD chunk seam matching changed")
+		return
+	if str(chunk_lod.get("lod_transition_probe_status", "")) != "Ok":
+		_fail("LOD transition mask probe did not mesh ok")
+		return
+	var edit_sequence: Dictionary = lab.validate_edit_sequence()
+	if str(edit_sequence.get("schema", "")) != "world_transvoxel.cell_lab.edit_sequence_validation.v1":
+		_fail("unexpected edit sequence validation schema")
+		return
+	if str(edit_sequence.get("status", "")) != "PASS":
+		_fail("edit sequence validation did not pass: %s" % str(edit_sequence.get("sample_failures", [])))
+		return
+	var performance: Dictionary = lab.run_performance_baselines(2)
+	if str(performance.get("schema", "")) != "world_transvoxel.cell_lab.performance_baselines.v1":
+		_fail("unexpected performance baselines schema")
+		return
+	if str(performance.get("status", "")) != "PASS":
+		_fail("performance baselines did not pass")
+		return
 	lab.apply_dig_at(Vector3.ZERO, 1.0)
 	report = lab.get_last_report()
 	if int(report.get("edit_count", 0)) != 1:

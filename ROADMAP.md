@@ -78,27 +78,32 @@ Next:
 
 ## Milestone 6: Chunk And LOD Validation
 
-Status: started with LOD 0 production chunk probe.
+Status: first pass complete.
 
 - Current lab shows a native LOD 0 chunk generated through `WtChunkMesher`.
 - Current report checks chunk status, samples, vertices, triangles, nonmanifold
   edges, and orientation conflicts.
+- Same-LOD adjacent chunk seam signatures are compared across X, Y, and Z.
+- LOD 1 transition-mask chunk generation is validated across all six faces.
+- Chunk LOD results are shown in the dock and covered by smoke tests.
 
 Next:
 
 - Add LOD 1+ chunk probes.
-- Add adjacent same-LOD chunk validation.
 - Add mixed-LOD neighbor validation.
-- Validate transition masks, cached transition masks, and visible crack checks.
+- Add visible crack checks between coarse and fine neighbor fixtures.
 - Classify chunk failures separately from cell failures.
 
 ## Milestone 7: Edit Simulation
 
-Status: started.
+Status: first pass complete.
 
 - Dig and construct edit probes exist.
 - Edit count and rebuild timing are reported.
 - Repro snapshots capture edit sequences.
+- A deterministic edit-sequence validator checks topology and production chunk
+  health across initial, dig, construct, and second-dig steps.
+- Edit sequence results are shown in the dock and covered by smoke tests.
 
 Next:
 
@@ -110,9 +115,12 @@ Next:
 
 ## Milestone 8: Performance Baselines
 
-Status: started.
+Status: first pass complete.
 
 - Dock baseline action measures rebuild average and maximum time.
+- Performance baselines report patch rebuild, chunk LOD validation, edit
+  sequence validation, and already-run corpus timings.
+- Performance results are shown in the dock and covered by smoke tests.
 
 Next:
 
@@ -139,7 +147,8 @@ Next:
 Status: smoke test active.
 
 - Current smoke checks the lab contract, native probes, repro restore, regular
-  corpus, transition corpus, chunk probe, edit recording, and baseline timing.
+  corpus, transition corpus, chunk probe, chunk LOD seams, transition masks,
+  edit sequence validation, and performance baselines.
 
 Next:
 
