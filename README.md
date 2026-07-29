@@ -22,8 +22,9 @@ There is no fallback mesher. Every surface inspected by the lab comes from
 ## Standard
 
 The lab is cell-first and terrain-focused. It treats regular cells, transition
-cells, chunk composition, LOD seams, edits, topology, materials, provenance,
-and cost as one validation chain.
+cells, chunk composition, a canonical multi-chunk reference terrain, LOD
+seams, edits, topology, materials, provenance, and cost as one validation
+chain.
 
 `world-transvoxel` is the implementation authority under test, not an
 infallible oracle. A reproducible lab contradiction supported by topology,
@@ -39,7 +40,11 @@ reduced to lab snapshots and classified as `world_transvoxel`, `integration`,
 Enable the `World Transvoxel Lab` plugin and use its dock to:
 
 - switch between patch, selected regular case, selected transition case, and
-  mixed-LOD inspection;
+  mixed-LOD or Reference Terrain inspection;
+- inspect a contiguous 12-chunk terrain with a coarse LOD ring, fine center,
+  four transition interfaces, feature fields, materials, and exact metrics;
+- select terrain chunks, move the terrain edit cursor, toggle chunk bounds,
+  and apply cross-chunk digging or construction;
 - expand the patch and apply dig or construct edits;
 - run the 256-case regular corpus and 512-case by 6-orientation transition
   corpus;
@@ -54,6 +59,10 @@ Enable the `World Transvoxel Lab` plugin and use its dock to:
 The default scene opens with rendered native geometry. Inspection modes show
 sample states, topology edges, vertex normals, materials, endpoint provenance,
 orientation basis, and mixed-LOD seam results.
+
+The standalone scene now opens in the canonical Reference Terrain view. Press
+`T` to return to it, then use `D`, `C`, and `R` to dig, construct, and clear
+terrain edits at the exported terrain cursor.
 
 ## Validation
 
@@ -80,4 +89,6 @@ runs the native extension load, smoke test, correctness corpora, standards
 corpus, and performance warning pass.
 
 See [ARCHITECTURE.md](ARCHITECTURE.md) for ownership boundaries and
-[ROADMAP.md](ROADMAP.md) for completed milestone evidence.
+[ROADMAP.md](ROADMAP.md) for completed milestone evidence. The permanent
+terrain contract is in
+[REFERENCE_TERRAIN_STANDARD.md](REFERENCE_TERRAIN_STANDARD.md).

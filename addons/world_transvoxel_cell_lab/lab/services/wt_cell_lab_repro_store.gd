@@ -46,8 +46,13 @@ static func make_snapshot(lab: Object, metadata: Dictionary = {}) -> Dictionary:
 			"selected_transition_case": int(lab.get("selected_transition_case")),
 			"selected_transition_orientation": int(lab.get("selected_transition_orientation")),
 			"selected_chunk_lod": int(lab.get("selected_chunk_lod")),
+			"selected_reference_chunk": int(lab.get("selected_reference_chunk")),
+			"reference_edit_cursor": lab.get("reference_edit_cursor"),
+			"show_reference_chunk_bounds": bool(lab.get("show_reference_chunk_bounds")),
 		},
 		"edits": lab.edits.duplicate(true),
+		"reference_terrain_edits": lab.call("get_reference_terrain_edits") \
+			if lab.has_method("get_reference_terrain_edits") else [],
 		"report": lab.get_last_report(),
 	}
 	snapshot.merge(Contracts.authority_metadata())
@@ -90,6 +95,24 @@ static func apply_snapshot(lab: Object, snapshot: Dictionary) -> Dictionary:
 		)
 	if _has_property(lab, "selected_chunk_lod"):
 		lab.set("selected_chunk_lod", int(parameters.get("selected_chunk_lod", lab.get("selected_chunk_lod"))))
+	if _has_property(lab, "selected_reference_chunk"):
+		lab.set(
+			"selected_reference_chunk",
+			int(parameters.get("selected_reference_chunk", lab.get("selected_reference_chunk")))
+		)
+	if _has_property(lab, "reference_edit_cursor"):
+		lab.set(
+			"reference_edit_cursor",
+			vector3_from_variant(
+				parameters.get("reference_edit_cursor", lab.get("reference_edit_cursor")),
+				lab.get("reference_edit_cursor")
+			)
+		)
+	if _has_property(lab, "show_reference_chunk_bounds"):
+		lab.set(
+			"show_reference_chunk_bounds",
+			bool(parameters.get("show_reference_chunk_bounds", lab.get("show_reference_chunk_bounds")))
+		)
 	lab.edits.clear()
 	var raw_edits: Array = snapshot.get("edits", [])
 	for raw_edit in raw_edits:
@@ -100,6 +123,9 @@ static func apply_snapshot(lab: Object, snapshot: Dictionary) -> Dictionary:
 			"radius": float(edit.get("radius", lab.edit_radius)),
 			"material": int(edit.get("material", lab.construct_material)),
 		})
+	if lab.has_method("set_reference_terrain_edits"):
+		var terrain_edits: Array = snapshot.get("reference_terrain_edits", [])
+		lab.call("set_reference_terrain_edits", terrain_edits)
 	lab.auto_rebuild = previous_auto_rebuild
 	var report: Dictionary = lab.rebuild()
 	report["loaded_repro_metadata"] = normalized_metadata(snapshot.get("metadata", {}))

@@ -1,0 +1,18 @@
+{
+	"schema": "world_transvoxel.cell_lab.reference_terrain_standard.v1",
+	"id": "canonical_reference_terrain",
+	"expected": {
+		"fixture_id": "canonical_lod_ring_v1",
+		"chunk_count": 12,
+		"coarse_chunk_count": 8,
+		"fine_chunk_count": 4,
+		"transition_chunk_count": 4,
+		"sample_count": 113705,
+		"triangle_count": 9414,
+		"regular_triangles": 9162,
+		"transition_triangles": 252,
+		"material_ids": [1, 2, 4],
+		"geometry_signature": "10cceefa944d4ebf8b73877ef8ebe1032a42cf89ef7fe3d43c60a6f469d98fa8",
+		"status": "PASS"
+	}
+}

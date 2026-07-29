@@ -4,7 +4,10 @@ class_name WtCellLabInspectionPresenter
 
 const Contracts := preload("res://addons/world_transvoxel_cell_lab/lab/services/wt_cell_lab_contracts.gd")
 const MeshAnalysis := preload("res://addons/world_transvoxel_cell_lab/lab/services/wt_cell_lab_mesh_analysis.gd")
-const INSPECTION_MODE_NAMES := ["PATCH", "REGULAR_CASE", "TRANSITION_CASE", "MIXED_LOD"]
+const ReferenceTerrainPresenter := preload("res://addons/world_transvoxel_cell_lab/lab/services/wt_cell_lab_reference_terrain_presenter.gd")
+const INSPECTION_MODE_NAMES := ["PATCH", "REGULAR_CASE", "TRANSITION_CASE", "MIXED_LOD", "REFERENCE_TERRAIN"]
+
+var _reference_terrain_presenter := ReferenceTerrainPresenter.new()
 
 
 func render(
@@ -21,6 +24,14 @@ func render(
 			return _render_transition_case(lab, mesh_root, sample_root, label_root, materials)
 		3:
 			return _render_mixed_lod(lab, mesh_root, label_root, materials)
+		4:
+			return _reference_terrain_presenter.render(
+				lab,
+				mesh_root,
+				sample_root,
+				label_root,
+				materials
+			)
 	return {
 		"mode": INSPECTION_MODE_NAMES[0],
 		"status": "PASS",

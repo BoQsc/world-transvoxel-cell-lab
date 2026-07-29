@@ -26,6 +26,10 @@ func run(
 		"regular_cell_average_us": 0.0,
 		"transition_cell_average_us": 0.0,
 		"chunk_average_ms": 0.0,
+		"reference_terrain_average_ms": 0.0,
+		"reference_terrain_maximum_ms": 0.0,
+		"reference_terrain_samples_per_ms": 0.0,
+		"reference_terrain_triangles_per_ms": 0.0,
 		"edit_rebuild_average_ms": 0.0,
 		"chunk_lod_validation_ms": 0.0,
 		"edit_sequence_validation_ms": 0.0,
@@ -72,6 +76,17 @@ func run(
 		chunk_samples += int(chunk.get("sample_count", 0))
 	result["chunk_average_ms"] = _average(chunk_timings)
 	result["samples_per_ms"] = float(chunk_samples) / maxf(_sum(chunk_timings), 0.000001)
+	var reference_benchmark: Dictionary = lab.benchmark_reference_terrain(iterations)
+	result["reference_terrain_average_ms"] = float(reference_benchmark.get("average_ms", 0.0))
+	result["reference_terrain_maximum_ms"] = float(reference_benchmark.get("maximum_ms", 0.0))
+	result["reference_terrain_samples_per_ms"] = float(
+		reference_benchmark.get("samples_per_ms", 0.0)
+	)
+	result["reference_terrain_triangles_per_ms"] = float(
+		reference_benchmark.get("triangles_per_ms", 0.0)
+	)
+	if str(reference_benchmark.get("status", "")) != "PASS":
+		result["status"] = "FAIL"
 
 	var original_edits: Array = lab.edits.duplicate(true)
 	var edit_timings: Array[float] = []
@@ -156,6 +171,7 @@ func _compare_with_history(result: Dictionary, history: Array) -> void:
 		"regular_cell_average_us",
 		"transition_cell_average_us",
 		"chunk_average_ms",
+		"reference_terrain_average_ms",
 		"edit_rebuild_average_ms",
 	]:
 		var baseline := float(previous.get(key, 0.0))
@@ -202,9 +218,12 @@ func _history_entry(result: Dictionary) -> Dictionary:
 		"regular_cell_average_us": result["regular_cell_average_us"],
 		"transition_cell_average_us": result["transition_cell_average_us"],
 		"chunk_average_ms": result["chunk_average_ms"],
+		"reference_terrain_average_ms": result["reference_terrain_average_ms"],
 		"edit_rebuild_average_ms": result["edit_rebuild_average_ms"],
 		"triangles_per_ms": result["triangles_per_ms"],
 		"samples_per_ms": result["samples_per_ms"],
+		"reference_terrain_samples_per_ms": result["reference_terrain_samples_per_ms"],
+		"reference_terrain_triangles_per_ms": result["reference_terrain_triangles_per_ms"],
 	}
 
 

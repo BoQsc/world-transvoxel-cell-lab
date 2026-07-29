@@ -50,6 +50,8 @@ integration classification, or standards execution.
 | `wt_cell_lab_standards_runner.gd` | Committed repro, case, visual, and threshold standards |
 | `wt_cell_lab_report_builder.gd` | Canonical live report construction |
 | `wt_cell_lab_inspection_presenter.gd` | Selected-case and mixed-LOD close-up rendering |
+| `wt_cell_lab_reference_terrain.gd` | Canonical field, multi-chunk LOD fixture, seam/edit proof, signature, and benchmark |
+| `wt_cell_lab_reference_terrain_presenter.gd` | Reference terrain, chunk bounds, selection, and edit visualization |
 
 The editor dock owns controls and report presentation only.
 
@@ -67,6 +69,27 @@ The lab owns:
 - fields and fixtures used to exercise those APIs;
 - comparisons, reports, visualizations, repro metadata, and standards;
 - no fallback or alternate meshing path.
+
+The canonical reference terrain is a standards fixture, not a second terrain
+runtime. It directly invokes the upstream production chunk mesher through
+`WorldTransvoxelCellProbe`. Streaming policy, scheduling, persistence,
+collision, and gameplay remain outside its authority.
+
+## Reference Terrain Layer
+
+The terrain validation chain is intentionally layered:
+
+```text
+cell contracts
+    -> isolated chunk and LOD fixtures
+        -> canonical multi-chunk reference terrain
+            -> integration-game reduction
+```
+
+The canonical terrain is the first layer that proves regular surfaces,
+transition surfaces, same-LOD neighbors, mixed-LOD neighbors, materials,
+feature fields, and edits together in one contiguous world-space fixture.
+See `REFERENCE_TERRAIN_STANDARD.md` for the exact layout and invariants.
 
 ## Evidence Rule
 

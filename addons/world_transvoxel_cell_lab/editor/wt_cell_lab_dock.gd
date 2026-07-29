@@ -13,6 +13,10 @@ var _transition_case_spin: SpinBox
 var _transition_orientation_option: OptionButton
 var _chunk_lod_spin: SpinBox
 var _chunk_face_option: OptionButton
+var _reference_chunk_spin: SpinBox
+var _reference_cursor_x: SpinBox
+var _reference_cursor_y: SpinBox
+var _reference_cursor_z: SpinBox
 var _status_label: Label
 var _copy_report_button: Button
 var _save_repro_button: Button
@@ -99,6 +103,36 @@ func _build_ui() -> void:
 	_chunk_face_option.item_selected.connect(_set_chunk_face)
 	inspection_grid.add_child(_chunk_face_option)
 
+	inspection_grid.add_child(_control_label("Terrain chunk"))
+	_reference_chunk_spin = SpinBox.new()
+	_reference_chunk_spin.min_value = 0
+	_reference_chunk_spin.max_value = 11
+	_reference_chunk_spin.step = 1
+	_reference_chunk_spin.value_changed.connect(_set_reference_chunk)
+	inspection_grid.add_child(_reference_chunk_spin)
+
+	for cursor_spec in [
+		["Terrain cursor X", 0],
+		["Terrain cursor Y", 1],
+		["Terrain cursor Z", 2],
+	]:
+		inspection_grid.add_child(_control_label(str(cursor_spec[0])))
+		var cursor_spin := SpinBox.new()
+		cursor_spin.min_value = -64.0
+		cursor_spin.max_value = 96.0
+		cursor_spin.step = 0.25
+		cursor_spin.value_changed.connect(
+			_set_reference_cursor_component.bind(int(cursor_spec[1]))
+		)
+		inspection_grid.add_child(cursor_spin)
+		match int(cursor_spec[1]):
+			0:
+				_reference_cursor_x = cursor_spin
+			1:
+				_reference_cursor_y = cursor_spin
+			2:
+				_reference_cursor_z = cursor_spin
+
 	var rebuild_button := Button.new()
 	rebuild_button.text = "Rebuild"
 	rebuild_button.pressed.connect(_rebuild_selected)
@@ -131,6 +165,21 @@ func _build_ui() -> void:
 	construct_button.pressed.connect(_construct_selected)
 	edit_row.add_child(construct_button)
 
+	var terrain_edit_row := HBoxContainer.new()
+	root.add_child(terrain_edit_row)
+	var terrain_dig_button := Button.new()
+	terrain_dig_button.text = "Terrain Dig"
+	terrain_dig_button.pressed.connect(_terrain_dig_selected)
+	terrain_edit_row.add_child(terrain_dig_button)
+	var terrain_construct_button := Button.new()
+	terrain_construct_button.text = "Terrain Construct"
+	terrain_construct_button.pressed.connect(_terrain_construct_selected)
+	terrain_edit_row.add_child(terrain_construct_button)
+	var terrain_reset_button := Button.new()
+	terrain_reset_button.text = "Clear Terrain"
+	terrain_reset_button.pressed.connect(_terrain_reset_selected)
+	terrain_edit_row.add_child(terrain_reset_button)
+
 	var reset_button := Button.new()
 	reset_button.text = "Reset Edits"
 	reset_button.pressed.connect(_reset_selected)
@@ -156,6 +205,10 @@ func _build_ui() -> void:
 	chunk_lod_button.text = "Chunk LOD"
 	chunk_lod_button.pressed.connect(_validate_chunk_lod_selected)
 	validator_row.add_child(chunk_lod_button)
+	var reference_terrain_button := Button.new()
+	reference_terrain_button.text = "Reference Terrain"
+	reference_terrain_button.pressed.connect(_validate_reference_terrain_selected)
+	validator_row.add_child(reference_terrain_button)
 	var edit_sequence_button := Button.new()
 	edit_sequence_button.text = "Edit Sequence"
 	edit_sequence_button.pressed.connect(_validate_edit_sequence_selected)
@@ -365,6 +418,26 @@ func _set_chunk_face(index: int) -> void:
 	_refresh_status()
 
 
+func _set_reference_chunk(value: float) -> void:
+	var lab = _selected_lab()
+	if lab == null:
+		return
+	lab.selected_reference_chunk = roundi(value)
+	if lab.inspection_mode == LabScript.InspectionMode.REFERENCE_TERRAIN:
+		lab.rebuild()
+	_refresh_status()
+
+
+func _set_reference_cursor_component(value: float, axis: int) -> void:
+	var lab = _selected_lab()
+	if lab == null:
+		return
+	var cursor: Vector3 = lab.reference_edit_cursor
+	cursor[axis] = value
+	lab.reference_edit_cursor = cursor
+	_refresh_status()
+
+
 func _rebuild_selected() -> void:
 	var lab = _selected_lab()
 	if lab != null:
@@ -390,6 +463,29 @@ func _construct_selected() -> void:
 	var lab = _selected_lab()
 	if lab != null:
 		lab.apply_construct_at(Vector3.ZERO)
+	_refresh_status()
+
+
+func _terrain_dig_selected() -> void:
+	var lab = _selected_lab()
+	if lab != null:
+		lab.inspection_mode = LabScript.InspectionMode.REFERENCE_TERRAIN
+		lab.apply_reference_terrain_dig()
+	_refresh_status()
+
+
+func _terrain_construct_selected() -> void:
+	var lab = _selected_lab()
+	if lab != null:
+		lab.inspection_mode = LabScript.InspectionMode.REFERENCE_TERRAIN
+		lab.apply_reference_terrain_construct()
+	_refresh_status()
+
+
+func _terrain_reset_selected() -> void:
+	var lab = _selected_lab()
+	if lab != null:
+		lab.clear_reference_terrain_edits()
 	_refresh_status()
 
 
@@ -428,6 +524,13 @@ func _validate_chunk_lod_selected() -> void:
 	_refresh_status()
 
 
+func _validate_reference_terrain_selected() -> void:
+	var lab = _selected_lab()
+	if lab != null:
+		lab.validate_reference_terrain()
+	_refresh_status()
+
+
 func _validate_edit_sequence_selected() -> void:
 	var lab = _selected_lab()
 	if lab != null:
@@ -456,6 +559,7 @@ func _validate_all_selected() -> void:
 	lab.validate_regular_case_corpus()
 	lab.validate_transition_case_corpus()
 	lab.validate_chunk_lod_seams()
+	lab.validate_reference_terrain()
 	lab.validate_edit_sequence()
 	lab.validate_edit_corpus()
 	lab.validate_standards_corpus()
@@ -491,6 +595,11 @@ func _refresh_status() -> void:
 	_transition_orientation_option.select(int(lab.selected_transition_orientation))
 	_chunk_lod_spin.set_value_no_signal(float(lab.selected_chunk_lod))
 	_chunk_face_option.select(int(lab.selected_chunk_face))
+	_reference_chunk_spin.set_value_no_signal(float(lab.selected_reference_chunk))
+	var terrain_cursor: Vector3 = lab.reference_edit_cursor
+	_reference_cursor_x.set_value_no_signal(terrain_cursor.x)
+	_reference_cursor_y.set_value_no_signal(terrain_cursor.y)
+	_reference_cursor_z.set_value_no_signal(terrain_cursor.z)
 	_render_report(lab.get_last_report())
 
 
@@ -536,6 +645,7 @@ func _render_report(report: Dictionary) -> void:
 		["Upstream policy", report.get("upstream_correction_policy", "")],
 		["Integration role", report.get("integration_game_role", "")],
 		["Integration policy", report.get("integration_game_diagnostic_policy", "")],
+		["Reference terrain", report.get("reference_terrain_role", "")],
 		["Dependency", report.get("validation_standard", "")],
 	])
 	var inspection: Dictionary = report.get("inspection", {})
@@ -557,6 +667,21 @@ func _render_report(report: Dictionary) -> void:
 			]],
 			["Endpoint provenance", inspection.get("backend_endpoint_provenance", [])],
 			["Seam comparison", inspection.get("comparison", {})],
+			["Terrain fixture", inspection.get("fixture_id", "")],
+			["Terrain chunks", "%s (%s coarse / %s fine)" % [
+				str(inspection.get("chunk_count", "")),
+				str(inspection.get("coarse_chunk_count", "")),
+				str(inspection.get("fine_chunk_count", "")),
+			]],
+			["Terrain selected chunk", inspection.get("selected_chunk", "")],
+			["Terrain samples / transitions", "%s / %s" % [
+				str(inspection.get("sample_count", "")),
+				str(inspection.get("transition_triangles", "")),
+			]],
+			["Terrain edits / build", "%s / %s ms" % [
+				str(inspection.get("edit_count", "")),
+				str(inspection.get("build_ms", "")),
+			]],
 		])
 	_add_section("Regular Patch", [
 		["Status", regular_status],
@@ -700,6 +825,47 @@ func _render_report(report: Dictionary) -> void:
 			["Elapsed", "%.3f ms" % float(chunk_lod.get("elapsed_ms", 0.0))],
 			["Sample failures", _format_sample_failures(chunk_lod.get("sample_failures", []))],
 		])
+	var reference_terrain: Dictionary = report.get("reference_terrain_validation", {})
+	if not reference_terrain.is_empty():
+		var terrain_seams: Dictionary = reference_terrain.get("seam_validation", {})
+		var terrain_edits: Dictionary = reference_terrain.get("edit_validation", {})
+		var terrain_buffers: Dictionary = reference_terrain.get("buffer_validation", {})
+		_add_section("Reference Terrain", [
+			["Status", reference_terrain.get("status", "Unavailable")],
+			["Fixture", reference_terrain.get("fixture_id", "")],
+			["Chunks coarse / fine / total", "%d / %d / %d" % [
+				int(reference_terrain.get("coarse_chunk_count", 0)),
+				int(reference_terrain.get("fine_chunk_count", 0)),
+				int(reference_terrain.get("chunk_count", 0)),
+			]],
+			["Samples / triangles", "%d / %d" % [
+				int(reference_terrain.get("sample_count", 0)),
+				int(reference_terrain.get("triangle_count", 0)),
+			]],
+			["Regular / transition triangles", "%d / %d" % [
+				int(reference_terrain.get("regular_triangles", 0)),
+				int(reference_terrain.get("transition_triangles", 0)),
+			]],
+			["Same LOD seams", "%d / %d matching" % [
+				int(terrain_seams.get("same_lod_matching_pairs", 0)),
+				int(terrain_seams.get("same_lod_pairs", 0)),
+			]],
+			["Mixed LOD interfaces", "%d / %d matching" % [
+				int(terrain_seams.get("mixed_lod_matching_interfaces", 0)),
+				int(terrain_seams.get("mixed_lod_interfaces", 0)),
+			]],
+			["Visible cracks", reference_terrain.get("visible_crack_count", 0)],
+			["Buffer failures", terrain_buffers.get("failure_count", 0)],
+			["Edit steps pass / fail", "%d / %d" % [
+				int(terrain_edits.get("passing_steps", 0)),
+				int(terrain_edits.get("failing_steps", 0)),
+			]],
+			["Determinism failures", reference_terrain.get("determinism_failures", 0)],
+			["Material IDs", reference_terrain.get("material_ids", [])],
+			["Geometry signature", reference_terrain.get("geometry_signature", "")],
+			["Elapsed", "%.3f ms" % float(reference_terrain.get("elapsed_ms", 0.0))],
+			["Sample failures", _format_sample_failures(reference_terrain.get("sample_failures", []))],
+		])
 	var edit_sequence: Dictionary = report.get("edit_sequence_validation", {})
 	if not edit_sequence.is_empty():
 		_add_section("Edit Sequence", [
@@ -743,6 +909,12 @@ func _render_report(report: Dictionary) -> void:
 				float(performance.get("transition_cell_average_us", 0.0)),
 			]],
 			["Chunk average", "%.3f ms" % float(performance.get("chunk_average_ms", 0.0))],
+			["Reference terrain avg / max", "%.3f / %.3f ms" % [
+				float(performance.get("reference_terrain_average_ms", 0.0)),
+				float(performance.get("reference_terrain_maximum_ms", 0.0)),
+			]],
+			["Reference terrain samples / ms", performance.get("reference_terrain_samples_per_ms", 0.0)],
+			["Reference terrain triangles / ms", performance.get("reference_terrain_triangles_per_ms", 0.0)],
 			["Edit rebuild average", "%.3f ms" % float(performance.get("edit_rebuild_average_ms", 0.0))],
 			["Triangles / ms", performance.get("triangles_per_ms", 0.0)],
 			["Samples / ms", performance.get("samples_per_ms", 0.0)],
@@ -765,6 +937,10 @@ func _render_report(report: Dictionary) -> void:
 			["Cases pass / fail", "%d / %d" % [
 				int(standards.get("passing_case_standards", 0)),
 				int(standards.get("failing_case_standards", 0)),
+			]],
+			["Terrain pass / fail", "%d / %d" % [
+				int(standards.get("passing_reference_terrain_standards", 0)),
+				int(standards.get("failing_reference_terrain_standards", 0)),
 			]],
 			["Visuals pass / fail", "%d / %d" % [
 				int(standards.get("passing_visual_standards", 0)),

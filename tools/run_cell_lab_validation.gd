@@ -32,6 +32,9 @@ func _run() -> void:
 	if run_all or "chunk" in suites:
 		print("WT_CELL_LAB_STAGE chunk")
 		results["chunk"] = lab.validate_chunk_lod_seams()
+	if run_all or "terrain" in suites:
+		print("WT_CELL_LAB_STAGE terrain")
+		results["terrain"] = lab.validate_reference_terrain()
 	if run_all or "edit" in suites:
 		print("WT_CELL_LAB_STAGE edit")
 		results["edit"] = lab.validate_edit_sequence()

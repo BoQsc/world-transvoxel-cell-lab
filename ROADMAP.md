@@ -3,7 +3,7 @@
 The roadmap standard is cell-first, terrain-focused, native-authoritative,
 reproducible, measurable, visually inspectable, and evidence-driven.
 
-All original milestones are complete. Future milestones must preserve the
+All original milestones and the Reference Terrain milestone are complete. Future milestones must preserve the
 ownership boundaries in `ARCHITECTURE.md` and add committed evidence before
 claiming a broader correctness domain.
 
@@ -106,6 +106,30 @@ Status: complete.
 - Headless smoke and full-suite runner.
 - Windows CI with the official Godot 4.7.1 artifact pinned by SHA-256.
 - Performance warning thresholds included in CI output.
+
+## Milestone 11: Canonical Reference Terrain
+
+Status: complete.
+
+- One contiguous deterministic 12-chunk terrain fixture.
+- Eight LOD1 chunks form an outer ring; four LOD0 chunks replace its center.
+- Four production transition surfaces connect the coarse ring to the fine
+  center.
+- Terrain field includes surface relief, a tunnel, an overhang shelf, a thin
+  feature, and authored material regions.
+- All 12 same-LOD neighbor pairs and all four mixed-LOD interfaces compare
+  exact world-space seam signatures.
+- Native buffers, normals, materials, topology, and deterministic geometry
+  signature are validated.
+- Cross-chunk dig and construction operations prove partial dirty-chunk
+  rebuilds against full rebuilds and rerun seam validation.
+- Reference-terrain sample and triangle throughput are included in performance
+  baselines.
+- The standalone scene opens directly in Reference Terrain inspection with
+  chunk selection, editable cursor, bounds, LOD colors, transitions, and edit
+  markers.
+- Committed numeric and SHA-256 geometry standards plus a rendered visual
+  standard protect the canonical result.
 
 ## Next Standard
 

@@ -6,6 +6,7 @@ const Contracts := preload("res://addons/world_transvoxel_cell_lab/lab/services/
 const ReproStore := preload("res://addons/world_transvoxel_cell_lab/lab/services/wt_cell_lab_repro_store.gd")
 const CASE_STANDARDS_PATH := "res://addons/world_transvoxel_cell_lab/standards/standard_cases.json"
 const VISUAL_STANDARDS_PATH := "res://addons/world_transvoxel_cell_lab/standards/visual_manifest.json"
+const REFERENCE_TERRAIN_STANDARD_PATH := "res://addons/world_transvoxel_cell_lab/standards/reference_terrain_standard.json"
 
 
 func run(lab: Object) -> Dictionary:
@@ -23,18 +24,24 @@ func run(lab: Object) -> Dictionary:
 		"visual_standard_count": 0,
 		"passing_visual_standards": 0,
 		"failing_visual_standards": 0,
+		"reference_terrain_standard_count": 0,
+		"passing_reference_terrain_standards": 0,
+		"failing_reference_terrain_standards": 0,
 		"repros": [],
 		"case_standards": [],
 		"visual_standards": [],
+		"reference_terrain_standards": [],
 		"sample_failures": [],
 		"status": "PASS",
 		"elapsed_ms": 0.0,
 	}
 	_run_repros(lab, result)
 	_run_case_standards(lab, result)
+	_run_reference_terrain_standard(lab, result)
 	_run_visual_standards(result)
 	if int(result["failing_repros"]) > 0 \
 		or int(result["failing_case_standards"]) > 0 \
+		or int(result["failing_reference_terrain_standards"]) > 0 \
 		or int(result["failing_visual_standards"]) > 0:
 		result["status"] = "FAIL"
 	result["elapsed_ms"] = float(Time.get_ticks_usec() - start_usec) / 1000.0
@@ -107,6 +114,62 @@ func _run_case_standards(lab: Object, result: Dictionary) -> void:
 		else:
 			result["failing_case_standards"] = int(result["failing_case_standards"]) + 1
 			_append_failure(result, "case standard failed: %s" % str(item["id"]))
+
+
+func _run_reference_terrain_standard(lab: Object, result: Dictionary) -> void:
+	var standard := _load_json_dictionary(REFERENCE_TERRAIN_STANDARD_PATH)
+	result["reference_terrain_standard_count"] = 1
+	var expected: Dictionary = standard.get("expected", {})
+	var actual: Dictionary = lab.describe_reference_terrain_standard()
+	var compared_keys := [
+		"fixture_id",
+		"chunk_count",
+		"coarse_chunk_count",
+		"fine_chunk_count",
+		"transition_chunk_count",
+		"sample_count",
+		"triangle_count",
+		"regular_triangles",
+		"transition_triangles",
+		"material_ids",
+		"geometry_signature",
+		"status",
+	]
+	var mismatches: Array[String] = []
+	for key in compared_keys:
+		if not _standard_values_equal(actual.get(key), expected.get(key)):
+			mismatches.append(str(key))
+	var item := {
+		"id": str(standard.get("id", "canonical_reference_terrain")),
+		"expected": expected,
+		"actual": actual,
+		"mismatched_fields": mismatches,
+		"status": "PASS" if mismatches.is_empty() else "FAIL",
+	}
+	result["reference_terrain_standards"].append(item)
+	if mismatches.is_empty():
+		result["passing_reference_terrain_standards"] = 1
+	else:
+		result["failing_reference_terrain_standards"] = 1
+		_append_failure(
+			result,
+			"reference terrain standard failed: %s" % ", ".join(mismatches)
+		)
+
+
+func _standard_values_equal(left: Variant, right: Variant) -> bool:
+	if typeof(left) in [TYPE_INT, TYPE_FLOAT] and typeof(right) in [TYPE_INT, TYPE_FLOAT]:
+		return is_equal_approx(float(left), float(right))
+	if typeof(left) == TYPE_ARRAY and typeof(right) == TYPE_ARRAY:
+		var left_array: Array = left
+		var right_array: Array = right
+		if left_array.size() != right_array.size():
+			return false
+		for index in range(left_array.size()):
+			if not _standard_values_equal(left_array[index], right_array[index]):
+				return false
+		return true
+	return left == right
 
 
 func _run_visual_standards(result: Dictionary) -> void:

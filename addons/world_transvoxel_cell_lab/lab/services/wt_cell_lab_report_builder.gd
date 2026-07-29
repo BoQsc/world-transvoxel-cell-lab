@@ -4,7 +4,7 @@ class_name WtCellLabReportBuilder
 
 const Contracts := preload("res://addons/world_transvoxel_cell_lab/lab/services/wt_cell_lab_contracts.gd")
 const FIELD_MODE_NAMES := ["PLANE", "SPHERE", "TUNNEL", "SADDLE", "WAVES"]
-const INSPECTION_MODE_NAMES := ["PATCH", "REGULAR_CASE", "TRANSITION_CASE", "MIXED_LOD"]
+const INSPECTION_MODE_NAMES := ["PATCH", "REGULAR_CASE", "TRANSITION_CASE", "MIXED_LOD", "REFERENCE_TERRAIN"]
 
 
 static func build(

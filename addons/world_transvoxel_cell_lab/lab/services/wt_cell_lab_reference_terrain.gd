@@ -1,0 +1,797 @@
+@tool
+extends RefCounted
+class_name WtCellLabReferenceTerrain
+
+const Contracts := preload("res://addons/world_transvoxel_cell_lab/lab/services/wt_cell_lab_contracts.gd")
+const MeshAnalysis := preload("res://addons/world_transvoxel_cell_lab/lab/services/wt_cell_lab_mesh_analysis.gd")
+
+const FIXTURE_ID := "canonical_lod_ring_v1"
+const FINE_LOD := 0
+const COARSE_LOD := 1
+const ISO_VALUE := 0.0
+const TRANSITION_WIDTH_RATIO := 0.25
+const CONSTRUCT_MATERIAL := 5
+const TERRAIN_BOUNDS := AABB(Vector3(-32.0, 0.0, -32.0), Vector3(96.0, 32.0, 96.0))
+
+var edits: Array[Dictionary] = []
+
+
+func build(probe: RefCounted) -> Dictionary:
+	var started_usec := Time.get_ticks_usec()
+	if probe == null or not probe.has_method("mesh_chunk_with_callable"):
+		return _unavailable_result("mesh_chunk_with_callable unavailable")
+	var chunks: Array[Dictionary] = []
+	var failed_chunks := 0
+	var sample_count := 0
+	var triangle_count := 0
+	var regular_triangles := 0
+	var transition_triangles := 0
+	for spec in fixture_specs():
+		var chunk := _mesh_spec(probe, spec)
+		chunks.append(chunk)
+		if not bool(chunk.get("ok", false)):
+			failed_chunks += 1
+		sample_count += int(chunk.get("sample_count", 0))
+		triangle_count += int(chunk.get("triangle_count", 0))
+		var regular: Dictionary = chunk.get("regular", {})
+		regular_triangles += int(regular.get("triangle_count", 0))
+		for transition_value in chunk.get("transitions", []):
+			var transition: Dictionary = transition_value
+			transition_triangles += int(transition.get("triangle_count", 0))
+	var buffers := _all_rendered_buffers(chunks)
+	var material_ids := _material_ids(buffers)
+	return {
+		"schema": Contracts.REFERENCE_TERRAIN_FIXTURE_SCHEMA,
+		"authority": Contracts.NATIVE_AUTHORITY,
+		"implementation": Contracts.REFERENCE_TERRAIN_IMPLEMENTATION,
+		"fixture_id": FIXTURE_ID,
+		"available": true,
+		"ok": failed_chunks == 0,
+		"status": "PASS" if failed_chunks == 0 else "FAIL",
+		"bounds": TERRAIN_BOUNDS,
+		"chunk_count": chunks.size(),
+		"coarse_chunk_count": 8,
+		"fine_chunk_count": 4,
+		"transition_chunk_count": 4,
+		"failed_chunks": failed_chunks,
+		"sample_count": sample_count,
+		"triangle_count": triangle_count,
+		"regular_triangles": regular_triangles,
+		"transition_triangles": transition_triangles,
+		"material_ids": material_ids,
+		"edit_count": edits.size(),
+		"chunks": chunks,
+		"buffers": buffers,
+		"geometry_signature": _geometry_signature(chunks),
+		"elapsed_ms": float(Time.get_ticks_usec() - started_usec) / 1000.0,
+	}
+
+
+func validate(probe: RefCounted) -> Dictionary:
+	var started_usec := Time.get_ticks_usec()
+	var original_edits := edits.duplicate(true)
+	edits.clear()
+	var baseline := build(probe)
+	var repeated := build(probe)
+	var buffer_validation := _validate_buffers(baseline.get("buffers", []))
+	var seam_validation := _validate_seams(baseline.get("chunks", []))
+	var feature_validation := _validate_feature_probes()
+	var deterministic := str(baseline.get("geometry_signature", "")) == str(
+		repeated.get("geometry_signature", "")
+	)
+	var edit_validation := _validate_edit_workflow(probe, baseline)
+	edits = original_edits
+	var failures: Array = []
+	if not bool(baseline.get("ok", false)):
+		failures.append("one or more canonical chunks failed to mesh")
+	if not deterministic:
+		failures.append("canonical terrain geometry changed across identical rebuilds")
+	if str(buffer_validation.get("status", "")) != "PASS":
+		failures.append("one or more terrain buffers violated native mesh contracts")
+	if str(seam_validation.get("status", "")) != "PASS":
+		failures.append("one or more canonical terrain seams did not match")
+	if str(feature_validation.get("status", "")) != "PASS":
+		failures.append("one or more canonical field feature probes changed")
+	if str(edit_validation.get("status", "")) != "PASS":
+		failures.append("incremental terrain edit rebuild did not match a full rebuild")
+	return {
+		"schema": Contracts.REFERENCE_TERRAIN_VALIDATION_SCHEMA,
+		"authority": Contracts.NATIVE_AUTHORITY,
+		"implementation": Contracts.REFERENCE_TERRAIN_IMPLEMENTATION,
+		"fixture_id": FIXTURE_ID,
+		"status": "PASS" if failures.is_empty() else "FAIL",
+		"chunk_count": int(baseline.get("chunk_count", 0)),
+		"coarse_chunk_count": int(baseline.get("coarse_chunk_count", 0)),
+		"fine_chunk_count": int(baseline.get("fine_chunk_count", 0)),
+		"transition_chunk_count": int(baseline.get("transition_chunk_count", 0)),
+		"failed_chunks": int(baseline.get("failed_chunks", 0)),
+		"sample_count": int(baseline.get("sample_count", 0)),
+		"triangle_count": int(baseline.get("triangle_count", 0)),
+		"regular_triangles": int(baseline.get("regular_triangles", 0)),
+		"transition_triangles": int(baseline.get("transition_triangles", 0)),
+		"material_ids": baseline.get("material_ids", []),
+		"geometry_signature": str(baseline.get("geometry_signature", "")),
+		"determinism_failures": 0 if deterministic else 1,
+		"buffer_validation": buffer_validation,
+		"seam_validation": seam_validation,
+		"feature_validation": feature_validation,
+		"edit_validation": edit_validation,
+		"visible_crack_count": int(seam_validation.get("visible_crack_count", 0)),
+		"sample_failures": failures,
+		"elapsed_ms": float(Time.get_ticks_usec() - started_usec) / 1000.0,
+	}
+
+
+func benchmark(probe: RefCounted, iterations: int = 2) -> Dictionary:
+	iterations = clampi(iterations, 1, 12)
+	var original_edits := edits.duplicate(true)
+	edits.clear()
+	var timings: Array[float] = []
+	var total_samples := 0
+	var total_triangles := 0
+	var status := "PASS"
+	for iteration in range(iterations):
+		var started_usec := Time.get_ticks_usec()
+		var fixture := build(probe)
+		timings.append(float(Time.get_ticks_usec() - started_usec) / 1000.0)
+		total_samples += int(fixture.get("sample_count", 0))
+		total_triangles += int(fixture.get("triangle_count", 0))
+		if not bool(fixture.get("ok", false)):
+			status = "FAIL"
+	edits = original_edits
+	var total_ms := 0.0
+	for timing in timings:
+		total_ms += timing
+	var average_ms := total_ms / float(timings.size()) if not timings.is_empty() else 0.0
+	return {
+		"status": status,
+		"iterations": iterations,
+		"average_ms": average_ms,
+		"maximum_ms": timings.max() if not timings.is_empty() else 0.0,
+		"samples_per_ms": float(total_samples) / maxf(total_ms, 0.000001),
+		"triangles_per_ms": float(total_triangles) / maxf(total_ms, 0.000001),
+	}
+
+
+func standard_signature(probe: RefCounted) -> Dictionary:
+	var original_edits := edits.duplicate(true)
+	edits.clear()
+	var fixture := build(probe)
+	edits = original_edits
+	return {
+		"fixture_id": FIXTURE_ID,
+		"chunk_count": int(fixture.get("chunk_count", 0)),
+		"coarse_chunk_count": int(fixture.get("coarse_chunk_count", 0)),
+		"fine_chunk_count": int(fixture.get("fine_chunk_count", 0)),
+		"transition_chunk_count": int(fixture.get("transition_chunk_count", 0)),
+		"sample_count": int(fixture.get("sample_count", 0)),
+		"triangle_count": int(fixture.get("triangle_count", 0)),
+		"regular_triangles": int(fixture.get("regular_triangles", 0)),
+		"transition_triangles": int(fixture.get("transition_triangles", 0)),
+		"material_ids": fixture.get("material_ids", []),
+		"geometry_signature": str(fixture.get("geometry_signature", "")),
+		"status": str(fixture.get("status", "FAIL")),
+	}
+
+
+func apply_edit(mode: String, center: Vector3, radius: float, material: int = CONSTRUCT_MATERIAL) -> void:
+	if mode not in ["dig", "construct"]:
+		return
+	edits.append({
+		"mode": mode,
+		"center": center,
+		"radius": maxf(radius, 0.05),
+		"material": clampi(material, 1, 65535) if mode == "construct" else 0,
+	})
+
+
+func clear_edits() -> void:
+	edits.clear()
+
+
+func set_edits(values: Array) -> void:
+	edits.clear()
+	for value in values:
+		var edit: Dictionary = value
+		var mode := str(edit.get("mode", ""))
+		if mode not in ["dig", "construct"]:
+			continue
+		edits.append({
+			"mode": mode,
+			"center": MeshAnalysis.vector3_from_variant(edit.get("center", Vector3.ZERO)),
+			"radius": maxf(float(edit.get("radius", 1.0)), 0.05),
+			"material": int(edit.get("material", CONSTRUCT_MATERIAL)),
+		})
+
+
+func dirty_region() -> AABB:
+	if edits.is_empty():
+		return AABB()
+	var minimum := Vector3(INF, INF, INF)
+	var maximum := Vector3(-INF, -INF, -INF)
+	for edit in edits:
+		var center: Vector3 = edit.get("center", Vector3.ZERO)
+		var radius := float(edit.get("radius", 1.0))
+		minimum = minimum.min(center - Vector3.ONE * radius)
+		maximum = maximum.max(center + Vector3.ONE * radius)
+	return AABB(minimum, maximum - minimum)
+
+
+func affected_chunk_ids(center: Vector3, radius: float) -> Array[String]:
+	var result: Array[String] = []
+	for spec in fixture_specs():
+		if _sphere_intersects_aabb(center, radius, _spec_bounds(spec)):
+			result.append(str(spec.get("id", "")))
+	return result
+
+
+func fixture_specs() -> Array[Dictionary]:
+	return [
+		_spec("coarse_north_west", Vector3i(-1, 0, -1), COARSE_LOD, 0),
+		_spec("coarse_north", Vector3i(0, 0, -1), COARSE_LOD, 1 << 5),
+		_spec("coarse_north_east", Vector3i(1, 0, -1), COARSE_LOD, 0),
+		_spec("coarse_west", Vector3i(-1, 0, 0), COARSE_LOD, 1 << 1),
+		_spec("coarse_east", Vector3i(1, 0, 0), COARSE_LOD, 1 << 0),
+		_spec("coarse_south_west", Vector3i(-1, 0, 1), COARSE_LOD, 0),
+		_spec("coarse_south", Vector3i(0, 0, 1), COARSE_LOD, 1 << 4),
+		_spec("coarse_south_east", Vector3i(1, 0, 1), COARSE_LOD, 0),
+		_spec("fine_00", Vector3i(0, 0, 0), FINE_LOD, 0),
+		_spec("fine_10", Vector3i(1, 0, 0), FINE_LOD, 0),
+		_spec("fine_01", Vector3i(0, 0, 1), FINE_LOD, 0),
+		_spec("fine_11", Vector3i(1, 0, 1), FINE_LOD, 0),
+	]
+
+
+func _spec(id_value: String, coordinate: Vector3i, lod: int, transition_mask: int) -> Dictionary:
+	return {
+		"id": id_value,
+		"coordinate": coordinate,
+		"lod": lod,
+		"transition_mask": transition_mask,
+	}
+
+
+func _mesh_spec(probe: RefCounted, spec: Dictionary) -> Dictionary:
+	var chunk: Dictionary = probe.call(
+		"mesh_chunk_with_callable",
+		Callable(self, "_sample"),
+		spec.get("coordinate", Vector3i.ZERO),
+		int(spec.get("lod", 0)),
+		int(spec.get("transition_mask", 0)),
+		int(spec.get("transition_mask", 0)),
+		ISO_VALUE,
+		TRANSITION_WIDTH_RATIO
+	)
+	chunk["fixture_chunk_id"] = str(spec.get("id", ""))
+	chunk["requested_transition_mask"] = int(spec.get("transition_mask", 0))
+	return chunk
+
+
+func _sample(point: Vector3i) -> Dictionary:
+	var p := Vector3(point)
+	var density := _density_without_edits(p)
+	for edit in edits:
+		var center: Vector3 = edit.get("center", Vector3.ZERO)
+		var radius := float(edit.get("radius", 1.0))
+		var influence := radius - p.distance_to(center)
+		if influence <= 0.0:
+			continue
+		if str(edit.get("mode", "")) == "dig":
+			density = maxf(density, influence)
+		else:
+			density = minf(density, -influence)
+	var material := _material_at(p, density)
+	return {
+		"density": density,
+		"material": material,
+		"material_authored": material > 0,
+	}
+
+
+func _density_without_edits(p: Vector3) -> float:
+	var height := 10.0 \
+		+ 2.0 * sin((p.x + 8.0) * 0.08) \
+		+ 1.5 * cos((p.z - 3.0) * 0.11) \
+		+ 0.8 * sin((p.x + p.z) * 0.05)
+	var density := p.y - height
+	var tunnel_void := 2.25 - Vector2(p.y - 6.5, p.z - 15.0).length()
+	density = maxf(density, tunnel_void)
+	var shelf_local := Vector3(
+		(p.x - 25.0) / 7.0,
+		(p.y - 14.0) / 2.4,
+		(p.z - 8.0) / 5.0
+	)
+	var shelf := (shelf_local.length() - 1.0) * 2.4
+	density = minf(density, shelf)
+	var thin_feature := _box_sdf(
+		p - Vector3(8.0, 13.0, 24.0),
+		Vector3(0.6, 3.5, 4.5)
+	)
+	density = minf(density, thin_feature)
+	return density
+
+
+func _material_at(p: Vector3, density: float) -> int:
+	if density >= ISO_VALUE:
+		return 0
+	for edit in edits:
+		if str(edit.get("mode", "")) != "construct":
+			continue
+		var center: Vector3 = edit.get("center", Vector3.ZERO)
+		if p.distance_to(center) <= float(edit.get("radius", 1.0)):
+			return int(edit.get("material", CONSTRUCT_MATERIAL))
+	if absf(p.x - 8.0) <= 0.75 and absf(p.z - 24.0) <= 4.75 and p.y >= 9.0:
+		return 4
+	if p.y < 4.0:
+		return 3
+	if p.y > 9.0:
+		return 2
+	return 1
+
+
+func _box_sdf(local: Vector3, half_size: Vector3) -> float:
+	var q := local.abs() - half_size
+	var outside := Vector3(maxf(q.x, 0.0), maxf(q.y, 0.0), maxf(q.z, 0.0))
+	return outside.length() + minf(maxf(q.x, maxf(q.y, q.z)), 0.0)
+
+
+func _validate_buffers(buffers: Array) -> Dictionary:
+	var failures := 0
+	var invalid_indices := 0
+	var invalid_normals := 0
+	var invalid_materials := 0
+	var nonmanifold_edges := 0
+	var orientation_conflicts := 0
+	for buffer_value in buffers:
+		var buffer: Dictionary = buffer_value
+		var vertices: PackedVector3Array = buffer.get("vertices", PackedVector3Array())
+		var normals: PackedVector3Array = buffer.get("normals", PackedVector3Array())
+		var indices: PackedInt32Array = buffer.get("indices", PackedInt32Array())
+		var materials: PackedInt32Array = buffer.get("materials", PackedInt32Array())
+		if indices.size() % 3 != 0:
+			invalid_indices += 1
+		for index in indices:
+			if int(index) < 0 or int(index) >= vertices.size():
+				invalid_indices += 1
+				break
+		if not vertices.is_empty() and normals.size() != vertices.size():
+			invalid_normals += 1
+		else:
+			for normal in normals:
+				if not MeshAnalysis.normal_is_valid(normal):
+					invalid_normals += 1
+					break
+		if not vertices.is_empty() and materials.size() != vertices.size():
+			invalid_materials += 1
+		else:
+			for material in materials:
+				if int(material) <= 0 or int(material) > 65535:
+					invalid_materials += 1
+					break
+		var topology := MeshAnalysis.isolated_edge_metrics(vertices, indices)
+		nonmanifold_edges += int(topology.get("nonmanifold_edges", 0))
+		var orientation := MeshAnalysis.orientation_metrics(vertices, indices)
+		orientation_conflicts += int(orientation.get("orientation_conflict_edges", 0))
+	failures = invalid_indices + invalid_normals + invalid_materials \
+		+ nonmanifold_edges + orientation_conflicts
+	return {
+		"status": "PASS" if failures == 0 else "FAIL",
+		"buffer_count": buffers.size(),
+		"invalid_indices": invalid_indices,
+		"invalid_normals": invalid_normals,
+		"invalid_materials": invalid_materials,
+		"nonmanifold_edges": nonmanifold_edges,
+		"orientation_conflict_edges": orientation_conflicts,
+		"failure_count": failures,
+	}
+
+
+func _validate_seams(chunks: Array) -> Dictionary:
+	var by_id := {}
+	for chunk_value in chunks:
+		var chunk: Dictionary = chunk_value
+		by_id[str(chunk.get("fixture_chunk_id", ""))] = chunk
+	var same_lod_specs := [
+		["coarse_north_west", "coarse_north", 1, 0],
+		["coarse_north", "coarse_north_east", 1, 0],
+		["coarse_north_west", "coarse_west", 5, 4],
+		["coarse_north_east", "coarse_east", 5, 4],
+		["coarse_west", "coarse_south_west", 5, 4],
+		["coarse_east", "coarse_south_east", 5, 4],
+		["coarse_south_west", "coarse_south", 1, 0],
+		["coarse_south", "coarse_south_east", 1, 0],
+		["fine_00", "fine_10", 1, 0],
+		["fine_01", "fine_11", 1, 0],
+		["fine_00", "fine_01", 5, 4],
+		["fine_10", "fine_11", 5, 4],
+	]
+	var same_matching := 0
+	var same_mismatched := 0
+	var same_left_only := 0
+	var same_right_only := 0
+	for pair in same_lod_specs:
+		var left: Dictionary = by_id.get(str(pair[0]), {})
+		var right: Dictionary = by_id.get(str(pair[1]), {})
+		var left_signatures := _chunk_face_signatures(left, int(pair[2]), false)
+		var right_signatures := _chunk_face_signatures(right, int(pair[3]), false)
+		var difference := MeshAnalysis.set_difference_counts(left_signatures, right_signatures)
+		same_left_only += int(difference.get("left_only", 0))
+		same_right_only += int(difference.get("right_only", 0))
+		if int(difference.get("left_only", 0)) == 0 and int(difference.get("right_only", 0)) == 0:
+			same_matching += 1
+		else:
+			same_mismatched += 1
+	var mixed_specs := [
+		["coarse_west", 1, ["fine_00", "fine_01"], 0],
+		["coarse_east", 0, ["fine_10", "fine_11"], 1],
+		["coarse_north", 5, ["fine_00", "fine_10"], 4],
+		["coarse_south", 4, ["fine_01", "fine_11"], 5],
+	]
+	var mixed_matching := 0
+	var mixed_mismatched := 0
+	var coarse_only := 0
+	var fine_only := 0
+	var mixed_interfaces: Array = []
+	for interface_spec in mixed_specs:
+		var coarse: Dictionary = by_id.get(str(interface_spec[0]), {})
+		var coarse_face := int(interface_spec[1])
+		var axis := _face_axis(coarse_face)
+		var plane := _face_plane(coarse, coarse_face)
+		var coarse_signatures := MeshAnalysis.plane_open_edge_signatures(
+			_chunk_buffers(coarse, coarse_face),
+			axis,
+			plane
+		)
+		var fine_buffers: Array = []
+		for fine_id in interface_spec[2]:
+			var fine: Dictionary = by_id.get(str(fine_id), {})
+			fine_buffers.append_array(_chunk_buffers(fine, -1))
+		var fine_signatures := MeshAnalysis.plane_open_edge_signatures(fine_buffers, axis, plane)
+		var difference := MeshAnalysis.set_difference_counts(coarse_signatures, fine_signatures)
+		var matches := int(difference.get("left_only", 0)) == 0 \
+			and int(difference.get("right_only", 0)) == 0
+		coarse_only += int(difference.get("left_only", 0))
+		fine_only += int(difference.get("right_only", 0))
+		mixed_matching += 1 if matches else 0
+		mixed_mismatched += 0 if matches else 1
+		mixed_interfaces.append({
+			"coarse_chunk": interface_spec[0],
+			"coarse_face": Contracts.CHUNK_FACE_NAMES[coarse_face],
+			"fine_chunks": interface_spec[2],
+			"fine_face": Contracts.CHUNK_FACE_NAMES[int(interface_spec[3])],
+			"matches": matches,
+			"coarse_only": int(difference.get("left_only", 0)),
+			"fine_only": int(difference.get("right_only", 0)),
+		})
+	var visible_cracks := same_left_only + same_right_only + coarse_only + fine_only
+	return {
+		"status": "PASS" if same_mismatched == 0 and mixed_mismatched == 0 else "FAIL",
+		"same_lod_pairs": same_lod_specs.size(),
+		"same_lod_matching_pairs": same_matching,
+		"same_lod_mismatched_pairs": same_mismatched,
+		"same_lod_left_only_edges": same_left_only,
+		"same_lod_right_only_edges": same_right_only,
+		"mixed_lod_interfaces": mixed_specs.size(),
+		"mixed_lod_matching_interfaces": mixed_matching,
+		"mixed_lod_mismatched_interfaces": mixed_mismatched,
+		"mixed_lod_coarse_only_edges": coarse_only,
+		"mixed_lod_fine_only_edges": fine_only,
+		"visible_crack_count": visible_cracks,
+		"interfaces": mixed_interfaces,
+	}
+
+
+func _validate_feature_probes() -> Dictionary:
+	var probes := [
+		{"name": "bedrock", "point": Vector3(-12.0, 2.0, -12.0), "solid": true},
+		{"name": "open_air", "point": Vector3(16.0, 28.0, 16.0), "solid": false},
+		{"name": "tunnel_core", "point": Vector3(0.0, 6.5, 15.0), "solid": false},
+		{"name": "overhang_shelf", "point": Vector3(25.0, 14.0, 8.0), "solid": true},
+		{"name": "thin_feature", "point": Vector3(8.0, 14.0, 24.0), "solid": true},
+		{"name": "thin_feature_clearance", "point": Vector3(10.0, 14.0, 24.0), "solid": false},
+	]
+	var passing := 0
+	var results: Array = []
+	for probe in probes:
+		var density := _density_without_edits(probe.get("point", Vector3.ZERO))
+		var actual_solid := density < ISO_VALUE
+		var matches := actual_solid == bool(probe.get("solid", false))
+		passing += 1 if matches else 0
+		results.append({
+			"name": probe.get("name", ""),
+			"point": probe.get("point", Vector3.ZERO),
+			"expected_solid": probe.get("solid", false),
+			"actual_solid": actual_solid,
+			"density": density,
+			"matches": matches,
+		})
+	return {
+		"status": "PASS" if passing == probes.size() else "FAIL",
+		"probe_count": probes.size(),
+		"passing_probes": passing,
+		"failing_probes": probes.size() - passing,
+		"probes": results,
+	}
+
+
+func _validate_edit_workflow(probe: RefCounted, baseline: Dictionary) -> Dictionary:
+	var steps := [
+		{
+			"name": "dig_cross_chunk_surface",
+			"mode": "dig",
+			"center": Vector3(16.0, 12.5, 16.0),
+			"radius": 3.25,
+			"material": 0,
+		},
+		{
+			"name": "construct_cross_chunk_surface",
+			"mode": "construct",
+			"center": Vector3(16.0, 14.0, 16.0),
+			"radius": 2.75,
+			"material": CONSTRUCT_MATERIAL,
+		},
+	]
+	var before := baseline
+	var step_results: Array = []
+	var passing_steps := 0
+	for edit_step in steps:
+		var center: Vector3 = edit_step.get("center", Vector3.ZERO)
+		var radius := float(edit_step.get("radius", 1.0))
+		apply_edit(
+			str(edit_step.get("mode", "")),
+			center,
+			radius,
+			int(edit_step.get("material", CONSTRUCT_MATERIAL))
+		)
+		var affected_ids := affected_chunk_ids(center, radius)
+		var affected_specs: Array[Dictionary] = []
+		for spec in fixture_specs():
+			if str(spec.get("id", "")) in affected_ids:
+				affected_specs.append(spec)
+		var partial_chunks: Array[Dictionary] = []
+		for affected_spec in affected_specs:
+			partial_chunks.append(_mesh_spec(probe, affected_spec))
+		var after := build(probe)
+		var before_by_id := _chunks_by_id(before.get("chunks", []))
+		var after_by_id := _chunks_by_id(after.get("chunks", []))
+		var partial_by_id := _chunks_by_id(partial_chunks)
+		var changed_ids: Array[String] = []
+		var unexpected_changes: Array[String] = []
+		var partial_mismatches: Array[String] = []
+		for chunk_id in after_by_id.keys():
+			var changed := not _chunks_equivalent(
+				before_by_id.get(chunk_id, {}),
+				after_by_id.get(chunk_id, {})
+			)
+			if changed:
+				changed_ids.append(str(chunk_id))
+				if str(chunk_id) not in affected_ids:
+					unexpected_changes.append(str(chunk_id))
+			if str(chunk_id) in affected_ids and not _chunks_equivalent(
+				partial_by_id.get(chunk_id, {}),
+				after_by_id.get(chunk_id, {})
+			):
+				partial_mismatches.append(str(chunk_id))
+		var seams := _validate_seams(after.get("chunks", []))
+		var step_ok := bool(after.get("ok", false)) \
+			and not changed_ids.is_empty() \
+			and unexpected_changes.is_empty() \
+			and partial_mismatches.is_empty() \
+			and str(seams.get("status", "")) == "PASS"
+		passing_steps += 1 if step_ok else 0
+		step_results.append({
+			"name": edit_step.get("name", ""),
+			"status": "PASS" if step_ok else "FAIL",
+			"affected_chunk_ids": affected_ids,
+			"affected_chunk_count": affected_ids.size(),
+			"changed_chunk_ids": changed_ids,
+			"changed_chunk_count": changed_ids.size(),
+			"unexpected_changed_chunks": unexpected_changes,
+			"partial_rebuild_mismatches": partial_mismatches,
+			"triangle_delta": int(after.get("triangle_count", 0)) \
+				- int(before.get("triangle_count", 0)),
+			"visible_crack_count": int(seams.get("visible_crack_count", 0)),
+		})
+		before = after
+	return {
+		"status": "PASS" if passing_steps == steps.size() else "FAIL",
+		"step_count": steps.size(),
+		"passing_steps": passing_steps,
+		"failing_steps": steps.size() - passing_steps,
+		"steps": step_results,
+	}
+
+
+func _all_rendered_buffers(chunks: Array) -> Array:
+	var buffers: Array = []
+	for chunk_value in chunks:
+		var chunk: Dictionary = chunk_value
+		buffers.append_array(
+			_chunk_buffers(chunk, -2)
+		)
+	return buffers
+
+
+func _chunk_buffers(chunk: Dictionary, transition_face: int) -> Array:
+	var buffers: Array = []
+	if chunk.is_empty():
+		return buffers
+	var origin := _chunk_origin(chunk)
+	var regular: Dictionary = chunk.get("regular", {})
+	buffers.append(_buffer_from_mesh(chunk, regular, origin, "regular", -1))
+	if transition_face == -1:
+		return buffers
+	var transitions: Array = chunk.get("transitions", [])
+	for face in range(transitions.size()):
+		if transition_face >= 0 and face != transition_face:
+			continue
+		if transition_face == -2 and (int(chunk.get("requested_transition_mask", 0)) & (1 << face)) == 0:
+			continue
+		var transition: Dictionary = transitions[face]
+		if (transition.get("indices", PackedInt32Array()) as PackedInt32Array).is_empty():
+			continue
+		buffers.append(_buffer_from_mesh(chunk, transition, origin, "transition", face))
+	return buffers
+
+
+func _buffer_from_mesh(
+	chunk: Dictionary,
+	mesh_data: Dictionary,
+	origin: Vector3,
+	kind: String,
+	face: int
+) -> Dictionary:
+	return {
+		"chunk_id": str(chunk.get("fixture_chunk_id", "")),
+		"coordinate": chunk.get("chunk_coordinate", Vector3i.ZERO),
+		"lod": int(chunk.get("lod", 0)),
+		"kind": kind,
+		"face": face,
+		"origin": origin,
+		"vertices": mesh_data.get("vertices", PackedVector3Array()),
+		"normals": mesh_data.get("normals", PackedVector3Array()),
+		"indices": mesh_data.get("indices", PackedInt32Array()),
+		"materials": mesh_data.get("materials", PackedInt32Array()),
+	}
+
+
+func _chunk_face_signatures(chunk: Dictionary, face: int, include_transition: bool) -> Dictionary:
+	var axis := _face_axis(face)
+	var plane := _face_plane(chunk, face)
+	return MeshAnalysis.plane_open_edge_signatures(
+		_chunk_buffers(chunk, face if include_transition else -1),
+		axis,
+		plane
+	)
+
+
+func _face_plane(chunk: Dictionary, face: int) -> float:
+	var origin := _chunk_origin(chunk)
+	var extent := float(Contracts.CHUNK_PROBE_CELLS_PER_AXIS * (1 << int(chunk.get("lod", 0))))
+	var axis := _face_axis(face)
+	return origin[axis] + (extent if _face_is_positive(face) else 0.0)
+
+
+func _face_axis(face: int) -> int:
+	if face == 0 or face == 1:
+		return 0
+	if face == 2 or face == 3:
+		return 1
+	return 2
+
+
+func _face_is_positive(face: int) -> bool:
+	return face == 1 or face == 3 or face == 5
+
+
+func _chunk_origin(chunk: Dictionary) -> Vector3:
+	return Vector3(
+		float(chunk.get("world_origin_x", 0.0)),
+		float(chunk.get("world_origin_y", 0.0)),
+		float(chunk.get("world_origin_z", 0.0))
+	)
+
+
+func _material_ids(buffers: Array) -> Array[int]:
+	var result: Array[int] = []
+	for buffer_value in buffers:
+		var buffer: Dictionary = buffer_value
+		var materials: PackedInt32Array = buffer.get("materials", PackedInt32Array())
+		for material in materials:
+			var id := int(material)
+			if id > 0 and id not in result:
+				result.append(id)
+	result.sort()
+	return result
+
+
+func _geometry_signature(chunks: Array) -> String:
+	var lines: Array[String] = []
+	for chunk_value in chunks:
+		var chunk: Dictionary = chunk_value
+		lines.append("%s:%s:%d:%d" % [
+			str(chunk.get("fixture_chunk_id", "")),
+			str(chunk.get("chunk_coordinate", Vector3i.ZERO)),
+			int(chunk.get("lod", 0)),
+			int(chunk.get("requested_transition_mask", 0)),
+		])
+		for buffer_value in _chunk_buffers(chunk, -2):
+			var buffer: Dictionary = buffer_value
+			lines.append("%s:%d" % [
+				str(buffer.get("kind", "")),
+				int(buffer.get("face", -1)),
+			])
+			var vertices: PackedVector3Array = buffer.get("vertices", PackedVector3Array())
+			for vertex in vertices:
+				lines.append("v:%d,%d,%d" % [
+					roundi(vertex.x * MeshAnalysis.POSITION_SCALE),
+					roundi(vertex.y * MeshAnalysis.POSITION_SCALE),
+					roundi(vertex.z * MeshAnalysis.POSITION_SCALE),
+				])
+			var indices: PackedInt32Array = buffer.get("indices", PackedInt32Array())
+			for index in indices:
+				lines.append("i:%d" % int(index))
+			var materials: PackedInt32Array = buffer.get("materials", PackedInt32Array())
+			for material in materials:
+				lines.append("m:%d" % int(material))
+	return "\n".join(lines).sha256_text()
+
+
+func _chunks_by_id(chunks: Array) -> Dictionary:
+	var result := {}
+	for chunk_value in chunks:
+		var chunk: Dictionary = chunk_value
+		result[str(chunk.get("fixture_chunk_id", ""))] = chunk
+	return result
+
+
+func _chunks_equivalent(left: Dictionary, right: Dictionary) -> bool:
+	if left.is_empty() or right.is_empty():
+		return false
+	if str(left.get("status", "")) != str(right.get("status", "")):
+		return false
+	if int(left.get("lod", -1)) != int(right.get("lod", -1)):
+		return false
+	var left_buffers := _chunk_buffers(left, -2)
+	var right_buffers := _chunk_buffers(right, -2)
+	if left_buffers.size() != right_buffers.size():
+		return false
+	for index in range(left_buffers.size()):
+		var a: Dictionary = left_buffers[index]
+		var b: Dictionary = right_buffers[index]
+		for key in ["vertices", "normals", "indices", "materials"]:
+			if a.get(key) != b.get(key):
+				return false
+	return true
+
+
+func _spec_bounds(spec: Dictionary) -> AABB:
+	var lod := int(spec.get("lod", 0))
+	var extent := float(Contracts.CHUNK_PROBE_CELLS_PER_AXIS * (1 << lod))
+	var coordinate: Vector3i = spec.get("coordinate", Vector3i.ZERO)
+	return AABB(Vector3(coordinate) * extent, Vector3.ONE * extent)
+
+
+func _sphere_intersects_aabb(center: Vector3, radius: float, bounds: AABB) -> bool:
+	var maximum := bounds.position + bounds.size
+	var closest := Vector3(
+		clampf(center.x, bounds.position.x, maximum.x),
+		clampf(center.y, bounds.position.y, maximum.y),
+		clampf(center.z, bounds.position.z, maximum.z)
+	)
+	return center.distance_squared_to(closest) <= radius * radius
+
+
+func _unavailable_result(error: String) -> Dictionary:
+	return {
+		"schema": Contracts.REFERENCE_TERRAIN_FIXTURE_SCHEMA,
+		"authority": Contracts.NATIVE_AUTHORITY,
+		"implementation": Contracts.REFERENCE_TERRAIN_IMPLEMENTATION,
+		"fixture_id": FIXTURE_ID,
+		"available": false,
+		"ok": false,
+		"status": "FAIL",
+		"error": error,
+		"chunks": [],
+		"buffers": [],
+	}

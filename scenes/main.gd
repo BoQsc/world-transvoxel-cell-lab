@@ -26,6 +26,8 @@ func _unhandled_input(event: InputEvent) -> void:
 				lab.field_mode = LabScript.FieldMode.SADDLE
 			KEY_5:
 				lab.field_mode = LabScript.FieldMode.WAVES
+			KEY_T:
+				lab.inspection_mode = LabScript.InspectionMode.REFERENCE_TERRAIN
 			KEY_X:
 				lab.expand_cells("x", 1)
 			KEY_Y:
@@ -33,11 +35,20 @@ func _unhandled_input(event: InputEvent) -> void:
 			KEY_Z:
 				lab.expand_cells("z", 1)
 			KEY_D:
-				lab.apply_dig_at(Vector3.ZERO)
+				if lab.inspection_mode == LabScript.InspectionMode.REFERENCE_TERRAIN:
+					lab.apply_reference_terrain_dig()
+				else:
+					lab.apply_dig_at(Vector3.ZERO)
 			KEY_C:
-				lab.apply_construct_at(Vector3.ZERO)
+				if lab.inspection_mode == LabScript.InspectionMode.REFERENCE_TERRAIN:
+					lab.apply_reference_terrain_construct()
+				else:
+					lab.apply_construct_at(Vector3.ZERO)
 			KEY_R:
-				lab.clear_edits()
+				if lab.inspection_mode == LabScript.InspectionMode.REFERENCE_TERRAIN:
+					lab.clear_reference_terrain_edits()
+				else:
+					lab.clear_edits()
 			KEY_W:
 				lab.wireframe = not lab.wireframe
 				lab.rebuild()
@@ -49,7 +60,7 @@ func _update_status() -> void:
 		return
 	var report := lab.get_last_report()
 	var inspection: Dictionary = report.get("inspection", {})
-	status_label.text = "Status: %s\nAuthority: %s\nClaim: %s\nRegular patch: %s cells, %d tris, %d interior open, %d nonmanifold\nTransition cell: %s, case %d, %d tris\nProduction chunk: LOD%d, %d samples, %d tris\nInspection: %s %s" % [
+	status_label.text = "Status: %s\nAuthority: %s\nClaim: %s\nRegular patch: %s cells, %d tris, %d interior open, %d nonmanifold\nTransition cell: %s, case %d, %d tris\nProduction chunk: LOD%d, %d samples, %d tris\nInspection: %s %s\nReference terrain: %s chunks, %s tris, %s edits, %s ms" % [
 		str(report.get("status", "UNKNOWN")),
 		str(report.get("render_authority", "unknown")),
 		str(report.get("correctness_claim", "unknown")),
@@ -65,4 +76,8 @@ func _update_status() -> void:
 		int(report.get("chunk_probe_triangles", 0)),
 		str(report.get("inspection_mode", "PATCH")),
 		str(inspection.get("status", "")),
+		str(inspection.get("chunk_count", "")),
+		str(inspection.get("triangles", "")),
+		str(inspection.get("edit_count", "")),
+		str(inspection.get("build_ms", "")),
 	]

@@ -3,7 +3,7 @@ extends Node3D
 class_name WtTransvoxelCellLab
 
 enum FieldMode { PLANE, SPHERE, TUNNEL, SADDLE, WAVES }
-enum InspectionMode { PATCH, REGULAR_CASE, TRANSITION_CASE, MIXED_LOD }
+enum InspectionMode { PATCH, REGULAR_CASE, TRANSITION_CASE, MIXED_LOD, REFERENCE_TERRAIN }
 
 const Contracts := preload("res://addons/world_transvoxel_cell_lab/lab/services/wt_cell_lab_contracts.gd")
 const MeshAnalysis := preload("res://addons/world_transvoxel_cell_lab/lab/services/wt_cell_lab_mesh_analysis.gd")
@@ -16,6 +16,7 @@ const ReportBuilder := preload("res://addons/world_transvoxel_cell_lab/lab/servi
 const IntegrationAdapter := preload("res://addons/world_transvoxel_cell_lab/lab/services/wt_cell_lab_integration_adapter.gd")
 const InspectionPresenter := preload("res://addons/world_transvoxel_cell_lab/lab/services/wt_cell_lab_inspection_presenter.gd")
 const StandardsRunner := preload("res://addons/world_transvoxel_cell_lab/lab/services/wt_cell_lab_standards_runner.gd")
+const ReferenceTerrain := preload("res://addons/world_transvoxel_cell_lab/lab/services/wt_cell_lab_reference_terrain.gd")
 
 const REPORT_SCHEMA := Contracts.REPORT_SCHEMA
 const REPRO_SCHEMA := Contracts.REPRO_SCHEMA
@@ -67,6 +68,18 @@ const TRANSITION_ORIENTATION_POSITIVE_Z := Contracts.TRANSITION_ORIENTATION_POSI
 @export_range(0, 5, 1) var selected_chunk_face: int = 1:
 	set(value):
 		selected_chunk_face = clampi(value, 0, 5)
+		_request_rebuild()
+@export_range(0, 11, 1) var selected_reference_chunk: int = 8:
+	set(value):
+		selected_reference_chunk = clampi(value, 0, 11)
+		_request_rebuild()
+@export var reference_edit_cursor := Vector3(16.0, 12.5, 16.0):
+	set(value):
+		reference_edit_cursor = value
+		_request_rebuild()
+@export var show_reference_chunk_bounds: bool = true:
+	set(value):
+		show_reference_chunk_bounds = value
 		_request_rebuild()
 
 @export_range(1, 24, 1) var cells_x: int = 4:
@@ -162,6 +175,7 @@ var _edit_validator := EditValidator.new()
 var _performance_service := PerformanceService.new()
 var _inspection_presenter := InspectionPresenter.new()
 var _standards_runner := StandardsRunner.new()
+var _reference_terrain := ReferenceTerrain.new()
 
 
 func _ready() -> void:
@@ -345,6 +359,57 @@ func build_mixed_lod_fixture(
 		face,
 		coarse_lod
 	)
+
+
+func build_reference_terrain() -> Dictionary:
+	return _reference_terrain.build(_get_native_cell_probe())
+
+
+func validate_reference_terrain() -> Dictionary:
+	var result := _reference_terrain.validate(_get_native_cell_probe())
+	_attach_validation_result("reference_terrain_validation", result)
+	return result
+
+
+func describe_reference_terrain_standard() -> Dictionary:
+	return _reference_terrain.standard_signature(_get_native_cell_probe())
+
+
+func benchmark_reference_terrain(iterations: int = 2) -> Dictionary:
+	return _reference_terrain.benchmark(_get_native_cell_probe(), iterations)
+
+
+func get_reference_terrain_edits() -> Array[Dictionary]:
+	return _reference_terrain.edits.duplicate(true)
+
+
+func set_reference_terrain_edits(values: Array) -> void:
+	_reference_terrain.set_edits(values)
+	if auto_rebuild:
+		rebuild()
+
+
+func get_reference_terrain_dirty_region() -> AABB:
+	return _reference_terrain.dirty_region()
+
+
+func apply_reference_terrain_dig(
+	center: Vector3 = reference_edit_cursor,
+	radius: float = -1.0
+) -> void:
+	_apply_reference_terrain_edit("dig", center, radius)
+
+
+func apply_reference_terrain_construct(
+	center: Vector3 = reference_edit_cursor,
+	radius: float = -1.0
+) -> void:
+	_apply_reference_terrain_edit("construct", center, radius)
+
+
+func clear_reference_terrain_edits() -> void:
+	_reference_terrain.clear_edits()
+	rebuild()
 
 
 func import_integration_snapshot(snapshot: Dictionary, source_reference: String = "") -> Dictionary:
@@ -588,6 +653,13 @@ func _apply_edit(mode: String, center: Vector3, radius: float) -> void:
 	rebuild()
 
 
+func _apply_reference_terrain_edit(mode: String, center: Vector3, radius: float) -> void:
+	if radius <= 0.0:
+		radius = edit_radius
+	_reference_terrain.apply_edit(mode, center, radius, construct_material)
+	rebuild()
+
+
 func _request_rebuild() -> void:
 	if not auto_rebuild or not is_inside_tree():
 		return
@@ -651,6 +723,8 @@ func _inspection_materials() -> Dictionary:
 		"solid_sample": _solid_sample_material,
 		"empty_sample": _empty_sample_material,
 		"low_sample": _inspection_low_sample_material,
+		"dig_marker": _dig_marker_material,
+		"construct_marker": _construct_marker_material,
 	}
 
 

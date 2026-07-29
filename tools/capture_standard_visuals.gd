@@ -44,6 +44,10 @@ func _run() -> void:
 			"coarse_lod": 1,
 			"face": 1,
 		},
+		{
+			"id": "reference_terrain",
+			"mode": LabScript.InspectionMode.REFERENCE_TERRAIN,
+		},
 	]
 	for spec in specs:
 		lab.inspection_mode = int(spec["mode"])
@@ -56,7 +60,10 @@ func _run() -> void:
 		var overlay: CanvasLayer = scene.get_node("Overlay")
 		overlay.visible = int(spec["mode"]) == LabScript.InspectionMode.PATCH
 		var camera: Camera3D = scene.get_node("Camera3D")
-		if int(spec["mode"]) == LabScript.InspectionMode.MIXED_LOD:
+		if int(spec["mode"]) == LabScript.InspectionMode.REFERENCE_TERRAIN:
+			camera.position = Vector3(7.5, 6.0, 10.5)
+			camera.look_at(Vector3.ZERO, Vector3.UP)
+		elif int(spec["mode"]) == LabScript.InspectionMode.MIXED_LOD:
 			camera.position = Vector3(7.0, 6.0, 10.0)
 			camera.look_at(Vector3.ZERO, Vector3.UP)
 		elif int(spec["mode"]) == LabScript.InspectionMode.PATCH:

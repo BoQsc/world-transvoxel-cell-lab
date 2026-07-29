@@ -8,6 +8,7 @@ script = ExtResource("1_main")
 
 [node name="WtTransvoxelCellLab" type="Node3D" parent="."]
 script = ExtResource("2_lab")
+inspection_mode = 4
 cells_x = 6
 cells_y = 5
 cells_z = 6

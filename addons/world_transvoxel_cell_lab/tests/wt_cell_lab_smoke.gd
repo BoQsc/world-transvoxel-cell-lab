@@ -25,7 +25,7 @@ func _run() -> void:
 	lab.cells_z = 6
 	lab.field_mode = LabScript.FieldMode.SPHERE
 	var report: Dictionary = lab.rebuild()
-	if report.get("schema") != "world_transvoxel.cell_lab.report.v2":
+	if report.get("schema") != "world_transvoxel.cell_lab.report.v3":
 		_fail("unexpected report schema")
 		return
 	if str(report.get("status", "")) != "PASS":
@@ -37,7 +37,7 @@ func _run() -> void:
 	if str(report.get("render_authority", "")) != "NATIVE_TRANSVOXEL_BACKEND_AUTHORITATIVE":
 		_fail("native render authority was not used")
 		return
-	if str(report.get("correctness_claim", "")) != "exact_regular_transition_and_multilod_chunk_backend_probe_v3":
+	if str(report.get("correctness_claim", "")) != "exact_cell_chunk_and_reference_terrain_backend_probe_v4":
 		_fail("native correctness claim was not explicit")
 		return
 	if str(report.get("lab_scope", "")) != "cell_first_transvoxel_preview_and_validator":
@@ -63,6 +63,9 @@ func _run() -> void:
 		return
 	if str(report.get("integration_game_diagnostic_policy", "")) != "reduce_game_artifact_to_lab_repro_then_classify_fix_layer":
 		_fail("integration game diagnostic policy changed")
+		return
+	if str(report.get("reference_terrain_role", "")) != "canonical_deterministic_terrain_standard_not_production_runtime":
+		_fail("reference terrain role changed")
 		return
 	var repro: Dictionary = lab.make_repro_snapshot()
 	if str(repro.get("schema", "")) != "world_transvoxel.cell_lab.repro.v2":
@@ -156,6 +159,33 @@ func _run() -> void:
 	if int(chunk_lod.get("visible_crack_count", -1)) != 0:
 		_fail("mixed LOD fixture detected a visible crack")
 		return
+	var reference_terrain: Dictionary = lab.validate_reference_terrain()
+	if str(reference_terrain.get("schema", "")) != "world_transvoxel.cell_lab.reference_terrain_validation.v1":
+		_fail("unexpected reference terrain validation schema")
+		return
+	if str(reference_terrain.get("status", "")) != "PASS":
+		_fail("reference terrain validation did not pass: %s" % str(reference_terrain.get("sample_failures", [])))
+		return
+	if int(reference_terrain.get("chunk_count", 0)) != 12:
+		_fail("reference terrain chunk count changed")
+		return
+	if int(reference_terrain.get("visible_crack_count", -1)) != 0:
+		_fail("reference terrain detected a visible crack")
+		return
+	if int(reference_terrain.get("determinism_failures", -1)) != 0:
+		_fail("reference terrain was not deterministic")
+		return
+	var reference_seams: Dictionary = reference_terrain.get("seam_validation", {})
+	if int(reference_seams.get("same_lod_matching_pairs", 0)) != 12:
+		_fail("reference terrain same-LOD seams changed")
+		return
+	if int(reference_seams.get("mixed_lod_matching_interfaces", 0)) != 4:
+		_fail("reference terrain mixed-LOD seams changed")
+		return
+	var reference_edits: Dictionary = reference_terrain.get("edit_validation", {})
+	if int(reference_edits.get("passing_steps", 0)) != 2:
+		_fail("reference terrain edit workflow changed")
+		return
 	var edit_sequence: Dictionary = lab.validate_edit_sequence()
 	if str(edit_sequence.get("schema", "")) != "world_transvoxel.cell_lab.edit_sequence_validation.v2":
 		_fail("unexpected edit sequence validation schema")
@@ -186,7 +216,10 @@ func _run() -> void:
 	if int(standards.get("passing_case_standards", 0)) != 12:
 		_fail("case standards count changed")
 		return
-	if int(standards.get("passing_visual_standards", 0)) != 4:
+	if int(standards.get("passing_reference_terrain_standards", 0)) != 1:
+		_fail("reference terrain standard changed")
+		return
+	if int(standards.get("passing_visual_standards", 0)) != 5:
 		_fail("visual standards count changed")
 		return
 	lab.inspection_mode = LabScript.InspectionMode.REGULAR_CASE
@@ -211,6 +244,14 @@ func _run() -> void:
 	inspection = report.get("inspection", {})
 	if str(inspection.get("status", "")) != "Ok":
 		_fail("mixed LOD inspection fixture changed")
+		return
+	lab.inspection_mode = LabScript.InspectionMode.REFERENCE_TERRAIN
+	report = lab.rebuild()
+	inspection = report.get("inspection", {})
+	if str(inspection.get("status", "")) != "PASS" \
+		or int(inspection.get("chunk_count", 0)) != 12 \
+		or int(inspection.get("triangles", 0)) != 9414:
+		_fail("reference terrain inspection fixture changed")
 		return
 	lab.inspection_mode = LabScript.InspectionMode.PATCH
 	report = lab.rebuild()
@@ -247,6 +288,9 @@ func _run() -> void:
 		return
 	if float(performance.get("samples_per_ms", 0.0)) <= 0.0:
 		_fail("chunk sample throughput was not recorded")
+		return
+	if float(performance.get("reference_terrain_average_ms", 0.0)) <= 0.0:
+		_fail("reference terrain benchmark did not record time")
 		return
 	lab.apply_dig_at(Vector3.ZERO, 1.0)
 	report = lab.get_last_report()
