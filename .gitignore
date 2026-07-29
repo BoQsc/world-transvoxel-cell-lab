@@ -1,0 +1,6 @@
+.godot/*
+!.godot/
+!.godot/extension_list.cfg
+*.tmp
+*.log
+~*.dll

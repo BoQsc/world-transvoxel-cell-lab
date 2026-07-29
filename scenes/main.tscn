@@ -1,0 +1,33 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scenes/main.gd" id="1_main"]
+[ext_resource type="Script" path="res://addons/world_transvoxel_cell_lab/lab/wt_transvoxel_cell_lab.gd" id="2_lab"]
+
+[node name="CellLabStandalone" type="Node3D"]
+script = ExtResource("1_main")
+
+[node name="WtTransvoxelCellLab" type="Node3D" parent="."]
+script = ExtResource("2_lab")
+cells_x = 6
+cells_y = 5
+cells_z = 6
+field_mode = 1
+show_sample_points = true
+show_transition_frame = true
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+rotation_degrees = Vector3(-55, -35, 0)
+light_energy = 2.5
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.809017, -0.272414, 0.520903, 0, 0.886204, 0.463296, -0.587785, -0.374813, 0.716012, 7, 6, 10)
+current = true
+
+[node name="Overlay" type="CanvasLayer" parent="."]
+
+[node name="StatusLabel" type="Label" parent="Overlay"]
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 776.0
+offset_bottom = 136.0
+autowrap_mode = 2
