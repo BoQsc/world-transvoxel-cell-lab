@@ -170,6 +170,7 @@ func standard_signature(probe: RefCounted) -> Dictionary:
 	var original_edits := edits.duplicate(true)
 	edits.clear()
 	var fixture := build(probe)
+	var integrity := _validate_buffers(fixture.get("buffers", []))
 	edits = original_edits
 	return {
 		"fixture_id": FIXTURE_ID,
@@ -193,6 +194,25 @@ func standard_signature(probe: RefCounted) -> Dictionary:
 		"mixed_lod_matching_interfaces": int(
 			fixture.get("seam_validation", {}).get("mixed_lod_matching_interfaces", 0)
 		),
+		"mesh_integrity": {
+			"nonfinite_vertices": int(integrity.get("nonfinite_vertices", 0)),
+			"degenerate_triangles": int(integrity.get("degenerate_triangles", 0)),
+			"duplicate_triangles": int(integrity.get("duplicate_triangles", 0)),
+			"winding_normal_conflicts": int(
+				integrity.get("winding_normal_conflicts", 0)
+			),
+			"local_winding_normal_disagreements": int(
+				integrity.get("local_winding_normal_disagreements", 0)
+			),
+			"local_winding_normal_ambiguous": int(
+				integrity.get("local_winding_normal_ambiguous", 0)
+			),
+			"nonmanifold_edges": int(integrity.get("nonmanifold_edges", 0)),
+			"orientation_conflict_edges": int(
+				integrity.get("orientation_conflict_edges", 0)
+			),
+			"expected_normal_winding_polarity": MeshAnalysis.NORMAL_WINDING_POLARITY,
+		},
 		"geometry_signature": str(fixture.get("geometry_signature", "")),
 		"status": str(fixture.get("status", "FAIL")),
 	}
@@ -281,6 +301,13 @@ func _validate_buffers(buffers: Array) -> Dictionary:
 	var invalid_indices := 0
 	var invalid_normals := 0
 	var invalid_materials := 0
+	var nonfinite_vertices := 0
+	var degenerate_triangles := 0
+	var duplicate_triangles := 0
+	var winding_normal_conflicts := 0
+	var local_winding_normal_disagreements := 0
+	var local_winding_normal_ambiguous := 0
+	var integrity_failures: Array = []
 	var nonmanifold_edges := 0
 	var orientation_conflicts := 0
 	for buffer_value in buffers:
@@ -310,17 +337,52 @@ func _validate_buffers(buffers: Array) -> Dictionary:
 					invalid_materials += 1
 					break
 		var topology := MeshAnalysis.isolated_edge_metrics(vertices, indices)
+		var integrity := MeshAnalysis.validate_triangle_mesh_integrity(
+			vertices,
+			normals,
+			indices
+		)
+		nonfinite_vertices += int(integrity.get("nonfinite_vertices", 0))
+		degenerate_triangles += int(integrity.get("degenerate_triangles", 0))
+		duplicate_triangles += int(integrity.get("duplicate_triangles", 0))
+		winding_normal_conflicts += int(
+			integrity.get("winding_normal_conflicts", 0)
+		)
+		local_winding_normal_disagreements += int(
+			integrity.get("local_winding_normal_disagreements", 0)
+		)
+		local_winding_normal_ambiguous += int(
+			integrity.get("local_winding_normal_ambiguous", 0)
+		)
+		if int(integrity.get("nonfinite_vertices", 0)) > 0 \
+				or int(integrity.get("degenerate_triangles", 0)) > 0 \
+				or int(integrity.get("duplicate_triangles", 0)) > 0 \
+				or int(integrity.get("winding_normal_conflicts", 0)) > 0:
+			integrity_failures.append({
+				"chunk_id": buffer.get("chunk_id", ""),
+				"kind": buffer.get("kind", ""),
+				"face": buffer.get("face", -1),
+				"integrity": integrity,
+			})
 		nonmanifold_edges += int(topology.get("nonmanifold_edges", 0))
 		var orientation := MeshAnalysis.orientation_metrics(vertices, indices)
 		orientation_conflicts += int(orientation.get("orientation_conflict_edges", 0))
 	failures = invalid_indices + invalid_normals + invalid_materials \
-		+ nonmanifold_edges + orientation_conflicts
+		+ nonfinite_vertices + degenerate_triangles + duplicate_triangles \
+		+ winding_normal_conflicts + nonmanifold_edges + orientation_conflicts
 	return {
 		"status": "PASS" if failures == 0 else "FAIL",
 		"buffer_count": buffers.size(),
 		"invalid_indices": invalid_indices,
 		"invalid_normals": invalid_normals,
 		"invalid_materials": invalid_materials,
+		"nonfinite_vertices": nonfinite_vertices,
+		"degenerate_triangles": degenerate_triangles,
+		"duplicate_triangles": duplicate_triangles,
+		"winding_normal_conflicts": winding_normal_conflicts,
+		"local_winding_normal_disagreements": local_winding_normal_disagreements,
+		"local_winding_normal_ambiguous": local_winding_normal_ambiguous,
+		"integrity_failures": integrity_failures,
 		"nonmanifold_edges": nonmanifold_edges,
 		"orientation_conflict_edges": orientation_conflicts,
 		"failure_count": failures,
@@ -357,6 +419,12 @@ func _validate_seams(chunks: Array) -> Dictionary:
 		var left_signatures := _chunk_face_signatures(left, int(pair[2]), false)
 		var right_signatures := _chunk_face_signatures(right, int(pair[3]), false)
 		var difference := MeshAnalysis.set_difference_counts(left_signatures, right_signatures)
+		var axis := _face_axis(int(pair[2]))
+		var plane := _face_plane(left, int(pair[2]))
+		var matching_signatures := _intersection_keys(
+			left_signatures,
+			right_signatures
+		)
 		same_left_only += int(difference.get("left_only", 0))
 		same_right_only += int(difference.get("right_only", 0))
 		var matches := int(difference.get("left_only", 0)) == 0 \
@@ -372,7 +440,11 @@ func _validate_seams(chunks: Array) -> Dictionary:
 			"right_face_index": int(pair[3]),
 			"left_face": Contracts.CHUNK_FACE_NAMES[int(pair[2])],
 			"right_face": Contracts.CHUNK_FACE_NAMES[int(pair[3])],
+			"axis": axis,
+			"plane": plane,
 			"matches": matches,
+			"matching_signature_count": matching_signatures.size(),
+			"matching_signatures": matching_signatures,
 			"left_only": int(difference.get("left_only", 0)),
 			"right_only": int(difference.get("right_only", 0)),
 			"left_only_signatures": _set_only_keys(left_signatures, right_signatures),
@@ -405,6 +477,10 @@ func _validate_seams(chunks: Array) -> Dictionary:
 			fine_buffers.append_array(_chunk_buffers(fine, -1))
 		var fine_signatures := MeshAnalysis.plane_open_edge_signatures(fine_buffers, axis, plane)
 		var difference := MeshAnalysis.set_difference_counts(coarse_signatures, fine_signatures)
+		var matching_signatures := _intersection_keys(
+			coarse_signatures,
+			fine_signatures
+		)
 		var matches := int(difference.get("left_only", 0)) == 0 \
 			and int(difference.get("right_only", 0)) == 0
 		coarse_only += int(difference.get("left_only", 0))
@@ -421,8 +497,18 @@ func _validate_seams(chunks: Array) -> Dictionary:
 			"axis": axis,
 			"plane": plane,
 			"matches": matches,
+			"matching_signature_count": matching_signatures.size(),
+			"matching_signatures": matching_signatures,
 			"coarse_only": int(difference.get("left_only", 0)),
 			"fine_only": int(difference.get("right_only", 0)),
+			"coarse_only_signatures": _set_only_keys(
+				coarse_signatures,
+				fine_signatures
+			),
+			"fine_only_signatures": _set_only_keys(
+				fine_signatures,
+				coarse_signatures
+			),
 		})
 	var visible_cracks := same_left_only + same_right_only + coarse_only + fine_only
 	return {
@@ -457,6 +543,48 @@ func _validate_edit_workflow(probe: RefCounted, baseline: Dictionary) -> Diction
 			"mode": "construct",
 			"center": Vector3(16.0, 14.0, 16.0),
 			"radius": 2.75,
+			"material": CONSTRUCT_MATERIAL,
+		},
+		{
+			"name": "dig_fine_00_surface",
+			"mode": "dig",
+			"center": Vector3(8.0, 15.8, 8.0),
+			"radius": 2.1,
+			"material": 0,
+		},
+		{
+			"name": "construct_fine_10_overhang",
+			"mode": "construct",
+			"center": Vector3(24.0, 16.3, 8.0),
+			"radius": 2.0,
+			"material": CONSTRUCT_MATERIAL,
+		},
+		{
+			"name": "dig_fine_01_arch",
+			"mode": "dig",
+			"center": Vector3(8.0, 13.0, 24.0),
+			"radius": 2.0,
+			"material": 0,
+		},
+		{
+			"name": "construct_fine_11_surface",
+			"mode": "construct",
+			"center": Vector3(24.0, 11.5, 24.0),
+			"radius": 2.0,
+			"material": CONSTRUCT_MATERIAL,
+		},
+		{
+			"name": "dig_east_west_boundary",
+			"mode": "dig",
+			"center": Vector3(16.0, 14.0, 8.0),
+			"radius": 1.75,
+			"material": 0,
+		},
+		{
+			"name": "construct_north_south_boundary",
+			"mode": "construct",
+			"center": Vector3(8.0, 13.0, 16.0),
+			"radius": 1.75,
 			"material": CONSTRUCT_MATERIAL,
 		},
 	]
@@ -502,11 +630,13 @@ func _validate_edit_workflow(probe: RefCounted, baseline: Dictionary) -> Diction
 			):
 				partial_mismatches.append(str(chunk_id))
 		var seams := _validate_seams(after.get("chunks", []))
+		var buffers := _validate_buffers(after.get("buffers", []))
 		var step_ok := bool(after.get("ok", false)) \
 			and not changed_ids.is_empty() \
 			and unexpected_changes.is_empty() \
 			and partial_mismatches.is_empty() \
-			and str(seams.get("status", "")) == "PASS"
+			and str(seams.get("status", "")) == "PASS" \
+			and str(buffers.get("status", "")) == "PASS"
 		passing_steps += 1 if step_ok else 0
 		step_results.append({
 			"name": edit_step.get("name", ""),
@@ -520,14 +650,47 @@ func _validate_edit_workflow(probe: RefCounted, baseline: Dictionary) -> Diction
 			"triangle_delta": int(after.get("triangle_count", 0)) \
 				- int(before.get("triangle_count", 0)),
 			"visible_crack_count": int(seams.get("visible_crack_count", 0)),
+			"buffer_failure_count": int(buffers.get("failure_count", 0)),
 		})
 		before = after
+	var final_signature := str(before.get("geometry_signature", ""))
+	edits.clear()
+	for edit_step in steps:
+		apply_edit(
+			str(edit_step.get("mode", "")),
+			edit_step.get("center", Vector3.ZERO),
+			float(edit_step.get("radius", 1.0)),
+			int(edit_step.get("material", CONSTRUCT_MATERIAL))
+		)
+	var replay := build(probe)
+	var replay_seams: Dictionary = replay.get("seam_validation", {})
+	var replay_buffers := _validate_buffers(replay.get("buffers", []))
+	var replay_matches := bool(replay.get("ok", false)) \
+		and final_signature == str(replay.get("geometry_signature", "")) \
+		and str(replay_seams.get("status", "")) == "PASS" \
+		and str(replay_buffers.get("status", "")) == "PASS"
+	var deterministic_failures := 0 if replay_matches else 1
 	return {
-		"status": "PASS" if passing_steps == steps.size() else "FAIL",
+		"status": (
+			"PASS"
+			if passing_steps == steps.size() and deterministic_failures == 0
+			else "FAIL"
+		),
 		"step_count": steps.size(),
 		"passing_steps": passing_steps,
 		"failing_steps": steps.size() - passing_steps,
 		"steps": step_results,
+		"final_edit_count": edits.size(),
+		"final_geometry_signature": final_signature,
+		"replay_geometry_signature": str(replay.get("geometry_signature", "")),
+		"replay_matches": replay_matches,
+		"deterministic_failures": deterministic_failures,
+		"replay_visible_crack_count": int(
+			replay_seams.get("visible_crack_count", 0)
+		),
+		"replay_buffer_failure_count": int(
+			replay_buffers.get("failure_count", 0)
+		),
 	}
 
 
@@ -598,6 +761,15 @@ func _set_only_keys(left: Dictionary, right: Dictionary) -> Array[String]:
 	var result: Array[String] = []
 	for key in left.keys():
 		if not right.has(key):
+			result.append(str(key))
+	result.sort()
+	return result
+
+
+func _intersection_keys(left: Dictionary, right: Dictionary) -> Array[String]:
+	var result: Array[String] = []
+	for key in left.keys():
+		if right.has(key):
 			result.append(str(key))
 	result.sort()
 	return result

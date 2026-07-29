@@ -19,6 +19,8 @@ const InspectionPresenter := preload("res://addons/world_transvoxel_cell_lab/lab
 const StandardsRunner := preload("res://addons/world_transvoxel_cell_lab/lab/services/wt_cell_lab_standards_runner.gd")
 const ReferenceTerrain := preload("res://addons/world_transvoxel_cell_lab/lab/services/wt_cell_lab_reference_terrain.gd")
 const TerrainObservatory := preload("res://addons/world_transvoxel_cell_lab/lab/services/wt_cell_lab_terrain_observatory.gd")
+const DependencyProvenance := preload("res://addons/world_transvoxel_cell_lab/lab/services/wt_cell_lab_dependency_provenance.gd")
+const AuthorityValidator := preload("res://addons/world_transvoxel_cell_lab/lab/services/wt_cell_lab_authority_validator.gd")
 
 const REPORT_SCHEMA := Contracts.REPORT_SCHEMA
 const REPRO_SCHEMA := Contracts.REPRO_SCHEMA
@@ -224,6 +226,8 @@ var _inspection_presenter := InspectionPresenter.new()
 var _standards_runner := StandardsRunner.new()
 var _reference_terrain := ReferenceTerrain.new()
 var _terrain_observatory := TerrainObservatory.new()
+var _dependency_provenance := DependencyProvenance.new()
+var _authority_validator := AuthorityValidator.new()
 
 
 func _ready() -> void:
@@ -359,6 +363,18 @@ func validate_chunk_lod_seams() -> Dictionary:
 	return result
 
 
+func validate_native_dependency() -> Dictionary:
+	var result := _dependency_provenance.validate(_get_native_cell_probe())
+	_attach_validation_result("native_dependency_validation", result)
+	return result
+
+
+func validate_authority_stress() -> Dictionary:
+	var result := _authority_validator.validate(_get_native_cell_probe())
+	_attach_validation_result("authority_stress_validation", result)
+	return result
+
+
 func validate_edit_sequence() -> Dictionary:
 	var result := _edit_validator.validate(self)
 	_attach_validation_result("edit_sequence_validation", result)
@@ -447,6 +463,10 @@ func describe_reference_terrain_standard() -> Dictionary:
 	var fixture := build_reference_terrain()
 	var result := _reference_terrain.standard_signature(_get_native_cell_probe())
 	result["terrain_observatory"] = _terrain_observatory.standard_signature(self, fixture)
+	result["native_dependency"] = _dependency_provenance.standard_signature(
+		_get_native_cell_probe()
+	)
+	result["authority_stress"] = _authority_validator.standard_signature()
 	return result
 
 

@@ -18,6 +18,7 @@ const DISPLAY_CENTER := Vector3(16.0, 10.0, 16.0)
 const DISPLAY_SCALE := 0.12
 const SLICE_RESOLUTION := 32
 const MAX_NORMAL_LINES := 640
+const SEAM_POSITION_SCALE := 10000.0
 
 
 func build(lab: Object, fixture: Dictionary, overrides: Dictionary = {}) -> Dictionary:
@@ -159,7 +160,9 @@ func validate(lab: Object, fixture: Dictionary) -> Dictionary:
 			var seams: Dictionary = view.get("seam_lines", {})
 			view_ok = view_ok \
 				and int(seams.get("passing_overlay_count", 0)) > 0 \
-				and int(seams.get("failing_overlay_count", -1)) == 0
+				and int(seams.get("passing_edge_count", 0)) > 0 \
+				and int(seams.get("failing_overlay_count", -1)) == 0 \
+				and int(seams.get("failing_edge_count", -1)) == 0
 		if view_mode == 6:
 			var slice: Dictionary = view.get("density_slice", {})
 			view_ok = view_ok \
@@ -287,6 +290,12 @@ func standard_signature(lab: Object, fixture: Dictionary) -> Dictionary:
 		),
 		"failing_seam_overlays": int(
 			seam_view.get("seam_lines", {}).get("failing_overlay_count", 0)
+		),
+		"passing_seam_edges": int(
+			seam_view.get("seam_lines", {}).get("passing_edge_count", 0)
+		),
+		"failing_seam_edges": int(
+			seam_view.get("seam_lines", {}).get("failing_edge_count", 0)
 		),
 		"transition_overlays": int(
 			seam_view.get("seam_lines", {}).get("transition_overlay_count", 0)
@@ -450,48 +459,67 @@ func _seam_lines(fixture: Dictionary, isolate: bool, selected_id: String) -> Dic
 		if isolate and selected_id not in [left_id, right_id]:
 			continue
 		if bool(interface.get("matches", false)):
-			_append_shared_boundary(
+			_append_signature_lines(
+				interface.get("matching_signatures", []),
+				int(interface.get("axis", 0)),
+				float(interface.get("plane", 0.0)),
 				passing_lines,
 				passing_colors,
-				chunks_by_id.get(left_id, {}),
-				chunks_by_id.get(right_id, {}),
 				Color(0.20, 0.94, 0.46, 1.0)
 			)
 			passing_overlays += 1
 		else:
-			_append_shared_boundary(
+			_append_signature_lines(
+				interface.get("left_only_signatures", []),
+				int(interface.get("axis", 0)),
+				float(interface.get("plane", 0.0)),
 				failing_lines,
 				failing_colors,
-				chunks_by_id.get(left_id, {}),
-				chunks_by_id.get(right_id, {}),
 				Color(1.0, 0.08, 0.05, 1.0)
+			)
+			_append_signature_lines(
+				interface.get("right_only_signatures", []),
+				int(interface.get("axis", 0)),
+				float(interface.get("plane", 0.0)),
+				failing_lines,
+				failing_colors,
+				Color(1.0, 0.12, 0.78, 1.0)
 			)
 			failing_overlays += 1
 	for interface_value in seam_validation.get("interfaces", []):
 		var interface: Dictionary = interface_value
 		var coarse_id := str(interface.get("coarse_chunk", ""))
-		for fine_id_value in interface.get("fine_chunks", []):
-			var fine_id := str(fine_id_value)
-			if isolate and selected_id not in [coarse_id, fine_id]:
-				continue
-			if bool(interface.get("matches", false)):
-				_append_shared_boundary(
-					passing_lines,
-					passing_colors,
-					chunks_by_id.get(coarse_id, {}),
-					chunks_by_id.get(fine_id, {}),
-					Color(0.10, 0.88, 0.82, 1.0)
-				)
-				passing_overlays += 1
-			else:
-				_append_shared_boundary(
-					failing_lines,
-					failing_colors,
-					chunks_by_id.get(coarse_id, {}),
-					chunks_by_id.get(fine_id, {}),
-					Color(1.0, 0.08, 0.05, 1.0)
-				)
-				failing_overlays += 1
+		var fine_ids: Array = interface.get("fine_chunks", [])
+		if isolate and selected_id != coarse_id and selected_id not in fine_ids:
+			continue
+		if bool(interface.get("matches", false)):
+			_append_signature_lines(
+				interface.get("matching_signatures", []),
+				int(interface.get("axis", 0)),
+				float(interface.get("plane", 0.0)),
+				passing_lines,
+				passing_colors,
+				Color(0.10, 0.88, 0.82, 1.0)
+			)
+			passing_overlays += 1
+		else:
+			_append_signature_lines(
+				interface.get("coarse_only_signatures", []),
+				int(interface.get("axis", 0)),
+				float(interface.get("plane", 0.0)),
+				failing_lines,
+				failing_colors,
+				Color(1.0, 0.08, 0.05, 1.0)
+			)
+			_append_signature_lines(
+				interface.get("fine_only_signatures", []),
+				int(interface.get("axis", 0)),
+				float(interface.get("plane", 0.0)),
+				failing_lines,
+				failing_colors,
+				Color(1.0, 0.12, 0.78, 1.0)
+			)
+			failing_overlays += 1
 		_append_chunk_face(
 			transition_lines,
 			transition_colors,
@@ -508,6 +536,10 @@ func _seam_lines(fixture: Dictionary, isolate: bool, selected_id: String) -> Dic
 		"transition_colors": transition_colors,
 		"passing_overlay_count": passing_overlays,
 		"failing_overlay_count": failing_overlays,
+		"passing_interface_count": passing_overlays,
+		"failing_interface_count": failing_overlays,
+		"passing_edge_count": int(passing_lines.size() / 2),
+		"failing_edge_count": int(failing_lines.size() / 2),
 		"transition_overlay_count": int(transition_lines.size() / 8),
 	}
 
@@ -626,23 +658,39 @@ func _density_color(density_value: float) -> Color:
 	return Color(0.95, 0.18 + 0.20 * strength, 0.12, 0.24)
 
 
-func _append_shared_boundary(
+func _append_signature_lines(
+	signatures: Array,
+	axis: int,
+	plane: float,
 	lines: PackedVector3Array,
 	colors: PackedColorArray,
-	left: Dictionary,
-	right: Dictionary,
 	color: Color
 ) -> void:
-	if left.is_empty() or right.is_empty():
-		return
-	var left_bounds := _chunk_bounds(left)
-	var right_bounds := _chunk_bounds(right)
-	var minimum := left_bounds.position.max(right_bounds.position)
-	var maximum := (
-		left_bounds.position + left_bounds.size
-	).min(right_bounds.position + right_bounds.size)
-	var shared := AABB(minimum, (maximum - minimum).max(Vector3.ZERO))
-	_append_flat_aabb(lines, colors, shared, color)
+	axis = clampi(axis, 0, 2)
+	var variable_axes: Array[int] = []
+	for candidate in range(3):
+		if candidate != axis:
+			variable_axes.append(candidate)
+	for signature_value in signatures:
+		var endpoints := str(signature_value).split("|")
+		if endpoints.size() != 2:
+			continue
+		var points: Array[Vector3] = []
+		for endpoint in endpoints:
+			var coordinates := str(endpoint).split(",")
+			if coordinates.size() != 2:
+				continue
+			var point := Vector3.ZERO
+			point[axis] = plane
+			point[variable_axes[0]] = float(coordinates[0]) / SEAM_POSITION_SCALE
+			point[variable_axes[1]] = float(coordinates[1]) / SEAM_POSITION_SCALE
+			points.append(_display_position(point))
+		if points.size() != 2:
+			continue
+		lines.append(points[0])
+		lines.append(points[1])
+		colors.append(color)
+		colors.append(color)
 
 
 func _append_chunk_face(
@@ -731,6 +779,10 @@ func _empty_seams() -> Dictionary:
 		"transition_colors": PackedColorArray(),
 		"passing_overlay_count": 0,
 		"failing_overlay_count": 0,
+		"passing_interface_count": 0,
+		"failing_interface_count": 0,
+		"passing_edge_count": 0,
+		"failing_edge_count": 0,
 		"transition_overlay_count": 0,
 	}
 

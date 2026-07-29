@@ -23,6 +23,9 @@ func _run() -> void:
 	if run_all or "base" in suites:
 		print("WT_CELL_LAB_STAGE base")
 		results["base"] = lab.rebuild()
+	if run_all or "provenance" in suites:
+		print("WT_CELL_LAB_STAGE provenance")
+		results["provenance"] = lab.validate_native_dependency()
 	if run_all or "regular" in suites:
 		print("WT_CELL_LAB_STAGE regular")
 		results["regular"] = lab.validate_regular_case_corpus()
@@ -35,6 +38,9 @@ func _run() -> void:
 	if run_all or "terrain" in suites:
 		print("WT_CELL_LAB_STAGE terrain")
 		results["terrain"] = lab.validate_reference_terrain()
+	if run_all or "authority" in suites:
+		print("WT_CELL_LAB_STAGE authority")
+		results["authority"] = lab.validate_authority_stress()
 	if run_all or "edit" in suites:
 		print("WT_CELL_LAB_STAGE edit")
 		results["edit"] = lab.validate_edit_sequence()

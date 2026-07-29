@@ -137,7 +137,10 @@ func _run_reference_terrain_standard(lab: Object, result: Dictionary) -> void:
 		"feature_probe_count",
 		"same_lod_matching_pairs",
 		"mixed_lod_matching_interfaces",
+		"mesh_integrity",
 		"terrain_observatory",
+		"native_dependency",
+		"authority_stress",
 		"geometry_signature",
 		"status",
 	]

@@ -235,6 +235,14 @@ func _build_ui() -> void:
 	var validator_row := GridContainer.new()
 	validator_row.columns = 2
 	root.add_child(validator_row)
+	var dependency_button := Button.new()
+	dependency_button.text = "Native Provenance"
+	dependency_button.pressed.connect(_validate_native_dependency_selected)
+	validator_row.add_child(dependency_button)
+	var authority_stress_button := Button.new()
+	authority_stress_button.text = "Authority Stress"
+	authority_stress_button.pressed.connect(_validate_authority_stress_selected)
+	validator_row.add_child(authority_stress_button)
 	var regular_corpus_button := Button.new()
 	regular_corpus_button.text = "Regular Corpus"
 	regular_corpus_button.pressed.connect(_validate_regular_corpus_selected)
@@ -596,6 +604,20 @@ func _validate_regular_corpus_selected() -> void:
 	_refresh_status()
 
 
+func _validate_native_dependency_selected() -> void:
+	var lab = _selected_lab()
+	if lab != null:
+		lab.validate_native_dependency()
+	_refresh_status()
+
+
+func _validate_authority_stress_selected() -> void:
+	var lab = _selected_lab()
+	if lab != null:
+		lab.validate_authority_stress()
+	_refresh_status()
+
+
 func _validate_transition_corpus_selected() -> void:
 	var lab = _selected_lab()
 	if lab != null:
@@ -649,6 +671,8 @@ func _validate_all_selected() -> void:
 	var lab = _selected_lab()
 	if lab == null:
 		return
+	lab.validate_native_dependency()
+	lab.validate_authority_stress()
 	lab.validate_regular_case_corpus()
 	lab.validate_transition_case_corpus()
 	lab.validate_chunk_lod_seams()
@@ -846,6 +870,39 @@ func _render_report(report: Dictionary) -> void:
 			["Maximum build", "%.3f ms" % float(benchmark.get("maximum_build_ms", 0.0))],
 			["Average triangles", benchmark.get("average_triangles", 0)],
 		])
+	var dependency: Dictionary = report.get("native_dependency_validation", {})
+	if not dependency.is_empty():
+		var dependency_source: Dictionary = dependency.get("source", {})
+		var dependency_backend: Dictionary = dependency.get("backend", {})
+		_add_section("Native Provenance", [
+			["Status", dependency.get("status", "Unavailable")],
+			["Source commit", dependency_source.get("commit", "")],
+			["Plugin version", dependency.get("plugin", {}).get("version", "")],
+			["Backend", dependency_backend.get("id", "")],
+			["Backend revision", dependency_backend.get("upstream_revision", "")],
+			["Artifacts", dependency.get("artifact_count", 0)],
+			["Sample failures", _format_sample_failures(dependency.get("sample_failures", []))],
+		])
+	var authority_stress: Dictionary = report.get("authority_stress_validation", {})
+	if not authority_stress.is_empty():
+		var near_isovalue: Dictionary = authority_stress.get("near_isovalue", {})
+		var vertical_stack: Dictionary = authority_stress.get("vertical_stack", {})
+		_add_section("Authority Stress", [
+			["Status", authority_stress.get("status", "Unavailable")],
+			["Regular near-isovalue probes", near_isovalue.get("regular_probe_count", 0)],
+			["Transition near-isovalue probes", near_isovalue.get("transition_probe_count", 0)],
+			["Near-isovalue failures", near_isovalue.get("failure_count", 0)],
+			["Vertical same LOD", "%d / %d matching" % [
+				int(vertical_stack.get("same_lod_matching_interfaces", 0)),
+				int(vertical_stack.get("same_lod_interface_count", 0)),
+			]],
+			["Vertical mixed LOD", "%d / %d matching" % [
+				int(vertical_stack.get("mixed_lod_matching_interfaces", 0)),
+				int(vertical_stack.get("mixed_lod_interface_count", 0)),
+			]],
+			["Elapsed", "%.3f ms" % float(authority_stress.get("elapsed_ms", 0.0))],
+			["Sample failures", _format_sample_failures(authority_stress.get("sample_failures", []))],
+		])
 	var regular_corpus: Dictionary = report.get("regular_case_corpus", {})
 	if not regular_corpus.is_empty():
 		_add_section("Regular Corpus", [
@@ -956,10 +1013,20 @@ func _render_report(report: Dictionary) -> void:
 			]],
 			["Visible cracks", reference_terrain.get("visible_crack_count", 0)],
 			["Buffer failures", terrain_buffers.get("failure_count", 0)],
+			["Nonfinite / degenerate / duplicate", "%d / %d / %d" % [
+				int(terrain_buffers.get("nonfinite_vertices", 0)),
+				int(terrain_buffers.get("degenerate_triangles", 0)),
+				int(terrain_buffers.get("duplicate_triangles", 0)),
+			]],
+			["Component winding / local disagreements", "%d / %d" % [
+				int(terrain_buffers.get("winding_normal_conflicts", 0)),
+				int(terrain_buffers.get("local_winding_normal_disagreements", 0)),
+			]],
 			["Edit steps pass / fail", "%d / %d" % [
 				int(terrain_edits.get("passing_steps", 0)),
 				int(terrain_edits.get("failing_steps", 0)),
 			]],
+			["Edit replay", terrain_edits.get("replay_matches", false)],
 			["Determinism failures", reference_terrain.get("determinism_failures", 0)],
 			["Material IDs", reference_terrain.get("material_ids", [])],
 			["Geometry signature", reference_terrain.get("geometry_signature", "")],
@@ -982,6 +1049,10 @@ func _render_report(report: Dictionary) -> void:
 			["Seam overlays pass / fail", "%d / %d" % [
 				int(observatory_standard.get("passing_seam_overlays", 0)),
 				int(observatory_standard.get("failing_seam_overlays", 0)),
+			]],
+			["Exact seam edges pass / fail", "%d / %d" % [
+				int(observatory_standard.get("passing_seam_edges", 0)),
+				int(observatory_standard.get("failing_seam_edges", 0)),
 			]],
 			["Transition overlays", observatory_standard.get("transition_overlays", 0)],
 			["Elapsed", "%.3f ms" % float(terrain_observatory.get("elapsed_ms", 0.0))],

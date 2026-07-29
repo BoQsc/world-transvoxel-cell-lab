@@ -3,7 +3,7 @@
 The roadmap standard is cell-first, terrain-focused, native-authoritative,
 reproducible, measurable, visually inspectable, and evidence-driven.
 
-Milestones 1 through 13 are complete. Future milestones must preserve the
+Milestones 1 through 14 are complete. Future milestones must preserve the
 ownership boundaries in `ARCHITECTURE.md` and add committed evidence before
 claiming a broader correctness domain.
 
@@ -101,10 +101,12 @@ Status: complete.
 Status: complete.
 
 - Committed repro and selected-case signature standards.
-- Eight rendered visual references with dimensions, nonblank checks, and
+- Eleven rendered visual references with dimensions, nonblank checks, and
   SHA-256 locks.
 - Headless smoke and full-suite runner.
 - Windows CI with the official Godot 4.7.1 artifact pinned by SHA-256.
+- CI verification of the pinned `world-transvoxel` source commit, source
+  trees, backend revision, plugin version, and native artifact hashes.
 - Performance warning thresholds included in CI output.
 
 ## Milestone 11: Canonical Reference Terrain
@@ -119,10 +121,11 @@ Status: complete.
   feature, and authored material regions.
 - All 12 same-LOD neighbor pairs and all four mixed-LOD interfaces compare
   exact world-space seam signatures.
-- Native buffers, normals, materials, topology, and deterministic geometry
-  signature are validated.
-- Cross-chunk dig and construction operations prove partial dirty-chunk
-  rebuilds against full rebuilds and rerun seam validation.
+- Native buffers, normals, materials, finite positions, triangle integrity,
+  topology, and deterministic geometry signature are validated.
+- An eight-step cumulative cross-chunk edit sequence proves partial
+  dirty-chunk rebuilds against full rebuilds, reruns seam validation, and
+  requires an exact clear-and-replay result.
 - Reference-terrain sample and triangle throughput are included in performance
   baselines.
 - The standalone scene opens directly in Reference Terrain inspection with
@@ -141,8 +144,8 @@ Status: complete.
   controls.
 - Movable X/Y/Z density slice with 1,089 authoritative field samples, color
   classification, and sample crosses.
-- Native normal vectors, same-LOD and mixed-LOD interface frames, transition
-  ownership frames, and explicit red failure overlays.
+- Native normal vectors, exact same-LOD and mixed-LOD edge signatures,
+  transition ownership frames, and explicit unmatched-edge overlays.
 - Repro snapshots preserve every observatory control.
 - All views, isolation, transition toggling, and overlay counts have automated
   validation and a locked standards signature.
@@ -160,36 +163,62 @@ Status: complete.
   field and after cross-chunk edits.
 - Epsilon-sensitive boundary degeneracy is excluded by a non-coplanar
   deterministic field baseline.
-- Surface, materials, seams, and density are committed as visual standards.
+- Surface, LOD, materials, triangles, normals, seams, and density are
+  committed as terrain visual standards.
 - The geometry, feature, seam, and observatory signatures are locked together
   in the canonical reference-terrain standard.
 
+## Milestone 14: Authority Hardening
+
+Status: complete.
+
+- A committed native dependency manifest pins the `world-transvoxel` source
+  commit and trees, Godot C++ revision, plugin version, official Transvoxel
+  source hash, backend identity, and shipped DLL hashes.
+- Runtime validation and CI source-checkout verification reject dependency
+  drift before correctness claims are accepted.
+- Mesh validation rejects nonfinite vertices, degenerate triangles, duplicate
+  triangles, nonmanifold edges, shared-edge orientation conflicts, and
+  component-level winding/normal conflicts.
+- Per-triangle normal disagreements remain measured diagnostics; the
+  canonical terrain currently records eight within one correctly oriented
+  connected component.
+- Seam view rendering is derived from the exact signatures under test:
+  501 matched edges and zero unmatched edges across 16 interfaces.
+- All 256 regular and 512 transition cases are exercised at three signed
+  near-isovalue magnitudes, totaling 2,304 stability probes.
+- A three-chunk vertical stack verifies two nonempty same-LOD Y interfaces;
+  both negative-Y and positive-Y mixed-LOD interfaces are also required.
+- The canonical eight-step dig/construct workflow spans all fine chunks and
+  shared boundaries and must replay to an identical final geometry hash.
+- LOD, triangle, and normal visual standards complete the 11-image corpus.
+
 ## Future Milestones
 
-14. Adversarial scalar-field corpus: ambiguous cases, near-isovalue samples,
-    thin features, high curvature, and deterministic fuzz seeds.
-15. Failure localization and minimization: select unmatched seam signatures,
+15. Broader adversarial scalar-field corpus: ambiguous cases, high curvature,
+    cancellation, thin-feature limits, and deterministic fuzz seeds.
+16. Failure localization and minimization: select unmatched seam signatures,
     jump to owning cells, and export the smallest native repro.
-16. Independent specification checks: table invariants and topology properties
+17. Independent specification checks: table invariants and topology properties
     that do not duplicate or replace the production mesher.
-17. Edit stress corpus: long deterministic dig/construct sequences,
+18. Edit stress corpus: randomized but seeded long dig/construct sequences,
     cancellation, overlapping edits, and incremental/full equivalence.
-18. Scaling baselines: chunk size, LOD depth, active-cell ratio, and feature
+19. Scaling baselines: chunk size, LOD depth, active-cell ratio, and feature
     complexity distributions rather than single timings.
-19. Memory and allocation observability: peak memory, buffer churn, reuse, and
+20. Memory and allocation observability: peak memory, buffer churn, reuse, and
     per-stage allocation budgets.
-20. Rendering quality qualification: tangents, material blending, lighting,
+21. Rendering quality qualification: tangents, material blending, lighting,
     precision, and camera-distance artifacts.
-21. Collision and query qualification against the exact rendered geometry.
-22. Streaming simulation: load/unload order, moving LOD windows, stale work,
+22. Collision and query qualification against the exact rendered geometry.
+23. Streaming simulation: load/unload order, moving LOD windows, stale work,
     and boundary stability.
-23. Persistence standards for fields, edits, chunk versions, and deterministic
+24. Persistence standards for fields, edits, chunk versions, and deterministic
     reloads.
-24. Integration-game parity corpus reduced to canonical lab fixtures.
-25. Platform and renderer matrix across supported Godot targets.
-26. Release qualification bundles with machine-readable evidence and visual
+25. Integration-game parity corpus reduced to canonical lab fixtures.
+26. Platform and renderer matrix across supported Godot targets.
+27. Release qualification bundles with machine-readable evidence and visual
     diffs.
-27. Upstream correction governance: minimized repro, invariant, fix review,
+28. Upstream correction governance: minimized repro, invariant, fix review,
     retained regression standard, and downstream parity proof.
 
 ## Next Standard

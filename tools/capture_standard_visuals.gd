@@ -51,9 +51,24 @@ func _run() -> void:
 			"reference_view": LabScript.ReferenceViewMode.SURFACE,
 		},
 		{
+			"id": "reference_terrain_lod",
+			"mode": LabScript.InspectionMode.REFERENCE_TERRAIN,
+			"reference_view": LabScript.ReferenceViewMode.LOD,
+		},
+		{
 			"id": "reference_terrain_materials",
 			"mode": LabScript.InspectionMode.REFERENCE_TERRAIN,
 			"reference_view": LabScript.ReferenceViewMode.MATERIAL,
+		},
+		{
+			"id": "reference_terrain_triangles",
+			"mode": LabScript.InspectionMode.REFERENCE_TERRAIN,
+			"reference_view": LabScript.ReferenceViewMode.TRIANGLES,
+		},
+		{
+			"id": "reference_terrain_normals",
+			"mode": LabScript.InspectionMode.REFERENCE_TERRAIN,
+			"reference_view": LabScript.ReferenceViewMode.NORMALS,
 		},
 		{
 			"id": "reference_terrain_seams",

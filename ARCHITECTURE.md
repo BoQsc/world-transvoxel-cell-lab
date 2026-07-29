@@ -40,9 +40,11 @@ integration classification, or standards execution.
 | Service | Responsibility |
 | --- | --- |
 | `wt_cell_lab_contracts.gd` | Schemas, authority metadata, face and orientation conventions |
-| `wt_cell_lab_mesh_analysis.gd` | Buffer, topology, determinism, edge, seam, and bounds primitives |
+| `wt_cell_lab_mesh_analysis.gd` | Buffer, triangle integrity, component winding, topology, edge, seam, and bounds primitives |
 | `wt_cell_lab_case_validator.gd` | Regular/transition corpora and selected-case descriptions |
 | `wt_cell_lab_chunk_validator.gd` | LOD probes, same-LOD seams, and coarse/fine fixtures |
+| `wt_cell_lab_dependency_provenance.gd` | Runtime backend identity, plugin version, and native artifact verification |
+| `wt_cell_lab_authority_validator.gd` | Near-isovalue case stability and vertical same/mixed-LOD seam stress |
 | `wt_cell_lab_edit_validator.gd` | Edit sequence, replay, deltas, and terrain fixtures |
 | `wt_cell_lab_performance.gd` | Dedicated benchmarks, history, rates, and warnings |
 | `wt_cell_lab_repro_store.gd` | Versioned snapshots, JSON conversion, browser listing, and storage |
@@ -72,6 +74,12 @@ The lab owns:
 - comparisons, reports, visualizations, repro metadata, and standards;
 - no fallback or alternate meshing path.
 
+The committed dependency manifest identifies the exact native authority under
+test. A runtime result is authoritative only when backend identity, plugin
+version, and native artifact hashes match that manifest. CI additionally
+checks out the pinned source commit and verifies its source trees and
+third-party Transvoxel source.
+
 The canonical reference terrain is a standards fixture, not a second terrain
 runtime. It directly invokes the upstream production chunk mesher through
 `WorldTransvoxelCellProbe`. Streaming policy, scheduling, persistence,
@@ -97,6 +105,12 @@ The Terrain Observatory is downstream of that fixture. It can recolor native
 buffers, derive lines, sample the canonical field, and hide or isolate existing
 buffers. It cannot generate replacement terrain geometry. A view failure fails
 observatory validation; it does not substitute another implementation.
+
+Winding validation follows the upstream production contract. Shared edges must
+be consistently oriented, and each connected component must agree in aggregate
+with the interpolated SDF normals. Individual triangles can oppose their
+averaged vertex normal at sharp CSG features; those are retained as measured
+diagnostics, not silently discarded or treated as component inversion.
 
 ## Evidence Rule
 

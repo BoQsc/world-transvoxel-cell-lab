@@ -5,12 +5,16 @@ class_name WtCellLabMeshAnalysis
 const Contracts := preload("res://addons/world_transvoxel_cell_lab/lab/services/wt_cell_lab_contracts.gd")
 const POSITION_SCALE := 10000.0
 const POSITION_TOLERANCE := 0.0001
+const NORMAL_WINDING_POLARITY := -1.0
+const MINIMUM_TRIANGLE_EDGE_LENGTH_SQUARED := 0.000001
+const MINIMUM_TRIANGLE_THIN_RATIO_SQUARED := 0.000000000001
 
 
 static func validate_cell_mesh_buffers(
 	cell_mesh: Dictionary,
 	material_limit: int,
-	topology_sample_count: int
+	topology_sample_count: int,
+	validate_winding: bool = false
 ) -> Dictionary:
 	var vertices: PackedVector3Array = cell_mesh.get("vertices", PackedVector3Array())
 	var normals: PackedVector3Array = cell_mesh.get("normals", PackedVector3Array())
@@ -55,9 +59,28 @@ static func validate_cell_mesh_buffers(
 		if a == b:
 			failures += 1
 			first_failure_message = first_failure(first_failure_message, "endpoint provenance names a zero-length topology edge")
+	var integrity := validate_triangle_mesh_integrity(vertices, normals, indices)
+	var integrity_keys := [
+		"nonfinite_vertices",
+		"degenerate_triangles",
+		"duplicate_triangles",
+	]
+	if validate_winding:
+		integrity_keys.append("winding_normal_conflicts")
+	for key in integrity_keys:
+		if int(integrity.get(key, 0)) > 0:
+			failures += int(integrity.get(key, 0))
+			first_failure_message = first_failure(
+				first_failure_message,
+				"triangle integrity failed: %s=%d" % [
+					key,
+					int(integrity.get(key, 0)),
+				]
+			)
 	return {
 		"failures": failures,
 		"first_failure": first_failure_message,
+		"integrity": integrity,
 	}
 
 
@@ -248,6 +271,180 @@ static func orientation_metrics(vertices: PackedVector3Array, indices: PackedInt
 	return {"orientation_conflict_edges": conflicts}
 
 
+static func validate_triangle_mesh_integrity(
+	vertices: PackedVector3Array,
+	normals: PackedVector3Array,
+	indices: PackedInt32Array
+) -> Dictionary:
+	var nonfinite_vertices := 0
+	for vertex in vertices:
+		if not vector_is_finite(vertex):
+			nonfinite_vertices += 1
+	var degenerate_triangles := 0
+	var duplicate_triangles := 0
+	var winding_normal_conflicts := 0
+	var compared_winding_triangles := 0
+	var minimum_signed_alignment := INF
+	var maximum_signed_alignment := -INF
+	var local_winding_normal_disagreements := 0
+	var local_winding_normal_ambiguous := 0
+	var local_winding_normal_samples: Array = []
+	var winding_normal_conflict_samples: Array = []
+	var winding_scores: Array[float] = []
+	var winding_edges := {}
+	var seen_triangles := {}
+	for offset in range(0, indices.size(), 3):
+		if offset + 2 >= indices.size():
+			break
+		var ia := int(indices[offset])
+		var ib := int(indices[offset + 1])
+		var ic := int(indices[offset + 2])
+		if ia < 0 or ib < 0 or ic < 0 \
+				or ia >= vertices.size() or ib >= vertices.size() or ic >= vertices.size():
+			continue
+		var a := vertices[ia]
+		var b := vertices[ib]
+		var c := vertices[ic]
+		var edge_ab := b - a
+		var edge_ac := c - a
+		var edge_bc := c - b
+		var geometric := edge_ab.cross(edge_ac)
+		var maximum_edge_squared := maxf(
+			edge_ab.length_squared(),
+			maxf(edge_ac.length_squared(), edge_bc.length_squared())
+		)
+		var minimum_edge_squared := minf(
+			edge_ab.length_squared(),
+			minf(edge_ac.length_squared(), edge_bc.length_squared())
+		)
+		if not vector_is_finite(geometric) \
+				or minimum_edge_squared <= MINIMUM_TRIANGLE_EDGE_LENGTH_SQUARED \
+				or geometric.length_squared() <= (
+					maximum_edge_squared
+					* maximum_edge_squared
+					* MINIMUM_TRIANGLE_THIN_RATIO_SQUARED
+				):
+			degenerate_triangles += 1
+			continue
+		var triangle_points := [
+			_precise_point_key(a),
+			_precise_point_key(b),
+			_precise_point_key(c),
+		]
+		triangle_points.sort()
+		var triangle_key := "|".join(triangle_points)
+		if seen_triangles.has(triangle_key):
+			duplicate_triangles += 1
+		else:
+			seen_triangles[triangle_key] = true
+		if normals.size() != vertices.size():
+			continue
+		var authored_normal := normals[ia] + normals[ib] + normals[ic]
+		if authored_normal.length_squared() <= 0.000000000001:
+			continue
+		var alignment := geometric.normalized().dot(authored_normal.normalized())
+		var signed_alignment := alignment * NORMAL_WINDING_POLARITY
+		var winding_triangle_index := winding_scores.size()
+		winding_scores.append(
+			geometric.dot(authored_normal) * NORMAL_WINDING_POLARITY
+		)
+		for edge_points in [[a, b], [b, c], [c, a]]:
+			var winding_edge := _winding_edge_key(edge_points[0], edge_points[1])
+			if not winding_edges.has(winding_edge):
+				winding_edges[winding_edge] = []
+			winding_edges[winding_edge].append(winding_triangle_index)
+		compared_winding_triangles += 1
+		minimum_signed_alignment = minf(minimum_signed_alignment, signed_alignment)
+		maximum_signed_alignment = maxf(maximum_signed_alignment, signed_alignment)
+		if signed_alignment < -0.0001:
+			local_winding_normal_disagreements += 1
+			if local_winding_normal_samples.size() < 16:
+				local_winding_normal_samples.append({
+					"triangle_index": int(offset / 3),
+					"alignment": alignment,
+					"signed_alignment": signed_alignment,
+				})
+		elif signed_alignment <= 0.001:
+			local_winding_normal_ambiguous += 1
+	var winding_adjacency: Array = []
+	winding_adjacency.resize(winding_scores.size())
+	for index in winding_adjacency.size():
+		winding_adjacency[index] = []
+	for incidents_value in winding_edges.values():
+		var incidents: Array = incidents_value
+		if incidents.size() != 2:
+			continue
+		var first := int(incidents[0])
+		var second := int(incidents[1])
+		winding_adjacency[first].append(second)
+		winding_adjacency[second].append(first)
+	var visited := PackedByteArray()
+	visited.resize(winding_scores.size())
+	var winding_component_count := 0
+	for start in winding_scores.size():
+		if visited[start] != 0:
+			continue
+		winding_component_count += 1
+		var pending: Array[int] = [start]
+		visited[start] = 1
+		var component_score := 0.0
+		var component_magnitude := 0.0
+		var component_triangles := 0
+		while not pending.is_empty():
+			var current := pending.pop_back()
+			var triangle_score := winding_scores[current]
+			component_score += triangle_score
+			component_magnitude += absf(triangle_score)
+			component_triangles += 1
+			for neighbor_value in winding_adjacency[current]:
+				var neighbor := int(neighbor_value)
+				if visited[neighbor] != 0:
+					continue
+				visited[neighbor] = 1
+				pending.append(neighbor)
+		if component_magnitude <= 0.000000001:
+			continue
+		if component_score < -0.000000001:
+			winding_normal_conflicts += 1
+			if winding_normal_conflict_samples.size() < 16:
+				winding_normal_conflict_samples.append({
+					"component_index": winding_component_count - 1,
+					"triangle_count": component_triangles,
+					"signed_score": component_score,
+					"magnitude": component_magnitude,
+				})
+	return {
+		"nonfinite_vertices": nonfinite_vertices,
+		"degenerate_triangles": degenerate_triangles,
+		"duplicate_triangles": duplicate_triangles,
+		"winding_normal_conflicts": winding_normal_conflicts,
+		"winding_normal_conflict_samples": winding_normal_conflict_samples,
+		"winding_component_count": winding_component_count,
+		"local_winding_normal_disagreements": local_winding_normal_disagreements,
+		"local_winding_normal_ambiguous": local_winding_normal_ambiguous,
+		"local_winding_normal_samples": local_winding_normal_samples,
+		"expected_normal_winding_polarity": NORMAL_WINDING_POLARITY,
+		"compared_winding_triangles": compared_winding_triangles,
+		"minimum_signed_alignment": (
+			minimum_signed_alignment if compared_winding_triangles > 0 else 0.0
+		),
+		"maximum_signed_alignment": (
+			maximum_signed_alignment if compared_winding_triangles > 0 else 0.0
+		),
+		"triangle_count": int(indices.size() / 3),
+	}
+
+
+static func _winding_edge_key(a: Vector3, b: Vector3) -> String:
+	var first := _quantized_point_key(a, 1024.0)
+	var second := _quantized_point_key(b, 1024.0)
+	if second < first:
+		var temporary := first
+		first = second
+		second = temporary
+	return first + "|" + second
+
+
 static func edge_counts_for_buffers(buffers: Array, world_space: bool = true) -> Dictionary:
 	var counts := {}
 	var edge_points := {}
@@ -365,6 +562,22 @@ static func point_key(point: Vector3) -> String:
 		roundi(point.x * POSITION_SCALE),
 		roundi(point.y * POSITION_SCALE),
 		roundi(point.z * POSITION_SCALE),
+	]
+
+
+static func _precise_point_key(point: Vector3) -> String:
+	return "%d,%d,%d" % [
+		roundi(point.x * 1000000.0),
+		roundi(point.y * 1000000.0),
+		roundi(point.z * 1000000.0),
+	]
+
+
+static func _quantized_point_key(point: Vector3, scale: float) -> String:
+	return "%d,%d,%d" % [
+		roundi(point.x * scale),
+		roundi(point.y * scale),
+		roundi(point.z * scale),
 	]
 
 

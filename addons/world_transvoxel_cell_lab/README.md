@@ -10,6 +10,8 @@ The addon provides the `WtTransvoxelCellLab` editor node and the
 - Production chunk, same-LOD, and mixed-LOD validation.
 - Canonical 12-chunk Reference Terrain with exact seam, feature, edit,
   determinism, performance, numeric, and visual standards.
+- Pinned native dependency provenance and runtime artifact verification.
+- Near-isovalue cell stability and vertical same/mixed-LOD authority stress.
 - Terrain edit fixtures, dirty-region accounting, and before/after deltas.
 - Repro storage, integration reduction, performance history, and committed
   standards.
@@ -18,9 +20,10 @@ The addon provides the `WtTransvoxelCellLab` editor node and the
 
 `WtTransvoxelCellLab` owns editable scene state, scalar-field sampling, and
 visual roots. Focused services under `lab/services` own contracts, mesh
-analysis, cell corpora, chunk validation, edit validation, performance, repro
-storage, integration import, standards execution, report construction,
-reference-terrain validation, and inspection presentation.
+analysis, cell corpora, chunk validation, dependency provenance, authority
+stress, edit validation, performance, repro storage, integration import,
+standards execution, report construction, reference-terrain validation, and
+inspection presentation.
 
 The addon must not implement an alternate Transvoxel mesher. Diagnostic APIs
 needed from the backend belong in `world-transvoxel`; editor UI, fixtures,

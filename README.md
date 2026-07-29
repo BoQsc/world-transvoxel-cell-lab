@@ -19,6 +19,12 @@ There is no fallback mesher. Every surface inspected by the lab comes from
 `WorldTransvoxelCellProbe` and the production `WtChunkMesher` path in
 `world-transvoxel`.
 
+The native dependency is locked in
+`addons/world_transvoxel_cell_lab/standards/native_dependency_manifest.json`.
+Runtime validation checks backend identity and shipped DLL hashes; CI also
+checks the pinned upstream commit, source trees, Godot C++ revision, plugin
+version, and official Transvoxel source hash.
+
 ## Standard
 
 The lab is cell-first and terrain-focused. It treats regular cells, transition
@@ -53,7 +59,9 @@ Enable the `World Transvoxel Lab` plugin and use its dock to:
   corpus;
 - validate same-LOD seams, LOD 1-3 transition chunks, and 12 coarse/fine
   neighbor fixtures;
-- run deterministic edit sequences and terrain edit fixtures;
+- run 2,304 near-isovalue case probes and vertical same/mixed-LOD seam stress;
+- run deterministic edit sequences, including the eight-step canonical
+  terrain workflow and exact replay;
 - measure cell, transition, chunk, patch, observatory, and edit performance;
 - browse, label, save, and restore repros;
 - import integration-game JSON snapshots and classify the suspected fix layer;
@@ -77,6 +85,12 @@ Run the full headless validator:
 godot --headless --path . --script tools/run_cell_lab_validation.gd -- all
 ```
 
+Verify the vendored native dependency against an adjacent source checkout:
+
+```text
+python tools/verify_native_dependency.py --source-checkout ..\world-transvoxel
+```
+
 Run the structural smoke test:
 
 ```text
@@ -89,9 +103,10 @@ Regenerate committed visual standards with a graphical renderer:
 godot --path . --script tools/capture_standard_visuals.gd
 ```
 
-The CI workflow pins the official Godot 4.7.1 Windows artifact by SHA-256 and
-runs the native extension load, smoke test, correctness corpora, standards
-corpus, and performance warning pass.
+The CI workflow verifies the pinned native source and binaries, pins the
+official Godot 4.7.1 Windows artifact by SHA-256, and runs the native extension
+load, smoke test, correctness corpora, standards corpus, and performance
+warning pass.
 
 See [ARCHITECTURE.md](ARCHITECTURE.md) for ownership boundaries and
 [ROADMAP.md](ROADMAP.md) for completed milestone evidence. The permanent

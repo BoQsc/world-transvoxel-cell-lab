@@ -57,15 +57,20 @@ A passing result requires:
 
 - all 12 chunks mesh successfully through the native production path;
 - all native indices, normals, and materials satisfy buffer contracts;
-- no native buffer has nonmanifold edges or orientation conflicts;
+- no native buffer has nonfinite vertices, degenerate or duplicate triangles,
+  nonmanifold edges, shared-edge orientation conflicts, or component-level
+  winding/normal conflicts;
 - all 12 same-LOD neighbor seam signatures match;
 - all four LOD1-to-LOD0 interface signatures match;
 - visible crack count is zero;
 - repeated full builds produce the same geometry signature;
 - all 15 field feature probes match;
-- cross-chunk dig and construct edits change only affected chunks;
+- all eight cumulative cross-chunk dig and construct edits change only
+  affected chunks;
 - partial dirty-chunk rebuild output exactly matches full rebuild output;
-- all seams still match after each edit.
+- all seams still match after each edit;
+- clearing and replaying the complete edit sequence produces the identical
+  final geometry signature.
 
 ## Locked Baseline
 
@@ -81,7 +86,14 @@ The committed standard currently requires:
 - nine named terrain features and 15 passing signed-density probes;
 - seven validated observatory views;
 - 1,089 samples and 2,048 triangles in the standard density slice;
-- 636 normal lines, 20 passing seam overlays, and zero failing overlays;
+- zero strict mesh-integrity failures, with eight measured local
+  triangle/normal disagreements inside a correctly oriented component;
+- 636 normal lines;
+- 16 tested seam interfaces containing 501 matched exact edge signatures and
+  zero unmatched edges;
+- 2,304 near-isovalue cell probes at `1e-7`, `1e-5`, and `1e-3`;
+- two nonempty vertical same-LOD interfaces and two vertical mixed-LOD
+  interfaces;
 - geometry SHA-256
   `43f357d7c085438391b18de46e812698f84bef2280311ee4a753e4a2b09e34a3`.
 
@@ -113,5 +125,7 @@ Move the terrain cursor, set the edit radius, and apply `Terrain Dig` or
 `Reference Terrain` validation for the full seam, buffer, feature,
 determinism, incremental-edit, and seven-view observatory proof.
 
-Four committed terrain images lock the surface, material, seam, and density
-presentations by dimensions, nonblank variation, and SHA-256.
+Seven committed terrain images lock the surface, LOD, material, triangle,
+normal, seam, and density presentations by dimensions, nonblank variation,
+and SHA-256. Together with the four primitive/fixture images, the visual
+standards corpus contains 11 images.

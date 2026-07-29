@@ -37,7 +37,8 @@ func _run() -> void:
 	if str(report.get("render_authority", "")) != "NATIVE_TRANSVOXEL_BACKEND_AUTHORITATIVE":
 		_fail("native render authority was not used")
 		return
-	if str(report.get("correctness_claim", "")) != "exact_cell_chunk_reference_terrain_and_observatory_backend_probe_v5":
+	if str(report.get("correctness_claim", "")) \
+			!= "provenance_locked_cell_chunk_terrain_observatory_backend_probe_v6":
 		_fail("native correctness claim was not explicit")
 		return
 	if str(report.get("lab_scope", "")) != "cell_first_transvoxel_preview_and_validator":
@@ -120,6 +121,37 @@ func _run() -> void:
 	if int(report.get("chunk_probe_orientation_conflict_edges", -1)) != 0:
 		_fail("production chunk probe has orientation conflicts")
 		return
+	var dependency: Dictionary = lab.validate_native_dependency()
+	if str(dependency.get("schema", "")) \
+			!= "world_transvoxel.cell_lab.native_dependency_validation.v1":
+		_fail("unexpected native dependency validation schema")
+		return
+	if str(dependency.get("status", "")) != "PASS" \
+			or int(dependency.get("artifact_count", 0)) != 2:
+		_fail("native dependency provenance did not pass")
+		return
+	if str(dependency.get("source", {}).get("commit", "")) \
+			!= "8313650766b6b901f5b5ecdc8d84e03b6b87fd66":
+		_fail("native dependency source commit changed")
+		return
+	var authority_stress: Dictionary = lab.validate_authority_stress()
+	if str(authority_stress.get("schema", "")) \
+			!= "world_transvoxel.cell_lab.authority_stress_validation.v1":
+		_fail("unexpected authority stress validation schema")
+		return
+	if str(authority_stress.get("status", "")) != "PASS":
+		_fail("authority stress validation did not pass")
+		return
+	var near_isovalue: Dictionary = authority_stress.get("near_isovalue", {})
+	if int(near_isovalue.get("regular_probe_count", 0)) != 768 \
+			or int(near_isovalue.get("transition_probe_count", 0)) != 1536:
+		_fail("near-isovalue authority coverage changed")
+		return
+	var vertical_stack: Dictionary = authority_stress.get("vertical_stack", {})
+	if int(vertical_stack.get("same_lod_matching_interfaces", 0)) != 2 \
+			or int(vertical_stack.get("mixed_lod_matching_interfaces", 0)) != 2:
+		_fail("vertical authority seam coverage changed")
+		return
 	var regular_corpus: Dictionary = lab.validate_regular_case_corpus()
 	if str(regular_corpus.get("schema", "")) != "world_transvoxel.cell_lab.regular_case_corpus.v2":
 		_fail("unexpected regular case corpus schema")
@@ -175,6 +207,16 @@ func _run() -> void:
 	if int(reference_terrain.get("determinism_failures", -1)) != 0:
 		_fail("reference terrain was not deterministic")
 		return
+	var terrain_buffers: Dictionary = reference_terrain.get("buffer_validation", {})
+	if int(terrain_buffers.get("nonfinite_vertices", -1)) != 0 \
+			or int(terrain_buffers.get("degenerate_triangles", -1)) != 0 \
+			or int(terrain_buffers.get("duplicate_triangles", -1)) != 0 \
+			or int(terrain_buffers.get("winding_normal_conflicts", -1)) != 0:
+		_fail("reference terrain mesh integrity changed")
+		return
+	if int(terrain_buffers.get("local_winding_normal_disagreements", -1)) != 8:
+		_fail("reference terrain local normal diagnostic changed")
+		return
 	var feature_validation: Dictionary = reference_terrain.get("feature_validation", {})
 	if int(feature_validation.get("passing_probes", 0)) != 15 \
 			or int(feature_validation.get("failing_probes", -1)) != 0:
@@ -188,7 +230,8 @@ func _run() -> void:
 		_fail("reference terrain mixed-LOD seams changed")
 		return
 	var reference_edits: Dictionary = reference_terrain.get("edit_validation", {})
-	if int(reference_edits.get("passing_steps", 0)) != 2:
+	if int(reference_edits.get("passing_steps", 0)) != 8 \
+			or int(reference_edits.get("deterministic_failures", -1)) != 0:
 		_fail("reference terrain edit workflow changed")
 		return
 	var observatory: Dictionary = reference_terrain.get("terrain_observatory", {})
@@ -199,6 +242,11 @@ func _run() -> void:
 	if str(observatory.get("status", "")) != "PASS" \
 			or int(observatory.get("passing_views", 0)) != 7:
 		_fail("terrain observatory validation did not pass")
+		return
+	var observatory_standard: Dictionary = observatory.get("standard_signature", {})
+	if int(observatory_standard.get("passing_seam_edges", 0)) != 501 \
+			or int(observatory_standard.get("failing_seam_edges", -1)) != 0:
+		_fail("terrain observatory exact seam edges changed")
 		return
 	var edit_sequence: Dictionary = lab.validate_edit_sequence()
 	if str(edit_sequence.get("schema", "")) != "world_transvoxel.cell_lab.edit_sequence_validation.v2":
@@ -233,7 +281,7 @@ func _run() -> void:
 	if int(standards.get("passing_reference_terrain_standards", 0)) != 1:
 		_fail("reference terrain standard changed")
 		return
-	if int(standards.get("passing_visual_standards", 0)) != 8:
+	if int(standards.get("passing_visual_standards", 0)) != 11:
 		_fail("visual standards count changed")
 		return
 	lab.inspection_mode = LabScript.InspectionMode.REGULAR_CASE

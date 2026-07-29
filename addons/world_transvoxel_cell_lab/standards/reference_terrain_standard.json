@@ -27,6 +27,17 @@
 		"feature_probe_count": 15,
 		"same_lod_matching_pairs": 12,
 		"mixed_lod_matching_interfaces": 4,
+		"mesh_integrity": {
+			"nonfinite_vertices": 0,
+			"degenerate_triangles": 0,
+			"duplicate_triangles": 0,
+			"winding_normal_conflicts": 0,
+			"local_winding_normal_disagreements": 8,
+			"local_winding_normal_ambiguous": 0,
+			"nonmanifold_edges": 0,
+			"orientation_conflict_edges": 0,
+			"expected_normal_winding_polarity": -1.0
+		},
 		"terrain_observatory": {
 			"view_count": 7,
 			"view_names": [
@@ -42,9 +53,40 @@
 			"density_slice_triangles": 2048,
 			"sample_grid_lines": 243,
 			"normal_lines": 636,
-			"passing_seam_overlays": 20,
+			"passing_seam_overlays": 16,
 			"failing_seam_overlays": 0,
+			"passing_seam_edges": 501,
+			"failing_seam_edges": 0,
 			"transition_overlays": 4
+		},
+		"native_dependency": {
+			"status": "PASS",
+			"source_repository": "https://github.com/BoQsc/world-transvoxel.git",
+			"source_commit": "8313650766b6b901f5b5ecdc8d84e03b6b87fd66",
+			"addon_source_tree": "4a14646420ee4d25dd78b098905b89259a0d560a",
+			"addon_thirdparty_tree": "79b8d403a73dad32312c3b2e5f15f56412e288a5",
+			"godot_cpp_revision": "e83fd0904c13356ed1d4c3d09f8bb9132bdc6b77",
+			"plugin_name": "World Transvoxel",
+			"plugin_version": "1.0.9",
+			"backend_id": "transvoxel_mit_official",
+			"backend_license": "MIT",
+			"backend_upstream_revision": "51a494f03c5b024cd153b596bcc7152eb3cc93a6",
+			"official_source_sha256": "83a5511346b54c42e4e66dec916d3971c92f4fbda1c7878cbad5901a820dcab4",
+			"artifact_hashes": [
+				"6f520c3e3923f09ffd3199cbfcc2e0ed27c02ddd50eb0036ad8600783f65c031",
+				"784c9eb658307b763becb3715d710b6dd7fa4d8c7a4edefaec2a0755f5735bb2"
+			]
+		},
+		"authority_stress": {
+			"near_isovalue_epsilons": [0.0000001, 0.00001, 0.001],
+			"regular_case_count": 256,
+			"regular_probe_count": 768,
+			"transition_case_count": 512,
+			"transition_orientation": "PositiveZ",
+			"transition_probe_count": 1536,
+			"vertical_chunk_count": 3,
+			"vertical_same_lod_interfaces": 2,
+			"vertical_mixed_lod_faces": ["NegativeY", "PositiveY"]
 		},
 		"geometry_signature": "43f357d7c085438391b18de46e812698f84bef2280311ee4a753e4a2b09e34a3",
 		"status": "PASS"
