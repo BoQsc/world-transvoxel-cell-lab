@@ -9,6 +9,14 @@ const NATIVE_REGULAR_IMPLEMENTATION := "native_transvoxel_regular_cell_probe_v1"
 const NATIVE_AUTHORITY := "NATIVE_TRANSVOXEL_BACKEND_AUTHORITATIVE"
 const CELL_PROBE_CORRECTNESS_CLAIM := "exact_regular_and_transition_cell_backend_probe_v1"
 const LAB_CORRECTNESS_CLAIM := "exact_regular_transition_and_lod0_chunk_backend_probe_v2"
+const LAB_SCOPE := "cell_first_transvoxel_preview_and_validator"
+const PRIMARY_VALIDATION_DOMAIN := "volumetric_terrain"
+const PRIMITIVE_SCOPE := "transvoxel_scalar_field_cell_unit"
+const VALIDATION_STANDARD := "world_transvoxel_native_authoritative_no_fallback"
+const AUTHORITY_MODEL := "world_transvoxel_is_implementation_authority_under_test"
+const UPSTREAM_CORRECTION_POLICY := "proven_lab_repro_drives_world_transvoxel_fix"
+const INTEGRATION_GAME_ROLE := "downstream_proving_ground_not_correctness_authority"
+const INTEGRATION_GAME_DIAGNOSTIC_POLICY := "reduce_game_artifact_to_lab_repro_then_classify_fix_layer"
 const CHUNK_PROBE_IMPLEMENTATION := "native_transvoxel_lod0_chunk_mesher_probe_v1"
 const CHUNK_PROBE_CELLS_PER_AXIS := 16
 const CORNER_COUNT := 8
@@ -173,7 +181,12 @@ func get_last_report() -> Dictionary:
 
 func get_status_line() -> String:
 	var report := get_last_report()
-	return "status=%s regular_patch cells=%s tris=%d interior_open=%d boundary_open=%d nonmanifold=%d orient=%d transition_cell=%s tris=%d production_chunk=%s tris=%d edits=%d %.2fms exact_backend=%s" % [
+	return "scope=%s primary=%s primitive=%s authority_model=%s integration=%s status=%s regular_patch cells=%s tris=%d interior_open=%d boundary_open=%d nonmanifold=%d orient=%d transition_cell=%s tris=%d production_chunk=%s tris=%d edits=%d %.2fms exact_backend=%s" % [
+		str(report.get("lab_scope", LAB_SCOPE)),
+		str(report.get("primary_validation_domain", PRIMARY_VALIDATION_DOMAIN)),
+		str(report.get("primitive_scope", PRIMITIVE_SCOPE)),
+		str(report.get("authority_model", AUTHORITY_MODEL)),
+		str(report.get("integration_game_role", INTEGRATION_GAME_ROLE)),
 		str(report.get("status", "UNKNOWN")),
 		str(report.get("cells", Vector3i.ZERO)),
 		int(report.get("triangles", 0)),
@@ -1158,6 +1171,14 @@ func _make_report(mesh_data: Dictionary, transition_data: Dictionary, chunk_data
 	var correctness_claim := LAB_CORRECTNESS_CLAIM if bool(mesh_data.get("native_cell_probe_available", false)) else str(mesh_data.get("correctness_claim", "world_transvoxel_required_no_fallback"))
 	return {
 		"schema": REPORT_SCHEMA,
+		"lab_scope": LAB_SCOPE,
+		"primary_validation_domain": PRIMARY_VALIDATION_DOMAIN,
+		"primitive_scope": PRIMITIVE_SCOPE,
+		"validation_standard": VALIDATION_STANDARD,
+		"authority_model": AUTHORITY_MODEL,
+		"upstream_correction_policy": UPSTREAM_CORRECTION_POLICY,
+		"integration_game_role": INTEGRATION_GAME_ROLE,
+		"integration_game_diagnostic_policy": INTEGRATION_GAME_DIAGNOSTIC_POLICY,
 		"status": status,
 		"implementation": str(mesh_data.get("implementation", NATIVE_REGULAR_IMPLEMENTATION)),
 		"render_authority": str(mesh_data.get("render_authority", NATIVE_AUTHORITY)),

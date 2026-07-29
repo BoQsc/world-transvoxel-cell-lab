@@ -3,6 +3,28 @@
 Standalone Godot project for the separate `world_transvoxel_cell_lab` editor
 addon and its native `world_transvoxel` GDExtension dependency.
 
+## Lab Contract
+
+The lab is intentionally cell-first. It exists to inspect and validate the
+Transvoxel scalar-field unit that terrain is built from: regular cells,
+transition cells, chunk composition, edit behavior, topology, and rebuild cost.
+
+Terrain is the primary validation domain, but the primitive is not terrain-only.
+The report keeps that distinction explicit: this is a Transvoxel cell preview
+and validator for volumetric scalar-field surfaces, with terrain correctness and
+performance as the main standard.
+
+`world_transvoxel` is the implementation authority, not an infallible oracle. If
+the lab proves a contradiction with topology checks, visual inspection,
+reproducible cases, and focused tests, the expected outcome is an upstream
+`world_transvoxel` correction rather than a lab-side workaround.
+
+The integration game is a downstream proving ground, not the correctness
+authority. It can reveal important terrain, streaming, edit, and rendering
+issues, but those issues should be reduced into small lab repros before deciding
+whether the fix belongs in `world_transvoxel`, the integration layer, or the
+gameplay/runtime layer.
+
 Open:
 
 ```text

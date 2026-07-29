@@ -1,8 +1,27 @@
 # World Transvoxel Cell Lab
 
-This is a separate editor-only addon for close inspection of voxel terrain
-cells, edit brushes, patch metrics, and runtime readiness. It is intentionally
-not part of the production terrain stack.
+This is a separate editor-only addon for close inspection of the Transvoxel
+cell/unit primitive used by voxel terrain: regular cells, transition cells, edit
+brushes, patch metrics, chunk probes, topology, and runtime readiness. It is
+intentionally not terrain-only, but terrain correctness and performance are the
+primary validation targets.
+
+## Scope Standard
+
+- Cell-first: the lab treats the regular cell, transition cell, and chunk probe
+  as the authoritative building blocks to inspect.
+- Terrain-focused: digging, construction, LOD stitching, topology, and rebuild
+  cost are judged against volumetric terrain needs first.
+- Scalar-field aware: the same Transvoxel primitive can validate non-terrain
+  isosurfaces later without changing the core lab identity.
+- Native-authoritative: all rendered and reported output must come through
+  `world_transvoxel`; the lab must not grow a fallback mesher.
+- Evidence-driven: `world_transvoxel` is the implementation under test, not an
+  assumption of perfection. Proven lab failures should become reproducible tests
+  and upstream fixes.
+- Integration-facing: the integration game is a downstream proving ground. Game
+  artifacts should be reduced to lab repros, then classified as upstream,
+  integration, or gameplay/runtime fixes.
 
 Enable it from:
 

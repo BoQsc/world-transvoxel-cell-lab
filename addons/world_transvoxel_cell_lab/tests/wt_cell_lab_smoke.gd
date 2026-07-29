@@ -33,6 +33,30 @@ func _run() -> void:
 	if str(report.get("correctness_claim", "")) != "exact_regular_transition_and_lod0_chunk_backend_probe_v2":
 		_fail("native correctness claim was not explicit")
 		return
+	if str(report.get("lab_scope", "")) != "cell_first_transvoxel_preview_and_validator":
+		_fail("lab scope contract changed")
+		return
+	if str(report.get("primary_validation_domain", "")) != "volumetric_terrain":
+		_fail("primary validation domain changed")
+		return
+	if str(report.get("primitive_scope", "")) != "transvoxel_scalar_field_cell_unit":
+		_fail("primitive scope contract changed")
+		return
+	if str(report.get("validation_standard", "")) != "world_transvoxel_native_authoritative_no_fallback":
+		_fail("validation standard changed")
+		return
+	if str(report.get("authority_model", "")) != "world_transvoxel_is_implementation_authority_under_test":
+		_fail("authority model changed")
+		return
+	if str(report.get("upstream_correction_policy", "")) != "proven_lab_repro_drives_world_transvoxel_fix":
+		_fail("upstream correction policy changed")
+		return
+	if str(report.get("integration_game_role", "")) != "downstream_proving_ground_not_correctness_authority":
+		_fail("integration game role changed")
+		return
+	if str(report.get("integration_game_diagnostic_policy", "")) != "reduce_game_artifact_to_lab_repro_then_classify_fix_layer":
+		_fail("integration game diagnostic policy changed")
+		return
 	if int(report.get("interior_open_edges", -1)) != 0:
 		_fail("native exact mesh has interior open edges")
 		return
