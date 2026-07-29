@@ -71,6 +71,10 @@ func _run() -> void:
 	if not repro.has("parameters") or not repro.has("report"):
 		_fail("repro snapshot is incomplete")
 		return
+	report = lab.apply_repro_snapshot(repro)
+	if str(report.get("status", "")) != "PASS":
+		_fail("repro snapshot did not restore to a passing report")
+		return
 	if int(report.get("interior_open_edges", -1)) != 0:
 		_fail("native exact mesh has interior open edges")
 		return
@@ -112,6 +116,26 @@ func _run() -> void:
 		return
 	if int(report.get("chunk_probe_orientation_conflict_edges", -1)) != 0:
 		_fail("production chunk probe has orientation conflicts")
+		return
+	var regular_corpus: Dictionary = lab.validate_regular_case_corpus()
+	if str(regular_corpus.get("schema", "")) != "world_transvoxel.cell_lab.regular_case_corpus.v1":
+		_fail("unexpected regular case corpus schema")
+		return
+	if str(regular_corpus.get("status", "")) != "PASS":
+		_fail("regular case corpus did not pass: %s" % str(regular_corpus.get("sample_failures", [])))
+		return
+	if int(regular_corpus.get("ok_cases", 0)) != 254 or int(regular_corpus.get("empty_cases", 0)) != 2:
+		_fail("regular case corpus counts changed")
+		return
+	var transition_corpus: Dictionary = lab.validate_transition_case_corpus()
+	if str(transition_corpus.get("schema", "")) != "world_transvoxel.cell_lab.transition_case_corpus.v1":
+		_fail("unexpected transition case corpus schema")
+		return
+	if str(transition_corpus.get("status", "")) != "PASS":
+		_fail("transition case corpus did not pass: %s" % str(transition_corpus.get("sample_failures", [])))
+		return
+	if int(transition_corpus.get("ok_cases", 0)) != 3060 or int(transition_corpus.get("empty_cases", 0)) != 12:
+		_fail("transition case corpus counts changed")
 		return
 	lab.apply_dig_at(Vector3.ZERO, 1.0)
 	report = lab.get_last_report()

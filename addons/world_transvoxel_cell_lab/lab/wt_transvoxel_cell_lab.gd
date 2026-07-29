@@ -6,6 +6,8 @@ enum FieldMode { PLANE, SPHERE, TUNNEL, SADDLE, WAVES }
 
 const REPORT_SCHEMA := "world_transvoxel.cell_lab.report.v1"
 const REPRO_SCHEMA := "world_transvoxel.cell_lab.repro.v1"
+const REGULAR_CASE_CORPUS_SCHEMA := "world_transvoxel.cell_lab.regular_case_corpus.v1"
+const TRANSITION_CASE_CORPUS_SCHEMA := "world_transvoxel.cell_lab.transition_case_corpus.v1"
 const NATIVE_REGULAR_IMPLEMENTATION := "native_transvoxel_regular_cell_probe_v1"
 const NATIVE_AUTHORITY := "NATIVE_TRANSVOXEL_BACKEND_AUTHORITATIVE"
 const CELL_PROBE_CORRECTNESS_CLAIM := "exact_regular_and_transition_cell_backend_probe_v1"
@@ -21,6 +23,15 @@ const INTEGRATION_GAME_DIAGNOSTIC_POLICY := "reduce_game_artifact_to_lab_repro_t
 const CHUNK_PROBE_IMPLEMENTATION := "native_transvoxel_lod0_chunk_mesher_probe_v1"
 const CHUNK_PROBE_CELLS_PER_AXIS := 16
 const CORNER_COUNT := 8
+const TRANSITION_SAMPLE_COUNT := 9
+const TRANSITION_ORIENTATION_NAMES := [
+	"PositiveX",
+	"NegativeX",
+	"PositiveY",
+	"NegativeY",
+	"PositiveZ",
+	"NegativeZ",
+]
 const TRANSITION_ORIENTATION_POSITIVE_Z := 4
 
 @export_range(1, 24, 1) var cells_x: int = 4:
@@ -211,6 +222,177 @@ func make_repro_snapshot() -> Dictionary:
 	}
 
 
+func apply_repro_snapshot(snapshot: Dictionary) -> Dictionary:
+	if str(snapshot.get("schema", "")) != REPRO_SCHEMA:
+		return {
+			"ok": false,
+			"error": "unexpected_repro_schema",
+		}
+	var parameters: Dictionary = snapshot.get("parameters", {})
+	var previous_auto_rebuild := auto_rebuild
+	auto_rebuild = false
+	var extent := _variant_to_vector3i(parameters.get("cells", Vector3i(cells_x, cells_y, cells_z)), Vector3i(cells_x, cells_y, cells_z))
+	cells_x = extent.x
+	cells_y = extent.y
+	cells_z = extent.z
+	cell_size = float(parameters.get("cell_size", cell_size))
+	field_mode = _field_mode_from_variant(parameters.get("field_mode", FieldMode.keys()[field_mode]), field_mode)
+	isovalue = float(parameters.get("isovalue", isovalue))
+	surface_height = float(parameters.get("surface_height", surface_height))
+	sphere_radius = float(parameters.get("sphere_radius", sphere_radius))
+	edit_radius = float(parameters.get("edit_radius", edit_radius))
+	construct_material = int(parameters.get("construct_material", construct_material))
+	show_transition_frame = bool(parameters.get("show_transition_frame", show_transition_frame))
+	show_chunk_probe = bool(parameters.get("show_chunk_probe", show_chunk_probe))
+	show_probe_labels = bool(parameters.get("show_probe_labels", show_probe_labels))
+	wireframe = bool(parameters.get("wireframe", wireframe))
+	edits.clear()
+	var raw_edits: Array = snapshot.get("edits", [])
+	for raw_edit in raw_edits:
+		var edit: Dictionary = raw_edit
+		edits.append({
+			"mode": str(edit.get("mode", "")),
+			"center": _variant_to_vector3(edit.get("center", Vector3.ZERO), Vector3.ZERO),
+			"radius": float(edit.get("radius", edit_radius)),
+			"material": int(edit.get("material", construct_material)),
+		})
+	auto_rebuild = previous_auto_rebuild
+	return rebuild()
+
+
+func validate_regular_case_corpus() -> Dictionary:
+	var start_usec := Time.get_ticks_usec()
+	var probe := _get_native_cell_probe()
+	var result := {
+		"schema": REGULAR_CASE_CORPUS_SCHEMA,
+		"available": probe != null,
+		"authority": NATIVE_AUTHORITY,
+		"case_count": 256,
+		"ok_cases": 0,
+		"empty_cases": 0,
+		"failed_cases": 0,
+		"expected_empty_mismatches": 0,
+		"determinism_failures": 0,
+		"buffer_failures": 0,
+		"total_vertices": 0,
+		"total_triangles": 0,
+		"sample_failures": [],
+		"status": "Unavailable" if probe == null else "PASS",
+		"elapsed_ms": 0.0,
+	}
+	if probe == null:
+		_attach_validation_result("regular_case_corpus", result)
+		return result
+	for case_code in range(256):
+		var cell_mesh := _mesh_regular_case_code(probe, case_code)
+		var repeated_mesh := _mesh_regular_case_code(probe, case_code)
+		var status := str(cell_mesh.get("status", "Unknown"))
+		var expected_empty := case_code == 0 or case_code == 255
+		if status == "Ok":
+			result["ok_cases"] = int(result["ok_cases"]) + 1
+		elif status == "Empty":
+			result["empty_cases"] = int(result["empty_cases"]) + 1
+		else:
+			result["failed_cases"] = int(result["failed_cases"]) + 1
+			_append_sample_failure(result, case_code, -1, "regular status=%s" % status)
+		if (status == "Empty") != expected_empty:
+			result["expected_empty_mismatches"] = int(result["expected_empty_mismatches"]) + 1
+			_append_sample_failure(result, case_code, -1, "regular empty classification mismatch")
+		if not _cell_meshes_equivalent(cell_mesh, repeated_mesh):
+			result["determinism_failures"] = int(result["determinism_failures"]) + 1
+			_append_sample_failure(result, case_code, -1, "regular result is not deterministic")
+		var validation := _validate_cell_mesh_buffers(cell_mesh, CORNER_COUNT, CORNER_COUNT)
+		if int(validation.get("failures", 0)) > 0:
+			result["buffer_failures"] = int(result["buffer_failures"]) + int(validation.get("failures", 0))
+			_append_sample_failure(result, case_code, -1, str(validation.get("first_failure", "regular buffer validation failed")))
+		var vertices: PackedVector3Array = cell_mesh.get("vertices", PackedVector3Array())
+		var indices: PackedInt32Array = cell_mesh.get("indices", PackedInt32Array())
+		result["total_vertices"] = int(result["total_vertices"]) + vertices.size()
+		result["total_triangles"] = int(result["total_triangles"]) + int(indices.size() / 3)
+	result["elapsed_ms"] = float(Time.get_ticks_usec() - start_usec) / 1000.0
+	if int(result["failed_cases"]) > 0 or int(result["expected_empty_mismatches"]) > 0 or int(result["determinism_failures"]) > 0 or int(result["buffer_failures"]) > 0:
+		result["status"] = "FAIL"
+	_attach_validation_result("regular_case_corpus", result)
+	return result
+
+
+func validate_transition_case_corpus() -> Dictionary:
+	var start_usec := Time.get_ticks_usec()
+	var probe := _get_native_cell_probe()
+	var result := {
+		"schema": TRANSITION_CASE_CORPUS_SCHEMA,
+		"available": probe != null,
+		"authority": NATIVE_AUTHORITY,
+		"case_count": 512,
+		"orientation_count": TRANSITION_ORIENTATION_NAMES.size(),
+		"probe_count": 512 * TRANSITION_ORIENTATION_NAMES.size(),
+		"ok_cases": 0,
+		"empty_cases": 0,
+		"failed_cases": 0,
+		"expected_empty_mismatches": 0,
+		"orientation_status_mismatches": 0,
+		"orientation_count_mismatches": 0,
+		"determinism_failures": 0,
+		"buffer_failures": 0,
+		"bounds_failures": 0,
+		"total_vertices": 0,
+		"total_triangles": 0,
+		"sample_failures": [],
+		"status": "Unavailable" if probe == null else "PASS",
+		"elapsed_ms": 0.0,
+	}
+	if probe == null:
+		_attach_validation_result("transition_case_corpus", result)
+		return result
+	for case_code in range(512):
+		var canonical_mesh := _mesh_transition_case_code(probe, case_code, TRANSITION_ORIENTATION_POSITIVE_Z)
+		var canonical_status := str(canonical_mesh.get("status", "Unknown"))
+		var expected_empty := case_code == 0 or case_code == 511
+		if (canonical_status == "Empty") != expected_empty:
+			result["expected_empty_mismatches"] = int(result["expected_empty_mismatches"]) + 1
+			_append_sample_failure(result, case_code, TRANSITION_ORIENTATION_POSITIVE_Z, "transition empty classification mismatch")
+		for orientation in range(TRANSITION_ORIENTATION_NAMES.size()):
+			var cell_mesh := _mesh_transition_case_code(probe, case_code, orientation)
+			var repeated_mesh := _mesh_transition_case_code(probe, case_code, orientation)
+			var status := str(cell_mesh.get("status", "Unknown"))
+			if status == "Ok":
+				result["ok_cases"] = int(result["ok_cases"]) + 1
+			elif status == "Empty":
+				result["empty_cases"] = int(result["empty_cases"]) + 1
+			else:
+				result["failed_cases"] = int(result["failed_cases"]) + 1
+				_append_sample_failure(result, case_code, orientation, "transition status=%s" % status)
+			if status != canonical_status:
+				result["orientation_status_mismatches"] = int(result["orientation_status_mismatches"]) + 1
+				_append_sample_failure(result, case_code, orientation, "orientation changed transition status")
+			if status == "Ok":
+				var vertices: PackedVector3Array = cell_mesh.get("vertices", PackedVector3Array())
+				var indices: PackedInt32Array = cell_mesh.get("indices", PackedInt32Array())
+				var canonical_vertices: PackedVector3Array = canonical_mesh.get("vertices", PackedVector3Array())
+				var canonical_indices: PackedInt32Array = canonical_mesh.get("indices", PackedInt32Array())
+				if vertices.size() != canonical_vertices.size() or indices.size() != canonical_indices.size():
+					result["orientation_count_mismatches"] = int(result["orientation_count_mismatches"]) + 1
+					_append_sample_failure(result, case_code, orientation, "orientation changed transition counts")
+				result["total_vertices"] = int(result["total_vertices"]) + vertices.size()
+				result["total_triangles"] = int(result["total_triangles"]) + int(indices.size() / 3)
+				var bounds_failures := _transition_bounds_failure_count(vertices, orientation)
+				if bounds_failures > 0:
+					result["bounds_failures"] = int(result["bounds_failures"]) + bounds_failures
+					_append_sample_failure(result, case_code, orientation, "transition vertex outside canonical prism")
+			if not _cell_meshes_equivalent(cell_mesh, repeated_mesh):
+				result["determinism_failures"] = int(result["determinism_failures"]) + 1
+				_append_sample_failure(result, case_code, orientation, "transition result is not deterministic")
+			var validation := _validate_cell_mesh_buffers(cell_mesh, TRANSITION_SAMPLE_COUNT, 13)
+			if int(validation.get("failures", 0)) > 0:
+				result["buffer_failures"] = int(result["buffer_failures"]) + int(validation.get("failures", 0))
+				_append_sample_failure(result, case_code, orientation, str(validation.get("first_failure", "transition buffer validation failed")))
+	result["elapsed_ms"] = float(Time.get_ticks_usec() - start_usec) / 1000.0
+	if int(result["failed_cases"]) > 0 or int(result["expected_empty_mismatches"]) > 0 or int(result["orientation_status_mismatches"]) > 0 or int(result["orientation_count_mismatches"]) > 0 or int(result["determinism_failures"]) > 0 or int(result["buffer_failures"]) > 0 or int(result["bounds_failures"]) > 0:
+		result["status"] = "FAIL"
+	_attach_validation_result("transition_case_corpus", result)
+	return result
+
+
 func get_status_line() -> String:
 	var report := get_last_report()
 	return "scope=%s primary=%s primitive=%s authority_model=%s integration=%s status=%s regular_patch cells=%s tris=%d interior_open=%d boundary_open=%d nonmanifold=%d orient=%d transition_cell=%s tris=%d production_chunk=%s tris=%d edits=%d %.2fms exact_backend=%s" % [
@@ -294,6 +476,235 @@ func benchmark_rebuild(iterations: int = 24) -> Dictionary:
 	rebuild()
 	_last_report["benchmark"] = result
 	return result
+
+
+func _mesh_regular_case_code(probe: RefCounted, case_code: int) -> Dictionary:
+	var densities := PackedFloat32Array()
+	var gradients := PackedVector3Array()
+	var materials := PackedInt32Array()
+	for corner in range(CORNER_COUNT):
+		densities.append(-1.0 if (case_code & (1 << corner)) != 0 else 1.0)
+		gradients.append(Vector3.RIGHT)
+		materials.append(corner + 1)
+	return probe.call(
+		"mesh_regular_cell",
+		densities,
+		gradients,
+		materials,
+		Vector3.ZERO,
+		1.0,
+		0.0
+	)
+
+
+func _mesh_transition_case_code(probe: RefCounted, case_code: int, orientation: int) -> Dictionary:
+	var densities := PackedFloat32Array()
+	var gradients := PackedVector3Array()
+	var materials := PackedInt32Array()
+	for sample_index in range(TRANSITION_SAMPLE_COUNT):
+		var bit := _transition_case_bit(sample_index)
+		densities.append(-1.0 if (case_code & (1 << bit)) != 0 else 1.0)
+		gradients.append(Vector3.RIGHT)
+		materials.append(sample_index + 1)
+	return probe.call(
+		"mesh_transition_cell",
+		densities,
+		gradients,
+		materials,
+		orientation,
+		Vector3.ZERO,
+		1.0,
+		0.25,
+		0.0
+	)
+
+
+func _validate_cell_mesh_buffers(cell_mesh: Dictionary, sample_count: int, topology_sample_count: int) -> Dictionary:
+	var vertices: PackedVector3Array = cell_mesh.get("vertices", PackedVector3Array())
+	var normals: PackedVector3Array = cell_mesh.get("normals", PackedVector3Array())
+	var indices: PackedInt32Array = cell_mesh.get("indices", PackedInt32Array())
+	var materials: PackedInt32Array = cell_mesh.get("materials", PackedInt32Array())
+	var endpoint_a: PackedInt32Array = cell_mesh.get("endpoint_a", PackedInt32Array())
+	var endpoint_b: PackedInt32Array = cell_mesh.get("endpoint_b", PackedInt32Array())
+	var failures := 0
+	var first_failure := ""
+	if (indices.size() % 3) != 0:
+		failures += 1
+		first_failure = _first_failure(first_failure, "index count is not triangular")
+	for index in indices:
+		if int(index) < 0 or int(index) >= vertices.size():
+			failures += 1
+			first_failure = _first_failure(first_failure, "index outside active vertices")
+			break
+	for index in range(vertices.size()):
+		var position := vertices[index]
+		if not _vector_is_finite(position):
+			failures += 1
+			first_failure = _first_failure(first_failure, "position is not finite")
+		if index >= normals.size() or not _normal_is_valid(normals[index]):
+			failures += 1
+			first_failure = _first_failure(first_failure, "normal is not unit length")
+		if index >= materials.size() or int(materials[index]) <= 0 or int(materials[index]) > sample_count:
+			failures += 1
+			first_failure = _first_failure(first_failure, "material is outside sample set")
+		if index >= endpoint_a.size() or index >= endpoint_b.size():
+			failures += 1
+			first_failure = _first_failure(first_failure, "endpoint provenance is missing")
+			continue
+		var a := int(endpoint_a[index])
+		var b := int(endpoint_b[index])
+		if a < 0 or a >= topology_sample_count or b < 0 or b >= topology_sample_count:
+			failures += 1
+			first_failure = _first_failure(first_failure, "endpoint provenance is outside topology samples")
+		if a == b:
+			failures += 1
+			first_failure = _first_failure(first_failure, "endpoint provenance names a zero-length topology edge")
+	return {
+		"failures": failures,
+		"first_failure": first_failure,
+	}
+
+
+func _cell_meshes_equivalent(a: Dictionary, b: Dictionary) -> bool:
+	if str(a.get("status", "Unknown")) != str(b.get("status", "Unknown")):
+		return false
+	var a_vertices: PackedVector3Array = a.get("vertices", PackedVector3Array())
+	var b_vertices: PackedVector3Array = b.get("vertices", PackedVector3Array())
+	var a_normals: PackedVector3Array = a.get("normals", PackedVector3Array())
+	var b_normals: PackedVector3Array = b.get("normals", PackedVector3Array())
+	var a_indices: PackedInt32Array = a.get("indices", PackedInt32Array())
+	var b_indices: PackedInt32Array = b.get("indices", PackedInt32Array())
+	var a_materials: PackedInt32Array = a.get("materials", PackedInt32Array())
+	var b_materials: PackedInt32Array = b.get("materials", PackedInt32Array())
+	if a_vertices.size() != b_vertices.size() or a_normals.size() != b_normals.size() or a_indices.size() != b_indices.size() or a_materials.size() != b_materials.size():
+		return false
+	for index in range(a_vertices.size()):
+		if not _vectors_nearly_equal(a_vertices[index], b_vertices[index]):
+			return false
+		if not _vectors_nearly_equal(a_normals[index], b_normals[index]):
+			return false
+		if int(a_materials[index]) != int(b_materials[index]):
+			return false
+	for index in range(a_indices.size()):
+		if int(a_indices[index]) != int(b_indices[index]):
+			return false
+	return true
+
+
+func _transition_bounds_failure_count(vertices: PackedVector3Array, orientation: int) -> int:
+	var basis := _transition_basis(orientation)
+	var u: Vector3 = basis.get("u", Vector3.RIGHT)
+	var v: Vector3 = basis.get("v", Vector3.UP)
+	var w: Vector3 = basis.get("w", Vector3.FORWARD)
+	var failures := 0
+	for vertex in vertices:
+		var local := Vector3(vertex.dot(u), vertex.dot(v), vertex.dot(w))
+		if local.x < -0.0001 or local.x > 2.0001 or local.y < -0.0001 or local.y > 2.0001 or local.z < -0.0001 or local.z > 0.2501:
+			failures += 1
+	return failures
+
+
+func _transition_basis(orientation: int) -> Dictionary:
+	match orientation:
+		0:
+			return {"u": Vector3(0.0, 1.0, 0.0), "v": Vector3(0.0, 0.0, 1.0), "w": Vector3(1.0, 0.0, 0.0)}
+		1:
+			return {"u": Vector3(0.0, 1.0, 0.0), "v": Vector3(0.0, 0.0, -1.0), "w": Vector3(-1.0, 0.0, 0.0)}
+		2:
+			return {"u": Vector3(0.0, 0.0, 1.0), "v": Vector3(1.0, 0.0, 0.0), "w": Vector3(0.0, 1.0, 0.0)}
+		3:
+			return {"u": Vector3(0.0, 0.0, 1.0), "v": Vector3(-1.0, 0.0, 0.0), "w": Vector3(0.0, -1.0, 0.0)}
+		4:
+			return {"u": Vector3(1.0, 0.0, 0.0), "v": Vector3(0.0, 1.0, 0.0), "w": Vector3(0.0, 0.0, 1.0)}
+		5:
+			return {"u": Vector3(1.0, 0.0, 0.0), "v": Vector3(0.0, -1.0, 0.0), "w": Vector3(0.0, 0.0, -1.0)}
+	return {"u": Vector3(1.0, 0.0, 0.0), "v": Vector3(0.0, 1.0, 0.0), "w": Vector3(0.0, 0.0, 1.0)}
+
+
+func _attach_validation_result(key: String, result: Dictionary) -> void:
+	if _last_report.is_empty():
+		rebuild()
+	_last_report[key] = result
+
+
+func _append_sample_failure(result: Dictionary, case_code: int, orientation: int, message: String) -> void:
+	var failures: Array = result.get("sample_failures", [])
+	if failures.size() >= 16:
+		return
+	var entry := {
+		"case": case_code,
+		"message": message,
+	}
+	if orientation >= 0:
+		entry["orientation"] = TRANSITION_ORIENTATION_NAMES[orientation] if orientation < TRANSITION_ORIENTATION_NAMES.size() else str(orientation)
+	failures.append(entry)
+	result["sample_failures"] = failures
+
+
+func _first_failure(existing: String, candidate: String) -> String:
+	return candidate if existing.is_empty() else existing
+
+
+func _vector_is_finite(value: Vector3) -> bool:
+	return _float_is_finite(value.x) and _float_is_finite(value.y) and _float_is_finite(value.z)
+
+
+func _float_is_finite(value: float) -> bool:
+	return value == value and absf(value) < 100000000000000000000.0
+
+
+func _normal_is_valid(value: Vector3) -> bool:
+	if not _vector_is_finite(value):
+		return false
+	var length_squared := value.length_squared()
+	return length_squared >= 0.999 and length_squared <= 1.001
+
+
+func _vectors_nearly_equal(a: Vector3, b: Vector3, tolerance: float = 0.00001) -> bool:
+	return absf(a.x - b.x) <= tolerance and absf(a.y - b.y) <= tolerance and absf(a.z - b.z) <= tolerance
+
+
+func _field_mode_from_variant(value: Variant, default_value: int) -> int:
+	if typeof(value) == TYPE_INT:
+		return clampi(int(value), 0, FieldMode.keys().size() - 1)
+	var index := FieldMode.keys().find(str(value))
+	if index < 0:
+		return default_value
+	return index
+
+
+func _variant_to_vector3i(value: Variant, default_value: Vector3i) -> Vector3i:
+	match typeof(value):
+		TYPE_VECTOR3I:
+			return value
+		TYPE_VECTOR3:
+			var vector3: Vector3 = value
+			return Vector3i(roundi(vector3.x), roundi(vector3.y), roundi(vector3.z))
+		TYPE_DICTIONARY:
+			var dictionary: Dictionary = value
+			return Vector3i(
+				int(dictionary.get("x", default_value.x)),
+				int(dictionary.get("y", default_value.y)),
+				int(dictionary.get("z", default_value.z))
+			)
+	return default_value
+
+
+func _variant_to_vector3(value: Variant, default_value: Vector3) -> Vector3:
+	match typeof(value):
+		TYPE_VECTOR3:
+			return value
+		TYPE_VECTOR3I:
+			var vector3i: Vector3i = value
+			return Vector3(float(vector3i.x), float(vector3i.y), float(vector3i.z))
+		TYPE_DICTIONARY:
+			var dictionary: Dictionary = value
+			return Vector3(
+				float(dictionary.get("x", default_value.x)),
+				float(dictionary.get("y", default_value.y)),
+				float(dictionary.get("z", default_value.z))
+			)
+	return default_value
 
 
 func _apply_edit(mode: String, center: Vector3, radius: float) -> void:

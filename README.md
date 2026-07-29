@@ -3,6 +3,8 @@
 Standalone Godot project for the separate `world_transvoxel_cell_lab` editor
 addon and its native `world_transvoxel` GDExtension dependency.
 
+The implementation roadmap is tracked in `ROADMAP.md`.
+
 ## Lab Contract
 
 The lab is intentionally cell-first. It exists to inspect and validate the
@@ -53,7 +55,10 @@ generated through `WtChunkMesher`. Each probe is labeled in 3D with its native
 path and current triangle/sample counts.
 
 The editor dock groups the current validation report by contract, regular
-patch, transition cell, production chunk, and baseline timing. Use `Copy Report
-JSON` for quick inspection data, or `Save Repro` to persist the current
-parameters, edits, report, authority model, and integration-game classification
-policy under the Godot `user://world_transvoxel_cell_lab/repros` folder.
+patch, transition cell, production chunk, baseline timing, and corpus results.
+Use `Regular Corpus` to sweep all 256 regular cases, `Transition Corpus` to
+sweep all 512 transition cases across 6 orientations, `Copy Report JSON` for
+quick inspection data, or `Save Repro` to persist the current parameters, edits,
+report, authority model, and integration-game classification policy under the
+Godot `user://world_transvoxel_cell_lab/repros` folder. `Load Last Repro`
+restores the latest saved snapshot onto the selected lab node.

@@ -11,6 +11,7 @@ var _save_repro_button: Button
 var _report_sections: VBoxContainer
 var _last_report_json := ""
 var _last_saved_repro_path := ""
+var _last_loaded_repro_path := ""
 
 
 func _ready() -> void:
@@ -77,6 +78,21 @@ func _build_ui() -> void:
 	benchmark_button.text = "Baseline"
 	benchmark_button.pressed.connect(_benchmark_selected)
 	root.add_child(benchmark_button)
+
+	var validator_row := HBoxContainer.new()
+	root.add_child(validator_row)
+	var regular_corpus_button := Button.new()
+	regular_corpus_button.text = "Regular Corpus"
+	regular_corpus_button.pressed.connect(_validate_regular_corpus_selected)
+	validator_row.add_child(regular_corpus_button)
+	var transition_corpus_button := Button.new()
+	transition_corpus_button.text = "Transition Corpus"
+	transition_corpus_button.pressed.connect(_validate_transition_corpus_selected)
+	validator_row.add_child(transition_corpus_button)
+	var load_repro_button := Button.new()
+	load_repro_button.text = "Load Last Repro"
+	load_repro_button.pressed.connect(_load_last_repro_snapshot)
+	validator_row.add_child(load_repro_button)
 
 	var report_header := HBoxContainer.new()
 	root.add_child(report_header)
@@ -198,6 +214,20 @@ func _benchmark_selected() -> void:
 	var lab = _selected_lab()
 	if lab != null:
 		lab.benchmark_rebuild(24)
+	_refresh_status()
+
+
+func _validate_regular_corpus_selected() -> void:
+	var lab = _selected_lab()
+	if lab != null:
+		lab.validate_regular_case_corpus()
+	_refresh_status()
+
+
+func _validate_transition_corpus_selected() -> void:
+	var lab = _selected_lab()
+	if lab != null:
+		lab.validate_transition_case_corpus()
 	_refresh_status()
 
 
@@ -324,9 +354,60 @@ func _render_report(report: Dictionary) -> void:
 			["Maximum build", "%.3f ms" % float(benchmark.get("maximum_build_ms", 0.0))],
 			["Average triangles", benchmark.get("average_triangles", 0)],
 		])
+	var regular_corpus: Dictionary = report.get("regular_case_corpus", {})
+	if not regular_corpus.is_empty():
+		_add_section("Regular Corpus", [
+			["Status", regular_corpus.get("status", "Unavailable")],
+			["Cases", regular_corpus.get("case_count", 0)],
+			["Ok / empty / failed", "%d / %d / %d" % [
+				int(regular_corpus.get("ok_cases", 0)),
+				int(regular_corpus.get("empty_cases", 0)),
+				int(regular_corpus.get("failed_cases", 0)),
+			]],
+			["Expected empty mismatches", regular_corpus.get("expected_empty_mismatches", 0)],
+			["Determinism failures", regular_corpus.get("determinism_failures", 0)],
+			["Buffer failures", regular_corpus.get("buffer_failures", 0)],
+			["Vertices / triangles", "%d / %d" % [
+				int(regular_corpus.get("total_vertices", 0)),
+				int(regular_corpus.get("total_triangles", 0)),
+			]],
+			["Elapsed", "%.3f ms" % float(regular_corpus.get("elapsed_ms", 0.0))],
+			["Sample failures", _format_sample_failures(regular_corpus.get("sample_failures", []))],
+		])
+	var transition_corpus: Dictionary = report.get("transition_case_corpus", {})
+	if not transition_corpus.is_empty():
+		_add_section("Transition Corpus", [
+			["Status", transition_corpus.get("status", "Unavailable")],
+			["Cases / orientations / probes", "%d / %d / %d" % [
+				int(transition_corpus.get("case_count", 0)),
+				int(transition_corpus.get("orientation_count", 0)),
+				int(transition_corpus.get("probe_count", 0)),
+			]],
+			["Ok / empty / failed", "%d / %d / %d" % [
+				int(transition_corpus.get("ok_cases", 0)),
+				int(transition_corpus.get("empty_cases", 0)),
+				int(transition_corpus.get("failed_cases", 0)),
+			]],
+			["Expected empty mismatches", transition_corpus.get("expected_empty_mismatches", 0)],
+			["Orientation status mismatches", transition_corpus.get("orientation_status_mismatches", 0)],
+			["Orientation count mismatches", transition_corpus.get("orientation_count_mismatches", 0)],
+			["Determinism failures", transition_corpus.get("determinism_failures", 0)],
+			["Buffer failures", transition_corpus.get("buffer_failures", 0)],
+			["Bounds failures", transition_corpus.get("bounds_failures", 0)],
+			["Vertices / triangles", "%d / %d" % [
+				int(transition_corpus.get("total_vertices", 0)),
+				int(transition_corpus.get("total_triangles", 0)),
+			]],
+			["Elapsed", "%.3f ms" % float(transition_corpus.get("elapsed_ms", 0.0))],
+			["Sample failures", _format_sample_failures(transition_corpus.get("sample_failures", []))],
+		])
 	if not _last_saved_repro_path.is_empty():
 		_add_section("Repro", [
 			["Last saved", _last_saved_repro_path],
+		])
+	if not _last_loaded_repro_path.is_empty():
+		_add_section("Loaded Repro", [
+			["Last loaded", _last_loaded_repro_path],
 		])
 
 
@@ -349,7 +430,10 @@ func _write_repro_snapshot(snapshot: Dictionary) -> String:
 	if error != OK:
 		push_error("Could not create cell lab repro directory: %s" % absolute_dir_path)
 		return ""
-	var file_name := "cell_lab_repro_%d.json" % int(Time.get_unix_time_from_system())
+	var file_name := "cell_lab_repro_%d_%d.json" % [
+		int(Time.get_unix_time_from_system()),
+		Time.get_ticks_usec(),
+	]
 	var path := "%s/%s" % [dir_path, file_name]
 	var file := FileAccess.open(path, FileAccess.WRITE)
 	if file == null:
@@ -358,6 +442,47 @@ func _write_repro_snapshot(snapshot: Dictionary) -> String:
 	file.store_string(JSON.stringify(_to_json_safe(snapshot), "\t"))
 	file.close()
 	return ProjectSettings.globalize_path(path)
+
+
+func _load_last_repro_snapshot() -> void:
+	var lab = _selected_lab()
+	if lab == null:
+		_refresh_status()
+		return
+	var path := _latest_repro_path()
+	if path.is_empty():
+		push_error("No cell lab repro snapshots found.")
+		return
+	var file := FileAccess.open(path, FileAccess.READ)
+	if file == null:
+		push_error("Could not read cell lab repro: %s" % path)
+		return
+	var parsed := JSON.parse_string(file.get_as_text())
+	file.close()
+	if typeof(parsed) != TYPE_DICTIONARY:
+		push_error("Cell lab repro JSON did not contain a dictionary: %s" % path)
+		return
+	lab.apply_repro_snapshot(parsed)
+	_last_loaded_repro_path = ProjectSettings.globalize_path(path)
+	_refresh_status()
+
+
+func _latest_repro_path() -> String:
+	var dir_path := "user://world_transvoxel_cell_lab/repros"
+	var dir := DirAccess.open(dir_path)
+	if dir == null:
+		return ""
+	dir.list_dir_begin()
+	var latest_name := ""
+	var file_name := dir.get_next()
+	while not file_name.is_empty():
+		if not dir.current_is_dir() and file_name.ends_with(".json") and file_name > latest_name:
+			latest_name = file_name
+		file_name = dir.get_next()
+	dir.list_dir_end()
+	if latest_name.is_empty():
+		return ""
+	return "%s/%s" % [dir_path, latest_name]
 
 
 func _add_section(title: String, rows: Array) -> void:
@@ -400,6 +525,16 @@ func _format_value(value: Variant) -> String:
 			return "true" if bool(value) else "false"
 		_:
 			return str(value)
+
+
+func _format_sample_failures(value: Variant) -> String:
+	var failures: Array = value
+	if failures.is_empty():
+		return "none"
+	var lines: Array[String] = []
+	for failure in failures:
+		lines.append(str(failure))
+	return "\n".join(lines)
 
 
 func _to_json_safe(value: Variant) -> Variant:

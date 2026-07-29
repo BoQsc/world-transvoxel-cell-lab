@@ -40,6 +40,8 @@ The addon adds:
   cell, production chunk, and baseline sections;
 - copyable report JSON and saved repro snapshots for reducing upstream,
   integration, and gameplay/runtime issues to a small case;
+- all-case regular cell corpus validation;
+- all-case, all-orientation transition cell corpus validation;
 - a smoke script at
   `res://addons/world_transvoxel_cell_lab/tests/wt_cell_lab_smoke.gd`.
 
