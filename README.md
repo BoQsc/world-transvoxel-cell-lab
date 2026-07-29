@@ -27,4 +27,5 @@ minimal preview scene. The lab requires `WorldTransvoxelCellProbe` from
 
 The default scene shows the editable regular-cell patch, a native
 transition-cell probe, and a separate native LOD 0 production chunk probe
-generated through `WtChunkMesher`.
+generated through `WtChunkMesher`. Each probe is labeled in 3D with its native
+path and current triangle/sample counts.

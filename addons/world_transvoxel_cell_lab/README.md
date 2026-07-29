@@ -30,6 +30,8 @@ comes from the official MIT Transvoxel backend and reports:
 - exact transition-cell probe status, case code, orientation, and mesh health;
 - native LOD 0 production chunk probe status, samples, mesh size, and mesh
   health;
+- 3D probe labels for the editable regular patch, transition cell, and
+  production chunk;
 - interior open edges, boundary open edges, nonmanifold edges, and shared-edge
   orientation conflicts;
 - rebuild timing and edit count.

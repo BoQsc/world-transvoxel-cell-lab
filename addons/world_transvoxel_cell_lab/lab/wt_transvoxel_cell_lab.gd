@@ -64,6 +64,10 @@ const TRANSITION_ORIENTATION_POSITIVE_Z := 4
 	set(value):
 		show_chunk_probe = value
 		_request_rebuild()
+@export var show_probe_labels: bool = true:
+	set(value):
+		show_probe_labels = value
+		_request_rebuild()
 @export var wireframe: bool = false:
 	set(value):
 		wireframe = value
@@ -82,6 +86,7 @@ var _native_cell_probe: RefCounted
 var _mesh_root: Node3D
 var _sample_root: Node3D
 var _marker_root: Node3D
+var _label_root: Node3D
 var _surface_material: StandardMaterial3D
 var _wire_material: StandardMaterial3D
 var _solid_sample_material: StandardMaterial3D
@@ -104,6 +109,7 @@ func rebuild() -> Dictionary:
 	_clear_children(_mesh_root)
 	_clear_children(_sample_root)
 	_clear_children(_marker_root)
+	_clear_children(_label_root)
 
 	var mesh_data := _build_patch_mesh_data()
 	var transition_data := _build_transition_probe_mesh_data()
@@ -151,6 +157,8 @@ func rebuild() -> Dictionary:
 		_build_edit_markers()
 	if show_transition_frame:
 		_build_transition_frame()
+	if show_probe_labels:
+		_build_probe_labels(mesh_data, transition_data, chunk_data)
 
 	var elapsed_ms := float(Time.get_ticks_usec() - start_usec) / 1000.0
 	_last_report = _make_report(mesh_data, transition_data, chunk_data, elapsed_ms)
@@ -165,9 +173,8 @@ func get_last_report() -> Dictionary:
 
 func get_status_line() -> String:
 	var report := get_last_report()
-	return "status=%s authority=%s cells=%s tris=%d interior_open=%d boundary_open=%d nonmanifold=%d orient=%d transition=%s/%d chunk=%s/%d edits=%d %.2fms exact_backend=%s" % [
+	return "status=%s regular_patch cells=%s tris=%d interior_open=%d boundary_open=%d nonmanifold=%d orient=%d transition_cell=%s tris=%d production_chunk=%s tris=%d edits=%d %.2fms exact_backend=%s" % [
 		str(report.get("status", "UNKNOWN")),
-		str(report.get("render_authority", "unknown")),
 		str(report.get("cells", Vector3i.ZERO)),
 		int(report.get("triangles", 0)),
 		int(report.get("interior_open_edges", 0)),
@@ -269,6 +276,8 @@ func _ensure_roots() -> void:
 		_sample_root = _get_or_make_root("CellLabSamples")
 	if _marker_root == null or not is_instance_valid(_marker_root):
 		_marker_root = _get_or_make_root("CellLabEdits")
+	if _label_root == null or not is_instance_valid(_label_root):
+		_label_root = _get_or_make_root("CellLabLabels")
 
 
 func _get_or_make_root(root_name: String) -> Node3D:
@@ -792,6 +801,63 @@ func _make_edge_line_mesh(mesh_data: Dictionary) -> ArrayMesh:
 	if line_vertices.size() > 0:
 		mesh.add_surface_from_arrays(Mesh.PRIMITIVE_LINES, arrays)
 	return mesh
+
+
+func _build_probe_labels(mesh_data: Dictionary, transition_data: Dictionary, chunk_data: Dictionary) -> void:
+	_add_probe_label(
+		"REGULAR PATCH\nnative regular-cell probe\ncells %s | tris %d" % [
+			str(Vector3i(cells_x, cells_y, cells_z)),
+			int(mesh_data.get("triangles", 0)),
+		],
+		Vector3(0.0, float(cells_y) * cell_size * 0.5 + cell_size * 1.6, 0.0),
+		Color(0.55, 0.88, 1.0, 1.0)
+	)
+	_add_probe_label(
+		"TRANSITION CELL\n%s | case %d\ntris %d" % [
+			str(transition_data.get("orientation", "PositiveZ")),
+			int(transition_data.get("case_code", -1)),
+			int(transition_data.get("triangles", 0)),
+		],
+		_transition_probe_label_position(),
+		Color(1.0, 0.58, 0.22, 1.0)
+	)
+	if show_chunk_probe:
+		_add_probe_label(
+			"PRODUCTION CHUNK\nWtChunkMesher LOD%d\ntris %d | samples %d" % [
+				int(chunk_data.get("chunk_lod", 0)),
+				int(chunk_data.get("triangles", 0)),
+				int(chunk_data.get("sample_count", 0)),
+			],
+			_chunk_probe_label_position(),
+			Color(0.45, 1.0, 0.68, 1.0)
+		)
+
+
+func _add_probe_label(text: String, position: Vector3, color: Color) -> void:
+	var label := Label3D.new()
+	label.name = "probe_label"
+	label.text = text
+	label.position = position
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	label.modulate = color
+	label.outline_modulate = Color(0.02, 0.025, 0.03, 1.0)
+	label.outline_size = 5
+	label.font_size = 16
+	label.pixel_size = 0.006
+	label.fixed_size = false
+	label.no_depth_test = true
+	label.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+	_label_root.add_child(label)
+
+
+func _transition_probe_label_position() -> Vector3:
+	var origin := _transition_probe_origin()
+	return origin + Vector3(cell_size, cell_size * 3.0, _transition_probe_width() * 0.5)
+
+
+func _chunk_probe_label_position() -> Vector3:
+	return _chunk_probe_visual_offset() + Vector3(0.0, sphere_radius + cell_size * 1.4, 0.0)
 
 
 func _transition_probe_origin() -> Vector3:
