@@ -34,49 +34,49 @@
 			"path": "res://addons/world_transvoxel_cell_lab/standards/visuals/reference_terrain.png",
 			"width": 1152,
 			"height": 648,
-			"sha256": "c136c62c5bb9199379a414f96bb1a8bbe150cb45174eaf648e0469a6c4c5c1b4"
+			"sha256": "4556dd5eb3a578b83cd433fd8b8accdab799e5e08532b7b2582f548e45831c62"
 		},
 		{
 			"id": "reference_terrain_lod",
 			"path": "res://addons/world_transvoxel_cell_lab/standards/visuals/reference_terrain_lod.png",
 			"width": 1152,
 			"height": 648,
-			"sha256": "724cff3add7604714394e638e81345db6976684d16e0a4523f78441e865d824c"
+			"sha256": "d8505c269a1a35131a81e74a81ca1652ea18f867aa5caaf7872513089454d702"
 		},
 		{
 			"id": "reference_terrain_materials",
 			"path": "res://addons/world_transvoxel_cell_lab/standards/visuals/reference_terrain_materials.png",
 			"width": 1152,
 			"height": 648,
-			"sha256": "dc0eca944cf42b5e92160863c700d0287cedee70f78e964115d57150ffbb3dc7"
+			"sha256": "b9ed6d91d2ad80c754b1290ad1528d62ccad88bd088f09ce3808be79d76bdedb"
 		},
 		{
 			"id": "reference_terrain_triangles",
 			"path": "res://addons/world_transvoxel_cell_lab/standards/visuals/reference_terrain_triangles.png",
 			"width": 1152,
 			"height": 648,
-			"sha256": "5381c2294d550cefa54f757b19e297ecf89b2bb563ae1e4a7425c1ca3dcc095f"
+			"sha256": "ec69706e43b6e9bed24a0428cb35617a4edfa0c09188f9772274a551f65bded4"
 		},
 		{
 			"id": "reference_terrain_normals",
 			"path": "res://addons/world_transvoxel_cell_lab/standards/visuals/reference_terrain_normals.png",
 			"width": 1152,
 			"height": 648,
-			"sha256": "9284f5010c0931f13a11e0246030afb20192907a0e755d8aaeb2ae966fcc6e96"
+			"sha256": "cb56c47b7c06024407f5522f3b940596d79eb0e006084ed80a4903a919ced045"
 		},
 		{
 			"id": "reference_terrain_seams",
 			"path": "res://addons/world_transvoxel_cell_lab/standards/visuals/reference_terrain_seams.png",
 			"width": 1152,
 			"height": 648,
-			"sha256": "00a5db8ec34682ef485d863549d3fd0510699e9a304930488fc5e1df9fd4fa35"
+			"sha256": "891574d800acca386337ec36fc5ab6bf4bd0951b01d8262f860179bfa17293d0"
 		},
 		{
 			"id": "reference_terrain_density",
 			"path": "res://addons/world_transvoxel_cell_lab/standards/visuals/reference_terrain_density.png",
 			"width": 1152,
 			"height": 648,
-			"sha256": "040a15c1c51279a4343b9d83ccea45bdec908cef111c11342a019fedebacdd7b"
+			"sha256": "b869b585228a4a32723bb8381d3385b8349242897407dc05a415ddcbd1ded9c3"
 		}
 	]
 }

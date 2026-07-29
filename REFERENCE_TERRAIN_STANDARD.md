@@ -20,7 +20,7 @@ fallback mesher.
 
 ## Layout
 
-The fixture ID is `canonical_lod_ring_v1`.
+The fixture ID is `canonical_lod_ring_v2`.
 
 ```text
 LOD1   LOD1   LOD1
@@ -51,6 +51,11 @@ Fifteen signed-density probes permanently verify bedrock, open air, both sides
 of the cliff, tunnel and branch air, cave core and shell, overhang and
 undercut, arch pillars/opening/crown, and thin-feature solid/clearance.
 
+The canonical main tunnel is deep enough that its minimum analytic roof
+clearance exceeds the LOD1 cell size. The former shallow-roof geometry is
+retained separately as `coarse_tunnel_roof_alias_v1`; it is a negative fixture,
+not passing canonical terrain.
+
 ## Required Invariants
 
 A passing result requires:
@@ -60,6 +65,12 @@ A passing result requires:
 - no native buffer has nonfinite vertices, degenerate or duplicate triangles,
   nonmanifold edges, shared-edge orientation conflicts, or component-level
   winding/normal conflicts;
+- no canonical triangle has a local winding/normal disagreement or ambiguous
+  alignment;
+- the X=`46.14122` analytic and extracted cross-sections both contain exactly
+  two components: terrain surface and tunnel;
+- the shallow-roof negative fixture must collapse those components at LOD1,
+  recover them at LOD0, and be reported as detected;
 - all 12 same-LOD neighbor seam signatures match;
 - all four LOD1-to-LOD0 interface signatures match;
 - visible crack count is zero;
@@ -78,24 +89,28 @@ The committed standard currently requires:
 
 - 12 chunks: eight LOD1 and four LOD0;
 - four chunks with transition surfaces;
-- 115,406 native sample calls;
-- 10,844 regular triangles;
-- 298 transition triangles;
-- 11,142 total triangles;
+- 115,609 native sample calls;
+- 11,054 regular triangles;
+- 302 transition triangles;
+- 11,356 total triangles;
 - material IDs `1`, `2`, `3`, `4`, and `6`;
 - nine named terrain features and 15 passing signed-density probes;
 - seven validated observatory views;
 - 1,089 samples and 2,048 triangles in the standard density slice;
-- zero strict mesh-integrity failures, with eight measured local
-  triangle/normal disagreements inside a correctly oriented component;
-- 636 normal lines;
-- 16 tested seam interfaces containing 501 matched exact edge signatures and
+- zero mesh-integrity failures, local triangle/normal disagreements, and
+  ambiguous alignments;
+- canonical section component count `2`, with a minimum tunnel-roof clearance
+  of `3.504534` versus LOD1 cell size `2.0`;
+- negative-fixture section component counts `1` at LOD1 and `2` at LOD0,
+  retaining eight coarse disagreements and zero fine disagreements;
+- 589 normal lines;
+- 16 tested seam interfaces containing 511 matched exact edge signatures and
   zero unmatched edges;
 - 2,304 near-isovalue cell probes at `1e-7`, `1e-5`, and `1e-3`;
 - two nonempty vertical same-LOD interfaces and two vertical mixed-LOD
   interfaces;
 - geometry SHA-256
-  `43f357d7c085438391b18de46e812698f84bef2280311ee4a753e4a2b09e34a3`.
+  `984e632ab2940fc2658debfce3c0dae672d1462cb9572045424be0b7c62c89df`.
 
 These values are not assumed to be eternally correct. A deliberate upstream
 correction may change them, but only with a minimized repro, a stated
@@ -122,8 +137,9 @@ toggled independently. All view settings are preserved in repro snapshots.
 
 Move the terrain cursor, set the edit radius, and apply `Terrain Dig` or
 `Terrain Construct`. `Clear Terrain` restores the canonical field. Run
-`Reference Terrain` validation for the full seam, buffer, feature,
-determinism, incremental-edit, and seven-view observatory proof.
+`Reference Terrain` validation for the full seam, buffer, feature, topology
+separation, retained negative-fixture, determinism, incremental-edit, and
+seven-view observatory proof.
 
 Seven committed terrain images lock the surface, LOD, material, triangle,
 normal, seam, and density presentations by dimensions, nonblank variation,

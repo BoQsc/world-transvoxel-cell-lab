@@ -53,7 +53,7 @@ integration classification, or standards execution.
 | `wt_cell_lab_report_builder.gd` | Canonical live report construction |
 | `wt_cell_lab_inspection_presenter.gd` | Selected-case and mixed-LOD close-up rendering |
 | `wt_cell_lab_reference_field.gd` | Canonical terrain density, materials, feature catalog, probes, and edit composition |
-| `wt_cell_lab_reference_terrain.gd` | Multi-chunk LOD assembly, seam/edit proof, deterministic signature, and benchmark |
+| `wt_cell_lab_reference_terrain.gd` | Multi-chunk LOD assembly, seam/edit proof, analytic section topology, retained negative fixtures, deterministic signature, and benchmark |
 | `wt_cell_lab_terrain_observatory.gd` | Derived terrain views, overlays, density slices, view validation, and observatory benchmark |
 | `wt_cell_lab_reference_terrain_presenter.gd` | Rendering of observatory buffers, overlays, selection, labels, and edit markers |
 
@@ -93,7 +93,8 @@ The terrain validation chain is intentionally layered:
 cell contracts
     -> isolated chunk and LOD fixtures
         -> canonical multi-chunk reference terrain
-            -> integration-game reduction
+            -> retained negative terrain fixtures
+                -> integration-game reduction
 ```
 
 The canonical terrain is the first layer that proves regular surfaces,
@@ -107,10 +108,12 @@ buffers. It cannot generate replacement terrain geometry. A view failure fails
 observatory validation; it does not substitute another implementation.
 
 Winding validation follows the upstream production contract. Shared edges must
-be consistently oriented, and each connected component must agree in aggregate
-with the interpolated SDF normals. Individual triangles can oppose their
-averaged vertex normal at sharp CSG features; those are retained as measured
-diagnostics, not silently discarded or treated as component inversion.
+be consistently oriented, each connected component must agree in aggregate
+with interpolated SDF normals, and canonical terrain rejects every local
+triangle/normal disagreement or ambiguous alignment. Deliberately
+under-resolved fields that produce such triangles belong in named negative
+fixtures with an analytic invariant and a resolved control, not in a passing
+canonical baseline.
 
 ## Evidence Rule
 

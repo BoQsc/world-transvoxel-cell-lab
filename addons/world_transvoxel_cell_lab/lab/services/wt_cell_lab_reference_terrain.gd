@@ -6,13 +6,17 @@ const Contracts := preload("res://addons/world_transvoxel_cell_lab/lab/services/
 const MeshAnalysis := preload("res://addons/world_transvoxel_cell_lab/lab/services/wt_cell_lab_mesh_analysis.gd")
 const ReferenceField := preload("res://addons/world_transvoxel_cell_lab/lab/services/wt_cell_lab_reference_field.gd")
 
-const FIXTURE_ID := "canonical_lod_ring_v1"
+const FIXTURE_ID := "canonical_lod_ring_v2"
+const TOPOLOGY_ALIAS_FIXTURE_ID := "coarse_tunnel_roof_alias_v1"
 const FINE_LOD := 0
 const COARSE_LOD := 1
 const ISO_VALUE := 0.0
 const TRANSITION_WIDTH_RATIO := 0.25
 const CONSTRUCT_MATERIAL := 5
 const TERRAIN_BOUNDS := AABB(Vector3(-32.0, 0.0, -32.0), Vector3(96.0, 32.0, 96.0))
+const TOPOLOGY_SECTION_AXIS := 0
+const TOPOLOGY_SECTION_PLANE := 46.14122
+const EXPECTED_SECTION_COMPONENTS := 2
 
 var _field := ReferenceField.new()
 var edits: Array[Dictionary]:
@@ -87,6 +91,8 @@ func validate(probe: RefCounted) -> Dictionary:
 	var buffer_validation := _validate_buffers(baseline.get("buffers", []))
 	var seam_validation: Dictionary = baseline.get("seam_validation", {})
 	var feature_validation := _field.validate_feature_probes()
+	var topology_separation := _validate_canonical_topology_separation(baseline)
+	var negative_fixture := _validate_topology_alias_fixture(probe)
 	var deterministic := str(baseline.get("geometry_signature", "")) == str(
 		repeated.get("geometry_signature", "")
 	)
@@ -103,6 +109,10 @@ func validate(probe: RefCounted) -> Dictionary:
 		failures.append("one or more canonical terrain seams did not match")
 	if str(feature_validation.get("status", "")) != "PASS":
 		failures.append("one or more canonical field feature probes changed")
+	if str(topology_separation.get("status", "")) != "PASS":
+		failures.append("canonical terrain and tunnel sections are not separated")
+	if str(negative_fixture.get("status", "")) != "PASS":
+		failures.append("coarse topology-alias negative fixture was not detected")
 	if str(edit_validation.get("status", "")) != "PASS":
 		failures.append("incremental terrain edit rebuild did not match a full rebuild")
 	return {
@@ -128,6 +138,8 @@ func validate(probe: RefCounted) -> Dictionary:
 		"buffer_validation": buffer_validation,
 		"seam_validation": seam_validation,
 		"feature_validation": feature_validation,
+		"topology_separation": topology_separation,
+		"negative_fixture": negative_fixture,
 		"edit_validation": edit_validation,
 		"visible_crack_count": int(seam_validation.get("visible_crack_count", 0)),
 		"sample_failures": failures,
@@ -171,6 +183,12 @@ func standard_signature(probe: RefCounted) -> Dictionary:
 	edits.clear()
 	var fixture := build(probe)
 	var integrity := _validate_buffers(fixture.get("buffers", []))
+	var topology_separation := _validate_canonical_topology_separation(fixture)
+	var negative_fixture := _validate_topology_alias_fixture(probe)
+	var standard_ok := str(fixture.get("status", "")) == "PASS" \
+		and str(integrity.get("status", "")) == "PASS" \
+		and str(topology_separation.get("status", "")) == "PASS" \
+		and str(negative_fixture.get("status", "")) == "PASS"
 	edits = original_edits
 	return {
 		"fixture_id": FIXTURE_ID,
@@ -213,8 +231,10 @@ func standard_signature(probe: RefCounted) -> Dictionary:
 			),
 			"expected_normal_winding_polarity": MeshAnalysis.NORMAL_WINDING_POLARITY,
 		},
+		"topology_separation": topology_separation,
+		"negative_fixture": negative_fixture,
 		"geometry_signature": str(fixture.get("geometry_signature", "")),
-		"status": str(fixture.get("status", "FAIL")),
+		"status": "PASS" if standard_ok else "FAIL",
 	}
 
 
@@ -277,9 +297,17 @@ func _spec(id_value: String, coordinate: Vector3i, lod: int, transition_mask: in
 
 
 func _mesh_spec(probe: RefCounted, spec: Dictionary) -> Dictionary:
+	return _mesh_spec_with_field(probe, spec, _field)
+
+
+func _mesh_spec_with_field(
+	probe: RefCounted,
+	spec: Dictionary,
+	field: RefCounted
+) -> Dictionary:
 	var chunk: Dictionary = probe.call(
 		"mesh_chunk_with_callable",
-		Callable(self, "_sample"),
+		Callable(field, "sample"),
 		spec.get("coordinate", Vector3i.ZERO),
 		int(spec.get("lod", 0)),
 		int(spec.get("transition_mask", 0)),
@@ -296,7 +324,264 @@ func _sample(point: Vector3i) -> Dictionary:
 	return _field.sample(point)
 
 
-func _validate_buffers(buffers: Array) -> Dictionary:
+func _validate_canonical_topology_separation(fixture: Dictionary) -> Dictionary:
+	var buffer := _regular_buffer_by_id(fixture.get("buffers", []), "coarse_east")
+	var section := _plane_section_topology(
+		[buffer] if not buffer.is_empty() else [],
+		TOPOLOGY_SECTION_AXIS,
+		TOPOLOGY_SECTION_PLANE
+	)
+	var roof := _field.main_tunnel_roof_clearance(TOPOLOGY_SECTION_PLANE)
+	var coarse_cell_size := float(1 << COARSE_LOD)
+	var status_ok := not buffer.is_empty() \
+		and int(section.get("component_count", 0)) == EXPECTED_SECTION_COMPONENTS \
+		and int(section.get("open_endpoint_count", -1)) == 2 \
+		and int(section.get("branch_point_count", -1)) == 0 \
+		and float(roof.get("minimum_clearance", 0.0)) > coarse_cell_size
+	return {
+		"schema": "world_transvoxel.cell_lab.topology_separation.v1",
+		"id": "canonical_main_tunnel_roof",
+		"status": "PASS" if status_ok else "FAIL",
+		"section_axis": TOPOLOGY_SECTION_AXIS,
+		"section_plane": TOPOLOGY_SECTION_PLANE,
+		"expected_analytic_components": EXPECTED_SECTION_COMPONENTS,
+		"extracted_component_count": int(section.get("component_count", 0)),
+		"section_segment_count": int(section.get("segment_count", 0)),
+		"open_endpoint_count": int(section.get("open_endpoint_count", 0)),
+		"branch_point_count": int(section.get("branch_point_count", 0)),
+		"minimum_roof_clearance": float(roof.get("minimum_clearance", 0.0)),
+		"minimum_roof_clearance_z": float(roof.get("minimum_clearance_z", 0.0)),
+		"coarse_cell_size": coarse_cell_size,
+	}
+
+
+func _validate_topology_alias_fixture(probe: RefCounted) -> Dictionary:
+	var alias_field := ReferenceField.new()
+	alias_field.set_fixture_profile(ReferenceField.PROFILE_COARSE_TUNNEL_ROOF_ALIAS)
+	var coarse_chunk := _mesh_spec_with_field(
+		probe,
+		_spec("alias_coarse_east", Vector3i(1, 0, 0), COARSE_LOD, 0),
+		alias_field
+	)
+	var coarse_buffer := _buffer_from_mesh(
+		coarse_chunk,
+		coarse_chunk.get("regular", {}),
+		_chunk_origin(coarse_chunk),
+		"regular",
+		-1
+	)
+	var fine_chunks: Array[Dictionary] = []
+	for coordinate in [
+		Vector3i(2, 0, 0),
+		Vector3i(3, 0, 0),
+		Vector3i(2, 0, 1),
+		Vector3i(3, 0, 1),
+	]:
+		fine_chunks.append(_mesh_spec_with_field(
+			probe,
+			_spec("alias_fine_%d_%d" % [coordinate.x, coordinate.z], coordinate, FINE_LOD, 0),
+			alias_field
+		))
+	var fine_buffers: Array = []
+	var fine_ok := true
+	for chunk in fine_chunks:
+		fine_ok = fine_ok and bool(chunk.get("ok", false))
+		fine_buffers.append(_buffer_from_mesh(
+			chunk,
+			chunk.get("regular", {}),
+			_chunk_origin(chunk),
+			"regular",
+			-1
+		))
+	var coarse_integrity := _winding_diagnostics([coarse_buffer])
+	var fine_integrity := _winding_diagnostics(fine_buffers)
+	var coarse_section := _plane_section_topology(
+		[coarse_buffer],
+		TOPOLOGY_SECTION_AXIS,
+		TOPOLOGY_SECTION_PLANE
+	)
+	var fine_section := _plane_section_topology(
+		fine_buffers,
+		TOPOLOGY_SECTION_AXIS,
+		TOPOLOGY_SECTION_PLANE
+	)
+	var roof := alias_field.main_tunnel_roof_clearance(TOPOLOGY_SECTION_PLANE)
+	var coarse_cell_size := float(1 << COARSE_LOD)
+	var detected := bool(coarse_chunk.get("ok", false)) \
+		and fine_ok \
+		and float(roof.get("minimum_clearance", 0.0)) > 0.0 \
+		and float(roof.get("minimum_clearance", INF)) < coarse_cell_size \
+		and int(coarse_section.get("component_count", 0)) == 1 \
+		and int(fine_section.get("component_count", 0)) == EXPECTED_SECTION_COMPONENTS \
+		and int(coarse_integrity.get("local_winding_normal_disagreements", 0)) == 8 \
+		and int(coarse_integrity.get("winding_normal_conflicts", -1)) == 0 \
+		and int(fine_integrity.get("local_winding_normal_disagreements", -1)) == 0 \
+		and int(fine_integrity.get("winding_normal_conflicts", -1)) == 0
+	return {
+		"schema": "world_transvoxel.cell_lab.negative_terrain_fixture.v1",
+		"id": TOPOLOGY_ALIAS_FIXTURE_ID,
+		"status": "PASS" if detected else "FAIL",
+		"expected_result": "coarse_alias_detected_and_fine_control_separated",
+		"detected": detected,
+		"section_axis": TOPOLOGY_SECTION_AXIS,
+		"section_plane": TOPOLOGY_SECTION_PLANE,
+		"expected_analytic_components": EXPECTED_SECTION_COMPONENTS,
+		"coarse_extracted_components": int(coarse_section.get("component_count", 0)),
+		"fine_extracted_components": int(fine_section.get("component_count", 0)),
+		"coarse_section_segments": int(coarse_section.get("segment_count", 0)),
+		"fine_section_segments": int(fine_section.get("segment_count", 0)),
+		"coarse_local_winding_normal_disagreements": int(
+			coarse_integrity.get("local_winding_normal_disagreements", 0)
+		),
+		"fine_local_winding_normal_disagreements": int(
+			fine_integrity.get("local_winding_normal_disagreements", 0)
+		),
+		"coarse_winding_normal_conflicts": int(
+			coarse_integrity.get("winding_normal_conflicts", 0)
+		),
+		"fine_winding_normal_conflicts": int(
+			fine_integrity.get("winding_normal_conflicts", 0)
+		),
+		"minimum_roof_clearance": float(roof.get("minimum_clearance", 0.0)),
+		"minimum_roof_clearance_z": float(roof.get("minimum_clearance_z", 0.0)),
+		"coarse_cell_size": coarse_cell_size,
+	}
+
+
+func _regular_buffer_by_id(buffers: Array, chunk_id: String) -> Dictionary:
+	for buffer_value in buffers:
+		var buffer: Dictionary = buffer_value
+		if str(buffer.get("chunk_id", "")) == chunk_id \
+				and str(buffer.get("kind", "")) == "regular":
+			return buffer
+	return {}
+
+
+func _winding_diagnostics(buffers: Array) -> Dictionary:
+	var local_disagreements := 0
+	var local_ambiguous := 0
+	var component_conflicts := 0
+	for buffer_value in buffers:
+		var buffer: Dictionary = buffer_value
+		var integrity := MeshAnalysis.validate_triangle_mesh_integrity(
+			buffer.get("vertices", PackedVector3Array()),
+			buffer.get("normals", PackedVector3Array()),
+			buffer.get("indices", PackedInt32Array())
+		)
+		local_disagreements += int(
+			integrity.get("local_winding_normal_disagreements", 0)
+		)
+		local_ambiguous += int(integrity.get("local_winding_normal_ambiguous", 0))
+		component_conflicts += int(integrity.get("winding_normal_conflicts", 0))
+	return {
+		"local_winding_normal_disagreements": local_disagreements,
+		"local_winding_normal_ambiguous": local_ambiguous,
+		"winding_normal_conflicts": component_conflicts,
+	}
+
+
+func _plane_section_topology(buffers: Array, axis: int, plane: float) -> Dictionary:
+	var segments := {}
+	for buffer_value in buffers:
+		var buffer: Dictionary = buffer_value
+		var origin: Vector3 = buffer.get("origin", Vector3.ZERO)
+		var vertices: PackedVector3Array = buffer.get("vertices", PackedVector3Array())
+		var indices: PackedInt32Array = buffer.get("indices", PackedInt32Array())
+		for offset in range(0, indices.size(), 3):
+			if offset + 2 >= indices.size():
+				break
+			var points := [
+				vertices[indices[offset]] + origin,
+				vertices[indices[offset + 1]] + origin,
+				vertices[indices[offset + 2]] + origin,
+			]
+			var hits: Array[Vector3] = []
+			for pair in [[0, 1], [1, 2], [2, 0]]:
+				var a: Vector3 = points[pair[0]]
+				var b: Vector3 = points[pair[1]]
+				var da := a[axis] - plane
+				var db := b[axis] - plane
+				if absf(da) <= 0.000001:
+					_append_unique_section_hit(hits, a)
+				if absf(db) <= 0.000001:
+					_append_unique_section_hit(hits, b)
+				if da * db < 0.0:
+					_append_unique_section_hit(hits, a.lerp(b, da / (da - db)))
+			if hits.size() < 2:
+				continue
+			var first := _section_point_key(hits[0])
+			var second := _section_point_key(hits[1])
+			if first == second:
+				continue
+			var segment_key := "%s|%s" % [first, second] \
+				if first < second else "%s|%s" % [second, first]
+			segments[segment_key] = [first, second]
+	var adjacency := {}
+	for endpoints_value in segments.values():
+		var endpoints: Array = endpoints_value
+		_connect_section_points(adjacency, str(endpoints[0]), str(endpoints[1]))
+	var visited := {}
+	var component_count := 0
+	for start_value in adjacency.keys():
+		var start := str(start_value)
+		if visited.has(start):
+			continue
+		component_count += 1
+		var pending: Array[String] = [start]
+		visited[start] = true
+		while not pending.is_empty():
+			var current := pending.pop_back()
+			for neighbor_value in adjacency.get(current, []):
+				var neighbor := str(neighbor_value)
+				if visited.has(neighbor):
+					continue
+				visited[neighbor] = true
+				pending.append(neighbor)
+	var open_endpoints := 0
+	var branch_points := 0
+	for neighbors_value in adjacency.values():
+		var degree := (neighbors_value as Array).size()
+		open_endpoints += 1 if degree == 1 else 0
+		branch_points += 1 if degree > 2 else 0
+	return {
+		"component_count": component_count,
+		"segment_count": segments.size(),
+		"point_count": adjacency.size(),
+		"open_endpoint_count": open_endpoints,
+		"branch_point_count": branch_points,
+	}
+
+
+func _append_unique_section_hit(hits: Array[Vector3], point: Vector3) -> void:
+	for existing in hits:
+		if existing.distance_squared_to(point) <= 0.0000000001:
+			return
+	hits.append(point)
+
+
+func _section_point_key(point: Vector3) -> String:
+	return "%d:%d:%d" % [
+		roundi(point.x * 10000.0),
+		roundi(point.y * 10000.0),
+		roundi(point.z * 10000.0),
+	]
+
+
+func _connect_section_points(adjacency: Dictionary, first: String, second: String) -> void:
+	if not adjacency.has(first):
+		adjacency[first] = []
+	if not adjacency.has(second):
+		adjacency[second] = []
+	if second not in adjacency[first]:
+		adjacency[first].append(second)
+	if first not in adjacency[second]:
+		adjacency[second].append(first)
+
+
+func _validate_buffers(
+	buffers: Array,
+	reject_local_winding_diagnostics: bool = true
+) -> Dictionary:
 	var failures := 0
 	var invalid_indices := 0
 	var invalid_normals := 0
@@ -357,7 +642,14 @@ func _validate_buffers(buffers: Array) -> Dictionary:
 		if int(integrity.get("nonfinite_vertices", 0)) > 0 \
 				or int(integrity.get("degenerate_triangles", 0)) > 0 \
 				or int(integrity.get("duplicate_triangles", 0)) > 0 \
-				or int(integrity.get("winding_normal_conflicts", 0)) > 0:
+				or int(integrity.get("winding_normal_conflicts", 0)) > 0 \
+				or (
+					reject_local_winding_diagnostics
+					and (
+						int(integrity.get("local_winding_normal_disagreements", 0)) > 0
+						or int(integrity.get("local_winding_normal_ambiguous", 0)) > 0
+					)
+				):
 			integrity_failures.append({
 				"chunk_id": buffer.get("chunk_id", ""),
 				"kind": buffer.get("kind", ""),
@@ -370,6 +662,8 @@ func _validate_buffers(buffers: Array) -> Dictionary:
 	failures = invalid_indices + invalid_normals + invalid_materials \
 		+ nonfinite_vertices + degenerate_triangles + duplicate_triangles \
 		+ winding_normal_conflicts + nonmanifold_edges + orientation_conflicts
+	if reject_local_winding_diagnostics:
+		failures += local_winding_normal_disagreements + local_winding_normal_ambiguous
 	return {
 		"status": "PASS" if failures == 0 else "FAIL",
 		"buffer_count": buffers.size(),
@@ -385,6 +679,7 @@ func _validate_buffers(buffers: Array) -> Dictionary:
 		"integrity_failures": integrity_failures,
 		"nonmanifold_edges": nonmanifold_edges,
 		"orientation_conflict_edges": orientation_conflicts,
+		"reject_local_winding_diagnostics": reject_local_winding_diagnostics,
 		"failure_count": failures,
 	}
 
@@ -630,7 +925,7 @@ func _validate_edit_workflow(probe: RefCounted, baseline: Dictionary) -> Diction
 			):
 				partial_mismatches.append(str(chunk_id))
 		var seams := _validate_seams(after.get("chunks", []))
-		var buffers := _validate_buffers(after.get("buffers", []))
+		var buffers := _validate_buffers(after.get("buffers", []), false)
 		var step_ok := bool(after.get("ok", false)) \
 			and not changed_ids.is_empty() \
 			and unexpected_changes.is_empty() \
@@ -664,7 +959,7 @@ func _validate_edit_workflow(probe: RefCounted, baseline: Dictionary) -> Diction
 		)
 	var replay := build(probe)
 	var replay_seams: Dictionary = replay.get("seam_validation", {})
-	var replay_buffers := _validate_buffers(replay.get("buffers", []))
+	var replay_buffers := _validate_buffers(replay.get("buffers", []), false)
 	var replay_matches := bool(replay.get("ok", false)) \
 		and final_signature == str(replay.get("geometry_signature", "")) \
 		and str(replay_seams.get("status", "")) == "PASS" \

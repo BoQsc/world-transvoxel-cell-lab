@@ -1,16 +1,16 @@
 {
-	"schema": "world_transvoxel.cell_lab.reference_terrain_standard.v1",
+	"schema": "world_transvoxel.cell_lab.reference_terrain_standard.v2",
 	"id": "canonical_reference_terrain",
 	"expected": {
-		"fixture_id": "canonical_lod_ring_v1",
+		"fixture_id": "canonical_lod_ring_v2",
 		"chunk_count": 12,
 		"coarse_chunk_count": 8,
 		"fine_chunk_count": 4,
 		"transition_chunk_count": 4,
-		"sample_count": 115406,
-		"triangle_count": 11142,
-		"regular_triangles": 10844,
-		"transition_triangles": 298,
+		"sample_count": 115609,
+		"triangle_count": 11356,
+		"regular_triangles": 11054,
+		"transition_triangles": 302,
 		"material_ids": [1, 2, 3, 4, 6],
 		"feature_count": 9,
 		"feature_ids": [
@@ -32,11 +32,47 @@
 			"degenerate_triangles": 0,
 			"duplicate_triangles": 0,
 			"winding_normal_conflicts": 0,
-			"local_winding_normal_disagreements": 8,
+			"local_winding_normal_disagreements": 0,
 			"local_winding_normal_ambiguous": 0,
 			"nonmanifold_edges": 0,
 			"orientation_conflict_edges": 0,
 			"expected_normal_winding_polarity": -1.0
+		},
+		"topology_separation": {
+			"schema": "world_transvoxel.cell_lab.topology_separation.v1",
+			"id": "canonical_main_tunnel_roof",
+			"status": "PASS",
+			"section_axis": 0,
+			"section_plane": 46.14122,
+			"expected_analytic_components": 2,
+			"extracted_component_count": 2,
+			"section_segment_count": 55,
+			"open_endpoint_count": 2,
+			"branch_point_count": 0,
+			"minimum_roof_clearance": 3.50453421231165,
+			"minimum_roof_clearance_z": 15.3078125,
+			"coarse_cell_size": 2.0
+		},
+		"negative_fixture": {
+			"schema": "world_transvoxel.cell_lab.negative_terrain_fixture.v1",
+			"id": "coarse_tunnel_roof_alias_v1",
+			"status": "PASS",
+			"expected_result": "coarse_alias_detected_and_fine_control_separated",
+			"detected": true,
+			"section_axis": 0,
+			"section_plane": 46.14122,
+			"expected_analytic_components": 2,
+			"coarse_extracted_components": 1,
+			"fine_extracted_components": 2,
+			"coarse_section_segments": 55,
+			"fine_section_segments": 108,
+			"coarse_local_winding_normal_disagreements": 8,
+			"fine_local_winding_normal_disagreements": 0,
+			"coarse_winding_normal_conflicts": 0,
+			"fine_winding_normal_conflicts": 0,
+			"minimum_roof_clearance": 1.90453421231165,
+			"minimum_roof_clearance_z": 15.3078125,
+			"coarse_cell_size": 2.0
 		},
 		"terrain_observatory": {
 			"view_count": 7,
@@ -52,10 +88,10 @@
 			"density_slice_samples": 1089,
 			"density_slice_triangles": 2048,
 			"sample_grid_lines": 243,
-			"normal_lines": 636,
+			"normal_lines": 589,
 			"passing_seam_overlays": 16,
 			"failing_seam_overlays": 0,
-			"passing_seam_edges": 501,
+			"passing_seam_edges": 511,
 			"failing_seam_edges": 0,
 			"transition_overlays": 4
 		},
@@ -88,7 +124,7 @@
 			"vertical_same_lod_interfaces": 2,
 			"vertical_mixed_lod_faces": ["NegativeY", "PositiveY"]
 		},
-		"geometry_signature": "43f357d7c085438391b18de46e812698f84bef2280311ee4a753e4a2b09e34a3",
+		"geometry_signature": "984e632ab2940fc2658debfce3c0dae672d1462cb9572045424be0b7c62c89df",
 		"status": "PASS"
 	}
 }

@@ -3,7 +3,7 @@
 The roadmap standard is cell-first, terrain-focused, native-authoritative,
 reproducible, measurable, visually inspectable, and evidence-driven.
 
-Milestones 1 through 14 are complete. Future milestones must preserve the
+Milestones 1 through 15 are complete. Future milestones must preserve the
 ownership boundaries in `ARCHITECTURE.md` and add committed evidence before
 claiming a broader correctness domain.
 
@@ -180,11 +180,10 @@ Status: complete.
 - Mesh validation rejects nonfinite vertices, degenerate triangles, duplicate
   triangles, nonmanifold edges, shared-edge orientation conflicts, and
   component-level winding/normal conflicts.
-- Per-triangle normal disagreements remain measured diagnostics; the
-  canonical terrain currently records eight within one correctly oriented
-  connected component.
+- Canonical terrain rejects per-triangle normal disagreements and ambiguous
+  alignments; both counts are zero.
 - Seam view rendering is derived from the exact signatures under test:
-  501 matched edges and zero unmatched edges across 16 interfaces.
+  511 matched edges and zero unmatched edges across 16 interfaces.
 - All 256 regular and 512 transition cases are exercised at three signed
   near-isovalue magnitudes, totaling 2,304 stability probes.
 - A three-chunk vertical stack verifies two nonempty same-LOD Y interfaces;
@@ -193,32 +192,49 @@ Status: complete.
   shared boundaries and must replay to an identical final geometry hash.
 - LOD, triangle, and normal visual standards complete the 11-image corpus.
 
+## Milestone 15: Topology Separation Standard
+
+Status: complete.
+
+- The canonical main-tunnel roof has `3.504534` minimum analytic clearance,
+  exceeding the LOD1 cell size of `2.0`.
+- A non-grid X cross-section must contain exactly two extracted components,
+  matching the separate analytic terrain and tunnel surfaces.
+- The former shallow-roof canonical geometry is retained as
+  `coarse_tunnel_roof_alias_v1`, with positive analytic clearance below one
+  LOD1 cell.
+- The negative fixture must reproduce one merged LOD1 section component and
+  eight local winding/normal disagreements while its LOD0 control recovers two
+  components and zero disagreements.
+- Numeric standards and smoke coverage lock the retained failure detector;
+  regenerated visual terrain baselines lock the corrected canonical fixture.
+
 ## Future Milestones
 
-15. Broader adversarial scalar-field corpus: ambiguous cases, high curvature,
+16. Broader adversarial scalar-field corpus: ambiguous cases, high curvature,
     cancellation, thin-feature limits, and deterministic fuzz seeds.
-16. Failure localization and minimization: select unmatched seam signatures,
+17. Failure localization and minimization: select unmatched seam signatures,
     jump to owning cells, and export the smallest native repro.
-17. Independent specification checks: table invariants and topology properties
+18. Independent specification checks: table invariants and topology properties
     that do not duplicate or replace the production mesher.
-18. Edit stress corpus: randomized but seeded long dig/construct sequences,
+19. Edit stress corpus: randomized but seeded long dig/construct sequences,
     cancellation, overlapping edits, and incremental/full equivalence.
-19. Scaling baselines: chunk size, LOD depth, active-cell ratio, and feature
+20. Scaling baselines: chunk size, LOD depth, active-cell ratio, and feature
     complexity distributions rather than single timings.
-20. Memory and allocation observability: peak memory, buffer churn, reuse, and
+21. Memory and allocation observability: peak memory, buffer churn, reuse, and
     per-stage allocation budgets.
-21. Rendering quality qualification: tangents, material blending, lighting,
+22. Rendering quality qualification: tangents, material blending, lighting,
     precision, and camera-distance artifacts.
-22. Collision and query qualification against the exact rendered geometry.
-23. Streaming simulation: load/unload order, moving LOD windows, stale work,
+23. Collision and query qualification against the exact rendered geometry.
+24. Streaming simulation: load/unload order, moving LOD windows, stale work,
     and boundary stability.
-24. Persistence standards for fields, edits, chunk versions, and deterministic
+25. Persistence standards for fields, edits, chunk versions, and deterministic
     reloads.
-25. Integration-game parity corpus reduced to canonical lab fixtures.
-26. Platform and renderer matrix across supported Godot targets.
-27. Release qualification bundles with machine-readable evidence and visual
+26. Integration-game parity corpus reduced to canonical lab fixtures.
+27. Platform and renderer matrix across supported Godot targets.
+28. Release qualification bundles with machine-readable evidence and visual
     diffs.
-28. Upstream correction governance: minimized repro, invariant, fix review,
+29. Upstream correction governance: minimized repro, invariant, fix review,
     retained regression standard, and downstream parity proof.
 
 ## Next Standard

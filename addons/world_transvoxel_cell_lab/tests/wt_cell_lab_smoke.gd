@@ -192,7 +192,7 @@ func _run() -> void:
 		_fail("mixed LOD fixture detected a visible crack")
 		return
 	var reference_terrain: Dictionary = lab.validate_reference_terrain()
-	if str(reference_terrain.get("schema", "")) != "world_transvoxel.cell_lab.reference_terrain_validation.v1":
+	if str(reference_terrain.get("schema", "")) != "world_transvoxel.cell_lab.reference_terrain_validation.v2":
 		_fail("unexpected reference terrain validation schema")
 		return
 	if str(reference_terrain.get("status", "")) != "PASS":
@@ -211,11 +211,29 @@ func _run() -> void:
 	if int(terrain_buffers.get("nonfinite_vertices", -1)) != 0 \
 			or int(terrain_buffers.get("degenerate_triangles", -1)) != 0 \
 			or int(terrain_buffers.get("duplicate_triangles", -1)) != 0 \
-			or int(terrain_buffers.get("winding_normal_conflicts", -1)) != 0:
+			or int(terrain_buffers.get("winding_normal_conflicts", -1)) != 0 \
+			or int(terrain_buffers.get("local_winding_normal_disagreements", -1)) != 0 \
+			or int(terrain_buffers.get("local_winding_normal_ambiguous", -1)) != 0:
 		_fail("reference terrain mesh integrity changed")
 		return
-	if int(terrain_buffers.get("local_winding_normal_disagreements", -1)) != 8:
-		_fail("reference terrain local normal diagnostic changed")
+	var topology_separation: Dictionary = reference_terrain.get("topology_separation", {})
+	if str(topology_separation.get("status", "")) != "PASS" \
+			or int(topology_separation.get("expected_analytic_components", 0)) != 2 \
+			or int(topology_separation.get("extracted_component_count", 0)) != 2:
+		_fail("canonical terrain/tunnel separation changed")
+		return
+	var negative_fixture: Dictionary = reference_terrain.get("negative_fixture", {})
+	if str(negative_fixture.get("status", "")) != "PASS" \
+			or not bool(negative_fixture.get("detected", false)) \
+			or int(negative_fixture.get("coarse_extracted_components", 0)) != 1 \
+			or int(negative_fixture.get("fine_extracted_components", 0)) != 2 \
+			or int(
+				negative_fixture.get("coarse_local_winding_normal_disagreements", 0)
+			) != 8 \
+			or int(
+				negative_fixture.get("fine_local_winding_normal_disagreements", -1)
+			) != 0:
+		_fail("coarse topology-alias negative fixture changed")
 		return
 	var feature_validation: Dictionary = reference_terrain.get("feature_validation", {})
 	if int(feature_validation.get("passing_probes", 0)) != 15 \
@@ -244,7 +262,7 @@ func _run() -> void:
 		_fail("terrain observatory validation did not pass")
 		return
 	var observatory_standard: Dictionary = observatory.get("standard_signature", {})
-	if int(observatory_standard.get("passing_seam_edges", 0)) != 501 \
+	if int(observatory_standard.get("passing_seam_edges", 0)) != 511 \
 			or int(observatory_standard.get("failing_seam_edges", -1)) != 0:
 		_fail("terrain observatory exact seam edges changed")
 		return
@@ -312,7 +330,7 @@ func _run() -> void:
 	inspection = report.get("inspection", {})
 	if str(inspection.get("status", "")) != "PASS" \
 		or int(inspection.get("chunk_count", 0)) != 12 \
-		or int(inspection.get("triangles", 0)) != 11142 \
+		or int(inspection.get("triangles", 0)) != 11356 \
 		or str(inspection.get("observatory_view", "")) != "SURFACE":
 		_fail("reference terrain inspection fixture changed")
 		return

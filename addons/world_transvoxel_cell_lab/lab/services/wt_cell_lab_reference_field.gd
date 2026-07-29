@@ -6,8 +6,15 @@ const MeshAnalysis := preload("res://addons/world_transvoxel_cell_lab/lab/servic
 
 const ISO_VALUE := 0.0
 const CONSTRUCT_MATERIAL := 5
+const PROFILE_CANONICAL := "canonical"
+const PROFILE_COARSE_TUNNEL_ROOF_ALIAS := "coarse_tunnel_roof_alias"
+const CANONICAL_MAIN_TUNNEL_CENTER_Y := 5.0
+const ALIAS_MAIN_TUNNEL_CENTER_Y := 6.6
+const MAIN_TUNNEL_CENTER_Z := 14.5
+const MAIN_TUNNEL_RADIUS := 2.35
 
 var edits: Array[Dictionary] = []
+var fixture_profile := PROFILE_CANONICAL
 
 
 func sample(point: Vector3i) -> Dictionary:
@@ -45,7 +52,10 @@ func density_without_edits(point: Vector3) -> float:
 	var value := point.y - base_height(point.x, point.z)
 
 	# Two crossing tunnels and a chamber form one connected cave system.
-	var main_tunnel := 2.35 - Vector2(point.y - 6.6, point.z - 14.5).length()
+	var main_tunnel := MAIN_TUNNEL_RADIUS - Vector2(
+		point.y - main_tunnel_center_y(),
+		point.z - MAIN_TUNNEL_CENTER_Z
+	).length()
 	var branch_tunnel := 1.85 - Vector2(point.x - 12.0, point.y - 7.0).length()
 	var chamber := 4.25 - point.distance_to(Vector3(12.0, 7.0, 14.5))
 	value = maxf(value, maxf(main_tunnel, maxf(branch_tunnel, chamber)))
@@ -114,7 +124,10 @@ func material_at(point: Vector3, density_value: float) -> int:
 	if _inside_authored_feature_region(point):
 		return 4
 	var cavity_distance := minf(
-		absf(2.35 - Vector2(point.y - 6.6, point.z - 14.5).length()),
+		absf(MAIN_TUNNEL_RADIUS - Vector2(
+			point.y - main_tunnel_center_y(),
+			point.z - MAIN_TUNNEL_CENTER_Z
+		).length()),
 		minf(
 			absf(1.85 - Vector2(point.x - 12.0, point.y - 7.0).length()),
 			absf(4.25 - point.distance_to(Vector3(12.0, 7.0, 14.5)))
@@ -134,7 +147,11 @@ func feature_catalog() -> Array[Dictionary]:
 	return [
 		{"id": "rolling_hills", "label": "Rolling hills", "position": Vector3(-18.0, 11.0, -10.0)},
 		{"id": "cliff", "label": "Escarpment", "position": Vector3(-9.0, 12.0, 8.0)},
-		{"id": "main_tunnel", "label": "Main tunnel", "position": Vector3(0.0, 6.6, 14.5)},
+		{
+			"id": "main_tunnel",
+			"label": "Main tunnel",
+			"position": Vector3(0.0, main_tunnel_center_y(), MAIN_TUNNEL_CENTER_Z),
+		},
 		{"id": "branch_tunnel", "label": "Branch tunnel", "position": Vector3(12.0, 7.0, 4.0)},
 		{"id": "cave_chamber", "label": "Cave chamber", "position": Vector3(12.0, 7.0, 14.5)},
 		{"id": "overhang", "label": "Overhang shelf", "position": Vector3(25.0, 14.4, 6.0)},
@@ -150,7 +167,11 @@ func validate_feature_probes() -> Dictionary:
 		{"name": "open_air", "point": Vector3(16.0, 28.0, 16.0), "solid": false},
 		{"name": "cliff_low_side_air", "point": Vector3(-11.0, 11.5, 8.0), "solid": false},
 		{"name": "cliff_high_side_solid", "point": Vector3(-7.0, 11.5, 8.0), "solid": true},
-		{"name": "main_tunnel_core", "point": Vector3(0.0, 6.6, 14.5), "solid": false},
+		{
+			"name": "main_tunnel_core",
+			"point": Vector3(0.0, main_tunnel_center_y(), MAIN_TUNNEL_CENTER_Z),
+			"solid": false,
+		},
 		{"name": "branch_tunnel_core", "point": Vector3(12.0, 7.0, 3.0), "solid": false},
 		{"name": "cave_chamber_core", "point": Vector3(12.0, 7.0, 14.5), "solid": false},
 		{"name": "cave_chamber_shell", "point": Vector3(15.5, 9.5, 17.5), "solid": true},
@@ -193,6 +214,41 @@ func feature_ids() -> Array[String]:
 	for feature in feature_catalog():
 		ids.append(str(feature.get("id", "")))
 	return ids
+
+
+func set_fixture_profile(value: String) -> void:
+	if value in [PROFILE_CANONICAL, PROFILE_COARSE_TUNNEL_ROOF_ALIAS]:
+		fixture_profile = value
+
+
+func main_tunnel_center_y() -> float:
+	return (
+		ALIAS_MAIN_TUNNEL_CENTER_Y
+		if fixture_profile == PROFILE_COARSE_TUNNEL_ROOF_ALIAS
+		else CANONICAL_MAIN_TUNNEL_CENTER_Y
+	)
+
+
+func main_tunnel_roof_clearance(x: float, sample_intervals: int = 128) -> Dictionary:
+	sample_intervals = maxi(sample_intervals, 8)
+	var minimum_clearance := INF
+	var minimum_z := MAIN_TUNNEL_CENTER_Z
+	for index in range(sample_intervals + 1):
+		var z := MAIN_TUNNEL_CENTER_Z - MAIN_TUNNEL_RADIUS \
+			+ 2.0 * MAIN_TUNNEL_RADIUS * float(index) / float(sample_intervals)
+		var offset_z := z - MAIN_TUNNEL_CENTER_Z
+		var tunnel_roof := main_tunnel_center_y() + sqrt(
+			maxf(MAIN_TUNNEL_RADIUS * MAIN_TUNNEL_RADIUS - offset_z * offset_z, 0.0)
+		)
+		var clearance := base_height(x, z) - tunnel_roof
+		if clearance < minimum_clearance:
+			minimum_clearance = clearance
+			minimum_z = z
+	return {
+		"minimum_clearance": minimum_clearance,
+		"minimum_clearance_z": minimum_z,
+		"sample_count": sample_intervals + 1,
+	}
 
 
 func apply_edit(

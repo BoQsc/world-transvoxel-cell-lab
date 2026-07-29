@@ -9,7 +9,8 @@ The addon provides the `WtTransvoxelCellLab` editor node and the
 - Regular and transition cell inspection with exact backend buffers.
 - Production chunk, same-LOD, and mixed-LOD validation.
 - Canonical 12-chunk Reference Terrain with exact seam, feature, edit,
-  determinism, performance, numeric, and visual standards.
+  topology-separation, determinism, performance, numeric, and visual standards.
+- Named negative terrain fixtures with analytically resolved LOD controls.
 - Pinned native dependency provenance and runtime artifact verification.
 - Near-isovalue cell stability and vertical same/mixed-LOD authority stress.
 - Terrain edit fixtures, dirty-region accounting, and before/after deltas.

@@ -62,6 +62,8 @@ Enable the `World Transvoxel Lab` plugin and use its dock to:
 - run 2,304 near-isovalue case probes and vertical same/mixed-LOD seam stress;
 - run deterministic edit sequences, including the eight-step canonical
   terrain workflow and exact replay;
+- prove terrain/tunnel separation with analytic cross-sections and require the
+  retained coarse topology-alias fixture to fail at LOD1 and recover at LOD0;
 - measure cell, transition, chunk, patch, observatory, and edit performance;
 - browse, label, save, and restore repros;
 - import integration-game JSON snapshots and classify the suspected fix layer;
