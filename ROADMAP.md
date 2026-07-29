@@ -1,158 +1,118 @@
 # World Transvoxel Cell Lab Roadmap
 
-The lab standard is cell-first Transvoxel validation, terrain-focused,
-native-authoritative, reproducible, measurable, visually inspectable, and
-evidence-driven.
+The roadmap standard is cell-first, terrain-focused, native-authoritative,
+reproducible, measurable, visually inspectable, and evidence-driven.
 
-`world_transvoxel` is the implementation authority under test. The integration
-game is a downstream proving ground, not the correctness authority. Lab evidence
-should reduce suspicious behavior into small repros and classify the fix layer:
-upstream `world_transvoxel`, integration, or gameplay/runtime.
+All original milestones are complete. Future milestones must preserve the
+ownership boundaries in `ARCHITECTURE.md` and add committed evidence before
+claiming a broader correctness domain.
 
 ## Milestone 1: Contract And Authority
 
-Status: first pass complete.
+Status: complete.
 
-- Separate standalone Godot project and addon.
-- Native `world_transvoxel` dependency only.
-- No lab fallback mesher.
-- Report fields for scope, authority model, upstream correction policy, and
-  integration-game diagnostic policy.
-- Smoke coverage for the contract fields.
+- Standalone project and addon.
+- Native `world-transvoxel` dependency with no fallback mesher.
+- Explicit authority, scope, upstream-correction, and integration-game policy.
+- Smoke coverage for every contract field.
 
 ## Milestone 2: Validation Report Panel
 
-Status: first pass complete.
+Status: complete.
 
-- Grouped editor dock report for contract, regular patch, transition cell,
-  production chunk, baseline, and corpus sections.
-- Copyable report JSON.
-- PASS/FAIL summary driven by report data.
+- Grouped editor report for all live probes, corpora, edits, performance,
+  integration reduction, repros, and standards.
+- Copyable JSON and report-driven PASS/FAIL state.
+- Validation results persist across visual rebuilds.
 
 ## Milestone 3: Repro Snapshots
 
-Status: first pass complete.
+Status: complete.
 
-- Save repro snapshots with parameters, edits, report, and authority metadata.
-- Apply repro snapshots back onto a lab node.
-- Load the latest saved repro from the dock.
-- Smoke coverage for repro schema and restore behavior.
-
-Next:
-
-- Add a repro browser.
-- Add repro names, notes, expected failure labels, and source layer labels.
-- Add repro corpus files committed to the repo when they represent standards or
-  fixed bugs.
+- Versioned repro save/restore with parameters, edits, report, and authority.
+- Repro browser for user and committed snapshots.
+- Name, notes, expected label, source layer, and source reference metadata.
+- Three committed terrain standards.
 
 ## Milestone 4: Regular Cell Corpus
 
-Status: first pass complete.
+Status: complete.
 
-- Sweep all 256 regular cases through `WorldTransvoxelCellProbe`.
-- Check empty classification, backend status, buffer validity, and determinism.
-- Expose results in the dock and smoke test.
-
-Next:
-
-- Add selected-case visualization.
-- Show corner densities, case code, edge intersections, materials, normals, and
-  backend endpoint provenance.
-- Save any failed case directly as a repro.
+- All 256 cases validated for status, emptiness, buffers, materials, endpoint
+  provenance, and determinism.
+- Selected-case rendering shows densities, case code, sample states, edge
+  intersections, materials, normals, and backend endpoints.
+- Unique failures are automatically saved as focused repros.
 
 ## Milestone 5: Transition Cell Corpus
 
-Status: first pass complete.
+Status: complete.
 
-- Sweep all 512 transition cases across 6 orientations.
-- Check empty classification, orientation status consistency, count consistency,
-  buffer validity, determinism, and transition prism bounds.
-- Expose results in the dock and smoke test.
-
-Next:
-
-- Add selected transition case visualization.
-- Show high-resolution side, low-resolution side, stitching edges, transition
-  case code, and orientation basis.
-- Add transition-specific repro capture.
+- All 512 cases across all 6 orientations.
+- Status/count consistency, prism bounds, buffers, materials, provenance, and
+  determinism.
+- Selected transition rendering shows high-resolution samples,
+  low-resolution aliases, stitching edges, orientation basis, and normals.
+- Unique transition failures are automatically saved with orientation.
 
 ## Milestone 6: Chunk And LOD Validation
 
-Status: first pass complete.
+Status: complete.
 
-- Current lab shows a native LOD 0 chunk generated through `WtChunkMesher`.
-- Current report checks chunk status, samples, vertices, triangles, nonmanifold
-  edges, and orientation conflicts.
-- Same-LOD adjacent chunk seam signatures are compared across X, Y, and Z.
-- LOD 1 transition-mask chunk generation is validated across all six faces.
-- Chunk LOD results are shown in the dock and covered by smoke tests.
-
-Next:
-
-- Add LOD 1+ chunk probes.
-- Add mixed-LOD neighbor validation.
-- Add visible crack checks between coarse and fine neighbor fixtures.
-- Classify chunk failures separately from cell failures.
+- Native LOD 0 overview probe and LOD 1-3 all-face probes.
+- Same-LOD seams validated across X, Y, and Z for LOD 0-2.
+- Mixed LOD 1-to-0 and 2-to-1 validation on all six faces.
+- Each mixed fixture compares one coarse transition surface with four fine
+  neighbors in world space.
+- Zero unmatched interface edges is the visible-crack standard.
+- Chunk and LOD failures are classified separately from cell failures.
 
 ## Milestone 7: Edit Simulation
 
-Status: first pass complete.
+Status: complete.
 
-- Dig and construct edit probes exist.
-- Edit count and rebuild timing are reported.
-- Repro snapshots capture edit sequences.
-- A deterministic edit-sequence validator checks topology and production chunk
-  health across initial, dig, construct, and second-dig steps.
-- Edit sequence results are shown in the dock and covered by smoke tests.
-
-Next:
-
-- Track affected cells and dirty regions.
-- Show before/after mesh and report deltas.
-- Add edit sequence corpus tests.
-- Add terrain-relevant construction, digging, tunnel, overhang, and thin-feature
-  fixtures.
+- Deterministic dig/construct sequence with replay equivalence.
+- Affected-cell and dirty-region tracking.
+- Before/after vertex, triangle, active-cell, and timing deltas.
+- Construction, digging, tunnel, overhang, and thin-feature fixtures.
+- Material IDs and topology health included in reports and repros.
 
 ## Milestone 8: Performance Baselines
 
-Status: first pass complete.
+Status: complete.
 
-- Dock baseline action measures rebuild average and maximum time.
-- Performance baselines report patch rebuild, chunk LOD validation, edit
-  sequence validation, and already-run corpus timings.
-- Performance results are shown in the dock and covered by smoke tests.
-
-Next:
-
-- Add dedicated regular-cell, transition-cell, chunk, and edit benchmarks.
-- Store baseline history.
-- Warn on performance regression thresholds.
-- Report triangles/ms, samples/ms, and edit rebuild cost.
+- Dedicated regular-cell, transition-cell, chunk, patch, and edit timings.
+- Triangles/ms, samples/ms, and edit rebuild cost.
+- Persistent local baseline history.
+- Relative regression warnings and committed absolute warning limits.
 
 ## Milestone 9: Integration Game Reduction
 
-Status: policy documented.
+Status: complete.
 
-- The lab is the reduction target for suspicious integration-game terrain or
-  rendering artifacts.
-
-Next:
-
-- Add an import path for small integration-game case snapshots.
-- Preserve suspected source layer in repro metadata.
-- Add comparison reports that separate backend, integration, and runtime issues.
+- JSON import for integration debug, edit, watertightness, and lab snapshots.
+- Imported operations reduce to native lab edits.
+- Repros preserve integration source metadata.
+- Comparison reports classify suspected backend, integration, or runtime
+  ownership.
 
 ## Milestone 10: CI And Standards Corpus
 
-Status: smoke test active.
+Status: complete.
 
-- Current smoke checks the lab contract, native probes, repro restore, regular
-  corpus, transition corpus, chunk probe, chunk LOD seams, transition masks,
-  edit sequence validation, and performance baselines.
+- Committed repro and selected-case signature standards.
+- Four rendered visual references with dimensions, nonblank checks, and
+  SHA-256 locks.
+- Headless smoke and full-suite runner.
+- Windows CI with the official Godot 4.7.1 artifact pinned by SHA-256.
+- Performance warning thresholds included in CI output.
 
-Next:
+## Next Standard
 
-- Add committed repro corpus tests.
-- Add CI jobs for headless Godot validation.
-- Add performance warning thresholds.
-- Add screenshot/visual validation for selected standard cases.
+New work starts only from evidence:
+
+1. Add a minimal committed repro for a newly discovered behavior.
+2. Classify the suspected ownership layer.
+3. Add or strengthen an invariant that fails for the repro.
+4. Correct the owning layer.
+5. Keep the fixed repro as a permanent standard.

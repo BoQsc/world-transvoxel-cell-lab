@@ -1,0 +1,32 @@
+{
+	"schema": "world_transvoxel.cell_lab.repro.v2",
+	"created_unix_time": 0,
+	"metadata": {
+		"name": "sphere_overview",
+		"notes": "Authoritative native regular patch, transition cell, and LOD0 chunk overview.",
+		"expected_label": "passing_standard",
+		"source_layer": "world_transvoxel",
+		"source_reference": "roadmap_milestones_1_2"
+	},
+	"parameters": {
+		"cells": {"x": 6, "y": 6, "z": 6},
+		"cell_size": 1.0,
+		"field_mode": "SPHERE",
+		"isovalue": 0.0,
+		"surface_height": 0.0,
+		"sphere_radius": 2.1,
+		"edit_radius": 1.25,
+		"construct_material": 4,
+		"show_transition_frame": true,
+		"show_chunk_probe": true,
+		"show_probe_labels": true,
+		"wireframe": false,
+		"inspection_mode": 0,
+		"selected_regular_case": 1,
+		"selected_transition_case": 1,
+		"selected_transition_orientation": 4,
+		"selected_chunk_lod": 1
+	},
+	"edits": [],
+	"report": {}
+}

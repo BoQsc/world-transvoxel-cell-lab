@@ -48,26 +48,21 @@ func _update_status() -> void:
 	if lab == null or status_label == null:
 		return
 	var report := lab.get_last_report()
-	status_label.text = "Status: %s\nScope: %s\nPrimary domain: %s\nPrimitive: %s\nAuthority: %s\nAuthority model: %s\nIntegration role: %s\nClaim: %s\nRegular patch: cells %s, tris %d, interior_open %d, nonmanifold %d, orient %d\nTransition cell: %s, case %d, tris %d\nProduction chunk: LOD%d, samples %d, tris %d, nonmanifold %d, orient %d\nDependency: WorldTransvoxelCellProbe only; no fallback mesher.\nKeys: 1-5 field  X/Y/Z expand  D dig  C construct  R reset  W wire" % [
+	var inspection: Dictionary = report.get("inspection", {})
+	status_label.text = "Status: %s\nAuthority: %s\nClaim: %s\nRegular patch: %s cells, %d tris, %d interior open, %d nonmanifold\nTransition cell: %s, case %d, %d tris\nProduction chunk: LOD%d, %d samples, %d tris\nInspection: %s %s" % [
 		str(report.get("status", "UNKNOWN")),
-		str(report.get("lab_scope", "unknown")),
-		str(report.get("primary_validation_domain", "unknown")),
-		str(report.get("primitive_scope", "unknown")),
 		str(report.get("render_authority", "unknown")),
-		str(report.get("authority_model", "unknown")),
-		str(report.get("integration_game_role", "unknown")),
 		str(report.get("correctness_claim", "unknown")),
 		str(report.get("cells", Vector3i.ZERO)),
 		int(report.get("triangles", 0)),
 		int(report.get("interior_open_edges", 0)),
 		int(report.get("nonmanifold_edges", 0)),
-		int(report.get("orientation_conflict_edges", 0)),
 		str(report.get("transition_status", "Unavailable")),
 		int(report.get("transition_case_code", -1)),
 		int(report.get("transition_triangles", 0)),
 		int(report.get("chunk_probe_lod", 0)),
 		int(report.get("chunk_probe_samples", 0)),
 		int(report.get("chunk_probe_triangles", 0)),
-		int(report.get("chunk_probe_nonmanifold_edges", 0)),
-		int(report.get("chunk_probe_orientation_conflict_edges", 0)),
+		str(report.get("inspection_mode", "PATCH")),
+		str(inspection.get("status", "")),
 	]

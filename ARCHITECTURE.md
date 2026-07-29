@@ -1,0 +1,83 @@
+# Cell Lab Architecture
+
+## Dependency Direction
+
+```text
+world-transvoxel native backend
+              |
+              v
+WorldTransvoxelCellProbe
+              |
+              v
+cell-lab services
+              |
+              v
+WtTransvoxelCellLab scene state
+              |
+              v
+editor dock and standalone scene
+```
+
+The lab may expose and test native diagnostic data. It may not copy or replace
+the meshing algorithm. The integration game may export suspicious cases to the
+lab; it does not define lab correctness.
+
+## Node Responsibility
+
+`WtTransvoxelCellLab` is the live scene orchestrator. It owns:
+
+- exported editor parameters and edit state;
+- field density, gradient, and material sampling;
+- scene roots, materials, and overview mesh instances;
+- the public compatibility API used by the dock and tests;
+- delegation and persistence of validation results.
+
+It does not own corpus algorithms, repro file I/O, performance policy,
+integration classification, or standards execution.
+
+## Services
+
+| Service | Responsibility |
+| --- | --- |
+| `wt_cell_lab_contracts.gd` | Schemas, authority metadata, face and orientation conventions |
+| `wt_cell_lab_mesh_analysis.gd` | Buffer, topology, determinism, edge, seam, and bounds primitives |
+| `wt_cell_lab_case_validator.gd` | Regular/transition corpora and selected-case descriptions |
+| `wt_cell_lab_chunk_validator.gd` | LOD probes, same-LOD seams, and coarse/fine fixtures |
+| `wt_cell_lab_edit_validator.gd` | Edit sequence, replay, deltas, and terrain fixtures |
+| `wt_cell_lab_performance.gd` | Dedicated benchmarks, history, rates, and warnings |
+| `wt_cell_lab_repro_store.gd` | Versioned snapshots, JSON conversion, browser listing, and storage |
+| `wt_cell_lab_integration_adapter.gd` | Integration snapshot reduction and fix-layer classification |
+| `wt_cell_lab_standards_runner.gd` | Committed repro, case, visual, and threshold standards |
+| `wt_cell_lab_report_builder.gd` | Canonical live report construction |
+| `wt_cell_lab_inspection_presenter.gd` | Selected-case and mixed-LOD close-up rendering |
+
+The editor dock owns controls and report presentation only.
+
+## Upstream Boundary
+
+`world-transvoxel` owns:
+
+- Transvoxel lookup tables and meshing behavior;
+- regular, transition, and chunk production algorithms;
+- diagnostic probe APIs that expose exact backend results;
+- fixes proven by minimized lab repros.
+
+The lab owns:
+
+- fields and fixtures used to exercise those APIs;
+- comparisons, reports, visualizations, repro metadata, and standards;
+- no fallback or alternate meshing path.
+
+## Evidence Rule
+
+A suspected upstream bug requires:
+
+- a minimal reproducible snapshot;
+- a native probe failure or contradiction;
+- a stated invariant;
+- deterministic reproduction;
+- focused automated coverage;
+- visual evidence when geometry relationships matter.
+
+Until that evidence exists, the lab reports a suspected layer rather than
+changing `world-transvoxel`.

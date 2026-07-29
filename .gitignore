@@ -1,6 +1,9 @@
 .godot/*
 !.godot/
 !.godot/extension_list.cfg
+.ci/
+__pycache__/
+*.pyc
 *.tmp
 *.log
 ~*.dll

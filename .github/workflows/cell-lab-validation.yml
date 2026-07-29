@@ -1,0 +1,35 @@
+name: Cell Lab Validation
+
+"on":
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  native-authoritative-validation:
+    runs-on: windows-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install pinned Godot
+        run: python tools/ci_install_godot.py
+
+      - name: Verify project and native extension load
+        run: Godot_v4.7.1-stable_win64.exe --headless --editor --quit --path .
+
+      - name: Run structural smoke test
+        run: Godot_v4.7.1-stable_win64.exe --headless --path . --script addons/world_transvoxel_cell_lab/tests/wt_cell_lab_smoke.gd
+
+      - name: Run authoritative standards suite
+        run: Godot_v4.7.1-stable_win64.exe --headless --path . --script tools/run_cell_lab_validation.gd -- base regular transition chunk edit standards performance

@@ -3,47 +3,71 @@ extends Node3D
 class_name WtTransvoxelCellLab
 
 enum FieldMode { PLANE, SPHERE, TUNNEL, SADDLE, WAVES }
+enum InspectionMode { PATCH, REGULAR_CASE, TRANSITION_CASE, MIXED_LOD }
 
-const REPORT_SCHEMA := "world_transvoxel.cell_lab.report.v1"
-const REPRO_SCHEMA := "world_transvoxel.cell_lab.repro.v1"
-const REGULAR_CASE_CORPUS_SCHEMA := "world_transvoxel.cell_lab.regular_case_corpus.v1"
-const TRANSITION_CASE_CORPUS_SCHEMA := "world_transvoxel.cell_lab.transition_case_corpus.v1"
-const CHUNK_LOD_VALIDATION_SCHEMA := "world_transvoxel.cell_lab.chunk_lod_validation.v1"
-const EDIT_SEQUENCE_VALIDATION_SCHEMA := "world_transvoxel.cell_lab.edit_sequence_validation.v1"
-const PERFORMANCE_BASELINES_SCHEMA := "world_transvoxel.cell_lab.performance_baselines.v1"
-const NATIVE_REGULAR_IMPLEMENTATION := "native_transvoxel_regular_cell_probe_v1"
-const NATIVE_AUTHORITY := "NATIVE_TRANSVOXEL_BACKEND_AUTHORITATIVE"
-const CELL_PROBE_CORRECTNESS_CLAIM := "exact_regular_and_transition_cell_backend_probe_v1"
-const LAB_CORRECTNESS_CLAIM := "exact_regular_transition_and_lod0_chunk_backend_probe_v2"
-const LAB_SCOPE := "cell_first_transvoxel_preview_and_validator"
-const PRIMARY_VALIDATION_DOMAIN := "volumetric_terrain"
-const PRIMITIVE_SCOPE := "transvoxel_scalar_field_cell_unit"
-const VALIDATION_STANDARD := "world_transvoxel_native_authoritative_no_fallback"
-const AUTHORITY_MODEL := "world_transvoxel_is_implementation_authority_under_test"
-const UPSTREAM_CORRECTION_POLICY := "proven_lab_repro_drives_world_transvoxel_fix"
-const INTEGRATION_GAME_ROLE := "downstream_proving_ground_not_correctness_authority"
-const INTEGRATION_GAME_DIAGNOSTIC_POLICY := "reduce_game_artifact_to_lab_repro_then_classify_fix_layer"
-const CHUNK_PROBE_IMPLEMENTATION := "native_transvoxel_lod0_chunk_mesher_probe_v1"
-const CHUNK_PROBE_CELLS_PER_AXIS := 16
-const CHUNK_FACE_NAMES := [
-	"NegativeX",
-	"PositiveX",
-	"NegativeY",
-	"PositiveY",
-	"NegativeZ",
-	"PositiveZ",
-]
-const CORNER_COUNT := 8
-const TRANSITION_SAMPLE_COUNT := 9
-const TRANSITION_ORIENTATION_NAMES := [
-	"PositiveX",
-	"NegativeX",
-	"PositiveY",
-	"NegativeY",
-	"PositiveZ",
-	"NegativeZ",
-]
-const TRANSITION_ORIENTATION_POSITIVE_Z := 4
+const Contracts := preload("res://addons/world_transvoxel_cell_lab/lab/services/wt_cell_lab_contracts.gd")
+const MeshAnalysis := preload("res://addons/world_transvoxel_cell_lab/lab/services/wt_cell_lab_mesh_analysis.gd")
+const CaseValidator := preload("res://addons/world_transvoxel_cell_lab/lab/services/wt_cell_lab_case_validator.gd")
+const ChunkValidator := preload("res://addons/world_transvoxel_cell_lab/lab/services/wt_cell_lab_chunk_validator.gd")
+const EditValidator := preload("res://addons/world_transvoxel_cell_lab/lab/services/wt_cell_lab_edit_validator.gd")
+const PerformanceService := preload("res://addons/world_transvoxel_cell_lab/lab/services/wt_cell_lab_performance.gd")
+const ReproStore := preload("res://addons/world_transvoxel_cell_lab/lab/services/wt_cell_lab_repro_store.gd")
+const ReportBuilder := preload("res://addons/world_transvoxel_cell_lab/lab/services/wt_cell_lab_report_builder.gd")
+const IntegrationAdapter := preload("res://addons/world_transvoxel_cell_lab/lab/services/wt_cell_lab_integration_adapter.gd")
+const InspectionPresenter := preload("res://addons/world_transvoxel_cell_lab/lab/services/wt_cell_lab_inspection_presenter.gd")
+const StandardsRunner := preload("res://addons/world_transvoxel_cell_lab/lab/services/wt_cell_lab_standards_runner.gd")
+
+const REPORT_SCHEMA := Contracts.REPORT_SCHEMA
+const REPRO_SCHEMA := Contracts.REPRO_SCHEMA
+const REGULAR_CASE_CORPUS_SCHEMA := Contracts.REGULAR_CASE_CORPUS_SCHEMA
+const TRANSITION_CASE_CORPUS_SCHEMA := Contracts.TRANSITION_CASE_CORPUS_SCHEMA
+const CHUNK_LOD_VALIDATION_SCHEMA := Contracts.CHUNK_LOD_VALIDATION_SCHEMA
+const EDIT_SEQUENCE_VALIDATION_SCHEMA := Contracts.EDIT_SEQUENCE_VALIDATION_SCHEMA
+const PERFORMANCE_BASELINES_SCHEMA := Contracts.PERFORMANCE_BASELINES_SCHEMA
+const NATIVE_REGULAR_IMPLEMENTATION := Contracts.NATIVE_REGULAR_IMPLEMENTATION
+const NATIVE_AUTHORITY := Contracts.NATIVE_AUTHORITY
+const CELL_PROBE_CORRECTNESS_CLAIM := Contracts.CELL_PROBE_CORRECTNESS_CLAIM
+const LAB_CORRECTNESS_CLAIM := Contracts.LAB_CORRECTNESS_CLAIM
+const LAB_SCOPE := Contracts.LAB_SCOPE
+const PRIMARY_VALIDATION_DOMAIN := Contracts.PRIMARY_VALIDATION_DOMAIN
+const PRIMITIVE_SCOPE := Contracts.PRIMITIVE_SCOPE
+const VALIDATION_STANDARD := Contracts.VALIDATION_STANDARD
+const AUTHORITY_MODEL := Contracts.AUTHORITY_MODEL
+const UPSTREAM_CORRECTION_POLICY := Contracts.UPSTREAM_CORRECTION_POLICY
+const INTEGRATION_GAME_ROLE := Contracts.INTEGRATION_GAME_ROLE
+const INTEGRATION_GAME_DIAGNOSTIC_POLICY := Contracts.INTEGRATION_GAME_DIAGNOSTIC_POLICY
+const CHUNK_PROBE_IMPLEMENTATION := Contracts.CHUNK_PROBE_IMPLEMENTATION
+const CHUNK_PROBE_CELLS_PER_AXIS := Contracts.CHUNK_PROBE_CELLS_PER_AXIS
+const CHUNK_FACE_NAMES := Contracts.CHUNK_FACE_NAMES
+const CORNER_COUNT := Contracts.REGULAR_CORNER_COUNT
+const TRANSITION_SAMPLE_COUNT := Contracts.TRANSITION_SAMPLE_COUNT
+const TRANSITION_ORIENTATION_NAMES := Contracts.TRANSITION_ORIENTATION_NAMES
+const TRANSITION_ORIENTATION_POSITIVE_Z := Contracts.TRANSITION_ORIENTATION_POSITIVE_Z
+
+@export var inspection_mode: InspectionMode = InspectionMode.PATCH:
+	set(value):
+		inspection_mode = value
+		_request_rebuild()
+@export_range(0, 255, 1) var selected_regular_case: int = 1:
+	set(value):
+		selected_regular_case = clampi(value, 0, 255)
+		_request_rebuild()
+@export_range(0, 511, 1) var selected_transition_case: int = 1:
+	set(value):
+		selected_transition_case = clampi(value, 0, 511)
+		_request_rebuild()
+@export_range(0, 5, 1) var selected_transition_orientation: int = 4:
+	set(value):
+		selected_transition_orientation = clampi(value, 0, 5)
+		_request_rebuild()
+@export_range(1, 3, 1) var selected_chunk_lod: int = 1:
+	set(value):
+		selected_chunk_lod = clampi(value, 1, 3)
+		_request_rebuild()
+@export_range(0, 5, 1) var selected_chunk_face: int = 1:
+	set(value):
+		selected_chunk_face = clampi(value, 0, 5)
+		_request_rebuild()
 
 @export_range(1, 24, 1) var cells_x: int = 4:
 	set(value):
@@ -113,6 +137,7 @@ const TRANSITION_ORIENTATION_POSITIVE_Z := 4
 
 var edits: Array[Dictionary] = []
 var _last_report: Dictionary = {}
+var _validation_results: Dictionary = {}
 var _native_cell_probe: RefCounted
 var _mesh_root: Node3D
 var _sample_root: Node3D
@@ -127,6 +152,16 @@ var _construct_marker_material: StandardMaterial3D
 var _transition_material: StandardMaterial3D
 var _transition_surface_material: StandardMaterial3D
 var _chunk_surface_material: StandardMaterial3D
+var _inspection_edge_material: StandardMaterial3D
+var _inspection_normal_material: StandardMaterial3D
+var _inspection_low_sample_material: StandardMaterial3D
+var _inspection_fine_chunk_material: StandardMaterial3D
+var _inspection_basis_material: StandardMaterial3D
+var _chunk_validator := ChunkValidator.new()
+var _edit_validator := EditValidator.new()
+var _performance_service := PerformanceService.new()
+var _inspection_presenter := InspectionPresenter.new()
+var _standards_runner := StandardsRunner.new()
 
 
 func _ready() -> void:
@@ -145,54 +180,66 @@ func rebuild() -> Dictionary:
 	var mesh_data := _build_patch_mesh_data()
 	var transition_data := _build_transition_probe_mesh_data()
 	var chunk_data := _build_chunk_probe_mesh_data()
-	var mesh := _make_array_mesh(mesh_data)
-	var mesh_instance := MeshInstance3D.new()
-	mesh_instance.name = "cell_lab_preview_mesh"
-	mesh_instance.mesh = mesh
-	mesh_instance.material_override = _surface_material
-	_mesh_root.add_child(mesh_instance)
-	if wireframe:
-		var line_instance := MeshInstance3D.new()
-		line_instance.name = "cell_lab_wire_edges"
-		line_instance.mesh = _make_edge_line_mesh(mesh_data)
-		line_instance.material_override = _wire_material
-		_mesh_root.add_child(line_instance)
-	var transition_mesh := _make_array_mesh(transition_data)
-	var transition_instance := MeshInstance3D.new()
-	transition_instance.name = "cell_lab_transition_probe_mesh"
-	transition_instance.mesh = transition_mesh
-	transition_instance.material_override = _transition_surface_material
-	_mesh_root.add_child(transition_instance)
-	if wireframe:
-		var transition_line_instance := MeshInstance3D.new()
-		transition_line_instance.name = "cell_lab_transition_probe_wire"
-		transition_line_instance.mesh = _make_edge_line_mesh(transition_data)
-		transition_line_instance.material_override = _wire_material
-		_mesh_root.add_child(transition_line_instance)
-	if show_chunk_probe:
-		var chunk_instance := MeshInstance3D.new()
-		chunk_instance.name = "production_chunk_probe_mesh"
-		chunk_instance.mesh = _make_array_mesh(chunk_data)
-		chunk_instance.material_override = _chunk_surface_material
-		_mesh_root.add_child(chunk_instance)
+	var inspection_report := {}
+	if inspection_mode == InspectionMode.PATCH:
+		var mesh := _make_array_mesh(mesh_data)
+		var mesh_instance := MeshInstance3D.new()
+		mesh_instance.name = "cell_lab_preview_mesh"
+		mesh_instance.mesh = mesh
+		mesh_instance.material_override = _surface_material
+		_mesh_root.add_child(mesh_instance)
 		if wireframe:
-			var chunk_line_instance := MeshInstance3D.new()
-			chunk_line_instance.name = "production_chunk_probe_wire"
-			chunk_line_instance.mesh = _make_edge_line_mesh(chunk_data)
-			chunk_line_instance.material_override = _wire_material
-			_mesh_root.add_child(chunk_line_instance)
-
-	if show_sample_points:
-		_build_sample_markers()
-	if show_edit_markers:
-		_build_edit_markers()
-	if show_transition_frame:
-		_build_transition_frame()
-	if show_probe_labels:
-		_build_probe_labels(mesh_data, transition_data, chunk_data)
+			var line_instance := MeshInstance3D.new()
+			line_instance.name = "cell_lab_wire_edges"
+			line_instance.mesh = _make_edge_line_mesh(mesh_data)
+			line_instance.material_override = _wire_material
+			_mesh_root.add_child(line_instance)
+		var transition_mesh := _make_array_mesh(transition_data)
+		var transition_instance := MeshInstance3D.new()
+		transition_instance.name = "cell_lab_transition_probe_mesh"
+		transition_instance.mesh = transition_mesh
+		transition_instance.material_override = _transition_surface_material
+		_mesh_root.add_child(transition_instance)
+		if wireframe:
+			var transition_line_instance := MeshInstance3D.new()
+			transition_line_instance.name = "cell_lab_transition_probe_wire"
+			transition_line_instance.mesh = _make_edge_line_mesh(transition_data)
+			transition_line_instance.material_override = _wire_material
+			_mesh_root.add_child(transition_line_instance)
+		if show_chunk_probe:
+			var chunk_instance := MeshInstance3D.new()
+			chunk_instance.name = "production_chunk_probe_mesh"
+			chunk_instance.mesh = _make_array_mesh(chunk_data)
+			chunk_instance.material_override = _chunk_surface_material
+			_mesh_root.add_child(chunk_instance)
+			if wireframe:
+				var chunk_line_instance := MeshInstance3D.new()
+				chunk_line_instance.name = "production_chunk_probe_wire"
+				chunk_line_instance.mesh = _make_edge_line_mesh(chunk_data)
+				chunk_line_instance.material_override = _wire_material
+				_mesh_root.add_child(chunk_line_instance)
+		if show_sample_points:
+			_build_sample_markers()
+		if show_edit_markers:
+			_build_edit_markers()
+		if show_transition_frame:
+			_build_transition_frame()
+		if show_probe_labels:
+			_build_probe_labels(mesh_data, transition_data, chunk_data)
+	else:
+		inspection_report = _inspection_presenter.render(
+			self,
+			_mesh_root,
+			_sample_root,
+			_label_root,
+			_inspection_materials()
+		)
 
 	var elapsed_ms := float(Time.get_ticks_usec() - start_usec) / 1000.0
 	_last_report = _make_report(mesh_data, transition_data, chunk_data, elapsed_ms)
+	_last_report["inspection"] = inspection_report
+	for validation_key in _validation_results.keys():
+		ReportBuilder.attach_validation(_last_report, str(validation_key), _validation_results[validation_key])
 	return _last_report
 
 
@@ -202,384 +249,246 @@ func get_last_report() -> Dictionary:
 	return _last_report
 
 
-func make_repro_snapshot() -> Dictionary:
-	return {
-		"schema": REPRO_SCHEMA,
-		"created_unix_time": Time.get_unix_time_from_system(),
-		"lab_scope": LAB_SCOPE,
-		"primary_validation_domain": PRIMARY_VALIDATION_DOMAIN,
-		"primitive_scope": PRIMITIVE_SCOPE,
-		"validation_standard": VALIDATION_STANDARD,
-		"authority_model": AUTHORITY_MODEL,
-		"upstream_correction_policy": UPSTREAM_CORRECTION_POLICY,
-		"integration_game_role": INTEGRATION_GAME_ROLE,
-		"integration_game_diagnostic_policy": INTEGRATION_GAME_DIAGNOSTIC_POLICY,
-		"parameters": {
-			"cells": Vector3i(cells_x, cells_y, cells_z),
-			"cell_size": cell_size,
-			"field_mode": FieldMode.keys()[field_mode],
-			"isovalue": isovalue,
-			"surface_height": surface_height,
-			"sphere_radius": sphere_radius,
-			"edit_radius": edit_radius,
-			"construct_material": construct_material,
-			"show_transition_frame": show_transition_frame,
-			"show_chunk_probe": show_chunk_probe,
-			"show_probe_labels": show_probe_labels,
-			"wireframe": wireframe,
-		},
-		"edits": edits.duplicate(true),
-		"report": get_last_report(),
-	}
+func make_repro_snapshot(metadata: Dictionary = {}) -> Dictionary:
+	return ReproStore.make_snapshot(self, metadata)
 
 
 func apply_repro_snapshot(snapshot: Dictionary) -> Dictionary:
-	if str(snapshot.get("schema", "")) != REPRO_SCHEMA:
-		return {
-			"ok": false,
-			"error": "unexpected_repro_schema",
-		}
-	var parameters: Dictionary = snapshot.get("parameters", {})
-	var previous_auto_rebuild := auto_rebuild
-	auto_rebuild = false
-	var extent := _variant_to_vector3i(parameters.get("cells", Vector3i(cells_x, cells_y, cells_z)), Vector3i(cells_x, cells_y, cells_z))
-	cells_x = extent.x
-	cells_y = extent.y
-	cells_z = extent.z
-	cell_size = float(parameters.get("cell_size", cell_size))
-	field_mode = _field_mode_from_variant(parameters.get("field_mode", FieldMode.keys()[field_mode]), field_mode)
-	isovalue = float(parameters.get("isovalue", isovalue))
-	surface_height = float(parameters.get("surface_height", surface_height))
-	sphere_radius = float(parameters.get("sphere_radius", sphere_radius))
-	edit_radius = float(parameters.get("edit_radius", edit_radius))
-	construct_material = int(parameters.get("construct_material", construct_material))
-	show_transition_frame = bool(parameters.get("show_transition_frame", show_transition_frame))
-	show_chunk_probe = bool(parameters.get("show_chunk_probe", show_chunk_probe))
-	show_probe_labels = bool(parameters.get("show_probe_labels", show_probe_labels))
-	wireframe = bool(parameters.get("wireframe", wireframe))
-	edits.clear()
-	var raw_edits: Array = snapshot.get("edits", [])
-	for raw_edit in raw_edits:
-		var edit: Dictionary = raw_edit
-		edits.append({
-			"mode": str(edit.get("mode", "")),
-			"center": _variant_to_vector3(edit.get("center", Vector3.ZERO), Vector3.ZERO),
-			"radius": float(edit.get("radius", edit_radius)),
-			"material": int(edit.get("material", construct_material)),
-		})
-	auto_rebuild = previous_auto_rebuild
-	return rebuild()
+	return ReproStore.apply_snapshot(self, snapshot)
+
+
+func save_repro_snapshot(metadata: Dictionary = {}) -> Dictionary:
+	return ReproStore.save_snapshot(make_repro_snapshot(metadata))
+
+
+func list_repro_snapshots(include_committed: bool = true) -> Array[Dictionary]:
+	return ReproStore.list_repros(include_committed)
+
+
+func load_repro_snapshot(path: String) -> Dictionary:
+	var loaded := ReproStore.load_snapshot(path)
+	if not bool(loaded.get("ok", false)):
+		return loaded
+	var report := apply_repro_snapshot(loaded.get("snapshot", {}))
+	return {
+		"ok": str(report.get("status", "")) in ["PASS", "FAIL"],
+		"path": path,
+		"report": report,
+	}
 
 
 func validate_regular_case_corpus() -> Dictionary:
-	var start_usec := Time.get_ticks_usec()
-	var probe := _get_native_cell_probe()
-	var result := {
-		"schema": REGULAR_CASE_CORPUS_SCHEMA,
-		"available": probe != null,
-		"authority": NATIVE_AUTHORITY,
-		"case_count": 256,
-		"ok_cases": 0,
-		"empty_cases": 0,
-		"failed_cases": 0,
-		"expected_empty_mismatches": 0,
-		"determinism_failures": 0,
-		"buffer_failures": 0,
-		"total_vertices": 0,
-		"total_triangles": 0,
-		"sample_failures": [],
-		"status": "Unavailable" if probe == null else "PASS",
-		"elapsed_ms": 0.0,
-	}
-	if probe == null:
-		_attach_validation_result("regular_case_corpus", result)
-		return result
-	for case_code in range(256):
-		var cell_mesh := _mesh_regular_case_code(probe, case_code)
-		var repeated_mesh := _mesh_regular_case_code(probe, case_code)
-		var status := str(cell_mesh.get("status", "Unknown"))
-		var expected_empty := case_code == 0 or case_code == 255
-		if status == "Ok":
-			result["ok_cases"] = int(result["ok_cases"]) + 1
-		elif status == "Empty":
-			result["empty_cases"] = int(result["empty_cases"]) + 1
-		else:
-			result["failed_cases"] = int(result["failed_cases"]) + 1
-			_append_sample_failure(result, case_code, -1, "regular status=%s" % status)
-		if (status == "Empty") != expected_empty:
-			result["expected_empty_mismatches"] = int(result["expected_empty_mismatches"]) + 1
-			_append_sample_failure(result, case_code, -1, "regular empty classification mismatch")
-		if not _cell_meshes_equivalent(cell_mesh, repeated_mesh):
-			result["determinism_failures"] = int(result["determinism_failures"]) + 1
-			_append_sample_failure(result, case_code, -1, "regular result is not deterministic")
-		var validation := _validate_cell_mesh_buffers(cell_mesh, CORNER_COUNT, CORNER_COUNT)
-		if int(validation.get("failures", 0)) > 0:
-			result["buffer_failures"] = int(result["buffer_failures"]) + int(validation.get("failures", 0))
-			_append_sample_failure(result, case_code, -1, str(validation.get("first_failure", "regular buffer validation failed")))
-		var vertices: PackedVector3Array = cell_mesh.get("vertices", PackedVector3Array())
-		var indices: PackedInt32Array = cell_mesh.get("indices", PackedInt32Array())
-		result["total_vertices"] = int(result["total_vertices"]) + vertices.size()
-		result["total_triangles"] = int(result["total_triangles"]) + int(indices.size() / 3)
-	result["elapsed_ms"] = float(Time.get_ticks_usec() - start_usec) / 1000.0
-	if int(result["failed_cases"]) > 0 or int(result["expected_empty_mismatches"]) > 0 or int(result["determinism_failures"]) > 0 or int(result["buffer_failures"]) > 0:
-		result["status"] = "FAIL"
+	var result := CaseValidator.validate_regular(_get_native_cell_probe())
+	_capture_failed_case_repros(result, "regular")
 	_attach_validation_result("regular_case_corpus", result)
 	return result
 
 
 func validate_transition_case_corpus() -> Dictionary:
-	var start_usec := Time.get_ticks_usec()
-	var probe := _get_native_cell_probe()
-	var result := {
-		"schema": TRANSITION_CASE_CORPUS_SCHEMA,
-		"available": probe != null,
-		"authority": NATIVE_AUTHORITY,
-		"case_count": 512,
-		"orientation_count": TRANSITION_ORIENTATION_NAMES.size(),
-		"probe_count": 512 * TRANSITION_ORIENTATION_NAMES.size(),
-		"ok_cases": 0,
-		"empty_cases": 0,
-		"failed_cases": 0,
-		"expected_empty_mismatches": 0,
-		"orientation_status_mismatches": 0,
-		"orientation_count_mismatches": 0,
-		"determinism_failures": 0,
-		"buffer_failures": 0,
-		"bounds_failures": 0,
-		"total_vertices": 0,
-		"total_triangles": 0,
-		"sample_failures": [],
-		"status": "Unavailable" if probe == null else "PASS",
-		"elapsed_ms": 0.0,
-	}
-	if probe == null:
-		_attach_validation_result("transition_case_corpus", result)
-		return result
-	for case_code in range(512):
-		var canonical_mesh := _mesh_transition_case_code(probe, case_code, TRANSITION_ORIENTATION_POSITIVE_Z)
-		var canonical_status := str(canonical_mesh.get("status", "Unknown"))
-		var expected_empty := case_code == 0 or case_code == 511
-		if (canonical_status == "Empty") != expected_empty:
-			result["expected_empty_mismatches"] = int(result["expected_empty_mismatches"]) + 1
-			_append_sample_failure(result, case_code, TRANSITION_ORIENTATION_POSITIVE_Z, "transition empty classification mismatch")
-		for orientation in range(TRANSITION_ORIENTATION_NAMES.size()):
-			var cell_mesh := _mesh_transition_case_code(probe, case_code, orientation)
-			var repeated_mesh := _mesh_transition_case_code(probe, case_code, orientation)
-			var status := str(cell_mesh.get("status", "Unknown"))
-			if status == "Ok":
-				result["ok_cases"] = int(result["ok_cases"]) + 1
-			elif status == "Empty":
-				result["empty_cases"] = int(result["empty_cases"]) + 1
-			else:
-				result["failed_cases"] = int(result["failed_cases"]) + 1
-				_append_sample_failure(result, case_code, orientation, "transition status=%s" % status)
-			if status != canonical_status:
-				result["orientation_status_mismatches"] = int(result["orientation_status_mismatches"]) + 1
-				_append_sample_failure(result, case_code, orientation, "orientation changed transition status")
-			if status == "Ok":
-				var vertices: PackedVector3Array = cell_mesh.get("vertices", PackedVector3Array())
-				var indices: PackedInt32Array = cell_mesh.get("indices", PackedInt32Array())
-				var canonical_vertices: PackedVector3Array = canonical_mesh.get("vertices", PackedVector3Array())
-				var canonical_indices: PackedInt32Array = canonical_mesh.get("indices", PackedInt32Array())
-				if vertices.size() != canonical_vertices.size() or indices.size() != canonical_indices.size():
-					result["orientation_count_mismatches"] = int(result["orientation_count_mismatches"]) + 1
-					_append_sample_failure(result, case_code, orientation, "orientation changed transition counts")
-				result["total_vertices"] = int(result["total_vertices"]) + vertices.size()
-				result["total_triangles"] = int(result["total_triangles"]) + int(indices.size() / 3)
-				var bounds_failures := _transition_bounds_failure_count(vertices, orientation)
-				if bounds_failures > 0:
-					result["bounds_failures"] = int(result["bounds_failures"]) + bounds_failures
-					_append_sample_failure(result, case_code, orientation, "transition vertex outside canonical prism")
-			if not _cell_meshes_equivalent(cell_mesh, repeated_mesh):
-				result["determinism_failures"] = int(result["determinism_failures"]) + 1
-				_append_sample_failure(result, case_code, orientation, "transition result is not deterministic")
-			var validation := _validate_cell_mesh_buffers(cell_mesh, TRANSITION_SAMPLE_COUNT, 13)
-			if int(validation.get("failures", 0)) > 0:
-				result["buffer_failures"] = int(result["buffer_failures"]) + int(validation.get("failures", 0))
-				_append_sample_failure(result, case_code, orientation, str(validation.get("first_failure", "transition buffer validation failed")))
-	result["elapsed_ms"] = float(Time.get_ticks_usec() - start_usec) / 1000.0
-	if int(result["failed_cases"]) > 0 or int(result["expected_empty_mismatches"]) > 0 or int(result["orientation_status_mismatches"]) > 0 or int(result["orientation_count_mismatches"]) > 0 or int(result["determinism_failures"]) > 0 or int(result["buffer_failures"]) > 0 or int(result["bounds_failures"]) > 0:
-		result["status"] = "FAIL"
+	var result := CaseValidator.validate_transition(_get_native_cell_probe())
+	_capture_failed_case_repros(result, "transition")
 	_attach_validation_result("transition_case_corpus", result)
 	return result
 
 
 func validate_chunk_lod_seams() -> Dictionary:
-	var start_usec := Time.get_ticks_usec()
-	var probe := _get_native_cell_probe()
-	var result := {
-		"schema": CHUNK_LOD_VALIDATION_SCHEMA,
-		"available": probe != null and probe.has_method("mesh_chunk_with_callable"),
-		"authority": NATIVE_AUTHORITY,
-		"same_lod_pairs": 3,
-		"same_lod_matching_pairs": 0,
-		"same_lod_mismatched_pairs": 0,
-		"same_lod_left_only_edges": 0,
-		"same_lod_right_only_edges": 0,
-		"lod_transition_probe_status": "Unavailable",
-		"lod_transition_faces_with_geometry": 0,
-		"lod_transition_triangles": 0,
-		"lod_transition_nonmanifold_edges": 0,
-		"lod_transition_orientation_conflict_edges": 0,
-		"mixed_lod_scope": "transition_mask_probe_without_adjacent_neighbor_crack_proof",
-		"sample_failures": [],
-		"status": "Unavailable",
-		"elapsed_ms": 0.0,
-	}
-	if probe == null or not probe.has_method("mesh_chunk_with_callable"):
-		_attach_validation_result("chunk_lod_validation", result)
-		return result
-	result["status"] = "PASS"
-	for spec in [
-		{"axis": 0, "face_a": 1, "face_b": 0, "neighbor": Vector3i(1, 0, 0)},
-		{"axis": 1, "face_a": 3, "face_b": 2, "neighbor": Vector3i(0, 1, 0)},
-		{"axis": 2, "face_a": 5, "face_b": 4, "neighbor": Vector3i(0, 0, 1)},
-	]:
-		var chunk_a := _mesh_validator_chunk(probe, Vector3i.ZERO, 0, 0, 0)
-		var chunk_b := _mesh_validator_chunk(probe, spec.get("neighbor", Vector3i.ZERO), 0, 0, 0)
-		var axis := int(spec.get("axis", 0))
-		var face_a := int(spec.get("face_a", 0))
-		var face_b := int(spec.get("face_b", 0))
-		if not bool(chunk_a.get("ok", false)) or not bool(chunk_b.get("ok", false)):
-			result["same_lod_mismatched_pairs"] = int(result["same_lod_mismatched_pairs"]) + 1
-			_append_sample_failure(result, axis, -1, "same LOD chunk probe failed")
-			continue
-		var edges_a := _chunk_face_edge_signature_set(chunk_a, face_a)
-		var edges_b := _chunk_face_edge_signature_set(chunk_b, face_b)
-		var diff := _set_difference_counts(edges_a, edges_b)
-		result["same_lod_left_only_edges"] = int(result["same_lod_left_only_edges"]) + int(diff.get("left_only", 0))
-		result["same_lod_right_only_edges"] = int(result["same_lod_right_only_edges"]) + int(diff.get("right_only", 0))
-		if int(diff.get("left_only", 0)) == 0 and int(diff.get("right_only", 0)) == 0:
-			result["same_lod_matching_pairs"] = int(result["same_lod_matching_pairs"]) + 1
-		else:
-			result["same_lod_mismatched_pairs"] = int(result["same_lod_mismatched_pairs"]) + 1
-			_append_sample_failure(result, axis, -1, "same LOD face signatures differed")
-	var transition_chunk := _mesh_validator_chunk(probe, Vector3i.ZERO, 1, 0x3F, 0x3F)
-	result["lod_transition_probe_status"] = str(transition_chunk.get("status", "Unavailable"))
-	if bool(transition_chunk.get("ok", false)):
-		var transitions: Array = transition_chunk.get("transitions", [])
-		for face_index in range(transitions.size()):
-			var transition: Dictionary = transitions[face_index]
-			var vertices: PackedVector3Array = transition.get("vertices", PackedVector3Array())
-			var indices: PackedInt32Array = transition.get("indices", PackedInt32Array())
-			if indices.size() > 0:
-				result["lod_transition_faces_with_geometry"] = int(result["lod_transition_faces_with_geometry"]) + 1
-			result["lod_transition_triangles"] = int(result["lod_transition_triangles"]) + int(indices.size() / 3)
-			var edge_metrics := _isolated_edge_metrics(vertices, indices)
-			var orientation_metrics := _orientation_metrics(vertices, indices)
-			result["lod_transition_nonmanifold_edges"] = int(result["lod_transition_nonmanifold_edges"]) + int(edge_metrics.get("nonmanifold_edges", 0))
-			result["lod_transition_orientation_conflict_edges"] = int(result["lod_transition_orientation_conflict_edges"]) + int(orientation_metrics.get("orientation_conflict_edges", 0))
-	else:
-		_append_sample_failure(result, -1, -1, "LOD transition mask chunk failed: %s" % str(transition_chunk.get("sample_error", transition_chunk.get("error", ""))))
-	if int(result["same_lod_mismatched_pairs"]) > 0 or str(result["lod_transition_probe_status"]) != "Ok" or int(result["lod_transition_nonmanifold_edges"]) > 0 or int(result["lod_transition_orientation_conflict_edges"]) > 0:
-		result["status"] = "FAIL"
-	result["elapsed_ms"] = float(Time.get_ticks_usec() - start_usec) / 1000.0
+	var result := _chunk_validator.validate(_get_native_cell_probe())
 	_attach_validation_result("chunk_lod_validation", result)
 	return result
 
 
 func validate_edit_sequence() -> Dictionary:
-	var start_usec := Time.get_ticks_usec()
-	var original := make_repro_snapshot()
-	var result := {
-		"schema": EDIT_SEQUENCE_VALIDATION_SCHEMA,
-		"authority": NATIVE_AUTHORITY,
-		"sequence_steps": 4,
-		"passing_steps": 0,
-		"failing_steps": 0,
-		"triangle_counts": [],
-		"edit_counts": [],
-		"sample_failures": [],
-		"status": "PASS",
-		"elapsed_ms": 0.0,
-	}
-	var previous_auto_rebuild := auto_rebuild
-	auto_rebuild = false
-	cells_x = 6
-	cells_y = 6
-	cells_z = 6
-	field_mode = FieldMode.SPHERE
-	edits.clear()
-	auto_rebuild = previous_auto_rebuild
-	var steps: Array = [
-		{"name": "initial", "mode": "none", "center": Vector3.ZERO, "radius": 0.0},
-		{"name": "dig_center", "mode": "dig", "center": Vector3.ZERO, "radius": 1.0},
-		{"name": "construct_right", "mode": "construct", "center": Vector3(1.0, 0.0, 0.0), "radius": 0.75},
-		{"name": "dig_left", "mode": "dig", "center": Vector3(-1.0, 0.0, 0.0), "radius": 0.65},
-	]
-	for index in range(steps.size()):
-		var step: Dictionary = steps[index]
-		match str(step.get("mode", "none")):
-			"dig":
-				apply_dig_at(step.get("center", Vector3.ZERO), float(step.get("radius", 1.0)))
-			"construct":
-				apply_construct_at(step.get("center", Vector3.ZERO), float(step.get("radius", 1.0)))
-			_:
-				rebuild()
-		var report := get_last_report()
-		var ok := str(report.get("status", "")) == "PASS"
-		var topology_ok := int(report.get("interior_open_edges", 0)) == 0 and int(report.get("nonmanifold_edges", 0)) == 0 and int(report.get("orientation_conflict_edges", 0)) == 0
-		var chunk_ok := bool(report.get("chunk_probe_ok", false))
-		if ok and topology_ok and chunk_ok:
-			result["passing_steps"] = int(result["passing_steps"]) + 1
-		else:
-			result["failing_steps"] = int(result["failing_steps"]) + 1
-			_append_sample_failure(result, index, -1, "edit step failed: %s" % str(step.get("name", index)))
-		var triangle_counts: Array = result.get("triangle_counts", [])
-		triangle_counts.append(int(report.get("triangles", 0)))
-		result["triangle_counts"] = triangle_counts
-		var edit_counts: Array = result.get("edit_counts", [])
-		edit_counts.append(int(report.get("edit_count", 0)))
-		result["edit_counts"] = edit_counts
-	if int(result["failing_steps"]) > 0:
-		result["status"] = "FAIL"
-	result["elapsed_ms"] = float(Time.get_ticks_usec() - start_usec) / 1000.0
-	apply_repro_snapshot(original)
+	var result := _edit_validator.validate(self)
 	_attach_validation_result("edit_sequence_validation", result)
 	return result
 
 
+func validate_edit_corpus() -> Dictionary:
+	var result := _edit_validator.validate_corpus(self)
+	_attach_validation_result("edit_corpus", result)
+	return result
+
+
 func run_performance_baselines(iterations: int = 3) -> Dictionary:
-	iterations = clampi(iterations, 1, 24)
-	var result := {
-		"schema": PERFORMANCE_BASELINES_SCHEMA,
-		"authority": NATIVE_AUTHORITY,
-		"iterations": iterations,
-		"patch_rebuild_average_ms": 0.0,
-		"patch_rebuild_maximum_ms": 0.0,
-		"chunk_lod_validation_ms": 0.0,
-		"edit_sequence_validation_ms": 0.0,
-		"regular_case_corpus_ms": 0.0,
-		"transition_case_corpus_ms": 0.0,
-		"status": "PASS",
-	}
-	var total := 0.0
-	var maximum := 0.0
-	for _index in range(iterations):
-		var start_usec := Time.get_ticks_usec()
-		rebuild()
-		var elapsed := float(Time.get_ticks_usec() - start_usec) / 1000.0
-		total += elapsed
-		maximum = maxf(maximum, elapsed)
-	result["patch_rebuild_average_ms"] = total / float(iterations)
-	result["patch_rebuild_maximum_ms"] = maximum
-	var chunk_start := Time.get_ticks_usec()
-	var chunk_result := validate_chunk_lod_seams()
-	result["chunk_lod_validation_ms"] = float(Time.get_ticks_usec() - chunk_start) / 1000.0
-	var edit_start := Time.get_ticks_usec()
-	var edit_result := validate_edit_sequence()
-	result["edit_sequence_validation_ms"] = float(Time.get_ticks_usec() - edit_start) / 1000.0
-	_attach_validation_result("chunk_lod_validation", chunk_result)
-	_attach_validation_result("edit_sequence_validation", edit_result)
-	var report := get_last_report()
-	var regular_corpus: Dictionary = report.get("regular_case_corpus", {})
-	var transition_corpus: Dictionary = report.get("transition_case_corpus", {})
-	result["regular_case_corpus_ms"] = float(regular_corpus.get("elapsed_ms", 0.0))
-	result["transition_case_corpus_ms"] = float(transition_corpus.get("elapsed_ms", 0.0))
-	if str(chunk_result.get("status", "")) != "PASS" or str(edit_result.get("status", "")) != "PASS":
-		result["status"] = "FAIL"
+	var result := _performance_service.run(self, _chunk_validator, _edit_validator, iterations)
 	_attach_validation_result("performance_baselines", result)
 	return result
+
+
+func validate_standards_corpus() -> Dictionary:
+	var result := _standards_runner.run(self)
+	_attach_validation_result("standards_corpus", result)
+	return result
+
+
+func describe_regular_case(case_code: int = selected_regular_case) -> Dictionary:
+	return CaseValidator.describe_regular_case(_get_native_cell_probe(), case_code)
+
+
+func describe_transition_case(
+	case_code: int = selected_transition_case,
+	orientation: int = selected_transition_orientation
+) -> Dictionary:
+	return CaseValidator.describe_transition_case(
+		_get_native_cell_probe(),
+		case_code,
+		orientation
+	)
+
+
+func build_mixed_lod_fixture(
+	face: int = selected_chunk_face,
+	coarse_lod: int = selected_chunk_lod
+) -> Dictionary:
+	return _chunk_validator.build_mixed_lod_fixture(
+		_get_native_cell_probe(),
+		face,
+		coarse_lod
+	)
+
+
+func import_integration_snapshot(snapshot: Dictionary, source_reference: String = "") -> Dictionary:
+	var result := IntegrationAdapter.import_snapshot(snapshot, self, source_reference)
+	if bool(result.get("ok", false)):
+		_attach_validation_result("integration_comparison", result.get("comparison", {}))
+	return result
+
+
+func import_integration_snapshot_file(path: String) -> Dictionary:
+	var result := IntegrationAdapter.import_file(path, self)
+	if bool(result.get("ok", false)):
+		_attach_validation_result("integration_comparison", result.get("comparison", {}))
+	return result
+
+
+func get_native_probe() -> RefCounted:
+	return _get_native_cell_probe()
+
+
+func get_affected_cells() -> Array[Vector3i]:
+	var affected: Dictionary = {}
+	var origin := _patch_origin()
+	for edit_value in edits:
+		var edit: Dictionary = edit_value
+		var center: Vector3 = edit.get("center", Vector3.ZERO)
+		var radius := maxf(float(edit.get("radius", edit_radius)), 0.0)
+		var local_min := (center - Vector3.ONE * radius - origin) / cell_size
+		var local_max := (center + Vector3.ONE * radius - origin) / cell_size
+		var minimum := Vector3i(
+			clampi(floori(local_min.x), 0, cells_x - 1),
+			clampi(floori(local_min.y), 0, cells_y - 1),
+			clampi(floori(local_min.z), 0, cells_z - 1)
+		)
+		var maximum := Vector3i(
+			clampi(floori(local_max.x), 0, cells_x - 1),
+			clampi(floori(local_max.y), 0, cells_y - 1),
+			clampi(floori(local_max.z), 0, cells_z - 1)
+		)
+		for z in range(minimum.z, maximum.z + 1):
+			for y in range(minimum.y, maximum.y + 1):
+				for x in range(minimum.x, maximum.x + 1):
+					var coordinate := Vector3i(x, y, z)
+					var cell_box := AABB(
+						origin + Vector3(coordinate) * cell_size,
+						Vector3.ONE * cell_size
+					)
+					if _sphere_intersects_aabb(center, radius, cell_box):
+						affected[coordinate] = true
+	var result: Array[Vector3i] = []
+	for coordinate in affected.keys():
+		result.append(coordinate)
+	result.sort_custom(func(a: Vector3i, b: Vector3i) -> bool:
+		return Vector3i(a.z, a.y, a.x) < Vector3i(b.z, b.y, b.x)
+	)
+	return result
+
+
+func get_dirty_region() -> AABB:
+	if edits.is_empty():
+		return AABB()
+	var patch_bounds := AABB(
+		_patch_origin(),
+		Vector3(cells_x, cells_y, cells_z) * cell_size
+	)
+	var dirty := AABB()
+	var has_dirty := false
+	for edit_value in edits:
+		var edit: Dictionary = edit_value
+		var center: Vector3 = edit.get("center", Vector3.ZERO)
+		var radius := maxf(float(edit.get("radius", edit_radius)), 0.0)
+		var bounds := AABB(center - Vector3.ONE * radius, Vector3.ONE * radius * 2.0)
+		bounds = bounds.intersection(patch_bounds)
+		if bounds.size == Vector3.ZERO:
+			continue
+		dirty = bounds if not has_dirty else dirty.merge(bounds)
+		has_dirty = true
+	return dirty
+
+
+func _sphere_intersects_aabb(center: Vector3, radius: float, bounds: AABB) -> bool:
+	var closest := Vector3(
+		clampf(center.x, bounds.position.x, bounds.end.x),
+		clampf(center.y, bounds.position.y, bounds.end.y),
+		clampf(center.z, bounds.position.z, bounds.end.z)
+	)
+	return closest.distance_squared_to(center) <= radius * radius
+
+
+func _attach_validation_result(key: String, result: Dictionary) -> void:
+	_validation_results[key] = result
+	if _last_report.is_empty():
+		rebuild()
+	ReportBuilder.attach_validation(_last_report, key, result)
+
+
+func _capture_failed_case_repros(result: Dictionary, cell_type: String) -> void:
+	if str(result.get("status", "")) != "FAIL":
+		result["saved_failure_repros"] = []
+		return
+	var previous_auto_rebuild := auto_rebuild
+	var previous_mode := inspection_mode
+	var previous_regular_case := selected_regular_case
+	var previous_transition_case := selected_transition_case
+	var previous_orientation := selected_transition_orientation
+	auto_rebuild = false
+	var saved_paths: Array[String] = []
+	var seen := {}
+	for failure_value in result.get("sample_failures", []):
+		var failure: Dictionary = failure_value
+		var case_code := int(failure.get("case", -1))
+		if case_code < 0:
+			continue
+		var orientation_name := str(failure.get("orientation", ""))
+		var orientation := Contracts.TRANSITION_ORIENTATION_NAMES.find(orientation_name)
+		var key := "%s:%d:%d" % [cell_type, case_code, orientation]
+		if seen.has(key):
+			continue
+		seen[key] = true
+		if cell_type == "regular":
+			inspection_mode = InspectionMode.REGULAR_CASE
+			selected_regular_case = case_code
+		else:
+			inspection_mode = InspectionMode.TRANSITION_CASE
+			selected_transition_case = case_code
+			selected_transition_orientation = maxi(orientation, 0)
+		var snapshot := make_repro_snapshot({
+			"name": "%s_case_%d_failure" % [cell_type, case_code],
+			"notes": str(failure.get("message", "case corpus failure")),
+			"expected_label": "known_failure",
+			"source_layer": "world_transvoxel",
+			"source_reference": str(result.get("schema", "")),
+		})
+		snapshot["case_failure"] = failure.duplicate(true)
+		var saved := ReproStore.save_snapshot(snapshot)
+		if bool(saved.get("ok", false)):
+			saved_paths.append(str(saved.get("absolute_path", saved.get("path", ""))))
+	auto_rebuild = false
+	inspection_mode = previous_mode
+	selected_regular_case = previous_regular_case
+	selected_transition_case = previous_transition_case
+	selected_transition_orientation = previous_orientation
+	auto_rebuild = previous_auto_rebuild
+	result["saved_failure_repros"] = saved_paths
 
 
 func get_status_line() -> String:
@@ -667,352 +576,6 @@ func benchmark_rebuild(iterations: int = 24) -> Dictionary:
 	return result
 
 
-func _mesh_regular_case_code(probe: RefCounted, case_code: int) -> Dictionary:
-	var densities := PackedFloat32Array()
-	var gradients := PackedVector3Array()
-	var materials := PackedInt32Array()
-	for corner in range(CORNER_COUNT):
-		densities.append(-1.0 if (case_code & (1 << corner)) != 0 else 1.0)
-		gradients.append(Vector3.RIGHT)
-		materials.append(corner + 1)
-	return probe.call(
-		"mesh_regular_cell",
-		densities,
-		gradients,
-		materials,
-		Vector3.ZERO,
-		1.0,
-		0.0
-	)
-
-
-func _mesh_transition_case_code(probe: RefCounted, case_code: int, orientation: int) -> Dictionary:
-	var densities := PackedFloat32Array()
-	var gradients := PackedVector3Array()
-	var materials := PackedInt32Array()
-	for sample_index in range(TRANSITION_SAMPLE_COUNT):
-		var bit := _transition_case_bit(sample_index)
-		densities.append(-1.0 if (case_code & (1 << bit)) != 0 else 1.0)
-		gradients.append(Vector3.RIGHT)
-		materials.append(sample_index + 1)
-	return probe.call(
-		"mesh_transition_cell",
-		densities,
-		gradients,
-		materials,
-		orientation,
-		Vector3.ZERO,
-		1.0,
-		0.25,
-		0.0
-	)
-
-
-func _mesh_validator_chunk(
-	probe: RefCounted,
-	chunk_coordinate: Vector3i,
-	lod: int,
-	transition_mask: int,
-	cached_transition_mask: int
-) -> Dictionary:
-	if probe == null or not probe.has_method("mesh_chunk_with_callable"):
-		return {
-			"ok": false,
-			"status": "Unavailable",
-			"error": "mesh_chunk_with_callable unavailable",
-		}
-	return probe.call(
-		"mesh_chunk_with_callable",
-		Callable(self, "_validator_chunk_sample"),
-		chunk_coordinate,
-		lod,
-		transition_mask,
-		cached_transition_mask,
-		0.0,
-		0.25
-	)
-
-
-func _validator_chunk_sample(point: Vector3i) -> Dictionary:
-	var p := Vector3(float(point.x), float(point.y), float(point.z))
-	var terrain_height := 8.0 + 3.0 * sin(p.x * 0.13) + 2.0 * cos(p.z * 0.17)
-	var density := p.y - terrain_height
-	return {
-		"density": density,
-		"material": 1 if density < 0.0 else 0,
-		"material_authored": density < 0.0,
-	}
-
-
-func _chunk_face_edge_signature_set(chunk_mesh: Dictionary, face: int) -> Dictionary:
-	var regular: Dictionary = chunk_mesh.get("regular", {})
-	var vertices: PackedVector3Array = regular.get("vertices", PackedVector3Array())
-	var indices: PackedInt32Array = regular.get("indices", PackedInt32Array())
-	var world_origin := Vector3(
-		float(chunk_mesh.get("world_origin_x", 0)),
-		float(chunk_mesh.get("world_origin_y", 0)),
-		float(chunk_mesh.get("world_origin_z", 0))
-	)
-	var lod := int(chunk_mesh.get("lod", 0))
-	var extent := float(CHUNK_PROBE_CELLS_PER_AXIS * (1 << lod))
-	var axis := _chunk_face_axis(face)
-	var plane := world_origin[axis] + (extent if _chunk_face_is_positive(face) else 0.0)
-	var counts := {}
-	var endpoints := {}
-	for i in range(0, indices.size(), 3):
-		for pair in [
-			[int(indices[i]), int(indices[i + 1])],
-			[int(indices[i + 1]), int(indices[i + 2])],
-			[int(indices[i + 2]), int(indices[i])],
-		]:
-			var a := vertices[pair[0]] + world_origin
-			var b := vertices[pair[1]] + world_origin
-			if absf(a[axis] - plane) > 0.0001 or absf(b[axis] - plane) > 0.0001:
-				continue
-			var key := _edge_key(a, b)
-			counts[key] = int(counts.get(key, 0)) + 1
-			endpoints[key] = [a, b]
-	var signatures := {}
-	for key in counts.keys():
-		if int(counts[key]) == 1:
-			var edge: Array = endpoints[key]
-			signatures[_face_edge_signature(edge[0] as Vector3, edge[1] as Vector3, axis)] = true
-	return signatures
-
-
-func _face_edge_signature(a: Vector3, b: Vector3, axis: int) -> String:
-	var components := []
-	for component in range(3):
-		if component == axis:
-			continue
-		components.append(component)
-	var a0 := roundi(a[int(components[0])] * 10000.0)
-	var a1 := roundi(a[int(components[1])] * 10000.0)
-	var b0 := roundi(b[int(components[0])] * 10000.0)
-	var b1 := roundi(b[int(components[1])] * 10000.0)
-	var first := "%d,%d" % [a0, a1]
-	var second := "%d,%d" % [b0, b1]
-	if first < second:
-		return first + "|" + second
-	return second + "|" + first
-
-
-func _set_difference_counts(left: Dictionary, right: Dictionary) -> Dictionary:
-	var left_only := 0
-	var right_only := 0
-	for key in left.keys():
-		if not right.has(key):
-			left_only += 1
-	for key in right.keys():
-		if not left.has(key):
-			right_only += 1
-	return {
-		"left_only": left_only,
-		"right_only": right_only,
-	}
-
-
-func _chunk_face_axis(face: int) -> int:
-	match face:
-		0, 1:
-			return 0
-		2, 3:
-			return 1
-	return 2
-
-
-func _chunk_face_is_positive(face: int) -> bool:
-	return face == 1 or face == 3 or face == 5
-
-
-func _validate_cell_mesh_buffers(cell_mesh: Dictionary, sample_count: int, topology_sample_count: int) -> Dictionary:
-	var vertices: PackedVector3Array = cell_mesh.get("vertices", PackedVector3Array())
-	var normals: PackedVector3Array = cell_mesh.get("normals", PackedVector3Array())
-	var indices: PackedInt32Array = cell_mesh.get("indices", PackedInt32Array())
-	var materials: PackedInt32Array = cell_mesh.get("materials", PackedInt32Array())
-	var endpoint_a: PackedInt32Array = cell_mesh.get("endpoint_a", PackedInt32Array())
-	var endpoint_b: PackedInt32Array = cell_mesh.get("endpoint_b", PackedInt32Array())
-	var failures := 0
-	var first_failure := ""
-	if (indices.size() % 3) != 0:
-		failures += 1
-		first_failure = _first_failure(first_failure, "index count is not triangular")
-	for index in indices:
-		if int(index) < 0 or int(index) >= vertices.size():
-			failures += 1
-			first_failure = _first_failure(first_failure, "index outside active vertices")
-			break
-	for index in range(vertices.size()):
-		var position := vertices[index]
-		if not _vector_is_finite(position):
-			failures += 1
-			first_failure = _first_failure(first_failure, "position is not finite")
-		if index >= normals.size() or not _normal_is_valid(normals[index]):
-			failures += 1
-			first_failure = _first_failure(first_failure, "normal is not unit length")
-		if index >= materials.size() or int(materials[index]) <= 0 or int(materials[index]) > sample_count:
-			failures += 1
-			first_failure = _first_failure(first_failure, "material is outside sample set")
-		if index >= endpoint_a.size() or index >= endpoint_b.size():
-			failures += 1
-			first_failure = _first_failure(first_failure, "endpoint provenance is missing")
-			continue
-		var a := int(endpoint_a[index])
-		var b := int(endpoint_b[index])
-		if a < 0 or a >= topology_sample_count or b < 0 or b >= topology_sample_count:
-			failures += 1
-			first_failure = _first_failure(first_failure, "endpoint provenance is outside topology samples")
-		if a == b:
-			failures += 1
-			first_failure = _first_failure(first_failure, "endpoint provenance names a zero-length topology edge")
-	return {
-		"failures": failures,
-		"first_failure": first_failure,
-	}
-
-
-func _cell_meshes_equivalent(a: Dictionary, b: Dictionary) -> bool:
-	if str(a.get("status", "Unknown")) != str(b.get("status", "Unknown")):
-		return false
-	var a_vertices: PackedVector3Array = a.get("vertices", PackedVector3Array())
-	var b_vertices: PackedVector3Array = b.get("vertices", PackedVector3Array())
-	var a_normals: PackedVector3Array = a.get("normals", PackedVector3Array())
-	var b_normals: PackedVector3Array = b.get("normals", PackedVector3Array())
-	var a_indices: PackedInt32Array = a.get("indices", PackedInt32Array())
-	var b_indices: PackedInt32Array = b.get("indices", PackedInt32Array())
-	var a_materials: PackedInt32Array = a.get("materials", PackedInt32Array())
-	var b_materials: PackedInt32Array = b.get("materials", PackedInt32Array())
-	if a_vertices.size() != b_vertices.size() or a_normals.size() != b_normals.size() or a_indices.size() != b_indices.size() or a_materials.size() != b_materials.size():
-		return false
-	for index in range(a_vertices.size()):
-		if not _vectors_nearly_equal(a_vertices[index], b_vertices[index]):
-			return false
-		if not _vectors_nearly_equal(a_normals[index], b_normals[index]):
-			return false
-		if int(a_materials[index]) != int(b_materials[index]):
-			return false
-	for index in range(a_indices.size()):
-		if int(a_indices[index]) != int(b_indices[index]):
-			return false
-	return true
-
-
-func _transition_bounds_failure_count(vertices: PackedVector3Array, orientation: int) -> int:
-	var basis := _transition_basis(orientation)
-	var u: Vector3 = basis.get("u", Vector3.RIGHT)
-	var v: Vector3 = basis.get("v", Vector3.UP)
-	var w: Vector3 = basis.get("w", Vector3.FORWARD)
-	var failures := 0
-	for vertex in vertices:
-		var local := Vector3(vertex.dot(u), vertex.dot(v), vertex.dot(w))
-		if local.x < -0.0001 or local.x > 2.0001 or local.y < -0.0001 or local.y > 2.0001 or local.z < -0.0001 or local.z > 0.2501:
-			failures += 1
-	return failures
-
-
-func _transition_basis(orientation: int) -> Dictionary:
-	match orientation:
-		0:
-			return {"u": Vector3(0.0, 1.0, 0.0), "v": Vector3(0.0, 0.0, 1.0), "w": Vector3(1.0, 0.0, 0.0)}
-		1:
-			return {"u": Vector3(0.0, 1.0, 0.0), "v": Vector3(0.0, 0.0, -1.0), "w": Vector3(-1.0, 0.0, 0.0)}
-		2:
-			return {"u": Vector3(0.0, 0.0, 1.0), "v": Vector3(1.0, 0.0, 0.0), "w": Vector3(0.0, 1.0, 0.0)}
-		3:
-			return {"u": Vector3(0.0, 0.0, 1.0), "v": Vector3(-1.0, 0.0, 0.0), "w": Vector3(0.0, -1.0, 0.0)}
-		4:
-			return {"u": Vector3(1.0, 0.0, 0.0), "v": Vector3(0.0, 1.0, 0.0), "w": Vector3(0.0, 0.0, 1.0)}
-		5:
-			return {"u": Vector3(1.0, 0.0, 0.0), "v": Vector3(0.0, -1.0, 0.0), "w": Vector3(0.0, 0.0, -1.0)}
-	return {"u": Vector3(1.0, 0.0, 0.0), "v": Vector3(0.0, 1.0, 0.0), "w": Vector3(0.0, 0.0, 1.0)}
-
-
-func _attach_validation_result(key: String, result: Dictionary) -> void:
-	if _last_report.is_empty():
-		rebuild()
-	_last_report[key] = result
-
-
-func _append_sample_failure(result: Dictionary, case_code: int, orientation: int, message: String) -> void:
-	var failures: Array = result.get("sample_failures", [])
-	if failures.size() >= 16:
-		return
-	var entry := {
-		"case": case_code,
-		"message": message,
-	}
-	if orientation >= 0:
-		entry["orientation"] = TRANSITION_ORIENTATION_NAMES[orientation] if orientation < TRANSITION_ORIENTATION_NAMES.size() else str(orientation)
-	failures.append(entry)
-	result["sample_failures"] = failures
-
-
-func _first_failure(existing: String, candidate: String) -> String:
-	return candidate if existing.is_empty() else existing
-
-
-func _vector_is_finite(value: Vector3) -> bool:
-	return _float_is_finite(value.x) and _float_is_finite(value.y) and _float_is_finite(value.z)
-
-
-func _float_is_finite(value: float) -> bool:
-	return value == value and absf(value) < 100000000000000000000.0
-
-
-func _normal_is_valid(value: Vector3) -> bool:
-	if not _vector_is_finite(value):
-		return false
-	var length_squared := value.length_squared()
-	return length_squared >= 0.999 and length_squared <= 1.001
-
-
-func _vectors_nearly_equal(a: Vector3, b: Vector3, tolerance: float = 0.00001) -> bool:
-	return absf(a.x - b.x) <= tolerance and absf(a.y - b.y) <= tolerance and absf(a.z - b.z) <= tolerance
-
-
-func _field_mode_from_variant(value: Variant, default_value: int) -> int:
-	if typeof(value) == TYPE_INT:
-		return clampi(int(value), 0, FieldMode.keys().size() - 1)
-	var index := FieldMode.keys().find(str(value))
-	if index < 0:
-		return default_value
-	return index
-
-
-func _variant_to_vector3i(value: Variant, default_value: Vector3i) -> Vector3i:
-	match typeof(value):
-		TYPE_VECTOR3I:
-			return value
-		TYPE_VECTOR3:
-			var vector3: Vector3 = value
-			return Vector3i(roundi(vector3.x), roundi(vector3.y), roundi(vector3.z))
-		TYPE_DICTIONARY:
-			var dictionary: Dictionary = value
-			return Vector3i(
-				int(dictionary.get("x", default_value.x)),
-				int(dictionary.get("y", default_value.y)),
-				int(dictionary.get("z", default_value.z))
-			)
-	return default_value
-
-
-func _variant_to_vector3(value: Variant, default_value: Vector3) -> Vector3:
-	match typeof(value):
-		TYPE_VECTOR3:
-			return value
-		TYPE_VECTOR3I:
-			var vector3i: Vector3i = value
-			return Vector3(float(vector3i.x), float(vector3i.y), float(vector3i.z))
-		TYPE_DICTIONARY:
-			var dictionary: Dictionary = value
-			return Vector3(
-				float(dictionary.get("x", default_value.x)),
-				float(dictionary.get("y", default_value.y)),
-				float(dictionary.get("z", default_value.z))
-			)
-	return default_value
-
-
 func _apply_edit(mode: String, center: Vector3, radius: float) -> void:
 	if radius <= 0.0:
 		radius = edit_radius
@@ -1068,6 +631,27 @@ func _make_materials() -> void:
 	_transition_material = _material(Color(1.0, 0.78, 0.20, 0.45), true)
 	_transition_surface_material = _material(Color(0.92, 0.36, 0.16, 0.82), false)
 	_chunk_surface_material = _material(Color(0.25, 0.82, 0.52, 0.68), false)
+	_inspection_edge_material = _material(Color(1.0, 0.72, 0.12, 0.92), true)
+	_inspection_normal_material = _material(Color(0.18, 0.88, 1.0, 0.90), true)
+	_inspection_low_sample_material = _material(Color(0.78, 0.42, 1.0, 1.0), false)
+	_inspection_fine_chunk_material = _material(Color(0.18, 0.68, 0.92, 0.74), false)
+	_inspection_basis_material = _material(Color(1.0, 0.96, 0.36, 1.0), true)
+
+
+func _inspection_materials() -> Dictionary:
+	return {
+		"surface": _surface_material,
+		"transition": _transition_surface_material,
+		"chunk": _chunk_surface_material,
+		"fine_chunk": _inspection_fine_chunk_material,
+		"wire": _wire_material,
+		"edge": _inspection_edge_material,
+		"normal": _inspection_normal_material,
+		"basis": _inspection_basis_material,
+		"solid_sample": _solid_sample_material,
+		"empty_sample": _empty_sample_material,
+		"low_sample": _inspection_low_sample_material,
+	}
 
 
 func _material(color: Color, as_wireframe: bool) -> StandardMaterial3D:
@@ -1546,7 +1130,7 @@ func _make_edge_line_mesh(mesh_data: Dictionary) -> ArrayMesh:
 		]:
 			var a := source_vertices[int(pair[0])]
 			var b := source_vertices[int(pair[1])]
-			var key := _edge_key(a, b)
+			var key := MeshAnalysis.edge_key(a, b)
 			if edge_lookup.has(key):
 				continue
 			edge_lookup[key] = true
@@ -1774,208 +1358,25 @@ func _build_transition_frame() -> void:
 
 
 func _isolated_edge_metrics(vertices: PackedVector3Array, indices: PackedInt32Array) -> Dictionary:
-	var counts := {}
-	for i in range(0, indices.size(), 3):
-		var a := vertices[int(indices[i])]
-		var b := vertices[int(indices[i + 1])]
-		var c := vertices[int(indices[i + 2])]
-		for edge in [[a, b], [b, c], [c, a]]:
-			var key := _edge_key(edge[0], edge[1])
-			counts[key] = int(counts.get(key, 0)) + 1
-	var open_edges := 0
-	var nonmanifold_edges := 0
-	for key in counts.keys():
-		var count := int(counts[key])
-		if count == 1:
-			open_edges += 1
-		elif count > 2:
-			nonmanifold_edges += 1
-	return {
-		"open_edges": open_edges,
-		"nonmanifold_edges": nonmanifold_edges,
-	}
+	return MeshAnalysis.isolated_edge_metrics(vertices, indices)
 
 
 func _edge_metrics(vertices: PackedVector3Array, indices: PackedInt32Array) -> Dictionary:
-	var counts := {}
-	var edge_points := {}
-	for i in range(0, indices.size(), 3):
-		var a := vertices[int(indices[i])]
-		var b := vertices[int(indices[i + 1])]
-		var c := vertices[int(indices[i + 2])]
-		for edge in [[a, b], [b, c], [c, a]]:
-			var key := _edge_key(edge[0], edge[1])
-			counts[key] = int(counts.get(key, 0)) + 1
-			edge_points[key] = edge
-	var open_edges := 0
-	var boundary_open_edges := 0
-	var interior_open_edges := 0
-	var nonmanifold_edges := 0
-	for key in counts.keys():
-		var count := int(counts[key])
-		if count == 1:
-			open_edges += 1
-			var edge: Array = edge_points[key]
-			if _edge_on_patch_boundary(edge[0] as Vector3, edge[1] as Vector3):
-				boundary_open_edges += 1
-			else:
-				interior_open_edges += 1
-		elif count > 2:
-			nonmanifold_edges += 1
-	return {
-		"open_edges": open_edges,
-		"boundary_open_edges": boundary_open_edges,
-		"interior_open_edges": interior_open_edges,
-		"nonmanifold_edges": nonmanifold_edges,
-	}
+	return MeshAnalysis.bounded_edge_metrics(
+		vertices,
+		indices,
+		AABB(_patch_origin(), Vector3(cells_x, cells_y, cells_z) * cell_size)
+	)
 
 
 func _orientation_metrics(vertices: PackedVector3Array, indices: PackedInt32Array) -> Dictionary:
-	var directed_counts := {}
-	var undirected_counts := {}
-	for i in range(0, indices.size(), 3):
-		var triangle_indices := [
-			int(indices[i]),
-			int(indices[i + 1]),
-			int(indices[i + 2]),
-		]
-		for pair in [
-			[triangle_indices[0], triangle_indices[1]],
-			[triangle_indices[1], triangle_indices[2]],
-			[triangle_indices[2], triangle_indices[0]],
-		]:
-			var a := vertices[int(pair[0])]
-			var b := vertices[int(pair[1])]
-			var directed_key := _point_key(a) + ">" + _point_key(b)
-			var undirected_key := _edge_key(a, b)
-			directed_counts[directed_key] = int(directed_counts.get(directed_key, 0)) + 1
-			undirected_counts[undirected_key] = int(undirected_counts.get(undirected_key, 0)) + 1
-	var conflicts := 0
-	for raw_key in undirected_counts.keys():
-		var key := str(raw_key)
-		if int(undirected_counts[key]) != 2:
-			continue
-		var parts := key.split("|")
-		if parts.size() != 2:
-			continue
-		var forward := int(directed_counts.get(parts[0] + ">" + parts[1], 0))
-		var reverse := int(directed_counts.get(parts[1] + ">" + parts[0], 0))
-		if forward != 1 or reverse != 1:
-			conflicts += 1
-	return {
-		"orientation_conflict_edges": conflicts,
-	}
+	return MeshAnalysis.orientation_metrics(vertices, indices)
 
 
-func _edge_on_patch_boundary(a: Vector3, b: Vector3) -> bool:
-	var origin := _patch_origin()
-	var maximum := origin + Vector3(cells_x, cells_y, cells_z) * cell_size
-	for axis in range(3):
-		if _same_boundary_plane(a[axis], b[axis], origin[axis]) or _same_boundary_plane(a[axis], b[axis], maximum[axis]):
-			return true
-	return false
-
-
-func _same_boundary_plane(a: float, b: float, plane: float) -> bool:
-	return absf(a - plane) <= 0.0001 and absf(b - plane) <= 0.0001
-
-
-func _edge_key(a: Vector3, b: Vector3) -> String:
-	var ka := _point_key(a)
-	var kb := _point_key(b)
-	if ka < kb:
-		return ka + "|" + kb
-	return kb + "|" + ka
-
-
-func _point_key(p: Vector3) -> String:
-	return "%d,%d,%d" % [
-		roundi(p.x * 10000.0),
-		roundi(p.y * 10000.0),
-		roundi(p.z * 10000.0),
-	]
-
-
-func _make_report(mesh_data: Dictionary, transition_data: Dictionary, chunk_data: Dictionary, elapsed_ms: float) -> Dictionary:
-	var failed_cells := int(mesh_data.get("failed_cells", 0))
-	var interior_open_edges := int(mesh_data.get("interior_open_edges", 0))
-	var nonmanifold_edges := int(mesh_data.get("nonmanifold_edges", 0))
-	var orientation_conflict_edges := int(mesh_data.get("orientation_conflict_edges", 0))
-	var transition_available := bool(transition_data.get("available", false))
-	var transition_ok := bool(transition_data.get("ok", false))
-	var transition_nonmanifold_edges := int(transition_data.get("nonmanifold_edges", 0))
-	var transition_orientation_conflict_edges := int(transition_data.get("orientation_conflict_edges", 0))
-	var chunk_available := bool(chunk_data.get("available", false))
-	var chunk_ok := bool(chunk_data.get("ok", false))
-	var chunk_nonmanifold_edges := int(chunk_data.get("nonmanifold_edges", 0))
-	var chunk_orientation_conflict_edges := int(chunk_data.get("orientation_conflict_edges", 0))
-	var status := "PASS"
-	if failed_cells > 0 or interior_open_edges > 0 or nonmanifold_edges > 0 or orientation_conflict_edges > 0:
-		status = "FAIL"
-	if not transition_available or not transition_ok or transition_nonmanifold_edges > 0 or transition_orientation_conflict_edges > 0:
-		status = "FAIL"
-	if not chunk_available or not chunk_ok or chunk_nonmanifold_edges > 0 or chunk_orientation_conflict_edges > 0:
-		status = "FAIL"
-	var backend_identity: Dictionary = mesh_data.get("backend_identity", {})
-	var correctness_claim := LAB_CORRECTNESS_CLAIM if bool(mesh_data.get("native_cell_probe_available", false)) else str(mesh_data.get("correctness_claim", "world_transvoxel_required_no_fallback"))
-	return {
-		"schema": REPORT_SCHEMA,
-		"lab_scope": LAB_SCOPE,
-		"primary_validation_domain": PRIMARY_VALIDATION_DOMAIN,
-		"primitive_scope": PRIMITIVE_SCOPE,
-		"validation_standard": VALIDATION_STANDARD,
-		"authority_model": AUTHORITY_MODEL,
-		"upstream_correction_policy": UPSTREAM_CORRECTION_POLICY,
-		"integration_game_role": INTEGRATION_GAME_ROLE,
-		"integration_game_diagnostic_policy": INTEGRATION_GAME_DIAGNOSTIC_POLICY,
-		"status": status,
-		"implementation": str(mesh_data.get("implementation", NATIVE_REGULAR_IMPLEMENTATION)),
-		"render_authority": str(mesh_data.get("render_authority", NATIVE_AUTHORITY)),
-		"correctness_claim": correctness_claim,
-		"native_cell_probe_available": bool(mesh_data.get("native_cell_probe_available", ClassDB.class_exists("WorldTransvoxelCellProbe"))),
-		"backend_runtime_available": bool(mesh_data.get("backend_runtime_available", ClassDB.class_exists("WorldTransvoxelTerrain"))),
-		"backend_identity": backend_identity,
-		"backend_id": str(backend_identity.get("backend_id", "")),
-		"cells": Vector3i(cells_x, cells_y, cells_z),
-		"cell_count": cells_x * cells_y * cells_z,
-		"active_cells": int(mesh_data.get("active_cells", 0)),
-		"empty_cells": int(mesh_data.get("empty_cells", 0)),
-		"failed_cells": failed_cells,
-		"vertices": (mesh_data.get("vertices", PackedVector3Array()) as PackedVector3Array).size(),
-		"triangles": int(mesh_data.get("triangles", 0)),
-		"open_edges": int(mesh_data.get("open_edges", 0)),
-		"boundary_open_edges": int(mesh_data.get("boundary_open_edges", 0)),
-		"interior_open_edges": interior_open_edges,
-		"nonmanifold_edges": nonmanifold_edges,
-		"orientation_conflict_edges": orientation_conflict_edges,
-		"transition_available": transition_available,
-		"transition_ok": transition_ok,
-		"transition_status": str(transition_data.get("status", "Unavailable")),
-		"transition_orientation": str(transition_data.get("orientation", "PositiveZ")),
-		"transition_orientation_index": int(transition_data.get("orientation_index", TRANSITION_ORIENTATION_POSITIVE_Z)),
-		"transition_case_code": int(transition_data.get("case_code", -1)),
-		"transition_vertices": (transition_data.get("vertices", PackedVector3Array()) as PackedVector3Array).size(),
-		"transition_triangles": int(transition_data.get("triangles", 0)),
-		"transition_open_edges": int(transition_data.get("open_edges", 0)),
-		"transition_nonmanifold_edges": transition_nonmanifold_edges,
-		"transition_orientation_conflict_edges": transition_orientation_conflict_edges,
-		"chunk_probe_available": chunk_available,
-		"chunk_probe_ok": chunk_ok,
-		"chunk_probe_status": str(chunk_data.get("status", "Unavailable")),
-		"chunk_probe_error": str(chunk_data.get("error", "")),
-		"chunk_probe_implementation": str(chunk_data.get("implementation", CHUNK_PROBE_IMPLEMENTATION)),
-		"chunk_probe_cells": chunk_data.get("chunk_cells", Vector3i(CHUNK_PROBE_CELLS_PER_AXIS, CHUNK_PROBE_CELLS_PER_AXIS, CHUNK_PROBE_CELLS_PER_AXIS)),
-		"chunk_probe_lod": int(chunk_data.get("chunk_lod", 0)),
-		"chunk_probe_samples": int(chunk_data.get("sample_count", 0)),
-		"chunk_probe_vertices": int(chunk_data.get("vertices_count", 0)),
-		"chunk_probe_triangles": int(chunk_data.get("triangles", 0)),
-		"chunk_probe_open_edges": int(chunk_data.get("open_edges", 0)),
-		"chunk_probe_nonmanifold_edges": chunk_nonmanifold_edges,
-		"chunk_probe_orientation_conflict_edges": chunk_orientation_conflict_edges,
-		"degenerate_triangles": int(mesh_data.get("degenerate_triangles", 0)),
-		"field_mode": FieldMode.keys()[field_mode],
-		"edit_count": edits.size(),
-		"build_ms": elapsed_ms,
-		"case_histogram": mesh_data.get("case_histogram", {}),
-		"native_status_histogram": mesh_data.get("native_status_histogram", {}),
-	}
+func _make_report(
+	mesh_data: Dictionary,
+	transition_data: Dictionary,
+	chunk_data: Dictionary,
+	elapsed_ms: float
+) -> Dictionary:
+	return ReportBuilder.build(self, mesh_data, transition_data, chunk_data, elapsed_ms)

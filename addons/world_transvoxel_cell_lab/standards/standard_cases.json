@@ -1,0 +1,107 @@
+{
+	"schema": "world_transvoxel.cell_lab.case_standards.v1",
+	"cases": [
+		{
+			"id": "regular_000",
+			"cell_type": "regular",
+			"case_code": 0,
+			"status": "Empty",
+			"vertices": 0,
+			"triangles": 0
+		},
+		{
+			"id": "regular_001",
+			"cell_type": "regular",
+			"case_code": 1,
+			"status": "Ok",
+			"vertices": 3,
+			"triangles": 1
+		},
+		{
+			"id": "regular_042",
+			"cell_type": "regular",
+			"case_code": 42,
+			"status": "Ok",
+			"vertices": 5,
+			"triangles": 3
+		},
+		{
+			"id": "regular_090",
+			"cell_type": "regular",
+			"case_code": 90,
+			"status": "Ok",
+			"vertices": 8,
+			"triangles": 4
+		},
+		{
+			"id": "regular_254",
+			"cell_type": "regular",
+			"case_code": 254,
+			"status": "Ok",
+			"vertices": 3,
+			"triangles": 1
+		},
+		{
+			"id": "regular_255",
+			"cell_type": "regular",
+			"case_code": 255,
+			"status": "Empty",
+			"vertices": 0,
+			"triangles": 0
+		},
+		{
+			"id": "transition_001_o4",
+			"cell_type": "transition",
+			"case_code": 1,
+			"orientation": 4,
+			"status": "Ok",
+			"vertices": 4,
+			"triangles": 2
+		},
+		{
+			"id": "transition_085_o0",
+			"cell_type": "transition",
+			"case_code": 85,
+			"orientation": 0,
+			"status": "Ok",
+			"vertices": 8,
+			"triangles": 6
+		},
+		{
+			"id": "transition_170_o4",
+			"cell_type": "transition",
+			"case_code": 170,
+			"orientation": 4,
+			"status": "Ok",
+			"vertices": 12,
+			"triangles": 4
+		},
+		{
+			"id": "transition_341_o5",
+			"cell_type": "transition",
+			"case_code": 341,
+			"orientation": 5,
+			"status": "Ok",
+			"vertices": 12,
+			"triangles": 12
+		},
+		{
+			"id": "transition_510_o4",
+			"cell_type": "transition",
+			"case_code": 510,
+			"orientation": 4,
+			"status": "Ok",
+			"vertices": 4,
+			"triangles": 2
+		},
+		{
+			"id": "transition_511_o4",
+			"cell_type": "transition",
+			"case_code": 511,
+			"orientation": 4,
+			"status": "Empty",
+			"vertices": 0,
+			"triangles": 0
+		}
+	]
+}

@@ -2,13 +2,27 @@
 extends Control
 
 const LabScript := preload("res://addons/world_transvoxel_cell_lab/lab/wt_transvoxel_cell_lab.gd")
+const Contracts := preload("res://addons/world_transvoxel_cell_lab/lab/services/wt_cell_lab_contracts.gd")
+const ReproStore := preload("res://addons/world_transvoxel_cell_lab/lab/services/wt_cell_lab_repro_store.gd")
 
 var plugin: EditorPlugin
 var _field_option: OptionButton
+var _inspection_option: OptionButton
+var _regular_case_spin: SpinBox
+var _transition_case_spin: SpinBox
+var _transition_orientation_option: OptionButton
+var _chunk_lod_spin: SpinBox
+var _chunk_face_option: OptionButton
 var _status_label: Label
 var _copy_report_button: Button
 var _save_repro_button: Button
 var _report_sections: VBoxContainer
+var _repro_name_edit: LineEdit
+var _repro_notes_edit: LineEdit
+var _repro_expected_option: OptionButton
+var _repro_source_option: OptionButton
+var _repro_browser: OptionButton
+var _integration_path_edit: LineEdit
 var _last_report_json := ""
 var _last_saved_repro_path := ""
 var _last_loaded_repro_path := ""
@@ -36,6 +50,54 @@ func _build_ui() -> void:
 		_field_option.add_item(name.capitalize())
 	_field_option.item_selected.connect(_set_field_mode)
 	root.add_child(_field_option)
+
+	var inspection_grid := GridContainer.new()
+	inspection_grid.columns = 2
+	root.add_child(inspection_grid)
+	inspection_grid.add_child(_control_label("View"))
+	_inspection_option = OptionButton.new()
+	for mode_name in LabScript.InspectionMode.keys():
+		_inspection_option.add_item(mode_name.capitalize())
+	_inspection_option.item_selected.connect(_set_inspection_mode)
+	inspection_grid.add_child(_inspection_option)
+
+	inspection_grid.add_child(_control_label("Regular case"))
+	_regular_case_spin = SpinBox.new()
+	_regular_case_spin.min_value = 0
+	_regular_case_spin.max_value = 255
+	_regular_case_spin.step = 1
+	_regular_case_spin.value_changed.connect(_set_regular_case)
+	inspection_grid.add_child(_regular_case_spin)
+
+	inspection_grid.add_child(_control_label("Transition case"))
+	_transition_case_spin = SpinBox.new()
+	_transition_case_spin.min_value = 0
+	_transition_case_spin.max_value = 511
+	_transition_case_spin.step = 1
+	_transition_case_spin.value_changed.connect(_set_transition_case)
+	inspection_grid.add_child(_transition_case_spin)
+
+	inspection_grid.add_child(_control_label("Orientation"))
+	_transition_orientation_option = OptionButton.new()
+	for orientation_name in Contracts.TRANSITION_ORIENTATION_NAMES:
+		_transition_orientation_option.add_item(orientation_name)
+	_transition_orientation_option.item_selected.connect(_set_transition_orientation)
+	inspection_grid.add_child(_transition_orientation_option)
+
+	inspection_grid.add_child(_control_label("Coarse LOD"))
+	_chunk_lod_spin = SpinBox.new()
+	_chunk_lod_spin.min_value = 1
+	_chunk_lod_spin.max_value = 3
+	_chunk_lod_spin.step = 1
+	_chunk_lod_spin.value_changed.connect(_set_chunk_lod)
+	inspection_grid.add_child(_chunk_lod_spin)
+
+	inspection_grid.add_child(_control_label("Chunk face"))
+	_chunk_face_option = OptionButton.new()
+	for face_name in Contracts.CHUNK_FACE_NAMES:
+		_chunk_face_option.add_item(face_name)
+	_chunk_face_option.item_selected.connect(_set_chunk_face)
+	inspection_grid.add_child(_chunk_face_option)
 
 	var rebuild_button := Button.new()
 	rebuild_button.text = "Rebuild"
@@ -79,7 +141,8 @@ func _build_ui() -> void:
 	benchmark_button.pressed.connect(_benchmark_selected)
 	root.add_child(benchmark_button)
 
-	var validator_row := HBoxContainer.new()
+	var validator_row := GridContainer.new()
+	validator_row.columns = 2
 	root.add_child(validator_row)
 	var regular_corpus_button := Button.new()
 	regular_corpus_button.text = "Regular Corpus"
@@ -97,14 +160,69 @@ func _build_ui() -> void:
 	edit_sequence_button.text = "Edit Sequence"
 	edit_sequence_button.pressed.connect(_validate_edit_sequence_selected)
 	validator_row.add_child(edit_sequence_button)
+	var edit_corpus_button := Button.new()
+	edit_corpus_button.text = "Edit Corpus"
+	edit_corpus_button.pressed.connect(_validate_edit_corpus_selected)
+	validator_row.add_child(edit_corpus_button)
 	var performance_button := Button.new()
 	performance_button.text = "Performance"
 	performance_button.pressed.connect(_run_performance_baselines_selected)
 	validator_row.add_child(performance_button)
+	var standards_button := Button.new()
+	standards_button.text = "Standards Corpus"
+	standards_button.pressed.connect(_validate_standards_selected)
+	validator_row.add_child(standards_button)
+	var validate_all_button := Button.new()
+	validate_all_button.text = "Run Full Suite"
+	validate_all_button.pressed.connect(_validate_all_selected)
+	validator_row.add_child(validate_all_button)
+
+	var repro_grid := GridContainer.new()
+	repro_grid.columns = 2
+	root.add_child(repro_grid)
+	repro_grid.add_child(_control_label("Repro name"))
+	_repro_name_edit = LineEdit.new()
+	_repro_name_edit.placeholder_text = "cell_lab_repro"
+	repro_grid.add_child(_repro_name_edit)
+	repro_grid.add_child(_control_label("Notes"))
+	_repro_notes_edit = LineEdit.new()
+	repro_grid.add_child(_repro_notes_edit)
+	repro_grid.add_child(_control_label("Expected"))
+	_repro_expected_option = OptionButton.new()
+	for label in Contracts.EXPECTED_LABELS:
+		_repro_expected_option.add_item(label.capitalize())
+		_repro_expected_option.set_item_metadata(_repro_expected_option.item_count - 1, label)
+	_repro_expected_option.select(Contracts.EXPECTED_LABELS.find("investigation"))
+	repro_grid.add_child(_repro_expected_option)
+	repro_grid.add_child(_control_label("Source layer"))
+	_repro_source_option = OptionButton.new()
+	for source_layer in Contracts.SOURCE_LAYERS:
+		_repro_source_option.add_item(source_layer.capitalize())
+		_repro_source_option.set_item_metadata(_repro_source_option.item_count - 1, source_layer)
+	repro_grid.add_child(_repro_source_option)
+	repro_grid.add_child(_control_label("Repro browser"))
+	_repro_browser = OptionButton.new()
+	repro_grid.add_child(_repro_browser)
+	var repro_actions := HBoxContainer.new()
+	var refresh_repros_button := Button.new()
+	refresh_repros_button.text = "Refresh"
+	refresh_repros_button.pressed.connect(_refresh_repro_browser)
+	repro_actions.add_child(refresh_repros_button)
 	var load_repro_button := Button.new()
-	load_repro_button.text = "Load Last Repro"
-	load_repro_button.pressed.connect(_load_last_repro_snapshot)
-	validator_row.add_child(load_repro_button)
+	load_repro_button.text = "Load"
+	load_repro_button.pressed.connect(_load_selected_repro_snapshot)
+	repro_actions.add_child(load_repro_button)
+	repro_grid.add_child(repro_actions)
+	repro_grid.add_child(_control_label("Integration JSON"))
+	_integration_path_edit = LineEdit.new()
+	_integration_path_edit.placeholder_text = "Path to integration snapshot"
+	repro_grid.add_child(_integration_path_edit)
+	var import_spacer := Control.new()
+	repro_grid.add_child(import_spacer)
+	var import_button := Button.new()
+	import_button.text = "Import Snapshot"
+	import_button.pressed.connect(_import_integration_snapshot)
+	repro_grid.add_child(import_button)
 
 	var report_header := HBoxContainer.new()
 	root.add_child(report_header)
@@ -134,6 +252,7 @@ func _build_ui() -> void:
 	_report_sections = VBoxContainer.new()
 	_report_sections.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	scroll.add_child(_report_sections)
+	_refresh_repro_browser()
 
 
 func _selected_lab():
@@ -184,6 +303,65 @@ func _set_field_mode(index: int) -> void:
 		return
 	lab.field_mode = index
 	lab.rebuild()
+	_refresh_status()
+
+
+func _set_inspection_mode(index: int) -> void:
+	var lab = _selected_lab()
+	if lab == null:
+		return
+	lab.inspection_mode = index
+	lab.rebuild()
+	_refresh_status()
+
+
+func _set_regular_case(value: float) -> void:
+	var lab = _selected_lab()
+	if lab == null:
+		return
+	lab.selected_regular_case = roundi(value)
+	if lab.inspection_mode == LabScript.InspectionMode.REGULAR_CASE:
+		lab.rebuild()
+	_refresh_status()
+
+
+func _set_transition_case(value: float) -> void:
+	var lab = _selected_lab()
+	if lab == null:
+		return
+	lab.selected_transition_case = roundi(value)
+	if lab.inspection_mode == LabScript.InspectionMode.TRANSITION_CASE:
+		lab.rebuild()
+	_refresh_status()
+
+
+func _set_transition_orientation(index: int) -> void:
+	var lab = _selected_lab()
+	if lab == null:
+		return
+	lab.selected_transition_orientation = index
+	if lab.inspection_mode == LabScript.InspectionMode.TRANSITION_CASE:
+		lab.rebuild()
+	_refresh_status()
+
+
+func _set_chunk_lod(value: float) -> void:
+	var lab = _selected_lab()
+	if lab == null:
+		return
+	lab.selected_chunk_lod = roundi(value)
+	if lab.inspection_mode == LabScript.InspectionMode.MIXED_LOD:
+		lab.rebuild()
+	_refresh_status()
+
+
+func _set_chunk_face(index: int) -> void:
+	var lab = _selected_lab()
+	if lab == null:
+		return
+	lab.selected_chunk_face = index
+	if lab.inspection_mode == LabScript.InspectionMode.MIXED_LOD:
+		lab.rebuild()
 	_refresh_status()
 
 
@@ -257,6 +435,34 @@ func _validate_edit_sequence_selected() -> void:
 	_refresh_status()
 
 
+func _validate_edit_corpus_selected() -> void:
+	var lab = _selected_lab()
+	if lab != null:
+		lab.validate_edit_corpus()
+	_refresh_status()
+
+
+func _validate_standards_selected() -> void:
+	var lab = _selected_lab()
+	if lab != null:
+		lab.validate_standards_corpus()
+	_refresh_status()
+
+
+func _validate_all_selected() -> void:
+	var lab = _selected_lab()
+	if lab == null:
+		return
+	lab.validate_regular_case_corpus()
+	lab.validate_transition_case_corpus()
+	lab.validate_chunk_lod_seams()
+	lab.validate_edit_sequence()
+	lab.validate_edit_corpus()
+	lab.validate_standards_corpus()
+	lab.run_performance_baselines(3)
+	_refresh_status()
+
+
 func _run_performance_baselines_selected() -> void:
 	var lab = _selected_lab()
 	if lab != null:
@@ -279,6 +485,12 @@ func _refresh_status() -> void:
 		_clear_report_sections()
 		return
 	_field_option.select(int(lab.field_mode))
+	_inspection_option.select(int(lab.inspection_mode))
+	_regular_case_spin.set_value_no_signal(float(lab.selected_regular_case))
+	_transition_case_spin.set_value_no_signal(float(lab.selected_transition_case))
+	_transition_orientation_option.select(int(lab.selected_transition_orientation))
+	_chunk_lod_spin.set_value_no_signal(float(lab.selected_chunk_lod))
+	_chunk_face_option.select(int(lab.selected_chunk_face))
 	_render_report(lab.get_last_report())
 
 
@@ -326,6 +538,26 @@ func _render_report(report: Dictionary) -> void:
 		["Integration policy", report.get("integration_game_diagnostic_policy", "")],
 		["Dependency", report.get("validation_standard", "")],
 	])
+	var inspection: Dictionary = report.get("inspection", {})
+	if not inspection.is_empty():
+		_add_section("Inspection", [
+			["Mode", inspection.get("mode", report.get("inspection_mode", "PATCH"))],
+			["Status", inspection.get("status", "Unavailable")],
+			["Case", inspection.get("case_code", "")],
+			["Binary", inspection.get("case_code_binary", "")],
+			["Orientation", inspection.get("orientation", "")],
+			["LOD", "%s -> %s" % [
+				str(inspection.get("coarse_lod", "")),
+				str(inspection.get("fine_lod", "")),
+			]],
+			["Face", inspection.get("face", "")],
+			["Vertices / triangles", "%s / %s" % [
+				str(inspection.get("vertices", "")),
+				str(inspection.get("triangles", "")),
+			]],
+			["Endpoint provenance", inspection.get("backend_endpoint_provenance", [])],
+			["Seam comparison", inspection.get("comparison", {})],
+		])
 	_add_section("Regular Patch", [
 		["Status", regular_status],
 		["Cells", report.get("cells", Vector3i.ZERO)],
@@ -347,6 +579,8 @@ func _render_report(report: Dictionary) -> void:
 			str(report.get("field_mode", "")),
 			int(report.get("edit_count", 0)),
 		]],
+		["Affected cells", report.get("affected_cell_count", 0)],
+		["Dirty region", report.get("dirty_region", AABB())],
 	])
 	_add_section("Transition Cell", [
 		["Status", report.get("transition_status", "Unavailable")],
@@ -452,6 +686,16 @@ func _render_report(report: Dictionary) -> void:
 			["LOD transition triangles", chunk_lod.get("lod_transition_triangles", 0)],
 			["LOD transition nonmanifold", chunk_lod.get("lod_transition_nonmanifold_edges", 0)],
 			["LOD transition orientation", chunk_lod.get("lod_transition_orientation_conflict_edges", 0)],
+			["Mixed LOD pairs", "%d / %d matching" % [
+				int(chunk_lod.get("mixed_lod_matching_pairs", 0)),
+				int(chunk_lod.get("mixed_lod_pairs", 0)),
+			]],
+			["Mixed LOD mismatches", chunk_lod.get("mixed_lod_mismatched_pairs", 0)],
+			["Coarse / fine only edges", "%d / %d" % [
+				int(chunk_lod.get("mixed_lod_coarse_only_edges", 0)),
+				int(chunk_lod.get("mixed_lod_fine_only_edges", 0)),
+			]],
+			["Visible cracks", chunk_lod.get("visible_crack_count", 0)],
 			["Mixed LOD scope", chunk_lod.get("mixed_lod_scope", "")],
 			["Elapsed", "%.3f ms" % float(chunk_lod.get("elapsed_ms", 0.0))],
 			["Sample failures", _format_sample_failures(chunk_lod.get("sample_failures", []))],
@@ -466,8 +710,24 @@ func _render_report(report: Dictionary) -> void:
 			]],
 			["Triangle counts", edit_sequence.get("triangle_counts", [])],
 			["Edit counts", edit_sequence.get("edit_counts", [])],
+			["Affected cells", edit_sequence.get("affected_cell_counts", [])],
+			["Step deltas", edit_sequence.get("step_deltas", [])],
+			["Material IDs", edit_sequence.get("material_ids", [])],
+			["Determinism failures", edit_sequence.get("determinism_failures", 0)],
 			["Elapsed", "%.3f ms" % float(edit_sequence.get("elapsed_ms", 0.0))],
 			["Sample failures", _format_sample_failures(edit_sequence.get("sample_failures", []))],
+		])
+	var edit_corpus: Dictionary = report.get("edit_corpus", {})
+	if not edit_corpus.is_empty():
+		_add_section("Edit Corpus", [
+			["Status", edit_corpus.get("status", "Unavailable")],
+			["Passing / failing fixtures", "%d / %d" % [
+				int(edit_corpus.get("passing_fixtures", 0)),
+				int(edit_corpus.get("failing_fixtures", 0)),
+			]],
+			["Fixtures", edit_corpus.get("fixtures", [])],
+			["Elapsed", "%.3f ms" % float(edit_corpus.get("elapsed_ms", 0.0))],
+			["Sample failures", _format_sample_failures(edit_corpus.get("sample_failures", []))],
 		])
 	var performance: Dictionary = report.get("performance_baselines", {})
 	if not performance.is_empty():
@@ -478,10 +738,48 @@ func _render_report(report: Dictionary) -> void:
 				float(performance.get("patch_rebuild_average_ms", 0.0)),
 				float(performance.get("patch_rebuild_maximum_ms", 0.0)),
 			]],
+			["Regular / transition cell", "%.3f / %.3f us" % [
+				float(performance.get("regular_cell_average_us", 0.0)),
+				float(performance.get("transition_cell_average_us", 0.0)),
+			]],
+			["Chunk average", "%.3f ms" % float(performance.get("chunk_average_ms", 0.0))],
+			["Edit rebuild average", "%.3f ms" % float(performance.get("edit_rebuild_average_ms", 0.0))],
+			["Triangles / ms", performance.get("triangles_per_ms", 0.0)],
+			["Samples / ms", performance.get("samples_per_ms", 0.0)],
+			["Edit rebuild cost", "%.3f ms" % float(performance.get("edit_rebuild_cost_ms", 0.0))],
 			["Chunk LOD validation", "%.3f ms" % float(performance.get("chunk_lod_validation_ms", 0.0))],
 			["Edit sequence validation", "%.3f ms" % float(performance.get("edit_sequence_validation_ms", 0.0))],
 			["Regular corpus", "%.3f ms" % float(performance.get("regular_case_corpus_ms", 0.0))],
 			["Transition corpus", "%.3f ms" % float(performance.get("transition_case_corpus_ms", 0.0))],
+			["Regression warnings", performance.get("regression_warnings", [])],
+			["History entries", performance.get("history_count", 0)],
+		])
+	var standards: Dictionary = report.get("standards_corpus", {})
+	if not standards.is_empty():
+		_add_section("Standards Corpus", [
+			["Status", standards.get("status", "Unavailable")],
+			["Repros pass / fail", "%d / %d" % [
+				int(standards.get("passing_repros", 0)),
+				int(standards.get("failing_repros", 0)),
+			]],
+			["Cases pass / fail", "%d / %d" % [
+				int(standards.get("passing_case_standards", 0)),
+				int(standards.get("failing_case_standards", 0)),
+			]],
+			["Visuals pass / fail", "%d / %d" % [
+				int(standards.get("passing_visual_standards", 0)),
+				int(standards.get("failing_visual_standards", 0)),
+			]],
+			["Elapsed", "%.3f ms" % float(standards.get("elapsed_ms", 0.0))],
+			["Sample failures", _format_sample_failures(standards.get("sample_failures", []))],
+		])
+	var integration: Dictionary = report.get("integration_comparison", {})
+	if not integration.is_empty():
+		_add_section("Integration Reduction", [
+			["Lab status", integration.get("lab_status", "UNKNOWN")],
+			["Source artifact", integration.get("source_reports_artifact", false)],
+			["Suspected layer", integration.get("suspected_fix_layer", "none")],
+			["Reason", integration.get("reason", "")],
 		])
 	if not _last_saved_repro_path.is_empty():
 		_add_section("Repro", [
@@ -498,73 +796,73 @@ func _save_repro_snapshot() -> void:
 	if lab == null:
 		_refresh_status()
 		return
-	var path := _write_repro_snapshot(lab.make_repro_snapshot())
-	if path.is_empty():
+	var metadata := {
+		"name": _repro_name_edit.text if not _repro_name_edit.text.is_empty() else "cell_lab_repro",
+		"notes": _repro_notes_edit.text,
+		"expected_label": str(_repro_expected_option.get_selected_metadata()),
+		"source_layer": str(_repro_source_option.get_selected_metadata()),
+	}
+	var saved: Dictionary = lab.save_repro_snapshot(metadata)
+	if not bool(saved.get("ok", false)):
+		push_error("Could not save cell lab repro: %s" % str(saved.get("error", "unknown")))
 		return
-	_last_saved_repro_path = path
+	_last_saved_repro_path = str(saved.get("absolute_path", saved.get("path", "")))
+	_refresh_repro_browser()
 	_refresh_status()
 
 
-func _write_repro_snapshot(snapshot: Dictionary) -> String:
-	var dir_path := "user://world_transvoxel_cell_lab/repros"
-	var absolute_dir_path := ProjectSettings.globalize_path(dir_path)
-	var error := DirAccess.make_dir_recursive_absolute(absolute_dir_path)
-	if error != OK:
-		push_error("Could not create cell lab repro directory: %s" % absolute_dir_path)
-		return ""
-	var file_name := "cell_lab_repro_%d_%d.json" % [
-		int(Time.get_unix_time_from_system()),
-		Time.get_ticks_usec(),
-	]
-	var path := "%s/%s" % [dir_path, file_name]
-	var file := FileAccess.open(path, FileAccess.WRITE)
-	if file == null:
-		push_error("Could not write cell lab repro: %s" % path)
-		return ""
-	file.store_string(JSON.stringify(_to_json_safe(snapshot), "\t"))
-	file.close()
-	return ProjectSettings.globalize_path(path)
-
-
-func _load_last_repro_snapshot() -> void:
+func _load_selected_repro_snapshot() -> void:
 	var lab = _selected_lab()
 	if lab == null:
 		_refresh_status()
 		return
-	var path := _latest_repro_path()
+	var path := ""
+	if _repro_browser != null and _repro_browser.selected >= 0:
+		path = str(_repro_browser.get_item_metadata(_repro_browser.selected))
 	if path.is_empty():
-		push_error("No cell lab repro snapshots found.")
+		push_error("No cell lab repro selected.")
 		return
-	var file := FileAccess.open(path, FileAccess.READ)
-	if file == null:
-		push_error("Could not read cell lab repro: %s" % path)
+	var loaded: Dictionary = lab.load_repro_snapshot(path)
+	if not bool(loaded.get("ok", false)):
+		push_error("Could not load cell lab repro: %s" % str(loaded.get("error", "unknown")))
 		return
-	var parsed := JSON.parse_string(file.get_as_text())
-	file.close()
-	if typeof(parsed) != TYPE_DICTIONARY:
-		push_error("Cell lab repro JSON did not contain a dictionary: %s" % path)
-		return
-	lab.apply_repro_snapshot(parsed)
 	_last_loaded_repro_path = ProjectSettings.globalize_path(path)
 	_refresh_status()
 
 
-func _latest_repro_path() -> String:
-	var dir_path := "user://world_transvoxel_cell_lab/repros"
-	var dir := DirAccess.open(dir_path)
-	if dir == null:
-		return ""
-	dir.list_dir_begin()
-	var latest_name := ""
-	var file_name := dir.get_next()
-	while not file_name.is_empty():
-		if not dir.current_is_dir() and file_name.ends_with(".json") and file_name > latest_name:
-			latest_name = file_name
-		file_name = dir.get_next()
-	dir.list_dir_end()
-	if latest_name.is_empty():
-		return ""
-	return "%s/%s" % [dir_path, latest_name]
+func _refresh_repro_browser() -> void:
+	if _repro_browser == null:
+		return
+	_repro_browser.clear()
+	for entry in ReproStore.list_repros(true):
+		var metadata: Dictionary = entry.get("metadata", {})
+		var prefix := "[standard] " if bool(entry.get("committed", false)) else ""
+		var label := prefix + str(metadata.get("name", entry.get("file_name", "repro")))
+		_repro_browser.add_item(label)
+		_repro_browser.set_item_metadata(
+			_repro_browser.item_count - 1,
+			str(entry.get("path", ""))
+		)
+
+
+func _import_integration_snapshot() -> void:
+	var lab = _selected_lab()
+	if lab == null:
+		return
+	var path := _integration_path_edit.text.strip_edges()
+	if path.is_empty():
+		push_error("Choose an integration snapshot JSON path.")
+		return
+	var result: Dictionary = lab.import_integration_snapshot_file(path)
+	if not bool(result.get("ok", false)):
+		push_error("Could not import integration snapshot: %s" % str(result.get("error", "unknown")))
+		return
+	var repro: Dictionary = result.get("repro", {})
+	var saved := ReproStore.save_snapshot(repro)
+	if bool(saved.get("ok", false)):
+		_last_saved_repro_path = str(saved.get("absolute_path", saved.get("path", "")))
+	_refresh_repro_browser()
+	_refresh_status()
 
 
 func _add_section(title: String, rows: Array) -> void:
@@ -590,6 +888,13 @@ func _add_section(title: String, rows: Array) -> void:
 		value_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		value_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		grid.add_child(value_label)
+
+
+func _control_label(text_value: String) -> Label:
+	var label := Label.new()
+	label.text = text_value
+	label.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	return label
 
 
 func _clear_report_sections() -> void:
@@ -620,50 +925,4 @@ func _format_sample_failures(value: Variant) -> String:
 
 
 func _to_json_safe(value: Variant) -> Variant:
-	match typeof(value):
-		TYPE_DICTIONARY:
-			var dictionary: Dictionary = value
-			var converted := {}
-			for key in dictionary.keys():
-				converted[str(key)] = _to_json_safe(dictionary[key])
-			return converted
-		TYPE_ARRAY:
-			var array: Array = value
-			var converted: Array = []
-			for item in array:
-				converted.append(_to_json_safe(item))
-			return converted
-		TYPE_VECTOR2:
-			var vector2: Vector2 = value
-			return {"x": vector2.x, "y": vector2.y}
-		TYPE_VECTOR2I:
-			var vector2i: Vector2i = value
-			return {"x": vector2i.x, "y": vector2i.y}
-		TYPE_VECTOR3:
-			var vector3: Vector3 = value
-			return {"x": vector3.x, "y": vector3.y, "z": vector3.z}
-		TYPE_VECTOR3I:
-			var vector3i: Vector3i = value
-			return {"x": vector3i.x, "y": vector3i.y, "z": vector3i.z}
-		TYPE_PACKED_INT32_ARRAY:
-			var packed_ints: PackedInt32Array = value
-			var converted: Array = []
-			for item in packed_ints:
-				converted.append(item)
-			return converted
-		TYPE_PACKED_FLOAT32_ARRAY:
-			var packed_floats: PackedFloat32Array = value
-			var converted: Array = []
-			for item in packed_floats:
-				converted.append(item)
-			return converted
-		TYPE_PACKED_VECTOR3_ARRAY:
-			var packed_vectors: PackedVector3Array = value
-			var converted: Array = []
-			for item in packed_vectors:
-				converted.append({"x": item.x, "y": item.y, "z": item.z})
-			return converted
-		TYPE_OBJECT:
-			return str(value)
-		_:
-			return value
+	return ReproStore.to_json_safe(value)

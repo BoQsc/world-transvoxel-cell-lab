@@ -1,0 +1,10 @@
+{
+	"schema": "world_transvoxel.cell_lab.performance_thresholds.v1",
+	"warning_limits": {
+		"patch_rebuild_average_ms": 250.0,
+		"regular_cell_average_us": 250.0,
+		"transition_cell_average_us": 250.0,
+		"chunk_average_ms": 2500.0,
+		"edit_rebuild_average_ms": 350.0
+	}
+}

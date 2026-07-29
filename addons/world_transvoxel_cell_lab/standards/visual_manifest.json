@@ -1,0 +1,33 @@
+{
+	"schema": "world_transvoxel.cell_lab.visual_standards.v1",
+	"visuals": [
+		{
+			"id": "overview",
+			"path": "res://addons/world_transvoxel_cell_lab/standards/visuals/overview.png",
+			"width": 1152,
+			"height": 648,
+			"sha256": "ae65d06a0d36c643520cde95f1c42749bf3633419cb0e1abee3283c4601313f9"
+		},
+		{
+			"id": "regular_case_42",
+			"path": "res://addons/world_transvoxel_cell_lab/standards/visuals/regular_case_42.png",
+			"width": 1152,
+			"height": 648,
+			"sha256": "3ad848ede415dd88924b45ed45ad91c317f25094c144cd73650f3babb4ad1a01"
+		},
+		{
+			"id": "transition_case_341_negative_z",
+			"path": "res://addons/world_transvoxel_cell_lab/standards/visuals/transition_case_341_negative_z.png",
+			"width": 1152,
+			"height": 648,
+			"sha256": "7b15485b2180df96547fcd3f694ada05046a434ff5896959b0d3449ccf0e41a4"
+		},
+		{
+			"id": "mixed_lod_positive_x",
+			"path": "res://addons/world_transvoxel_cell_lab/standards/visuals/mixed_lod_positive_x.png",
+			"width": 1152,
+			"height": 648,
+			"sha256": "e8d3007cb00dcbdc792fda248da0e1de2f4034bce0e069ee11ec655ec3b36ae8"
+		}
+	]
+}

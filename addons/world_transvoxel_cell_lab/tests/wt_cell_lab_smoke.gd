@@ -25,7 +25,7 @@ func _run() -> void:
 	lab.cells_z = 6
 	lab.field_mode = LabScript.FieldMode.SPHERE
 	var report: Dictionary = lab.rebuild()
-	if report.get("schema") != "world_transvoxel.cell_lab.report.v1":
+	if report.get("schema") != "world_transvoxel.cell_lab.report.v2":
 		_fail("unexpected report schema")
 		return
 	if str(report.get("status", "")) != "PASS":
@@ -37,7 +37,7 @@ func _run() -> void:
 	if str(report.get("render_authority", "")) != "NATIVE_TRANSVOXEL_BACKEND_AUTHORITATIVE":
 		_fail("native render authority was not used")
 		return
-	if str(report.get("correctness_claim", "")) != "exact_regular_transition_and_lod0_chunk_backend_probe_v2":
+	if str(report.get("correctness_claim", "")) != "exact_regular_transition_and_multilod_chunk_backend_probe_v3":
 		_fail("native correctness claim was not explicit")
 		return
 	if str(report.get("lab_scope", "")) != "cell_first_transvoxel_preview_and_validator":
@@ -65,7 +65,7 @@ func _run() -> void:
 		_fail("integration game diagnostic policy changed")
 		return
 	var repro: Dictionary = lab.make_repro_snapshot()
-	if str(repro.get("schema", "")) != "world_transvoxel.cell_lab.repro.v1":
+	if str(repro.get("schema", "")) != "world_transvoxel.cell_lab.repro.v2":
 		_fail("unexpected repro schema")
 		return
 	if not repro.has("parameters") or not repro.has("report"):
@@ -118,7 +118,7 @@ func _run() -> void:
 		_fail("production chunk probe has orientation conflicts")
 		return
 	var regular_corpus: Dictionary = lab.validate_regular_case_corpus()
-	if str(regular_corpus.get("schema", "")) != "world_transvoxel.cell_lab.regular_case_corpus.v1":
+	if str(regular_corpus.get("schema", "")) != "world_transvoxel.cell_lab.regular_case_corpus.v2":
 		_fail("unexpected regular case corpus schema")
 		return
 	if str(regular_corpus.get("status", "")) != "PASS":
@@ -128,7 +128,7 @@ func _run() -> void:
 		_fail("regular case corpus counts changed")
 		return
 	var transition_corpus: Dictionary = lab.validate_transition_case_corpus()
-	if str(transition_corpus.get("schema", "")) != "world_transvoxel.cell_lab.transition_case_corpus.v1":
+	if str(transition_corpus.get("schema", "")) != "world_transvoxel.cell_lab.transition_case_corpus.v2":
 		_fail("unexpected transition case corpus schema")
 		return
 	if str(transition_corpus.get("status", "")) != "PASS":
@@ -138,31 +138,115 @@ func _run() -> void:
 		_fail("transition case corpus counts changed")
 		return
 	var chunk_lod: Dictionary = lab.validate_chunk_lod_seams()
-	if str(chunk_lod.get("schema", "")) != "world_transvoxel.cell_lab.chunk_lod_validation.v1":
+	if str(chunk_lod.get("schema", "")) != "world_transvoxel.cell_lab.chunk_lod_validation.v2":
 		_fail("unexpected chunk LOD validation schema")
 		return
 	if str(chunk_lod.get("status", "")) != "PASS":
 		_fail("chunk LOD validation did not pass: %s" % str(chunk_lod.get("sample_failures", [])))
 		return
-	if int(chunk_lod.get("same_lod_matching_pairs", 0)) != 3:
+	if int(chunk_lod.get("same_lod_matching_pairs", 0)) != 9:
 		_fail("same LOD chunk seam matching changed")
 		return
 	if str(chunk_lod.get("lod_transition_probe_status", "")) != "Ok":
 		_fail("LOD transition mask probe did not mesh ok")
 		return
+	if int(chunk_lod.get("mixed_lod_matching_pairs", 0)) != 12:
+		_fail("mixed LOD seam matching changed")
+		return
+	if int(chunk_lod.get("visible_crack_count", -1)) != 0:
+		_fail("mixed LOD fixture detected a visible crack")
+		return
 	var edit_sequence: Dictionary = lab.validate_edit_sequence()
-	if str(edit_sequence.get("schema", "")) != "world_transvoxel.cell_lab.edit_sequence_validation.v1":
+	if str(edit_sequence.get("schema", "")) != "world_transvoxel.cell_lab.edit_sequence_validation.v2":
 		_fail("unexpected edit sequence validation schema")
 		return
 	if str(edit_sequence.get("status", "")) != "PASS":
 		_fail("edit sequence validation did not pass: %s" % str(edit_sequence.get("sample_failures", [])))
 		return
+	if int(edit_sequence.get("determinism_failures", -1)) != 0:
+		_fail("edit sequence replay was not deterministic")
+		return
+	var edit_corpus: Dictionary = lab.validate_edit_corpus()
+	if str(edit_corpus.get("status", "")) != "PASS":
+		_fail("edit corpus did not pass: %s" % str(edit_corpus.get("sample_failures", [])))
+		return
+	if int(edit_corpus.get("passing_fixtures", 0)) != 5:
+		_fail("edit corpus fixture count changed")
+		return
+	var standards: Dictionary = lab.validate_standards_corpus()
+	if str(standards.get("schema", "")) != "world_transvoxel.cell_lab.standards_corpus.v1":
+		_fail("unexpected standards corpus schema")
+		return
+	if str(standards.get("status", "")) != "PASS":
+		_fail("standards corpus did not pass: %s" % str(standards.get("sample_failures", [])))
+		return
+	if int(standards.get("passing_repros", 0)) != 3:
+		_fail("committed repro standards count changed")
+		return
+	if int(standards.get("passing_case_standards", 0)) != 12:
+		_fail("case standards count changed")
+		return
+	if int(standards.get("passing_visual_standards", 0)) != 4:
+		_fail("visual standards count changed")
+		return
+	lab.inspection_mode = LabScript.InspectionMode.REGULAR_CASE
+	lab.selected_regular_case = 42
+	report = lab.rebuild()
+	var inspection: Dictionary = report.get("inspection", {})
+	if str(inspection.get("mode", "")) != "REGULAR_CASE" or int(inspection.get("triangles", 0)) != 3:
+		_fail("regular selected-case inspection changed")
+		return
+	lab.inspection_mode = LabScript.InspectionMode.TRANSITION_CASE
+	lab.selected_transition_case = 341
+	lab.selected_transition_orientation = 5
+	report = lab.rebuild()
+	inspection = report.get("inspection", {})
+	if str(inspection.get("mode", "")) != "TRANSITION_CASE" or int(inspection.get("triangles", 0)) != 12:
+		_fail("transition selected-case inspection changed")
+		return
+	lab.inspection_mode = LabScript.InspectionMode.MIXED_LOD
+	lab.selected_chunk_lod = 1
+	lab.selected_chunk_face = 1
+	report = lab.rebuild()
+	inspection = report.get("inspection", {})
+	if str(inspection.get("status", "")) != "Ok":
+		_fail("mixed LOD inspection fixture changed")
+		return
+	lab.inspection_mode = LabScript.InspectionMode.PATCH
+	report = lab.rebuild()
+	var integration_import: Dictionary = lab.import_integration_snapshot({
+		"center": {"x": 0.0, "y": 0.0, "z": 0.0},
+		"radius": 2.0,
+		"mode": "watertightness",
+		"open_edges": 2,
+		"nonmanifold_edges": 0,
+		"operation_summaries": [{
+			"operation": "carve_sdf_sphere",
+			"center": {"x": 0.0, "y": 0.0, "z": 0.0},
+			"radius": 0.75,
+			"material_id": 1,
+		}],
+	}, "smoke_fixture")
+	if not bool(integration_import.get("ok", false)):
+		_fail("integration snapshot import failed")
+		return
+	var comparison: Dictionary = integration_import.get("comparison", {})
+	if str(comparison.get("suspected_fix_layer", "")) != "integration":
+		_fail("integration reduction did not classify the source layer")
+		return
+	report = lab.apply_repro_snapshot(repro)
 	var performance: Dictionary = lab.run_performance_baselines(2)
-	if str(performance.get("schema", "")) != "world_transvoxel.cell_lab.performance_baselines.v1":
+	if str(performance.get("schema", "")) != "world_transvoxel.cell_lab.performance_baselines.v2":
 		_fail("unexpected performance baselines schema")
 		return
 	if str(performance.get("status", "")) != "PASS":
 		_fail("performance baselines did not pass")
+		return
+	if float(performance.get("regular_cell_average_us", 0.0)) <= 0.0:
+		_fail("regular cell benchmark did not record time")
+		return
+	if float(performance.get("samples_per_ms", 0.0)) <= 0.0:
+		_fail("chunk sample throughput was not recorded")
 		return
 	lab.apply_dig_at(Vector3.ZERO, 1.0)
 	report = lab.get_last_report()
