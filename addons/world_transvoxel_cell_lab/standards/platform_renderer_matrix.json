@@ -1,0 +1,28 @@
+{
+	"schema": "world_transvoxel.cell_lab.platform_renderer_matrix.v1",
+	"qualification_scope": "platforms_with_committed_native_artifacts",
+	"required_targets": [
+		{
+			"platform": "Windows",
+			"architecture": "x86_64",
+			"builds": ["debug", "release"],
+			"renderers": ["gl_compatibility", "mobile", "forward_plus"],
+			"artifacts": [
+				"res://addons/world_transvoxel/bin/world_transvoxel.windows.template_debug.x86_64.dll",
+				"res://addons/world_transvoxel/bin/world_transvoxel.windows.template_release.x86_64.dll"
+			],
+			"ci_lanes": [
+				"windows_gl_compatibility_full",
+				"windows_mobile_smoke",
+				"windows_forward_plus_smoke"
+			]
+		}
+	],
+	"declared_not_qualified": [
+		{"platform": "Windows", "architecture": "arm64", "reason": "native_artifact_not_committed"},
+		{"platform": "Linux", "architecture": "x86_64", "reason": "native_artifact_not_committed"},
+		{"platform": "Linux", "architecture": "arm64", "reason": "native_artifact_not_committed"},
+		{"platform": "macOS", "architecture": "x86_64", "reason": "native_artifact_not_committed"},
+		{"platform": "macOS", "architecture": "arm64", "reason": "native_artifact_not_committed"}
+	]
+}

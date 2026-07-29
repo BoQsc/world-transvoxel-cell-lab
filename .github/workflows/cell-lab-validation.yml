@@ -9,7 +9,7 @@ permissions:
   contents: read
 
 jobs:
-  native-authoritative-validation:
+  windows_gl_compatibility_full:
     runs-on: windows-latest
     timeout-minutes: 30
 
@@ -29,10 +29,57 @@ jobs:
         run: python tools/ci_install_godot.py
 
       - name: Verify project and native extension load
-        run: Godot_v4.7.1-stable_win64.exe --headless --editor --quit --path .
+        run: Godot_v4.7.1-stable_win64.exe --headless --rendering-method gl_compatibility --editor --quit --path .
 
       - name: Run structural smoke test
-        run: Godot_v4.7.1-stable_win64.exe --headless --path . --script addons/world_transvoxel_cell_lab/tests/wt_cell_lab_smoke.gd
+        run: Godot_v4.7.1-stable_win64.exe --headless --rendering-method gl_compatibility --path . --script addons/world_transvoxel_cell_lab/tests/wt_cell_lab_smoke.gd
 
       - name: Run authoritative standards suite
-        run: Godot_v4.7.1-stable_win64.exe --headless --path . --script tools/run_cell_lab_validation.gd -- all
+        run: Godot_v4.7.1-stable_win64.exe --headless --rendering-method gl_compatibility --path . --script tools/run_cell_lab_validation.gd -- all
+
+      - name: Exercise visual diff contract
+        run: python tools/compare_visual_standards.py --candidate-dir addons/world_transvoxel_cell_lab/standards/visuals --output .godot/visual_diff_self_check.json
+
+  windows_mobile_smoke:
+    runs-on: windows-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Verify pinned native dependency provenance
+        run: python tools/verify_native_dependency.py --clone-source .ci/world-transvoxel-source
+
+      - name: Install pinned Godot
+        run: python tools/ci_install_godot.py
+
+      - name: Run mobile renderer smoke
+        run: Godot_v4.7.1-stable_win64.exe --headless --rendering-method mobile --path . --script addons/world_transvoxel_cell_lab/tests/wt_cell_lab_smoke.gd
+
+  windows_forward_plus_smoke:
+    runs-on: windows-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Verify pinned native dependency provenance
+        run: python tools/verify_native_dependency.py --clone-source .ci/world-transvoxel-source
+
+      - name: Install pinned Godot
+        run: python tools/ci_install_godot.py
+
+      - name: Run forward-plus renderer smoke
+        run: Godot_v4.7.1-stable_win64.exe --headless --rendering-method forward_plus --path . --script addons/world_transvoxel_cell_lab/tests/wt_cell_lab_smoke.gd

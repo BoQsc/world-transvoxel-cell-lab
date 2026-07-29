@@ -7,8 +7,11 @@ proves that native regular cells, transition cells, chunks, LOD interfaces,
 materials, scalar-field features, and edits remain coherent when assembled
 into one contiguous terrain.
 
-It is not a production terrain runtime. It does not claim authority over
-streaming, scheduling, persistence, collisions, multiplayer, or gameplay.
+It is not a production terrain runtime. Separate qualification services use
+this fixture to test deterministic streaming order, persistence, and
+exact-mesh collision contracts, but the terrain fixture does not claim
+authority over production scheduling, physics policy, multiplayer, or
+gameplay.
 
 ## Native Authority
 
@@ -78,6 +81,8 @@ A passing result requires:
 - all 15 field feature probes match;
 - all eight cumulative cross-chunk dig and construct edits change only
   affected chunks;
+- affected-chunk ownership includes one LOD-cell of dependency halo around
+  chunk sample bounds;
 - partial dirty-chunk rebuild output exactly matches full rebuild output;
 - all seams still match after each edit;
 - clearing and replaying the complete edit sequence produces the identical

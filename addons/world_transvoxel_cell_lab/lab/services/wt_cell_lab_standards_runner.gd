@@ -7,6 +7,8 @@ const ReproStore := preload("res://addons/world_transvoxel_cell_lab/lab/services
 const CASE_STANDARDS_PATH := "res://addons/world_transvoxel_cell_lab/standards/standard_cases.json"
 const VISUAL_STANDARDS_PATH := "res://addons/world_transvoxel_cell_lab/standards/visual_manifest.json"
 const REFERENCE_TERRAIN_STANDARD_PATH := "res://addons/world_transvoxel_cell_lab/standards/reference_terrain_standard.json"
+const QUALIFICATION_STANDARD_PATH := "res://addons/world_transvoxel_cell_lab/standards/qualification_standard.json"
+const RELEASE_BUNDLE_PATH := "res://addons/world_transvoxel_cell_lab/standards/release_qualification_bundle.json"
 
 
 func run(lab: Object) -> Dictionary:
@@ -27,10 +29,18 @@ func run(lab: Object) -> Dictionary:
 		"reference_terrain_standard_count": 0,
 		"passing_reference_terrain_standards": 0,
 		"failing_reference_terrain_standards": 0,
+		"qualification_standard_count": 0,
+		"passing_qualification_standards": 0,
+		"failing_qualification_standards": 0,
+		"release_bundle_standard_count": 0,
+		"passing_release_bundle_standards": 0,
+		"failing_release_bundle_standards": 0,
 		"repros": [],
 		"case_standards": [],
 		"visual_standards": [],
 		"reference_terrain_standards": [],
+		"qualification_standards": [],
+		"release_bundle_standards": [],
 		"sample_failures": [],
 		"status": "PASS",
 		"elapsed_ms": 0.0,
@@ -38,15 +48,80 @@ func run(lab: Object) -> Dictionary:
 	_run_repros(lab, result)
 	_run_case_standards(lab, result)
 	_run_reference_terrain_standard(lab, result)
+	_run_qualification_standard(result)
+	_run_release_bundle_standard(result)
 	_run_visual_standards(result)
 	if int(result["failing_repros"]) > 0 \
 		or int(result["failing_case_standards"]) > 0 \
 		or int(result["failing_reference_terrain_standards"]) > 0 \
+		or int(result["failing_qualification_standards"]) > 0 \
+		or int(result["failing_release_bundle_standards"]) > 0 \
 		or int(result["failing_visual_standards"]) > 0:
 		result["status"] = "FAIL"
 	result["elapsed_ms"] = float(Time.get_ticks_usec() - start_usec) / 1000.0
 	ReproStore.apply_snapshot(lab, original)
 	return result
+
+
+func _run_qualification_standard(result: Dictionary) -> void:
+	result["qualification_standard_count"] = 1
+	var standard := _load_json_dictionary(QUALIFICATION_STANDARD_PATH)
+	var milestones: Dictionary = standard.get("milestones", {})
+	var passing_milestones := 0
+	for milestone_status in milestones.values():
+		if str(milestone_status) == "PASS":
+			passing_milestones += 1
+	var passes := str(standard.get("schema", "")) == Contracts.QUALIFICATION_STANDARD_SCHEMA \
+		and str(standard.get("status", "")) == "PASS" \
+		and milestones.size() == 14 \
+		and passing_milestones == 14
+	result["qualification_standards"].append({
+		"path": QUALIFICATION_STANDARD_PATH,
+		"status": "PASS" if passes else "FAIL",
+		"milestone_count": milestones.size(),
+		"passing_milestones": passing_milestones,
+	})
+	if passes:
+		result["passing_qualification_standards"] = 1
+	else:
+		result["failing_qualification_standards"] = 1
+		_append_failure(result, "qualification standard is missing or incomplete")
+
+
+func _run_release_bundle_standard(result: Dictionary) -> void:
+	result["release_bundle_standard_count"] = 1
+	var bundle := _load_json_dictionary(RELEASE_BUNDLE_PATH)
+	var qualification := _load_json_dictionary(QUALIFICATION_STANDARD_PATH)
+	var expected_bundle_hash := str(
+		(qualification.get("release", {}) as Dictionary).get("release_bundle_hash", "")
+	)
+	var evidence: Array = bundle.get("evidence_files", [])
+	var evidence_failures := 0
+	for evidence_value in evidence:
+		var entry: Dictionary = evidence_value
+		var path := str(entry.get("path", ""))
+		if not FileAccess.file_exists(path) \
+				or FileAccess.get_sha256(path) != str(entry.get("sha256", "")) \
+				or FileAccess.get_file_as_bytes(path).size() != int(entry.get("bytes", -1)):
+			evidence_failures += 1
+	var passes := str(bundle.get("schema", "")) == Contracts.RELEASE_BUNDLE_SCHEMA \
+		and str(bundle.get("status", "")) == "PASS" \
+		and str(bundle.get("bundle_hash", "")) == expected_bundle_hash \
+		and int(bundle.get("evidence_file_count", 0)) == evidence.size() \
+		and evidence.size() == 11 \
+		and evidence_failures == 0
+	result["release_bundle_standards"].append({
+		"path": RELEASE_BUNDLE_PATH,
+		"status": "PASS" if passes else "FAIL",
+		"bundle_hash": str(bundle.get("bundle_hash", "")),
+		"evidence_file_count": evidence.size(),
+		"evidence_failures": evidence_failures,
+	})
+	if passes:
+		result["passing_release_bundle_standards"] = 1
+	else:
+		result["failing_release_bundle_standards"] = 1
+		_append_failure(result, "release qualification bundle changed")
 
 
 func _run_repros(lab: Object, result: Dictionary) -> void:

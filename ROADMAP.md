@@ -3,9 +3,12 @@
 The roadmap standard is cell-first, terrain-focused, native-authoritative,
 reproducible, measurable, visually inspectable, and evidence-driven.
 
-Milestones 1 through 15 are complete. Future milestones must preserve the
-ownership boundaries in `ARCHITECTURE.md` and add committed evidence before
-claiming a broader correctness domain.
+Milestones 1 through 29 are complete for the scope locked by
+`addons/world_transvoxel_cell_lab/standards/qualification_standard.json`.
+Completion does not silently broaden platform or runtime authority: unsupported
+targets remain explicitly unqualified in the platform matrix. Future milestones
+must preserve the ownership boundaries in `ARCHITECTURE.md` and add committed
+evidence before claiming a broader correctness domain.
 
 ## Milestone 1: Contract And Authority
 
@@ -209,33 +212,143 @@ Status: complete.
 - Numeric standards and smoke coverage lock the retained failure detector;
   regenerated visual terrain baselines lock the corrected canonical fixture.
 
-## Future Milestones
+## Milestone 16: Adversarial Scalar Fields
 
-16. Broader adversarial scalar-field corpus: ambiguous cases, high curvature,
-    cancellation, thin-feature limits, and deterministic fuzz seeds.
-17. Failure localization and minimization: select unmatched seam signatures,
-    jump to owning cells, and export the smallest native repro.
-18. Independent specification checks: table invariants and topology properties
-    that do not duplicate or replace the production mesher.
-19. Edit stress corpus: randomized but seeded long dig/construct sequences,
-    cancellation, overlapping edits, and incremental/full equivalence.
-20. Scaling baselines: chunk size, LOD depth, active-cell ratio, and feature
-    complexity distributions rather than single timings.
-21. Memory and allocation observability: peak memory, buffer churn, reuse, and
-    per-stage allocation budgets.
-22. Rendering quality qualification: tangents, material blending, lighting,
-    precision, and camera-distance artifacts.
-23. Collision and query qualification against the exact rendered geometry.
-24. Streaming simulation: load/unload order, moving LOD windows, stale work,
-    and boundary stability.
-25. Persistence standards for fields, edits, chunk versions, and deterministic
-    reloads.
-26. Integration-game parity corpus reduced to canonical lab fixtures.
-27. Platform and renderer matrix across supported Godot targets.
-28. Release qualification bundles with machine-readable evidence and visual
-    diffs.
-29. Upstream correction governance: minimized repro, invariant, fix review,
-    retained regression standard, and downstream parity proof.
+Status: complete.
+
+- Ten named fields cover diagonals, offsets, saddles, gyroids, high curvature,
+  resolved thin layers and tunnels, near-cancellation, and two deterministic
+  seeded warps.
+- Twenty LOD0/LOD1 native probes lock 21,368 triangles and an exact aggregate
+  signature.
+- Four known under-resolved results remain named negative detections; any new
+  integrity, determinism, or topology failure fails qualification.
+
+## Milestone 17: Failure Localization And Minimization
+
+Status: complete.
+
+- The retained coarse tunnel alias is reduced from terrain scale to one native
+  regular cell.
+- The standard locks case code `124`, owning cell `(5, 4, 8)`, eight scalar
+  samples, and two reproduced local disagreements.
+- The minimized fixture remains connected to its resolved control and source
+  terrain repro.
+
+## Milestone 18: Independent Specification Checks
+
+Status: complete.
+
+- Independent interpolation and bracketing checks cover 1,536 regular and
+  4,096 transition intersections.
+- Forty-eight orientation probes and 384 complement pairs exercise table
+  orientation and topology properties without implementing a second mesher.
+- Complement topology asymmetry is measured, not falsely assumed invariant;
+  the locked corpus currently records 137 asymmetries.
+
+## Milestone 19: Edit Stress Corpus
+
+Status: complete.
+
+- Twenty-four seeded dig/construct operations include overlap, cancellation,
+  duplicate application, and boundary edits.
+- Four checkpoints prove incremental/full equivalence and exact replay.
+- Dirty ownership includes a one-cell LOD dependency halo so samples consumed
+  by neighboring chunks are never omitted.
+
+## Milestone 20: Scaling Baselines
+
+Status: complete.
+
+- Six scenarios vary chunk width, LOD, active-cell density, and field
+  complexity.
+- Counts, timings, throughput, 5,579 triangles, and an aggregate geometry
+  signature are machine-readable.
+
+## Milestone 21: Memory And Buffer Reuse
+
+Status: complete.
+
+- Sixteen canonical native buffers account for 317,516 payload bytes.
+- Repeated inspection proves stable buffer accounting and rejects unexpected
+  churn in the measured canonical build.
+
+## Milestone 22: Rendering Quality
+
+Status: complete.
+
+- 6,473 tangent-basis samples are checked for finite, normalized,
+  SDF-consistent orientation.
+- Material IDs `1`, `2`, `3`, `4`, and `6`, lighting inputs, precision, and
+  camera-distance transforms are qualified.
+
+## Milestone 23: Collision And Queries
+
+Status: complete.
+
+- An exact `ConcavePolygonShape3D` is built from all 11,356 rendered terrain
+  faces.
+- Nine vertical mesh/SDF query comparisons lock collision agreement against
+  the authoritative field and rendered geometry.
+
+## Milestone 24: Streaming Simulation
+
+Status: complete.
+
+- Three load/rebuild schedules perform 36 chunk builds.
+- Build-order independence, moving-window seam stability, and stale request
+  rejection are required.
+- This is deterministic policy simulation, not a claim that the lab is a
+  production streaming runtime.
+
+## Milestone 25: Persistence
+
+Status: complete.
+
+- Eight edits, field identity, chunk versions, and geometry signatures survive
+  deterministic JSON write/read.
+- Payload checksum verification detects corruption before reload acceptance.
+
+## Milestone 26: Integration Parity
+
+Status: complete.
+
+- Three committed integration fixtures cover five reduced operations and two
+  ownership classifications.
+- A downstream passing debug/edit snapshot and a retained watertightness
+  failure prove that parity does not erase ownership distinctions.
+
+## Milestone 27: Platform And Renderer Matrix
+
+Status: complete for declared scope.
+
+- Windows/x86_64 debug and release native artifacts are required.
+- `gl_compatibility`, `mobile`, and `forward_plus` renderer lanes are declared
+  and validated by CI configuration.
+- Five unavailable artifact targets are explicitly unqualified. They are not
+  counted as failures or represented as supported.
+
+## Milestone 28: Release Qualification Bundle
+
+Status: complete.
+
+- Ten core evidence files, 11 visual standards, and the locked qualification
+  standard form a machine-readable release bundle.
+- SHA-256 and byte counts reject stale evidence; pixel comparison validates
+  candidate visuals while tolerating narrowly defined renderer variance.
+
+## Milestone 29: Upstream Correction Governance
+
+Status: complete.
+
+- A machine-readable governance registry requires eight evidence classes:
+  repro, invariant, ownership, determinism, focused test, visual evidence,
+  review, and downstream parity.
+- One retained topology-alias case exercises the process.
+- No upstream correction is marked confirmed without all required evidence.
+
+See `QUALIFICATION_STANDARD.md` for execution commands, exact scope, retained
+negative results, and interpretation rules.
 
 ## Next Standard
 

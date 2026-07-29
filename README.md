@@ -29,8 +29,8 @@ version, and official Transvoxel source hash.
 
 The lab is cell-first and terrain-focused. It treats regular cells, transition
 cells, chunk composition, a canonical multi-chunk reference terrain, LOD
-seams, edits, topology, materials, provenance, and cost as one validation
-chain.
+seams, edits, topology, materials, provenance, runtime-policy simulations,
+integration parity, and release evidence as one validation chain.
 
 `world-transvoxel` is the implementation authority under test, not an
 infallible oracle. A reproducible lab contradiction supported by topology,
@@ -67,7 +67,9 @@ Enable the `World Transvoxel Lab` plugin and use its dock to:
 - measure cell, transition, chunk, patch, observatory, and edit performance;
 - browse, label, save, and restore repros;
 - import integration-game JSON snapshots and classify the suspected fix layer;
-- execute the committed standards corpus.
+- execute the committed standards corpus;
+- run the complete `Qualification 16-29` suite and inspect its correctness,
+  runtime, integration, platform, release, and governance evidence.
 
 The default scene opens with rendered native geometry. Inspection modes show
 sample states, topology edges, vertex normals, materials, endpoint provenance,
@@ -85,6 +87,18 @@ Run the full headless validator:
 
 ```text
 godot --headless --path . --script tools/run_cell_lab_validation.gd -- all
+```
+
+Run only the milestone 16-29 qualification:
+
+```text
+godot --headless --path . --script tools/run_cell_lab_validation.gd -- qualification
+```
+
+Print the measured qualification signature:
+
+```text
+godot --headless --path . --script tools/print_qualification_standard.gd
 ```
 
 Verify the vendored native dependency against an adjacent source checkout:
@@ -105,12 +119,20 @@ Regenerate committed visual standards with a graphical renderer:
 godot --path . --script tools/capture_standard_visuals.gd
 ```
 
+Compare a visual candidate against the committed references:
+
+```text
+python tools/compare_visual_standards.py --candidate-dir .godot/visual_candidate
+```
+
 The CI workflow verifies the pinned native source and binaries, pins the
 official Godot 4.7.1 Windows artifact by SHA-256, and runs the native extension
-load, smoke test, correctness corpora, standards corpus, and performance
-warning pass.
+load, smoke test, correctness corpora, qualification suite, standards corpus,
+visual comparison, renderer smoke lanes, and performance warning pass.
 
 See [ARCHITECTURE.md](ARCHITECTURE.md) for ownership boundaries and
 [ROADMAP.md](ROADMAP.md) for completed milestone evidence. The permanent
 terrain contract is in
-[REFERENCE_TERRAIN_STANDARD.md](REFERENCE_TERRAIN_STANDARD.md).
+[REFERENCE_TERRAIN_STANDARD.md](REFERENCE_TERRAIN_STANDARD.md), and the
+milestone 16-29 scope is in
+[QUALIFICATION_STANDARD.md](QUALIFICATION_STANDARD.md).

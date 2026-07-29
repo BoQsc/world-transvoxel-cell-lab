@@ -1,0 +1,45 @@
+{
+	"world": {
+		"assigned": true,
+		"backend_state": "running",
+		"backend_revision": 7,
+		"backend_running": true,
+		"last_error": "ok"
+	},
+	"streaming": {
+		"viewer_updates": 3,
+		"viewer_removals": 0,
+		"planned_demands": 12,
+		"active_chunk_records": 12,
+		"visual_ready_chunk_records": 12,
+		"fully_ready_chunk_records": 12
+	},
+	"edit": {
+		"last_submission": {
+			"operation_summaries": [
+				{
+					"operation": "carve_sphere",
+					"center": {"x": 0.25, "y": 0.1, "z": -0.2},
+					"radius": 1.15,
+					"material_id": 0
+				},
+				{
+					"operation": "construct_sphere",
+					"center": {"x": -0.45, "y": 0.35, "z": 0.4},
+					"radius": 0.85,
+					"material_id": 5
+				}
+			]
+		},
+		"edit_commits": 2,
+		"edit_rejections": 0,
+		"edit_replacements": 0
+	},
+	"implementation": "debug_snapshot_contract",
+	"_expected": {
+		"adapter_kind": "integration_debug_snapshot",
+		"operation_count": 2,
+		"suspected_fix_layer": "none",
+		"edit_modes": ["dig", "construct"]
+	}
+}

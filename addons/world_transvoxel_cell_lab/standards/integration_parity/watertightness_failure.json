@@ -1,0 +1,14 @@
+{
+	"mode": "viewer_region",
+	"center": {"x": 0.0, "y": 0.0, "z": 0.0},
+	"radius": 6.0,
+	"open_edges": 2,
+	"nonmanifold_edges": 0,
+	"watertight": false,
+	"_expected": {
+		"adapter_kind": "integration_watertightness_probe",
+		"operation_count": 0,
+		"suspected_fix_layer": "integration",
+		"edit_modes": []
+	}
+}

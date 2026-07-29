@@ -25,7 +25,7 @@ func _run() -> void:
 	lab.cells_z = 6
 	lab.field_mode = LabScript.FieldMode.SPHERE
 	var report: Dictionary = lab.rebuild()
-	if report.get("schema") != "world_transvoxel.cell_lab.report.v3":
+	if report.get("schema") != "world_transvoxel.cell_lab.report.v4":
 		_fail("unexpected report schema")
 		return
 	if str(report.get("status", "")) != "PASS":
@@ -38,7 +38,7 @@ func _run() -> void:
 		_fail("native render authority was not used")
 		return
 	if str(report.get("correctness_claim", "")) \
-			!= "provenance_locked_cell_chunk_terrain_observatory_backend_probe_v6":
+			!= "release_qualified_transvoxel_terrain_authority_probe_v7":
 		_fail("native correctness claim was not explicit")
 		return
 	if str(report.get("lab_scope", "")) != "cell_first_transvoxel_preview_and_validator":
@@ -299,6 +299,12 @@ func _run() -> void:
 	if int(standards.get("passing_reference_terrain_standards", 0)) != 1:
 		_fail("reference terrain standard changed")
 		return
+	if int(standards.get("passing_qualification_standards", 0)) != 1:
+		_fail("qualification standard count changed")
+		return
+	if int(standards.get("passing_release_bundle_standards", 0)) != 1:
+		_fail("release bundle standard count changed")
+		return
 	if int(standards.get("passing_visual_standards", 0)) != 11:
 		_fail("visual standards count changed")
 		return
@@ -357,6 +363,66 @@ func _run() -> void:
 		_fail("integration reduction did not classify the source layer")
 		return
 	report = lab.apply_repro_snapshot(repro)
+	var qualification: Dictionary = lab.validate_qualification_suite()
+	if str(qualification.get("schema", "")) \
+			!= "world_transvoxel.cell_lab.qualification_suite.v1":
+		_fail("unexpected qualification suite schema")
+		return
+	if str(qualification.get("status", "")) != "PASS":
+		_fail("qualification suite did not pass: %s" % str(
+			qualification.get("sample_failures", [])
+		))
+		return
+	var milestones: Dictionary = qualification.get("milestones", {})
+	if milestones.size() != 14:
+		_fail("qualification milestone count changed")
+		return
+	for milestone in range(16, 30):
+		if str(milestones.get(str(milestone), "")) != "PASS":
+			_fail("qualification milestone %d did not pass" % milestone)
+			return
+	var correctness: Dictionary = qualification.get("correctness", {})
+	var adversarial: Dictionary = correctness.get("adversarial_corpus", {})
+	var reduction: Dictionary = correctness.get("failure_reduction", {})
+	var specification: Dictionary = correctness.get("independent_specification", {})
+	if int(adversarial.get("probe_count", 0)) != 20 \
+			or int(adversarial.get("detected_negative_probe_count", 0)) != 4 \
+			or int(adversarial.get("failing_probes", -1)) != 0:
+		_fail("adversarial corpus contract changed")
+		return
+	if int(reduction.get("sample_count", 0)) != 8 \
+			or int(reduction.get("reproduced_local_disagreements", 0)) != 2:
+		_fail("minimal native repro contract changed")
+		return
+	if int(specification.get("regular_intersections_checked", 0)) != 1536 \
+			or int(specification.get("transition_intersections_checked", 0)) != 4096:
+		_fail("independent specification coverage changed")
+		return
+	var runtime: Dictionary = qualification.get("runtime", {})
+	if int((runtime.get("edit_stress", {}) as Dictionary).get("operation_count", 0)) != 24 \
+			or int((runtime.get("scaling", {}) as Dictionary).get("scenario_count", 0)) != 6 \
+			or int((runtime.get("collision_queries", {}) as Dictionary).get("query_count", 0)) != 9 \
+			or int((runtime.get("streaming", {}) as Dictionary).get("chunk_build_count", 0)) != 36 \
+			or not bool(
+				(runtime.get("persistence", {}) as Dictionary).get("corruption_detected", false)
+			):
+		_fail("runtime qualification coverage changed")
+		return
+	var release: Dictionary = qualification.get("release", {})
+	if int((release.get("integration_parity", {}) as Dictionary).get("fixture_count", 0)) != 3 \
+			or int(
+				(release.get("platform_renderer_matrix", {}) as Dictionary)
+					.get("required_target_count", 0)
+			) != 1 \
+			or int((release.get("release_bundle", {}) as Dictionary).get("evidence_file_count", 0)) != 10 \
+			or int((release.get("upstream_governance", {}) as Dictionary).get("case_count", 0)) != 1:
+		_fail("release qualification coverage changed")
+		return
+	if str(
+		(qualification.get("standard_comparison", {}) as Dictionary).get("status", "")
+	) != "PASS":
+		_fail("qualification standard comparison did not pass")
+		return
 	var performance: Dictionary = lab.run_performance_baselines(2)
 	if str(performance.get("schema", "")) != "world_transvoxel.cell_lab.performance_baselines.v2":
 		_fail("unexpected performance baselines schema")

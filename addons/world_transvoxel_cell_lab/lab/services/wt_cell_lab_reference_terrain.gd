@@ -265,7 +265,12 @@ func feature_catalog() -> Array[Dictionary]:
 func affected_chunk_ids(center: Vector3, radius: float) -> Array[String]:
 	var result: Array[String] = []
 	for spec in fixture_specs():
-		if _sphere_intersects_aabb(center, radius, _spec_bounds(spec)):
+		var dependency_halo := float(1 << int(spec.get("lod", 0)))
+		if _sphere_intersects_aabb(
+			center,
+			radius,
+			_spec_bounds(spec).grow(dependency_halo)
+		):
 			result.append(str(spec.get("id", "")))
 	return result
 
@@ -355,7 +360,7 @@ func _validate_canonical_topology_separation(fixture: Dictionary) -> Dictionary:
 	}
 
 
-func _validate_topology_alias_fixture(probe: RefCounted) -> Dictionary:
+func build_topology_alias_fixture(probe: RefCounted) -> Dictionary:
 	var alias_field := ReferenceField.new()
 	alias_field.set_fixture_profile(ReferenceField.PROFILE_COARSE_TUNNEL_ROOF_ALIAS)
 	var coarse_chunk := _mesh_spec_with_field(
@@ -393,6 +398,23 @@ func _validate_topology_alias_fixture(probe: RefCounted) -> Dictionary:
 			"regular",
 			-1
 		))
+	return {
+		"field": alias_field,
+		"coarse_chunk": coarse_chunk,
+		"coarse_buffer": coarse_buffer,
+		"fine_chunks": fine_chunks,
+		"fine_buffers": fine_buffers,
+		"fine_ok": fine_ok,
+		"roof": alias_field.main_tunnel_roof_clearance(TOPOLOGY_SECTION_PLANE),
+	}
+
+
+func _validate_topology_alias_fixture(probe: RefCounted) -> Dictionary:
+	var fixture := build_topology_alias_fixture(probe)
+	var coarse_chunk: Dictionary = fixture.get("coarse_chunk", {})
+	var coarse_buffer: Dictionary = fixture.get("coarse_buffer", {})
+	var fine_buffers: Array = fixture.get("fine_buffers", [])
+	var fine_ok := bool(fixture.get("fine_ok", false))
 	var coarse_integrity := _winding_diagnostics([coarse_buffer])
 	var fine_integrity := _winding_diagnostics(fine_buffers)
 	var coarse_section := _plane_section_topology(
@@ -405,7 +427,7 @@ func _validate_topology_alias_fixture(probe: RefCounted) -> Dictionary:
 		TOPOLOGY_SECTION_AXIS,
 		TOPOLOGY_SECTION_PLANE
 	)
-	var roof := alias_field.main_tunnel_roof_clearance(TOPOLOGY_SECTION_PLANE)
+	var roof: Dictionary = fixture.get("roof", {})
 	var coarse_cell_size := float(1 << COARSE_LOD)
 	var detected := bool(coarse_chunk.get("ok", false)) \
 		and fine_ok \

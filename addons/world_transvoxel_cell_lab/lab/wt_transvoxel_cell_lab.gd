@@ -21,6 +21,7 @@ const ReferenceTerrain := preload("res://addons/world_transvoxel_cell_lab/lab/se
 const TerrainObservatory := preload("res://addons/world_transvoxel_cell_lab/lab/services/wt_cell_lab_terrain_observatory.gd")
 const DependencyProvenance := preload("res://addons/world_transvoxel_cell_lab/lab/services/wt_cell_lab_dependency_provenance.gd")
 const AuthorityValidator := preload("res://addons/world_transvoxel_cell_lab/lab/services/wt_cell_lab_authority_validator.gd")
+const QualificationRunner := preload("res://addons/world_transvoxel_cell_lab/lab/services/wt_cell_lab_qualification_runner.gd")
 
 const REPORT_SCHEMA := Contracts.REPORT_SCHEMA
 const REPRO_SCHEMA := Contracts.REPRO_SCHEMA
@@ -29,6 +30,7 @@ const TRANSITION_CASE_CORPUS_SCHEMA := Contracts.TRANSITION_CASE_CORPUS_SCHEMA
 const CHUNK_LOD_VALIDATION_SCHEMA := Contracts.CHUNK_LOD_VALIDATION_SCHEMA
 const EDIT_SEQUENCE_VALIDATION_SCHEMA := Contracts.EDIT_SEQUENCE_VALIDATION_SCHEMA
 const PERFORMANCE_BASELINES_SCHEMA := Contracts.PERFORMANCE_BASELINES_SCHEMA
+const QUALIFICATION_SUITE_SCHEMA := Contracts.QUALIFICATION_SUITE_SCHEMA
 const NATIVE_REGULAR_IMPLEMENTATION := Contracts.NATIVE_REGULAR_IMPLEMENTATION
 const NATIVE_AUTHORITY := Contracts.NATIVE_AUTHORITY
 const CELL_PROBE_CORRECTNESS_CLAIM := Contracts.CELL_PROBE_CORRECTNESS_CLAIM
@@ -228,6 +230,7 @@ var _reference_terrain := ReferenceTerrain.new()
 var _terrain_observatory := TerrainObservatory.new()
 var _dependency_provenance := DependencyProvenance.new()
 var _authority_validator := AuthorityValidator.new()
+var _qualification_runner := QualificationRunner.new()
 
 
 func _ready() -> void:
@@ -397,6 +400,31 @@ func validate_standards_corpus() -> Dictionary:
 	var result := _standards_runner.run(self)
 	_attach_validation_result("standards_corpus", result)
 	return result
+
+
+func validate_qualification_suite() -> Dictionary:
+	var result := _qualification_runner.run(self, _reference_terrain, true)
+	_attach_validation_result("qualification_suite", result)
+	return result
+
+
+func describe_qualification_standard() -> Dictionary:
+	return build_qualification_evidence().get(
+		"standard_signature",
+		{}
+	)
+
+
+func build_qualification_evidence() -> Dictionary:
+	return _qualification_runner.run(self, _reference_terrain, false)
+
+
+func build_correctness_qualification() -> Dictionary:
+	return _qualification_runner.run_correctness(self, _reference_terrain)
+
+
+func build_runtime_qualification() -> Dictionary:
+	return _qualification_runner.run_runtime(self, _reference_terrain)
 
 
 func describe_regular_case(case_code: int = selected_regular_case) -> Dictionary:

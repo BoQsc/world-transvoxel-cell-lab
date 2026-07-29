@@ -9,7 +9,11 @@ func _initialize() -> void:
 
 
 func _run() -> void:
-	var absolute_directory := ProjectSettings.globalize_path(OUTPUT_DIRECTORY)
+	var output_directory := OUTPUT_DIRECTORY
+	for argument in OS.get_cmdline_user_args():
+		if argument.begins_with("output="):
+			output_directory = argument.trim_prefix("output=")
+	var absolute_directory := ProjectSettings.globalize_path(output_directory)
 	if DirAccess.make_dir_recursive_absolute(absolute_directory) != OK:
 		_fail("could not create visual standards directory")
 		return
@@ -123,7 +127,7 @@ func _run() -> void:
 		await process_frame
 		await process_frame
 		var image := root.get_viewport().get_texture().get_image()
-		var path := "%s/%s.png" % [OUTPUT_DIRECTORY, str(spec["id"])]
+		var path := "%s/%s.png" % [output_directory, str(spec["id"])]
 		var error := image.save_png(path)
 		if error != OK:
 			_fail("could not save %s" % path)

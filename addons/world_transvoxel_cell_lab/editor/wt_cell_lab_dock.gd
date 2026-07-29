@@ -279,6 +279,10 @@ func _build_ui() -> void:
 	standards_button.text = "Standards Corpus"
 	standards_button.pressed.connect(_validate_standards_selected)
 	validator_row.add_child(standards_button)
+	var qualification_button := Button.new()
+	qualification_button.text = "Qualification 16-29"
+	qualification_button.pressed.connect(_validate_qualification_selected)
+	validator_row.add_child(qualification_button)
 	var validate_all_button := Button.new()
 	validate_all_button.text = "Run Full Suite"
 	validate_all_button.pressed.connect(_validate_all_selected)
@@ -667,6 +671,13 @@ func _validate_standards_selected() -> void:
 	_refresh_status()
 
 
+func _validate_qualification_selected() -> void:
+	var lab = _selected_lab()
+	if lab != null:
+		lab.validate_qualification_suite()
+	_refresh_status()
+
+
 func _validate_all_selected() -> void:
 	var lab = _selected_lab()
 	if lab == null:
@@ -679,6 +690,7 @@ func _validate_all_selected() -> void:
 	lab.validate_reference_terrain()
 	lab.validate_edit_sequence()
 	lab.validate_edit_corpus()
+	lab.validate_qualification_suite()
 	lab.validate_standards_corpus()
 	lab.run_performance_baselines(3)
 	_refresh_status()
@@ -1122,6 +1134,57 @@ func _render_report(report: Dictionary) -> void:
 			["Regression warnings", performance.get("regression_warnings", [])],
 			["History entries", performance.get("history_count", 0)],
 		])
+	var qualification: Dictionary = report.get("qualification_suite", {})
+	if not qualification.is_empty():
+		var milestones: Dictionary = qualification.get("milestones", {})
+		var passing_milestones := 0
+		for milestone_status in milestones.values():
+			if str(milestone_status) == "PASS":
+				passing_milestones += 1
+		var correctness: Dictionary = qualification.get("correctness", {})
+		var runtime: Dictionary = qualification.get("runtime", {})
+		var release: Dictionary = qualification.get("release", {})
+		var adversarial: Dictionary = correctness.get("adversarial_corpus", {})
+		var edit_stress: Dictionary = runtime.get("edit_stress", {})
+		var collision: Dictionary = runtime.get("collision_queries", {})
+		var integration_parity: Dictionary = release.get("integration_parity", {})
+		var release_bundle: Dictionary = release.get("release_bundle", {})
+		var standard_comparison: Dictionary = qualification.get(
+			"standard_comparison",
+			{}
+		)
+		_add_section("Qualification 16-29", [
+			["Status", qualification.get("status", "Unavailable")],
+			["Milestones pass / total", "%d / %d" % [
+				passing_milestones,
+				milestones.size(),
+			]],
+			["Adversarial probes", "%d pass / %d fail" % [
+				int(adversarial.get("passing_probes", 0)),
+				int(adversarial.get("failing_probes", 0)),
+			]],
+			["Edit stress operations / checkpoints", "%d / %d" % [
+				int(edit_stress.get("operation_count", 0)),
+				int(edit_stress.get("checkpoint_count", 0)),
+			]],
+			["Collision queries", "%d pass / %d fail" % [
+				int(collision.get("passing_queries", 0)),
+				int(collision.get("failing_queries", 0)),
+			]],
+			["Integration parity", "%d pass / %d fail" % [
+				int(integration_parity.get("passing_fixtures", 0)),
+				int(integration_parity.get("failing_fixtures", 0)),
+			]],
+			["Release evidence / visuals", "%d / %d" % [
+				int(release_bundle.get("evidence_file_count", 0)),
+				int(release_bundle.get("visual_standard_count", 0)),
+			]],
+			["Locked standard", standard_comparison.get("status", "Unavailable")],
+			["Elapsed", "%.3f ms" % float(qualification.get("elapsed_ms", 0.0))],
+			["Sample failures", _format_sample_failures(
+				qualification.get("sample_failures", [])
+			)],
+		])
 	var standards: Dictionary = report.get("standards_corpus", {})
 	if not standards.is_empty():
 		_add_section("Standards Corpus", [
@@ -1137,6 +1200,14 @@ func _render_report(report: Dictionary) -> void:
 			["Terrain pass / fail", "%d / %d" % [
 				int(standards.get("passing_reference_terrain_standards", 0)),
 				int(standards.get("failing_reference_terrain_standards", 0)),
+			]],
+			["Qualification pass / fail", "%d / %d" % [
+				int(standards.get("passing_qualification_standards", 0)),
+				int(standards.get("failing_qualification_standards", 0)),
+			]],
+			["Release bundle pass / fail", "%d / %d" % [
+				int(standards.get("passing_release_bundle_standards", 0)),
+				int(standards.get("failing_release_bundle_standards", 0)),
 			]],
 			["Visuals pass / fail", "%d / %d" % [
 				int(standards.get("passing_visual_standards", 0)),

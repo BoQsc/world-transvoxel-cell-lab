@@ -56,6 +56,12 @@ integration classification, or standards execution.
 | `wt_cell_lab_reference_terrain.gd` | Multi-chunk LOD assembly, seam/edit proof, analytic section topology, retained negative fixtures, deterministic signature, and benchmark |
 | `wt_cell_lab_terrain_observatory.gd` | Derived terrain views, overlays, density slices, view validation, and observatory benchmark |
 | `wt_cell_lab_reference_terrain_presenter.gd` | Rendering of observatory buffers, overlays, selection, labels, and edit markers |
+| `wt_cell_lab_qualification_common.gd` | Native chunk calls, canonical buffer extraction, signatures, byte accounting, face conversion, and deterministic random primitives |
+| `wt_cell_lab_adversarial_field.gd` | Named adversarial scalar fields and deterministic seeded field profiles |
+| `wt_cell_lab_correctness_qualification.gd` | Adversarial corpus, failure minimization, and independent interpolation/table-property checks |
+| `wt_cell_lab_runtime_qualification.gd` | Edit stress, scaling, memory, rendering inputs, collision, streaming simulation, and persistence |
+| `wt_cell_lab_release_qualification.gd` | Integration parity, platform scope, release evidence, and upstream-correction governance |
+| `wt_cell_lab_qualification_runner.gd` | Milestone 16-29 orchestration and locked-standard comparison |
 
 The editor dock owns controls and report presentation only.
 
@@ -82,8 +88,10 @@ third-party Transvoxel source.
 
 The canonical reference terrain is a standards fixture, not a second terrain
 runtime. It directly invokes the upstream production chunk mesher through
-`WorldTransvoxelCellProbe`. Streaming policy, scheduling, persistence,
-collision, and gameplay remain outside its authority.
+`WorldTransvoxelCellProbe`. The qualification layer may simulate streaming
+orders, serialize fixture state, and derive collision from exact native mesh
+faces. Those tests qualify deterministic contracts; they do not make the lab a
+production streaming, persistence, physics, multiplayer, or gameplay runtime.
 
 ## Reference Terrain Layer
 
@@ -94,7 +102,10 @@ cell contracts
     -> isolated chunk and LOD fixtures
         -> canonical multi-chunk reference terrain
             -> retained negative terrain fixtures
-                -> integration-game reduction
+                -> correctness qualification
+                    -> runtime-policy qualification
+                        -> integration parity
+                            -> release evidence and governance
 ```
 
 The canonical terrain is the first layer that proves regular surfaces,
@@ -128,3 +139,9 @@ A suspected upstream bug requires:
 
 Until that evidence exists, the lab reports a suspected layer rather than
 changing `world-transvoxel`.
+
+The same rule applies to release evidence. A milestone may report `PASS` only
+when its focused service passes and its stable values match the committed
+qualification standard. The release bundle then hashes the core manifests,
+integration fixtures, qualification standard, and visual manifest so stale
+evidence cannot be combined into a current claim.

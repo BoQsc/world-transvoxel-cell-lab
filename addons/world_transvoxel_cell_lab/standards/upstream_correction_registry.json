@@ -1,0 +1,33 @@
+{
+	"schema": "world_transvoxel.cell_lab.upstream_correction_governance.v1",
+	"policy": {
+		"required_evidence": [
+			"minimized_native_repro",
+			"stated_invariant",
+			"deterministic_reproduction",
+			"focused_automated_coverage",
+			"visual_evidence_for_geometry",
+			"owning_layer_classification",
+			"retained_regression_standard",
+			"downstream_parity_proof"
+		],
+		"upstream_fix_requires_confirmed_backend_ownership": true
+	},
+	"cases": [
+		{
+			"id": "coarse_tunnel_roof_alias_v1",
+			"status": "retained_negative",
+			"owning_layer": "lab_fixture",
+			"classification": "under_resolved_scalar_field_not_upstream_table_defect",
+			"minimized_native_repro": "qualification.failure_reduction",
+			"stated_invariant": "positive analytic roof clearance below one LOD1 cell aliases at LOD1 and resolves at LOD0",
+			"deterministic_reproduction": true,
+			"focused_automated_coverage": "wt_cell_lab_smoke.gd and qualification suite",
+			"visual_evidence_for_geometry": "reference terrain visual standards and inspection gallery",
+			"retained_regression_standard": "reference_terrain_standard.json#negative_fixture",
+			"downstream_parity_proof": "integration parity corpus remains passing",
+			"upstream_fix_reference": "",
+			"resolution": "canonical fixture clearance increased; old field retained as a negative detector"
+		}
+	]
+}

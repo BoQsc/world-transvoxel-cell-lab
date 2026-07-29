@@ -45,6 +45,9 @@ func _run() -> void:
 		print("WT_CELL_LAB_STAGE edit")
 		results["edit"] = lab.validate_edit_sequence()
 		results["edit_corpus"] = lab.validate_edit_corpus()
+	if run_all or "qualification" in suites:
+		print("WT_CELL_LAB_STAGE qualification")
+		results["qualification"] = lab.validate_qualification_suite()
 	if run_all or "standards" in suites:
 		print("WT_CELL_LAB_STAGE standards")
 		results["standards"] = lab.validate_standards_corpus()
