@@ -5,6 +5,7 @@ class_name WtTransvoxelCellLab
 enum FieldMode { PLANE, SPHERE, TUNNEL, SADDLE, WAVES }
 
 const REPORT_SCHEMA := "world_transvoxel.cell_lab.report.v1"
+const REPRO_SCHEMA := "world_transvoxel.cell_lab.repro.v1"
 const NATIVE_REGULAR_IMPLEMENTATION := "native_transvoxel_regular_cell_probe_v1"
 const NATIVE_AUTHORITY := "NATIVE_TRANSVOXEL_BACKEND_AUTHORITATIVE"
 const CELL_PROBE_CORRECTNESS_CLAIM := "exact_regular_and_transition_cell_backend_probe_v1"
@@ -177,6 +178,37 @@ func get_last_report() -> Dictionary:
 	if _last_report.is_empty():
 		rebuild()
 	return _last_report
+
+
+func make_repro_snapshot() -> Dictionary:
+	return {
+		"schema": REPRO_SCHEMA,
+		"created_unix_time": Time.get_unix_time_from_system(),
+		"lab_scope": LAB_SCOPE,
+		"primary_validation_domain": PRIMARY_VALIDATION_DOMAIN,
+		"primitive_scope": PRIMITIVE_SCOPE,
+		"validation_standard": VALIDATION_STANDARD,
+		"authority_model": AUTHORITY_MODEL,
+		"upstream_correction_policy": UPSTREAM_CORRECTION_POLICY,
+		"integration_game_role": INTEGRATION_GAME_ROLE,
+		"integration_game_diagnostic_policy": INTEGRATION_GAME_DIAGNOSTIC_POLICY,
+		"parameters": {
+			"cells": Vector3i(cells_x, cells_y, cells_z),
+			"cell_size": cell_size,
+			"field_mode": FieldMode.keys()[field_mode],
+			"isovalue": isovalue,
+			"surface_height": surface_height,
+			"sphere_radius": sphere_radius,
+			"edit_radius": edit_radius,
+			"construct_material": construct_material,
+			"show_transition_frame": show_transition_frame,
+			"show_chunk_probe": show_chunk_probe,
+			"show_probe_labels": show_probe_labels,
+			"wireframe": wireframe,
+		},
+		"edits": edits.duplicate(true),
+		"report": get_last_report(),
+	}
 
 
 func get_status_line() -> String:

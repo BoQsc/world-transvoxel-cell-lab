@@ -36,6 +36,10 @@ The addon adds:
 - a `World Transvoxel Lab` dock for creating a lab node, expanding the patch,
   applying dig/construct probes, rebuilding, and running a small rebuild
   baseline;
+- a grouped validation report panel with contract, regular patch, transition
+  cell, production chunk, and baseline sections;
+- copyable report JSON and saved repro snapshots for reducing upstream,
+  integration, and gameplay/runtime issues to a small case;
 - a smoke script at
   `res://addons/world_transvoxel_cell_lab/tests/wt_cell_lab_smoke.gd`.
 

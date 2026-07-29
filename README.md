@@ -51,3 +51,9 @@ The default scene shows the editable regular-cell patch, a native
 transition-cell probe, and a separate native LOD 0 production chunk probe
 generated through `WtChunkMesher`. Each probe is labeled in 3D with its native
 path and current triangle/sample counts.
+
+The editor dock groups the current validation report by contract, regular
+patch, transition cell, production chunk, and baseline timing. Use `Copy Report
+JSON` for quick inspection data, or `Save Repro` to persist the current
+parameters, edits, report, authority model, and integration-game classification
+policy under the Godot `user://world_transvoxel_cell_lab/repros` folder.

@@ -1,6 +1,7 @@
 extends SceneTree
 
 const LabScript := preload("res://addons/world_transvoxel_cell_lab/lab/wt_transvoxel_cell_lab.gd")
+const DockScript := preload("res://addons/world_transvoxel_cell_lab/editor/wt_cell_lab_dock.gd")
 
 
 func _initialize() -> void:
@@ -11,6 +12,12 @@ func _run() -> void:
 	if not ClassDB.class_exists("WorldTransvoxelCellProbe"):
 		_fail("WorldTransvoxelCellProbe is required")
 		return
+	var dock := DockScript.new()
+	root.add_child(dock)
+	if dock.name != "World Transvoxel Lab":
+		_fail("editor dock did not initialize")
+		return
+	dock.free()
 	var lab := LabScript.new()
 	root.add_child(lab)
 	lab.cells_x = 6
@@ -56,6 +63,13 @@ func _run() -> void:
 		return
 	if str(report.get("integration_game_diagnostic_policy", "")) != "reduce_game_artifact_to_lab_repro_then_classify_fix_layer":
 		_fail("integration game diagnostic policy changed")
+		return
+	var repro: Dictionary = lab.make_repro_snapshot()
+	if str(repro.get("schema", "")) != "world_transvoxel.cell_lab.repro.v1":
+		_fail("unexpected repro schema")
+		return
+	if not repro.has("parameters") or not repro.has("report"):
+		_fail("repro snapshot is incomplete")
 		return
 	if int(report.get("interior_open_edges", -1)) != 0:
 		_fail("native exact mesh has interior open edges")
