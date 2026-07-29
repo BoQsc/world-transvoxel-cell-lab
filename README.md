@@ -25,5 +25,6 @@ Use the `World Transvoxel Lab` dock in the editor, or press Play to run the
 minimal preview scene. The lab requires `WorldTransvoxelCellProbe` from
 `res://addons/world_transvoxel`; there is no local fallback mesher.
 
-The default scene also shows a native transition-cell probe in front of the
-patch and reports its status in the overlay.
+The default scene shows the editable regular-cell patch, a native
+transition-cell probe, and a separate native LOD 0 production chunk probe
+generated through `WtChunkMesher`.

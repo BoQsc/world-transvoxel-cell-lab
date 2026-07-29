@@ -7,6 +7,10 @@ enum FieldMode { PLANE, SPHERE, TUNNEL, SADDLE, WAVES }
 const REPORT_SCHEMA := "world_transvoxel.cell_lab.report.v1"
 const NATIVE_REGULAR_IMPLEMENTATION := "native_transvoxel_regular_cell_probe_v1"
 const NATIVE_AUTHORITY := "NATIVE_TRANSVOXEL_BACKEND_AUTHORITATIVE"
+const CELL_PROBE_CORRECTNESS_CLAIM := "exact_regular_and_transition_cell_backend_probe_v1"
+const LAB_CORRECTNESS_CLAIM := "exact_regular_transition_and_lod0_chunk_backend_probe_v2"
+const CHUNK_PROBE_IMPLEMENTATION := "native_transvoxel_lod0_chunk_mesher_probe_v1"
+const CHUNK_PROBE_CELLS_PER_AXIS := 16
 const CORNER_COUNT := 8
 const TRANSITION_ORIENTATION_POSITIVE_Z := 4
 
@@ -56,6 +60,10 @@ const TRANSITION_ORIENTATION_POSITIVE_Z := 4
 	set(value):
 		show_transition_frame = value
 		_request_rebuild()
+@export var show_chunk_probe: bool = true:
+	set(value):
+		show_chunk_probe = value
+		_request_rebuild()
 @export var wireframe: bool = false:
 	set(value):
 		wireframe = value
@@ -82,6 +90,7 @@ var _dig_marker_material: StandardMaterial3D
 var _construct_marker_material: StandardMaterial3D
 var _transition_material: StandardMaterial3D
 var _transition_surface_material: StandardMaterial3D
+var _chunk_surface_material: StandardMaterial3D
 
 
 func _ready() -> void:
@@ -98,6 +107,7 @@ func rebuild() -> Dictionary:
 
 	var mesh_data := _build_patch_mesh_data()
 	var transition_data := _build_transition_probe_mesh_data()
+	var chunk_data := _build_chunk_probe_mesh_data()
 	var mesh := _make_array_mesh(mesh_data)
 	var mesh_instance := MeshInstance3D.new()
 	mesh_instance.name = "cell_lab_preview_mesh"
@@ -122,6 +132,18 @@ func rebuild() -> Dictionary:
 		transition_line_instance.mesh = _make_edge_line_mesh(transition_data)
 		transition_line_instance.material_override = _wire_material
 		_mesh_root.add_child(transition_line_instance)
+	if show_chunk_probe:
+		var chunk_instance := MeshInstance3D.new()
+		chunk_instance.name = "production_chunk_probe_mesh"
+		chunk_instance.mesh = _make_array_mesh(chunk_data)
+		chunk_instance.material_override = _chunk_surface_material
+		_mesh_root.add_child(chunk_instance)
+		if wireframe:
+			var chunk_line_instance := MeshInstance3D.new()
+			chunk_line_instance.name = "production_chunk_probe_wire"
+			chunk_line_instance.mesh = _make_edge_line_mesh(chunk_data)
+			chunk_line_instance.material_override = _wire_material
+			_mesh_root.add_child(chunk_line_instance)
 
 	if show_sample_points:
 		_build_sample_markers()
@@ -131,7 +153,7 @@ func rebuild() -> Dictionary:
 		_build_transition_frame()
 
 	var elapsed_ms := float(Time.get_ticks_usec() - start_usec) / 1000.0
-	_last_report = _make_report(mesh_data, transition_data, elapsed_ms)
+	_last_report = _make_report(mesh_data, transition_data, chunk_data, elapsed_ms)
 	return _last_report
 
 
@@ -143,7 +165,7 @@ func get_last_report() -> Dictionary:
 
 func get_status_line() -> String:
 	var report := get_last_report()
-	return "status=%s authority=%s cells=%s tris=%d interior_open=%d boundary_open=%d nonmanifold=%d orient=%d transition=%s/%d edits=%d %.2fms exact_backend=%s" % [
+	return "status=%s authority=%s cells=%s tris=%d interior_open=%d boundary_open=%d nonmanifold=%d orient=%d transition=%s/%d chunk=%s/%d edits=%d %.2fms exact_backend=%s" % [
 		str(report.get("status", "UNKNOWN")),
 		str(report.get("render_authority", "unknown")),
 		str(report.get("cells", Vector3i.ZERO)),
@@ -154,6 +176,8 @@ func get_status_line() -> String:
 		int(report.get("orientation_conflict_edges", 0)),
 		str(report.get("transition_status", "unavailable")),
 		int(report.get("transition_triangles", 0)),
+		str(report.get("chunk_probe_status", "unavailable")),
+		int(report.get("chunk_probe_triangles", 0)),
 		int(report.get("edit_count", 0)),
 		float(report.get("build_ms", 0.0)),
 		str(report.get("native_cell_probe_available", false)),
@@ -199,8 +223,9 @@ func benchmark_rebuild(iterations: int = 24) -> Dictionary:
 		var start_usec := Time.get_ticks_usec()
 		var data := _build_patch_mesh_data()
 		var transition_data := _build_transition_probe_mesh_data()
+		var chunk_data := _build_chunk_probe_mesh_data()
 		times.append(float(Time.get_ticks_usec() - start_usec) / 1000.0)
-		total_triangles += int(data.get("triangles", 0)) + int(transition_data.get("triangles", 0))
+		total_triangles += int(data.get("triangles", 0)) + int(transition_data.get("triangles", 0)) + int(chunk_data.get("triangles", 0))
 	var sum := 0.0
 	var maximum := 0.0
 	for value in times:
@@ -271,6 +296,7 @@ func _make_materials() -> void:
 	_construct_marker_material = _material(Color(0.20, 0.60, 1.0, 0.35), false)
 	_transition_material = _material(Color(1.0, 0.78, 0.20, 0.45), true)
 	_transition_surface_material = _material(Color(0.92, 0.36, 0.16, 0.82), false)
+	_chunk_surface_material = _material(Color(0.25, 0.82, 0.52, 0.68), false)
 
 
 func _material(color: Color, as_wireframe: bool) -> StandardMaterial3D:
@@ -375,7 +401,7 @@ func _build_native_regular_patch_mesh_data() -> Dictionary:
 	return {
 		"implementation": NATIVE_REGULAR_IMPLEMENTATION,
 		"render_authority": NATIVE_AUTHORITY,
-		"correctness_claim": "exact_regular_and_transition_cell_backend_probe_v1",
+		"correctness_claim": CELL_PROBE_CORRECTNESS_CLAIM,
 		"native_cell_probe_available": true,
 		"backend_runtime_available": ClassDB.class_exists("WorldTransvoxelTerrain"),
 		"backend_identity": identity,
@@ -535,6 +561,117 @@ func _build_transition_probe_mesh_data() -> Dictionary:
 		"nonmanifold_edges": int(edge_metrics.get("nonmanifold_edges", 0)),
 		"orientation_conflict_edges": int(orientation_metrics.get("orientation_conflict_edges", 0)),
 	}
+
+
+func _build_chunk_probe_mesh_data() -> Dictionary:
+	var probe := _get_native_cell_probe()
+	if probe == null:
+		return _empty_chunk_probe_mesh_data("DependencyMissing", "WorldTransvoxelCellProbe is unavailable")
+	if not probe.has_method("mesh_chunk_with_callable"):
+		return _empty_chunk_probe_mesh_data("MethodMissing", "mesh_chunk_with_callable is unavailable")
+
+	var chunk_mesh: Dictionary = probe.call(
+		"mesh_chunk_with_callable",
+		Callable(self, "_chunk_probe_sample"),
+		Vector3i.ZERO,
+		0,
+		0,
+		0,
+		isovalue,
+		0.25
+	)
+	var regular: Dictionary = chunk_mesh.get("regular", {})
+	var raw_vertices: PackedVector3Array = regular.get("vertices", PackedVector3Array())
+	var vertices := PackedVector3Array()
+	for vertex in raw_vertices:
+		vertices.append(_chunk_probe_vertex_to_lab_space(vertex))
+	var normal_array: PackedVector3Array = regular.get("normals", PackedVector3Array())
+	if normal_array.size() != vertices.size():
+		normal_array = PackedVector3Array()
+		for vertex in vertices:
+			var normal := _gradient(vertex)
+			normal_array.append(normal.normalized() if normal.length_squared() > 0.0 else Vector3.UP)
+	var indices: PackedInt32Array = regular.get("indices", PackedInt32Array())
+	var edge_metrics := _isolated_edge_metrics(vertices, indices)
+	var orientation_metrics := _orientation_metrics(vertices, indices)
+	return {
+		"implementation": CHUNK_PROBE_IMPLEMENTATION,
+		"render_authority": NATIVE_AUTHORITY,
+		"correctness_claim": LAB_CORRECTNESS_CLAIM,
+		"available": true,
+		"ok": bool(chunk_mesh.get("ok", false)),
+		"status": str(chunk_mesh.get("status", "Unknown")),
+		"error": str(chunk_mesh.get("sample_error", "")),
+		"schema": str(chunk_mesh.get("schema", "")),
+		"vertices": vertices,
+		"normals": normal_array,
+		"indices": indices,
+		"backend_indices": regular.get("backend_indices", PackedInt32Array()),
+		"materials": regular.get("materials", PackedInt32Array()),
+		"material_authored": regular.get("material_authored", PackedInt32Array()),
+		"endpoint_a": regular.get("endpoint_a", PackedInt32Array()),
+		"endpoint_b": regular.get("endpoint_b", PackedInt32Array()),
+		"reuse_data": regular.get("reuse_data", PackedInt32Array()),
+		"chunk_cells": Vector3i(CHUNK_PROBE_CELLS_PER_AXIS, CHUNK_PROBE_CELLS_PER_AXIS, CHUNK_PROBE_CELLS_PER_AXIS),
+		"chunk_lod": int(chunk_mesh.get("lod", 0)),
+		"sample_count": int(chunk_mesh.get("sample_count", 0)),
+		"vertices_count": vertices.size(),
+		"triangles": int(regular.get("triangle_count", int(indices.size() / 3))),
+		"open_edges": int(edge_metrics.get("open_edges", 0)),
+		"nonmanifold_edges": int(edge_metrics.get("nonmanifold_edges", 0)),
+		"orientation_conflict_edges": int(orientation_metrics.get("orientation_conflict_edges", 0)),
+	}
+
+
+func _empty_chunk_probe_mesh_data(status: String, error: String) -> Dictionary:
+	return {
+		"implementation": CHUNK_PROBE_IMPLEMENTATION,
+		"render_authority": NATIVE_AUTHORITY,
+		"correctness_claim": "world_transvoxel_required_no_fallback",
+		"available": false,
+		"ok": false,
+		"status": status,
+		"error": error,
+		"schema": "",
+		"vertices": PackedVector3Array(),
+		"normals": PackedVector3Array(),
+		"indices": PackedInt32Array(),
+		"backend_indices": PackedInt32Array(),
+		"materials": PackedInt32Array(),
+		"material_authored": PackedInt32Array(),
+		"endpoint_a": PackedInt32Array(),
+		"endpoint_b": PackedInt32Array(),
+		"reuse_data": PackedInt32Array(),
+		"chunk_cells": Vector3i(CHUNK_PROBE_CELLS_PER_AXIS, CHUNK_PROBE_CELLS_PER_AXIS, CHUNK_PROBE_CELLS_PER_AXIS),
+		"chunk_lod": 0,
+		"sample_count": 0,
+		"vertices_count": 0,
+		"triangles": 0,
+		"open_edges": 0,
+		"nonmanifold_edges": 0,
+		"orientation_conflict_edges": 0,
+	}
+
+
+func _chunk_probe_sample(point: Vector3i) -> Dictionary:
+	var center := Vector3.ONE * (float(CHUNK_PROBE_CELLS_PER_AXIS) * 0.5)
+	var p := (Vector3(float(point.x), float(point.y), float(point.z)) - center) * cell_size
+	var density := _density(p)
+	return {
+		"density": density,
+		"material": _material_id_at(p, density),
+		"material_authored": true,
+	}
+
+
+func _chunk_probe_vertex_to_lab_space(vertex: Vector3) -> Vector3:
+	var center := Vector3.ONE * (float(CHUNK_PROBE_CELLS_PER_AXIS) * 0.5)
+	return (vertex - center) * cell_size + _chunk_probe_visual_offset()
+
+
+func _chunk_probe_visual_offset() -> Vector3:
+	var half_patch_x := float(cells_x) * cell_size * 0.5
+	return Vector3(half_patch_x + cell_size * 10.0, 0.0, 0.0)
 
 
 func _transition_case_bit(sample_index: int) -> int:
@@ -931,7 +1068,7 @@ func _point_key(p: Vector3) -> String:
 	]
 
 
-func _make_report(mesh_data: Dictionary, transition_data: Dictionary, elapsed_ms: float) -> Dictionary:
+func _make_report(mesh_data: Dictionary, transition_data: Dictionary, chunk_data: Dictionary, elapsed_ms: float) -> Dictionary:
 	var failed_cells := int(mesh_data.get("failed_cells", 0))
 	var interior_open_edges := int(mesh_data.get("interior_open_edges", 0))
 	var nonmanifold_edges := int(mesh_data.get("nonmanifold_edges", 0))
@@ -940,18 +1077,25 @@ func _make_report(mesh_data: Dictionary, transition_data: Dictionary, elapsed_ms
 	var transition_ok := bool(transition_data.get("ok", false))
 	var transition_nonmanifold_edges := int(transition_data.get("nonmanifold_edges", 0))
 	var transition_orientation_conflict_edges := int(transition_data.get("orientation_conflict_edges", 0))
+	var chunk_available := bool(chunk_data.get("available", false))
+	var chunk_ok := bool(chunk_data.get("ok", false))
+	var chunk_nonmanifold_edges := int(chunk_data.get("nonmanifold_edges", 0))
+	var chunk_orientation_conflict_edges := int(chunk_data.get("orientation_conflict_edges", 0))
 	var status := "PASS"
 	if failed_cells > 0 or interior_open_edges > 0 or nonmanifold_edges > 0 or orientation_conflict_edges > 0:
 		status = "FAIL"
 	if not transition_available or not transition_ok or transition_nonmanifold_edges > 0 or transition_orientation_conflict_edges > 0:
 		status = "FAIL"
+	if not chunk_available or not chunk_ok or chunk_nonmanifold_edges > 0 or chunk_orientation_conflict_edges > 0:
+		status = "FAIL"
 	var backend_identity: Dictionary = mesh_data.get("backend_identity", {})
+	var correctness_claim := LAB_CORRECTNESS_CLAIM if bool(mesh_data.get("native_cell_probe_available", false)) else str(mesh_data.get("correctness_claim", "world_transvoxel_required_no_fallback"))
 	return {
 		"schema": REPORT_SCHEMA,
 		"status": status,
 		"implementation": str(mesh_data.get("implementation", NATIVE_REGULAR_IMPLEMENTATION)),
 		"render_authority": str(mesh_data.get("render_authority", NATIVE_AUTHORITY)),
-		"correctness_claim": str(mesh_data.get("correctness_claim", "exact_regular_and_transition_cell_backend_probe_v1")),
+		"correctness_claim": correctness_claim,
 		"native_cell_probe_available": bool(mesh_data.get("native_cell_probe_available", ClassDB.class_exists("WorldTransvoxelCellProbe"))),
 		"backend_runtime_available": bool(mesh_data.get("backend_runtime_available", ClassDB.class_exists("WorldTransvoxelTerrain"))),
 		"backend_identity": backend_identity,
@@ -979,6 +1123,19 @@ func _make_report(mesh_data: Dictionary, transition_data: Dictionary, elapsed_ms
 		"transition_open_edges": int(transition_data.get("open_edges", 0)),
 		"transition_nonmanifold_edges": transition_nonmanifold_edges,
 		"transition_orientation_conflict_edges": transition_orientation_conflict_edges,
+		"chunk_probe_available": chunk_available,
+		"chunk_probe_ok": chunk_ok,
+		"chunk_probe_status": str(chunk_data.get("status", "Unavailable")),
+		"chunk_probe_error": str(chunk_data.get("error", "")),
+		"chunk_probe_implementation": str(chunk_data.get("implementation", CHUNK_PROBE_IMPLEMENTATION)),
+		"chunk_probe_cells": chunk_data.get("chunk_cells", Vector3i(CHUNK_PROBE_CELLS_PER_AXIS, CHUNK_PROBE_CELLS_PER_AXIS, CHUNK_PROBE_CELLS_PER_AXIS)),
+		"chunk_probe_lod": int(chunk_data.get("chunk_lod", 0)),
+		"chunk_probe_samples": int(chunk_data.get("sample_count", 0)),
+		"chunk_probe_vertices": int(chunk_data.get("vertices_count", 0)),
+		"chunk_probe_triangles": int(chunk_data.get("triangles", 0)),
+		"chunk_probe_open_edges": int(chunk_data.get("open_edges", 0)),
+		"chunk_probe_nonmanifold_edges": chunk_nonmanifold_edges,
+		"chunk_probe_orientation_conflict_edges": chunk_orientation_conflict_edges,
 		"degenerate_triangles": int(mesh_data.get("degenerate_triangles", 0)),
 		"field_mode": FieldMode.keys()[field_mode],
 		"edit_count": edits.size(),

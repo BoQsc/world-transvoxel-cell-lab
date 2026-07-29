@@ -28,9 +28,12 @@ comes from the official MIT Transvoxel backend and reports:
 - backend identity;
 - case histogram and native cell status histogram;
 - exact transition-cell probe status, case code, orientation, and mesh health;
+- native LOD 0 production chunk probe status, samples, mesh size, and mesh
+  health;
 - interior open edges, boundary open edges, nonmanifold edges, and shared-edge
   orientation conflicts;
 - rebuild timing and edit count.
 
-The authoritative validator covers the regular-cell patch plus an isolated
-native transition-cell probe.
+The authoritative validator covers the regular-cell patch, an isolated native
+transition-cell probe, and a finalized native LOD 0 chunk generated through the
+production `WtChunkMesher` path.

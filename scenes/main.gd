@@ -48,7 +48,7 @@ func _update_status() -> void:
 	if lab == null or status_label == null:
 		return
 	var report := lab.get_last_report()
-	status_label.text = "Render authority: %s\nClaim: %s\n%s\nWorldTransvoxelCellProbe is required; no fallback mesher is used.\nBoundary open edges are expected when a surface is cut by the finite patch.\n1-5 field  X/Y/Z expand  D dig  C construct  R reset  W wire" % [
+	status_label.text = "Render authority: %s\nClaim: %s\n%s\nWorldTransvoxelCellProbe with native chunk probe is required; no fallback mesher is used.\nBoundary open edges are expected when a surface is cut by the finite patch or LOD 0 chunk.\n1-5 field  X/Y/Z expand  D dig  C construct  R reset  W wire" % [
 		str(report.get("render_authority", "unknown")),
 		str(report.get("correctness_claim", "unknown")),
 		lab.get_status_line(),
