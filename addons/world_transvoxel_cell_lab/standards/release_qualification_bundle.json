@@ -3,10 +3,10 @@
 	"status": "PASS",
 	"authority": "NATIVE_TRANSVOXEL_BACKEND_AUTHORITATIVE",
 	"qualification_standard_schema": "world_transvoxel.cell_lab.qualification_standard.v1",
-	"bundle_hash": "bafec57695b31da6fb93cde0dc3d42dea9fb97ad08649c60e44a18ef9cec554f",
+	"bundle_hash": "439bd8c7bf11a97425085b16bbacf98d6994cedf3b8b7799e40dd4e31c1ec6ba",
 	"core_evidence_file_count": 10,
 	"evidence_file_count": 11,
-	"visual_standard_count": 11,
+	"visual_standard_count": 14,
 	"milestone_range": [16, 29],
 	"milestone_status": "PASS",
 	"platform_scope": "Windows/x86_64 committed native artifacts",
@@ -17,12 +17,12 @@
 		{"path": "res://addons/world_transvoxel_cell_lab/standards/reference_terrain_standard.json", "sha256": "3e50c734a08644b29f4a5acb62440792881a07adeacbb95f85ebe8eb668c40c9", "bytes": 4161},
 		{"path": "res://addons/world_transvoxel_cell_lab/standards/standard_cases.json", "sha256": "6583155c42b6514e72a9d31c5c9f44d320c1d59667c6df44d803c4024d0bae86", "bytes": 1891},
 		{"path": "res://addons/world_transvoxel_cell_lab/standards/performance_thresholds.json", "sha256": "4b5438c70bf6aadb04b1000a1db0a4115b32dade372b6b939d3dca5d2c13a03b", "bytes": 358},
-		{"path": "res://addons/world_transvoxel_cell_lab/standards/visual_manifest.json", "sha256": "ddc1d505105cc05d015e2c5bee11b673355b6293a093c34364d22e6c7b2ed10b", "bytes": 2910},
+		{"path": "res://addons/world_transvoxel_cell_lab/standards/visual_manifest.json", "sha256": "eb70af5e4c276b3eda55aac62a6a934a7c39c1d879213d9a56d80557bec4085b", "bytes": 3744},
 		{"path": "res://addons/world_transvoxel_cell_lab/standards/platform_renderer_matrix.json", "sha256": "388e8ad793aabbe377c33223a6536c0aebe40be83ee22869a717a7f5cd34e076", "bytes": 1159},
 		{"path": "res://addons/world_transvoxel_cell_lab/standards/upstream_correction_registry.json", "sha256": "a2ecaffb592c1169ef264f853efc3021e55c9e2a7e37651cdceaa68f7d90b469", "bytes": 1336},
 		{"path": "res://addons/world_transvoxel_cell_lab/standards/integration_parity/debug_snapshot_pass.json", "sha256": "26830f5b1a3614c50979771b9dec27e3a55547fae14bc6f8f8c4174f7b2616eb", "bytes": 970},
 		{"path": "res://addons/world_transvoxel_cell_lab/standards/integration_parity/edit_snapshot_pass.json", "sha256": "b15cd534122c8b4600aa82093c1391c31bbdb5615782ba761e533b537ca56767", "bytes": 583},
 		{"path": "res://addons/world_transvoxel_cell_lab/standards/integration_parity/watertightness_failure.json", "sha256": "0626b78370e78af0cd60a0390b32d36d492448562e0d63db60bf3b2ef1beaa8f", "bytes": 310},
-		{"path": "res://addons/world_transvoxel_cell_lab/standards/qualification_standard.json", "sha256": "963ddb6fb18cc2478c78d924a6312c49b58d71b5b0e2fe8d4c47539b8b199392", "bytes": 2547}
+		{"path": "res://addons/world_transvoxel_cell_lab/standards/qualification_standard.json", "sha256": "165cf8313bc5a947ec60049508ce0914019a764348d6832c534b7f4e0e8659e4", "bytes": 2547}
 	]
 }

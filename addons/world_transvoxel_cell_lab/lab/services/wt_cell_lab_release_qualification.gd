@@ -295,7 +295,7 @@ func _build_release_bundle(
 		and str(runtime.get("status", "")) == "PASS" \
 		and str(integration.get("status", "")) == "PASS" \
 		and str(platform.get("status", "")) == "PASS" \
-		and visual_count == 11
+		and visual_count == 14
 	return {
 		"schema": Contracts.RELEASE_BUNDLE_SCHEMA,
 		"status": "PASS" if status_ok else "FAIL",

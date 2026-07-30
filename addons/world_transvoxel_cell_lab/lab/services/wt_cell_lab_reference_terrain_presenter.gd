@@ -49,13 +49,16 @@ func render(
 		maxi(chunks.size() - 1, 0)
 	)
 	var selected_id := str(observatory.get("selected_chunk_id", ""))
-	_add_chunk_bounds(
-		mesh_root,
-		chunks,
-		[selected_id],
-		materials.get("edge"),
-		"reference_terrain_selected_chunk"
-	)
+	if view_name != "SURFACE" \
+			or bool(lab.get("show_reference_chunk_bounds")) \
+			or bool(observatory.get("isolate_selected_chunk", false)):
+		_add_chunk_bounds(
+			mesh_root,
+			chunks,
+			[selected_id],
+			materials.get("edge"),
+			"reference_terrain_selected_chunk"
+		)
 
 	if bool(lab.get("show_reference_chunk_bounds")):
 		_add_chunk_bounds(
@@ -340,8 +343,9 @@ func _add_label(root: Node3D, text_value: String, position: Vector3, color: Colo
 	label.text = text_value
 	label.position = position
 	label.modulate = color
-	label.font_size = 42
-	label.outline_size = 8
+	label.font_size = 48
+	label.outline_size = 10
+	label.pixel_size = 0.0065
 	label.billboard = BaseMaterial3D.BILLBOARD_ENABLED
 	label.no_depth_test = true
 	root.add_child(label)

@@ -312,12 +312,15 @@ func _display_buffer(buffer: Dictionary, view_mode: int) -> Dictionary:
 	var colors := PackedColorArray()
 	var material_ids: Array[int] = []
 	for index in range(source_vertices.size()):
-		vertices.append(_display_position(source_vertices[index] + origin))
+		var world_position := source_vertices[index] + origin
+		vertices.append(_display_position(world_position))
 		var material_id := int(source_materials[index]) if index < source_materials.size() else 1
 		if material_id > 0 and material_id not in material_ids:
 			material_ids.append(material_id)
 		var normal := source_normals[index] if index < source_normals.size() else Vector3.UP
-		colors.append(_vertex_color(buffer, material_id, normal, view_mode))
+		colors.append(
+			_vertex_color(buffer, material_id, normal, world_position, view_mode)
+		)
 	material_ids.sort()
 	return {
 		"chunk_id": str(buffer.get("chunk_id", "")),
@@ -337,14 +340,16 @@ func _vertex_color(
 	buffer: Dictionary,
 	material_id: int,
 	normal: Vector3,
+	world_position: Vector3,
 	view_mode: int
 ) -> Color:
-	if str(buffer.get("kind", "")) == "transition":
-		return Color(0.96, 0.42, 0.12, 1.0)
+	var is_transition := str(buffer.get("kind", "")) == "transition"
 	match view_mode:
 		0:
-			return _natural_material_color(material_id)
+			return _surface_color(world_position, normal)
 		1:
+			if is_transition:
+				return Color(0.96, 0.42, 0.12, 1.0)
 			return Color(0.14, 0.63, 0.88, 1.0) \
 				if int(buffer.get("lod", 0)) == 0 else Color(0.28, 0.72, 0.42, 1.0)
 		2:
@@ -367,21 +372,32 @@ func _vertex_color(
 	return Color.WHITE
 
 
+func _surface_color(world_position: Vector3, normal: Vector3) -> Color:
+	var elevation := clampf((world_position.y - 3.0) / 15.0, 0.0, 1.0)
+	var base := Color(0.16, 0.20, 0.23).lerp(
+		Color(0.16, 0.31, 0.20),
+		elevation
+	)
+	var normalized := normal.normalized()
+	var slope := 1.0 - clampf(absf(normalized.y), 0.0, 1.0)
+	return base.lerp(Color(0.30, 0.21, 0.15), slope * 0.80)
+
+
 func _natural_material_color(material_id: int) -> Color:
 	match material_id:
 		1:
-			return Color(0.45, 0.47, 0.48, 1.0)
+			return Color(0.36, 0.39, 0.41, 1.0)
 		2:
-			return Color(0.24, 0.58, 0.30, 1.0)
+			return Color(0.22, 0.48, 0.27, 1.0)
 		3:
-			return Color(0.20, 0.25, 0.34, 1.0)
+			return Color(0.15, 0.20, 0.27, 1.0)
 		4:
-			return Color(0.67, 0.47, 0.25, 1.0)
+			return Color(0.54, 0.36, 0.21, 1.0)
 		5:
-			return Color(0.16, 0.55, 0.88, 1.0)
+			return Color(0.12, 0.46, 0.74, 1.0)
 		6:
-			return Color(0.47, 0.35, 0.58, 1.0)
-	return Color(0.72, 0.72, 0.72, 1.0)
+			return Color(0.43, 0.29, 0.50, 1.0)
+	return Color(0.58, 0.60, 0.62, 1.0)
 
 
 func _diagnostic_material_color(material_id: int) -> Color:

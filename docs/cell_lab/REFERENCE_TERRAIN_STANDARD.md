@@ -146,7 +146,8 @@ Move the terrain cursor, set the edit radius, and apply `Terrain Dig` or
 separation, retained negative-fixture, determinism, incremental-edit, and
 seven-view observatory proof.
 
-Seven committed terrain images lock the surface, LOD, material, triangle,
-normal, seam, and density presentations by dimensions, nonblank variation,
-and SHA-256. Together with the four primitive/fixture images, the visual
-standards corpus contains 11 images.
+Ten committed terrain images lock the surface, LOD, material, triangle,
+normal, seam, density, coarse tunnel-mouth, arch/thin-fin, and overhang
+cutaway presentations by dimensions, nonblank variation, and SHA-256.
+Together with the four primitive/fixture images, the visual standards corpus
+contains 14 images.

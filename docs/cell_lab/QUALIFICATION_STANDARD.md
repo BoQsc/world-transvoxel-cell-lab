@@ -60,7 +60,7 @@ The current standard requires all 14 milestone statuses to be `PASS`.
 - Streaming: three deterministic schedules and 36 chunk builds.
 - Persistence: eight edits with payload corruption rejection and exact reload.
 - Integration parity: three fixtures, five operations, two classifications.
-- Release: 10 core evidence files and 11 visual standards.
+- Release: 10 core evidence files and 14 visual standards.
 - Governance: one retained case and eight mandatory evidence categories.
 
 Exact hashes and signatures live in the JSON standards and are intentionally

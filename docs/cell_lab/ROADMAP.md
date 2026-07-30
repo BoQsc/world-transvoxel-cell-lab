@@ -109,7 +109,7 @@ Status: complete.
 Status: complete.
 
 - Committed repro and selected-case signature standards.
-- Eleven rendered visual references with dimensions, nonblank checks, and
+- Fourteen rendered visual references with dimensions, nonblank checks, and
   SHA-256 locks.
 - Headless smoke and full-suite runner.
 - Windows CI with the official Godot 4.7.1 artifact pinned by SHA-256.
@@ -198,7 +198,8 @@ Status: complete.
   both negative-Y and positive-Y mixed-LOD interfaces are also required.
 - The canonical eight-step dig/construct workflow spans all fine chunks and
   shared boundaries and must replay to an identical final geometry hash.
-- LOD, triangle, and normal visual standards complete the 11-image corpus.
+- LOD, triangle, normal, feature close-up, and density-cutaway standards
+  complete the 14-image corpus.
 
 ## Milestone 15: Topology Separation Standard
 
@@ -337,7 +338,7 @@ Status: complete for declared scope.
 
 Status: complete.
 
-- Ten core evidence files, 11 visual standards, and the locked qualification
+- Ten core evidence files, 14 visual standards, and the locked qualification
   standard form a machine-readable release bundle.
 - SHA-256 and byte counts reject stale evidence; pixel comparison validates
   candidate visuals while tolerating narrowly defined renderer variance.
@@ -351,6 +352,21 @@ Status: complete.
   review, and downstream parity.
 - One retained topology-alias case exercises the process.
 - No upstream correction is marked confirmed without all required evidence.
+
+## Post-Qualification Evidence Presentation
+
+Status: complete.
+
+- Surface presentation uses deterministic elevation and slope cues rather
+  than material-ID colors; the dedicated material view remains authoritative
+  for material identity.
+- Camera, environment, captions, and selected-bound overlays are owned by the
+  lab presentation layer and do not alter density or generated geometry.
+- A coarse tunnel-mouth close-up records LOD1 shape quality, an arch/thin-fin
+  close-up records fine authored features, and a `Z=6` density cutaway exposes
+  the overhang's internal undercut.
+- Numeric terrain counts, topology separation, seam signatures, and geometry
+  hashes remain the acceptance gate for the refreshed visual evidence.
 
 See `QUALIFICATION_STANDARD.md` for execution commands, exact scope, retained
 negative results, and interpretation rules.

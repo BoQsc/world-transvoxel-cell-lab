@@ -874,6 +874,7 @@ func _material(color: Color, as_wireframe: bool) -> StandardMaterial3D:
 	material.albedo_color = color
 	material.cull_mode = BaseMaterial3D.CULL_DISABLED
 	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED if as_wireframe else BaseMaterial3D.SHADING_MODE_PER_PIXEL
+	material.roughness = 0.88
 	if color.a < 1.0:
 		material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	return material
@@ -883,6 +884,7 @@ func _vertex_color_material(unshaded: bool, transparent: bool) -> StandardMateri
 	var material := StandardMaterial3D.new()
 	material.vertex_color_use_as_albedo = true
 	material.cull_mode = BaseMaterial3D.CULL_DISABLED
+	material.roughness = 0.90
 	if unshaded:
 		material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	if transparent:

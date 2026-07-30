@@ -305,7 +305,7 @@ func _run() -> void:
 	if int(standards.get("passing_release_bundle_standards", 0)) != 1:
 		_fail("release bundle standard count changed")
 		return
-	if int(standards.get("passing_visual_standards", 0)) != 11:
+	if int(standards.get("passing_visual_standards", 0)) != 14:
 		_fail("visual standards count changed")
 		return
 	lab.inspection_mode = LabScript.InspectionMode.REGULAR_CASE

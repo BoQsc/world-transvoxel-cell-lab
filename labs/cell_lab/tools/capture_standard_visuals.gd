@@ -53,6 +53,51 @@ func _run() -> void:
 			"id": "reference_terrain",
 			"mode": LabScript.InspectionMode.REFERENCE_TERRAIN,
 			"reference_view": LabScript.ReferenceViewMode.SURFACE,
+			"camera_position": Vector3(9.2, 6.6, 10.0),
+			"camera_target": Vector3(0.0, 0.15, 0.0),
+			"camera_fov": 55.0,
+		},
+		{
+			"id": "reference_terrain_tunnel_closeup",
+			"mode": LabScript.InspectionMode.REFERENCE_TERRAIN,
+			"reference_view": LabScript.ReferenceViewMode.SURFACE,
+			"camera_position": Vector3(-7.2, -0.08, -0.18),
+			"camera_target": Vector3(-5.1, -0.48, -0.18),
+			"camera_fov": 30.0,
+			"caption": (
+				"SURFACE CLOSE-UP / COARSE TUNNEL MOUTH\n"
+				+ "LOD1 boundary geometry / canonical field"
+			),
+			"show_labels": false,
+		},
+		{
+			"id": "reference_terrain_arch_closeup",
+			"mode": LabScript.InspectionMode.REFERENCE_TERRAIN,
+			"reference_view": LabScript.ReferenceViewMode.SURFACE,
+			"camera_position": Vector3(2.4, 2.8, 4.6),
+			"camera_target": Vector3(-0.55, 0.48, 0.90),
+			"camera_fov": 42.0,
+			"caption": (
+				"SURFACE CLOSE-UP / ARCH + THIN FIN\n"
+				+ "Fine LOD authored stress features"
+			),
+			"show_labels": false,
+		},
+		{
+			"id": "reference_terrain_overhang_cutaway",
+			"mode": LabScript.InspectionMode.REFERENCE_TERRAIN,
+			"reference_view": LabScript.ReferenceViewMode.DENSITY,
+			"slice_axis": 2,
+			"slice_position": 6.0,
+			"camera_position": Vector3(1.05, 0.55, -5.0),
+			"camera_target": Vector3(1.05, 0.25, -1.20),
+			"camera_fov": 40.0,
+			"caption": (
+				"DENSITY CUTAWAY / OVERHANG UNDERCUT / Z=6\n"
+				+ "Yellow isovalue / blue solid / red air"
+			),
+			"density_slice_only": true,
+			"show_labels": false,
 		},
 		{
 			"id": "reference_terrain_lod",
@@ -107,11 +152,31 @@ func _run() -> void:
 		lab.reference_slice_position = float(spec.get("slice_position", 10.0))
 		lab.rebuild()
 		var overlay: CanvasLayer = scene.get_node("Overlay")
-		overlay.visible = int(spec["mode"]) == LabScript.InspectionMode.PATCH
+		var caption := str(spec.get("caption", ""))
+		overlay.visible = (
+			int(spec["mode"]) == LabScript.InspectionMode.PATCH
+			or not caption.is_empty()
+		)
+		var label_root := lab.get_node_or_null("CellLabLabels") as Node3D
+		if label_root != null:
+			label_root.visible = bool(spec.get("show_labels", true))
+		if bool(spec.get("density_slice_only", false)):
+			var mesh_root := lab.get_node_or_null("CellLabMesh") as Node3D
+			if mesh_root != null:
+				for child in mesh_root.get_children():
+					if child is VisualInstance3D:
+						(child as VisualInstance3D).visible = (
+							child.name == &"reference_terrain_density_slice"
+						)
 		var camera: Camera3D = scene.get_node("Camera3D")
-		if int(spec["mode"]) == LabScript.InspectionMode.REFERENCE_TERRAIN:
-			camera.position = Vector3(7.5, 6.0, 10.5)
-			camera.look_at(Vector3.ZERO, Vector3.UP)
+		camera.fov = float(spec.get("camera_fov", 52.0))
+		if spec.has("camera_position"):
+			camera.position = spec["camera_position"]
+			camera.look_at(spec.get("camera_target", Vector3.ZERO), Vector3.UP)
+		elif int(spec["mode"]) == LabScript.InspectionMode.REFERENCE_TERRAIN:
+			camera.position = Vector3(9.2, 6.6, 10.0)
+			camera.look_at(Vector3(0.0, 0.15, 0.0), Vector3.UP)
+			camera.fov = 55.0
 		elif int(spec["mode"]) == LabScript.InspectionMode.MIXED_LOD:
 			camera.position = Vector3(7.0, 6.0, 10.0)
 			camera.look_at(Vector3.ZERO, Vector3.UP)
@@ -123,6 +188,9 @@ func _run() -> void:
 			camera.look_at(Vector3.ZERO, Vector3.UP)
 		if scene.has_method("_update_status"):
 			scene.call("_update_status")
+		if not caption.is_empty():
+			var status_label := scene.get_node("Overlay/StatusLabel") as Label
+			status_label.text = caption
 		await process_frame
 		await process_frame
 		await process_frame

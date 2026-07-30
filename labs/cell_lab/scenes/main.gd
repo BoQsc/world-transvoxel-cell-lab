@@ -4,10 +4,27 @@ const LabScript := preload("res://addons/world_transvoxel_cell_lab/lab/wt_transv
 
 @onready var lab: WtTransvoxelCellLab = $WtTransvoxelCellLab
 @onready var status_label: Label = $Overlay/StatusLabel
+@onready var world_environment: WorldEnvironment = $WorldEnvironment
+@onready var camera: Camera3D = $Camera3D
 
 
 func _ready() -> void:
+	_configure_presentation()
 	_update_status()
+
+
+func _configure_presentation() -> void:
+	var environment := Environment.new()
+	environment.background_mode = Environment.BG_COLOR
+	environment.background_color = Color(0.055, 0.07, 0.085)
+	environment.background_energy_multiplier = 0.72
+	environment.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
+	environment.ambient_light_color = Color(0.52, 0.60, 0.68)
+	environment.ambient_light_energy = 0.58
+	environment.tonemap_mode = Environment.TONE_MAPPER_FILMIC
+	world_environment.environment = environment
+	camera.position = Vector3(8.4, 5.8, 8.8)
+	camera.look_at(Vector3(0.0, 0.15, 0.0), Vector3.UP)
 
 
 func _unhandled_input(event: InputEvent) -> void:
