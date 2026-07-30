@@ -75,6 +75,7 @@ not change its established inspection workflow.
 - [Cell Lab roadmap](docs/cell_lab/ROADMAP.md)
 - [Cell Lab qualification standard](docs/cell_lab/QUALIFICATION_STANDARD.md)
 - [Canonical reference terrain](docs/cell_lab/REFERENCE_TERRAIN_STANDARD.md)
+- [Cell Lab visual evidence standard](docs/cell_lab/VISUAL_EVIDENCE_STANDARD.md)
 - [Terrain Qualification Program](docs/terrain_lab/TERRAIN_QUALIFICATION_PROGRAM.md)
 
 ## Current Commands

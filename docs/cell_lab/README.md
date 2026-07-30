@@ -113,8 +113,8 @@ Run the structural smoke test:
 godot --headless --path . --script addons/world_transvoxel_cell_lab/tests/wt_cell_lab_smoke.gd
 ```
 
-Capture a fresh candidate with the authoritative Windows Forward+/D3D12
-renderer and compare it against the committed standards:
+Capture a fresh candidate with the declared Windows Forward+/D3D12 renderer
+and compare it against the committed visual-regression references:
 
 ```text
 python labs/cell_lab/tools/run_visual_validation.py --godot path\to\godot.exe
@@ -132,7 +132,9 @@ See [ARCHITECTURE.md](ARCHITECTURE.md) for ownership boundaries and
 terrain contract is in
 [REFERENCE_TERRAIN_STANDARD.md](REFERENCE_TERRAIN_STANDARD.md), and the
 milestone 16-29 scope is in
-[QUALIFICATION_STANDARD.md](QUALIFICATION_STANDARD.md). Broader edit,
+[QUALIFICATION_STANDARD.md](QUALIFICATION_STANDARD.md). Visual promotion and
+interpretation rules are in
+[VISUAL_EVIDENCE_STANDARD.md](VISUAL_EVIDENCE_STANDARD.md). Broader edit,
 material, large-terrain, destruction, GPU, and production qualification work
 is governed separately by
 [TERRAIN_QUALIFICATION_PROGRAM.md](../terrain_lab/TERRAIN_QUALIFICATION_PROGRAM.md).

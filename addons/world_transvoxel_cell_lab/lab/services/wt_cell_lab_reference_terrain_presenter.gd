@@ -167,17 +167,48 @@ func _add_observatory_overlays(
 		)
 	var slice: Dictionary = observatory.get("density_slice", {})
 	if bool(slice.get("available", false)):
+		var presentation_slice := {
+			"vertices": slice.get(
+				"presentation_vertices",
+				PackedVector3Array()
+			),
+			"colors": slice.get("presentation_colors", PackedColorArray()),
+			"indices": slice.get(
+				"presentation_indices",
+				PackedInt32Array()
+			),
+		}
 		_add_mesh_instance(
 			root,
 			"reference_terrain_density_slice",
-			slice,
+			presentation_slice,
 			materials.get("observatory_slice")
+		)
+		var contour_ribbons := {
+			"vertices": slice.get(
+				"contour_ribbon_vertices",
+				PackedVector3Array()
+			),
+			"colors": slice.get(
+				"contour_ribbon_colors",
+				PackedColorArray()
+			),
+			"indices": slice.get(
+				"contour_ribbon_indices",
+				PackedInt32Array()
+			),
+		}
+		_add_mesh_instance(
+			root,
+			"reference_terrain_density_contour",
+			contour_ribbons,
+			materials.get("observatory_contour")
 		)
 	_add_colored_lines(
 		root,
 		"reference_terrain_density_samples",
 		observatory.get("sample_grid", {}),
-		materials.get("observatory_line")
+		materials.get("observatory_contour")
 	)
 
 

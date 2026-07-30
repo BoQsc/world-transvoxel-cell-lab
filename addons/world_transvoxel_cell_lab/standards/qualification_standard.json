@@ -45,7 +45,7 @@
 		"integration_classification_count": 2,
 		"integration_fixture_count": 3,
 		"integration_operation_count": 5,
-		"release_bundle_hash": "439bd8c7bf11a97425085b16bbacf98d6994cedf3b8b7799e40dd4e31c1ec6ba",
+		"release_bundle_hash": "6725f02d5c468960788182330dc22d13627e61350d3754c878e67cff67bc7c2c",
 		"release_evidence_file_count": 10,
 		"release_visual_count": 14,
 		"required_artifact_count": 2,
@@ -64,7 +64,13 @@
 		"edit_operation_count": 24,
 		"persistence_edit_count": 8,
 		"persistence_geometry_signature": "6e524ea8f9587d85a22ec27b736f97049ce8be6d8df5df97785e3c0fb7fd9807",
-		"render_material_ids": [1, 2, 3, 4, 6],
+		"render_material_ids": [
+			1,
+			2,
+			3,
+			4,
+			6
+		],
 		"render_tangent_samples": 6473,
 		"scaling_scenario_count": 6,
 		"scaling_signature": "42c8116992b396d6e42e64e1b38eba5f48f154411eb9f951b19058587a139cbb",

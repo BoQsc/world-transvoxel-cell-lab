@@ -130,7 +130,10 @@ def compare_images(
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="Compare captured Cell Lab images with committed standards."
+        description=(
+            "Compare captured Cell Lab images with committed visual-regression "
+            "references. This does not establish geometry correctness."
+        )
     )
     parser.add_argument("--candidate-dir", type=Path, required=True)
     parser.add_argument(
@@ -191,6 +194,7 @@ def main() -> int:
 
     report = {
         "schema": "world_transvoxel.cell_lab.visual_diff.v1",
+        "evidence_scope": "visual_regression_not_standalone_correctness",
         "status": "PASS" if failures == 0 else "FAIL",
         "visual_count": len(results),
         "passing_visuals": len(results) - failures,

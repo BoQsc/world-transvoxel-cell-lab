@@ -43,6 +43,7 @@ static func build(
 		"implementation": str(mesh_data.get("implementation", Contracts.NATIVE_REGULAR_IMPLEMENTATION)),
 		"render_authority": str(mesh_data.get("render_authority", Contracts.NATIVE_AUTHORITY)),
 		"correctness_claim": correctness_claim,
+		"qualification_status": "NOT_RUN",
 		"native_cell_probe_available": bool(
 			mesh_data.get("native_cell_probe_available", ClassDB.class_exists("WorldTransvoxelCellProbe"))
 		),
@@ -116,5 +117,14 @@ static func build(
 
 static func attach_validation(report: Dictionary, key: String, result: Dictionary) -> void:
 	report[key] = result
-	if str(result.get("status", "PASS")) == "FAIL":
+	var validation_status := str(result.get("status", "PASS"))
+	if key == "qualification_suite":
+		var qualification_status := str(result.get("status", "FAIL"))
+		report["qualification_status"] = qualification_status
+		report["correctness_claim"] = (
+			Contracts.QUALIFIED_LAB_CORRECTNESS_CLAIM
+			if qualification_status == "PASS"
+			else Contracts.FAILED_LAB_CORRECTNESS_CLAIM
+		)
+	if validation_status == "FAIL":
 		report["status"] = "FAIL"

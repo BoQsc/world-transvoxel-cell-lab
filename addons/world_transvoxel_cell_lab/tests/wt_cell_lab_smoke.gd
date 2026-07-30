@@ -38,8 +38,11 @@ func _run() -> void:
 		_fail("native render authority was not used")
 		return
 	if str(report.get("correctness_claim", "")) \
-			!= "release_qualified_transvoxel_terrain_authority_probe_v7":
-		_fail("native correctness claim was not explicit")
+			!= "native_transvoxel_terrain_probe_qualification_not_run_v8":
+		_fail("unqualified native probe claim was not explicit")
+		return
+	if str(report.get("qualification_status", "")) != "NOT_RUN":
+		_fail("qualification was represented as executed before it ran")
 		return
 	if str(report.get("lab_scope", "")) != "cell_first_transvoxel_preview_and_validator":
 		_fail("lab scope contract changed")
@@ -369,9 +372,26 @@ func _run() -> void:
 		_fail("unexpected qualification suite schema")
 		return
 	if str(qualification.get("status", "")) != "PASS":
-		_fail("qualification suite did not pass: %s" % str(
-			qualification.get("sample_failures", [])
-		))
+		_fail(
+			"qualification suite did not pass: failures=%s mismatches=%s release=%s"
+			% [
+				str(qualification.get("sample_failures", [])),
+				str(
+					(qualification.get("standard_comparison", {}) as Dictionary)
+						.get("mismatches", [])
+				),
+				str(
+					(qualification.get("release", {}) as Dictionary)
+						.get("sample_failures", [])
+				),
+			]
+		)
+		return
+	report = lab.get_last_report()
+	if str(report.get("qualification_status", "")) != "PASS" \
+			or str(report.get("correctness_claim", "")) \
+			!= "release_qualified_transvoxel_terrain_authority_probe_v7":
+		_fail("passing qualification did not promote the session claim")
 		return
 	var milestones: Dictionary = qualification.get("milestones", {})
 	if milestones.size() != 14:

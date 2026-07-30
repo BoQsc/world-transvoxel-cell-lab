@@ -6,6 +6,7 @@ const Contracts := preload("res://addons/world_transvoxel_cell_lab/lab/services/
 const ReproStore := preload("res://addons/world_transvoxel_cell_lab/lab/services/wt_cell_lab_repro_store.gd")
 const CASE_STANDARDS_PATH := "res://addons/world_transvoxel_cell_lab/standards/standard_cases.json"
 const VISUAL_STANDARDS_PATH := "res://addons/world_transvoxel_cell_lab/standards/visual_manifest.json"
+const VISUAL_EVIDENCE_SCOPE := "visual_regression_not_standalone_correctness"
 const REFERENCE_TERRAIN_STANDARD_PATH := "res://addons/world_transvoxel_cell_lab/standards/reference_terrain_standard.json"
 const QUALIFICATION_STANDARD_PATH := "res://addons/world_transvoxel_cell_lab/standards/qualification_standard.json"
 const RELEASE_BUNDLE_PATH := "res://addons/world_transvoxel_cell_lab/standards/release_qualification_bundle.json"
@@ -270,6 +271,25 @@ func _standard_values_equal(left: Variant, right: Variant) -> bool:
 
 func _run_visual_standards(result: Dictionary) -> void:
 	var manifest := _load_json_dictionary(VISUAL_STANDARDS_PATH)
+	var evidence_scope_matches := str(manifest.get("evidence_scope", "")) \
+		== VISUAL_EVIDENCE_SCOPE
+	var capture_contract: Dictionary = manifest.get("capture_contract", {})
+	var capture_contract_matches := (
+		str(capture_contract.get("platform", "")) == "Windows"
+		and str(capture_contract.get("renderer", "")) == "forward_plus"
+		and str(capture_contract.get("rendering_driver", "")) == "d3d12"
+		and int(capture_contract.get("width", 0)) == 1152
+		and int(capture_contract.get("height", 0)) == 648
+	)
+	var review: Dictionary = manifest.get("review", {})
+	var review_complete := str(review.get("status", "")) == "HUMAN_REVIEWED" \
+		and not (review.get("criteria", []) as Array).is_empty()
+	if not evidence_scope_matches:
+		_append_failure(result, "visual evidence scope is missing or overbroad")
+	if not capture_contract_matches:
+		_append_failure(result, "visual capture contract is missing or unsupported")
+	if not review_complete:
+		_append_failure(result, "visual evidence requires recorded human review")
 	for visual_value in manifest.get("visuals", []):
 		var visual: Dictionary = visual_value
 		result["visual_standard_count"] = int(result["visual_standard_count"]) + 1
@@ -283,19 +303,35 @@ func _run_visual_standards(result: Dictionary) -> void:
 		var dimensions_match := width == int(visual.get("width", width)) \
 			and height == int(visual.get("height", height))
 		var hash_matches := not expected_sha256.is_empty() and actual_sha256 == expected_sha256
-		var nonblank := false
+		var content_ratio := 0.0
 		if image != null and width > 0 and height > 0:
-			nonblank = _image_has_variation(image)
+			content_ratio = _image_content_ratio(image)
+		var minimum_content_ratio := float(
+			visual.get("minimum_content_ratio", 0.005)
+		)
+		var content_present := content_ratio >= minimum_content_ratio
+		var metadata_complete := not str(visual.get("view", "")).is_empty()
 		var item := {
 			"id": visual.get("id", ""),
 			"path": path,
 			"width": width,
 			"height": height,
-			"nonblank": nonblank,
+			"content_ratio": content_ratio,
+			"minimum_content_ratio": minimum_content_ratio,
+			"content_present": content_present,
+			"metadata_complete": metadata_complete,
 			"dimensions_match": dimensions_match,
 			"sha256": actual_sha256,
 			"hash_matches": hash_matches,
-			"status": "PASS" if nonblank and dimensions_match and hash_matches else "FAIL",
+			"status": "PASS" \
+				if content_present \
+					and metadata_complete \
+					and evidence_scope_matches \
+					and capture_contract_matches \
+					and review_complete \
+					and dimensions_match \
+					and hash_matches \
+				else "FAIL",
 		}
 		result["visual_standards"].append(item)
 		if item["status"] == "PASS":
@@ -305,20 +341,23 @@ func _run_visual_standards(result: Dictionary) -> void:
 			_append_failure(result, "visual standard failed: %s" % str(item["id"]))
 
 
-func _image_has_variation(image: Image) -> bool:
-	var first := image.get_pixel(0, 0)
-	var step_x := maxi(int(image.get_width() / 32), 1)
-	var step_y := maxi(int(image.get_height() / 32), 1)
+func _image_content_ratio(image: Image) -> float:
+	var background := image.get_pixel(0, 0)
+	var changed := 0
+	var sampled := 0
+	var step_x := maxi(int(image.get_width() / 256), 1)
+	var step_y := maxi(int(image.get_height() / 144), 1)
 	for y in range(0, image.get_height(), step_y):
 		for x in range(0, image.get_width(), step_x):
 			var sample := image.get_pixel(x, y)
-			var difference := absf(sample.r - first.r) \
-				+ absf(sample.g - first.g) \
-				+ absf(sample.b - first.b) \
-				+ absf(sample.a - first.a)
-			if difference > 0.02:
-				return true
-	return false
+			var difference := absf(sample.r - background.r) \
+				+ absf(sample.g - background.g) \
+				+ absf(sample.b - background.b) \
+				+ absf(sample.a - background.a)
+			if difference > 0.08:
+				changed += 1
+			sampled += 1
+	return float(changed) / float(maxi(sampled, 1))
 
 
 func _load_json_dictionary(path: String) -> Dictionary:

@@ -271,15 +271,15 @@ Status: complete.
 - Counts, timings, throughput, 5,579 triangles, and an aggregate geometry
   signature are machine-readable.
 
-## Milestone 21: Memory And Buffer Reuse
+## Milestone 21: Memory Accounting And Repeat Stability
 
 Status: complete.
 
 - Sixteen canonical native buffers account for 317,516 payload bytes.
-- Repeated inspection proves stable buffer accounting and rejects unexpected
-  churn in the measured canonical build.
+- Repeated inspection requires identical buffer byte counts and geometry
+  signatures. This is not allocator-level buffer-reuse proof.
 
-## Milestone 22: Rendering Quality
+## Milestone 22: Rendering Input Integrity
 
 Status: complete.
 
@@ -287,6 +287,7 @@ Status: complete.
   SDF-consistent orientation.
 - Material IDs `1`, `2`, `3`, `4`, and `6`, lighting inputs, precision, and
   camera-distance transforms are qualified.
+- This milestone validates rendering inputs, not final visual fidelity.
 
 ## Milestone 23: Collision And Queries
 
@@ -338,14 +339,14 @@ Status: complete for declared scope.
 
 Status: complete.
 
-- Ten core evidence files, 14 visual standards, and the locked qualification
-  standard form a machine-readable release bundle.
+- Ten core evidence files, 14 reviewed visual-regression references, and the
+  locked qualification standard form a machine-readable release bundle.
 - SHA-256 and byte counts reject stale evidence; pixel comparison validates
   candidate visuals while tolerating narrowly defined renderer variance.
 
 ## Milestone 29: Upstream Correction Governance
 
-Status: complete.
+Status: complete for declared lab scope.
 
 - A machine-readable governance registry requires eight evidence classes:
   repro, invariant, ownership, determinism, focused test, visual evidence,
@@ -358,8 +359,8 @@ Status: complete.
 Status: complete.
 
 - Surface presentation uses deterministic elevation and slope cues rather
-  than material-ID colors; the dedicated material view remains authoritative
-  for material identity.
+  than material-ID colors; the dedicated material view exposes material
+  identity with an explicit legend.
 - Camera, environment, captions, and selected-bound overlays are owned by the
   lab presentation layer and do not alter density or generated geometry.
 - A coarse tunnel-mouth close-up records LOD1 shape quality, an arch/thin-fin
@@ -367,6 +368,8 @@ Status: complete.
   the overhang's internal undercut.
 - Numeric terrain counts, topology separation, seam signatures, and geometry
   hashes remain the acceptance gate for the refreshed visual evidence.
+- Visual hashes and pixel comparisons detect presentation drift but do not
+  independently establish geometry correctness.
 
 See `QUALIFICATION_STANDARD.md` for execution commands, exact scope, retained
 negative results, and interpretation rules.

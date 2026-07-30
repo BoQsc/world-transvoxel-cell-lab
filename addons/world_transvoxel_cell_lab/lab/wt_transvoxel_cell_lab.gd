@@ -220,6 +220,7 @@ var _observatory_surface_material: StandardMaterial3D
 var _observatory_diagnostic_material: StandardMaterial3D
 var _observatory_overlay_surface_material: StandardMaterial3D
 var _observatory_line_material: StandardMaterial3D
+var _observatory_contour_material: StandardMaterial3D
 var _observatory_slice_material: StandardMaterial3D
 var _chunk_validator := ChunkValidator.new()
 var _edit_validator := EditValidator.new()
@@ -843,6 +844,10 @@ func _make_materials() -> void:
 	_observatory_diagnostic_material = _vertex_color_material(true, false)
 	_observatory_overlay_surface_material = _vertex_color_material(true, true)
 	_observatory_line_material = _vertex_color_material(true, false)
+	_observatory_contour_material = _vertex_color_material(true, false)
+	_observatory_contour_material.no_depth_test = true
+	_observatory_contour_material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	_observatory_contour_material.render_priority = 10
 	_observatory_slice_material = _vertex_color_material(true, true)
 
 
@@ -865,6 +870,7 @@ func _inspection_materials() -> Dictionary:
 		"observatory_diagnostic": _observatory_diagnostic_material,
 		"observatory_overlay_surface": _observatory_overlay_surface_material,
 		"observatory_line": _observatory_line_material,
+		"observatory_contour": _observatory_contour_material,
 		"observatory_slice": _observatory_slice_material,
 	}
 

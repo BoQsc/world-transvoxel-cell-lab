@@ -127,7 +127,7 @@ intentional standards update.
 Choose `Reference Terrain` in the editor dock. The Terrain Observatory offers
 seven views:
 
-- `Surface` shows the canonical authored material appearance;
+- `Surface` uses deterministic elevation and slope cues for shape inspection;
 - `LOD` separates coarse and fine native buffers;
 - `Material` uses high-contrast material-ID colors;
 - `Triangles` exposes every native triangle edge;
@@ -136,9 +136,11 @@ seven views:
   ownership, with failures in red;
 - `Density` overlays a movable X, Y, or Z scalar-field slice and sample crosses.
 
-The selected chunk receives an AABB outline. Chunk isolation, chunk bounds,
-transition visibility, feature labels, and each diagnostic overlay can be
-toggled independently. All view settings are preserved in repro snapshots.
+Diagnostic views receive a selected-chunk AABB outline. Surface mode keeps that
+outline hidden unless chunk bounds or isolation are requested. Chunk isolation,
+chunk bounds, transition visibility, feature labels, and each diagnostic
+overlay can be toggled independently. All view settings are preserved in repro
+snapshots.
 
 Move the terrain cursor, set the edit radius, and apply `Terrain Dig` or
 `Terrain Construct`. `Clear Terrain` restores the canonical field. Run
@@ -146,8 +148,9 @@ Move the terrain cursor, set the edit radius, and apply `Terrain Dig` or
 separation, retained negative-fixture, determinism, incremental-edit, and
 seven-view observatory proof.
 
-Ten committed terrain images lock the surface, LOD, material, triangle,
-normal, seam, density, coarse tunnel-mouth, arch/thin-fin, and overhang
-cutaway presentations by dimensions, nonblank variation, and SHA-256.
-Together with the four primitive/fixture images, the visual standards corpus
-contains 14 images.
+Ten committed terrain images provide reviewed regression references for the
+surface, LOD, material, triangle, normal, seam, density, coarse tunnel-mouth,
+arch/thin-fin, and overhang-cutaway presentations. Together with the four
+primitive/fixture images, the corpus contains 14 images. These references
+detect presentation drift; numeric terrain invariants remain the correctness
+gate. See `VISUAL_EVIDENCE_STANDARD.md`.

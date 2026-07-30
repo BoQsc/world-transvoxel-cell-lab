@@ -1,103 +1,135 @@
 {
-	"schema": "world_transvoxel.cell_lab.visual_standards.v1",
+	"schema": "world_transvoxel.cell_lab.visual_standards.v2",
+	"evidence_scope": "visual_regression_not_standalone_correctness",
+	"capture_contract": {
+		"platform": "Windows",
+		"renderer": "forward_plus",
+		"rendering_driver": "d3d12",
+		"width": 1152,
+		"height": 648
+	},
+	"review": {
+		"status": "HUMAN_REVIEWED",
+		"criteria": [
+			"full_resolution_inspection",
+			"unclipped_geometry_and_labels",
+			"accurate_legends_and_captions",
+			"repeatable_forward_plus_d3d12_capture",
+			"numeric_acceptance_gate_unchanged"
+		]
+	},
 	"visuals": [
 		{
 			"id": "overview",
+			"view": "PATCH_OVERVIEW",
 			"path": "res://addons/world_transvoxel_cell_lab/standards/visuals/overview.png",
 			"width": 1152,
 			"height": 648,
-			"sha256": "cd35f3a25db84be82085ee55a160b570b2a22da0f480e4ed98ccc9dff7d16940"
+			"sha256": "36c752da73c78271554ad6737ee4fd79d0d0d5f0bd1ca8b948dffb9bc03a0ff8"
 		},
 		{
 			"id": "regular_case_42",
+			"view": "REGULAR_CASE",
 			"path": "res://addons/world_transvoxel_cell_lab/standards/visuals/regular_case_42.png",
 			"width": 1152,
 			"height": 648,
-			"sha256": "31c954a4c4beeb573a0b207cfb3e696333669b37f3b365488847c85599e1446c"
+			"sha256": "6db44710698221185b8cdd231205f610427740bf0c3bcb895c31615724da70ef"
 		},
 		{
 			"id": "transition_case_341_negative_z",
+			"view": "TRANSITION_CASE",
 			"path": "res://addons/world_transvoxel_cell_lab/standards/visuals/transition_case_341_negative_z.png",
 			"width": 1152,
 			"height": 648,
-			"sha256": "8887642511e8d756a76038d6c09c51615f5073c2535dc377ac1aa9770702ac25"
+			"sha256": "fe1edd2b2730076f4ed08ba030c70e72cc9889da5143611b6bb5ef558ea7f5a9"
 		},
 		{
 			"id": "mixed_lod_positive_x",
+			"view": "MIXED_LOD",
 			"path": "res://addons/world_transvoxel_cell_lab/standards/visuals/mixed_lod_positive_x.png",
 			"width": 1152,
 			"height": 648,
-			"sha256": "ef06912fa852b149d632d869a1c28fd17826f64fe0c50c3124edf4c3697c5e9f"
+			"sha256": "dd9ccf48358877265bc8cb03f04864ea5546ef8a11746726af5a0b7b5e4ea75a"
 		},
 		{
 			"id": "reference_terrain",
+			"view": "REFERENCE_SURFACE",
 			"path": "res://addons/world_transvoxel_cell_lab/standards/visuals/reference_terrain.png",
 			"width": 1152,
 			"height": 648,
-			"sha256": "786a2835949cddfe6beb19ecc9678d227ef876cea2dd765dcf7db08457988c87"
+			"sha256": "036efb8270299004c24de2680a10ee582e7b8970f72290da9f445fdc91bfe856"
 		},
 		{
 			"id": "reference_terrain_tunnel_closeup",
+			"view": "REFERENCE_SURFACE_TUNNEL_CLOSEUP",
 			"path": "res://addons/world_transvoxel_cell_lab/standards/visuals/reference_terrain_tunnel_closeup.png",
 			"width": 1152,
 			"height": 648,
-			"sha256": "8496a514dcd81c204c4f87d8cef1cf24341efdd04d61388b1349055590d6f3d1"
+			"sha256": "f66ca460c1e72f0483930a9d9767cc44ec9246b50c413030fced55092514b266"
 		},
 		{
 			"id": "reference_terrain_arch_closeup",
+			"view": "REFERENCE_SURFACE_ARCH_CLOSEUP",
 			"path": "res://addons/world_transvoxel_cell_lab/standards/visuals/reference_terrain_arch_closeup.png",
 			"width": 1152,
 			"height": 648,
-			"sha256": "0d811d61ea7e5e15a690878fc66e56ccbb77b8869a1468fdca3f82d9d4f592ed"
+			"sha256": "4c7cba33a6ff8f0a66343849b5780ef0a487518028de39588b078829d9c5daeb"
 		},
 		{
 			"id": "reference_terrain_overhang_cutaway",
+			"view": "REFERENCE_DENSITY_OVERHANG_CUTAWAY",
 			"path": "res://addons/world_transvoxel_cell_lab/standards/visuals/reference_terrain_overhang_cutaway.png",
 			"width": 1152,
 			"height": 648,
-			"sha256": "4022b3d4fdcd1fc6904e4d340ca7e08666524c4cbf4cc8eb550a4066563d77bb"
+			"sha256": "91e8429bc8bae156079c3689ce4a089c639d21f9953bf28beb5db2d9269a3a7e"
 		},
 		{
 			"id": "reference_terrain_lod",
+			"view": "REFERENCE_LOD",
 			"path": "res://addons/world_transvoxel_cell_lab/standards/visuals/reference_terrain_lod.png",
 			"width": 1152,
 			"height": 648,
-			"sha256": "bf3560ff483d07e3f70f0186cfcb865a5730f034b86bb7a22cda8915c7393e57"
+			"sha256": "f3bd565a069f2ff08de50f93f4e2c08b48822be1c241c979cdfc557968167402"
 		},
 		{
 			"id": "reference_terrain_materials",
+			"view": "REFERENCE_MATERIAL",
 			"path": "res://addons/world_transvoxel_cell_lab/standards/visuals/reference_terrain_materials.png",
 			"width": 1152,
 			"height": 648,
-			"sha256": "0ce4e0c3b7cb56ae39351f3a7b72d0979c91b8b53296a8f8797d8cd4f462bc3f"
+			"sha256": "3dd28ded34827faf44495f9ac1372542dac20dd1c130ec586396fd10d475fdc5"
 		},
 		{
 			"id": "reference_terrain_triangles",
+			"view": "REFERENCE_TRIANGLES",
 			"path": "res://addons/world_transvoxel_cell_lab/standards/visuals/reference_terrain_triangles.png",
 			"width": 1152,
 			"height": 648,
-			"sha256": "13ed5ca622ae6f4fe0fe72e3b33e32e1798ab504e3590e5358c0cfd6004cbd09"
+			"sha256": "96e8bac244fc40bc149716afbca5a18bfc91e65792b275a3291abaac82333d15"
 		},
 		{
 			"id": "reference_terrain_normals",
+			"view": "REFERENCE_NORMALS",
 			"path": "res://addons/world_transvoxel_cell_lab/standards/visuals/reference_terrain_normals.png",
 			"width": 1152,
 			"height": 648,
-			"sha256": "a9fbed6c4e42313bb8f50424235dbcf22db2e78c0098ac347e36c531d43bdd39"
+			"sha256": "a93761aa4d6671343f69ebe6ce8b5a999223b5613873c71965fc19730f0c3c3e"
 		},
 		{
 			"id": "reference_terrain_seams",
+			"view": "REFERENCE_SEAMS",
 			"path": "res://addons/world_transvoxel_cell_lab/standards/visuals/reference_terrain_seams.png",
 			"width": 1152,
 			"height": 648,
-			"sha256": "787b9309c9cb2767ee84046e322fa4a3f67ad904c169ddf210561367a9eab42f"
+			"sha256": "bcbe55b80d224642c322b6d7a73e8682d9a75bebd09e5a46f01757280d885455"
 		},
 		{
 			"id": "reference_terrain_density",
+			"view": "REFERENCE_DENSITY",
 			"path": "res://addons/world_transvoxel_cell_lab/standards/visuals/reference_terrain_density.png",
 			"width": 1152,
 			"height": 648,
-			"sha256": "2fa0757c3281895eca32a2b7b3dfd89facc2cc8c9fb27f4fe80256c2a6f54f53"
+			"sha256": "5968db9c10533a879c92c53025c9c29d0806decbb3b96bce76ca23f62028d726"
 		}
 	]
 }

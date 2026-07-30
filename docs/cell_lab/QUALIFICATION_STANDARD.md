@@ -60,7 +60,7 @@ The current standard requires all 14 milestone statuses to be `PASS`.
 - Streaming: three deterministic schedules and 36 chunk builds.
 - Persistence: eight edits with payload corruption rejection and exact reload.
 - Integration parity: three fixtures, five operations, two classifications.
-- Release: 10 core evidence files and 14 visual standards.
+- Release: 10 core evidence files and 14 reviewed visual-regression references.
 - Governance: one retained case and eight mandatory evidence categories.
 
 Exact hashes and signatures live in the JSON standards and are intentionally
@@ -97,11 +97,12 @@ Declared renderer lanes:
 - `mobile`;
 - `forward_plus`.
 
-The visual authority baseline is captured on Windows with `forward_plus`.
+The visual-regression baseline is captured on Windows with `forward_plus`.
 Automated candidates use the D3D12 rendering driver so hosted Windows runners
 can use either a hardware adapter or the Windows software adapter. Candidate
 comparison normalizes PNG color representation and applies the committed pixel
-thresholds. Other native platform targets listed in
+thresholds. Pixel agreement proves presentation stability, not geometry
+correctness. Other native platform targets listed in
 `standards/platform_renderer_matrix.json` remain explicitly unqualified until
 their required artifacts and CI executions exist.
 
@@ -136,6 +137,9 @@ Capture a candidate visual set and compare it:
 ```text
 python labs/cell_lab/tools/run_visual_validation.py --godot path\to\godot.exe
 ```
+
+Promotion and interpretation rules are defined in
+`VISUAL_EVIDENCE_STANDARD.md`.
 
 ## Change Rule
 

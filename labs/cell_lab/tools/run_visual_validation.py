@@ -83,9 +83,21 @@ def main() -> int:
         project_root
         / "addons/world_transvoxel_cell_lab/standards/visual_manifest.json"
     )
-    expected_visual_count = len(
-        json.loads(visual_manifest.read_text(encoding="utf-8"))["visuals"]
-    )
+    manifest = json.loads(visual_manifest.read_text(encoding="utf-8"))
+    expected_visual_count = len(manifest["visuals"])
+    capture_contract = manifest.get("capture_contract", {})
+    required_capture_contract = {
+        "platform": "Windows",
+        "renderer": "forward_plus",
+        "rendering_driver": "d3d12",
+        "width": 1152,
+        "height": 648,
+    }
+    if capture_contract != required_capture_contract:
+        raise SystemExit(
+            "visual manifest capture_contract must remain "
+            "Windows/forward_plus/d3d12 at 1152x648"
+        )
     capture_pass_marker = (
         f"WT_CELL_LAB_VISUAL_CAPTURE_PASS count={expected_visual_count}"
     )
@@ -108,11 +120,11 @@ def main() -> int:
         "--display-driver",
         "windows",
         "--rendering-method",
-        "forward_plus",
+        capture_contract["renderer"],
         "--rendering-driver",
-        "d3d12",
+        capture_contract["rendering_driver"],
         "--resolution",
-        "1152x648",
+        f"{capture_contract['width']}x{capture_contract['height']}",
         "--disable-vsync",
         "--path",
         str(project_root),

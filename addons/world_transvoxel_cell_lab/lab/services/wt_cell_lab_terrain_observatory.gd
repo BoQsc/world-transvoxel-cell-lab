@@ -171,6 +171,7 @@ func validate(lab: Object, fixture: Dictionary) -> Dictionary:
 				) \
 				and int(slice.get("solid_samples", 0)) > 0 \
 				and int(slice.get("air_samples", 0)) > 0 \
+				and int(slice.get("contour_segment_count", 0)) > 0 \
 				and int(view.get("sample_grid", {}).get("line_count", 0)) > 0
 		passing_views += 1 if view_ok else 0
 		view_results.append({
@@ -617,6 +618,7 @@ func _density_slice(lab: Object, overrides: Dictionary) -> Dictionary:
 			var d := (second_index + 1) * row + first_index
 			var c := d + 1
 			indices.append_array(PackedInt32Array([a, b, c, a, c, d]))
+	var presentation := _density_presentation(vertices, densities, axis)
 	return {
 		"available": true,
 		"axis": axis,
@@ -634,7 +636,229 @@ func _density_slice(lab: Object, overrides: Dictionary) -> Dictionary:
 		"near_surface_samples": near_surface_samples,
 		"minimum_density": minimum_density,
 		"maximum_density": maximum_density,
+		"presentation_vertices": presentation.get(
+			"vertices",
+			PackedVector3Array()
+		),
+		"presentation_colors": presentation.get("colors", PackedColorArray()),
+		"presentation_indices": presentation.get(
+			"indices",
+			PackedInt32Array()
+		),
+		"contour_vertices": presentation.get(
+			"contour_vertices",
+			PackedVector3Array()
+		),
+		"contour_ribbon_vertices": presentation.get(
+			"contour_ribbon_vertices",
+			PackedVector3Array()
+		),
+		"contour_ribbon_colors": presentation.get(
+			"contour_ribbon_colors",
+			PackedColorArray()
+		),
+		"contour_ribbon_indices": presentation.get(
+			"contour_ribbon_indices",
+			PackedInt32Array()
+		),
+		"contour_segment_count": int(
+			presentation.get("contour_segment_count", 0)
+		),
 	}
+
+
+func _density_presentation(
+	source_vertices: PackedVector3Array,
+	densities: PackedFloat32Array,
+	slice_axis: int
+) -> Dictionary:
+	var vertices := PackedVector3Array()
+	var colors := PackedColorArray()
+	var indices := PackedInt32Array()
+	var contour_vertices := PackedVector3Array()
+	var row := SLICE_RESOLUTION + 1
+	for second_index in range(SLICE_RESOLUTION):
+		for first_index in range(SLICE_RESOLUTION):
+			var source_indices := PackedInt32Array([
+				second_index * row + first_index,
+				second_index * row + first_index + 1,
+				(second_index + 1) * row + first_index + 1,
+				(second_index + 1) * row + first_index,
+			])
+			var cell_vertices: Array[Vector3] = []
+			var cell_densities: Array[float] = []
+			for source_index in source_indices:
+				cell_vertices.append(source_vertices[source_index])
+				cell_densities.append(float(densities[source_index]))
+			var center_density := (
+				cell_densities[0]
+				+ cell_densities[1]
+				+ cell_densities[2]
+				+ cell_densities[3]
+			) * 0.25
+			var region_color := Color(0.10, 0.48, 0.86, 1.0) \
+				if center_density < 0.0 else Color(0.86, 0.20, 0.16, 1.0)
+			var base := vertices.size()
+			for cell_vertex in cell_vertices:
+				vertices.append(cell_vertex)
+				colors.append(region_color)
+			indices.append_array(PackedInt32Array([
+				base,
+				base + 1,
+				base + 2,
+				base,
+				base + 2,
+				base + 3,
+			]))
+			var case_code := 0
+			for corner_index in range(4):
+				if cell_densities[corner_index] < 0.0:
+					case_code |= 1 << corner_index
+			var edge_points: Array[Vector3] = [
+				_density_edge_point(
+					cell_vertices[0],
+					cell_vertices[1],
+					cell_densities[0],
+					cell_densities[1]
+				),
+				_density_edge_point(
+					cell_vertices[1],
+					cell_vertices[2],
+					cell_densities[1],
+					cell_densities[2]
+				),
+				_density_edge_point(
+					cell_vertices[2],
+					cell_vertices[3],
+					cell_densities[2],
+					cell_densities[3]
+				),
+				_density_edge_point(
+					cell_vertices[3],
+					cell_vertices[0],
+					cell_densities[3],
+					cell_densities[0]
+				),
+			]
+			for pair in _density_contour_pairs(case_code, center_density < 0.0):
+				contour_vertices.append(edge_points[pair.x])
+				contour_vertices.append(edge_points[pair.y])
+	var contour_ribbons := _density_contour_ribbons(
+		contour_vertices,
+		slice_axis
+	)
+	return {
+		"vertices": vertices,
+		"colors": colors,
+		"indices": indices,
+		"contour_vertices": contour_vertices,
+		"contour_ribbon_vertices": contour_ribbons.get(
+			"vertices",
+			PackedVector3Array()
+		),
+		"contour_ribbon_colors": contour_ribbons.get(
+			"colors",
+			PackedColorArray()
+		),
+		"contour_ribbon_indices": contour_ribbons.get(
+			"indices",
+			PackedInt32Array()
+		),
+		"contour_segment_count": int(contour_vertices.size() / 2),
+	}
+
+
+func _density_contour_ribbons(
+	contour_vertices: PackedVector3Array,
+	slice_axis: int
+) -> Dictionary:
+	const HALF_WIDTH := 0.022
+	const SURFACE_OFFSET := 0.003
+	var vertices := PackedVector3Array()
+	var colors := PackedColorArray()
+	var indices := PackedInt32Array()
+	var plane_normal := Vector3.ZERO
+	plane_normal[clampi(slice_axis, 0, 2)] = 1.0
+	for index in range(0, contour_vertices.size(), 2):
+		if index + 1 >= contour_vertices.size():
+			break
+		var start := contour_vertices[index]
+		var end := contour_vertices[index + 1]
+		var direction := end - start
+		if direction.length_squared() <= 0.00000001:
+			continue
+		var side := plane_normal.cross(direction.normalized()) * HALF_WIDTH
+		var offset := plane_normal * SURFACE_OFFSET
+		var base := vertices.size()
+		vertices.append(start - side + offset)
+		vertices.append(start + side + offset)
+		vertices.append(end + side + offset)
+		vertices.append(end - side + offset)
+		for color_index in range(4):
+			colors.append(Color(1.0, 0.88, 0.08, 1.0))
+		indices.append_array(PackedInt32Array([
+			base,
+			base + 1,
+			base + 2,
+			base,
+			base + 2,
+			base + 3,
+		]))
+	return {
+		"vertices": vertices,
+		"colors": colors,
+		"indices": indices,
+	}
+
+
+func _density_edge_point(
+	start: Vector3,
+	end: Vector3,
+	start_density: float,
+	end_density: float
+) -> Vector3:
+	var denominator := start_density - end_density
+	var weight := 0.5 if absf(denominator) <= 0.000001 \
+		else clampf(start_density / denominator, 0.0, 1.0)
+	return start.lerp(end, weight)
+
+
+func _density_contour_pairs(
+	case_code: int,
+	center_is_solid: bool
+) -> Array[Vector2i]:
+	match case_code:
+		1:
+			return [Vector2i(3, 0)]
+		2:
+			return [Vector2i(0, 1)]
+		3:
+			return [Vector2i(3, 1)]
+		4:
+			return [Vector2i(1, 2)]
+		5:
+			return [Vector2i(0, 1), Vector2i(2, 3)] \
+				if center_is_solid else [Vector2i(3, 0), Vector2i(1, 2)]
+		6:
+			return [Vector2i(0, 2)]
+		7:
+			return [Vector2i(3, 2)]
+		8:
+			return [Vector2i(2, 3)]
+		9:
+			return [Vector2i(0, 2)]
+		10:
+			return [Vector2i(3, 0), Vector2i(1, 2)] \
+				if center_is_solid else [Vector2i(0, 1), Vector2i(2, 3)]
+		11:
+			return [Vector2i(1, 2)]
+		12:
+			return [Vector2i(1, 3)]
+		13:
+			return [Vector2i(0, 1)]
+		14:
+			return [Vector2i(0, 3)]
+	return []
 
 
 func _sample_grid(slice_data: Dictionary) -> Dictionary:

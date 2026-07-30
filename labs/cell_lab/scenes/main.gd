@@ -93,25 +93,38 @@ func _update_status() -> void:
 		return
 	var report := lab.get_last_report()
 	var inspection: Dictionary = report.get("inspection", {})
-	status_label.text = "Status: %s\nAuthority: %s\nClaim: %s\nRegular patch: %s cells, %d tris, %d interior open, %d nonmanifold\nTransition cell: %s, case %d, %d tris\nProduction chunk: LOD%d, %d samples, %d tris\nInspection: %s %s\nReference terrain: %s view, %s chunks, %s tris, %s edits, %s ms" % [
-		str(report.get("status", "UNKNOWN")),
-		str(report.get("render_authority", "unknown")),
-		str(report.get("correctness_claim", "unknown")),
-		str(report.get("cells", Vector3i.ZERO)),
-		int(report.get("triangles", 0)),
-		int(report.get("interior_open_edges", 0)),
-		int(report.get("nonmanifold_edges", 0)),
-		str(report.get("transition_status", "Unavailable")),
-		int(report.get("transition_case_code", -1)),
-		int(report.get("transition_triangles", 0)),
-		int(report.get("chunk_probe_lod", 0)),
-		int(report.get("chunk_probe_samples", 0)),
-		int(report.get("chunk_probe_triangles", 0)),
-		str(report.get("inspection_mode", "PATCH")),
-		str(inspection.get("status", "")),
-		str(inspection.get("observatory_view", "")),
-		str(inspection.get("chunk_count", "")),
-		str(inspection.get("triangles", "")),
-		str(inspection.get("edit_count", "")),
-		str(inspection.get("build_ms", "")),
-	]
+	var lines := PackedStringArray([
+		"Status: %s" % str(report.get("status", "UNKNOWN")),
+		"Authority: %s" % str(report.get("render_authority", "unknown")),
+		"Qualification: %s" % str(report.get("qualification_status", "NOT_RUN")),
+		"Scope claim: %s" % str(report.get("correctness_claim", "unknown")),
+		"Regular patch: %s cells, %d tris, %d interior open, %d nonmanifold" % [
+			str(report.get("cells", Vector3i.ZERO)),
+			int(report.get("triangles", 0)),
+			int(report.get("interior_open_edges", 0)),
+			int(report.get("nonmanifold_edges", 0)),
+		],
+		"Transition cell: %s, case %d, %d tris" % [
+			str(report.get("transition_status", "Unavailable")),
+			int(report.get("transition_case_code", -1)),
+			int(report.get("transition_triangles", 0)),
+		],
+		"Production chunk: LOD%d, %d samples, %d tris" % [
+			int(report.get("chunk_probe_lod", 0)),
+			int(report.get("chunk_probe_samples", 0)),
+			int(report.get("chunk_probe_triangles", 0)),
+		],
+		"Inspection: %s %s" % [
+			str(report.get("inspection_mode", "PATCH")),
+			str(inspection.get("status", "")),
+		],
+	])
+	if str(report.get("inspection_mode", "")) == "REFERENCE_TERRAIN":
+		lines.append("Reference terrain: %s view, %s chunks, %s tris, %s edits, %s ms" % [
+			str(inspection.get("observatory_view", "")),
+			str(inspection.get("chunk_count", "")),
+			str(inspection.get("triangles", "")),
+			str(inspection.get("edit_count", "")),
+			str(inspection.get("build_ms", "")),
+		])
+	status_label.text = "\n".join(lines)

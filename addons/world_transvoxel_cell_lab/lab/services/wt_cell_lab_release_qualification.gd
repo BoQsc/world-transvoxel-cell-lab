@@ -275,6 +275,22 @@ func _build_release_bundle(
 		"res://addons/world_transvoxel_cell_lab/standards/visual_manifest.json"
 	)
 	var visual_count := (visual_manifest.get("visuals", []) as Array).size()
+	var visual_evidence_scope := str(visual_manifest.get("evidence_scope", ""))
+	var source_capture_contract: Dictionary = visual_manifest.get(
+		"capture_contract",
+		{}
+	)
+	var visual_capture_contract := {
+		"platform": str(source_capture_contract.get("platform", "")),
+		"renderer": str(source_capture_contract.get("renderer", "")),
+		"rendering_driver": str(
+			source_capture_contract.get("rendering_driver", "")
+		),
+		"width": int(source_capture_contract.get("width", 0)),
+		"height": int(source_capture_contract.get("height", 0)),
+	}
+	var visual_review: Dictionary = visual_manifest.get("review", {})
+	var visual_review_status := str(visual_review.get("status", ""))
 	var stable_manifest: Array[String] = []
 	for evidence in evidence_files:
 		stable_manifest.append("%s:%s:%d" % [
@@ -295,7 +311,15 @@ func _build_release_bundle(
 		and str(runtime.get("status", "")) == "PASS" \
 		and str(integration.get("status", "")) == "PASS" \
 		and str(platform.get("status", "")) == "PASS" \
-		and visual_count == 14
+		and visual_count == 14 \
+		and visual_evidence_scope \
+			== "visual_regression_not_standalone_correctness" \
+		and str(visual_capture_contract.get("platform", "")) == "Windows" \
+		and str(visual_capture_contract.get("renderer", "")) == "forward_plus" \
+		and str(visual_capture_contract.get("rendering_driver", "")) == "d3d12" \
+		and int(visual_capture_contract.get("width", 0)) == 1152 \
+		and int(visual_capture_contract.get("height", 0)) == 648 \
+		and visual_review_status == "HUMAN_REVIEWED"
 	return {
 		"schema": Contracts.RELEASE_BUNDLE_SCHEMA,
 		"status": "PASS" if status_ok else "FAIL",
@@ -306,6 +330,9 @@ func _build_release_bundle(
 		"platform_status": str(platform.get("status", "FAIL")),
 		"evidence_file_count": evidence_files.size(),
 		"visual_standard_count": visual_count,
+		"visual_evidence_scope": visual_evidence_scope,
+		"visual_capture_contract": visual_capture_contract,
+		"visual_review_status": visual_review_status,
 		"visual_diff_contract": (
 			"candidate_images_compared_by_labs/cell_lab/tools/"
 			+ "compare_visual_standards.py"
