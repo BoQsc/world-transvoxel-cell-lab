@@ -47,7 +47,7 @@ res://addons/world_transvoxel_cell_lab/plugin.cfg
 Headless validation:
 
 ```text
-res://tools/run_cell_lab_validation.gd
+res://labs/cell_lab/tools/run_cell_lab_validation.gd
 ```
 
 Use the dock's `Qualification 16-29` command for the complete qualification

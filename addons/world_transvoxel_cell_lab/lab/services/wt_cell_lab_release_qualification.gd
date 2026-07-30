@@ -306,7 +306,10 @@ func _build_release_bundle(
 		"platform_status": str(platform.get("status", "FAIL")),
 		"evidence_file_count": evidence_files.size(),
 		"visual_standard_count": visual_count,
-		"visual_diff_contract": "candidate_images_compared_by_tools/compare_visual_standards.py",
+		"visual_diff_contract": (
+			"candidate_images_compared_by_labs/cell_lab/tools/"
+			+ "compare_visual_standards.py"
+		),
 		"bundle_hash": "\n".join(stable_manifest).sha256_text(),
 		"evidence_files": evidence_files,
 		"sample_failures": failures if not status_ok else [],

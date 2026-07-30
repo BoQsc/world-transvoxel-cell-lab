@@ -6,7 +6,7 @@ func _initialize() -> void:
 
 
 func _run() -> void:
-	var scene := load("res://scenes/main.tscn")
+	var scene := load("res://labs/cell_lab/scenes/main.tscn")
 	if scene == null:
 		_fail("main scene could not be loaded")
 		return

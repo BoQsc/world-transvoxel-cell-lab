@@ -55,9 +55,14 @@ addons/
 docs/
   cell_lab/                        Cell Lab architecture and standards
   terrain_lab/                     Terrain Qualification Program
-scenes/                            current Cell Lab host scene
-terrain_labs/                      future controlled Terrain Lab scenes
-tools/                             current Cell Lab validation tools
+labs/
+  cell_lab/
+    scenes/                        rendered Cell Lab host scene
+    captures/                      local Cell Lab visual output
+    tools/                         Cell Lab validation and evidence tools
+  terrain_lab/                     controlled Terrain Lab scene ownership
+shared/
+  tools/                           repository-wide infrastructure
 ```
 
 The current main scene remains the rendered Cell Lab so the conversion does
@@ -77,7 +82,7 @@ not change its established inspection workflow.
 Run the qualified Cell Lab suite:
 
 ```text
-godot --headless --path . --script tools/run_cell_lab_validation.gd -- all
+godot --headless --path . --script labs/cell_lab/tools/run_cell_lab_validation.gd -- all
 ```
 
 Run the Cell Lab structural smoke:

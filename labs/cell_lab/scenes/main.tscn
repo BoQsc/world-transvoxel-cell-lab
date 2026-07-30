@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3]
 
-[ext_resource type="Script" path="res://scenes/main.gd" id="1_main"]
+[ext_resource type="Script" path="res://labs/cell_lab/scenes/main.gd" id="1_main"]
 [ext_resource type="Script" path="res://addons/world_transvoxel_cell_lab/lab/wt_transvoxel_cell_lab.gd" id="2_lab"]
 
 [node name="CellLabStandalone" type="Node3D"]

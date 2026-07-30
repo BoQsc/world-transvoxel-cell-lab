@@ -11,7 +11,7 @@
 	"milestone_status": "PASS",
 	"platform_scope": "Windows/x86_64 committed native artifacts",
 	"renderer_scope": ["gl_compatibility", "mobile", "forward_plus"],
-	"visual_diff_contract": "tools/compare_visual_standards.py",
+	"visual_diff_contract": "labs/cell_lab/tools/compare_visual_standards.py",
 	"evidence_files": [
 		{"path": "res://addons/world_transvoxel_cell_lab/standards/native_dependency_manifest.json", "sha256": "f1e41f3402ba57c666c649a79fa91a1b39c65392cf91faf18177663143f05a2f", "bytes": 1473},
 		{"path": "res://addons/world_transvoxel_cell_lab/standards/reference_terrain_standard.json", "sha256": "3e50c734a08644b29f4a5acb62440792881a07adeacbb95f85ebe8eb668c40c9", "bytes": 4161},

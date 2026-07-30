@@ -8,8 +8,8 @@ name: Cell Lab Validation
       - "addons/world_transvoxel/**"
       - "addons/world_transvoxel_cell_lab/**"
       - "docs/cell_lab/**"
-      - "scenes/**"
-      - "tools/**"
+      - "labs/cell_lab/**"
+      - "shared/tools/**"
   pull_request:
     paths:
       - ".github/workflows/cell-lab-validation.yml"
@@ -17,8 +17,8 @@ name: Cell Lab Validation
       - "addons/world_transvoxel/**"
       - "addons/world_transvoxel_cell_lab/**"
       - "docs/cell_lab/**"
-      - "scenes/**"
-      - "tools/**"
+      - "labs/cell_lab/**"
+      - "shared/tools/**"
   workflow_dispatch:
 
 permissions:
@@ -39,10 +39,10 @@ jobs:
           python-version: "3.13"
 
       - name: Verify pinned native dependency provenance
-        run: python tools/verify_native_dependency.py --clone-source .ci/world-transvoxel-source
+        run: python labs/cell_lab/tools/verify_native_dependency.py --clone-source .ci/world-transvoxel-source
 
       - name: Install pinned Godot
-        run: python tools/ci_install_godot.py
+        run: python shared/tools/ci_install_godot.py
 
       - name: Verify project and native extension load
         run: Godot_v4.7.1-stable_win64.exe --headless --rendering-method gl_compatibility --editor --quit --path .
@@ -51,10 +51,10 @@ jobs:
         run: Godot_v4.7.1-stable_win64.exe --headless --rendering-method gl_compatibility --path . --script addons/world_transvoxel_cell_lab/tests/wt_cell_lab_smoke.gd
 
       - name: Run authoritative standards suite
-        run: Godot_v4.7.1-stable_win64.exe --headless --rendering-method gl_compatibility --path . --script tools/run_cell_lab_validation.gd -- all
+        run: Godot_v4.7.1-stable_win64.exe --headless --rendering-method gl_compatibility --path . --script labs/cell_lab/tools/run_cell_lab_validation.gd -- all
 
       - name: Exercise visual diff contract
-        run: python tools/compare_visual_standards.py --candidate-dir addons/world_transvoxel_cell_lab/standards/visuals --output .godot/visual_diff_self_check.json
+        run: python labs/cell_lab/tools/compare_visual_standards.py --candidate-dir addons/world_transvoxel_cell_lab/standards/visuals --output .godot/visual_diff_self_check.json
 
   windows_mobile_smoke:
     runs-on: windows-latest
@@ -70,10 +70,10 @@ jobs:
           python-version: "3.13"
 
       - name: Verify pinned native dependency provenance
-        run: python tools/verify_native_dependency.py --clone-source .ci/world-transvoxel-source
+        run: python labs/cell_lab/tools/verify_native_dependency.py --clone-source .ci/world-transvoxel-source
 
       - name: Install pinned Godot
-        run: python tools/ci_install_godot.py
+        run: python shared/tools/ci_install_godot.py
 
       - name: Run mobile renderer smoke
         run: Godot_v4.7.1-stable_win64.exe --headless --rendering-method mobile --path . --script addons/world_transvoxel_cell_lab/tests/wt_cell_lab_smoke.gd
@@ -92,10 +92,10 @@ jobs:
           python-version: "3.13"
 
       - name: Verify pinned native dependency provenance
-        run: python tools/verify_native_dependency.py --clone-source .ci/world-transvoxel-source
+        run: python labs/cell_lab/tools/verify_native_dependency.py --clone-source .ci/world-transvoxel-source
 
       - name: Install pinned Godot
-        run: python tools/ci_install_godot.py
+        run: python shared/tools/ci_install_godot.py
 
       - name: Run forward-plus renderer smoke
         run: Godot_v4.7.1-stable_win64.exe --headless --rendering-method forward_plus --path . --script addons/world_transvoxel_cell_lab/tests/wt_cell_lab_smoke.gd

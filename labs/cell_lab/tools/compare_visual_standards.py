@@ -136,7 +136,7 @@ def main() -> int:
     parser.add_argument(
         "--project-root",
         type=Path,
-        default=Path(__file__).resolve().parents[1],
+        default=Path(__file__).resolve().parents[3],
     )
     parser.add_argument(
         "--manifest",

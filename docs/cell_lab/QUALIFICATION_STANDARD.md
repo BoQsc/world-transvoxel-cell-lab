@@ -108,19 +108,19 @@ their required artifacts and CI executions exist.
 Run all existing and qualification suites:
 
 ```text
-godot --headless --path . --script tools/run_cell_lab_validation.gd -- all
+godot --headless --path . --script labs/cell_lab/tools/run_cell_lab_validation.gd -- all
 ```
 
 Run only milestones 16-29:
 
 ```text
-godot --headless --path . --script tools/run_cell_lab_validation.gd -- qualification
+godot --headless --path . --script labs/cell_lab/tools/run_cell_lab_validation.gd -- qualification
 ```
 
 Print the measured stable qualification signature:
 
 ```text
-godot --headless --path . --script tools/print_qualification_standard.gd
+godot --headless --path . --script labs/cell_lab/tools/print_qualification_standard.gd
 ```
 
 Run structural and locked-result coverage:
@@ -132,8 +132,8 @@ godot --headless --path . --script addons/world_transvoxel_cell_lab/tests/wt_cel
 Capture a candidate visual set and compare it:
 
 ```text
-godot --path . --script tools/capture_standard_visuals.gd -- output=.godot/visual_candidate
-python tools/compare_visual_standards.py --candidate-dir .godot/visual_candidate
+godot --path . --script labs/cell_lab/tools/capture_standard_visuals.gd -- output=.godot/visual_candidate
+python labs/cell_lab/tools/compare_visual_standards.py --candidate-dir .godot/visual_candidate
 ```
 
 ## Change Rule

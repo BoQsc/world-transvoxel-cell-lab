@@ -19,7 +19,7 @@ EXPECTED_SHA256 = "c7a289051eaefb460b0106b60e9cd5bee0ef55fd102dcb2bed1eb356cf3d9
 
 
 def main() -> int:
-    repository = Path(__file__).resolve().parents[1]
+    repository = Path(__file__).resolve().parents[2]
     install_directory = repository / ".ci" / "godot"
     archive_path = install_directory / ARCHIVE_NAME
     install_directory.mkdir(parents=True, exist_ok=True)

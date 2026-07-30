@@ -17,7 +17,7 @@ func _run() -> void:
 	if DirAccess.make_dir_recursive_absolute(absolute_directory) != OK:
 		_fail("could not create visual standards directory")
 		return
-	var packed_scene := load("res://scenes/main.tscn")
+	var packed_scene := load("res://labs/cell_lab/scenes/main.tscn")
 	if packed_scene == null:
 		_fail("main scene could not be loaded")
 		return

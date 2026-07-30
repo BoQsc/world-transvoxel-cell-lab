@@ -34,7 +34,7 @@ def main() -> int:
         help="Clone the pinned source into this directory before verifying it.",
     )
     arguments = parser.parse_args()
-    repository = Path(__file__).resolve().parents[1]
+    repository = Path(__file__).resolve().parents[3]
     manifest = load_json(repository / MANIFEST_PATH)
     errors: list[str] = []
     if manifest.get("schema") != EXPECTED_SCHEMA:
@@ -46,7 +46,7 @@ def main() -> int:
     if arguments.clone_source is not None:
         clone_target = arguments.clone_source.resolve()
         if repository not in clone_target.parents:
-            errors.append("--clone-source must remain inside the cell-lab repository")
+            errors.append("--clone-source must remain inside the labs repository")
         else:
             source_checkout = clone_source(manifest, clone_target)
     if source_checkout is not None:

@@ -86,25 +86,25 @@ and density slicing.
 Run the full headless validator:
 
 ```text
-godot --headless --path . --script tools/run_cell_lab_validation.gd -- all
+godot --headless --path . --script labs/cell_lab/tools/run_cell_lab_validation.gd -- all
 ```
 
 Run only the milestone 16-29 qualification:
 
 ```text
-godot --headless --path . --script tools/run_cell_lab_validation.gd -- qualification
+godot --headless --path . --script labs/cell_lab/tools/run_cell_lab_validation.gd -- qualification
 ```
 
 Print the measured qualification signature:
 
 ```text
-godot --headless --path . --script tools/print_qualification_standard.gd
+godot --headless --path . --script labs/cell_lab/tools/print_qualification_standard.gd
 ```
 
 Verify the vendored native dependency against an adjacent source checkout:
 
 ```text
-python tools/verify_native_dependency.py --source-checkout ..\world-transvoxel
+python labs/cell_lab/tools/verify_native_dependency.py --source-checkout ..\world-transvoxel
 ```
 
 Run the structural smoke test:
@@ -116,13 +116,13 @@ godot --headless --path . --script addons/world_transvoxel_cell_lab/tests/wt_cel
 Regenerate committed visual standards with a graphical renderer:
 
 ```text
-godot --path . --script tools/capture_standard_visuals.gd
+godot --path . --script labs/cell_lab/tools/capture_standard_visuals.gd
 ```
 
 Compare a visual candidate against the committed references:
 
 ```text
-python tools/compare_visual_standards.py --candidate-dir .godot/visual_candidate
+python labs/cell_lab/tools/compare_visual_standards.py --candidate-dir .godot/visual_candidate
 ```
 
 The CI workflow verifies the pinned native source and binaries, pins the
