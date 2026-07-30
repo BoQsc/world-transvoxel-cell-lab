@@ -1,0 +1,141 @@
+# World Transvoxel Cell Lab
+
+Standalone Godot project and editor addon for native-authoritative Transvoxel
+terrain validation.
+
+Open:
+
+```text
+C:\Users\Windows10_new\Documents\github_repositories\world-transvoxel-cell-lab\project.godot
+```
+
+The lab depends exclusively on:
+
+```text
+res://addons/world_transvoxel/world_transvoxel.gdextension
+```
+
+There is no fallback mesher. Every surface inspected by the lab comes from
+`WorldTransvoxelCellProbe` and the production `WtChunkMesher` path in
+`world-transvoxel`.
+
+The native dependency is locked in
+`addons/world_transvoxel_cell_lab/standards/native_dependency_manifest.json`.
+Runtime validation checks backend identity and shipped DLL hashes; CI also
+checks the pinned upstream commit, source trees, Godot C++ revision, plugin
+version, and official Transvoxel source hash.
+
+## Standard
+
+The lab is cell-first and terrain-focused. It treats regular cells, transition
+cells, chunk composition, a canonical multi-chunk reference terrain, LOD
+seams, edits, topology, materials, provenance, runtime-policy simulations,
+integration parity, and release evidence as one validation chain.
+
+`world-transvoxel` is the implementation authority under test, not an
+infallible oracle. A reproducible lab contradiction supported by topology,
+native buffer data, visual evidence, and standards tests is grounds for an
+upstream correction.
+
+The integration game is a downstream proving ground. Its artifacts should be
+reduced to lab snapshots and classified as `world_transvoxel`, `integration`,
+`runtime`, or `gameplay` issues before a fix is chosen.
+
+## Editor Workflow
+
+Enable the `World Transvoxel Lab` plugin and use its dock to:
+
+- switch between patch, selected regular case, selected transition case, and
+  mixed-LOD or Reference Terrain inspection;
+- inspect a contiguous 12-chunk terrain with a coarse LOD ring, fine center,
+  four transition interfaces, feature fields, materials, and exact metrics;
+- switch the Terrain Observatory between surface, LOD, material, triangle,
+  normal, seam, and density views;
+- isolate a selected terrain chunk, toggle transitions and bounds, inspect a
+  movable density slice, and expose sample, normal, seam, and feature overlays;
+- move the terrain edit cursor and apply cross-chunk digging or construction;
+- expand the patch and apply dig or construct edits;
+- run the 256-case regular corpus and 512-case by 6-orientation transition
+  corpus;
+- validate same-LOD seams, LOD 1-3 transition chunks, and 12 coarse/fine
+  neighbor fixtures;
+- run 2,304 near-isovalue case probes and vertical same/mixed-LOD seam stress;
+- run deterministic edit sequences, including the eight-step canonical
+  terrain workflow and exact replay;
+- prove terrain/tunnel separation with analytic cross-sections and require the
+  retained coarse topology-alias fixture to fail at LOD1 and recover at LOD0;
+- measure cell, transition, chunk, patch, observatory, and edit performance;
+- browse, label, save, and restore repros;
+- import integration-game JSON snapshots and classify the suspected fix layer;
+- execute the committed standards corpus;
+- run the complete `Qualification 16-29` suite and inspect its correctness,
+  runtime, integration, platform, release, and governance evidence.
+
+The default scene opens with rendered native geometry. Inspection modes show
+sample states, topology edges, vertex normals, materials, endpoint provenance,
+orientation basis, and mixed-LOD seam results.
+
+The standalone scene now opens in the canonical Reference Terrain view. Press
+`T` to return to it, then use `D`, `C`, and `R` to dig, construct, and clear
+terrain edits at the exported terrain cursor. `V` cycles observatory views;
+`I`, `B`, `N`, `S`, and `G` toggle chunk isolation, bounds, normals, seams,
+and density slicing.
+
+## Validation
+
+Run the full headless validator:
+
+```text
+godot --headless --path . --script tools/run_cell_lab_validation.gd -- all
+```
+
+Run only the milestone 16-29 qualification:
+
+```text
+godot --headless --path . --script tools/run_cell_lab_validation.gd -- qualification
+```
+
+Print the measured qualification signature:
+
+```text
+godot --headless --path . --script tools/print_qualification_standard.gd
+```
+
+Verify the vendored native dependency against an adjacent source checkout:
+
+```text
+python tools/verify_native_dependency.py --source-checkout ..\world-transvoxel
+```
+
+Run the structural smoke test:
+
+```text
+godot --headless --path . --script addons/world_transvoxel_cell_lab/tests/wt_cell_lab_smoke.gd
+```
+
+Regenerate committed visual standards with a graphical renderer:
+
+```text
+godot --path . --script tools/capture_standard_visuals.gd
+```
+
+Compare a visual candidate against the committed references:
+
+```text
+python tools/compare_visual_standards.py --candidate-dir .godot/visual_candidate
+```
+
+The CI workflow verifies the pinned native source and binaries, pins the
+official Godot 4.7.1 Windows artifact by SHA-256, and runs the native extension
+load, smoke test, correctness corpora, qualification suite, standards corpus,
+visual comparison, renderer smoke lanes, and performance warning pass.
+
+See [ARCHITECTURE.md](ARCHITECTURE.md) for ownership boundaries and
+[ROADMAP.md](ROADMAP.md) for completed milestone evidence. The permanent
+terrain contract is in
+[REFERENCE_TERRAIN_STANDARD.md](REFERENCE_TERRAIN_STANDARD.md), and the
+milestone 16-29 scope is in
+[QUALIFICATION_STANDARD.md](QUALIFICATION_STANDARD.md). Broader edit,
+material, large-terrain, destruction, GPU, and production qualification work
+is governed separately by
+[TERRAIN_QUALIFICATION_PROGRAM.md](../terrain_lab/TERRAIN_QUALIFICATION_PROGRAM.md).

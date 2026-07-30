@@ -12,7 +12,8 @@ evidence before claiming a broader correctness domain.
 
 Broader terrain research does not continue this numbering inside the Cell Lab.
 The cross-project edit, material, large-world, structural, GPU, and production
-milestones are defined in `TERRAIN_QUALIFICATION_PROGRAM.md`.
+milestones are defined in
+`../terrain_lab/TERRAIN_QUALIFICATION_PROGRAM.md`.
 
 ## Milestone 1: Contract And Authority
 
@@ -354,8 +355,8 @@ Status: complete.
 See `QUALIFICATION_STANDARD.md` for execution commands, exact scope, retained
 negative results, and interpretation rules.
 
-See `TERRAIN_QUALIFICATION_PROGRAM.md` for proposed work beyond the Cell Lab's
-native meshing qualification boundary.
+See `../terrain_lab/TERRAIN_QUALIFICATION_PROGRAM.md` for proposed work beyond
+the Cell Lab's native meshing qualification boundary.
 
 ## Next Standard
 

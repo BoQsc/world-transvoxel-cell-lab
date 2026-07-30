@@ -1,4 +1,4 @@
-# Canonical Reference Terrain Standard
+# Cell Lab Canonical Reference Terrain Standard
 
 ## Purpose
 

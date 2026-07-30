@@ -1,4 +1,4 @@
-# Transvoxel Qualification Standard
+# Cell Lab Transvoxel Qualification Standard
 
 ## Purpose
 

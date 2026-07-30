@@ -6,13 +6,14 @@ The Terrain Qualification Program (`TQP`) defines the work required to move
 from a qualified Transvoxel meshing primitive to a qualified production terrain
 system.
 
-This is a cross-project program charter. It is stored in the Cell Lab
-repository because that repository currently contains the foundational
-standards and evidence, not because all TQP implementation belongs in the Cell
-Lab addon.
+This is a cross-project program charter owned by the separate
+`world_transvoxel_terrain_lab` addon inside the World Transvoxel Labs
+monorepo. Its location does not give Terrain Lab ownership over production
+implementation or over the `world_transvoxel_cell_lab` addon.
 
-Cell Lab milestones 1 through 29 remain complete and closed in `ROADMAP.md`.
-The milestones below are new program work. All begin with status `proposed`.
+Cell Lab milestones 1 through 29 remain complete and closed in
+`../cell_lab/ROADMAP.md`. The milestones below are new program work. All begin
+with status `proposed`.
 
 ## Authority Chain
 
@@ -38,7 +39,7 @@ contracts and evidence before any authority claim changes.
 | Project or lab | Responsibility |
 | --- | --- |
 | `world-transvoxel` | Native regular-cell, transition-cell, and chunk meshing implementation |
-| `world-transvoxel-cell-lab` | Primitive conformance, minimized repros, topology, seams, deterministic fixtures, and controlled microbenchmarks |
+| `world_transvoxel_cell_lab` addon | Primitive conformance, minimized repros, topology, seams, deterministic fixtures, and controlled microbenchmarks |
 | Edit Semantics Lab | Density algebra, digging, construction, brush behavior, edit history, resolvability, and explosions |
 | Material and Surface Lab | Material fields, blending, textures, shading, LOD continuity, and visual-quality evidence |
 | Terrain Systems Lab | Chunk lifecycle, jobs, streaming, persistence, collision synchronization, observability, and large-world performance |
@@ -47,9 +48,9 @@ contracts and evidence before any authority claim changes.
 | `world-transvoxel-terrain` | Candidate production terrain runtime; ownership is earned milestone by milestone |
 | Integration game | Downstream gameplay proof and source of reducible production failures |
 
-Names for new labs describe ownership boundaries, not predetermined repository
-count. Multiple focused labs may share one research project as long as their
-contracts, fixtures, reports, and promotion states remain separate.
+Names for new labs describe domain ownership inside
+`world_transvoxel_terrain_lab`, not additional repositories or dependencies.
+Their contracts, fixtures, reports, and promotion states remain separate.
 
 ## Cell Lab Freeze Boundary
 
@@ -64,8 +65,8 @@ following:
 - qualifies a candidate backend against the same primitive contract.
 
 Production chunk management, streaming, authoring UX, texture systems,
-destruction policy, gameplay, and world persistence do not belong in the Cell
-Lab root node.
+destruction policy, gameplay, and world persistence do not belong in the
+`world_transvoxel_cell_lab` addon or its root node.
 
 ## Milestone Status
 

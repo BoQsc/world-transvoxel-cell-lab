@@ -2,7 +2,23 @@ name: Cell Lab Validation
 
 "on":
   push:
+    paths:
+      - ".github/workflows/cell-lab-validation.yml"
+      - "project.godot"
+      - "addons/world_transvoxel/**"
+      - "addons/world_transvoxel_cell_lab/**"
+      - "docs/cell_lab/**"
+      - "scenes/**"
+      - "tools/**"
   pull_request:
+    paths:
+      - ".github/workflows/cell-lab-validation.yml"
+      - "project.godot"
+      - "addons/world_transvoxel/**"
+      - "addons/world_transvoxel_cell_lab/**"
+      - "docs/cell_lab/**"
+      - "scenes/**"
+      - "tools/**"
   workflow_dispatch:
 
 permissions:

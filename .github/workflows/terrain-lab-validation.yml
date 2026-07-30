@@ -1,0 +1,48 @@
+name: Terrain Lab Boundary Validation
+
+"on":
+  push:
+    paths:
+      - ".github/workflows/terrain-lab-validation.yml"
+      - "project.godot"
+      - "addons/world_transvoxel/**"
+      - "addons/world_transvoxel_terrain_lab/**"
+      - "docs/terrain_lab/**"
+      - "terrain_labs/**"
+      - "tools/ci_install_godot.py"
+  pull_request:
+    paths:
+      - ".github/workflows/terrain-lab-validation.yml"
+      - "project.godot"
+      - "addons/world_transvoxel/**"
+      - "addons/world_transvoxel_terrain_lab/**"
+      - "docs/terrain_lab/**"
+      - "terrain_labs/**"
+      - "tools/ci_install_godot.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  windows_boundary:
+    runs-on: windows-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install pinned Godot
+        run: python tools/ci_install_godot.py
+
+      - name: Verify both addon plugins load
+        run: Godot_v4.7.1-stable_win64.exe --headless --rendering-method gl_compatibility --editor --quit --path .
+
+      - name: Run Terrain Lab boundary smoke
+        run: Godot_v4.7.1-stable_win64.exe --headless --rendering-method gl_compatibility --path . --script addons/world_transvoxel_terrain_lab/tests/wt_terrain_lab_smoke.gd
