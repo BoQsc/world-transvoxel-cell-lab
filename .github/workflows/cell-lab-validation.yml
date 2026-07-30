@@ -4,6 +4,7 @@ name: Cell Lab Validation
   push:
     paths:
       - ".github/workflows/cell-lab-validation.yml"
+      - ".gitattributes"
       - "project.godot"
       - "addons/world_transvoxel/**"
       - "addons/world_transvoxel_cell_lab/**"
@@ -13,6 +14,7 @@ name: Cell Lab Validation
   pull_request:
     paths:
       - ".github/workflows/cell-lab-validation.yml"
+      - ".gitattributes"
       - "project.godot"
       - "addons/world_transvoxel/**"
       - "addons/world_transvoxel_cell_lab/**"
@@ -53,8 +55,19 @@ jobs:
       - name: Run authoritative standards suite
         run: Godot_v4.7.1-stable_win64.exe --headless --rendering-method gl_compatibility --path . --script labs/cell_lab/tools/run_cell_lab_validation.gd -- all
 
-      - name: Exercise visual diff contract
-        run: python labs/cell_lab/tools/compare_visual_standards.py --candidate-dir addons/world_transvoxel_cell_lab/standards/visuals --output .godot/visual_diff_self_check.json
+      - name: Capture and compare fresh Forward+ visuals
+        run: python labs/cell_lab/tools/run_visual_validation.py --godot Godot_v4.7.1-stable_win64.exe --candidate-dir .godot/ci_visual_candidate --capture-log .godot/ci_visual_capture.log --report .godot/ci_visual_diff.json
+
+      - name: Upload visual validation evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cell-lab-forward-plus-visual-evidence
+          if-no-files-found: warn
+          path: |
+            .godot/ci_visual_candidate/*.png
+            .godot/ci_visual_capture.log
+            .godot/ci_visual_diff.json
 
   windows_mobile_smoke:
     runs-on: windows-latest

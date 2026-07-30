@@ -97,7 +97,9 @@ Declared renderer lanes:
 - `mobile`;
 - `forward_plus`.
 
-The visual authority baseline is captured with `forward_plus`. Candidate
+The visual authority baseline is captured on Windows with `forward_plus`.
+Automated candidates use the D3D12 rendering driver so hosted Windows runners
+can use either a hardware adapter or the Windows software adapter. Candidate
 comparison normalizes PNG color representation and applies the committed pixel
 thresholds. Other native platform targets listed in
 `standards/platform_renderer_matrix.json` remain explicitly unqualified until
@@ -132,8 +134,7 @@ godot --headless --path . --script addons/world_transvoxel_cell_lab/tests/wt_cel
 Capture a candidate visual set and compare it:
 
 ```text
-godot --path . --script labs/cell_lab/tools/capture_standard_visuals.gd -- output=.godot/visual_candidate
-python labs/cell_lab/tools/compare_visual_standards.py --candidate-dir .godot/visual_candidate
+python labs/cell_lab/tools/run_visual_validation.py --godot path\to\godot.exe
 ```
 
 ## Change Rule

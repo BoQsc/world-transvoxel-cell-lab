@@ -126,7 +126,10 @@ func _run() -> void:
 		await process_frame
 		await process_frame
 		await process_frame
-		var image := root.get_viewport().get_texture().get_image()
+		var image: Image = root.get_viewport().get_texture().get_image()
+		if image == null or image.is_empty():
+			_fail("viewport capture requires a graphical rendering driver")
+			return
 		var path := "%s/%s.png" % [output_directory, str(spec["id"])]
 		var error := image.save_png(path)
 		if error != OK:

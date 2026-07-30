@@ -113,22 +113,19 @@ Run the structural smoke test:
 godot --headless --path . --script addons/world_transvoxel_cell_lab/tests/wt_cell_lab_smoke.gd
 ```
 
-Regenerate committed visual standards with a graphical renderer:
+Capture a fresh candidate with the authoritative Windows Forward+/D3D12
+renderer and compare it against the committed standards:
 
 ```text
-godot --path . --script labs/cell_lab/tools/capture_standard_visuals.gd
-```
-
-Compare a visual candidate against the committed references:
-
-```text
-python labs/cell_lab/tools/compare_visual_standards.py --candidate-dir .godot/visual_candidate
+python labs/cell_lab/tools/run_visual_validation.py --godot path\to\godot.exe
 ```
 
 The CI workflow verifies the pinned native source and binaries, pins the
 official Godot 4.7.1 Windows artifact by SHA-256, and runs the native extension
 load, smoke test, correctness corpora, qualification suite, standards corpus,
-visual comparison, renderer smoke lanes, and performance warning pass.
+fresh Forward+ visual capture and comparison, renderer smoke lanes, and
+performance warning pass. CI uploads the candidate images, capture log, and
+diff report even when visual validation fails.
 
 See [ARCHITECTURE.md](ARCHITECTURE.md) for ownership boundaries and
 [ROADMAP.md](ROADMAP.md) for completed milestone evidence. The permanent
