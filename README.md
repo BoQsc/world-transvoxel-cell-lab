@@ -135,4 +135,7 @@ See [ARCHITECTURE.md](ARCHITECTURE.md) for ownership boundaries and
 terrain contract is in
 [REFERENCE_TERRAIN_STANDARD.md](REFERENCE_TERRAIN_STANDARD.md), and the
 milestone 16-29 scope is in
-[QUALIFICATION_STANDARD.md](QUALIFICATION_STANDARD.md).
+[QUALIFICATION_STANDARD.md](QUALIFICATION_STANDARD.md). Broader edit,
+material, large-terrain, destruction, GPU, and production qualification work
+is governed separately by
+[TERRAIN_QUALIFICATION_PROGRAM.md](TERRAIN_QUALIFICATION_PROGRAM.md).
