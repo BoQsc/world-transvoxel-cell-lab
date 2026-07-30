@@ -1,0 +1,55 @@
+{
+	"schema": "world_transvoxel.terrain_lab.operating_envelope.v1",
+	"profile_id": "reference_cpu_windows_v1",
+	"claim_scope": "laboratory_reference_envelope_not_production_support",
+	"world": {
+		"horizontal_min_m": -32768.0,
+		"horizontal_max_m": 32768.0,
+		"vertical_min_m": -2048.0,
+		"vertical_max_m": 8192.0,
+		"smallest_important_feature_m": 1.0,
+		"view_distance_m": 4096.0,
+		"maximum_camera_speed_mps": 150.0
+	},
+	"workload": {
+		"sustained_edits_per_second": 20,
+		"burst_edits_per_second": 120,
+		"maximum_brush_radius_m": 128.0,
+		"maximum_active_edit_count": 100000
+	},
+	"budgets": {
+		"frame_ms": 16.667,
+		"terrain_cpu_p95_ms": 4.0,
+		"terrain_publication_p99_ms": 8.0,
+		"terrain_gpu_p95_ms": 4.0,
+		"retained_memory_mib": 1536,
+		"peak_memory_mib": 2048
+	},
+	"targets": {
+		"platforms": ["Windows"],
+		"architectures": ["x86_64"],
+		"renderers": ["forward_plus"],
+		"rendering_drivers": ["d3d12"],
+		"minimum_system_memory_mib": 8192,
+		"minimum_vram_mib": 4096
+	},
+	"multiplayer": {
+		"qualified_model": "single_player_local_authority",
+		"explicitly_unqualified": [
+			"client_server_replication",
+			"peer_to_peer",
+			"late_join",
+			"authority_migration"
+		]
+	},
+	"art_direction": {
+		"qualified_target": "neutral_diagnostic_geometry_and_material_readability",
+		"production_pleasantness": "UNQUALIFIED",
+		"required_future_corpora": [
+			"natural",
+			"constructed",
+			"destroyed",
+			"adversarial"
+		]
+	}
+}

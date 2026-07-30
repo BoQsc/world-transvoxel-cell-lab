@@ -1,4 +1,4 @@
-name: Terrain Lab Boundary Validation
+name: Terrain Lab Qualification
 
 "on":
   push:
@@ -40,6 +40,11 @@ jobs:
         with:
           python-version: "3.13"
 
+      - name: Verify program status representations agree
+        run: |
+          python labs/terrain_lab/tools/sync_program_statuses.py
+          git diff --exit-code -- addons/world_transvoxel_terrain_lab/standards/program_manifest.json docs/terrain_lab/TERRAIN_QUALIFICATION_PROGRAM.md
+
       - name: Install pinned Godot
         run: python shared/tools/ci_install_godot.py
 
@@ -48,3 +53,6 @@ jobs:
 
       - name: Run Terrain Lab boundary smoke
         run: Godot_v4.7.1-stable_win64.exe --headless --rendering-method gl_compatibility --path . --script addons/world_transvoxel_terrain_lab/tests/wt_terrain_lab_smoke.gd
+
+      - name: Run Terrain Qualification Program validation
+        run: Godot_v4.7.1-stable_win64.exe --headless --rendering-method gl_compatibility --path . --script labs/terrain_lab/tools/run_terrain_lab_validation.gd

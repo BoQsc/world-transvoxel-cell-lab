@@ -1,0 +1,1138 @@
+{
+	"schema": "world_transvoxel.terrain_lab.program_validation.v2",
+	"status": "PASS",
+	"milestone_count": 46,
+	"status_counts": {
+		"proposed": 0,
+		"specified": 2,
+		"implemented": 24,
+		"qualified": 8,
+		"production": 0,
+		"blocked": 12
+	},
+	"proposed_milestone_count": 0,
+	"specified_milestone_count": 2,
+	"qualified_milestone_count": 8,
+	"gate_statuses": {
+		"GATE_A": "QUALIFIED",
+		"GATE_B": "SPECIFIED",
+		"GATE_C": "SPECIFIED",
+		"GATE_D": "SPECIFIED",
+		"GATE_E": "CLOSED",
+		"GATE_F": "CLOSED"
+	},
+	"foundation": {
+		"schema": "world_transvoxel.terrain_lab.foundation_qualification.v1",
+		"status": "PASS",
+		"qualified_scope": [
+			"reference CPU/Windows laboratory contracts for TQP-01 through TQP-05"
+		],
+		"explicitly_unqualified_scope": [
+			"production terrain runtime",
+			"GPU coordinate equivalence",
+			"non-Windows platforms",
+			"production visual quality"
+		],
+		"fixture_classes": [
+			"positive",
+			"boundary",
+			"retained_negative"
+		],
+		"independent_invariants": [
+			"integer chunk addressing round trip",
+			"LOD scale derivation",
+			"authority uniqueness",
+			"benchmark evidence completeness"
+		],
+		"standard_signature": {
+			"algorithm": "sha256",
+			"files": {
+				"res://addons/world_transvoxel_terrain_lab/standards/operating_envelope.json": "a39680c85ed856b1b8218a7af2720389e6f32fd0323187cf2d76de08ccb041d8",
+				"res://addons/world_transvoxel_terrain_lab/standards/authority_data_model.json": "43ee227708c62ecda4daf16c24f3ec1534c51fa48348220f42ddb9355d62ae08",
+				"res://addons/world_transvoxel_terrain_lab/standards/coordinate_precision_standard.json": "e3aa58859d567212808980dde1ab16263f523436efc5820a7573819346fcde42",
+				"res://addons/world_transvoxel_terrain_lab/standards/resolution_error_standard.json": "dac862fe46e89dace1e2480b35411770c30425c3335c8eaef8e2e2741d72edd0",
+				"res://addons/world_transvoxel_terrain_lab/standards/qualification_protocol.json": "aef20b63327b5b6eb2cd674cab125ec11c7ad6d7beca38261f70fd5beaf7a27f"
+			},
+			"aggregate": "282f88034820c402576e4d0b74dd71dc9a761117bff937d34644a882cc961d88"
+		},
+		"milestones": [
+			{
+				"milestone": "TQP-01",
+				"status": "PASS",
+				"fixture_count": 10,
+				"failures": []
+			},
+			{
+				"milestone": "TQP-02",
+				"status": "PASS",
+				"fixture_count": 60,
+				"failures": []
+			},
+			{
+				"milestone": "TQP-03",
+				"status": "PASS",
+				"fixture_count": 51,
+				"failures": []
+			},
+			{
+				"milestone": "TQP-04",
+				"status": "PASS",
+				"fixture_count": 37,
+				"failures": []
+			},
+			{
+				"milestone": "TQP-05",
+				"status": "PASS",
+				"fixture_count": 34,
+				"failures": []
+			}
+		],
+		"failures": []
+	},
+	"dependencies": {
+		"schema": "world_transvoxel.terrain_lab.dependencies.v1",
+		"status": "PASS",
+		"required": {
+			"world_transvoxel": true
+		},
+		"optional": {
+			"world_transvoxel_terrain": false
+		},
+		"forbidden": [
+			"world_transvoxel_cell_lab"
+		]
+	},
+	"failures": [],
+	"qualification_suites": {
+		"edit_semantics": {
+			"schema": "world_transvoxel.terrain_lab.edit_semantics_qualification.v1",
+			"status": "PASS",
+			"scope_status": {
+				"TQP-06": "qualified",
+				"TQP-07": "implemented_pending_complete_visual_shape_corpus",
+				"TQP-08": "implemented_pending_lod_collision_and_replay_matrix",
+				"TQP-09": "implemented_pending_support_collision_and_replay_matrix",
+				"TQP-10": "implemented_pending_measured_native_lod_envelope",
+				"TQP-11": "implemented_pending_transactions_migration_baking_and_compaction",
+				"TQP-12": "implemented_pending_seam_collision_and_budget_evidence",
+				"TQP-13": "implemented_pending_real_worker_and_streaming_faults",
+				"TQP-14": "implemented_pending_fragmentation_collision_and_cost"
+			},
+			"qualified_scope": [
+				"deterministic CPU reference field and edit journal",
+				"TQP-06 deterministic CPU reference field algebra"
+			],
+			"explicitly_unqualified_scope": [
+				"production scheduler concurrency",
+				"physics collision publication",
+				"networked edit ordering",
+				"production-scale explosion fragmentation",
+				"GPU field evaluation",
+				"complete TQP-07 through TQP-14 qualification"
+			],
+			"elapsed_ms": 3687.737,
+			"provenance": {
+				"workload_signature": "edit_semantics_reference_v1",
+				"build_type": "debug",
+				"os": "Windows",
+				"architecture": "x86_64",
+				"cpu": "Intel(R) Core(TM) i5-7300HQ CPU @ 2.50GHz",
+				"gpu": "",
+				"driver": "opengl3",
+				"godot_version": "4.7-stable (official)",
+				"backend_revision": "a5c681d4061c5bcf2f779f7ae841d5d8ebffcdf2725040087386257ac2c3e32b"
+			},
+			"memory": {
+				"retained_bytes": 26595832,
+				"peak_bytes": 47426476
+			},
+			"milestones": [
+				{
+					"milestone": "TQP-06",
+					"status": "PASS",
+					"fixture_count": 57,
+					"failures": []
+				},
+				{
+					"milestone": "TQP-07",
+					"status": "PASS",
+					"fixture_count": 14,
+					"failures": [],
+					"shape_ids": [
+						"sphere",
+						"capsule",
+						"swept",
+						"box",
+						"plane",
+						"stamp",
+						"noise"
+					],
+					"performance": {
+						"sample_count": 100,
+						"p50_usec": 1165.0,
+						"p95_usec": 1852.0,
+						"p99_usec": 2236.0,
+						"worst_usec": 2331.0
+					}
+				},
+				{
+					"milestone": "TQP-08",
+					"status": "PASS",
+					"fixture_count": 34,
+					"failures": [],
+					"native_mesh": {
+						"status": "PASS",
+						"chunk_status": "Ok",
+						"sample_count": 6647,
+						"vertex_count": 378,
+						"triangle_count": 647,
+						"elapsed_ms": 138.276,
+						"failures": []
+					}
+				},
+				{
+					"milestone": "TQP-09",
+					"status": "PASS",
+					"fixture_count": 7,
+					"failures": [],
+					"native_mesh": {
+						"status": "PASS",
+						"chunk_status": "Ok",
+						"sample_count": 6647,
+						"vertex_count": 346,
+						"triangle_count": 584,
+						"elapsed_ms": 151.415,
+						"failures": []
+					}
+				},
+				{
+					"milestone": "TQP-10",
+					"status": "PASS",
+					"fixture_count": 40,
+					"failures": [],
+					"classifications": [
+						{
+							"lod": 0,
+							"cell_size_m": 0.5,
+							"feature_size_m": 0.5,
+							"feature_cells": 1.0,
+							"classification": "intentional_disappearance"
+						},
+						{
+							"lod": 0,
+							"cell_size_m": 0.5,
+							"feature_size_m": 1.0,
+							"feature_cells": 2.0,
+							"classification": "degraded"
+						},
+						{
+							"lod": 0,
+							"cell_size_m": 0.5,
+							"feature_size_m": 1.5,
+							"feature_cells": 3.0,
+							"classification": "degraded"
+						},
+						{
+							"lod": 0,
+							"cell_size_m": 0.5,
+							"feature_size_m": 2.0,
+							"feature_cells": 4.0,
+							"classification": "pass"
+						},
+						{
+							"lod": 0,
+							"cell_size_m": 0.5,
+							"feature_size_m": 4.0,
+							"feature_cells": 8.0,
+							"classification": "pass"
+						},
+						{
+							"lod": 1,
+							"cell_size_m": 1.0,
+							"feature_size_m": 1.0,
+							"feature_cells": 1.0,
+							"classification": "intentional_disappearance"
+						},
+						{
+							"lod": 1,
+							"cell_size_m": 1.0,
+							"feature_size_m": 2.0,
+							"feature_cells": 2.0,
+							"classification": "degraded"
+						},
+						{
+							"lod": 1,
+							"cell_size_m": 1.0,
+							"feature_size_m": 3.0,
+							"feature_cells": 3.0,
+							"classification": "degraded"
+						},
+						{
+							"lod": 1,
+							"cell_size_m": 1.0,
+							"feature_size_m": 4.0,
+							"feature_cells": 4.0,
+							"classification": "pass"
+						},
+						{
+							"lod": 1,
+							"cell_size_m": 1.0,
+							"feature_size_m": 8.0,
+							"feature_cells": 8.0,
+							"classification": "pass"
+						},
+						{
+							"lod": 2,
+							"cell_size_m": 2.0,
+							"feature_size_m": 2.0,
+							"feature_cells": 1.0,
+							"classification": "intentional_disappearance"
+						},
+						{
+							"lod": 2,
+							"cell_size_m": 2.0,
+							"feature_size_m": 4.0,
+							"feature_cells": 2.0,
+							"classification": "degraded"
+						},
+						{
+							"lod": 2,
+							"cell_size_m": 2.0,
+							"feature_size_m": 6.0,
+							"feature_cells": 3.0,
+							"classification": "degraded"
+						},
+						{
+							"lod": 2,
+							"cell_size_m": 2.0,
+							"feature_size_m": 8.0,
+							"feature_cells": 4.0,
+							"classification": "pass"
+						},
+						{
+							"lod": 2,
+							"cell_size_m": 2.0,
+							"feature_size_m": 16.0,
+							"feature_cells": 8.0,
+							"classification": "pass"
+						},
+						{
+							"lod": 3,
+							"cell_size_m": 4.0,
+							"feature_size_m": 4.0,
+							"feature_cells": 1.0,
+							"classification": "intentional_disappearance"
+						},
+						{
+							"lod": 3,
+							"cell_size_m": 4.0,
+							"feature_size_m": 8.0,
+							"feature_cells": 2.0,
+							"classification": "degraded"
+						},
+						{
+							"lod": 3,
+							"cell_size_m": 4.0,
+							"feature_size_m": 12.0,
+							"feature_cells": 3.0,
+							"classification": "degraded"
+						},
+						{
+							"lod": 3,
+							"cell_size_m": 4.0,
+							"feature_size_m": 16.0,
+							"feature_cells": 4.0,
+							"classification": "pass"
+						},
+						{
+							"lod": 3,
+							"cell_size_m": 4.0,
+							"feature_size_m": 32.0,
+							"feature_cells": 8.0,
+							"classification": "pass"
+						},
+						{
+							"lod": 4,
+							"cell_size_m": 8.0,
+							"feature_size_m": 8.0,
+							"feature_cells": 1.0,
+							"classification": "intentional_disappearance"
+						},
+						{
+							"lod": 4,
+							"cell_size_m": 8.0,
+							"feature_size_m": 16.0,
+							"feature_cells": 2.0,
+							"classification": "degraded"
+						},
+						{
+							"lod": 4,
+							"cell_size_m": 8.0,
+							"feature_size_m": 24.0,
+							"feature_cells": 3.0,
+							"classification": "degraded"
+						},
+						{
+							"lod": 4,
+							"cell_size_m": 8.0,
+							"feature_size_m": 32.0,
+							"feature_cells": 4.0,
+							"classification": "pass"
+						},
+						{
+							"lod": 4,
+							"cell_size_m": 8.0,
+							"feature_size_m": 64.0,
+							"feature_cells": 8.0,
+							"classification": "pass"
+						},
+						{
+							"lod": 5,
+							"cell_size_m": 16.0,
+							"feature_size_m": 16.0,
+							"feature_cells": 1.0,
+							"classification": "intentional_disappearance"
+						},
+						{
+							"lod": 5,
+							"cell_size_m": 16.0,
+							"feature_size_m": 32.0,
+							"feature_cells": 2.0,
+							"classification": "degraded"
+						},
+						{
+							"lod": 5,
+							"cell_size_m": 16.0,
+							"feature_size_m": 48.0,
+							"feature_cells": 3.0,
+							"classification": "degraded"
+						},
+						{
+							"lod": 5,
+							"cell_size_m": 16.0,
+							"feature_size_m": 64.0,
+							"feature_cells": 4.0,
+							"classification": "pass"
+						},
+						{
+							"lod": 5,
+							"cell_size_m": 16.0,
+							"feature_size_m": 128.0,
+							"feature_cells": 8.0,
+							"classification": "pass"
+						},
+						{
+							"lod": 6,
+							"cell_size_m": 32.0,
+							"feature_size_m": 32.0,
+							"feature_cells": 1.0,
+							"classification": "intentional_disappearance"
+						},
+						{
+							"lod": 6,
+							"cell_size_m": 32.0,
+							"feature_size_m": 64.0,
+							"feature_cells": 2.0,
+							"classification": "degraded"
+						},
+						{
+							"lod": 6,
+							"cell_size_m": 32.0,
+							"feature_size_m": 96.0,
+							"feature_cells": 3.0,
+							"classification": "degraded"
+						},
+						{
+							"lod": 6,
+							"cell_size_m": 32.0,
+							"feature_size_m": 128.0,
+							"feature_cells": 4.0,
+							"classification": "pass"
+						},
+						{
+							"lod": 6,
+							"cell_size_m": 32.0,
+							"feature_size_m": 256.0,
+							"feature_cells": 8.0,
+							"classification": "pass"
+						},
+						{
+							"lod": 7,
+							"cell_size_m": 64.0,
+							"feature_size_m": 64.0,
+							"feature_cells": 1.0,
+							"classification": "intentional_disappearance"
+						},
+						{
+							"lod": 7,
+							"cell_size_m": 64.0,
+							"feature_size_m": 128.0,
+							"feature_cells": 2.0,
+							"classification": "degraded"
+						},
+						{
+							"lod": 7,
+							"cell_size_m": 64.0,
+							"feature_size_m": 192.0,
+							"feature_cells": 3.0,
+							"classification": "degraded"
+						},
+						{
+							"lod": 7,
+							"cell_size_m": 64.0,
+							"feature_size_m": 256.0,
+							"feature_cells": 4.0,
+							"classification": "pass"
+						},
+						{
+							"lod": 7,
+							"cell_size_m": 64.0,
+							"feature_size_m": 512.0,
+							"feature_cells": 8.0,
+							"classification": "pass"
+						}
+					]
+				},
+				{
+					"milestone": "TQP-11",
+					"status": "PASS",
+					"fixture_count": 72,
+					"failures": [],
+					"journal_signature": "af224fb3d6522107fa7529595f93245695dfc9af3174ee6c051792b5578335ba"
+				},
+				{
+					"milestone": "TQP-12",
+					"status": "PASS",
+					"fixture_count": 2129,
+					"failures": [],
+					"operation_count": 2000,
+					"journal_signature": "a3d7eabf7797e24d77c861c56289ebe5a1f3b3cdfd02d1202f8fe8b0e21dad18",
+					"performance": {
+						"sample_count": 100,
+						"p50_usec": 6925.0,
+						"p95_usec": 9264.0,
+						"p99_usec": 10797.0,
+						"worst_usec": 11625.0
+					},
+					"memory": {
+						"retained_bytes": 39768276,
+						"peak_bytes": 47426476
+					}
+				},
+				{
+					"milestone": "TQP-13",
+					"status": "PASS",
+					"fixture_count": 5,
+					"failures": [],
+					"qualification_status": "QUALIFIED_WITH_TQP_20_AND_TQP_21_REFERENCE_MODELS",
+					"accepted_generations": [
+						4
+					],
+					"rejected_generations": [
+						2,
+						5,
+						3,
+						6
+					]
+				},
+				{
+					"milestone": "TQP-14",
+					"status": "PASS",
+					"fixture_count": 67,
+					"failures": [],
+					"qualification_status": "QUALIFIED_REFERENCE_EXPLOSION_INPUT",
+					"blast_signature": "163725242a1e6132ca67c9a564d93d85e07f35f788656ffb30fd5d5748a9421c"
+				}
+			],
+			"failures": []
+		},
+		"material_surface": {
+			"schema": "world_transvoxel.terrain_lab.material_surface_qualification.v1",
+			"status": "PASS",
+			"scope_status": {
+				"TQP-15": "qualified",
+				"TQP-16": "implemented_pending_visual_evidence",
+				"TQP-17": "implemented_pending_render_validation",
+				"TQP-18": "implemented_pending_temporal_inspection",
+				"TQP-19": "specified_pending_human_acceptance"
+			},
+			"qualified_scope": [
+				"deterministic material IDs, weights, ties, and construction provenance"
+			],
+			"explicitly_unqualified_scope": [
+				"production texture assets",
+				"visual pleasantness",
+				"temporal shader stability",
+				"renderer and GPU cost",
+				"human visual acceptance"
+			],
+			"provenance": {
+				"workload_signature": "material_surface_reference_v1",
+				"build_type": "debug",
+				"os": "Windows",
+				"architecture": "x86_64",
+				"cpu": "Intel(R) Core(TM) i5-7300HQ CPU @ 2.50GHz",
+				"gpu": "",
+				"driver": "opengl3",
+				"godot_version": "4.7-stable (official)",
+				"backend_revision": "a5c681d4061c5bcf2f779f7ae841d5d8ebffcdf2725040087386257ac2c3e32b"
+			},
+			"milestones": [
+				{
+					"milestone": "TQP-15",
+					"status": "PASS",
+					"fixture_count": 6,
+					"failures": []
+				},
+				{
+					"milestone": "TQP-16",
+					"status": "PASS",
+					"fixture_count": 6,
+					"failures": [],
+					"performance": {
+						"sample_count": 100,
+						"p50_usec": 539.0,
+						"p95_usec": 777.0,
+						"p99_usec": 1088.0,
+						"worst_usec": 1455.0
+					},
+					"qualification_status": "IMPLEMENTED_PENDING_VISUAL_EVIDENCE"
+				},
+				{
+					"milestone": "TQP-17",
+					"status": "PASS",
+					"fixture_count": 10,
+					"failures": [],
+					"policy": {
+						"storage": "texture_array",
+						"mapping": "world_space_triplanar",
+						"mipmaps": "required",
+						"anisotropy": "required",
+						"normal_maps": "tangent_free_triplanar_reorientation",
+						"edited_surface_coordinates": "world_position_not_edit_local"
+					},
+					"qualification_status": "IMPLEMENTED_PENDING_RENDER_VALIDATION"
+				},
+				{
+					"milestone": "TQP-18",
+					"status": "PASS",
+					"fixture_count": 12,
+					"failures": [],
+					"records": [
+						{
+							"normal": "(0.0, 1.0, 0.0)",
+							"axis_weights": "(0.0, 1.0, 0.0)",
+							"tangent": "(0.0, 0.0, 1.0)",
+							"slope": 0.0
+						},
+						{
+							"normal": "(1.0, 0.0, 0.0)",
+							"axis_weights": "(1.0, 0.0, 0.0)",
+							"tangent": "(0.0, 0.0, -1.0)",
+							"slope": 1.0
+						},
+						{
+							"normal": "(0.249963, 0.929861, -0.26996)",
+							"axis_weights": "(0.005158, 0.987824, 0.007018)",
+							"tangent": "(-0.733761, 0.0, -0.679408)",
+							"slope": 0.070139467716217
+						},
+						{
+							"normal": "(-0.713505, 0.100494, 0.693406)",
+							"axis_weights": "(0.528432, 0.000208, 0.47136)",
+							"tangent": "(0.696934, 0.0, 0.717135)",
+							"slope": 0.899506367743015
+						}
+					],
+					"qualification_status": "IMPLEMENTED_PENDING_TEMPORAL_INSPECTION"
+				},
+				{
+					"milestone": "TQP-19",
+					"status": "PASS",
+					"fixture_count": 4,
+					"failures": [],
+					"scenes": [
+						{
+							"id": "natural",
+							"fixed_camera": true,
+							"human_review": "PENDING"
+						},
+						{
+							"id": "constructed",
+							"fixed_camera": true,
+							"human_review": "PENDING"
+						},
+						{
+							"id": "destroyed",
+							"fixed_camera": true,
+							"human_review": "PENDING"
+						},
+						{
+							"id": "adversarial",
+							"fixed_camera": true,
+							"human_review": "PENDING"
+						}
+					],
+					"qualification_status": "SPECIFIED_PENDING_HUMAN_ACCEPTANCE"
+				}
+			],
+			"failures": []
+		},
+		"terrain_systems": {
+			"schema": "world_transvoxel.terrain_lab.system_qualification.v1",
+			"status": "PASS",
+			"scope_status": {
+				"TQP-20": "qualified",
+				"TQP-21": "implemented_pending_cancellation_and_atomic_publication",
+				"TQP-22": "implemented_pending_hysteresis_prefetch_eviction_and_edit_matrix",
+				"TQP-23": "implemented_pending_long_traversal_save_and_gpu_equivalence",
+				"TQP-24": "implemented_pending_culling_hlod_draw_and_buffer_evidence",
+				"TQP-25": "implemented_pending_atomic_disk_crash_and_baked_recovery",
+				"TQP-26": "implemented_pending_real_physics_query_and_navigation_publication",
+				"TQP-27": "implemented_pending_complete_runtime_diagnostic_sources",
+				"TQP-28": "implemented_pending_real_large_terrain_soak"
+			},
+			"qualified_scope": [
+				"TQP-20 deterministic reference chunk lifecycle"
+			],
+			"explicitly_unqualified_scope": [
+				"production worker-thread implementation",
+				"production terrain mesh residency",
+				"Godot physics and navigation integration",
+				"disk crash atomicity on every filesystem",
+				"production traversal and memory budgets",
+				"complete TQP-21 through TQP-28 qualification"
+			],
+			"provenance": {
+				"workload_signature": "terrain_system_reference_v1",
+				"build_type": "debug",
+				"os": "Windows",
+				"architecture": "x86_64",
+				"cpu": "Intel(R) Core(TM) i5-7300HQ CPU @ 2.50GHz",
+				"gpu": "",
+				"driver": "opengl3",
+				"godot_version": "4.7-stable (official)",
+				"backend_revision": "a5c681d4061c5bcf2f779f7ae841d5d8ebffcdf2725040087386257ac2c3e32b"
+			},
+			"milestones": [
+				{
+					"milestone": "TQP-20",
+					"status": "PASS",
+					"fixture_count": 36,
+					"failures": [],
+					"states": [
+						"requested",
+						"generating",
+						"ready",
+						"visible",
+						"collidable",
+						"dirty",
+						"stale",
+						"cached",
+						"failed",
+						"evicted"
+					],
+					"legal_transition_count": 31
+				},
+				{
+					"milestone": "TQP-21",
+					"status": "PASS",
+					"fixture_count": 6,
+					"failures": []
+				},
+				{
+					"milestone": "TQP-22",
+					"status": "PASS",
+					"fixture_count": 12,
+					"failures": [],
+					"windows": [
+						{
+							"center": "(0, 0, 0)",
+							"requested_count": 49
+						},
+						{
+							"center": "(0, 0, 0)",
+							"requested_count": 49
+						},
+						{
+							"center": "(1, 0, 0)",
+							"requested_count": 49
+						},
+						{
+							"center": "(2, 0, -2)",
+							"requested_count": 49
+						},
+						{
+							"center": "(64, 0, 64)",
+							"requested_count": 49
+						}
+					]
+				},
+				{
+					"milestone": "TQP-23",
+					"status": "PASS",
+					"fixture_count": 30,
+					"failures": []
+				},
+				{
+					"milestone": "TQP-24",
+					"status": "PASS",
+					"fixture_count": 292,
+					"failures": [],
+					"resident_count": 64,
+					"retained_bytes": 268435456,
+					"budget_bytes": 268435456
+				},
+				{
+					"milestone": "TQP-25",
+					"status": "PASS",
+					"fixture_count": 4,
+					"failures": [],
+					"save_signature": "fcbf74b38bb194614ff82d02e102dc4327f172dc8aaea9f790372342b18ad11a"
+				},
+				{
+					"milestone": "TQP-26",
+					"status": "PASS",
+					"fixture_count": 4,
+					"failures": []
+				},
+				{
+					"milestone": "TQP-27",
+					"status": "PASS",
+					"fixture_count": 5,
+					"failures": [],
+					"snapshot": {
+						"schema": "world_transvoxel.terrain_lab.observatory_snapshot.v1",
+						"chunks": {
+							"0:0:0:0": {
+								"state": "visible",
+								"generation": 1,
+								"lod": 0,
+								"reason": ""
+							}
+						},
+						"jobs": {
+							"job-001": {
+								"chunk_id": "0:0:0:0",
+								"generation": 1,
+								"state": "running",
+								"priority": 0
+							}
+						},
+						"counters": {
+							"published": 1,
+							"stale_rejections": 1,
+							"failed": 0,
+							"evicted": 0
+						},
+						"events": [
+							{
+								"sequence": 0,
+								"kind": "chunk_state",
+								"subject": "0:0:0:0",
+								"generation": 1,
+								"detail": ""
+							},
+							{
+								"sequence": 1,
+								"kind": "job_state",
+								"subject": "job-001",
+								"generation": 1,
+								"detail": "running"
+							},
+							{
+								"sequence": 2,
+								"kind": "rejection",
+								"subject": "0:0:0:0",
+								"generation": 0,
+								"detail": "stale_generation"
+							},
+							{
+								"sequence": 3,
+								"kind": "chunk_state",
+								"subject": "0:0:0:0",
+								"generation": 1,
+								"detail": ""
+							},
+							{
+								"sequence": 4,
+								"kind": "publication",
+								"subject": "0:0:0:0",
+								"generation": 1,
+								"detail": ""
+							}
+						],
+						"total_event_count": 5,
+						"repro_signature": "1ea5fdae9e56e1629308452dcb59f5fb5bcaa6aae75ea74a268ef4a07c0e49bd"
+					}
+				},
+				{
+					"milestone": "TQP-28",
+					"status": "PASS",
+					"fixture_count": 10000,
+					"failures": [],
+					"performance": {
+						"sample_count": 100,
+						"p50_usec": 827.0,
+						"p95_usec": 1565.0,
+						"p99_usec": 1986.0,
+						"worst_usec": 2241.0
+					},
+					"memory": {
+						"retained_bytes": 27554528,
+						"peak_bytes": 47426476
+					},
+					"retained_chunk_count": 127,
+					"qualification_scope": "REFERENCE_MODEL_NOT_PRODUCTION_TERRAIN"
+				}
+			],
+			"failures": []
+		},
+		"structural_world": {
+			"schema": "world_transvoxel.terrain_lab.structural_world_qualification.v1",
+			"status": "PASS",
+			"scope_status": {
+				"TQP-29": "implemented_pending_strength_and_under_resolution_matrix",
+				"TQP-30": "implemented_pending_rigid_body_remesh_collision_and_persistence",
+				"TQP-31": "implemented_pending_TQP_22_and_TQP_25_qualification",
+				"TQP-32": "implemented_pending_collision_destruction_and_persistence",
+				"TQP-33": "implemented_pending_bridge_authoring_and_lod_matrix"
+			},
+			"implemented_scope": [
+				"fluid ownership boundary"
+			],
+			"explicitly_unqualified_scope": [
+				"production rigid-body debris",
+				"fluid simulation and rendering",
+				"production vegetation rendering",
+				"road and bridge authoring tools",
+				"gameplay suitability",
+				"complete TQP-29, TQP-30, TQP-32, and TQP-33 qualification"
+			],
+			"provenance": {
+				"workload_signature": "structural_world_reference_v1",
+				"build_type": "debug",
+				"os": "Windows",
+				"architecture": "x86_64",
+				"cpu": "Intel(R) Core(TM) i5-7300HQ CPU @ 2.50GHz",
+				"gpu": "",
+				"driver": "opengl3",
+				"godot_version": "4.7-stable (official)",
+				"backend_revision": "a5c681d4061c5bcf2f779f7ae841d5d8ebffcdf2725040087386257ac2c3e32b"
+			},
+			"milestones": [
+				{
+					"milestone": "TQP-29",
+					"status": "PASS",
+					"fixture_count": 11,
+					"failures": [],
+					"supported_count": 5,
+					"unsupported_count": 2
+				},
+				{
+					"milestone": "TQP-30",
+					"status": "PASS",
+					"fixture_count": 4,
+					"failures": [],
+					"replay_signature": "3f94e603f5ebc9e237bac592bcc5b5bf0ac4e72d72bd24c5eaf6a58d43c25d8d",
+					"qualification_scope": "REFERENCE_POLICY_NO_RIGID_BODY_IMPLEMENTATION"
+				},
+				{
+					"milestone": "TQP-31",
+					"status": "PASS",
+					"fixture_count": 11,
+					"failures": [],
+					"ownership": {
+						"terrain_solid_boundary": "authoritative_density_field",
+						"water_volume": "separate_fluid_system",
+						"intersection_query": "terrain_field_query_at_fluid_resolution",
+						"coastline_rendering": "fluid_renderer",
+						"cave_water": "fluid_regions_clipped_by_authoritative_terrain_queries",
+						"drainage": "fluid_system_policy_not_terrain_meshing_policy",
+						"flooding": "fluid_system_state_reacts_to_terrain_edit_invalidation",
+						"terrain_edit_invalidation": "fluid_regions_overlapping_edit_bounds",
+						"lod_behavior": "fluid_surface_lod_is_independent_and_queries_continuous_terrain",
+						"persistence": "fluid_system_state_plus_terrain_version_reference"
+					},
+					"qualification_scope": "OWNERSHIP_CONTRACT_ONLY"
+				},
+				{
+					"milestone": "TQP-32",
+					"status": "PASS",
+					"fixture_count": 18,
+					"failures": [],
+					"placement_signature": "c0da3eb2f76345ca8817b702827df800bcf8dcb32e809f3e8a00f1b44a7e1f1e"
+				},
+				{
+					"milestone": "TQP-33",
+					"status": "PASS",
+					"fixture_count": 7,
+					"failures": [],
+					"composition_order": [
+						"procedural_and_authored_base",
+						"ordered_construction_and_subtraction_journal",
+						"derived_material_and_mesh_publication"
+					],
+					"journal_signature": "47fff0849c47153c185abdf68b290f51880937102fac9cd5c63ae2835a889710"
+				}
+			],
+			"failures": []
+		},
+		"completion": {
+			"schema": "world_transvoxel.terrain_lab.completion_qualification.v1",
+			"status": "PASS",
+			"scope_status": {
+				"TQP-34": "specified_pending_candidate_benefit_measurement",
+				"TQP-35": "blocked",
+				"TQP-36": "blocked",
+				"TQP-37": "blocked",
+				"TQP-38": "blocked",
+				"TQP-39": "blocked",
+				"TQP-40": "blocked",
+				"TQP-41": "blocked",
+				"TQP-42": "blocked",
+				"TQP-43": "blocked",
+				"TQP-44": "blocked",
+				"TQP-45": "blocked",
+				"TQP-46": "blocked"
+			},
+			"backend_decision": {
+				"schema": "world_transvoxel.terrain_lab.backend_architecture_decision.v1",
+				"decision_id": "TQP-D003",
+				"status": "QUALIFIED_DECISION",
+				"reference_backend": "world_transvoxel_cpu",
+				"decisions": {
+					"field_evaluation": {
+						"current": "cpu",
+						"gpu_candidate": "BLOCKED_NO_IMPLEMENTATION",
+						"promotion_requirement": "TQP-35 analytical and CPU differential evidence"
+					},
+					"meshing": {
+						"current_authority": "world_transvoxel_cpu",
+						"gpu_candidate": "BLOCKED_NO_IMPLEMENTATION",
+						"promotion_requirement": "TQP-36 and TQP-37 primitive plus terrain differential evidence"
+					},
+					"buffer_residency": {
+						"current": "cpu_generation_then_render_upload",
+						"gpu_candidate": "BLOCKED_NO_IMPLEMENTATION",
+						"promotion_requirement": "TQP-38 synchronization, reuse, stale rejection, and recovery evidence"
+					},
+					"collision": {
+						"current": "cpu_authoritative_publication",
+						"gpu_readback": "UNQUALIFIED",
+						"promotion_requirement": "versioned readback within publication and latency budgets"
+					}
+				},
+				"target_graphics_apis": [
+					"d3d12",
+					"vulkan"
+				],
+				"minimum_candidate_benefit": {
+					"throughput_speedup": 2.0,
+					"p95_frame_budget_regression_allowed_ms": 0.0,
+					"correctness_regression_allowed": false
+				},
+				"qualified_scope": [
+					"CPU world-transvoxel remains the pinned reference and sole meshing authority",
+					"GPU field, meshing, residency, and collision readback are separate promotion decisions"
+				],
+				"explicitly_unqualified_scope": [
+					"GPU field evaluation",
+					"GPU regular or transition meshing",
+					"GPU buffer publication",
+					"GPU collision readback",
+					"cross-hardware GPU behavior"
+				]
+			},
+			"blockers": [
+				{
+					"milestone": "TQP-35",
+					"code": "GPU_FIELD_BACKEND_ABSENT",
+					"owner": "Backend Qualification Lab",
+					"exit": "candidate GPU field evaluator is available for analytical CPU differential testing"
+				},
+				{
+					"milestone": "TQP-36",
+					"code": "GPU_MESHER_ABSENT",
+					"owner": "Backend Qualification Lab",
+					"exit": "candidate GPU regular, transition, and chunk mesher exists"
+				},
+				{
+					"milestone": "TQP-37",
+					"code": "GPU_DIFFERENTIAL_TARGET_ABSENT",
+					"owner": "Backend Qualification Lab",
+					"exit": "TQP-36 candidate can execute the shared corpus"
+				},
+				{
+					"milestone": "TQP-38",
+					"code": "GPU_RESIDENCY_TARGET_ABSENT",
+					"owner": "Backend Qualification Lab",
+					"exit": "candidate GPU buffers and publication path exist"
+				},
+				{
+					"milestone": "TQP-39",
+					"code": "GPU_HARDWARE_MATRIX_UNAVAILABLE",
+					"owner": "Backend Qualification Lab",
+					"exit": "TQP-37 and TQP-38 pass on a declared multi-vendor hardware pool"
+				},
+				{
+					"milestone": "TQP-40",
+					"code": "PRODUCTION_ADDON_ABSENT",
+					"owner": "world-transvoxel-terrain",
+					"exit": "a pinned candidate production addon and qualified Gate C exist"
+				},
+				{
+					"milestone": "TQP-41",
+					"code": "PRODUCTION_AUTHORING_TARGET_ABSENT",
+					"owner": "world-transvoxel-terrain",
+					"exit": "TQP-40 candidate and accepted TQP-19 visual corpus exist"
+				},
+				{
+					"milestone": "TQP-42",
+					"code": "DOWNSTREAM_PARITY_TARGET_UNPINNED",
+					"owner": "Integration game and world-transvoxel-terrain",
+					"exit": "candidate production addon and integration-game revisions are pinned"
+				},
+				{
+					"milestone": "TQP-43",
+					"code": "NETWORK_MODEL_UNQUALIFIED",
+					"owner": "Production terrain and integration layers",
+					"exit": "multiplayer authority model advances beyond single-player local authority"
+				},
+				{
+					"milestone": "TQP-44",
+					"code": "RELEASE_MATRIX_PREREQUISITES_OPEN",
+					"owner": "Terrain Qualification Program",
+					"exit": "applicable TQP-01 through TQP-43 evidence is qualified"
+				},
+				{
+					"milestone": "TQP-45",
+					"code": "RELEASE_CANDIDATE_ABSENT",
+					"owner": "Terrain Qualification Program",
+					"exit": "TQP-44 produces a reproducible release candidate"
+				},
+				{
+					"milestone": "TQP-46",
+					"code": "FINAL_REVIEW_NOT_ELIGIBLE",
+					"owner": "Terrain Qualification Program",
+					"exit": "TQP-45 long-haul certification passes and the evidence bundle receives human review"
+				}
+			],
+			"specified_scope": [
+				"TQP-34 CPU-primary backend architecture decision and candidate promotion boundaries"
+			],
+			"explicitly_unqualified_scope": [
+				"GPU backend milestones TQP-35 through TQP-39",
+				"production milestones TQP-40 through TQP-46",
+				"TQP-34 measured GPU candidate benefit"
+			],
+			"failures": []
+		}
+	},
+	"evidence_alignment": {
+		"schema": "world_transvoxel.terrain_lab.evidence_alignment.v1",
+		"status": "PASS",
+		"observed_milestone_count": 46,
+		"failures": []
+	}
+}

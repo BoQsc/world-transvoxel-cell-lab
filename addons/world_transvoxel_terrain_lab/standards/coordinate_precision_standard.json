@@ -1,0 +1,26 @@
+{
+	"schema": "world_transvoxel.terrain_lab.coordinate_precision.v1",
+	"standard_id": "integer_sample_addressing_v1",
+	"sample_address": "signed_int64_xyz",
+	"chunk_address": "signed_int64_xyz_plus_lod",
+	"chunk_samples_per_axis": 32,
+	"negative_division": "mathematical_floor",
+	"boundary_ownership": "minimum_coordinate_chunk_owns_cell_boundary_sample_shared_by_value",
+	"conversion_order": [
+		"global_sample_int64",
+		"chunk_and_local_integer_address",
+		"origin_relative_float_render_position"
+	],
+	"floating_origin": {
+		"shift_threshold_m": 4096.0,
+		"shift_quantum_m": 1024.0,
+		"maximum_local_magnitude_m": 5120.0
+	},
+	"precision_budgets": {
+		"integer_round_trip_error_samples": 0,
+		"cpu_world_round_trip_error_m": 0.000001,
+		"render_local_error_m": 0.001,
+		"cpu_gpu_density_difference": 0.00001
+	},
+	"gpu_coordinate_equivalence": "UNQUALIFIED_PENDING_TQP_35"
+}

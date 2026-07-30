@@ -1,0 +1,14 @@
+{
+	"schema": "world_transvoxel.terrain_lab.decision.v1",
+	"id": "TQP-D002",
+	"date": "2026-07-30",
+	"decision": "Execute the full Terrain Qualification Program in dependency order with fail-closed promotion and no inferred production or GPU claims.",
+	"affected_milestones": ["TQP-01", "TQP-46"],
+	"repositories": ["world-transvoxel-cell-lab", "world-transvoxel"],
+	"alternatives": ["mark roadmap items complete from code existence", "select a production or GPU architecture before foundation evidence"],
+	"evidence": ["Terrain Qualification Program", "machine-readable program manifest v2"],
+	"qualified_scope": ["foundation reference envelope after validation"],
+	"unqualified_scope": ["production release", "GPU backend", "networking", "cross-hardware support"],
+	"baseline_changes": ["program manifest v2", "foundation standards v1"],
+	"downstream_impact": "Every later milestone has a declared contract and evidence profile, but advances only when its own evidence passes."
+}

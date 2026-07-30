@@ -1,0 +1,28 @@
+{
+	"schema": "world_transvoxel.terrain_lab.resolution_error.v1",
+	"standard_id": "half_meter_lod_reference_v1",
+	"base_cell_size_m": 0.5,
+	"maximum_lod": 7,
+	"sampling_rule": "evaluate_authoritative_continuous_field_after_ordered_edits_at_requested_lod",
+	"density_downsampling": "not_authoritative",
+	"feature_classification": {
+		"pass_minimum_cells": 4.0,
+		"degraded_minimum_cells": 2.0,
+		"intentional_disappearance_below_cells": 2.0
+	},
+	"error_budgets": {
+		"maximum_geometric_error_in_cells": 1.0,
+		"target_screen_space_error_px": 2.0,
+		"maximum_transition_position_error_m": 0.0001
+	},
+	"lods": [
+		{"lod": 0, "cell_size_m": 0.5, "pass_feature_m": 2.0, "degraded_feature_m": 1.0},
+		{"lod": 1, "cell_size_m": 1.0, "pass_feature_m": 4.0, "degraded_feature_m": 2.0},
+		{"lod": 2, "cell_size_m": 2.0, "pass_feature_m": 8.0, "degraded_feature_m": 4.0},
+		{"lod": 3, "cell_size_m": 4.0, "pass_feature_m": 16.0, "degraded_feature_m": 8.0},
+		{"lod": 4, "cell_size_m": 8.0, "pass_feature_m": 32.0, "degraded_feature_m": 16.0},
+		{"lod": 5, "cell_size_m": 16.0, "pass_feature_m": 64.0, "degraded_feature_m": 32.0},
+		{"lod": 6, "cell_size_m": 32.0, "pass_feature_m": 128.0, "degraded_feature_m": 64.0},
+		{"lod": 7, "cell_size_m": 64.0, "pass_feature_m": 256.0, "degraded_feature_m": 128.0}
+	]
+}

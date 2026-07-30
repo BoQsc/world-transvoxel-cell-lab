@@ -1,0 +1,41 @@
+{
+	"schema": "world_transvoxel.terrain_lab.qualification_protocol.v1",
+	"protocol_id": "repeatable_evidence_v1",
+	"promotion_states": ["proposed", "specified", "implemented", "qualified", "production", "blocked"],
+	"benchmark": {
+		"warmup_iterations": 10,
+		"minimum_samples": 100,
+		"required_quantiles": ["p50", "p95", "p99", "worst"],
+		"required_memory_metrics": ["retained_bytes", "peak_bytes"],
+		"required_metadata": [
+			"workload_signature",
+			"build_type",
+			"os",
+			"architecture",
+			"cpu",
+			"gpu",
+			"driver",
+			"godot_version",
+			"backend_revision"
+		],
+		"baseline_change_policy": "reviewed_reason_plus_before_after_distribution"
+	},
+	"fixtures": {
+		"required_classes": ["positive", "boundary", "retained_negative"],
+		"deterministic_seed_required": true,
+		"repro_export_required": true
+	},
+	"visual": {
+		"correctness_is_separate": true,
+		"fixed_camera_required": true,
+		"temporal_capture_required_when_motion_or_streaming_changes": true,
+		"human_review_required": true
+	},
+	"qualification": {
+		"dependency_closure_required": true,
+		"explicit_unqualified_scope_required": true,
+		"machine_report_required": true,
+		"regression_test_required": true,
+		"production_requires_release_bundle": true
+	}
+}

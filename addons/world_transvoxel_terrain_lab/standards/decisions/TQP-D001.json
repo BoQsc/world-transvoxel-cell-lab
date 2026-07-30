@@ -1,0 +1,14 @@
+{
+	"schema": "world_transvoxel.terrain_lab.decision.v1",
+	"id": "TQP-D001",
+	"date": "2026-07-29",
+	"decision": "Preserve Cell Lab as the foundational native meshing qualification system and keep production-terrain research in separately owned Terrain Lab milestones.",
+	"affected_milestones": ["TQP-01", "TQP-02", "TQP-05", "TQP-37"],
+	"repositories": ["world-transvoxel-cell-lab", "world-transvoxel"],
+	"alternatives": ["merge terrain-system work into Cell Lab", "replace the CPU authority before differential evidence"],
+	"evidence": ["Cell Lab qualification standard", "Cell Lab architecture boundary"],
+	"qualified_scope": ["lab ownership boundary"],
+	"unqualified_scope": ["production terrain runtime", "GPU authority"],
+	"baseline_changes": [],
+	"downstream_impact": "Production code may consume world-transvoxel but must not depend on Cell Lab runtime state."
+}

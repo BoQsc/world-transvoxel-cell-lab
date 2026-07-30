@@ -1,0 +1,272 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://labs/terrain_lab/scenes/terrain_observatory.gd" id="1_script"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_observatory"]
+sky_top_color = Color(0.055, 0.075, 0.09, 1)
+sky_horizon_color = Color(0.35, 0.43, 0.44, 1)
+ground_bottom_color = Color(0.035, 0.04, 0.045, 1)
+ground_horizon_color = Color(0.28, 0.31, 0.3, 1)
+sun_angle_max = 18.0
+sun_curve = 0.12
+
+[sub_resource type="Sky" id="Sky_observatory"]
+sky_material = SubResource("ProceduralSkyMaterial_observatory")
+
+[sub_resource type="Environment" id="Environment_observatory"]
+background_mode = 2
+sky = SubResource("Sky_observatory")
+ambient_light_source = 3
+ambient_light_color = Color(0.72, 0.79, 0.78, 1)
+ambient_light_energy = 0.55
+reflected_light_source = 2
+tonemap_mode = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_panel"]
+bg_color = Color(0.035, 0.045, 0.052, 0.96)
+border_width_right = 1
+border_color = Color(0.16, 0.23, 0.25, 1)
+content_margin_left = 18.0
+content_margin_top = 18.0
+content_margin_right = 18.0
+content_margin_bottom = 18.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_status"]
+bg_color = Color(0.06, 0.09, 0.10, 0.98)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.12, 0.55, 0.57, 0.65)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_title"]
+font_size = 22
+font_color = Color(0.9, 0.95, 0.94, 1)
+
+[node name="TerrainObservatory" type="Node3D"]
+script = ExtResource("1_script")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_observatory")
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+rotation_degrees = Vector3(-52, -34, 0)
+light_color = Color(1, 0.91, 0.76, 1)
+light_energy = 1.25
+shadow_enabled = true
+directional_shadow_max_distance = 180.0
+
+[node name="Fill" type="DirectionalLight3D" parent="."]
+rotation_degrees = Vector3(-28, 142, 0)
+light_color = Color(0.45, 0.66, 0.72, 1)
+light_energy = 0.35
+
+[node name="Camera3D" type="Camera3D" parent="."]
+unique_name_in_owner = true
+current = true
+fov = 48.0
+near = 0.2
+far = 500.0
+
+[node name="MeshRoot" type="Node3D" parent="."]
+unique_name_in_owner = true
+
+[node name="BoundsRoot" type="Node3D" parent="."]
+unique_name_in_owner = true
+
+[node name="Interface" type="CanvasLayer" parent="."]
+
+[node name="Dock" type="PanelContainer" parent="Interface"]
+offset_right = 340.0
+anchor_bottom = 1.0
+grow_vertical = 1
+theme_override_styles/panel = SubResource("StyleBox_panel")
+
+[node name="Content" type="VBoxContainer" parent="Interface/Dock"]
+theme_override_constants/separation = 8
+
+[node name="Title" type="Label" parent="Interface/Dock/Content"]
+text = "Terrain Observatory"
+label_settings = SubResource("LabelSettings_title")
+
+[node name="Subtitle" type="Label" parent="Interface/Dock/Content"]
+theme_override_colors/font_color = Color(0.5, 0.71, 0.71, 1)
+text = "CPU reference / world-transvoxel"
+
+[node name="StatusPanel" type="PanelContainer" parent="Interface/Dock/Content"]
+theme_override_styles/panel = SubResource("StyleBox_status")
+
+[node name="StatusRows" type="VBoxContainer" parent="Interface/Dock/Content/StatusPanel"]
+theme_override_constants/separation = 4
+
+[node name="StatusLabel" type="Label" parent="Interface/Dock/Content/StatusPanel/StatusRows"]
+unique_name_in_owner = true
+theme_override_colors/font_color = Color(0.35, 0.88, 0.63, 1)
+theme_override_font_sizes/font_size = 18
+text = "Initializing"
+
+[node name="MetricsLabel" type="Label" parent="Interface/Dock/Content/StatusPanel/StatusRows"]
+unique_name_in_owner = true
+theme_override_colors/font_color = Color(0.72, 0.78, 0.77, 1)
+text = "0 chunks"
+
+[node name="Separator1" type="HSeparator" parent="Interface/Dock/Content"]
+
+[node name="ShapeLabel" type="Label" parent="Interface/Dock/Content"]
+theme_override_colors/font_color = Color(0.76, 0.81, 0.8, 1)
+text = "Brush"
+
+[node name="ShapeOption" type="OptionButton" parent="Interface/Dock/Content"]
+unique_name_in_owner = true
+tooltip_text = "Brush shape"
+
+[node name="Parameters" type="GridContainer" parent="Interface/Dock/Content"]
+columns = 4
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 6
+
+[node name="LabelX" type="Label" parent="Interface/Dock/Content/Parameters"]
+text = "X"
+
+[node name="PositionX" type="SpinBox" parent="Interface/Dock/Content/Parameters"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(82, 0)
+min_value = -64.0
+max_value = 96.0
+step = 0.5
+value = 16.0
+
+[node name="LabelY" type="Label" parent="Interface/Dock/Content/Parameters"]
+text = "Y"
+
+[node name="PositionY" type="SpinBox" parent="Interface/Dock/Content/Parameters"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(82, 0)
+min_value = -16.0
+max_value = 48.0
+step = 0.5
+value = 9.0
+
+[node name="LabelZ" type="Label" parent="Interface/Dock/Content/Parameters"]
+text = "Z"
+
+[node name="PositionZ" type="SpinBox" parent="Interface/Dock/Content/Parameters"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(82, 0)
+min_value = -64.0
+max_value = 96.0
+step = 0.5
+value = 16.0
+
+[node name="LabelRadius" type="Label" parent="Interface/Dock/Content/Parameters"]
+text = "R"
+
+[node name="Radius" type="SpinBox" parent="Interface/Dock/Content/Parameters"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(82, 0)
+min_value = 0.5
+max_value = 24.0
+step = 0.5
+value = 4.0
+
+[node name="LabelExtentX" type="Label" parent="Interface/Dock/Content/Parameters"]
+text = "Ex"
+
+[node name="ExtentX" type="SpinBox" parent="Interface/Dock/Content/Parameters"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(82, 0)
+min_value = 0.0
+max_value = 24.0
+step = 0.5
+value = 4.0
+
+[node name="LabelExtentY" type="Label" parent="Interface/Dock/Content/Parameters"]
+text = "Ey"
+
+[node name="ExtentY" type="SpinBox" parent="Interface/Dock/Content/Parameters"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(82, 0)
+min_value = 0.0
+max_value = 24.0
+step = 0.5
+value = 2.0
+
+[node name="LabelExtentZ" type="Label" parent="Interface/Dock/Content/Parameters"]
+text = "Ez"
+
+[node name="ExtentZ" type="SpinBox" parent="Interface/Dock/Content/Parameters"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(82, 0)
+min_value = 0.0
+max_value = 24.0
+step = 0.5
+value = 4.0
+
+[node name="ExtentSpacerLabel" type="Control" parent="Interface/Dock/Content/Parameters"]
+
+[node name="ExtentSpacerValue" type="Control" parent="Interface/Dock/Content/Parameters"]
+
+[node name="Actions" type="HBoxContainer" parent="Interface/Dock/Content"]
+theme_override_constants/separation = 8
+
+[node name="DigButton" type="Button" parent="Interface/Dock/Content/Actions"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+text = "Dig"
+tooltip_text = "Apply subtractive brush"
+
+[node name="ConstructButton" type="Button" parent="Interface/Dock/Content/Actions"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+text = "Construct"
+tooltip_text = "Apply additive brush"
+
+[node name="Options" type="HBoxContainer" parent="Interface/Dock/Content"]
+
+[node name="BoundsToggle" type="CheckButton" parent="Interface/Dock/Content/Options"]
+unique_name_in_owner = true
+button_pressed = true
+text = "Chunk bounds"
+
+[node name="Spacer" type="Control" parent="Interface/Dock/Content/Options"]
+size_flags_horizontal = 3
+
+[node name="ResetButton" type="Button" parent="Interface/Dock/Content/Options"]
+unique_name_in_owner = true
+text = "Reset"
+tooltip_text = "Restore canonical fixture"
+
+[node name="Separator2" type="HSeparator" parent="Interface/Dock/Content"]
+
+[node name="QualifyButton" type="Button" parent="Interface/Dock/Content"]
+unique_name_in_owner = true
+text = "Run Qualification"
+tooltip_text = "Run all Terrain Qualification Program suites"
+
+[node name="Scope" type="Label" parent="Interface/Dock/Content"]
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.52, 0.58, 0.58, 1)
+text = "REFERENCE LAB SCOPE\nNOT PRODUCTION"
+vertical_alignment = 2
+
+[node name="SceneBadge" type="Label" parent="Interface"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -234.0
+offset_top = 22.0
+offset_right = -22.0
+offset_bottom = 66.0
+grow_horizontal = 0
+theme_override_colors/font_color = Color(0.86, 0.91, 0.9, 0.9)
+theme_override_font_sizes/font_size = 14
+text = "TQP-27  TERRAIN LAB"
+horizontal_alignment = 2

@@ -7,9 +7,14 @@ It owns controlled research and evidence for the Terrain Qualification Program.
 It does not own production implementation, and it does not extend the Cell Lab
 root node.
 
-All `TQP-01` through `TQP-46` milestones are currently `proposed`. Gate A is
-specification work only. Terrain experiments must not be represented as
-qualified behavior until their contracts and evidence satisfy the program
-status rules.
+The complete `TQP-01` through `TQP-46` catalog is now executable and
+fail-closed. Eight milestones are qualified for narrow contract or reference
+scopes, twenty-four have implemented evidence with named gaps, two are
+specified, and twelve GPU or production milestones are blocked by named
+external targets.
+
+This is not a production-terrain claim. See `qualification_state.json`,
+`program_blockers.json`, and the retained report for exact qualified and
+unqualified scope.
 
 See `TERRAIN_QUALIFICATION_PROGRAM.md` for the complete program.

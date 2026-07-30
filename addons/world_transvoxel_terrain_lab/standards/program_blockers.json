@@ -1,0 +1,24 @@
+{
+	"schema": "world_transvoxel.terrain_lab.program_blockers.v1",
+	"as_of": "2026-07-30",
+	"policy": "blocked milestones remain unqualified and fail closed",
+	"blockers": [
+		{"milestone": "TQP-35", "code": "GPU_FIELD_BACKEND_ABSENT", "owner": "Backend Qualification Lab", "exit": "candidate GPU field evaluator is available for analytical CPU differential testing"},
+		{"milestone": "TQP-36", "code": "GPU_MESHER_ABSENT", "owner": "Backend Qualification Lab", "exit": "candidate GPU regular, transition, and chunk mesher exists"},
+		{"milestone": "TQP-37", "code": "GPU_DIFFERENTIAL_TARGET_ABSENT", "owner": "Backend Qualification Lab", "exit": "TQP-36 candidate can execute the shared corpus"},
+		{"milestone": "TQP-38", "code": "GPU_RESIDENCY_TARGET_ABSENT", "owner": "Backend Qualification Lab", "exit": "candidate GPU buffers and publication path exist"},
+		{"milestone": "TQP-39", "code": "GPU_HARDWARE_MATRIX_UNAVAILABLE", "owner": "Backend Qualification Lab", "exit": "TQP-37 and TQP-38 pass on a declared multi-vendor hardware pool"},
+		{"milestone": "TQP-40", "code": "PRODUCTION_ADDON_ABSENT", "owner": "world-transvoxel-terrain", "exit": "a pinned candidate production addon and qualified Gate C exist"},
+		{"milestone": "TQP-41", "code": "PRODUCTION_AUTHORING_TARGET_ABSENT", "owner": "world-transvoxel-terrain", "exit": "TQP-40 candidate and accepted TQP-19 visual corpus exist"},
+		{"milestone": "TQP-42", "code": "DOWNSTREAM_PARITY_TARGET_UNPINNED", "owner": "Integration game and world-transvoxel-terrain", "exit": "candidate production addon and integration-game revisions are pinned"},
+		{"milestone": "TQP-43", "code": "NETWORK_MODEL_UNQUALIFIED", "owner": "Production terrain and integration layers", "exit": "multiplayer authority model advances beyond single-player local authority"},
+		{"milestone": "TQP-44", "code": "RELEASE_MATRIX_PREREQUISITES_OPEN", "owner": "Terrain Qualification Program", "exit": "applicable TQP-01 through TQP-43 evidence is qualified"},
+		{"milestone": "TQP-45", "code": "RELEASE_CANDIDATE_ABSENT", "owner": "Terrain Qualification Program", "exit": "TQP-44 produces a reproducible release candidate"},
+		{"milestone": "TQP-46", "code": "FINAL_REVIEW_NOT_ELIGIBLE", "owner": "Terrain Qualification Program", "exit": "TQP-45 long-haul certification passes and the evidence bundle receives human review"}
+	],
+	"explicitly_not_blockers": [
+		"Cell Lab implementation",
+		"world-transvoxel CPU authority",
+		"Terrain Lab reference fixtures"
+	]
+}

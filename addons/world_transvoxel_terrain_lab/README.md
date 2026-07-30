@@ -4,7 +4,9 @@ The Terrain Lab addon owns controlled experiments for the Terrain Qualification
 Program. It is separate from `world_transvoxel_cell_lab` even though both addons
 share this repository and the pinned `world_transvoxel` dependency.
 
-Current status: program scaffold. All 46 TQP milestones remain `proposed`.
+Current status: complete fail-closed program execution. All 46 milestones have
+machine-readable contracts, evidence states, executable coverage, or explicit
+external blockers. No milestone is left `proposed`.
 
 ## Allowed Dependencies
 
@@ -18,9 +20,11 @@ Current status: program scaffold. All 46 TQP milestones remain `proposed`.
 - Cell Lab code must not preload, instantiate, or extend Terrain Lab code.
 - Production projects must not depend on either lab addon at runtime.
 
-The addon currently provides program metadata and boundary validation only. It
-does not implement editing, materials, streaming, destruction, GPU meshing, or
-other proposed terrain behavior.
+The addon provides deterministic reference implementations and qualification
+fixtures for edit semantics, material semantics, terrain-system policy,
+structural policy, observability, and backend decisions. These reference
+models are not a production terrain runtime. GPU and production milestones
+remain blocked and no fallback mesher exists.
 
 Program document:
 
@@ -32,4 +36,16 @@ Boundary smoke:
 
 ```text
 res://addons/world_transvoxel_terrain_lab/tests/wt_terrain_lab_smoke.gd
+```
+
+Terrain Observatory:
+
+```text
+res://labs/terrain_lab/scenes/terrain_observatory.tscn
+```
+
+Full machine report:
+
+```text
+res://labs/terrain_lab/tools/run_terrain_lab_validation.gd
 ```

@@ -1,0 +1,22 @@
+{
+	"schema": "world_transvoxel.terrain_lab.authority_data_model.v1",
+	"model_id": "journal_authority_derived_runtime_v1",
+	"records": [
+		{"name": "procedural_field", "authority": "immutable_seed_and_versioned_configuration", "lifecycle": "created_or_migrated_then_immutable", "persistent": true, "derived": false},
+		{"name": "authored_base_data", "authority": "versioned_source_asset", "lifecycle": "imported_validated_versioned", "persistent": true, "derived": false},
+		{"name": "edit_journal", "authority": "ordered_unique_operation_ids", "lifecycle": "append_transaction_undo_compact_migrate", "persistent": true, "derived": false},
+		{"name": "baked_density", "authority": "journal_equivalent_checkpoint", "lifecycle": "build_verify_publish_invalidate", "persistent": true, "derived": true},
+		{"name": "material_attributes", "authority": "base_field_plus_ordered_edit_provenance", "lifecycle": "sample_compose_cache_invalidate", "persistent": true, "derived": false},
+		{"name": "chunk_version", "authority": "monotonic_generation_and_dependency_signature", "lifecycle": "request_generate_publish_supersede", "persistent": false, "derived": true},
+		{"name": "render_mesh", "authority": "world_transvoxel_output_for_chunk_version", "lifecycle": "generate_validate_publish_retire", "persistent": false, "derived": true},
+		{"name": "collision_shape", "authority": "published_chunk_version", "lifecycle": "generate_validate_publish_retire", "persistent": false, "derived": true},
+		{"name": "runtime_cache", "authority": "none_disposable", "lifecycle": "allocate_fill_evict_rebuild", "persistent": false, "derived": true}
+	],
+	"invariants": [
+		"one_authority_per_record",
+		"derived_records_are_reconstructible",
+		"publication_rejects_stale_dependency_signatures",
+		"persistent_records_are_versioned_and_checksummed",
+		"runtime_caches_never_override_source_authority"
+	]
+}

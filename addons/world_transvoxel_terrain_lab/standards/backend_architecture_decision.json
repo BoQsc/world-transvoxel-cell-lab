@@ -1,0 +1,45 @@
+{
+	"schema": "world_transvoxel.terrain_lab.backend_architecture_decision.v1",
+	"decision_id": "TQP-D003",
+	"status": "QUALIFIED_DECISION",
+	"reference_backend": "world_transvoxel_cpu",
+	"decisions": {
+		"field_evaluation": {
+			"current": "cpu",
+			"gpu_candidate": "BLOCKED_NO_IMPLEMENTATION",
+			"promotion_requirement": "TQP-35 analytical and CPU differential evidence"
+		},
+		"meshing": {
+			"current_authority": "world_transvoxel_cpu",
+			"gpu_candidate": "BLOCKED_NO_IMPLEMENTATION",
+			"promotion_requirement": "TQP-36 and TQP-37 primitive plus terrain differential evidence"
+		},
+		"buffer_residency": {
+			"current": "cpu_generation_then_render_upload",
+			"gpu_candidate": "BLOCKED_NO_IMPLEMENTATION",
+			"promotion_requirement": "TQP-38 synchronization, reuse, stale rejection, and recovery evidence"
+		},
+		"collision": {
+			"current": "cpu_authoritative_publication",
+			"gpu_readback": "UNQUALIFIED",
+			"promotion_requirement": "versioned readback within publication and latency budgets"
+		}
+	},
+	"target_graphics_apis": ["d3d12", "vulkan"],
+	"minimum_candidate_benefit": {
+		"throughput_speedup": 2.0,
+		"p95_frame_budget_regression_allowed_ms": 0.0,
+		"correctness_regression_allowed": false
+	},
+	"qualified_scope": [
+		"CPU world-transvoxel remains the pinned reference and sole meshing authority",
+		"GPU field, meshing, residency, and collision readback are separate promotion decisions"
+	],
+	"explicitly_unqualified_scope": [
+		"GPU field evaluation",
+		"GPU regular or transition meshing",
+		"GPU buffer publication",
+		"GPU collision readback",
+		"cross-hardware GPU behavior"
+	]
+}

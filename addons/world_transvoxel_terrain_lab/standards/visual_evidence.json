@@ -1,0 +1,41 @@
+{
+	"schema": "world_transvoxel.terrain_lab.visual_evidence.v1",
+	"capture_id": "terrain_observatory_reference_windows_v1",
+	"capture_contract": {
+		"platform": "Windows",
+		"renderer": "forward_plus",
+		"rendering_driver": "d3d12",
+		"width": 1280,
+		"height": 720,
+		"gpu": "NVIDIA GeForce GTX 1060 with Max-Q Design",
+		"godot": "4.7-stable"
+	},
+	"scene": "res://labs/terrain_lab/scenes/terrain_observatory.tscn",
+	"capture_tool": "res://labs/terrain_lab/tools/capture_terrain_observatory.gd",
+	"image": "res://labs/terrain_lab/results/terrain_observatory_reference.png",
+	"sha256": "98f6f03e53ee73ef9026f6fcabbef354f858e0d5aaa135633c2eb79bd25fd7fd",
+	"automated_checks": {
+		"status": "PASS",
+		"native_chunk_count": 9,
+		"local_bounds_errors": 0,
+		"surface_pixel_presence": "PASS",
+		"material_distinction": "PASS",
+		"dock_within_viewport": "PASS"
+	},
+	"supports": [
+		"TQP-16 candidate material blending presentation",
+		"TQP-17 candidate triplanar texture-array presentation",
+		"TQP-18 candidate surface shading presentation",
+		"TQP-27 Terrain Observatory presentation"
+	],
+	"human_review": {
+		"status": "PENDING",
+		"required_for": ["TQP-16", "TQP-17", "TQP-18", "TQP-19"]
+	},
+	"explicitly_unqualified_scope": [
+		"production visual quality",
+		"temporal stability",
+		"non-Windows rendering",
+		"cross-GPU consistency"
+	]
+}
