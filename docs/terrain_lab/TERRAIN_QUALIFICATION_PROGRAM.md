@@ -174,7 +174,7 @@ fixtures.
 
 ### TQP-07: Brush Shape Corpus
 
-Status: `implemented`. Owner: Edit Semantics Lab. Depends on: TQP-04, TQP-06.
+Status: `qualified`. Owner: Edit Semantics Lab. Depends on: TQP-04, TQP-06.
 
 Complete when spheres, capsules, swept strokes, rounded boxes, planes, stamps,
 and bounded-noise shapes have analytic definitions, resolution limits, visual
@@ -182,7 +182,7 @@ references, and performance distributions.
 
 ### TQP-08: Digging Standard
 
-Status: `implemented`. Owner: Edit Semantics Lab. Depends on: TQP-06, TQP-07.
+Status: `qualified`. Owner: Edit Semantics Lab. Depends on: TQP-06, TQP-07.
 
 Complete when subtraction, continuous strokes, overlaps, tunnel clearance,
 chunk boundaries, materials, collision publication, and replay are predictable
@@ -190,7 +190,7 @@ across qualified LODs.
 
 ### TQP-09: Construction Standard
 
-Status: `implemented`. Owner: Edit Semantics Lab. Depends on: TQP-06, TQP-07.
+Status: `qualified`. Owner: Edit Semantics Lab. Depends on: TQP-06, TQP-07.
 
 Complete when addition, overlaps, material provenance, architectural shapes,
 surface continuity, support metadata, collision publication, and replay are
@@ -198,7 +198,7 @@ predictable.
 
 ### TQP-10: Resolvability Envelope
 
-Status: `implemented`. Owner: Edit Semantics Lab. Depends on: TQP-04, TQP-07,
+Status: `qualified`. Owner: Edit Semantics Lab. Depends on: TQP-04, TQP-07,
 TQP-08, TQP-09.
 
 Complete when minimum radius, wall thickness, clearance, curvature, smoothing
@@ -207,7 +207,7 @@ and intentional-disappearance classifications.
 
 ### TQP-11: Edit Journal, Undo, And Compaction
 
-Status: `implemented`. Owner: Edit Semantics Lab. Depends on: TQP-02, TQP-08,
+Status: `qualified`. Owner: Edit Semantics Lab. Depends on: TQP-02, TQP-08,
 TQP-09.
 
 Complete when ordering, duplicate IDs, cancellation, undo/redo, transactions,
@@ -216,7 +216,7 @@ are proven equivalent.
 
 ### TQP-12: Long Edit Soak
 
-Status: `implemented`. Owner: Edit Semantics Lab. Depends on: TQP-05, TQP-10,
+Status: `qualified`. Owner: Edit Semantics Lab. Depends on: TQP-05, TQP-10,
 TQP-11.
 
 Complete when seeded campaigns containing thousands of edits preserve full
@@ -517,10 +517,12 @@ a standard, not an assertion that future terrain work is finished.
 
 The program has executed every milestone to a truthful evidence state:
 
-- `TQP-01` through `TQP-06`, `TQP-15`, and `TQP-20` are qualified
-  for their narrow contract or reference-model scopes.
-- `TQP-07` through `TQP-14`, `TQP-16` through `TQP-18`, `TQP-21` through
-  `TQP-31` through `TQP-33` have implemented reference behavior but
+- `TQP-01` through `TQP-12`, `TQP-15`, and `TQP-20` are qualified
+  for their narrow contract, native Windows reference, or reference-model
+  scopes. Gate B is qualified; its native chunk rebuild benchmark remains a
+  background/debug reference and is not a production frame-time claim.
+- `TQP-13`, `TQP-14`, `TQP-16` through `TQP-18`, and `TQP-21` through
+  `TQP-33` have implemented reference behavior but
   still lack one or more exit criteria named in their milestone contracts.
 - `TQP-19` and `TQP-34` are specified. The former requires human visual
   acceptance; the latter requires measured GPU-candidate benefit.
@@ -528,7 +530,8 @@ The program has executed every milestone to a truthful evidence state:
   conditions in `program_blockers.json`.
 
 The next work is to close the explicit gaps retained by each implemented
-milestone, beginning with Gate B edit matrices and Gate C visual qualification.
+milestone, beginning with Gate C visual qualification and TQP-21 scheduling
+qualification required by temporal edits.
 Production and GPU claims remain closed. A blocked milestone may advance only
 when its recorded exit condition exists and the required evidence passes.
 

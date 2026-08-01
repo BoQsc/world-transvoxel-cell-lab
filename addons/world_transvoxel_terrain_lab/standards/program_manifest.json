@@ -1,6 +1,6 @@
 {
 	"schema": "world_transvoxel.terrain_lab.program.v2",
-	"program_revision": 2,
+	"program_revision": 3,
 	"lab_scope": "experimental_terrain_qualification",
 	"authority": "EVIDENCE_PROGRAM_ONLY",
 	"production_status": "NOT_PRODUCTION",
@@ -10,6 +10,7 @@
 	"backend_decision": "res://addons/world_transvoxel_terrain_lab/standards/backend_architecture_decision.json",
 	"blocker_catalog": "res://addons/world_transvoxel_terrain_lab/standards/program_blockers.json",
 	"visual_evidence": "res://addons/world_transvoxel_terrain_lab/standards/visual_evidence.json",
+	"edit_gate_b_evidence": "res://addons/world_transvoxel_terrain_lab/standards/edit_gate_b_standard.json",
 	"runtime_dependencies": ["world_transvoxel"],
 	"future_optional_test_dependencies": ["world_transvoxel_terrain"],
 	"forbidden_dependencies": ["world_transvoxel_cell_lab"],
@@ -105,7 +106,8 @@
 	"decisions": [
 		"res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D001.json",
 		"res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D002.json",
-		"res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D003.json"
+		"res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D003.json",
+		"res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D004.json"
 	],
 	"milestones": [
 		{"id": "TQP-01", "title": "Operating Envelope", "status": "qualified", "domain": "foundation", "owner": "Terrain Qualification Program", "depends_on": [], "evidence_profile": "foundation", "contract_ref": "#tqp-01-operating-envelope", "claim_scope": "reference_envelope_v1"},
@@ -114,12 +116,12 @@
 		{"id": "TQP-04", "title": "Resolution And Error Standard", "status": "qualified", "domain": "foundation", "owner": "Terrain Qualification Program", "depends_on": ["TQP-01", "TQP-03"], "evidence_profile": "foundation", "contract_ref": "#tqp-04-resolution-and-error-standard", "claim_scope": "reference_lod_envelope_v1"},
 		{"id": "TQP-05", "title": "Qualification And Benchmark Protocol", "status": "qualified", "domain": "foundation", "owner": "Terrain Qualification Program", "depends_on": ["TQP-01"], "evidence_profile": "foundation", "contract_ref": "#tqp-05-qualification-and-benchmark-protocol", "claim_scope": "terrain_evidence_protocol_v1"},
 		{"id": "TQP-06", "title": "Field Algebra", "status": "qualified", "domain": "edit_semantics", "owner": "Edit Semantics Lab", "depends_on": ["GATE_A"], "evidence_profile": "semantic", "contract_ref": "#tqp-06-field-algebra", "claim_scope": "deterministic_reference_model"},
-		{"id": "TQP-07", "title": "Brush Shape Corpus", "status": "implemented", "domain": "edit_semantics", "owner": "Edit Semantics Lab", "depends_on": ["TQP-04", "TQP-06"], "evidence_profile": "semantic", "contract_ref": "#tqp-07-brush-shape-corpus", "claim_scope": "deterministic_reference_model"},
-		{"id": "TQP-08", "title": "Digging Standard", "status": "implemented", "domain": "edit_semantics", "owner": "Edit Semantics Lab", "depends_on": ["TQP-06", "TQP-07"], "evidence_profile": "semantic", "contract_ref": "#tqp-08-digging-standard", "claim_scope": "deterministic_reference_model"},
-		{"id": "TQP-09", "title": "Construction Standard", "status": "implemented", "domain": "edit_semantics", "owner": "Edit Semantics Lab", "depends_on": ["TQP-06", "TQP-07"], "evidence_profile": "semantic", "contract_ref": "#tqp-09-construction-standard", "claim_scope": "deterministic_reference_model"},
-		{"id": "TQP-10", "title": "Resolvability Envelope", "status": "implemented", "domain": "edit_semantics", "owner": "Edit Semantics Lab", "depends_on": ["TQP-04", "TQP-07", "TQP-08", "TQP-09"], "evidence_profile": "semantic", "contract_ref": "#tqp-10-resolvability-envelope", "claim_scope": "reference_lod_envelope_v1"},
-		{"id": "TQP-11", "title": "Edit Journal, Undo, And Compaction", "status": "implemented", "domain": "edit_semantics", "owner": "Edit Semantics Lab", "depends_on": ["TQP-02", "TQP-08", "TQP-09"], "evidence_profile": "semantic", "contract_ref": "#tqp-11-edit-journal-undo-and-compaction", "claim_scope": "deterministic_reference_model"},
-		{"id": "TQP-12", "title": "Long Edit Soak", "status": "implemented", "domain": "edit_semantics", "owner": "Edit Semantics Lab", "depends_on": ["TQP-05", "TQP-10", "TQP-11"], "evidence_profile": "systems", "contract_ref": "#tqp-12-long-edit-soak", "claim_scope": "reference_workload_only"},
+		{"id": "TQP-07", "title": "Brush Shape Corpus", "status": "qualified", "domain": "edit_semantics", "owner": "Edit Semantics Lab", "depends_on": ["TQP-04", "TQP-06"], "evidence_profile": "semantic", "contract_ref": "#tqp-07-brush-shape-corpus", "claim_scope": "analytic_and_native_brush_corpus_v1"},
+		{"id": "TQP-08", "title": "Digging Standard", "status": "qualified", "domain": "edit_semantics", "owner": "Edit Semantics Lab", "depends_on": ["TQP-06", "TQP-07"], "evidence_profile": "semantic", "contract_ref": "#tqp-08-digging-standard", "claim_scope": "native_digging_reference_v1"},
+		{"id": "TQP-09", "title": "Construction Standard", "status": "qualified", "domain": "edit_semantics", "owner": "Edit Semantics Lab", "depends_on": ["TQP-06", "TQP-07"], "evidence_profile": "semantic", "contract_ref": "#tqp-09-construction-standard", "claim_scope": "native_construction_reference_v1"},
+		{"id": "TQP-10", "title": "Resolvability Envelope", "status": "qualified", "domain": "edit_semantics", "owner": "Edit Semantics Lab", "depends_on": ["TQP-04", "TQP-07", "TQP-08", "TQP-09"], "evidence_profile": "semantic", "contract_ref": "#tqp-10-resolvability-envelope", "claim_scope": "native_lod_feature_matrix_v1"},
+		{"id": "TQP-11", "title": "Edit Journal, Undo, And Compaction", "status": "qualified", "domain": "edit_semantics", "owner": "Edit Semantics Lab", "depends_on": ["TQP-02", "TQP-08", "TQP-09"], "evidence_profile": "semantic", "contract_ref": "#tqp-11-edit-journal-undo-and-compaction", "claim_scope": "deterministic_edit_journal_v2"},
+		{"id": "TQP-12", "title": "Long Edit Soak", "status": "qualified", "domain": "edit_semantics", "owner": "Edit Semantics Lab", "depends_on": ["TQP-05", "TQP-10", "TQP-11"], "evidence_profile": "systems", "contract_ref": "#tqp-12-long-edit-soak", "claim_scope": "native_edit_soak_windows_reference_v1"},
 		{"id": "TQP-13", "title": "Concurrent And Temporal Edits", "status": "implemented", "domain": "edit_semantics", "owner": "Edit Semantics Lab and Terrain Systems Lab", "depends_on": ["TQP-11", "TQP-20", "TQP-21"], "evidence_profile": "systems", "contract_ref": "#tqp-13-concurrent-and-temporal-edits", "claim_scope": "deterministic_scheduler_model"},
 		{"id": "TQP-14", "title": "Explosion Corpus", "status": "implemented", "domain": "edit_semantics", "owner": "Edit Semantics Lab and Structural and World Systems Lab", "depends_on": ["TQP-07", "TQP-08", "TQP-09", "TQP-10", "TQP-11", "TQP-12", "TQP-13"], "evidence_profile": "semantic", "contract_ref": "#tqp-14-explosion-corpus", "claim_scope": "deterministic_reference_model"},
 		{"id": "TQP-15", "title": "Material Field Contract", "status": "qualified", "domain": "material_surface", "owner": "Material and Surface Lab", "depends_on": ["TQP-02", "TQP-04"], "evidence_profile": "semantic", "contract_ref": "#tqp-15-material-field-contract", "claim_scope": "reference_material_model"},
@@ -157,6 +159,7 @@
 	],
 	"qualified_scope": [
 		"TQP-01 through TQP-06 foundation and field-algebra reference scopes",
+		"TQP-07 through TQP-12 Gate B edit semantics and native Windows reference workload",
 		"TQP-15 material-field contract",
 		"TQP-20 chunk-lifecycle reference model"
 	],
@@ -167,7 +170,7 @@
 		"GPU field or meshing authority",
 		"non-Windows platforms",
 		"TQP-16 through TQP-19 visual qualification",
-		"complete qualification of implemented TQP-07 through TQP-14, TQP-21 through TQP-30, TQP-32, and TQP-33 behavior",
+		"complete qualification of implemented TQP-13, TQP-14, TQP-21 through TQP-30, TQP-32, and TQP-33 behavior",
 		"TQP-34 measured GPU candidate benefit",
 		"TQP-31 qualification until TQP-22 and TQP-25 dependencies qualify",
 		"cross-hardware performance",

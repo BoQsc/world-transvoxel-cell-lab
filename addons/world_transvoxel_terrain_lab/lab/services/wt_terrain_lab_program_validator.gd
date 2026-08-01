@@ -83,6 +83,7 @@ static func validate(program: Dictionary, dependencies: Dictionary) -> Dictionar
 	_validate_evidence_profiles(program, failures)
 	_validate_evidence_files(program, failures)
 	_validate_qualification_state(program, milestone_by_id, failures)
+	_validate_edit_gate_b_evidence(program, milestone_by_id, failures)
 	_validate_visual_evidence(program, milestone_by_id, failures)
 	_validate_dependency_boundary(program, dependencies, failures)
 	_validate_source_boundary(failures)
@@ -204,13 +205,14 @@ static func _validate_evidence_files(program: Dictionary, failures: Array[String
 		_expect(not decision_id.is_empty(), "decision ID is missing: " + path, failures)
 		_expect(not decision_ids.has(decision_id), "duplicate decision ID: " + decision_id, failures)
 		decision_ids[decision_id] = true
-	for required in ["TQP-D001", "TQP-D002", "TQP-D003"]:
+	for required in ["TQP-D001", "TQP-D002", "TQP-D003", "TQP-D004"]:
 		_expect(decision_ids.has(required), "missing retained decision: " + required, failures)
 	for key in [
 		"qualification_state",
 		"backend_decision",
 		"blocker_catalog",
 		"visual_evidence",
+		"edit_gate_b_evidence",
 	]:
 		var path := str(program.get(key, ""))
 		_expect(FileAccess.file_exists(path), "missing program evidence: " + key, failures)
@@ -287,6 +289,70 @@ static func _validate_qualification_state(
 			"retained qualification report milestone count changed",
 			failures
 		)
+static func _validate_edit_gate_b_evidence(
+	program: Dictionary,
+	milestone_by_id: Dictionary,
+	failures: Array[String]
+) -> void:
+	var standard := JsonLoader.load_dictionary(str(program.get("edit_gate_b_evidence", "")))
+	_expect(
+		str(standard.get("schema", ""))
+			== "world_transvoxel.terrain_lab.edit_gate_b_standard.v1",
+		"Gate B edit standard schema mismatch",
+		failures
+	)
+	_expect(
+		str(standard.get("authority", "")) == "world_transvoxel_cpu_native_chunk_probe",
+		"Gate B native authority changed",
+		failures
+	)
+	_expect(
+		is_equal_approx(float(standard.get("sample_scale_m", 0.0)), 0.5),
+		"Gate B sample-to-meter scale changed",
+		failures
+	)
+	var qualified_lods: Array = standard.get("qualified_lods", [])
+	_expect(qualified_lods.size() == 8, "Gate B LOD matrix must cover LOD0-7", failures)
+	for lod in range(8):
+		var found := false
+		for qualified_lod in qualified_lods:
+			if int(qualified_lod) == lod:
+				found = true
+				break
+		_expect(found, "Gate B LOD matrix is missing LOD%d" % lod, failures)
+	var stable_expected: Dictionary = standard.get("stable_expected", {})
+	for index in range(7, 13):
+		var milestone_id := "TQP-%02d" % index
+		_expect(stable_expected.has(milestone_id), "Gate B standard missing " + milestone_id, failures)
+		_expect(
+			str((milestone_by_id.get(milestone_id, {}) as Dictionary).get("status", ""))
+				== "qualified",
+			milestone_id + " must match qualified Gate B evidence",
+			failures
+		)
+	var visual: Dictionary = standard.get("visual_evidence", {})
+	var visual_path := str(visual.get("path", ""))
+	_expect(FileAccess.file_exists(visual_path), "Gate B diagnostic visual is missing", failures)
+	_expect(
+		int(visual.get("width", 0)) == 1280 and int(visual.get("height", 0)) == 720,
+		"Gate B diagnostic visual dimensions changed",
+		failures
+	)
+	_expect(
+		not str(visual.get("pixel_signature", "")).is_empty(),
+		"Gate B diagnostic visual signature is missing",
+		failures
+	)
+	_expect(
+		(visual.get("shape_panels", []) as Array).size() == 7,
+		"Gate B diagnostic shape panel contract changed",
+		failures
+	)
+	_expect(
+		(visual.get("sequence_panels", []) as Array).size() == 6,
+		"Gate B diagnostic sequence panel contract changed",
+		failures
+	)
 
 
 static func _validate_visual_evidence(

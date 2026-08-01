@@ -1,0 +1,91 @@
+{
+	"schema": "world_transvoxel.terrain_lab.edit_gate_b_standard.v1",
+	"standard_id": "native_edit_gate_b_windows_reference_v1",
+	"authority": "world_transvoxel_cpu_native_chunk_probe",
+	"sample_scale_m": 0.5,
+	"qualified_lods": [0, 1, 2, 3, 4, 5, 6, 7],
+	"evidence_scope": "reference_edit_semantics_and_native_mesh_inputs_not_production_runtime",
+	"visual_evidence": {
+		"path": "res://labs/terrain_lab/results/edit_qualification_reference.png",
+		"width": 1280,
+		"height": 720,
+		"pixel_signature": "ee30a31a42a7c0baed3abf8b60bd9684892bddcf02e415f205acca937cf765af",
+		"shape_panels": [
+			"sphere",
+			"capsule",
+			"swept_stroke",
+			"rounded_box",
+			"plane_stamp",
+			"ellipsoid_stamp",
+			"bounded_noise"
+		],
+		"sequence_panels": [
+			"base_field",
+			"sphere_dig",
+			"swept_tunnel",
+			"rounded_box_construct",
+			"capsule_support_construct",
+			"sphere_cut_through_construction"
+		],
+		"scope": "diagnostic_cross_sections_not_standalone_correctness"
+	},
+	"performance_budgets": {
+		"brush_batch_p95_usec": 20000,
+		"transaction_append_p95_usec": 10000,
+		"query_batch_64_p95_usec": 20000,
+		"native_chunk_rebuild_p95_usec": 1000000,
+		"journal_bytes": 2097152,
+		"largest_spatial_bucket": 64
+	},
+	"stable_expected": {
+		"TQP-07": {
+			"shape_ids": [
+				"sphere",
+				"capsule",
+				"swept_stroke",
+				"rounded_box",
+				"plane_stamp",
+				"ellipsoid_stamp",
+				"bounded_noise"
+			],
+			"shape_signature": "720da849d92bcc48cfb2899f33dfb7a8a8dffac19dafe562727491f0ec142548",
+			"native_shape_signature": "681f123f75bc3c8aba268699dc89b4ba3a8e3d042c70c10549cfa21443492708"
+		},
+		"TQP-08": {
+			"lod_count": 8,
+			"geometry_signature": "6fd41b2365404b563445dc108c1cd2722d52208e2019ab291c77f04adbbbcb92",
+			"seam_failures": 0
+		},
+		"TQP-09": {
+			"lod_count": 8,
+			"geometry_signature": "52155e60263001b738d953db043ac17f756652de574f70e2fa36301f3af63292",
+			"seam_failures": 0
+		},
+		"TQP-10": {
+			"record_count": 240,
+			"classification_counts": {
+				"pass": 96,
+				"degraded": 96,
+				"intentional_disappearance": 48
+			},
+			"matrix_signature": "30527edb23727478b768e35dc76eaf50bfe053700299c4ea586c7f3a9b4c525a"
+		},
+		"TQP-11": {
+			"journal_signature": "3d6cb69df38771d6d2ee842be1153ec1885178edf7a6f35c9e28b4fbc84f8d5b",
+			"compacted_journal_signature": "ee1849d09cd894bff5a32c070cfffc69e6e74d6dd82a0c0594d79c580bfeaf37",
+			"bake_signature": "9f822e5b3090d57c60482ce57f9a7d7aecc45314cc3448b39ffbe738f5533e86",
+			"migration_target": "world_transvoxel.terrain_lab.edit_journal.v2"
+		},
+		"TQP-12": {
+			"operation_count": 2048,
+			"checkpoint_count": 4,
+			"chunk_count": 9,
+			"seam_count": 12,
+			"seam_failures": 0,
+			"collision_failures": 0,
+			"sample_signature": "27913c150799630859293bfb2d54ac7d5cb0f0038b72f5107e54fdd809d7c88f",
+			"geometry_signature": "d64cbbe71f339dd97d0416685f9851718132829e961ba388974d80402192b81d"
+		},
+		"visual_pixel_signature": "ee30a31a42a7c0baed3abf8b60bd9684892bddcf02e415f205acca937cf765af"
+	}
+}

@@ -1,0 +1,14 @@
+{
+	"schema": "world_transvoxel.terrain_lab.decision.v1",
+	"id": "TQP-D004",
+	"date": "2026-08-01",
+	"decision": "Promote TQP-07 through TQP-12 to qualified for the declared CPU/Windows reference scope after analytic, native LOD, seam, collision, replay, visual, soak, and performance evidence passes.",
+	"affected_milestones": ["TQP-07", "TQP-08", "TQP-09", "TQP-10", "TQP-11", "TQP-12"],
+	"repositories": ["world-transvoxel-cell-lab", "world-transvoxel"],
+	"alternatives": ["retain scalar-only implemented status", "promote without native geometry evidence", "fold edit semantics into Cell Lab", "claim production edit performance"],
+	"evidence": ["edit_gate_b_standard.json", "edit_qualification_reference.png", "terrain_qualification_reference_windows.json", "world-transvoxel native chunk and collision-input signatures"],
+	"qualified_scope": ["seven deterministic brush primitives", "digging and construction through native LOD0-7 chunk outputs", "240-fixture native resolvability matrix", "journal v2 transactions, migration, replay, probe baking, and compaction", "2048-edit Windows debug reference soak"],
+	"unqualified_scope": ["production frame-time terrain rebuilding", "real worker concurrency", "production collision scheduling", "network replication", "GPU field or meshing", "gameplay suitability"],
+	"baseline_changes": ["Terrain Qualification Program revision 3", "Gate B stable evidence v1", "edit journal schema v2"],
+	"downstream_impact": "Gate B may be used as a prerequisite for later terrain-system and production candidates, while the Cell Lab remains unchanged and production performance remains unqualified."
+}

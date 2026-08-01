@@ -43,6 +43,9 @@ jobs:
       - name: Verify pinned native dependency provenance
         run: python labs/cell_lab/tools/verify_native_dependency.py --clone-source .ci/world-transvoxel-source
 
+      - name: Verify lab dependency boundaries
+        run: python labs/cell_lab/tools/verify_lab_boundaries.py
+
       - name: Install pinned Godot
         run: python shared/tools/ci_install_godot.py
 

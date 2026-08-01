@@ -22,7 +22,7 @@ func _run() -> void:
 	if int(validation.get("milestone_count", 0)) != 46:
 		_fail("terrain program milestone count changed")
 		return
-	if int(validation.get("qualified_milestone_count", 0)) != 8:
+	if int(validation.get("qualified_milestone_count", 0)) != 14:
 		_fail("qualified reference milestone count changed")
 		return
 	if int(validation.get("specified_milestone_count", 0)) != 2:
@@ -32,7 +32,7 @@ func _run() -> void:
 		_fail("one or more milestones lack a reviewed specification")
 		return
 	var status_counts: Dictionary = validation.get("status_counts", {})
-	if int(status_counts.get("implemented", 0)) != 24:
+	if int(status_counts.get("implemented", 0)) != 18:
 		_fail("implemented evidence count changed")
 		return
 	if int(status_counts.get("blocked", 0)) != 12:
@@ -50,7 +50,10 @@ func _run() -> void:
 	if str(gates.get("GATE_A", "")) != "QUALIFIED":
 		_fail("Gate A did not close as qualified")
 		return
-	for gate_name in ["GATE_B", "GATE_C", "GATE_D"]:
+	if str(gates.get("GATE_B", "")) != "QUALIFIED":
+		_fail("Gate B did not close as qualified")
+		return
+	for gate_name in ["GATE_C", "GATE_D"]:
 		if str(gates.get(gate_name, "")) != "SPECIFIED":
 			_fail(gate_name + " evidence state changed")
 			return

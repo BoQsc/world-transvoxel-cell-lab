@@ -45,6 +45,9 @@ jobs:
           python labs/terrain_lab/tools/sync_program_statuses.py
           git diff --exit-code -- addons/world_transvoxel_terrain_lab/standards/program_manifest.json docs/terrain_lab/TERRAIN_QUALIFICATION_PROGRAM.md
 
+      - name: Verify lab dependency boundaries
+        run: python labs/cell_lab/tools/verify_lab_boundaries.py
+
       - name: Install pinned Godot
         run: python shared/tools/ci_install_godot.py
 

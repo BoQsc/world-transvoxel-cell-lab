@@ -18,6 +18,10 @@ triplanar materials, canonical dig and construction edits, chunk bounds, and
 live native-mesh metrics. It can apply sphere, capsule, and rounded-box edits
 without depending on Cell Lab code.
 
+`tools/run_edit_gate_b_validation.gd` executes the focused `TQP-07` through
+`TQP-12` qualification. `tools/capture_edit_qualification_visual.gd`
+regenerates the deterministic brush and temporal-edit cross-section reference.
+
 Terrain Lab scenes may depend on `world_transvoxel_terrain_lab` and the pinned
 production dependencies declared by their milestone. They must not depend on
 `world_transvoxel_cell_lab`.

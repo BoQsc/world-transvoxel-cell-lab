@@ -8,6 +8,12 @@ Current status: complete fail-closed program execution. All 46 milestones have
 machine-readable contracts, evidence states, executable coverage, or explicit
 external blockers. No milestone is left `proposed`.
 
+Gate B edit qualification is retained in
+`standards/edit_gate_b_standard.json`. It qualifies `TQP-07` through `TQP-12`
+for their declared CPU/Windows reference scopes while leaving worker
+concurrency, production collision scheduling, networking, GPU execution, and
+production frame-time performance explicitly unqualified.
+
 ## Allowed Dependencies
 
 - `world_transvoxel` is the current required native test dependency.
@@ -48,4 +54,10 @@ Full machine report:
 
 ```text
 res://labs/terrain_lab/tools/run_terrain_lab_validation.gd
+```
+
+Focused Gate B report:
+
+```text
+res://labs/terrain_lab/tools/run_edit_gate_b_validation.gd
 ```

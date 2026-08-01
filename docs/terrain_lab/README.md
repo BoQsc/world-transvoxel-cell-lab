@@ -8,10 +8,17 @@ It does not own production implementation, and it does not extend the Cell Lab
 root node.
 
 The complete `TQP-01` through `TQP-46` catalog is now executable and
-fail-closed. Eight milestones are qualified for narrow contract or reference
-scopes, twenty-four have implemented evidence with named gaps, two are
+fail-closed. Fourteen milestones are qualified for narrow contract or reference
+scopes, eighteen have implemented evidence with named gaps, two are
 specified, and twelve GPU or production milestones are blocked by named
 external targets.
+
+Gate B (`TQP-06` through `TQP-11`) is qualified. Its evidence includes seven
+brush primitives, native digging and construction at LOD0-7, a 240-fixture
+resolvability matrix, edit-journal v2 transactions and migration, collision
+input agreement, seam checks, deterministic replay, diagnostic cross-sections,
+and a 2,048-edit reference soak. `TQP-12` is also qualified for that declared
+Windows debug reference workload; it is not a production frame-time claim.
 
 This is not a production-terrain claim. See `qualification_state.json`,
 `program_blockers.json`, and the retained report for exact qualified and

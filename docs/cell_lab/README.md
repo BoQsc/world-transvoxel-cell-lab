@@ -107,6 +107,13 @@ Verify the vendored native dependency against an adjacent source checkout:
 python labs/cell_lab/tools/verify_native_dependency.py --source-checkout ..\world-transvoxel
 ```
 
+Verify that neither lab's executable assets cross the monorepo ownership
+boundary:
+
+```text
+python labs/cell_lab/tools/verify_lab_boundaries.py
+```
+
 Run the structural smoke test:
 
 ```text
@@ -128,7 +135,9 @@ performance warning pass. CI uploads the candidate images, capture log, and
 diff report even when visual validation fails.
 
 See [ARCHITECTURE.md](ARCHITECTURE.md) for ownership boundaries and
-[ROADMAP.md](ROADMAP.md) for completed milestone evidence. The permanent
+[ROADMAP.md](ROADMAP.md) for completed milestone evidence. The pre-monorepo
+functionality comparison is retained in
+[PRESERVATION_AUDIT.md](PRESERVATION_AUDIT.md). The permanent
 terrain contract is in
 [REFERENCE_TERRAIN_STANDARD.md](REFERENCE_TERRAIN_STANDARD.md), and the
 milestone 16-29 scope is in
