@@ -28,6 +28,27 @@
 			"downstream_parity_proof": "integration parity corpus remains passing",
 			"upstream_fix_reference": "",
 			"resolution": "canonical fixture clearance increased; old field retained as a negative detector"
+		},
+		{
+			"id": "tangent_endpoint_chunk_seam_v1",
+			"status": "resolved",
+			"owning_layer": "world_transvoxel",
+			"classification": "nonzero endpoint triangles removed before canonical chunk regularization",
+			"minimized_native_repro": "world-transvoxel M2 smoothed tangent-crater same-LOD fixture",
+			"stated_invariant": "adjacent same-LOD chunks sampled from one scalar field must publish identical shared-plane edge sets and multiplicities",
+			"deterministic_reproduction": true,
+			"focused_automated_coverage": "upstream M2 tangent-edit seam regression plus Terrain Observatory all-neighbor seam smoke",
+			"visual_evidence_for_geometry": "res://labs/terrain_lab/results/terrain_observatory_tangent_seam.png",
+			"retained_regression_standard": "res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D011.json",
+			"downstream_parity_proof": "complete Terrain Lab program and Cell Lab qualification suites",
+			"upstream_fix_reference": "world-transvoxel@39572401cc0b0898f70ea6c9dcbe3ca5d6f1138b",
+			"resolved_adversarial_probes": [
+				"gyroid:0 interior_open_edges 5 -> 0",
+				"seeded_warp_17:1 interior_open_edges 4 -> 0",
+				"seeded_warp_29:0 interior_open_edges 2 -> 0",
+				"seeded_warp_29:1 interior_open_edges 4 -> 0"
+			],
+			"resolution": "retain nonzero near-endpoint triangles until endpoint regularization and chunk finalization; all four former expected negatives now pass the ordinary integrity contract"
 		}
 	]
 }

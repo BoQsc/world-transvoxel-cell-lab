@@ -134,7 +134,7 @@ func _run() -> void:
 		_fail("native dependency provenance did not pass")
 		return
 	if str(dependency.get("source", {}).get("commit", "")) \
-			!= "8313650766b6b901f5b5ecdc8d84e03b6b87fd66":
+			!= "39572401cc0b0898f70ea6c9dcbe3ca5d6f1138b":
 		_fail("native dependency source commit changed")
 		return
 	var authority_stress: Dictionary = lab.validate_authority_stress()
@@ -390,7 +390,7 @@ func _run() -> void:
 	report = lab.get_last_report()
 	if str(report.get("qualification_status", "")) != "PASS" \
 			or str(report.get("correctness_claim", "")) \
-			!= "release_qualified_transvoxel_terrain_authority_probe_v7":
+			!= "release_qualified_transvoxel_terrain_authority_probe_v8":
 		_fail("passing qualification did not promote the session claim")
 		return
 	var milestones: Dictionary = qualification.get("milestones", {})
@@ -406,8 +406,12 @@ func _run() -> void:
 	var reduction: Dictionary = correctness.get("failure_reduction", {})
 	var specification: Dictionary = correctness.get("independent_specification", {})
 	if int(adversarial.get("probe_count", 0)) != 20 \
-			or int(adversarial.get("detected_negative_probe_count", 0)) != 4 \
-			or int(adversarial.get("failing_probes", -1)) != 0:
+			or int(adversarial.get("expected_negative_probe_count", -1)) != 0 \
+			or int(adversarial.get("detected_negative_probe_count", -1)) != 0 \
+			or int(adversarial.get("failing_probes", -1)) != 0 \
+			or int(adversarial.get("triangle_count", 0)) != 21377 \
+			or str(adversarial.get("corpus_signature", "")) \
+			!= "14af38bdbdbca4810a0388960cfaf28f08263bfbe77376ba1764e25e82146f61":
 		_fail("adversarial corpus contract changed")
 		return
 	if int(reduction.get("sample_count", 0)) != 8 \
@@ -434,8 +438,22 @@ func _run() -> void:
 				(release.get("platform_renderer_matrix", {}) as Dictionary)
 					.get("required_target_count", 0)
 			) != 1 \
-			or int((release.get("release_bundle", {}) as Dictionary).get("evidence_file_count", 0)) != 10 \
-			or int((release.get("upstream_governance", {}) as Dictionary).get("case_count", 0)) != 1:
+			or int(
+				(release.get("release_bundle", {}) as Dictionary)
+					.get("evidence_file_count", 0)
+			) != 10 \
+			or int(
+				(release.get("upstream_governance", {}) as Dictionary)
+					.get("case_count", 0)
+			) != 2 \
+			or int(
+				(release.get("upstream_governance", {}) as Dictionary)
+					.get("confirmed_upstream_correction_count", 0)
+			) != 1 \
+			or int(
+				(release.get("upstream_governance", {}) as Dictionary)
+					.get("retained_negative_count", 0)
+			) != 1:
 		_fail("release qualification coverage changed")
 		return
 	if str(

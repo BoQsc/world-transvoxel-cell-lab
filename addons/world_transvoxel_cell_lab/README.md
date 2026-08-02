@@ -15,6 +15,10 @@ The addon provides the `WtTransvoxelCellLab` editor node and the
 - Near-isovalue cell stability and vertical same/mixed-LOD authority stress.
 - Adversarial scalar fields, minimized native repros, and independent
   interpolation/table-property checks.
+- Resolved upstream corrections remain governed with their former negative
+  counts, exact revisions, focused repros, visual evidence, and downstream
+  parity. A resolved probe must pass the ordinary integrity contract; it cannot
+  remain hidden behind an expected-failure allowance.
 - Terrain edit fixtures, dirty-region accounting, and before/after deltas.
 - Seeded edit stress, scaling, native-buffer memory, rendering-input,
   exact-face collision, streaming-order, and persistence qualification.

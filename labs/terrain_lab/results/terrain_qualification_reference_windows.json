@@ -130,7 +130,7 @@
 				"GPU field evaluation",
 				"TQP-28 fragmentation, collision, and production cost"
 			],
-			"elapsed_ms": 76457.975,
+			"elapsed_ms": 140948.224,
 			"provenance": {
 				"workload_signature": "edit_semantics_reference_v1",
 				"build_type": "debug",
@@ -140,11 +140,11 @@
 				"gpu": "",
 				"driver": "opengl3",
 				"godot_version": "4.7.1-stable (official)",
-				"backend_revision": "a5c681d4061c5bcf2f779f7ae841d5d8ebffcdf2725040087386257ac2c3e32b"
+				"backend_revision": "980614354b207925db66fa9187d2c261eb9c1630a7c0905984f32b1ec966c1a3"
 			},
 			"memory": {
-				"retained_bytes": 29032776,
-				"peak_bytes": 72231248
+				"retained_bytes": 29053162,
+				"peak_bytes": 72251634
 			},
 			"gate_b": {
 				"schema": "world_transvoxel.terrain_lab.edit_gate_b_qualification.v1",
@@ -178,7 +178,7 @@
 								],
 								"geometry_signature": "47a2219c0eaea6e3364797b228a756647af88d080887d011a0b83b86d0e68792",
 								"collision_signature": "3d4e05d601f943907691165f980c2fe7d5927adc0348432111cbb3e679736eac",
-								"elapsed_usec": 81407,
+								"elapsed_usec": 182883,
 								"failures": []
 							},
 							{
@@ -192,7 +192,7 @@
 								],
 								"geometry_signature": "047d15519714ea6b765987f4d8539693c91dc4e9516ad8ce00f4afd8855a7408",
 								"collision_signature": "511adbe35c25c1750ca8ed8ddb8758250a3b46d299f9840999f7ad578e98a555",
-								"elapsed_usec": 85163,
+								"elapsed_usec": 170950,
 								"failures": []
 							},
 							{
@@ -206,7 +206,7 @@
 								],
 								"geometry_signature": "53b72bcf767731b341c57b1fdee0d0725fc29fed1b46abc72ad346a98400372f",
 								"collision_signature": "35bd93e68a92bff43383e59d54ff20baf77e3c64858340949a9cae097e02ea24",
-								"elapsed_usec": 97582,
+								"elapsed_usec": 141161,
 								"failures": []
 							},
 							{
@@ -220,7 +220,7 @@
 								],
 								"geometry_signature": "2502d395952d5b37e118aeea66d90137f386de44027533a0945622e9bbd5de13",
 								"collision_signature": "57148b1fa32c05bf592b25b0bd286bf1c96d0a0144194a1d0cf814d4cbfd0cd2",
-								"elapsed_usec": 75707,
+								"elapsed_usec": 153680,
 								"failures": []
 							},
 							{
@@ -234,7 +234,7 @@
 								],
 								"geometry_signature": "03efb765b05d9590686c78715b49f3fc22a070192998bd5ca61592d636c95087",
 								"collision_signature": "781c1f0535e47b2f6bac029ab21bbc829f6699b817fd9d58a1d857ad4611f582",
-								"elapsed_usec": 102132,
+								"elapsed_usec": 147637,
 								"failures": []
 							},
 							{
@@ -248,7 +248,7 @@
 								],
 								"geometry_signature": "19e7bd5098200d48c0092d0d8a5f480072c2f15b6d387e80da5654681b480ab6",
 								"collision_signature": "7f381183b3777b01be0c566679462431118e4ff0c0f67eca6211175f9d699d37",
-								"elapsed_usec": 86814,
+								"elapsed_usec": 212674,
 								"failures": []
 							},
 							{
@@ -262,16 +262,16 @@
 								],
 								"geometry_signature": "afd8f0d1a43c49d564b3bf13b8c04dab4819cbc5724c4b078300acc1aa548cd9",
 								"collision_signature": "031d62a09266ca78cafe3d582be7b2f5c877204adab1fe014e312913b736f83b",
-								"elapsed_usec": 86540,
+								"elapsed_usec": 221569,
 								"failures": []
 							}
 						],
 						"performance": {
 							"sample_count": 100,
-							"p50_usec": 1168.0,
-							"p95_usec": 1328.0,
-							"p99_usec": 1429.0,
-							"worst_usec": 1440.0
+							"p50_usec": 1753.0,
+							"p95_usec": 4188.0,
+							"p99_usec": 7785.0,
+							"worst_usec": 21597.0
 						}
 					},
 					{
@@ -361,93 +361,93 @@
 							{
 								"lod": 0,
 								"cell_size_m": 0.5,
-								"triangle_count": 236,
+								"triangle_count": 264,
 								"material_ids": [
 									7,
 									8
 								],
-								"geometry_signature": "0e1e225881b70bdf58144fc140591e73d8a2b302e49ccbd5af9e237728622faa",
-								"collision_signature": "ad25d5e34d15b864439789526c4de9a1aa7cf90aaf4a2b4e093cfd1f66525c9b"
+								"geometry_signature": "57521b29e78d79cbdf4b9402a24981ce08673ed25eeb85e70ab7890114def987",
+								"collision_signature": "17603ac810fe542077319260b027f262e173993c3ed7a991b479bb2c5a19c412"
 							},
 							{
 								"lod": 1,
 								"cell_size_m": 1.0,
-								"triangle_count": 236,
+								"triangle_count": 266,
 								"material_ids": [
 									7,
 									8
 								],
-								"geometry_signature": "b5c8e2786c18984ff6689df7840195c86421f4355f4a0c2d83ad5ffca6f1ec2a",
-								"collision_signature": "a671bae74baaf1c0c810a6383d014ac0907dbb7b2e77dcda186604989b239ad3"
+								"geometry_signature": "4716ef24af72b34acee6eb5e4fafc13be15d038e511a36bfae9c324ba23aab8b",
+								"collision_signature": "c7399069082eb7913bc3e7b12c7d01d4e778529e45e9aa1efc7cf78e14e17a86"
 							},
 							{
 								"lod": 2,
 								"cell_size_m": 2.0,
-								"triangle_count": 236,
+								"triangle_count": 266,
 								"material_ids": [
 									7,
 									8
 								],
-								"geometry_signature": "1cf4c052680e48d4bb6666e474d44d175d116d7b05d4db665d1f54dbf4915fb3",
-								"collision_signature": "bf6369623d08c9bb0dd34e5952fd955ef4ba45d1f92190011fb935d2c39cd3a4"
+								"geometry_signature": "a13abb40fe043a9885dcefcc5a733a181a7baa16c561ef948260e7ac499cbe85",
+								"collision_signature": "e59dc4519436dc828655a1cfa1320d4c1c2183e25e024e56568a2b3584ed96a4"
 							},
 							{
 								"lod": 3,
 								"cell_size_m": 4.0,
-								"triangle_count": 236,
+								"triangle_count": 266,
 								"material_ids": [
 									7,
 									8
 								],
-								"geometry_signature": "698911a2f0cb527e716b683e98d06520232b4e888196a82b7a2893a65b3a6bc7",
-								"collision_signature": "917a6c01261d3cc6ae8bd798650c9331a37b2e2fd940257b8484453b659513ba"
+								"geometry_signature": "1768de957827623741e479d7af8c0512384183124b4204943c138d55f8f71d02",
+								"collision_signature": "3743ca0b3801203abe099bf065d744fc580f3a4b0f07eb90b0055c9afcb1c8a7"
 							},
 							{
 								"lod": 4,
 								"cell_size_m": 8.0,
-								"triangle_count": 236,
+								"triangle_count": 262,
 								"material_ids": [
 									7,
 									8
 								],
-								"geometry_signature": "f8ad9e445bb12eed222730cced3c075838d6e002416f3661bf03bd05405ada62",
-								"collision_signature": "fd7d4ee028b91ed9d7612ecb6c6159e75a5829cebfeeb4b6ba0373ef3ddaa1ab"
+								"geometry_signature": "c4bab95c81b8867c2ae6d24d3805d81233827f823c275548a96724bc192ffa75",
+								"collision_signature": "b52cc2691da2ad66762d48a96a54493a7e4d4125808ef6da447ba3e5008ab4ff"
 							},
 							{
 								"lod": 5,
 								"cell_size_m": 16.0,
-								"triangle_count": 236,
+								"triangle_count": 262,
 								"material_ids": [
 									7,
 									8
 								],
-								"geometry_signature": "f107812a14c3f08df82a1467675b4b86fbf53e8841adff14900aeed29c670731",
-								"collision_signature": "64db47e07f7a94aab33993f591569e873602946573826c284f156484f616916b"
+								"geometry_signature": "71711e35dcf496fb3df23a3640cee0fd48f41c87e74106a4bede3fcb85e82465",
+								"collision_signature": "cb6e0d018335cbb7b79d2d73be041e673b91b3b75a2ce06d32cc1e08f5bfc0d2"
 							},
 							{
 								"lod": 6,
 								"cell_size_m": 32.0,
-								"triangle_count": 236,
+								"triangle_count": 264,
 								"material_ids": [
 									7,
 									8
 								],
-								"geometry_signature": "0b186a3e82118b4bfa634556898495c993acbd9932576666f952093efa3b3b73",
-								"collision_signature": "3a3d72dc34819b96e9aed20d20501c33b5cea9a62708e229020918091a0a98c4"
+								"geometry_signature": "f37087a09c76bec6c5fd8183ebc6c71738bf172c3cc46e16e147239a2e7539e2",
+								"collision_signature": "555305256b9190206adfbf6ce4e5a4abc99047cc1976440910d97b845120f638"
 							},
 							{
 								"lod": 7,
 								"cell_size_m": 64.0,
-								"triangle_count": 236,
+								"triangle_count": 264,
 								"material_ids": [
 									7,
 									8
 								],
-								"geometry_signature": "aa74cf2280a11fc3a9d873e163ec7c44d2fd3730652932911f2878ee742b6401",
-								"collision_signature": "6274e837ea34f8f7a85c220e0219368ac0da602092a3595598fee3657314fc2d"
+								"geometry_signature": "4358c4c1bc4557400e11bbb225dd27c67a2b15da1a8fa2d1822a308775b810db",
+								"collision_signature": "bb3e4362546a3a19cdc3fad31e2c7b4a97deb86799ee91b739d031b5a78db80d"
 							}
 						],
-						"geometry_signature": "52155e60263001b738d953db043ac17f756652de574f70e2fa36301f3af63292",
+						"geometry_signature": "e52fd57bb785a63fbb260dce522ed3730aed158a293ea228a566123394683fdd",
 						"boundary_seam": {
 							"status": "PASS",
 							"axis": 0,
@@ -480,7 +480,7 @@
 							"degraded": 96,
 							"intentional_disappearance": 48
 						},
-						"matrix_signature": "30527edb23727478b768e35dc76eaf50bfe053700299c4ea586c7f3a9b4c525a",
+						"matrix_signature": "c26d3ee318008ac38b962d58b26b9c60e3e4acb74a8674164d0882b5d531ba8d",
 						"records": [
 							{
 								"feature": "sphere_diameter",
@@ -775,9 +775,9 @@
 								"feature_size_m": 1.0,
 								"feature_cells": 2.0,
 								"classification": "degraded",
-								"triangle_count": 662,
+								"triangle_count": 668,
 								"observed": "present",
-								"geometry_signature": "9194e5458493d86a6c02ce18a03d0f2e8b4cacebcd92f09028fd8f0609a27d14"
+								"geometry_signature": "3f313a4daa34adf135f1e32c651be24436f4e5788d3543282f3eaadaef8d6f19"
 							},
 							{
 								"feature": "noise_wavelength",
@@ -1105,9 +1105,9 @@
 								"feature_size_m": 2.0,
 								"feature_cells": 2.0,
 								"classification": "degraded",
-								"triangle_count": 662,
+								"triangle_count": 668,
 								"observed": "present",
-								"geometry_signature": "0d7e81db596b9cf1fe54cf92304f96c966f461f44c0b1cae5966729a34a752d1"
+								"geometry_signature": "0077dcbc66e1265b4bdbc212489da114d1174c43d2e066b48d05a46fdbebe0ce"
 							},
 							{
 								"feature": "noise_wavelength",
@@ -1435,9 +1435,9 @@
 								"feature_size_m": 4.0,
 								"feature_cells": 2.0,
 								"classification": "degraded",
-								"triangle_count": 662,
+								"triangle_count": 668,
 								"observed": "present",
-								"geometry_signature": "7741ab3ecb1e08db0170fdd11eb41f20b112a37bf732395cdd0593a0da89bd58"
+								"geometry_signature": "64a8ef2830868541d55b771980cf1f86f71f5e282953562773634dd0f3bfb47b"
 							},
 							{
 								"feature": "noise_wavelength",
@@ -1479,9 +1479,9 @@
 								"feature_size_m": 4.0,
 								"feature_cells": 1.0,
 								"classification": "intentional_disappearance",
-								"triangle_count": 4,
+								"triangle_count": 8,
 								"observed": "present",
-								"geometry_signature": "cfba8ac261f354b5ec6a4a0c4e22e6b2f1fb0413da60fe59dfdcc7c54a760350"
+								"geometry_signature": "b7e9dfceb11fcf03460e0056f8be510e76b4798959bb3298001282bb6f07bd07"
 							},
 							{
 								"feature": "sphere_diameter",
@@ -1501,9 +1501,9 @@
 								"feature_size_m": 12.0,
 								"feature_cells": 3.0,
 								"classification": "degraded",
-								"triangle_count": 98,
+								"triangle_count": 104,
 								"observed": "present",
-								"geometry_signature": "fac1498bf37029a2cdd1676411b9f67148af879c6c20480313b8b8fccb832960"
+								"geometry_signature": "688cc7344ce3bcee63cfc5c02394004dabcf5f50b9022eb4dec8280d688308ef"
 							},
 							{
 								"feature": "sphere_diameter",
@@ -1534,9 +1534,9 @@
 								"feature_size_m": 4.0,
 								"feature_cells": 1.0,
 								"classification": "intentional_disappearance",
-								"triangle_count": 40,
+								"triangle_count": 56,
 								"observed": "present",
-								"geometry_signature": "933738e4ac80d8283729e1c3422f8cb35b14998ffe10c8cd0f541fd66c13e6bc"
+								"geometry_signature": "1e270d886c30de972b39e0ecf47a0e1e8446144f2d12adc37a96c925ff91764c"
 							},
 							{
 								"feature": "tunnel_clearance",
@@ -1556,9 +1556,9 @@
 								"feature_size_m": 12.0,
 								"feature_cells": 3.0,
 								"classification": "degraded",
-								"triangle_count": 230,
+								"triangle_count": 248,
 								"observed": "present",
-								"geometry_signature": "9672daa35e15320b502fe3dc539e5144321be8812dc2ebb6eab2d917b92d9f80"
+								"geometry_signature": "ed3b8ff3ee9ea893bce7cd015d81418764a3f5916b628cde014b7e0e3a3d0581"
 							},
 							{
 								"feature": "tunnel_clearance",
@@ -1765,9 +1765,9 @@
 								"feature_size_m": 8.0,
 								"feature_cells": 2.0,
 								"classification": "degraded",
-								"triangle_count": 664,
+								"triangle_count": 668,
 								"observed": "present",
-								"geometry_signature": "a306fc0ff3f4542b179788427cde94bd37e091e95579ec0de91fab3049437228"
+								"geometry_signature": "3a6a2bfe2cd7cb5324288bf9db82cb23916cd192d650336d7d087f0bf9457315"
 							},
 							{
 								"feature": "noise_wavelength",
@@ -1809,9 +1809,9 @@
 								"feature_size_m": 8.0,
 								"feature_cells": 1.0,
 								"classification": "intentional_disappearance",
-								"triangle_count": 0,
-								"observed": "disappeared",
-								"geometry_signature": "d473a38eefb0a5c8adfbb10c065ce48dd18c9798727d0d3b0b857fb78d2b7b67"
+								"triangle_count": 8,
+								"observed": "present",
+								"geometry_signature": "6ac88c67eb5cf0fa76ca0d2ed23d82a856ff60437a6fef8f5807c9f6158267b5"
 							},
 							{
 								"feature": "sphere_diameter",
@@ -1831,9 +1831,9 @@
 								"feature_size_m": 24.0,
 								"feature_cells": 3.0,
 								"classification": "degraded",
-								"triangle_count": 80,
+								"triangle_count": 104,
 								"observed": "present",
-								"geometry_signature": "b8f92d00825f5fd0842f9ef6a230ba3d5d71d586e95a29cefedef135100001ec"
+								"geometry_signature": "0efdbc328c97dfcc2e1ff43d58eb452ade26e1a222b2fa76e64097b08f6198f0"
 							},
 							{
 								"feature": "sphere_diameter",
@@ -1864,9 +1864,9 @@
 								"feature_size_m": 8.0,
 								"feature_cells": 1.0,
 								"classification": "intentional_disappearance",
-								"triangle_count": 0,
-								"observed": "disappeared",
-								"geometry_signature": "d473a38eefb0a5c8adfbb10c065ce48dd18c9798727d0d3b0b857fb78d2b7b67"
+								"triangle_count": 56,
+								"observed": "present",
+								"geometry_signature": "543ba56f32429c9441d12a994a051478722d00d4184b95e24639c47c46323e18"
 							},
 							{
 								"feature": "tunnel_clearance",
@@ -1886,9 +1886,9 @@
 								"feature_size_m": 24.0,
 								"feature_cells": 3.0,
 								"classification": "degraded",
-								"triangle_count": 176,
+								"triangle_count": 248,
 								"observed": "present",
-								"geometry_signature": "c77b2395df78a921af230779ac68a9e6b689be46a00bc49ca56bb7a55668a4f3"
+								"geometry_signature": "ab4953bf1294291b0f57aa9be5fcd8eb4fd06defb8f0fac0034dd4b4bf0d8a3b"
 							},
 							{
 								"feature": "tunnel_clearance",
@@ -2095,9 +2095,9 @@
 								"feature_size_m": 16.0,
 								"feature_cells": 2.0,
 								"classification": "degraded",
-								"triangle_count": 664,
+								"triangle_count": 668,
 								"observed": "present",
-								"geometry_signature": "477f3294dee328b5fb4e0385fdf72540a4f2961a5fb8aae97a1bec4fbe26e911"
+								"geometry_signature": "546f618fbd63bab75ff9ee3f41742a747c736021da0c30010846abfafa26364a"
 							},
 							{
 								"feature": "noise_wavelength",
@@ -2139,9 +2139,9 @@
 								"feature_size_m": 16.0,
 								"feature_cells": 1.0,
 								"classification": "intentional_disappearance",
-								"triangle_count": 0,
-								"observed": "disappeared",
-								"geometry_signature": "c7c076b23b6c9eb5154d78f55721135025ede000ac94607a931af13a35a080e4"
+								"triangle_count": 8,
+								"observed": "present",
+								"geometry_signature": "0ae23ec990ce35246c9d975e1197f53b51e760ca0e5ea1e6305e88c0901e3fbd"
 							},
 							{
 								"feature": "sphere_diameter",
@@ -2161,9 +2161,9 @@
 								"feature_size_m": 48.0,
 								"feature_cells": 3.0,
 								"classification": "degraded",
-								"triangle_count": 80,
+								"triangle_count": 104,
 								"observed": "present",
-								"geometry_signature": "4140d1939c7df1d07e1d2ee853275478de781b84ec3715bb0f6baaeacc525363"
+								"geometry_signature": "41db3744edd1af0e846d4ecad120be8c8277011d6187a5ca0aa8446d3af381b0"
 							},
 							{
 								"feature": "sphere_diameter",
@@ -2194,9 +2194,9 @@
 								"feature_size_m": 16.0,
 								"feature_cells": 1.0,
 								"classification": "intentional_disappearance",
-								"triangle_count": 0,
-								"observed": "disappeared",
-								"geometry_signature": "c7c076b23b6c9eb5154d78f55721135025ede000ac94607a931af13a35a080e4"
+								"triangle_count": 56,
+								"observed": "present",
+								"geometry_signature": "54bb92835a5ee7e309708a6d521d6682a722ae12a376563822094b5614a85008"
 							},
 							{
 								"feature": "tunnel_clearance",
@@ -2425,9 +2425,9 @@
 								"feature_size_m": 32.0,
 								"feature_cells": 2.0,
 								"classification": "degraded",
-								"triangle_count": 666,
+								"triangle_count": 668,
 								"observed": "present",
-								"geometry_signature": "d11a74d94d2d457085d86cfcb6624eef6454e9871491f2b8cb0e29a7c00166da"
+								"geometry_signature": "c23979ff5439ecd4df026038cd21f8fa4b9f74941818c8ef0bd41857fa6c87b4"
 							},
 							{
 								"feature": "noise_wavelength",
@@ -3169,7 +3169,7 @@
 						"journal_signature": "6965a894d2db13fa45f544a2a76c1a664153781595b276ebc7ab9bb61f0b3e88",
 						"compacted_journal_signature": "09fdaa9a22e60399bccbdd157c94d431e92bcf275b83772a7fe16c4255a1961f",
 						"sample_signature": "27913c150799630859293bfb2d54ac7d5cb0f0038b72f5107e54fdd809d7c88f",
-						"geometry_signature": "d64cbbe71f339dd97d0416685f9851718132829e961ba388974d80402192b81d",
+						"geometry_signature": "2cd1cd596178af25d2cde6cab2c274cbb5ea2f716f5a1ee9c5996608bbe1ebae",
 						"chunk_count": 9,
 						"seam_count": 12,
 						"seam_failures": 0,
@@ -3342,29 +3342,29 @@
 						"performance": {
 							"transaction_append": {
 								"sample_count": 246,
-								"p50_usec": 402.0,
-								"p95_usec": 639.0,
-								"p99_usec": 788.0,
-								"worst_usec": 1150.0
+								"p50_usec": 634.0,
+								"p95_usec": 1524.0,
+								"p99_usec": 1983.0,
+								"worst_usec": 2768.0
 							},
 							"query_batch_64": {
 								"sample_count": 100,
-								"p50_usec": 660.0,
-								"p95_usec": 767.0,
-								"p99_usec": 1019.0,
-								"worst_usec": 1093.0
+								"p50_usec": 1197.0,
+								"p95_usec": 4909.0,
+								"p99_usec": 18066.0,
+								"worst_usec": 20656.0
 							},
 							"native_chunk_rebuild": {
 								"sample_count": 100,
-								"p50_usec": 277552.0,
-								"p95_usec": 383064.0,
-								"p99_usec": 422676.0,
-								"worst_usec": 456886.0
+								"p50_usec": 516690.0,
+								"p95_usec": 781011.0,
+								"p99_usec": 1285599.0,
+								"worst_usec": 1786627.0
 							}
 						},
 						"memory": {
-							"retained_bytes": 57098768,
-							"peak_bytes": 72231248
+							"retained_bytes": 57119346,
+							"peak_bytes": 72251634
 						}
 					}
 				],
@@ -3389,7 +3389,7 @@
 					},
 					"TQP-11": {
 						"lod_count": 8,
-						"geometry_signature": "52155e60263001b738d953db043ac17f756652de574f70e2fa36301f3af63292",
+						"geometry_signature": "e52fd57bb785a63fbb260dce522ed3730aed158a293ea228a566123394683fdd",
 						"seam_failures": 0
 					},
 					"TQP-12": {
@@ -3399,7 +3399,7 @@
 							"degraded": 96,
 							"intentional_disappearance": 48
 						},
-						"matrix_signature": "30527edb23727478b768e35dc76eaf50bfe053700299c4ea586c7f3a9b4c525a"
+						"matrix_signature": "c26d3ee318008ac38b962d58b26b9c60e3e4acb74a8674164d0882b5d531ba8d"
 					},
 					"TQP-13": {
 						"journal_signature": "3d6cb69df38771d6d2ee842be1153ec1885178edf7a6f35c9e28b4fbc84f8d5b",
@@ -3415,7 +3415,7 @@
 						"seam_failures": 0,
 						"collision_failures": 0,
 						"sample_signature": "27913c150799630859293bfb2d54ac7d5cb0f0038b72f5107e54fdd809d7c88f",
-						"geometry_signature": "d64cbbe71f339dd97d0416685f9851718132829e961ba388974d80402192b81d"
+						"geometry_signature": "2cd1cd596178af25d2cde6cab2c274cbb5ea2f716f5a1ee9c5996608bbe1ebae"
 					},
 					"visual_pixel_signature": "ee30a31a42a7c0baed3abf8b60bd9684892bddcf02e415f205acca937cf765af"
 				},
@@ -3428,10 +3428,10 @@
 					"scope": "reference_debug_workload_not_production_frame_budget",
 					"budget_evaluation": "OBSERVATION_ONLY_COMBINED_RUN",
 					"measured": {
-						"brush_batch_p95_usec": 1328.0,
-						"transaction_append_p95_usec": 639.0,
-						"query_batch_64_p95_usec": 767.0,
-						"native_chunk_rebuild_p95_usec": 383064.0,
+						"brush_batch_p95_usec": 4188.0,
+						"transaction_append_p95_usec": 1524.0,
+						"query_batch_64_p95_usec": 4909.0,
+						"native_chunk_rebuild_p95_usec": 781011.0,
 						"journal_bytes": 946099,
 						"largest_spatial_bucket": 15
 					},
@@ -3481,13 +3481,13 @@
 					"gpu": "",
 					"driver": "opengl3",
 					"godot_version": "4.7.1-stable (official)",
-					"backend_revision": "a5c681d4061c5bcf2f779f7ae841d5d8ebffcdf2725040087386257ac2c3e32b"
+					"backend_revision": "980614354b207925db66fa9187d2c261eb9c1630a7c0905984f32b1ec966c1a3"
 				},
 				"memory": {
-					"retained_bytes": 29035504,
-					"peak_bytes": 72231248
+					"retained_bytes": 29055890,
+					"peak_bytes": 72251634
 				},
-				"elapsed_ms": 76452.447,
+				"elapsed_ms": 140944.061,
 				"failures": []
 			},
 			"milestones": [
@@ -3525,7 +3525,7 @@
 							],
 							"geometry_signature": "47a2219c0eaea6e3364797b228a756647af88d080887d011a0b83b86d0e68792",
 							"collision_signature": "3d4e05d601f943907691165f980c2fe7d5927adc0348432111cbb3e679736eac",
-							"elapsed_usec": 81407,
+							"elapsed_usec": 182883,
 							"failures": []
 						},
 						{
@@ -3539,7 +3539,7 @@
 							],
 							"geometry_signature": "047d15519714ea6b765987f4d8539693c91dc4e9516ad8ce00f4afd8855a7408",
 							"collision_signature": "511adbe35c25c1750ca8ed8ddb8758250a3b46d299f9840999f7ad578e98a555",
-							"elapsed_usec": 85163,
+							"elapsed_usec": 170950,
 							"failures": []
 						},
 						{
@@ -3553,7 +3553,7 @@
 							],
 							"geometry_signature": "53b72bcf767731b341c57b1fdee0d0725fc29fed1b46abc72ad346a98400372f",
 							"collision_signature": "35bd93e68a92bff43383e59d54ff20baf77e3c64858340949a9cae097e02ea24",
-							"elapsed_usec": 97582,
+							"elapsed_usec": 141161,
 							"failures": []
 						},
 						{
@@ -3567,7 +3567,7 @@
 							],
 							"geometry_signature": "2502d395952d5b37e118aeea66d90137f386de44027533a0945622e9bbd5de13",
 							"collision_signature": "57148b1fa32c05bf592b25b0bd286bf1c96d0a0144194a1d0cf814d4cbfd0cd2",
-							"elapsed_usec": 75707,
+							"elapsed_usec": 153680,
 							"failures": []
 						},
 						{
@@ -3581,7 +3581,7 @@
 							],
 							"geometry_signature": "03efb765b05d9590686c78715b49f3fc22a070192998bd5ca61592d636c95087",
 							"collision_signature": "781c1f0535e47b2f6bac029ab21bbc829f6699b817fd9d58a1d857ad4611f582",
-							"elapsed_usec": 102132,
+							"elapsed_usec": 147637,
 							"failures": []
 						},
 						{
@@ -3595,7 +3595,7 @@
 							],
 							"geometry_signature": "19e7bd5098200d48c0092d0d8a5f480072c2f15b6d387e80da5654681b480ab6",
 							"collision_signature": "7f381183b3777b01be0c566679462431118e4ff0c0f67eca6211175f9d699d37",
-							"elapsed_usec": 86814,
+							"elapsed_usec": 212674,
 							"failures": []
 						},
 						{
@@ -3609,16 +3609,16 @@
 							],
 							"geometry_signature": "afd8f0d1a43c49d564b3bf13b8c04dab4819cbc5724c4b078300acc1aa548cd9",
 							"collision_signature": "031d62a09266ca78cafe3d582be7b2f5c877204adab1fe014e312913b736f83b",
-							"elapsed_usec": 86540,
+							"elapsed_usec": 221569,
 							"failures": []
 						}
 					],
 					"performance": {
 						"sample_count": 100,
-						"p50_usec": 1168.0,
-						"p95_usec": 1328.0,
-						"p99_usec": 1429.0,
-						"worst_usec": 1440.0
+						"p50_usec": 1753.0,
+						"p95_usec": 4188.0,
+						"p99_usec": 7785.0,
+						"worst_usec": 21597.0
 					}
 				},
 				{
@@ -3708,93 +3708,93 @@
 						{
 							"lod": 0,
 							"cell_size_m": 0.5,
-							"triangle_count": 236,
+							"triangle_count": 264,
 							"material_ids": [
 								7,
 								8
 							],
-							"geometry_signature": "0e1e225881b70bdf58144fc140591e73d8a2b302e49ccbd5af9e237728622faa",
-							"collision_signature": "ad25d5e34d15b864439789526c4de9a1aa7cf90aaf4a2b4e093cfd1f66525c9b"
+							"geometry_signature": "57521b29e78d79cbdf4b9402a24981ce08673ed25eeb85e70ab7890114def987",
+							"collision_signature": "17603ac810fe542077319260b027f262e173993c3ed7a991b479bb2c5a19c412"
 						},
 						{
 							"lod": 1,
 							"cell_size_m": 1.0,
-							"triangle_count": 236,
+							"triangle_count": 266,
 							"material_ids": [
 								7,
 								8
 							],
-							"geometry_signature": "b5c8e2786c18984ff6689df7840195c86421f4355f4a0c2d83ad5ffca6f1ec2a",
-							"collision_signature": "a671bae74baaf1c0c810a6383d014ac0907dbb7b2e77dcda186604989b239ad3"
+							"geometry_signature": "4716ef24af72b34acee6eb5e4fafc13be15d038e511a36bfae9c324ba23aab8b",
+							"collision_signature": "c7399069082eb7913bc3e7b12c7d01d4e778529e45e9aa1efc7cf78e14e17a86"
 						},
 						{
 							"lod": 2,
 							"cell_size_m": 2.0,
-							"triangle_count": 236,
+							"triangle_count": 266,
 							"material_ids": [
 								7,
 								8
 							],
-							"geometry_signature": "1cf4c052680e48d4bb6666e474d44d175d116d7b05d4db665d1f54dbf4915fb3",
-							"collision_signature": "bf6369623d08c9bb0dd34e5952fd955ef4ba45d1f92190011fb935d2c39cd3a4"
+							"geometry_signature": "a13abb40fe043a9885dcefcc5a733a181a7baa16c561ef948260e7ac499cbe85",
+							"collision_signature": "e59dc4519436dc828655a1cfa1320d4c1c2183e25e024e56568a2b3584ed96a4"
 						},
 						{
 							"lod": 3,
 							"cell_size_m": 4.0,
-							"triangle_count": 236,
+							"triangle_count": 266,
 							"material_ids": [
 								7,
 								8
 							],
-							"geometry_signature": "698911a2f0cb527e716b683e98d06520232b4e888196a82b7a2893a65b3a6bc7",
-							"collision_signature": "917a6c01261d3cc6ae8bd798650c9331a37b2e2fd940257b8484453b659513ba"
+							"geometry_signature": "1768de957827623741e479d7af8c0512384183124b4204943c138d55f8f71d02",
+							"collision_signature": "3743ca0b3801203abe099bf065d744fc580f3a4b0f07eb90b0055c9afcb1c8a7"
 						},
 						{
 							"lod": 4,
 							"cell_size_m": 8.0,
-							"triangle_count": 236,
+							"triangle_count": 262,
 							"material_ids": [
 								7,
 								8
 							],
-							"geometry_signature": "f8ad9e445bb12eed222730cced3c075838d6e002416f3661bf03bd05405ada62",
-							"collision_signature": "fd7d4ee028b91ed9d7612ecb6c6159e75a5829cebfeeb4b6ba0373ef3ddaa1ab"
+							"geometry_signature": "c4bab95c81b8867c2ae6d24d3805d81233827f823c275548a96724bc192ffa75",
+							"collision_signature": "b52cc2691da2ad66762d48a96a54493a7e4d4125808ef6da447ba3e5008ab4ff"
 						},
 						{
 							"lod": 5,
 							"cell_size_m": 16.0,
-							"triangle_count": 236,
+							"triangle_count": 262,
 							"material_ids": [
 								7,
 								8
 							],
-							"geometry_signature": "f107812a14c3f08df82a1467675b4b86fbf53e8841adff14900aeed29c670731",
-							"collision_signature": "64db47e07f7a94aab33993f591569e873602946573826c284f156484f616916b"
+							"geometry_signature": "71711e35dcf496fb3df23a3640cee0fd48f41c87e74106a4bede3fcb85e82465",
+							"collision_signature": "cb6e0d018335cbb7b79d2d73be041e673b91b3b75a2ce06d32cc1e08f5bfc0d2"
 						},
 						{
 							"lod": 6,
 							"cell_size_m": 32.0,
-							"triangle_count": 236,
+							"triangle_count": 264,
 							"material_ids": [
 								7,
 								8
 							],
-							"geometry_signature": "0b186a3e82118b4bfa634556898495c993acbd9932576666f952093efa3b3b73",
-							"collision_signature": "3a3d72dc34819b96e9aed20d20501c33b5cea9a62708e229020918091a0a98c4"
+							"geometry_signature": "f37087a09c76bec6c5fd8183ebc6c71738bf172c3cc46e16e147239a2e7539e2",
+							"collision_signature": "555305256b9190206adfbf6ce4e5a4abc99047cc1976440910d97b845120f638"
 						},
 						{
 							"lod": 7,
 							"cell_size_m": 64.0,
-							"triangle_count": 236,
+							"triangle_count": 264,
 							"material_ids": [
 								7,
 								8
 							],
-							"geometry_signature": "aa74cf2280a11fc3a9d873e163ec7c44d2fd3730652932911f2878ee742b6401",
-							"collision_signature": "6274e837ea34f8f7a85c220e0219368ac0da602092a3595598fee3657314fc2d"
+							"geometry_signature": "4358c4c1bc4557400e11bbb225dd27c67a2b15da1a8fa2d1822a308775b810db",
+							"collision_signature": "bb3e4362546a3a19cdc3fad31e2c7b4a97deb86799ee91b739d031b5a78db80d"
 						}
 					],
-					"geometry_signature": "52155e60263001b738d953db043ac17f756652de574f70e2fa36301f3af63292",
+					"geometry_signature": "e52fd57bb785a63fbb260dce522ed3730aed158a293ea228a566123394683fdd",
 					"boundary_seam": {
 						"status": "PASS",
 						"axis": 0,
@@ -3827,7 +3827,7 @@
 						"degraded": 96,
 						"intentional_disappearance": 48
 					},
-					"matrix_signature": "30527edb23727478b768e35dc76eaf50bfe053700299c4ea586c7f3a9b4c525a",
+					"matrix_signature": "c26d3ee318008ac38b962d58b26b9c60e3e4acb74a8674164d0882b5d531ba8d",
 					"records": [
 						{
 							"feature": "sphere_diameter",
@@ -4122,9 +4122,9 @@
 							"feature_size_m": 1.0,
 							"feature_cells": 2.0,
 							"classification": "degraded",
-							"triangle_count": 662,
+							"triangle_count": 668,
 							"observed": "present",
-							"geometry_signature": "9194e5458493d86a6c02ce18a03d0f2e8b4cacebcd92f09028fd8f0609a27d14"
+							"geometry_signature": "3f313a4daa34adf135f1e32c651be24436f4e5788d3543282f3eaadaef8d6f19"
 						},
 						{
 							"feature": "noise_wavelength",
@@ -4452,9 +4452,9 @@
 							"feature_size_m": 2.0,
 							"feature_cells": 2.0,
 							"classification": "degraded",
-							"triangle_count": 662,
+							"triangle_count": 668,
 							"observed": "present",
-							"geometry_signature": "0d7e81db596b9cf1fe54cf92304f96c966f461f44c0b1cae5966729a34a752d1"
+							"geometry_signature": "0077dcbc66e1265b4bdbc212489da114d1174c43d2e066b48d05a46fdbebe0ce"
 						},
 						{
 							"feature": "noise_wavelength",
@@ -4782,9 +4782,9 @@
 							"feature_size_m": 4.0,
 							"feature_cells": 2.0,
 							"classification": "degraded",
-							"triangle_count": 662,
+							"triangle_count": 668,
 							"observed": "present",
-							"geometry_signature": "7741ab3ecb1e08db0170fdd11eb41f20b112a37bf732395cdd0593a0da89bd58"
+							"geometry_signature": "64a8ef2830868541d55b771980cf1f86f71f5e282953562773634dd0f3bfb47b"
 						},
 						{
 							"feature": "noise_wavelength",
@@ -4826,9 +4826,9 @@
 							"feature_size_m": 4.0,
 							"feature_cells": 1.0,
 							"classification": "intentional_disappearance",
-							"triangle_count": 4,
+							"triangle_count": 8,
 							"observed": "present",
-							"geometry_signature": "cfba8ac261f354b5ec6a4a0c4e22e6b2f1fb0413da60fe59dfdcc7c54a760350"
+							"geometry_signature": "b7e9dfceb11fcf03460e0056f8be510e76b4798959bb3298001282bb6f07bd07"
 						},
 						{
 							"feature": "sphere_diameter",
@@ -4848,9 +4848,9 @@
 							"feature_size_m": 12.0,
 							"feature_cells": 3.0,
 							"classification": "degraded",
-							"triangle_count": 98,
+							"triangle_count": 104,
 							"observed": "present",
-							"geometry_signature": "fac1498bf37029a2cdd1676411b9f67148af879c6c20480313b8b8fccb832960"
+							"geometry_signature": "688cc7344ce3bcee63cfc5c02394004dabcf5f50b9022eb4dec8280d688308ef"
 						},
 						{
 							"feature": "sphere_diameter",
@@ -4881,9 +4881,9 @@
 							"feature_size_m": 4.0,
 							"feature_cells": 1.0,
 							"classification": "intentional_disappearance",
-							"triangle_count": 40,
+							"triangle_count": 56,
 							"observed": "present",
-							"geometry_signature": "933738e4ac80d8283729e1c3422f8cb35b14998ffe10c8cd0f541fd66c13e6bc"
+							"geometry_signature": "1e270d886c30de972b39e0ecf47a0e1e8446144f2d12adc37a96c925ff91764c"
 						},
 						{
 							"feature": "tunnel_clearance",
@@ -4903,9 +4903,9 @@
 							"feature_size_m": 12.0,
 							"feature_cells": 3.0,
 							"classification": "degraded",
-							"triangle_count": 230,
+							"triangle_count": 248,
 							"observed": "present",
-							"geometry_signature": "9672daa35e15320b502fe3dc539e5144321be8812dc2ebb6eab2d917b92d9f80"
+							"geometry_signature": "ed3b8ff3ee9ea893bce7cd015d81418764a3f5916b628cde014b7e0e3a3d0581"
 						},
 						{
 							"feature": "tunnel_clearance",
@@ -5112,9 +5112,9 @@
 							"feature_size_m": 8.0,
 							"feature_cells": 2.0,
 							"classification": "degraded",
-							"triangle_count": 664,
+							"triangle_count": 668,
 							"observed": "present",
-							"geometry_signature": "a306fc0ff3f4542b179788427cde94bd37e091e95579ec0de91fab3049437228"
+							"geometry_signature": "3a6a2bfe2cd7cb5324288bf9db82cb23916cd192d650336d7d087f0bf9457315"
 						},
 						{
 							"feature": "noise_wavelength",
@@ -5156,9 +5156,9 @@
 							"feature_size_m": 8.0,
 							"feature_cells": 1.0,
 							"classification": "intentional_disappearance",
-							"triangle_count": 0,
-							"observed": "disappeared",
-							"geometry_signature": "d473a38eefb0a5c8adfbb10c065ce48dd18c9798727d0d3b0b857fb78d2b7b67"
+							"triangle_count": 8,
+							"observed": "present",
+							"geometry_signature": "6ac88c67eb5cf0fa76ca0d2ed23d82a856ff60437a6fef8f5807c9f6158267b5"
 						},
 						{
 							"feature": "sphere_diameter",
@@ -5178,9 +5178,9 @@
 							"feature_size_m": 24.0,
 							"feature_cells": 3.0,
 							"classification": "degraded",
-							"triangle_count": 80,
+							"triangle_count": 104,
 							"observed": "present",
-							"geometry_signature": "b8f92d00825f5fd0842f9ef6a230ba3d5d71d586e95a29cefedef135100001ec"
+							"geometry_signature": "0efdbc328c97dfcc2e1ff43d58eb452ade26e1a222b2fa76e64097b08f6198f0"
 						},
 						{
 							"feature": "sphere_diameter",
@@ -5211,9 +5211,9 @@
 							"feature_size_m": 8.0,
 							"feature_cells": 1.0,
 							"classification": "intentional_disappearance",
-							"triangle_count": 0,
-							"observed": "disappeared",
-							"geometry_signature": "d473a38eefb0a5c8adfbb10c065ce48dd18c9798727d0d3b0b857fb78d2b7b67"
+							"triangle_count": 56,
+							"observed": "present",
+							"geometry_signature": "543ba56f32429c9441d12a994a051478722d00d4184b95e24639c47c46323e18"
 						},
 						{
 							"feature": "tunnel_clearance",
@@ -5233,9 +5233,9 @@
 							"feature_size_m": 24.0,
 							"feature_cells": 3.0,
 							"classification": "degraded",
-							"triangle_count": 176,
+							"triangle_count": 248,
 							"observed": "present",
-							"geometry_signature": "c77b2395df78a921af230779ac68a9e6b689be46a00bc49ca56bb7a55668a4f3"
+							"geometry_signature": "ab4953bf1294291b0f57aa9be5fcd8eb4fd06defb8f0fac0034dd4b4bf0d8a3b"
 						},
 						{
 							"feature": "tunnel_clearance",
@@ -5442,9 +5442,9 @@
 							"feature_size_m": 16.0,
 							"feature_cells": 2.0,
 							"classification": "degraded",
-							"triangle_count": 664,
+							"triangle_count": 668,
 							"observed": "present",
-							"geometry_signature": "477f3294dee328b5fb4e0385fdf72540a4f2961a5fb8aae97a1bec4fbe26e911"
+							"geometry_signature": "546f618fbd63bab75ff9ee3f41742a747c736021da0c30010846abfafa26364a"
 						},
 						{
 							"feature": "noise_wavelength",
@@ -5486,9 +5486,9 @@
 							"feature_size_m": 16.0,
 							"feature_cells": 1.0,
 							"classification": "intentional_disappearance",
-							"triangle_count": 0,
-							"observed": "disappeared",
-							"geometry_signature": "c7c076b23b6c9eb5154d78f55721135025ede000ac94607a931af13a35a080e4"
+							"triangle_count": 8,
+							"observed": "present",
+							"geometry_signature": "0ae23ec990ce35246c9d975e1197f53b51e760ca0e5ea1e6305e88c0901e3fbd"
 						},
 						{
 							"feature": "sphere_diameter",
@@ -5508,9 +5508,9 @@
 							"feature_size_m": 48.0,
 							"feature_cells": 3.0,
 							"classification": "degraded",
-							"triangle_count": 80,
+							"triangle_count": 104,
 							"observed": "present",
-							"geometry_signature": "4140d1939c7df1d07e1d2ee853275478de781b84ec3715bb0f6baaeacc525363"
+							"geometry_signature": "41db3744edd1af0e846d4ecad120be8c8277011d6187a5ca0aa8446d3af381b0"
 						},
 						{
 							"feature": "sphere_diameter",
@@ -5541,9 +5541,9 @@
 							"feature_size_m": 16.0,
 							"feature_cells": 1.0,
 							"classification": "intentional_disappearance",
-							"triangle_count": 0,
-							"observed": "disappeared",
-							"geometry_signature": "c7c076b23b6c9eb5154d78f55721135025ede000ac94607a931af13a35a080e4"
+							"triangle_count": 56,
+							"observed": "present",
+							"geometry_signature": "54bb92835a5ee7e309708a6d521d6682a722ae12a376563822094b5614a85008"
 						},
 						{
 							"feature": "tunnel_clearance",
@@ -5772,9 +5772,9 @@
 							"feature_size_m": 32.0,
 							"feature_cells": 2.0,
 							"classification": "degraded",
-							"triangle_count": 666,
+							"triangle_count": 668,
 							"observed": "present",
-							"geometry_signature": "d11a74d94d2d457085d86cfcb6624eef6454e9871491f2b8cb0e29a7c00166da"
+							"geometry_signature": "c23979ff5439ecd4df026038cd21f8fa4b9f74941818c8ef0bd41857fa6c87b4"
 						},
 						{
 							"feature": "noise_wavelength",
@@ -6516,7 +6516,7 @@
 					"journal_signature": "6965a894d2db13fa45f544a2a76c1a664153781595b276ebc7ab9bb61f0b3e88",
 					"compacted_journal_signature": "09fdaa9a22e60399bccbdd157c94d431e92bcf275b83772a7fe16c4255a1961f",
 					"sample_signature": "27913c150799630859293bfb2d54ac7d5cb0f0038b72f5107e54fdd809d7c88f",
-					"geometry_signature": "d64cbbe71f339dd97d0416685f9851718132829e961ba388974d80402192b81d",
+					"geometry_signature": "2cd1cd596178af25d2cde6cab2c274cbb5ea2f716f5a1ee9c5996608bbe1ebae",
 					"chunk_count": 9,
 					"seam_count": 12,
 					"seam_failures": 0,
@@ -6689,29 +6689,29 @@
 					"performance": {
 						"transaction_append": {
 							"sample_count": 246,
-							"p50_usec": 402.0,
-							"p95_usec": 639.0,
-							"p99_usec": 788.0,
-							"worst_usec": 1150.0
+							"p50_usec": 634.0,
+							"p95_usec": 1524.0,
+							"p99_usec": 1983.0,
+							"worst_usec": 2768.0
 						},
 						"query_batch_64": {
 							"sample_count": 100,
-							"p50_usec": 660.0,
-							"p95_usec": 767.0,
-							"p99_usec": 1019.0,
-							"worst_usec": 1093.0
+							"p50_usec": 1197.0,
+							"p95_usec": 4909.0,
+							"p99_usec": 18066.0,
+							"worst_usec": 20656.0
 						},
 						"native_chunk_rebuild": {
 							"sample_count": 100,
-							"p50_usec": 277552.0,
-							"p95_usec": 383064.0,
-							"p99_usec": 422676.0,
-							"worst_usec": 456886.0
+							"p50_usec": 516690.0,
+							"p95_usec": 781011.0,
+							"p99_usec": 1285599.0,
+							"worst_usec": 1786627.0
 						}
 					},
 					"memory": {
-						"retained_bytes": 57098768,
-						"peak_bytes": 72231248
+						"retained_bytes": 57119346,
+						"peak_bytes": 72251634
 					}
 				},
 				{
@@ -6815,7 +6815,7 @@
 				"gpu": "",
 				"driver": "opengl3",
 				"godot_version": "4.7.1-stable (official)",
-				"backend_revision": "a5c681d4061c5bcf2f779f7ae841d5d8ebffcdf2725040087386257ac2c3e32b"
+				"backend_revision": "980614354b207925db66fa9187d2c261eb9c1630a7c0905984f32b1ec966c1a3"
 			},
 			"milestones": [
 				{
@@ -6872,18 +6872,18 @@
 					},
 					"performance": {
 						"sample_count": 100,
-						"p50_usec": 3523.0,
-						"p95_usec": 4901.0,
-						"p99_usec": 5706.0,
-						"worst_usec": 5895.0,
+						"p50_usec": 5089.0,
+						"p95_usec": 8259.0,
+						"p99_usec": 10261.0,
+						"worst_usec": 12080.0,
 						"warmup_iterations": 10,
 						"blends_per_sample": 512,
 						"budget_p95_usec": 30000.0,
 						"budget_evaluation": "OBSERVATION_ONLY_COMBINED_RUN"
 					},
 					"memory": {
-						"retained_bytes": 29060984,
-						"peak_bytes": 72231248
+						"retained_bytes": 29081370,
+						"peak_bytes": 72251634
 					},
 					"provenance": {
 						"workload_signature": "tqp18_material_blending_reference_v1",
@@ -6894,7 +6894,7 @@
 						"gpu": "",
 						"driver": "opengl3",
 						"godot_version": "4.7.1-stable (official)",
-						"backend_revision": "a5c681d4061c5bcf2f779f7ae841d5d8ebffcdf2725040087386257ac2c3e32b"
+						"backend_revision": "980614354b207925db66fa9187d2c261eb9c1630a7c0905984f32b1ec966c1a3"
 					},
 					"visual_evidence": {
 						"capture_id": "material_blending_reference_v1",
@@ -7044,10 +7044,10 @@
 					},
 					"performance": {
 						"sample_count": 100,
-						"p50_usec": 6590.0,
-						"p95_usec": 8629.0,
-						"p99_usec": 9255.0,
-						"worst_usec": 9741.0,
+						"p50_usec": 9231.0,
+						"p95_usec": 15517.0,
+						"p99_usec": 21489.0,
+						"worst_usec": 33309.0,
 						"warmup_iterations": 10,
 						"mapping_operations_per_sample": 2048,
 						"budget_p95_usec": 50000.0,
@@ -7055,8 +7055,8 @@
 						"budget_evaluation": "OBSERVATION_ONLY_COMBINED_RUN"
 					},
 					"memory": {
-						"retained_bytes": 29084372,
-						"peak_bytes": 72231248
+						"retained_bytes": 29105822,
+						"peak_bytes": 72251634
 					},
 					"provenance": {
 						"workload_signature": "tqp21_reference_triplanar_texture_array_v1",
@@ -7067,12 +7067,16 @@
 						"gpu": "",
 						"driver": "opengl3",
 						"godot_version": "4.7.1-stable (official)",
-						"backend_revision": "a5c681d4061c5bcf2f779f7ae841d5d8ebffcdf2725040087386257ac2c3e32b"
+						"backend_revision": "980614354b207925db66fa9187d2c261eb9c1630a7c0905984f32b1ec966c1a3"
 					},
 					"visual_evidence": {
 						"image": "res://labs/terrain_lab/results/terrain_observatory_reference.png",
-						"sha256": "009c19eb1a4ef56ae9ab0d9b98922573de72abeb202c460cdf54d00874afe752",
+						"sha256": "391745ca7e57f26c1cf5dfda4d905c614be9521c4e304bc23b4f6b27095312f7",
 						"automated_status": "PASS",
+						"surface_seam_pair_count": 27,
+						"surface_seam_errors": 0,
+						"tangent_seam_image": "res://labs/terrain_lab/results/terrain_observatory_tangent_seam.png",
+						"tangent_seam_sha256": "ea46a4827309416394200b405f1a97cfbcf815e525f8ad1445ddee727b0e62bb",
 						"human_review": "PENDING"
 					},
 					"qualified_scope": [
@@ -7195,7 +7199,7 @@
 				"gpu": "",
 				"driver": "opengl3",
 				"godot_version": "4.7.1-stable (official)",
-				"backend_revision": "a5c681d4061c5bcf2f779f7ae841d5d8ebffcdf2725040087386257ac2c3e32b"
+				"backend_revision": "980614354b207925db66fa9187d2c261eb9c1630a7c0905984f32b1ec966c1a3"
 			},
 			"milestones": [
 				{
@@ -7505,18 +7509,18 @@
 					},
 					"performance": {
 						"sample_count": 100,
-						"p50_usec": 39053.0,
-						"p95_usec": 44340.0,
-						"p99_usec": 45469.0,
-						"worst_usec": 46521.0,
+						"p50_usec": 57437.0,
+						"p95_usec": 78657.0,
+						"p99_usec": 88688.0,
+						"worst_usec": 113634.0,
 						"warmup_iterations": 10,
 						"path_updates_per_sample": 64,
 						"budget_p95_usec": 150000.0,
 						"budget_evaluation": "OBSERVATION_ONLY_COMBINED_RUN"
 					},
 					"memory": {
-						"retained_bytes": 29164012,
-						"peak_bytes": 72231248
+						"retained_bytes": 29185462,
+						"peak_bytes": 72251634
 					},
 					"provenance": {
 						"workload_signature": "tqp19_streaming_window_reference_v1",
@@ -7527,7 +7531,7 @@
 						"gpu": "",
 						"driver": "opengl3",
 						"godot_version": "4.7.1-stable (official)",
-						"backend_revision": "a5c681d4061c5bcf2f779f7ae841d5d8ebffcdf2725040087386257ac2c3e32b"
+						"backend_revision": "980614354b207925db66fa9187d2c261eb9c1630a7c0905984f32b1ec966c1a3"
 					},
 					"qualified_scope": [
 						"deterministic horizontal reference streaming-window policy",
@@ -7718,18 +7722,18 @@
 					},
 					"performance": {
 						"sample_count": 100,
-						"p50_usec": 4676.0,
-						"p95_usec": 6231.0,
-						"p99_usec": 8034.0,
-						"worst_usec": 8524.0,
+						"p50_usec": 6705.0,
+						"p95_usec": 12424.0,
+						"p99_usec": 25432.0,
+						"worst_usec": 28716.0,
 						"warmup_iterations": 10,
 						"coordinate_round_trips_per_sample": 1024,
 						"budget_p95_usec": 15000.0,
 						"budget_evaluation": "OBSERVATION_ONLY_COMBINED_RUN"
 					},
 					"memory": {
-						"retained_bytes": 29193736,
-						"peak_bytes": 72231248
+						"retained_bytes": 29215186,
+						"peak_bytes": 72251634
 					},
 					"provenance": {
 						"workload_signature": "tqp20_cpu_large_world_coordinate_reference_v1",
@@ -7740,7 +7744,7 @@
 						"gpu": "",
 						"driver": "opengl3",
 						"godot_version": "4.7.1-stable (official)",
-						"backend_revision": "a5c681d4061c5bcf2f779f7ae841d5d8ebffcdf2725040087386257ac2c3e32b"
+						"backend_revision": "980614354b207925db66fa9187d2c261eb9c1630a7c0905984f32b1ec966c1a3"
 					},
 					"qualified_scope": [
 						"CPU signed-integer sample and chunk addressing",
@@ -7838,10 +7842,10 @@
 					},
 					"performance": {
 						"sample_count": 100,
-						"p50_usec": 101801.0,
-						"p95_usec": 112788.0,
-						"p99_usec": 129596.0,
-						"worst_usec": 142981.0,
+						"p50_usec": 172837.0,
+						"p95_usec": 281159.0,
+						"p99_usec": 333052.0,
+						"worst_usec": 355135.0,
 						"warmup_iterations": 10,
 						"views_per_sample": 16,
 						"budget_p95_usec": 300000.0,
@@ -7849,8 +7853,8 @@
 						"budget_evaluation": "OBSERVATION_ONLY_COMBINED_RUN"
 					},
 					"memory": {
-						"retained_bytes": 29210704,
-						"peak_bytes": 72231248
+						"retained_bytes": 29232154,
+						"peak_bytes": 72251634
 					},
 					"provenance": {
 						"workload_signature": "tqp22_cpu_horizontal_visibility_residency_reference_v1",
@@ -7861,7 +7865,7 @@
 						"gpu": "",
 						"driver": "opengl3",
 						"godot_version": "4.7.1-stable (official)",
-						"backend_revision": "a5c681d4061c5bcf2f779f7ae841d5d8ebffcdf2725040087386257ac2c3e32b"
+						"backend_revision": "980614354b207925db66fa9187d2c261eb9c1630a7c0905984f32b1ec966c1a3"
 					},
 					"qualified_scope": [
 						"deterministic horizontal CPU frustum and conservative occlusion reference",
@@ -7962,17 +7966,17 @@
 					"failures": [],
 					"performance": {
 						"sample_count": 100,
-						"p50_usec": 989.0,
-						"p95_usec": 2230.0,
-						"p99_usec": 2880.0,
-						"worst_usec": 3026.0,
+						"p50_usec": 1286.0,
+						"p95_usec": 3336.0,
+						"p99_usec": 7037.0,
+						"worst_usec": 8012.0,
 						"target_p95_usec": 4000.0,
 						"target_status": "MET",
 						"budget_evaluation": "OBSERVATION_ONLY_IMPLEMENTED_MILESTONE"
 					},
 					"memory": {
-						"retained_bytes": 30134484,
-						"peak_bytes": 72231248
+						"retained_bytes": 30155934,
+						"peak_bytes": 72251634
 					},
 					"retained_chunk_count": 127,
 					"qualification_scope": "REFERENCE_MODEL_NOT_PRODUCTION_TERRAIN"
@@ -8010,7 +8014,7 @@
 				"gpu": "",
 				"driver": "opengl3",
 				"godot_version": "4.7.1-stable (official)",
-				"backend_revision": "a5c681d4061c5bcf2f779f7ae841d5d8ebffcdf2725040087386257ac2c3e32b"
+				"backend_revision": "980614354b207925db66fa9187d2c261eb9c1630a7c0905984f32b1ec966c1a3"
 			},
 			"milestones": [
 				{

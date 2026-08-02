@@ -58,7 +58,7 @@
 		},
 		"TQP-11": {
 			"lod_count": 8,
-			"geometry_signature": "52155e60263001b738d953db043ac17f756652de574f70e2fa36301f3af63292",
+			"geometry_signature": "e52fd57bb785a63fbb260dce522ed3730aed158a293ea228a566123394683fdd",
 			"seam_failures": 0
 		},
 		"TQP-12": {
@@ -68,7 +68,7 @@
 				"degraded": 96,
 				"intentional_disappearance": 48
 			},
-			"matrix_signature": "30527edb23727478b768e35dc76eaf50bfe053700299c4ea586c7f3a9b4c525a"
+			"matrix_signature": "c26d3ee318008ac38b962d58b26b9c60e3e4acb74a8674164d0882b5d531ba8d"
 		},
 		"TQP-13": {
 			"journal_signature": "3d6cb69df38771d6d2ee842be1153ec1885178edf7a6f35c9e28b4fbc84f8d5b",
@@ -84,7 +84,7 @@
 			"seam_failures": 0,
 			"collision_failures": 0,
 			"sample_signature": "27913c150799630859293bfb2d54ac7d5cb0f0038b72f5107e54fdd809d7c88f",
-			"geometry_signature": "d64cbbe71f339dd97d0416685f9851718132829e961ba388974d80402192b81d"
+			"geometry_signature": "2cd1cd596178af25d2cde6cab2c274cbb5ea2f716f5a1ee9c5996608bbe1ebae"
 		},
 		"visual_pixel_signature": "ee30a31a42a7c0baed3abf8b60bd9684892bddcf02e415f205acca937cf765af"
 	}

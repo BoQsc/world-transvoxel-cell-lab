@@ -164,14 +164,14 @@ static func same_lod_seam(
 	var multiplicity_mismatches: Array[String] = []
 	for key in left_edges:
 		if not right_edges.has(key):
-			left_only.append(str(key))
+			left_only.append("%s:%d" % [str(key), int(left_edges[key])])
 		elif int(left_edges[key]) != int(right_edges[key]):
 			multiplicity_mismatches.append(
 				"%s:%d!=%d" % [str(key), int(left_edges[key]), int(right_edges[key])]
 			)
 	for key in right_edges:
 		if not left_edges.has(key):
-			right_only.append(str(key))
+			right_only.append("%s:%d" % [str(key), int(right_edges[key])])
 	if left_only.size() > 0 or right_only.size() > 0:
 		failures.append("shared boundary edge sets differ")
 	if not multiplicity_mismatches.is_empty():

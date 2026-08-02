@@ -215,6 +215,7 @@ static func _validate_evidence_files(program: Dictionary, failures: Array[String
 	for required in [
 		"TQP-D001", "TQP-D002", "TQP-D003", "TQP-D004", "TQP-D005",
 		"TQP-D006", "TQP-D007", "TQP-D008", "TQP-D009", "TQP-D010",
+		"TQP-D011",
 	]:
 		_expect(decision_ids.has(required), "missing retained decision: " + required, failures)
 	for key in [
@@ -661,7 +662,31 @@ static func _validate_visual_evidence(
 	_expect(int(automated.get("requested_chunk_count", 0)) == 18, "visual requested chunk corpus changed", failures)
 	_expect(int(automated.get("native_chunk_count", 0)) == 16, "visual rendered chunk corpus changed", failures)
 	_expect(int(automated.get("local_bounds_errors", -1)) == 0, "visual bounds errors exist", failures)
+	_expect(int(automated.get("adjacent_seam_pair_count", 0)) == 33, "visual seam corpus changed", failures)
+	_expect(int(automated.get("surface_seam_pair_count", 0)) == 27, "visual surface seam corpus changed", failures)
+	_expect(int(automated.get("surface_seam_errors", -1)) == 0, "visual surface seam errors exist", failures)
+	_expect(str(automated.get("tangent_edit_regression", "")) == "PASS", "tangent edit regression failed", failures)
 	_expect(str(automated.get("cold_warm_capture_identity", "")) == "PASS", "visual capture is not repeatable", failures)
+	var tangent: Dictionary = evidence.get("tangent_seam_regression", {})
+	var tangent_image_path := str(tangent.get("image", ""))
+	_expect(FileAccess.file_exists(tangent_image_path), "tangent seam evidence image is missing", failures)
+	if FileAccess.file_exists(tangent_image_path):
+		_expect(
+			FileAccess.get_sha256(tangent_image_path) == str(tangent.get("sha256", "")),
+			"tangent seam evidence image hash changed",
+			failures
+		)
+	_expect(
+		str(tangent.get("cold_warm_capture_identity", "")) == "PASS",
+		"tangent seam capture is not repeatable",
+		failures
+	)
+	_expect(
+		str(tangent.get("native_upstream_commit", ""))
+			== "39572401cc0b0898f70ea6c9dcbe3ca5d6f1138b",
+		"tangent seam evidence does not name the corrected native revision",
+		failures
+	)
 	var review: Dictionary = evidence.get("human_review", {})
 	_expect(
 		str(review.get("status", "")) == "PENDING",

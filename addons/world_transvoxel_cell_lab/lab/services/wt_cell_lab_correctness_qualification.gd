@@ -11,24 +11,7 @@ const Common := preload("res://addons/world_transvoxel_cell_lab/lab/services/wt_
 const MINIMIZED_REPRO_SCHEMA := "world_transvoxel.cell_lab.minimized_native_repro.v1"
 const INTERPOLATION_TOLERANCE := 0.0002
 const TRANSITION_ALIAS_SAMPLES := [0, 2, 6, 8]
-const EXPECTED_ADVERSARIAL_NEGATIVES := {
-	"gyroid:0": {
-		"interior_open_edges": 5,
-		"local_winding_normal_disagreements": 0,
-	},
-	"seeded_warp_17:1": {
-		"interior_open_edges": 4,
-		"local_winding_normal_disagreements": 0,
-	},
-	"seeded_warp_29:0": {
-		"interior_open_edges": 2,
-		"local_winding_normal_disagreements": 0,
-	},
-	"seeded_warp_29:1": {
-		"interior_open_edges": 4,
-		"local_winding_normal_disagreements": 0,
-	},
-}
+const EXPECTED_ADVERSARIAL_NEGATIVES := {}
 
 
 func validate(

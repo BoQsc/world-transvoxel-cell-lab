@@ -1,0 +1,34 @@
+{
+	"schema": "world_transvoxel.terrain_lab.decision.v1",
+	"id": "TQP-D011",
+	"date": "2026-08-02",
+	"decision": "Treat the canonical tangent-edit chunk crack as a real native defect, retain its exact regression, and accept the upstream endpoint-finalization correction without changing the terrain fixture.",
+	"reason": "The prior observatory checks verified bounds and image presence but did not compare every adjacent native boundary. The canonical smoothed crater is tangent to the z=0 chunk plane and exposed one mismatched edge across chunks [-1, 1, -1] and [-1, 1, 0]. An independent native M2 fixture reproduced the failure. Cell-level near-degenerate removal discarded nonzero triangles before chunk endpoint regularization could canonicalize them. The corrected backend removes only truly zero triangles at that stage, then leaves nonzero endpoint cases to regularization and finalization. The correction leaves TQP-10 digging unchanged, retains additional nonzero endpoint triangles in TQP-11 construction, allows four one-cell TQP-12 probes that were permitted to disappear to survive, and changes the TQP-14 mesh signature while every retained classification, seam, and collision invariant passes. A detached pre-correction Cell Lab comparison also proves that 16 adversarial probes remain byte-identical while the four former expected-negative probes gain exactly nine triangles in total and improve from 2-5 interior open edges to zero.",
+	"evidence": [
+		"res://addons/world_transvoxel_terrain_lab/standards/visual_evidence.json",
+		"res://labs/terrain_lab/results/terrain_observatory_tangent_seam.png",
+		"res://labs/terrain_lab/results/terrain_observatory_reference.png",
+		"res://addons/world_transvoxel_terrain_lab/tests/wt_terrain_lab_smoke.gd",
+		"res://addons/world_transvoxel_cell_lab/standards/upstream_correction_registry.json",
+		"res://addons/world_transvoxel_cell_lab/standards/qualification_standard.json",
+		"world-transvoxel@39572401cc0b0898f70ea6c9dcbe3ca5d6f1138b"
+	],
+	"qualified_scope": [
+		"the unchanged canonical 3x3x2 Terrain Observatory fixture",
+		"33 adjacent same-LOD chunk pairs including 27 surface-bearing interfaces",
+		"the exact smoothed crater tangent to the z=0 chunk boundary",
+		"rebaselined TQP-11, TQP-12, and TQP-14 deterministic geometry signatures with unchanged semantic classifications and zero seam or collision failures",
+		"all 20 Cell Lab adversarial probes under the ordinary integrity contract with zero expected-negative exceptions",
+		"native debug and release M1/M2 geometry regression tests"
+	],
+	"held_scope": [
+		"human visual acceptance remains pending for the recaptured observatory images",
+		"other edit shapes, LOD transitions, renderers, GPUs, and platforms remain governed by their own evidence"
+	],
+	"explicit_non_claims": [
+		"no claim that every possible tangent configuration is proven",
+		"no production terrain qualification",
+		"no visual-quality acceptance",
+		"no fallback mesher or shifted fixture"
+	]
+}

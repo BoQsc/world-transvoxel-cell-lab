@@ -54,7 +54,10 @@ The observatory root is an `@tool` Node3D. Open it from **Project > Tools >
 Open Terrain Observatory**, select the root node, and use the **Editor Preview**
 and **Editor Brush** Inspector groups to rebuild/reset the canonical fixture or
 apply live dig and construction operations. The generated editor mesh uses the
-pinned native `world_transvoxel` dependency; there is no fallback path.
+pinned native `world_transvoxel` dependency; there is no fallback path. The
+status is fail-closed on exact boundary-edge agreement across all adjacent
+same-LOD chunks, including the canonical tangent-edit regression retained by
+`TQP-D011`.
 
 Full machine report:
 

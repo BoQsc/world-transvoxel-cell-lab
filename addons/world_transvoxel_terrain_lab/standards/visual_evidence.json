@@ -8,12 +8,12 @@
 		"width": 1280,
 		"height": 720,
 		"gpu": "NVIDIA GeForce GTX 1060 with Max-Q Design",
-		"godot": "4.7-stable"
+		"godot": "4.7.1-stable"
 	},
 	"scene": "res://labs/terrain_lab/scenes/terrain_observatory.tscn",
 	"capture_tool": "res://labs/terrain_lab/tools/capture_terrain_observatory.gd",
 	"image": "res://labs/terrain_lab/results/terrain_observatory_reference.png",
-	"sha256": "009c19eb1a4ef56ae9ab0d9b98922573de72abeb202c460cdf54d00874afe752",
+	"sha256": "391745ca7e57f26c1cf5dfda4d905c614be9521c4e304bc23b4f6b27095312f7",
 	"automated_checks": {
 		"status": "PASS",
 		"requested_chunk_count": 18,
@@ -21,12 +21,31 @@
 		"horizontal_window": "3x3",
 		"vertical_layers": [0, 1],
 		"local_bounds_errors": 0,
+		"adjacent_seam_pair_count": 33,
+		"surface_seam_pair_count": 27,
+		"surface_seam_errors": 0,
+		"tangent_edit_regression": "PASS",
 		"surface_pixel_presence": "PASS",
 		"material_distinction": "PASS",
 		"dock_within_viewport": "PASS",
 		"cold_warm_capture_identity": "PASS"
 	},
+	"tangent_seam_regression": {
+		"trigger": "canonical crater center [-1.0, 9.5, 4.0], radius 4.0, smoothing 0.75 tangent to the z=0 chunk plane",
+		"failed_pair_before_correction": {
+			"left_chunk": [-1, 1, -1],
+			"right_chunk": [-1, 1, 0],
+			"axis": "z",
+			"left_edge_count": 18,
+			"right_edge_count": 19
+		},
+		"image": "res://labs/terrain_lab/results/terrain_observatory_tangent_seam.png",
+		"sha256": "ea46a4827309416394200b405f1a97cfbcf815e525f8ad1445ddee727b0e62bb",
+		"cold_warm_capture_identity": "PASS",
+		"native_upstream_commit": "39572401cc0b0898f70ea6c9dcbe3ca5d6f1138b"
+	},
 	"supports": [
+		"canonical same-LOD tangent-edit seam regression",
 		"TQP-21 candidate triplanar texture-array presentation",
 		"TQP-23 candidate surface shading presentation",
 		"TQP-26 Terrain Observatory presentation"

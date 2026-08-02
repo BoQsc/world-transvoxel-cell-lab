@@ -2,8 +2,8 @@
 	"correctness": {
 		"adversarial_probe_count": 20,
 		"adversarial_profile_count": 10,
-		"adversarial_signature": "5148c05ba0c14b9681d256b129b741ee5fb7c930d20e934658c4636a8a3fe98e",
-		"adversarial_triangle_count": 21368,
+		"adversarial_signature": "14af38bdbdbca4810a0388960cfaf28f08263bfbe77376ba1764e25e82146f61",
+		"adversarial_triangle_count": 21377,
 		"complement_pairs_checked": 384,
 		"complement_topology_asymmetries": 137,
 		"minimized_case_code": 124,
@@ -38,14 +38,14 @@
 		"29": "PASS"
 	},
 	"release": {
-		"confirmed_upstream_correction_count": 0,
+		"confirmed_upstream_correction_count": 1,
 		"explicitly_unqualified_target_count": 5,
-		"governance_case_count": 1,
+		"governance_case_count": 2,
 		"governance_required_evidence_count": 8,
 		"integration_classification_count": 2,
 		"integration_fixture_count": 3,
 		"integration_operation_count": 5,
-		"release_bundle_hash": "6725f02d5c468960788182330dc22d13627e61350d3754c878e67cff67bc7c2c",
+		"release_bundle_hash": "2e2d1e609944a02189bdee950a41000cbf1d4e36fee18c308ab3a6f70854cb37",
 		"release_evidence_file_count": 10,
 		"release_visual_count": 14,
 		"required_artifact_count": 2,

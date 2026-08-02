@@ -19,7 +19,10 @@ func _run() -> void:
 		return
 	var scene := packed.instantiate()
 	root.add_child(scene)
-	if scene.has_method("prepare_reference_capture"):
+	var capture_mode := _argument_value("--mode", "reference")
+	if capture_mode == "seam" and scene.has_method("prepare_seam_regression_capture"):
+		scene.call("prepare_seam_regression_capture")
+	elif scene.has_method("prepare_reference_capture"):
 		scene.call("prepare_reference_capture")
 	var image: Image
 	var visible_surface_pixels := 0

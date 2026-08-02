@@ -9,6 +9,9 @@ const EditField := preload(
 const TerrainLabScript := preload(
 	"res://addons/world_transvoxel_terrain_lab/lab/wt_transvoxel_terrain_lab.gd"
 )
+const NativeEvidence := preload(
+	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_edit_native_evidence.gd"
+)
 const TerrainShader := preload(
 	"res://labs/terrain_lab/shaders/terrain_observatory.gdshader"
 )
@@ -88,6 +91,7 @@ var _orbit_distance := 42.0
 var _orbit_target := Vector3(4.0, 10.0, 4.0)
 var _orbiting := false
 var _mesh_metrics := {}
+var _seam_report := {}
 var _editor_rebuild_queued := false
 var _editor_reset_queued := false
 
@@ -254,6 +258,7 @@ func _rebuild() -> void:
 	var triangle_count := 0
 	var failed_chunks := 0
 	var local_bounds_violations := 0
+	var chunks_by_coordinate := {}
 	for x in range(-CHUNK_RANGE, CHUNK_RANGE + 1):
 		for y in range(CHUNK_Y_MIN, CHUNK_Y_MAX + 1):
 			for z in range(-CHUNK_RANGE, CHUNK_RANGE + 1):
@@ -262,6 +267,7 @@ func _rebuild() -> void:
 				if not bool(chunk.get("ok", false)):
 					failed_chunks += 1
 					continue
+				chunks_by_coordinate[coordinate] = chunk
 				var regular: Dictionary = chunk.get("regular", {})
 				var mesh := _array_mesh(regular)
 				if mesh.get_surface_count() == 0:
@@ -289,10 +295,12 @@ func _rebuild() -> void:
 				vertex_count += vertices.size()
 				triangle_count += indices.size() / 3
 				_add_chunk_bounds(instance.position)
+	_seam_report = _validate_chunk_seams(chunks_by_coordinate)
+	var seam_failures := int(_seam_report.get("failure_count", -1))
 	var elapsed_ms := float(Time.get_ticks_usec() - started) / 1000.0
 	status_label.text = (
 		"PASS"
-		if failed_chunks == 0 and local_bounds_violations == 0
+		if failed_chunks == 0 and local_bounds_violations == 0 and seam_failures == 0
 		else "FAIL"
 	)
 	_mesh_metrics = {
@@ -301,6 +309,9 @@ func _rebuild() -> void:
 		"vertex_count": vertex_count,
 		"triangle_count": triangle_count,
 		"bounds_errors": local_bounds_violations,
+		"seam_pair_count": int(_seam_report.get("pair_count", 0)),
+		"surface_seam_pair_count": int(_seam_report.get("surface_pair_count", 0)),
+		"seam_errors": seam_failures,
 		"elapsed_ms": elapsed_ms,
 	}
 	_update_metrics_label(true)
@@ -310,8 +321,37 @@ func get_mesh_metrics() -> Dictionary:
 	return _mesh_metrics.duplicate(true)
 
 
+func get_seam_report() -> Dictionary:
+	return _seam_report.duplicate(true)
+
+
 func prepare_reference_capture() -> void:
 	_update_metrics_label(false)
+
+
+func prepare_seam_regression_capture() -> void:
+	prepare_reference_capture()
+	bounds_root.visible = false
+	$Interface.visible = false
+	var negative_z_material := StandardMaterial3D.new()
+	negative_z_material.albedo_color = Color(0.20, 0.68, 0.67, 1.0)
+	negative_z_material.roughness = 0.86
+	var positive_z_material := StandardMaterial3D.new()
+	positive_z_material.albedo_color = Color(0.92, 0.62, 0.20, 1.0)
+	positive_z_material.roughness = 0.86
+	for child in mesh_root.get_children():
+		if child is MeshInstance3D:
+			var mesh_instance := child as MeshInstance3D
+			mesh_instance.visible = child.name in ["Chunk_-1_1_-1", "Chunk_-1_1_0"]
+			mesh_instance.material_override = (
+				negative_z_material
+				if child.name == "Chunk_-1_1_-1"
+				else positive_z_material
+			)
+	camera.near = 0.03
+	camera.fov = 46.0
+	camera.position = Vector3(-1.0, 10.1, 2.4)
+	camera.look_at(Vector3(-1.25, 9.55, 0.0), Vector3.UP)
 
 
 func _update_metrics_label(include_timing: bool) -> void:
@@ -319,15 +359,50 @@ func _update_metrics_label(include_timing: bool) -> void:
 	if include_timing:
 		final_line += " / %.1f ms" % float(_mesh_metrics.get("elapsed_ms", 0.0))
 	metrics_label.text = (
-		"%d chunks / %d edits\n%d vertices / %d triangles\n%s"
+		"%d chunks / %d edits\n%d vertices / %d triangles\n%d surface seams / %d seam errors\n%s"
 		% [
 			int(_mesh_metrics.get("chunk_count", 0)),
 			int(_mesh_metrics.get("edit_count", 0)),
 			int(_mesh_metrics.get("vertex_count", 0)),
 			int(_mesh_metrics.get("triangle_count", 0)),
+			int(_mesh_metrics.get("surface_seam_pair_count", 0)),
+			int(_mesh_metrics.get("seam_errors", 0)),
 			final_line,
 		]
 	)
+
+
+func _validate_chunk_seams(chunks_by_coordinate: Dictionary) -> Dictionary:
+	var records: Array[Dictionary] = []
+	var failure_count := 0
+	var surface_pair_count := 0
+	var checked_axes := [Vector3i.RIGHT, Vector3i.UP, Vector3i.BACK]
+	for coordinate_value in chunks_by_coordinate:
+		var coordinate: Vector3i = coordinate_value
+		var left: Dictionary = chunks_by_coordinate[coordinate]
+		for axis in range(checked_axes.size()):
+			var right_coordinate: Vector3i = coordinate + checked_axes[axis]
+			if not chunks_by_coordinate.has(right_coordinate):
+				continue
+			var right: Dictionary = chunks_by_coordinate[right_coordinate]
+			var seam := NativeEvidence.same_lod_seam(left, right, axis)
+			seam["left_coordinate"] = coordinate
+			seam["right_coordinate"] = right_coordinate
+			if (
+				int(seam.get("left_edge_count", 0)) > 0
+				or int(seam.get("right_edge_count", 0)) > 0
+			):
+				surface_pair_count += 1
+			if str(seam.get("status", "")) != "PASS":
+				failure_count += 1
+			records.append(seam)
+	return {
+		"status": "PASS" if failure_count == 0 else "FAIL",
+		"pair_count": records.size(),
+		"surface_pair_count": surface_pair_count,
+		"failure_count": failure_count,
+		"records": records,
+	}
 
 
 func _mesh_chunk(coordinate: Vector3i) -> Dictionary:

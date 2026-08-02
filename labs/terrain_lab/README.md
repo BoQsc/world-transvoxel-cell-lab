@@ -18,7 +18,10 @@ triplanar materials, canonical dig and construction edits, chunk bounds, and
 live native-mesh metrics. Native grid coordinates are presented at the
 qualified 0.5 m sample scale, and both vertical layers needed by the dug
 fixture are retained. It can apply sphere, capsule, and rounded-box edits
-without depending on Cell Lab code.
+without depending on Cell Lab code. Every rebuild compares all adjacent native
+same-LOD chunk boundaries and fails when any surface edge set or multiplicity
+differs. This includes the retained smoothed-crater tangent regression from
+`TQP-D011`.
 
 The scene executes as an `@tool` preview in the Godot 3D editor. Selecting the
 `TerrainObservatory` root exposes live Inspector controls for preview enable,
@@ -37,7 +40,8 @@ TQP-18 visual review.
 
 `tools/run_wave_02_second_batch_validation.gd` executes focused TQP-21 and
 TQP-22 evidence. The retained observatory image is captured twice on
-Forward+/D3D12 and must be byte-identical before it can be reviewed.
+Forward+/D3D12 and must be byte-identical before it can be reviewed. A second
+two-color capture isolates the exact corrected tangent seam.
 
 Terrain Lab scenes may depend on `world_transvoxel_terrain_lab` and the pinned
 production dependencies declared by their milestone. They must not depend on

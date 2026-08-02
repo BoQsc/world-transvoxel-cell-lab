@@ -351,8 +351,11 @@ The 80-fixture CPU contract covers texture arrays, floating-origin compensated
 world-space triplanar coordinates, mipmaps, anisotropy, normal reorientation,
 and shared-position continuity at LOD0-7. The 3x3x2 observatory fixture now
 applies the qualified 0.5 m sample scale, renders both vertical layers needed
-for dug surfaces, and produces byte-identical cold/warm captures. Production
-assets, GPU cost, cross-GPU equivalence, and visual acceptance remain open.
+for dug surfaces, compares all 33 adjacent same-LOD chunk pairs, requires zero
+errors across its 27 surface-bearing interfaces, and produces byte-identical
+cold/warm full and tangent-seam captures. `TQP-D011` retains the previously
+missed canonical tangent crack and its native correction. Production assets,
+GPU cost, cross-GPU equivalence, and visual acceptance remain open.
 
 ### TQP-22: Visibility And Residency
 
@@ -663,3 +666,9 @@ Retained decisions:
   ceilings in focused retained runners and label post-soak full-program timing
   distributions as observation-only, without making a production performance
   claim.
+- `TQP-D011`: retain the canonical smoothed-crater tangent crack as a real
+  native defect, correct early near-degenerate removal upstream without moving
+  the fixture or adding a fallback, and require exact all-neighbor seam evidence
+  in the observatory and qualification program. Rebaseline the affected TQP-11,
+  TQP-12, and TQP-14 geometry signatures only after their semantic, seam, and
+  collision invariants pass under the corrected native revision.

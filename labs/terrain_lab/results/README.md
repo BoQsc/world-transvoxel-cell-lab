@@ -55,7 +55,22 @@ godot --headless --rendering-method gl_compatibility --path . \
 
 `terrain_observatory_reference.png` is the deterministic Windows
 Forward+/D3D12 TQP-21 candidate visual. It uses a 3x3x2 native fixture at
-0.5 m per grid unit. Automated repeatability does not replace human review.
+0.5 m per grid unit. Its live audit compares all 33 adjacent same-LOD chunk
+pairs and requires the 27 surface-bearing interfaces to match exactly.
+Automated repeatability does not replace human review.
+
+`terrain_observatory_tangent_seam.png` isolates the canonical crater interface
+that exposed the native tangent-edit defect retained by `TQP-D011`. Regenerate
+it twice and require byte identity with:
+
+```text
+godot --path . --script labs/terrain_lab/tools/capture_terrain_observatory.gd \
+  -- --mode seam \
+  --output res://labs/terrain_lab/results/terrain_observatory_tangent_seam.png
+```
+
+The two-color capture is supporting visual evidence. The authoritative result
+is the exact native boundary-edge comparison executed by the scene smoke.
 
 `edit_qualification_reference.png` is the deterministic diagnostic reference
 for the seven-brush corpus and six cumulative dig/construction states. It is

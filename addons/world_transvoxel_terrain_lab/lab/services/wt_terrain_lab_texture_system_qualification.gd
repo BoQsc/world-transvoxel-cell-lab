@@ -182,11 +182,40 @@ static func _validate_visual(standard: Dictionary, failures: Array[String]) -> D
 		_expect(FileAccess.get_sha256(image_path) == str(evidence.get("sha256", "")), "texture-system visual hash changed", failures)
 	var automated: Dictionary = evidence.get("automated_checks", {})
 	_expect(str(automated.get("status", "")) == "PASS", "texture-system visual automation failed", failures)
+	_expect(
+		int(automated.get("surface_seam_pair_count", 0)) == 27,
+		"texture-system visual seam corpus changed",
+		failures
+	)
+	_expect(
+		int(automated.get("surface_seam_errors", -1)) == 0,
+		"texture-system visual contains seam errors",
+		failures
+	)
+	_expect(
+		str(automated.get("tangent_edit_regression", "")) == "PASS",
+		"texture-system tangent edit regression failed",
+		failures
+	)
+	var tangent: Dictionary = evidence.get("tangent_seam_regression", {})
+	var tangent_image_path := str(tangent.get("image", ""))
+	_expect(FileAccess.file_exists(tangent_image_path), "texture-system tangent seam visual is missing", failures)
+	if FileAccess.file_exists(tangent_image_path):
+		_expect(
+			FileAccess.get_sha256(tangent_image_path)
+				== str(tangent.get("sha256", "")),
+			"texture-system tangent seam visual hash changed",
+			failures
+		)
 	var review: Dictionary = evidence.get("human_review", {})
 	return {
 		"image": image_path,
 		"sha256": str(evidence.get("sha256", "")),
 		"automated_status": str(automated.get("status", "")),
+		"surface_seam_pair_count": int(automated.get("surface_seam_pair_count", 0)),
+		"surface_seam_errors": int(automated.get("surface_seam_errors", -1)),
+		"tangent_seam_image": tangent_image_path,
+		"tangent_seam_sha256": str(tangent.get("sha256", "")),
 		"human_review": str(review.get("status", "PENDING")),
 	}
 

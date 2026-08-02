@@ -121,10 +121,10 @@
 			},
 			"performance": {
 				"sample_count": 100,
-				"p50_usec": 8247.0,
-				"p95_usec": 13189.0,
-				"p99_usec": 18025.0,
-				"worst_usec": 18551.0,
+				"p50_usec": 10510.0,
+				"p95_usec": 23548.0,
+				"p99_usec": 40554.0,
+				"worst_usec": 45961.0,
 				"warmup_iterations": 10,
 				"mapping_operations_per_sample": 2048,
 				"budget_p95_usec": 50000.0,
@@ -132,8 +132,8 @@
 				"budget_evaluation": "ENFORCED_FOCUSED_RUN"
 			},
 			"memory": {
-				"retained_bytes": 25746359,
-				"peak_bytes": 29524999
+				"retained_bytes": 25756477,
+				"peak_bytes": 29583965
 			},
 			"provenance": {
 				"workload_signature": "tqp21_reference_triplanar_texture_array_v1",
@@ -144,12 +144,16 @@
 				"gpu": "",
 				"driver": "opengl3",
 				"godot_version": "4.7.1-stable (official)",
-				"backend_revision": "a5c681d4061c5bcf2f779f7ae841d5d8ebffcdf2725040087386257ac2c3e32b"
+				"backend_revision": "980614354b207925db66fa9187d2c261eb9c1630a7c0905984f32b1ec966c1a3"
 			},
 			"visual_evidence": {
 				"image": "res://labs/terrain_lab/results/terrain_observatory_reference.png",
-				"sha256": "009c19eb1a4ef56ae9ab0d9b98922573de72abeb202c460cdf54d00874afe752",
+				"sha256": "391745ca7e57f26c1cf5dfda4d905c614be9521c4e304bc23b4f6b27095312f7",
 				"automated_status": "PASS",
+				"surface_seam_pair_count": 27,
+				"surface_seam_errors": 0,
+				"tangent_seam_image": "res://labs/terrain_lab/results/terrain_observatory_tangent_seam.png",
+				"tangent_seam_sha256": "ea46a4827309416394200b405f1a97cfbcf815e525f8ad1445ddee727b0e62bb",
 				"human_review": "PENDING"
 			},
 			"qualified_scope": [
@@ -249,10 +253,10 @@
 			},
 			"performance": {
 				"sample_count": 100,
-				"p50_usec": 113398.0,
-				"p95_usec": 122461.0,
-				"p99_usec": 129125.0,
-				"worst_usec": 129907.0,
+				"p50_usec": 148659.0,
+				"p95_usec": 195985.0,
+				"p99_usec": 213730.0,
+				"worst_usec": 226310.0,
 				"warmup_iterations": 10,
 				"views_per_sample": 16,
 				"budget_p95_usec": 300000.0,
@@ -260,8 +264,8 @@
 				"budget_evaluation": "ENFORCED_FOCUSED_RUN"
 			},
 			"memory": {
-				"retained_bytes": 25763527,
-				"peak_bytes": 29524999
+				"retained_bytes": 25773645,
+				"peak_bytes": 29583965
 			},
 			"provenance": {
 				"workload_signature": "tqp22_cpu_horizontal_visibility_residency_reference_v1",
@@ -272,7 +276,7 @@
 				"gpu": "",
 				"driver": "opengl3",
 				"godot_version": "4.7.1-stable (official)",
-				"backend_revision": "a5c681d4061c5bcf2f779f7ae841d5d8ebffcdf2725040087386257ac2c3e32b"
+				"backend_revision": "980614354b207925db66fa9187d2c261eb9c1630a7c0905984f32b1ec966c1a3"
 			},
 			"qualified_scope": [
 				"deterministic horizontal CPU frustum and conservative occlusion reference",

@@ -46,6 +46,15 @@ func _run() -> void:
 	if int(observatory_metrics.get("bounds_errors", -1)) != 0:
 		_fail("Terrain Observatory editor preview has local bounds errors")
 		return
+	if int(observatory_metrics.get("surface_seam_pair_count", 0)) <= 0:
+		_fail("Terrain Observatory canonical fixture exercises no surface seams")
+		return
+	if int(observatory_metrics.get("seam_errors", -1)) != 0:
+		_fail(
+			"Terrain Observatory canonical fixture has mismatched chunk seams: "
+			+ str(observatory.get_seam_report())
+		)
+		return
 	var canonical_edit_count := int(observatory_metrics.get("edit_count", 0))
 	observatory.call("_apply_editor_operation", "dig")
 	var edited_observatory_metrics: Dictionary = observatory.get_mesh_metrics()
