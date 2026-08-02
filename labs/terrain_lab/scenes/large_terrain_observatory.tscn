@@ -1,0 +1,252 @@
+[gd_scene load_steps=10 format=3]
+
+[ext_resource type="Script" path="res://labs/terrain_lab/scenes/large_terrain_observatory.gd" id="1_script"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_large"]
+sky_top_color = Color(0.035, 0.08, 0.105, 1)
+sky_horizon_color = Color(0.46, 0.59, 0.61, 1)
+ground_bottom_color = Color(0.03, 0.04, 0.035, 1)
+ground_horizon_color = Color(0.26, 0.31, 0.26, 1)
+sun_angle_max = 20.0
+
+[sub_resource type="Sky" id="Sky_large"]
+sky_material = SubResource("ProceduralSkyMaterial_large")
+
+[sub_resource type="Environment" id="Environment_large"]
+background_mode = 2
+sky = SubResource("Sky_large")
+ambient_light_source = 3
+ambient_light_color = Color(0.68, 0.76, 0.72, 1)
+ambient_light_energy = 0.58
+reflected_light_source = 2
+tonemap_mode = 2
+
+[sub_resource type="StandardMaterial3D" id="LineMaterial_world"]
+shading_mode = 0
+albedo_color = Color(0.95, 0.7, 0.2, 0.8)
+transparency = 1
+no_depth_test = true
+
+[sub_resource type="StandardMaterial3D" id="LineMaterial_resident"]
+shading_mode = 0
+albedo_color = Color(0.16, 0.88, 0.9, 0.75)
+transparency = 1
+no_depth_test = true
+
+[sub_resource type="SphereMesh" id="SphereMesh_viewer"]
+radius = 1.8
+height = 3.6
+
+[sub_resource type="StandardMaterial3D" id="ViewerMaterial"]
+shading_mode = 0
+albedo_color = Color(1, 0.38, 0.13, 1)
+emission_enabled = true
+emission = Color(1, 0.16, 0.03, 1)
+emission_energy_multiplier = 2.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_dock"]
+bg_color = Color(0.025, 0.04, 0.045, 0.965)
+border_width_right = 1
+border_color = Color(0.18, 0.3, 0.31, 1)
+content_margin_left = 16.0
+content_margin_top = 16.0
+content_margin_right = 16.0
+content_margin_bottom = 16.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_status"]
+bg_color = Color(0.045, 0.075, 0.075, 0.98)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.16, 0.66, 0.62, 0.7)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+content_margin_left = 12.0
+content_margin_top = 10.0
+content_margin_right = 12.0
+content_margin_bottom = 10.0
+
+[node name="LargeTerrainObservatory" type="Node3D"]
+script = ExtResource("1_script")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_large")
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+rotation_degrees = Vector3(-52, -32, 0)
+light_color = Color(1, 0.925, 0.78, 1)
+light_energy = 1.25
+shadow_enabled = true
+directional_shadow_max_distance = 220.0
+
+[node name="Fill" type="DirectionalLight3D" parent="."]
+rotation_degrees = Vector3(-25, 145, 0)
+light_color = Color(0.42, 0.66, 0.75, 1)
+light_energy = 0.32
+
+[node name="Camera3D" type="Camera3D" parent="."]
+unique_name_in_owner = true
+current = true
+fov = 54.0
+near = 0.15
+far = 4200.0
+
+[node name="WorldBounds" type="MeshInstance3D" parent="."]
+unique_name_in_owner = true
+material_override = SubResource("LineMaterial_world")
+cast_shadow = 0
+
+[node name="ResidentBounds" type="MeshInstance3D" parent="."]
+unique_name_in_owner = true
+material_override = SubResource("LineMaterial_resident")
+cast_shadow = 0
+
+[node name="ViewerMarker" type="MeshInstance3D" parent="."]
+unique_name_in_owner = true
+mesh = SubResource("SphereMesh_viewer")
+material_override = SubResource("ViewerMaterial")
+cast_shadow = 0
+
+[node name="Interface" type="CanvasLayer" parent="."]
+
+[node name="Dock" type="PanelContainer" parent="Interface"]
+offset_right = 352.0
+anchor_bottom = 1.0
+grow_vertical = 1
+theme_override_styles/panel = SubResource("StyleBox_dock")
+
+[node name="Content" type="VBoxContainer" parent="Interface/Dock"]
+theme_override_constants/separation = 8
+
+[node name="Title" type="Label" parent="Interface/Dock/Content"]
+theme_override_colors/font_color = Color(0.91, 0.96, 0.94, 1)
+theme_override_font_sizes/font_size = 22
+text = "Large Terrain Observatory"
+
+[node name="Subtitle" type="Label" parent="Interface/Dock/Content"]
+theme_override_colors/font_color = Color(0.48, 0.73, 0.7, 1)
+text = "TQP-27 / native world-transvoxel"
+
+[node name="StatusPanel" type="PanelContainer" parent="Interface/Dock/Content"]
+theme_override_styles/panel = SubResource("StyleBox_status")
+
+[node name="StatusRows" type="VBoxContainer" parent="Interface/Dock/Content/StatusPanel"]
+theme_override_constants/separation = 6
+
+[node name="StatusLabel" type="Label" parent="Interface/Dock/Content/StatusPanel/StatusRows"]
+unique_name_in_owner = true
+theme_override_colors/font_color = Color(0.35, 0.9, 0.65, 1)
+theme_override_font_sizes/font_size = 18
+text = "STARTING"
+
+[node name="ProfileLabel" type="Label" parent="Interface/Dock/Content/StatusPanel/StatusRows"]
+unique_name_in_owner = true
+theme_override_colors/font_color = Color(0.8, 0.84, 0.82, 1)
+text = "2048x256x2048 cells"
+
+[node name="Separator1" type="HSeparator" parent="Interface/Dock/Content"]
+
+[node name="ViewerHeading" type="Label" parent="Interface/Dock/Content"]
+theme_override_colors/font_color = Color(0.55, 0.76, 0.74, 1)
+text = "STREAMED VIEWER"
+
+[node name="ViewerLabel" type="Label" parent="Interface/Dock/Content"]
+unique_name_in_owner = true
+text = "Viewer  40.0, 8.0, 40.0\nRevision  0"
+
+[node name="ResidencyLabel" type="Label" parent="Interface/Dock/Content"]
+unique_name_in_owner = true
+text = "Resident  0 active / 0 ready\nRender  0    Collision  0"
+
+[node name="PipelineLabel" type="Label" parent="Interface/Dock/Content"]
+unique_name_in_owner = true
+theme_override_colors/font_color = Color(0.65, 0.7, 0.69, 1)
+text = "Queues  0 jobs / 0 storage\nWorld revision  0"
+
+[node name="Separator2" type="HSeparator" parent="Interface/Dock/Content"]
+
+[node name="TeleportHeading" type="Label" parent="Interface/Dock/Content"]
+theme_override_colors/font_color = Color(0.55, 0.76, 0.74, 1)
+text = "TELEPORT"
+
+[node name="TeleportRow1" type="HBoxContainer" parent="Interface/Dock/Content"]
+theme_override_constants/separation = 6
+
+[node name="OriginButton" type="Button" parent="Interface/Dock/Content/TeleportRow1"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+text = "Origin"
+
+[node name="CenterButton" type="Button" parent="Interface/Dock/Content/TeleportRow1"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+text = "Center"
+
+[node name="CornerButton" type="Button" parent="Interface/Dock/Content/TeleportRow1"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+text = "Corner"
+
+[node name="TeleportRow2" type="HBoxContainer" parent="Interface/Dock/Content"]
+theme_override_constants/separation = 6
+
+[node name="FarXButton" type="Button" parent="Interface/Dock/Content/TeleportRow2"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+text = "Far X"
+
+[node name="FarZButton" type="Button" parent="Interface/Dock/Content/TeleportRow2"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+text = "Far Z"
+
+[node name="RestartButton" type="Button" parent="Interface/Dock/Content/TeleportRow2"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+text = "Restart"
+
+[node name="TeleportRow3" type="HBoxContainer" parent="Interface/Dock/Content"]
+
+[node name="OverviewButton" type="Button" parent="Interface/Dock/Content/TeleportRow3"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+text = "World Overview"
+
+[node name="Separator3" type="HSeparator" parent="Interface/Dock/Content"]
+
+[node name="BoundsToggle" type="CheckButton" parent="Interface/Dock/Content"]
+unique_name_in_owner = true
+button_pressed = true
+text = "World envelope"
+
+[node name="ResidentToggle" type="CheckButton" parent="Interface/Dock/Content"]
+unique_name_in_owner = true
+text = "Resident chunk bounds"
+
+[node name="TrackToggle" type="CheckButton" parent="Interface/Dock/Content"]
+unique_name_in_owner = true
+button_pressed = true
+text = "Stream with camera"
+
+[node name="Scope" type="Label" parent="Interface/Dock/Content"]
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.5, 0.56, 0.55, 1)
+text = "BOUNDED WINDOWS REFERENCE\nNOT FULL-WORLD RESIDENCY"
+vertical_alignment = 2
+
+[node name="SceneBadge" type="Label" parent="Interface"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -260.0
+offset_top = 20.0
+offset_right = -22.0
+offset_bottom = 64.0
+grow_horizontal = 0
+theme_override_colors/font_color = Color(0.9, 0.94, 0.92, 0.9)
+theme_override_font_sizes/font_size = 14
+text = "TQP-27  2K WORLD"
+horizontal_alignment = 2

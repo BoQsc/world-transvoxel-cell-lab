@@ -59,6 +59,22 @@ status is fail-closed on exact boundary-edge agreement across all adjacent
 same-LOD chunks, including the canonical tangent-edit regression retained by
 `TQP-D011`.
 
+TQP-27 Large Terrain Observatory:
+
+```text
+res://labs/terrain_lab/scenes/large_terrain_observatory.tscn
+```
+
+Open it from **Project > Tools > Open TQP-27 Large Terrain Observatory**. Its
+`@tool` root starts the exact retained 128x16x128-chunk native profile and
+streams bounded render and collision windows while displaying the complete
+2048x256x2048-cell envelope and live residency state. In the editor, moving the
+3D viewport camera streams the horizontal viewer position; Inspector teleport
+controls provide the retained origin, center, and distant locations. Running
+the scene provides the same teleport controls and a free camera. The scene does
+not instantiate the entire catalog as resident geometry and does not extend
+TQP-27's bounded qualification claim.
+
 TQP-23 guided surface review:
 
 ```text

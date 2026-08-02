@@ -9,6 +9,9 @@ const TerrainObservatoryScene := preload(
 const SurfaceShadingReviewScene := preload(
 	"res://labs/terrain_lab/scenes/surface_shading_review.tscn"
 )
+const LargeTerrainObservatoryScene := preload(
+	"res://labs/terrain_lab/scenes/large_terrain_observatory.tscn"
+)
 const NativeEvidence := preload(
 	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_edit_native_evidence.gd"
 )
@@ -30,6 +33,28 @@ func _run() -> void:
 	) as Script
 	if observatory_script == null or not observatory_script.is_tool():
 		_fail("Terrain Observatory must execute as an editor tool")
+		return
+	var large_observatory_script := load(
+		"res://labs/terrain_lab/scenes/large_terrain_observatory.gd"
+	) as Script
+	if large_observatory_script == null or not large_observatory_script.is_tool():
+		_fail("TQP-27 Large Terrain Observatory must execute as an editor tool")
+		return
+	var large_method_names := PackedStringArray()
+	for method in large_observatory_script.get_script_method_list():
+		large_method_names.append(str(method.get("name", "")))
+	for required_method in [
+		"track_editor_camera",
+		"get_profile_contract",
+		"get_validation_snapshot",
+		"move_viewer_and_wait",
+		"shutdown_for_validation",
+	]:
+		if required_method not in large_method_names:
+			_fail("TQP-27 Large Terrain Observatory lacks " + required_method)
+			return
+	if LargeTerrainObservatoryScene == null:
+		_fail("TQP-27 Large Terrain Observatory scene is unavailable")
 		return
 	var observatory_property_names := PackedStringArray()
 	for property in observatory_script.get_script_property_list():

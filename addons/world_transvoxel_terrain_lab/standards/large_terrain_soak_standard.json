@@ -4,6 +4,8 @@
 	"standard_id": "native_large_terrain_soak_windows_v1",
 	"authority": "world_transvoxel_native_runtime",
 	"evidence": "res://labs/terrain_lab/results/large_terrain_soak_reference_windows.json",
+	"observatory_scene": "res://labs/terrain_lab/scenes/large_terrain_observatory.tscn",
+	"observatory_validation": "res://labs/terrain_lab/results/large_terrain_observatory_validation_windows.json",
 	"runtime_profile": {
 		"platform": "Windows",
 		"build": "debug_reference",

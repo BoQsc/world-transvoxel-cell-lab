@@ -479,6 +479,13 @@ upstream capacity limitation. `TQP-D016` therefore qualifies journal-backed
 restart and the bounded reference soak, not snapshot compaction, multi-hour or
 production workloads, GPU performance, other hardware, or non-Windows targets.
 
+The separate `@tool` Large Terrain Observatory opens the exact retained
+128x16x128-chunk profile in the Godot editor. It displays the complete world
+envelope and catalog identity while streaming only the native viewer's bounded
+render and collision residency. Its focused parity report verifies origin,
+center, and far-corner windows against this standard; it is presentation
+evidence and does not widen the qualified performance scope.
+
 ## Phase 4: Destruction And Structural World Systems
 
 This phase qualifies destructive edits and optional world systems only
