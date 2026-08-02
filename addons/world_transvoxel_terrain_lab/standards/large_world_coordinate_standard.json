@@ -1,0 +1,53 @@
+{
+	"schema": "world_transvoxel.terrain_lab.large_world_coordinate_standard.v1",
+	"milestone": "TQP-20",
+	"standard_id": "cpu_large_world_coordinate_reference_v1",
+	"authority": {
+		"sample_address": "signed_int64_xyz",
+		"chunk_address": "signed_int64_xyz_plus_lod",
+		"saved_metric_address": "signed_int64_decimal_micrometers_xyz",
+		"invalid_saved_address": "reject_before_conversion",
+		"render_address": "origin_relative_Vector3_only",
+		"negative_division": "mathematical_floor"
+	},
+	"coordinate_contract": {
+		"sample_scale_m": 0.5,
+		"chunk_samples_per_axis": 32,
+		"shift_threshold_m": 4096.0,
+		"shift_quantum_m": 1024.0,
+		"maximum_local_magnitude_m": 5120.0,
+		"saved_metric_units_per_m": 1000000,
+		"maximum_qualified_distance_m": 1000000000.0
+	},
+	"precision_budget": {
+		"integer_round_trip_error_samples": 0,
+		"saved_coordinate_round_trip_error_units": 0,
+		"cpu_metric_round_trip_error_m": 0.000001,
+		"render_local_error_m": 0.001,
+		"long_traversal_accumulated_error_units": 0
+	},
+	"fixture_contract": {
+		"long_traversal_steps": 100000,
+		"distant_edit_count": 64,
+		"required_cases": ["origin_shift", "distant_edit", "negative_coordinate", "save_coordinate", "long_traversal"]
+	},
+	"performance_budget": {
+		"warmup_iterations": 10,
+		"sample_count": 100,
+		"coordinate_round_trips_per_sample": 1024,
+		"p95_usec": 10000.0
+	},
+	"gpu_equivalence": "UNQUALIFIED_PENDING_TQP_35_TO_TQP_39",
+	"qualified_scope": [
+		"CPU signed-integer sample and chunk addressing",
+		"decimal-string persistence of signed 64-bit metric coordinates",
+		"origin-relative render conversion inside the declared distance and error budgets",
+		"long traversal and distant-edit addressing without accumulated integer drift"
+	],
+	"explicitly_unqualified_scope": [
+		"GPU density or coordinate equivalence",
+		"distances beyond the declared one-billion-meter envelope",
+		"production save-format compatibility",
+		"multiplayer coordinate replication"
+	]
+}

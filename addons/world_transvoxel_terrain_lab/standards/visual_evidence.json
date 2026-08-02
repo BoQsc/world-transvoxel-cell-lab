@@ -23,14 +23,13 @@
 		"dock_within_viewport": "PASS"
 	},
 	"supports": [
-		"TQP-18 candidate material blending presentation",
 		"TQP-21 candidate triplanar texture-array presentation",
 		"TQP-23 candidate surface shading presentation",
 		"TQP-26 Terrain Observatory presentation"
 	],
 	"human_review": {
 		"status": "PENDING",
-		"required_for": ["TQP-18", "TQP-21", "TQP-23", "TQP-25"]
+		"required_for": ["TQP-21", "TQP-23", "TQP-25"]
 	},
 	"explicitly_unqualified_scope": [
 		"production visual quality",

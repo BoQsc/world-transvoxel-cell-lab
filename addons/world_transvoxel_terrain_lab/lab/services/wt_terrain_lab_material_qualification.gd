@@ -8,12 +8,15 @@ const EditField := preload(
 const Statistics := preload(
 	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_statistics.gd"
 )
+const MaterialBlendingQualification := preload(
+	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_material_blending_qualification.gd"
+)
 
 
 static func run() -> Dictionary:
 	var milestones: Array[Dictionary] = [
 		_qualify_material_contract(),
-		_implement_material_blending(),
+		MaterialBlendingQualification.run(),
 		_implement_texture_contract(),
 		_implement_surface_shading(),
 		_specify_visual_corpus(),
@@ -29,16 +32,18 @@ static func run() -> Dictionary:
 		"status": "PASS" if failures.is_empty() else "FAIL",
 		"scope_status": {
 			"TQP-08": "qualified",
-			"TQP-18": "implemented_pending_visual_evidence",
+			"TQP-18": "implemented_pending_human_visual_review",
 			"TQP-21": "implemented_pending_render_validation",
 			"TQP-23": "implemented_pending_temporal_inspection",
 			"TQP-25": "specified_pending_human_acceptance",
 		},
 		"qualified_scope": [
 			"deterministic material IDs, weights, ties, and construction provenance",
+			"TQP-18 automated exact blending corpus and retained visual checks",
 		],
 		"explicitly_unqualified_scope": [
 			"production texture assets",
+			"TQP-18 human visual acceptance",
 			"visual pleasantness",
 			"temporal shader stability",
 			"renderer and GPU cost",
@@ -75,31 +80,6 @@ static func _qualify_material_contract() -> Dictionary:
 	_expect(field.material_at(point, field.density(point)) == 12, "construction provenance changed", failures)
 	_expect(field.material_at(Vector3(0.0, 10.0, 0.0), -2.0) == 1, "base provenance changed", failures)
 	return _result("TQP-08", 6, failures)
-
-
-static func _implement_material_blending() -> Dictionary:
-	var failures: Array[String] = []
-	var source := {9: 0.10, 4: 0.30, 1: 0.25, 7: 0.20, 3: 0.15}
-	var reduced := _top_materials(source, 4)
-	_expect(reduced.size() == 4, "top-material reduction count changed", failures)
-	_expect(not reduced.has(9), "lowest material weight survived top-four reduction", failures)
-	_expect(is_equal_approx(_weight_sum(reduced), 1.0), "reduced weights do not normalize", failures)
-	var left := _normalized_weights({1: 1.0})
-	var right := _normalized_weights({2: 1.0})
-	var midpoint := _blend_weights(left, right, 0.5)
-	_expect(is_equal_approx(float(midpoint.get(1, 0.0)), 0.5), "blend left weight changed", failures)
-	_expect(is_equal_approx(float(midpoint.get(2, 0.0)), 0.5), "blend right weight changed", failures)
-	_expect(_dominant_material(midpoint) == 1, "blend tie policy changed", failures)
-	var timings: Array[float] = []
-	for iteration in range(100):
-		var started := Time.get_ticks_usec()
-		for blend_index in range(128):
-			_blend_weights(left, right, float(blend_index) / 127.0)
-		timings.append(float(Time.get_ticks_usec() - started))
-	var result := _result("TQP-18", 6, failures)
-	result["performance"] = Statistics.distribution(timings)
-	result["qualification_status"] = "IMPLEMENTED_PENDING_VISUAL_EVIDENCE"
-	return result
 
 
 static func _implement_texture_contract() -> Dictionary:
@@ -197,37 +177,6 @@ static func _normalized_weights(source: Dictionary) -> Dictionary:
 		if weight > 0.0:
 			result[int(material_id)] = weight / total
 	return result
-
-
-static func _top_materials(source: Dictionary, maximum_count: int) -> Dictionary:
-	var entries: Array[Dictionary] = []
-	for material_id in source:
-		entries.append({"id": int(material_id), "weight": float(source[material_id])})
-	entries.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
-		if not is_equal_approx(float(a["weight"]), float(b["weight"])):
-			return float(a["weight"]) > float(b["weight"])
-		return int(a["id"]) < int(b["id"])
-	)
-	var selected := {}
-	for index in range(mini(maximum_count, entries.size())):
-		selected[int(entries[index]["id"])] = float(entries[index]["weight"])
-	return _normalized_weights(selected)
-
-
-static func _blend_weights(left: Dictionary, right: Dictionary, amount: float) -> Dictionary:
-	var result := {}
-	var material_ids := {}
-	for material_id in left:
-		material_ids[int(material_id)] = true
-	for material_id in right:
-		material_ids[int(material_id)] = true
-	for material_id in material_ids:
-		result[material_id] = lerpf(
-			float(left.get(material_id, 0.0)),
-			float(right.get(material_id, 0.0)),
-			clampf(amount, 0.0, 1.0)
-		)
-	return _normalized_weights(result)
 
 
 static func _dominant_material(weights: Dictionary) -> int:

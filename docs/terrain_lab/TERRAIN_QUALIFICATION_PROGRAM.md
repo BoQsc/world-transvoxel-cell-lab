@@ -306,13 +306,15 @@ Execution batches: (TQP-18, TQP-19, TQP-20) ->
 (TQP-21, TQP-22) -> (TQP-23, TQP-24) ->
 (TQP-25, TQP-26) -> TQP-27.
 
-The current work is exactly TQP-18, TQP-19, and TQP-20. They may be
-implemented in parallel, but each is promoted independently only after its
-declared evidence passes.
+TQP-19 and TQP-20 are qualified for their declared reference scopes. The
+current work is exactly TQP-18; its exact corpus and automated visual checks
+pass, but promotion remains fail-closed until the retained material-blending
+artifact receives explicit human review.
 
 ### TQP-18: Material Blending
 
-Status: `implemented`. Owner: Material and Surface Lab. Depends on: TQP-08.
+Status: `implemented` pending human visual review. Owner: Material and Surface
+Lab. Depends on: TQP-08.
 
 Complete when normalized weights, top-material reduction, categorical
 boundaries, transition interpolation, and LOD continuity pass exact and visual
@@ -320,18 +322,24 @@ standards.
 
 ### TQP-19: Streaming Windows
 
-Status: `implemented`. Owner: Terrain Systems Lab. Depends on: TQP-05, TQP-06,
+Status: `qualified`. Owner: Terrain Systems Lab. Depends on: TQP-05, TQP-06,
 TQP-15.
 
-Complete when fixed camera paths, hysteresis, LOD movement, prefetch, eviction,
-teleportation, edit arrival, and boundary stability meet explicit budgets.
+Qualified for the deterministic horizontal single-layer reference model after
+fixed paths, hysteresis,
+LOD movement, prefetch, eviction, teleportation, edit arrival, boundary
+stability, residency limits, and retained debug performance distributions pass.
+Vertical multi-layer streaming, production terrain residency, and asynchronous
+native generation remain explicitly unqualified.
 
 ### TQP-20: Large-World Coordinates
 
-Status: `implemented`. Owner: Terrain Systems Lab. Depends on: TQP-03, TQP-06.
+Status: `qualified`. Owner: Terrain Systems Lab. Depends on: TQP-03, TQP-06.
 
-Complete when origin shifts, distant edits, negative coordinates, save
-coordinates, long traversal, and CPU/GPU precision remain stable.
+Qualified for the CPU large-world reference after origin shifts, distant edits,
+negative coordinates, decimal-string save coordinates, origin-relative render
+conversion, and 100,000 traversal steps pass without integer drift. GPU
+equivalence remains explicitly unqualified until TQP-35 through TQP-39.
 
 ### TQP-21: Texture System
 
@@ -591,21 +599,22 @@ a standard, not an assertion that future terrain work is finished.
 
 The program has executed every milestone to a truthful evidence state:
 
-- `TQP-01` through `TQP-17` are qualified
+- `TQP-01` through `TQP-17`, plus `TQP-19` and `TQP-20`, are qualified
   for their narrow contract, native Windows reference, or reference-model
   scopes. Gate B is qualified; its native chunk rebuild benchmark remains a
   background/debug reference and is not a production frame-time claim.
-- `TQP-18` through `TQP-24` and `TQP-26` through `TQP-33` have implemented
-  reference behavior but
+- `TQP-18`, `TQP-21` through `TQP-24`, and `TQP-26` through `TQP-33` have
+  implemented reference behavior but
   still lack one or more exit criteria named in their milestone contracts.
 - `TQP-25` and `TQP-34` are specified. The former requires human visual
   acceptance; the latter requires measured GPU-candidate benefit.
 - `TQP-35` through `TQP-46` are blocked by named external targets and exit
   conditions in `program_blockers.json`.
 
-The next dependency-ordered work is TQP-18 material blending, TQP-19 streaming
-windows, and TQP-20 large-world coordinates. These are independent entries in
-the first step of `TQP-WAVE-02`.
+The next dependency-ordered work is the explicit TQP-18 material-blending
+visual decision. TQP-19 streaming windows and TQP-20 large-world coordinates
+have passed their declared reference scopes; TQP-21 and TQP-22 do not become
+the active step until TQP-18 closes.
 Production and GPU claims remain closed. A blocked milestone may advance only
 when its recorded exit condition exists and the required evidence passes.
 
@@ -636,3 +645,5 @@ Retained decisions:
   Windows temporal-integrity and persistence reference scope.
 - `TQP-D006`: replace domain-grouped identifiers with the ground-up TQP-01
   through TQP-46 execution sequence without changing milestone evidence state.
+- `TQP-D007`: qualify TQP-19 and TQP-20 for deterministic reference scopes and
+  retain TQP-18 as implemented pending explicit human visual review.

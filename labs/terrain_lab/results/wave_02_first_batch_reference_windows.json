@@ -1,0 +1,395 @@
+{
+	"schema": "world_transvoxel.terrain_lab.wave_02_first_batch_qualification.v1",
+	"status": "PASS",
+	"milestones": [
+		{
+			"milestone": "TQP-18",
+			"status": "PASS",
+			"qualification_status": "IMPLEMENTED_PENDING_HUMAN_VISUAL_REVIEW",
+			"fixture_count": 597,
+			"exact_corpus": {
+				"status": "PASS",
+				"fixture_count": 597,
+				"gradient_steps": 257,
+				"transition_subdivisions": 8,
+				"lod_records": [
+					{
+						"lod": 0,
+						"maximum_weight_error": 0.000000000000000111022302462516
+					},
+					{
+						"lod": 1,
+						"maximum_weight_error": 0.000000000000000111022302462516
+					},
+					{
+						"lod": 2,
+						"maximum_weight_error": 0.000000000000000111022302462516
+					},
+					{
+						"lod": 3,
+						"maximum_weight_error": 0.0000000000000000555111512312578
+					},
+					{
+						"lod": 4,
+						"maximum_weight_error": 0.0000000000000000277555756156289
+					},
+					{
+						"lod": 5,
+						"maximum_weight_error": 0.0
+					},
+					{
+						"lod": 6,
+						"maximum_weight_error": 0.0
+					},
+					{
+						"lod": 7,
+						"maximum_weight_error": 0.0
+					}
+				],
+				"weight_error_budget": 0.000001
+			},
+			"performance": {
+				"sample_count": 100,
+				"p50_usec": 3643.0,
+				"p95_usec": 5722.0,
+				"p99_usec": 10696.0,
+				"worst_usec": 16758.0,
+				"warmup_iterations": 10,
+				"blends_per_sample": 512,
+				"budget_p95_usec": 30000.0
+			},
+			"memory": {
+				"retained_bytes": 25963305,
+				"peak_bytes": 31420009
+			},
+			"provenance": {
+				"workload_signature": "tqp18_material_blending_reference_v1",
+				"build_type": "debug",
+				"os": "Windows",
+				"architecture": "x86_64",
+				"cpu": "Intel(R) Core(TM) i5-7300HQ CPU @ 2.50GHz",
+				"gpu": "",
+				"driver": "opengl3",
+				"godot_version": "4.7.1-stable (official)",
+				"backend_revision": "a5c681d4061c5bcf2f779f7ae841d5d8ebffcdf2725040087386257ac2c3e32b"
+			},
+			"visual_evidence": {
+				"capture_id": "material_blending_reference_v1",
+				"image": "res://labs/terrain_lab/results/material_blending_reference.png",
+				"sha256": "bcf98539bf2e5536a45d7ee5b0bc3bfecb4355c36bac68a1308ff1499dfabd55",
+				"pixel_signature": "8c0c2a41bf616cbaef75a19033871038358b928292d0ea3e5838b7faea63b640",
+				"generated_pixel_signature": "8c0c2a41bf616cbaef75a19033871038358b928292d0ea3e5838b7faea63b640",
+				"automated_status": "PASS",
+				"human_review": "PENDING",
+				"panels": [
+					"continuous_and_categorical",
+					"regular_transition_interpolation",
+					"lod0_to_lod7_continuity",
+					"top_four_and_tie_policy"
+				]
+			},
+			"qualified_scope": [
+				"normalized deterministic material weights",
+				"deterministic top-four reduction and categorical tie policy",
+				"regular-to-transition shared-position interpolation",
+				"LOD0-7 shared-position continuity in the reference material field"
+			],
+			"explicitly_unqualified_scope": [
+				"production texture assets and shader presentation",
+				"visual acceptance until the retained artifact is reviewed",
+				"GPU interpolation equivalence",
+				"production material-buffer cost"
+			],
+			"failures": []
+		},
+		{
+			"milestone": "TQP-19",
+			"status": "PASS",
+			"qualification_status": "QUALIFIED_DETERMINISTIC_HORIZONTAL_STREAMING_WINDOW_REFERENCE_V1",
+			"fixture_count": 96,
+			"fixture_corpus": {
+				"status": "PASS",
+				"fixture_count": 96,
+				"paths": [
+					{
+						"id": "boundary_jitter",
+						"updates": 5,
+						"center_changes": 0
+					},
+					{
+						"id": "steady_traversal",
+						"updates": 64,
+						"maximum_resident": 99
+					},
+					{
+						"id": "negative_traversal",
+						"updates": 2,
+						"final_center": "(-2, 0, -2)"
+					},
+					{
+						"id": "teleport",
+						"updates": 1,
+						"final_center": "(20, 0, -20)"
+					}
+				],
+				"active_chunk_count": 49,
+				"prefetch_chunk_count": 81,
+				"maximum_retained_chunk_count": 99,
+				"eviction_grace_updates": 3,
+				"teleport_convergence_updates": 1
+			},
+			"performance": {
+				"sample_count": 100,
+				"p50_usec": 35919.0,
+				"p95_usec": 40493.0,
+				"p99_usec": 47187.0,
+				"worst_usec": 48116.0,
+				"warmup_iterations": 10,
+				"path_updates_per_sample": 64,
+				"budget_p95_usec": 75000.0
+			},
+			"memory": {
+				"retained_bytes": 25972489,
+				"peak_bytes": 31420009
+			},
+			"provenance": {
+				"workload_signature": "tqp19_streaming_window_reference_v1",
+				"build_type": "debug",
+				"os": "Windows",
+				"architecture": "x86_64",
+				"cpu": "Intel(R) Core(TM) i5-7300HQ CPU @ 2.50GHz",
+				"gpu": "",
+				"driver": "opengl3",
+				"godot_version": "4.7.1-stable (official)",
+				"backend_revision": "a5c681d4061c5bcf2f779f7ae841d5d8ebffcdf2725040087386257ac2c3e32b"
+			},
+			"qualified_scope": [
+				"deterministic horizontal reference streaming-window policy",
+				"fixed-path hysteresis, prefetch, eviction, teleport, edit-arrival, and boundary fixtures",
+				"integer chunk addressing and LOD-ring assignment",
+				"reference-model latency and residency budgets on the retained machine"
+			],
+			"explicitly_unqualified_scope": [
+				"vertical multi-layer streaming windows",
+				"production terrain runtime residency",
+				"asynchronous native mesh generation throughput",
+				"renderer visibility and GPU-buffer residency",
+				"network-driven streaming"
+			],
+			"failures": []
+		},
+		{
+			"milestone": "TQP-20",
+			"status": "PASS",
+			"qualification_status": "QUALIFIED_CPU_LARGE_WORLD_COORDINATE_REFERENCE_V1",
+			"fixture_count": 209,
+			"fixture_corpus": {
+				"status": "PASS",
+				"fixture_count": 209,
+				"sample_address_records": [
+					{
+						"sample": -2000000000,
+						"chunk": -62500000,
+						"local": 0
+					},
+					{
+						"sample": -1000001,
+						"chunk": -31251,
+						"local": 31
+					},
+					{
+						"sample": -65,
+						"chunk": -3,
+						"local": 31
+					},
+					{
+						"sample": -64,
+						"chunk": -2,
+						"local": 0
+					},
+					{
+						"sample": -33,
+						"chunk": -2,
+						"local": 31
+					},
+					{
+						"sample": -32,
+						"chunk": -1,
+						"local": 0
+					},
+					{
+						"sample": -31,
+						"chunk": -1,
+						"local": 1
+					},
+					{
+						"sample": -1,
+						"chunk": -1,
+						"local": 31
+					},
+					{
+						"sample": 0,
+						"chunk": 0,
+						"local": 0
+					},
+					{
+						"sample": 1,
+						"chunk": 0,
+						"local": 1
+					},
+					{
+						"sample": 31,
+						"chunk": 0,
+						"local": 31
+					},
+					{
+						"sample": 32,
+						"chunk": 1,
+						"local": 0
+					},
+					{
+						"sample": 33,
+						"chunk": 1,
+						"local": 1
+					},
+					{
+						"sample": 64,
+						"chunk": 2,
+						"local": 0
+					},
+					{
+						"sample": 65,
+						"chunk": 2,
+						"local": 1
+					},
+					{
+						"sample": 1000001,
+						"chunk": 31250,
+						"local": 1
+					},
+					{
+						"sample": 2000000000,
+						"chunk": 62500000,
+						"local": 0
+					}
+				],
+				"origin_shift_count": 6,
+				"maximum_render_error_m": 0.00000000000000252475724686976,
+				"render_error_budget_m": 0.001,
+				"maximum_cpu_round_trip_error_m": 0.0,
+				"cpu_round_trip_error_budget_m": 0.000001,
+				"saved_coordinate_encoding": "signed_decimal_string_micrometers",
+				"distant_edit_count": 64,
+				"distant_edit_records": [
+					{
+						"center_um": "-500000000000000",
+						"sample": -1000000000,
+						"address": {
+							"chunk": -31250000,
+							"local": 0
+						}
+					},
+					{
+						"center_um": "500007919000000",
+						"sample": 1000015838,
+						"address": {
+							"chunk": 31250494,
+							"local": 30
+						}
+					},
+					{
+						"center_um": "-500015838000000",
+						"sample": -1000031676,
+						"address": {
+							"chunk": -31250990,
+							"local": 4
+						}
+					},
+					{
+						"center_um": "500023757000000",
+						"sample": 1000047514,
+						"address": {
+							"chunk": 31251484,
+							"local": 26
+						}
+					},
+					{
+						"center_um": "-500031676000000",
+						"sample": -1000063352,
+						"address": {
+							"chunk": -31251980,
+							"local": 8
+						}
+					},
+					{
+						"center_um": "500039595000000",
+						"sample": 1000079190,
+						"address": {
+							"chunk": 31252474,
+							"local": 22
+						}
+					},
+					{
+						"center_um": "-500047514000000",
+						"sample": -1000095028,
+						"address": {
+							"chunk": -31252970,
+							"local": 12
+						}
+					},
+					{
+						"center_um": "500055433000000",
+						"sample": 1000110866,
+						"address": {
+							"chunk": 31253464,
+							"local": 18
+						}
+					}
+				],
+				"long_traversal_steps": 100000,
+				"long_traversal_signature": "e55dc440198ba25448c8e68b13da6a90189ff3d4c21f1c2c4b5fcfd847cab9b6",
+				"long_traversal_error_units": 0
+			},
+			"performance": {
+				"sample_count": 100,
+				"p50_usec": 4402.0,
+				"p95_usec": 5290.0,
+				"p99_usec": 5676.0,
+				"worst_usec": 6819.0,
+				"warmup_iterations": 10,
+				"coordinate_round_trips_per_sample": 1024,
+				"budget_p95_usec": 10000.0
+			},
+			"memory": {
+				"retained_bytes": 26001669,
+				"peak_bytes": 31420009
+			},
+			"provenance": {
+				"workload_signature": "tqp20_cpu_large_world_coordinate_reference_v1",
+				"build_type": "debug",
+				"os": "Windows",
+				"architecture": "x86_64",
+				"cpu": "Intel(R) Core(TM) i5-7300HQ CPU @ 2.50GHz",
+				"gpu": "",
+				"driver": "opengl3",
+				"godot_version": "4.7.1-stable (official)",
+				"backend_revision": "a5c681d4061c5bcf2f779f7ae841d5d8ebffcdf2725040087386257ac2c3e32b"
+			},
+			"qualified_scope": [
+				"CPU signed-integer sample and chunk addressing",
+				"decimal-string persistence of signed 64-bit metric coordinates",
+				"origin-relative render conversion inside the declared distance and error budgets",
+				"long traversal and distant-edit addressing without accumulated integer drift"
+			],
+			"explicitly_unqualified_scope": [
+				"GPU density or coordinate equivalence",
+				"distances beyond the declared one-billion-meter envelope",
+				"production save-format compatibility",
+				"multiplayer coordinate replication"
+			],
+			"gpu_equivalence": "UNQUALIFIED_PENDING_TQP_35_TO_TQP_39",
+			"failures": []
+		}
+	],
+	"failures": []
+}

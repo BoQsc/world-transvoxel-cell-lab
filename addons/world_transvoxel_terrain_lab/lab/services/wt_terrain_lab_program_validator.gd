@@ -89,6 +89,7 @@ static func validate(program: Dictionary, dependencies: Dictionary) -> Dictionar
 	_validate_qualification_state(program, milestone_by_id, failures)
 	_validate_edit_gate_b_evidence(program, milestone_by_id, failures)
 	_validate_temporal_wave_evidence(program, milestone_by_id, failures)
+	_validate_wave_02_first_batch_evidence(program, milestone_by_id, failures)
 	_validate_visual_evidence(program, milestone_by_id, failures)
 	_validate_dependency_boundary(program, dependencies, failures)
 	_validate_source_boundary(failures)
@@ -210,7 +211,7 @@ static func _validate_evidence_files(program: Dictionary, failures: Array[String
 		_expect(not decision_id.is_empty(), "decision ID is missing: " + path, failures)
 		_expect(not decision_ids.has(decision_id), "duplicate decision ID: " + decision_id, failures)
 		decision_ids[decision_id] = true
-	for required in ["TQP-D001", "TQP-D002", "TQP-D003", "TQP-D004", "TQP-D005", "TQP-D006"]:
+	for required in ["TQP-D001", "TQP-D002", "TQP-D003", "TQP-D004", "TQP-D005", "TQP-D006", "TQP-D007"]:
 		_expect(decision_ids.has(required), "missing retained decision: " + required, failures)
 	for key in [
 		"qualification_state",
@@ -219,6 +220,10 @@ static func _validate_evidence_files(program: Dictionary, failures: Array[String
 		"visual_evidence",
 		"edit_gate_b_evidence",
 		"temporal_wave_standard",
+		"material_blending_standard",
+		"streaming_window_standard",
+		"large_world_coordinate_standard",
+		"wave_02_first_batch_evidence",
 		"execution_plan",
 	]:
 		var path := str(program.get(key, ""))
@@ -293,13 +298,11 @@ static func _validate_execution_plan(
 	var expected_next: Array = []
 	for step_value in active_wave.get("steps", []):
 		var step: Array = step_value
-		var incomplete := false
 		for milestone_value in step:
 			var milestone: Dictionary = milestone_by_id.get(str(milestone_value), {})
 			if str(milestone.get("status", "")) not in ["qualified", "production"]:
-				incomplete = true
-		if incomplete:
-			expected_next = step.duplicate()
+				expected_next.append(str(milestone_value))
+		if not expected_next.is_empty():
 			break
 	_expect(
 		plan.get("recommended_next", []) == expected_next,
@@ -476,6 +479,85 @@ static func _validate_temporal_wave_evidence(
 		)
 
 
+static func _validate_wave_02_first_batch_evidence(
+	program: Dictionary,
+	milestone_by_id: Dictionary,
+	failures: Array[String]
+) -> void:
+	var standard_schemas := {
+		"material_blending_standard": "world_transvoxel.terrain_lab.material_blending_standard.v1",
+		"streaming_window_standard": "world_transvoxel.terrain_lab.streaming_window_standard.v1",
+		"large_world_coordinate_standard": "world_transvoxel.terrain_lab.large_world_coordinate_standard.v1",
+	}
+	var standards := {}
+	for key in standard_schemas:
+		var standard := JsonLoader.load_dictionary(str(program.get(key, "")))
+		standards[key] = standard
+		_expect(
+			str(standard.get("schema", "")) == str(standard_schemas[key]),
+			"Wave 02 standard schema mismatch: " + str(key),
+			failures
+		)
+	var material: Dictionary = standards.get("material_blending_standard", {})
+	var visual: Dictionary = material.get("visual_evidence", {})
+	var visual_path := str(visual.get("image", ""))
+	_expect(FileAccess.file_exists(visual_path), "TQP-18 visual evidence is missing", failures)
+	if FileAccess.file_exists(visual_path):
+		_expect(
+			FileAccess.get_sha256(visual_path) == str(visual.get("sha256", "")),
+			"TQP-18 visual evidence hash changed",
+			failures
+		)
+	_expect(str(visual.get("automated_status", "")) == "PASS", "TQP-18 visual automation failed", failures)
+	var human_review := str(visual.get("human_review", ""))
+	_expect(human_review in ["PENDING", "ACCEPTED", "REJECTED"], "TQP-18 visual review state is invalid", failures)
+	var material_status := str((milestone_by_id.get("TQP-18", {}) as Dictionary).get("status", ""))
+	_expect(
+		(material_status == "qualified") == (human_review == "ACCEPTED"),
+		"TQP-18 status does not match its visual review decision",
+		failures
+	)
+	for milestone_id in ["TQP-19", "TQP-20"]:
+		_expect(
+			str((milestone_by_id.get(milestone_id, {}) as Dictionary).get("status", "")) == "qualified",
+			milestone_id + " must match retained Wave 02 evidence",
+			failures
+		)
+	var report := JsonLoader.load_dictionary(str(program.get("wave_02_first_batch_evidence", "")))
+	_expect(
+		str(report.get("schema", ""))
+			== "world_transvoxel.terrain_lab.wave_02_first_batch_qualification.v1",
+		"Wave 02 first-batch report schema mismatch",
+		failures
+	)
+	_expect(str(report.get("status", "")) == "PASS", "Wave 02 first-batch report failed", failures)
+	var result_by_id := {}
+	for result_value in report.get("milestones", []):
+		var result: Dictionary = result_value
+		result_by_id[str(result.get("milestone", ""))] = result
+	for milestone_id in ["TQP-18", "TQP-19", "TQP-20"]:
+		var result: Dictionary = result_by_id.get(milestone_id, {})
+		_expect(str(result.get("status", "")) == "PASS", milestone_id + " retained batch evidence failed", failures)
+	var material_qualification := str(
+		(result_by_id.get("TQP-18", {}) as Dictionary).get("qualification_status", "")
+	)
+	_expect(
+		(material_qualification.begins_with("QUALIFIED")) == (human_review == "ACCEPTED"),
+		"TQP-18 retained qualification state does not match visual review",
+		failures
+	)
+	_expect(
+		str((result_by_id.get("TQP-19", {}) as Dictionary).get("qualification_status", "")).begins_with("QUALIFIED"),
+		"TQP-19 retained evidence is not qualified",
+		failures
+	)
+	_expect(
+		str((result_by_id.get("TQP-20", {}) as Dictionary).get("qualification_status", "")).begins_with("QUALIFIED"),
+		"TQP-20 retained evidence is not qualified",
+		failures
+	)
+
+
 static func _validate_visual_evidence(
 	program: Dictionary,
 	milestone_by_id: Dictionary,
@@ -504,7 +586,7 @@ static func _validate_visual_evidence(
 		"visual human review changed without a decision record",
 		failures
 	)
-	for milestone_id in ["TQP-18", "TQP-21", "TQP-23"]:
+	for milestone_id in ["TQP-21", "TQP-23"]:
 		var milestone: Dictionary = milestone_by_id.get(milestone_id, {})
 		_expect(
 			str(milestone.get("status", "")) == "implemented",

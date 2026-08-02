@@ -1,0 +1,50 @@
+{
+	"schema": "world_transvoxel.terrain_lab.streaming_window_standard.v1",
+	"milestone": "TQP-19",
+	"standard_id": "deterministic_streaming_window_reference_v1",
+	"coordinate_authority": "signed_integer_chunk_address",
+	"window_contract": {
+		"window_axes": "x_z_with_single_y_layer",
+		"chunk_world_size_m": 16.0,
+		"active_radius_chunks": 3,
+		"prefetch_radius_chunks": 4,
+		"center_hysteresis_m": 2.0,
+		"eviction_grace_updates": 3,
+		"teleport_threshold_chunks": 8,
+		"lod_ring_maximums": [1, 2, 3, 4],
+		"active_chunk_budget": 49,
+		"prefetch_chunk_budget": 81,
+		"retained_chunk_budget": 130
+	},
+	"edit_arrival_contract": {
+		"resident_chunk": "increment_generation_mark_dirty_and_request",
+		"nonresident_chunk": "retain_authoritative_edit_without_forcing_residency",
+		"stale_publication": "reject_by_generation"
+	},
+	"fixture_contract": {
+		"fixed_paths": ["boundary_jitter", "steady_traversal", "negative_traversal", "teleport"],
+		"required_cases": ["hysteresis", "lod_movement", "prefetch", "eviction", "teleport", "edit_arrival", "boundary_stability"],
+		"boundary_jitter_churn_budget": 0,
+		"teleport_convergence_updates": 1
+	},
+	"performance_budget": {
+		"warmup_iterations": 10,
+		"sample_count": 100,
+		"path_updates_per_sample": 64,
+		"p95_usec": 75000.0,
+		"budget_basis": "initial Windows debug reference p95 43241 usec; 75000 usec retains load variance margin and is not a production frame budget"
+	},
+	"qualified_scope": [
+		"deterministic horizontal reference streaming-window policy",
+		"fixed-path hysteresis, prefetch, eviction, teleport, edit-arrival, and boundary fixtures",
+		"integer chunk addressing and LOD-ring assignment",
+		"reference-model latency and residency budgets on the retained machine"
+	],
+	"explicitly_unqualified_scope": [
+		"vertical multi-layer streaming windows",
+		"production terrain runtime residency",
+		"asynchronous native mesh generation throughput",
+		"renderer visibility and GPU-buffer residency",
+		"network-driven streaming"
+	]
+}

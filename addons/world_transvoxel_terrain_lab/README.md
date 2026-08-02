@@ -61,3 +61,9 @@ Focused Gate B report:
 ```text
 res://labs/terrain_lab/tools/run_edit_gate_b_validation.gd
 ```
+
+Focused Wave 02 first-batch report:
+
+```text
+res://labs/terrain_lab/tools/run_wave_02_validation.gd
+```

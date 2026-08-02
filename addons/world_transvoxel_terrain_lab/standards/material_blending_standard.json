@@ -1,0 +1,59 @@
+{
+	"schema": "world_transvoxel.terrain_lab.material_blending_standard.v1",
+	"milestone": "TQP-18",
+	"standard_id": "reference_material_blending_v1",
+	"authority": "material_field_weights_at_shared_world_positions",
+	"weight_contract": {
+		"maximum_materials": 4,
+		"non_positive_input": "discard",
+		"normalization_sum": 1.0,
+		"empty_material_id": -1,
+		"weight_tie_epsilon": 0.000000000001,
+		"reduction_order": "weight_descending_then_material_id_ascending",
+		"dominant_tie_break": "lowest_material_id"
+	},
+	"interpolation_contract": {
+		"method": "linear_union_then_normalize",
+		"amount_domain": [0.0, 1.0],
+		"out_of_domain_policy": "clamp",
+		"shared_position_rule": "regular_transition_and_lod_representations_must_evaluate_the_same_continuous_field",
+		"weight_error_budget": 0.000001
+	},
+	"fixture_contract": {
+		"gradient_steps": 257,
+		"transition_subdivisions": 8,
+		"qualified_lods": [0, 1, 2, 3, 4, 5, 6, 7],
+		"categorical_epsilon": 0.000001,
+		"required_classes": ["positive", "boundary", "retained_negative"]
+	},
+	"performance_budget": {
+		"warmup_iterations": 10,
+		"sample_count": 100,
+		"blends_per_sample": 512,
+		"p95_usec": 30000.0,
+		"budget_basis": "initial Windows debug p95 observations 6156 and 12440 usec; 30000 usec retains load variance margin and is not a production shader budget"
+	},
+	"visual_evidence": {
+		"capture_id": "material_blending_reference_v1",
+		"tool": "res://labs/terrain_lab/tools/capture_material_blending_visual.gd",
+		"image": "res://labs/terrain_lab/results/material_blending_reference.png",
+		"width": 1024,
+		"height": 640,
+		"sha256": "bcf98539bf2e5536a45d7ee5b0bc3bfecb4355c36bac68a1308ff1499dfabd55",
+		"pixel_signature": "8c0c2a41bf616cbaef75a19033871038358b928292d0ea3e5838b7faea63b640",
+		"automated_status": "PASS",
+		"human_review": "PENDING"
+	},
+	"qualified_scope": [
+		"normalized deterministic material weights",
+		"deterministic top-four reduction and categorical tie policy",
+		"regular-to-transition shared-position interpolation",
+		"LOD0-7 shared-position continuity in the reference material field"
+	],
+	"explicitly_unqualified_scope": [
+		"production texture assets and shader presentation",
+		"visual acceptance until the retained artifact is reviewed",
+		"GPU interpolation equivalence",
+		"production material-buffer cost"
+	]
+}

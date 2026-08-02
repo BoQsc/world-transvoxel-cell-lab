@@ -16,7 +16,10 @@ required evidence state.
 - `TQP-WAVE-01` is complete: TQP-15, TQP-16, and TQP-17 are qualified for
   their declared native Windows reference scopes.
 - `TQP-WAVE-02` is active.
-- The first active step is TQP-18, TQP-19, and TQP-20.
+- TQP-19 and TQP-20 in the first Wave 02 step are qualified for their declared
+  reference scopes.
+- TQP-18 is the only recommended next milestone. Its exact and automated
+  visual evidence passes; explicit human visual review remains open.
 - GPU and production waves remain blocked by absent candidate implementations.
 
 ## Waves
@@ -41,5 +44,6 @@ python labs/terrain_lab/tools/validate_execution_plan.py
 ```
 
 The validator rejects duplicate or missing TQP identifiers, backward
-dependencies, inconsistent active-wave metadata, and completed waves that
-contain milestones without qualified or production evidence.
+dependencies, inconsistent active-wave metadata, completed waves that contain
+milestones without qualified or production evidence, and recommended-next
+lists that include already qualified entries.

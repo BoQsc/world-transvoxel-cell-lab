@@ -1,0 +1,29 @@
+{
+	"schema": "world_transvoxel.terrain_lab.decision.v1",
+	"id": "TQP-D007",
+	"date": "2026-08-02",
+	"decision": "Qualify TQP-19 and TQP-20 for their deterministic reference scopes while retaining TQP-18 as implemented pending explicit human review of its dedicated visual evidence.",
+	"reason": "The first Wave 02 batch now has separate contracts, deterministic fixture matrices, retained machine reports, performance distributions, provenance, and explicit non-claims. TQP-18 also has exact and automated visual evidence, but the qualification protocol requires a human visual decision before promotion.",
+	"evidence": [
+		"res://addons/world_transvoxel_terrain_lab/standards/material_blending_standard.json",
+		"res://addons/world_transvoxel_terrain_lab/standards/streaming_window_standard.json",
+		"res://addons/world_transvoxel_terrain_lab/standards/large_world_coordinate_standard.json",
+		"res://labs/terrain_lab/results/material_blending_reference.png",
+		"res://labs/terrain_lab/results/wave_02_first_batch_reference_windows.json"
+	],
+	"qualified_scope": [
+		"TQP-19 deterministic horizontal single-layer streaming window with fixed paths, hysteresis, LOD rings, prefetch, eviction, teleport, edit arrival, and explicit reference budgets",
+		"TQP-20 CPU signed-integer sample and chunk addressing, decimal-string metric persistence, origin-relative rendering, distant edits, and zero-drift long traversal"
+	],
+	"held_scope": [
+		"TQP-18 remains implemented until material_blending_reference.png receives an explicit human ACCEPTED or REJECTED decision"
+	],
+	"explicit_non_claims": [
+		"no production terrain runtime qualification",
+		"no vertical multi-layer streaming qualification",
+		"no production frame-time or residency budget",
+		"no GPU coordinate or material equivalence",
+		"no TQP-18 visual acceptance",
+		"no TQP-21 or TQP-22 promotion"
+	]
+}

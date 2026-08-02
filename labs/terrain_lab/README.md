@@ -22,6 +22,11 @@ without depending on Cell Lab code.
 `TQP-14` qualification. `tools/capture_edit_qualification_visual.gd`
 regenerates the deterministic brush and temporal-edit cross-section reference.
 
+`tools/run_wave_02_validation.gd` executes the focused TQP-18, TQP-19, and
+TQP-20 first-batch evidence. `tools/capture_material_blending_visual.gd`
+regenerates the deterministic four-panel material-blending reference used by
+TQP-18 visual review.
+
 Terrain Lab scenes may depend on `world_transvoxel_terrain_lab` and the pinned
 production dependencies declared by their milestone. They must not depend on
 `world_transvoxel_cell_lab`.

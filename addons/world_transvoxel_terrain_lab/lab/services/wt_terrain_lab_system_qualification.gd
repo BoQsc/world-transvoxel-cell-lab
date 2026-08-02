@@ -11,9 +11,12 @@ const Statistics := preload(
 const TemporalWaveEvidence := preload(
 	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_temporal_wave_evidence.gd"
 )
-
-const CHUNK_WORLD_SIZE_M := 16.0
-const STREAM_RADIUS_CHUNKS := 3
+const StreamingWindowQualification := preload(
+	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_streaming_window_qualification.gd"
+)
+const LargeWorldQualification := preload(
+	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_large_world_qualification.gd"
+)
 
 const LEGAL_TRANSITIONS := {
 	"requested": ["generating", "cached", "failed"],
@@ -34,8 +37,8 @@ static func run() -> Dictionary:
 		_qualify_chunk_lifecycle(),
 		_qualify_scheduling(),
 		_qualify_persistence(),
-		_qualify_streaming(),
-		_qualify_large_world(),
+		StreamingWindowQualification.run(),
+		LargeWorldQualification.run(),
 		_qualify_visibility_residency(),
 		_qualify_collision_publication(),
 		_qualify_observatory(),
@@ -54,8 +57,8 @@ static func run() -> Dictionary:
 			"TQP-06": "qualified",
 			"TQP-15": "qualified",
 			"TQP-16": "qualified",
-			"TQP-19": "implemented_pending_hysteresis_prefetch_eviction_and_edit_matrix",
-			"TQP-20": "implemented_pending_long_traversal_save_and_gpu_equivalence",
+			"TQP-19": "qualified",
+			"TQP-20": "qualified",
 			"TQP-22": "implemented_pending_culling_hlod_draw_and_buffer_evidence",
 			"TQP-24": "implemented_pending_real_physics_query_and_navigation_publication",
 			"TQP-26": "implemented_pending_complete_runtime_diagnostic_sources",
@@ -65,6 +68,8 @@ static func run() -> Dictionary:
 			"TQP-06 deterministic reference chunk lifecycle",
 			"TQP-15 native Windows worker, versioning, and publication reference",
 			"TQP-16 native Windows persistence, recovery, and migration reference",
+			"TQP-19 deterministic horizontal streaming-window reference model",
+			"TQP-20 CPU large-world coordinate reference model",
 		],
 		"explicitly_unqualified_scope": [
 			"production terrain mesh residency",
@@ -72,7 +77,7 @@ static func run() -> Dictionary:
 			"snapshot atomicity on filesystems outside the Windows reference platform",
 			"automatic abandoned snapshot staging cleanup",
 			"production traversal and memory budgets",
-			"complete TQP-19, TQP-20, TQP-22, TQP-24, TQP-26, and TQP-27 qualification",
+			"complete TQP-22, TQP-24, TQP-26, and TQP-27 qualification",
 		],
 		"provenance": Statistics.provenance("terrain_system_reference_v1"),
 		"milestones": milestones,
@@ -150,64 +155,6 @@ static func _qualify_scheduling() -> Dictionary:
 		"priority_order": [priorities[0]["id"], priorities[1]["id"], priorities[2]["id"]],
 	}
 	return result
-
-
-static func _qualify_streaming() -> Dictionary:
-	var failures: Array[String] = []
-	var path: Array[Vector3] = [
-		Vector3(0.0, 0.0, 0.0),
-		Vector3(15.9, 0.0, 0.0),
-		Vector3(16.1, 0.0, 0.0),
-		Vector3(47.9, 0.0, -16.1),
-		Vector3(1024.0, 0.0, 1024.0),
-	]
-	var windows: Array[Dictionary] = []
-	for point in path:
-		var center := _world_to_chunk(point)
-		var requested := _stream_window(center, STREAM_RADIUS_CHUNKS)
-		_expect(
-			requested.size() == int(pow(STREAM_RADIUS_CHUNKS * 2 + 1, 2)),
-			"stream window cardinality changed",
-			failures
-		)
-		_expect(requested.has(_chunk_key(center)), "stream center is not requested", failures)
-		windows.append({"center": center, "requested_count": requested.size()})
-	_expect(
-		_world_to_chunk(path[0]) == _world_to_chunk(path[1]),
-		"sub-chunk camera motion changed center",
-		failures
-	)
-	_expect(
-		_world_to_chunk(path[1]) != _world_to_chunk(path[2]),
-		"chunk-boundary crossing was missed",
-		failures
-	)
-	var result := _result("TQP-19", path.size() * 2 + 2, failures)
-	result["windows"] = windows
-	return result
-
-
-static func _qualify_large_world() -> Dictionary:
-	var failures: Array[String] = []
-	var coordinates: Array[Vector3] = [
-		Vector3(-32768.25, -2048.0, -32768.25),
-		Vector3(-4097.0, 0.0, 4097.0),
-		Vector3.ZERO,
-		Vector3(4097.0, 8192.0, -4097.0),
-		Vector3(32768.25, 8192.0, 32768.25),
-	]
-	for global_position in coordinates:
-		var origin := _floating_origin(global_position, 4096.0, 1024.0)
-		var local := global_position - origin
-		_expect(local.length() <= 8870.0, "large-world local magnitude escaped reference bound", failures)
-		_expect((origin + local).is_equal_approx(global_position), "large-world round trip changed", failures)
-	var sample_fixtures: Array[int] = [-65, -33, -32, -31, -1, 0, 31, 32, 33, 65]
-	for sample in sample_fixtures:
-		var chunk := floori(float(sample) / 32.0)
-		var local_sample: int = sample - chunk * 32
-		_expect(local_sample >= 0 and local_sample < 32, "negative sample address escaped chunk", failures)
-		_expect(chunk * 32 + local_sample == sample, "negative sample address did not round trip", failures)
-	return _result("TQP-20", coordinates.size() * 2 + 20, failures)
 
 
 static func _qualify_visibility_residency() -> Dictionary:
@@ -330,36 +277,8 @@ static func _can_transition(from_state: String, to_state: String) -> bool:
 	return to_state in LEGAL_TRANSITIONS.get(from_state, [])
 
 
-static func _world_to_chunk(point: Vector3) -> Vector3i:
-	return Vector3i(
-		floori(point.x / CHUNK_WORLD_SIZE_M),
-		floori(point.y / CHUNK_WORLD_SIZE_M),
-		floori(point.z / CHUNK_WORLD_SIZE_M)
-	)
-
-
-static func _stream_window(center: Vector3i, radius: int) -> Dictionary:
-	var result := {}
-	for x in range(center.x - radius, center.x + radius + 1):
-		for z in range(center.z - radius, center.z + radius + 1):
-			result[_chunk_key(Vector3i(x, center.y, z))] = true
-	return result
-
-
 static func _chunk_key(coordinate: Vector3i) -> String:
 	return "%d:%d:%d" % [coordinate.x, coordinate.y, coordinate.z]
-
-
-static func _floating_origin(
-	position: Vector3,
-	threshold: float,
-	quantum: float
-) -> Vector3:
-	var result := Vector3.ZERO
-	for axis in range(3):
-		if absf(position[axis]) > threshold:
-			result[axis] = floorf(position[axis] / quantum) * quantum
-	return result
 
 
 static func _result(

@@ -8,8 +8,8 @@ It does not own production implementation, and it does not extend the Cell Lab
 root node.
 
 The complete `TQP-01` through `TQP-46` catalog is now executable and
-fail-closed. Seventeen milestones are qualified for narrow contract or reference
-scopes, fifteen have implemented evidence with named gaps, two are
+fail-closed. Nineteen milestones are qualified for narrow contract or reference
+scopes, thirteen have implemented evidence with named gaps, two are
 specified, and twelve GPU or production milestones are blocked by named
 external targets.
 
@@ -32,6 +32,12 @@ durable journals, truncated-tail recovery, corruption rejection, compaction,
 and current plus legacy schema migration. Cross-filesystem guarantees,
 networked edit ordering, and automatic stale staging cleanup remain explicit
 non-claims.
+
+The first Wave 02 batch adds separate material-blending, streaming-window, and
+large-world coordinate contracts. TQP-19 and TQP-20 are qualified for their
+deterministic reference scopes. TQP-18 has 597 exact fixtures and a retained
+four-panel visual whose automated checks pass; human visual review remains its
+only promotion condition.
 
 This is not a production-terrain claim. See `qualification_state.json`,
 `program_blockers.json`, and the retained report for exact qualified and
