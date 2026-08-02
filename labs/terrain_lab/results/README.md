@@ -53,6 +53,18 @@ godot --headless --rendering-method gl_compatibility --path . \
   --output res://labs/terrain_lab/results/wave_02_second_batch_reference_windows.json
 ```
 
+`phase_03_system_reference_windows.json` retains native TQP-24 Godot render,
+collision, field-query, physics-ray, navigation, edit, and generation evidence:
+
+```text
+godot --rendering-method gl_compatibility --path . \
+  --script labs/terrain_lab/tools/run_phase_03_system_validation.gd -- \
+  --output res://labs/terrain_lab/results/phase_03_system_reference_windows.json
+```
+
+This fixture requires the real Windows physics and navigation servers; it must
+not be generated with `--headless`.
+
 `terrain_observatory_reference.png` is the deterministic Windows
 Forward+/D3D12 TQP-21 candidate visual. It uses a 3x3x2 native fixture at
 0.5 m per grid unit. Its live audit compares all 33 adjacent same-LOD chunk
@@ -61,7 +73,8 @@ audits edge multiplicity across the complete assembled window: every interior
 edge must occur exactly twice, open edges are permitted only on an exterior
 volume plane, and non-manifold edges fail. An injected open-tetrahedron control
 proves the topology detector fails on a known three-edge hole. Automated
-repeatability does not replace human review.
+repeatability does not replace human review. The corrected reference render
+was accepted for the narrow TQP-21 texture-system scope in `TQP-D013`.
 
 `terrain_observatory_tangent_seam.png` isolates the canonical crater interface
 that exposed the native tangent-edit defect retained by `TQP-D011`. Regenerate
@@ -86,6 +99,27 @@ M1/M2 regressions jointly support the correction:
 godot --path . --script labs/terrain_lab/tools/capture_terrain_observatory.gd \
   -- --mode pole \
   --output res://labs/terrain_lab/results/terrain_observatory_tangent_pole.png
+```
+
+`surface_shading_near.png`, `surface_shading_far.png`, and
+`surface_shading_evidence_windows.json` retain the separate TQP-23 shader
+fixture. The evidence runner creates two cold/warm instances at each fixed
+camera and requires all eight measured frames per pass to be byte-identical:
+
+```text
+godot --resolution 1280x720 --path . \
+  --script labs/terrain_lab/tools/capture_surface_shading_evidence.gd
+```
+
+The near/far pair remains pending human acceptance and does not alter the
+accepted TQP-21 observatory shader or image.
+
+The focused CPU shading-contract ceiling is retained separately by:
+
+```text
+godot --headless --rendering-method gl_compatibility --path . \
+  --script labs/terrain_lab/tools/run_surface_shading_validation.gd -- \
+  --output res://labs/terrain_lab/results/surface_shading_contract_reference_windows.json
 ```
 
 `edit_qualification_reference.png` is the deterministic diagnostic reference

@@ -5,7 +5,7 @@
 		{
 			"milestone": "TQP-21",
 			"status": "PASS",
-			"qualification_status": "IMPLEMENTED_PENDING_HUMAN_RENDER_REVIEW",
+			"qualification_status": "QUALIFIED_REFERENCE_TRIPLANAR_TEXTURE_ARRAY_V1",
 			"fixture_count": 80,
 			"exact_corpus": {
 				"status": "PASS",
@@ -121,10 +121,10 @@
 			},
 			"performance": {
 				"sample_count": 100,
-				"p50_usec": 10510.0,
-				"p95_usec": 23548.0,
-				"p99_usec": 40554.0,
-				"worst_usec": 45961.0,
+				"p50_usec": 8367.0,
+				"p95_usec": 10355.0,
+				"p99_usec": 11223.0,
+				"worst_usec": 11838.0,
 				"warmup_iterations": 10,
 				"mapping_operations_per_sample": 2048,
 				"budget_p95_usec": 50000.0,
@@ -132,8 +132,8 @@
 				"budget_evaluation": "ENFORCED_FOCUSED_RUN"
 			},
 			"memory": {
-				"retained_bytes": 25756477,
-				"peak_bytes": 29583965
+				"retained_bytes": 25758382,
+				"peak_bytes": 29600142
 			},
 			"provenance": {
 				"workload_signature": "tqp21_reference_triplanar_texture_array_v1",
@@ -143,18 +143,18 @@
 				"cpu": "Intel(R) Core(TM) i5-7300HQ CPU @ 2.50GHz",
 				"gpu": "",
 				"driver": "opengl3",
-				"godot_version": "4.7.1-stable (official)",
-				"backend_revision": "980614354b207925db66fa9187d2c261eb9c1630a7c0905984f32b1ec966c1a3"
+				"godot_version": "4.7.1-stable (steam)",
+				"backend_revision": "7745271430da87604095038288ca0f668dff74e7c01b9b62361207c2530e7cc5"
 			},
 			"visual_evidence": {
 				"image": "res://labs/terrain_lab/results/terrain_observatory_reference.png",
-				"sha256": "391745ca7e57f26c1cf5dfda4d905c614be9521c4e304bc23b4f6b27095312f7",
+				"sha256": "7e969c3138ec76afc73365658cad1a8b78dff2215c92436a970e756df0cf025f",
 				"automated_status": "PASS",
 				"surface_seam_pair_count": 27,
 				"surface_seam_errors": 0,
 				"tangent_seam_image": "res://labs/terrain_lab/results/terrain_observatory_tangent_seam.png",
-				"tangent_seam_sha256": "ea46a4827309416394200b405f1a97cfbcf815e525f8ad1445ddee727b0e62bb",
-				"human_review": "PENDING"
+				"tangent_seam_sha256": "c708263a1d71fc4067169503928a796a7e6e113a89aa95985b51cd653c6c73ba",
+				"human_review": "ACCEPTED"
 			},
 			"qualified_scope": [
 				"three-layer albedo and normal texture-array contract",
@@ -164,7 +164,6 @@
 				"reference normal reorientation for cliffs, cave ceilings, and oblique surfaces"
 			],
 			"explicitly_unqualified_scope": [
-				"human renderer acceptance until the retained observatory image is reviewed",
 				"production texture assets or art direction",
 				"GPU shader cost and cross-GPU consistency",
 				"virtual texturing or sparse texture residency",
@@ -253,10 +252,10 @@
 			},
 			"performance": {
 				"sample_count": 100,
-				"p50_usec": 148659.0,
-				"p95_usec": 195985.0,
-				"p99_usec": 213730.0,
-				"worst_usec": 226310.0,
+				"p50_usec": 126849.0,
+				"p95_usec": 136008.0,
+				"p99_usec": 137459.0,
+				"worst_usec": 138216.0,
 				"warmup_iterations": 10,
 				"views_per_sample": 16,
 				"budget_p95_usec": 300000.0,
@@ -264,8 +263,8 @@
 				"budget_evaluation": "ENFORCED_FOCUSED_RUN"
 			},
 			"memory": {
-				"retained_bytes": 25773645,
-				"peak_bytes": 29583965
+				"retained_bytes": 25775538,
+				"peak_bytes": 29600142
 			},
 			"provenance": {
 				"workload_signature": "tqp22_cpu_horizontal_visibility_residency_reference_v1",
@@ -275,8 +274,8 @@
 				"cpu": "Intel(R) Core(TM) i5-7300HQ CPU @ 2.50GHz",
 				"gpu": "",
 				"driver": "opengl3",
-				"godot_version": "4.7.1-stable (official)",
-				"backend_revision": "980614354b207925db66fa9187d2c261eb9c1630a7c0905984f32b1ec966c1a3"
+				"godot_version": "4.7.1-stable (steam)",
+				"backend_revision": "7745271430da87604095038288ca0f668dff74e7c01b9b62361207c2530e7cc5"
 			},
 			"qualified_scope": [
 				"deterministic horizontal CPU frustum and conservative occlusion reference",

@@ -14,6 +14,9 @@ const MaterialBlendingQualification := preload(
 const TextureSystemQualification := preload(
 	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_texture_system_qualification.gd"
 )
+const SurfaceShadingQualification := preload(
+	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_surface_shading_qualification.gd"
+)
 
 
 static func run() -> Dictionary:
@@ -21,7 +24,7 @@ static func run() -> Dictionary:
 		_qualify_material_contract(),
 		MaterialBlendingQualification.run(),
 		TextureSystemQualification.run(),
-		_implement_surface_shading(),
+		SurfaceShadingQualification.run(),
 		_specify_visual_corpus(),
 	]
 	var failures: Array[String] = []
@@ -36,20 +39,21 @@ static func run() -> Dictionary:
 		"scope_status": {
 			"TQP-08": "qualified",
 			"TQP-18": "qualified",
-			"TQP-21": "implemented_pending_human_render_review",
-			"TQP-23": "implemented_pending_temporal_inspection",
+			"TQP-21": "qualified",
+			"TQP-23": "implemented_pending_human_temporal_review",
 			"TQP-25": "specified_pending_human_acceptance",
 		},
 		"qualified_scope": [
 			"deterministic material IDs, weights, ties, and construction provenance",
 			"TQP-18 accepted exact blending corpus and retained diagnostic visual",
+			"TQP-21 accepted reference triplanar texture-array presentation",
 		],
 		"explicitly_unqualified_scope": [
 			"production texture assets",
 			"visual pleasantness",
 			"temporal shader stability",
 			"renderer and GPU cost",
-			"human visual acceptance",
+			"TQP-23 and TQP-25 human visual acceptance",
 		],
 		"provenance": Statistics.provenance("material_surface_reference_v1"),
 		"milestones": milestones,

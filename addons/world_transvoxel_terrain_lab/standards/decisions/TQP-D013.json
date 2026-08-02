@@ -1,0 +1,32 @@
+{
+	"schema": "world_transvoxel.terrain_lab.decision.v1",
+	"id": "TQP-D013",
+	"date": "2026-08-02",
+	"decision": "Accept the corrected deterministic Terrain Observatory render for the TQP-21 reference texture-system scope.",
+	"reason": "After the exact-isovalue tangent-pole defect was corrected upstream and the observatory was recaptured, the retained 3x3x2 render was explicitly reviewed and accepted by the project owner. Automated evidence independently reports zero interior openings, zero non-manifold edges, zero pairwise seam errors, stable material distinction, visible terrain pixels, and byte-identical cold and warm captures. This accepts the declared diagnostic triplanar texture-array presentation only; it does not promote production assets, GPU cost, other hardware, or general art direction.",
+	"evidence": [
+		"res://addons/world_transvoxel_terrain_lab/standards/visual_evidence.json",
+		"res://labs/terrain_lab/results/terrain_observatory_reference.png",
+		"res://labs/terrain_lab/results/terrain_observatory_tangent_seam.png",
+		"res://labs/terrain_lab/results/terrain_observatory_tangent_pole.png",
+		"world-transvoxel@7e4f6946eaeb36728ac466f06b8da75e67e30fa8"
+	],
+	"qualified_scope": [
+		"three-layer diagnostic albedo and normal texture arrays",
+		"world-space triplanar mapping with floating-origin compensation",
+		"mipmap and anisotropic sampling declarations",
+		"LOD0-7 coordinate continuity in the CPU contract corpus",
+		"corrected Windows Forward+/D3D12 observatory presentation"
+	],
+	"held_scope": [
+		"TQP-23 temporal surface-shading inspection",
+		"TQP-25 multi-scene visual-quality corpus",
+		"production texture assets and art direction",
+		"GPU cost and cross-hardware consistency"
+	],
+	"explicit_non_claims": [
+		"no production terrain qualification",
+		"no cross-platform renderer qualification",
+		"no acceptance of visual fixtures not listed in this decision"
+	]
+}

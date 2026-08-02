@@ -1,0 +1,29 @@
+{
+	"schema": "world_transvoxel.terrain_lab.phase_03_system_standard.v1",
+	"authority": "world_transvoxel_native_runtime_plus_godot_servers",
+	"evidence": "res://labs/terrain_lab/results/phase_03_system_reference_windows.json",
+	"qualified_milestones": ["TQP-24"],
+	"stable_expected": {
+		"TQP-24": {
+			"minimum_navigation_polygon_count": 1,
+			"minimum_physics_ray_hits": 2,
+			"minimum_authoritative_queries": 2,
+			"required_world_revision": 1,
+			"required_collision_type": "ConcavePolygonShape3D"
+		}
+	},
+	"qualified_scope": [
+		"native Windows procedural terrain publication",
+		"Godot ArrayMesh and concave collision resources",
+		"direct-space ray queries against native terrain collision",
+		"authoritative field queries before and after a committed edit",
+		"navigation-region publication from upward-facing native terrain triangles",
+		"render, collision, query, and navigation generation coherence"
+	],
+	"explicitly_unqualified_scope": [
+		"production navigation baking policy",
+		"dynamic agents and avoidance",
+		"non-Windows physics and navigation servers",
+		"production collision or navigation frame-time budgets"
+	]
+}

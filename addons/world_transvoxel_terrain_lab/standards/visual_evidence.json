@@ -72,13 +72,15 @@
 		"TQP-26 Terrain Observatory presentation"
 	],
 	"human_review": {
-		"status": "PENDING",
-		"required_for": ["TQP-21", "TQP-23", "TQP-25"]
+		"status": "ACCEPTED",
+		"date": "2026-08-02",
+		"decision": "res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D013.json",
+		"accepted_for": ["TQP-21"],
+		"pending_for": ["TQP-23", "TQP-25"]
 	},
 	"explicitly_unqualified_scope": [
 		"production visual quality",
 		"temporal stability",
-		"human acceptance of the corrected 3x3x2 diagnostic fixture",
 		"non-Windows rendering",
 		"cross-GPU consistency"
 	]

@@ -45,7 +45,6 @@
 		"reference normal reorientation for cliffs, cave ceilings, and oblique surfaces"
 	],
 	"explicitly_unqualified_scope": [
-		"human renderer acceptance until the retained observatory image is reviewed",
 		"production texture assets or art direction",
 		"GPU shader cost and cross-GPU consistency",
 		"virtual texturing or sparse texture residency",

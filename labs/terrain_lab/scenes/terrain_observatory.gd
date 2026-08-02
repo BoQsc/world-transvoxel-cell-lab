@@ -15,6 +15,9 @@ const NativeEvidence := preload(
 const TerrainShader := preload(
 	"res://labs/terrain_lab/shaders/terrain_observatory.gdshader"
 )
+const SurfaceReferenceShader := preload(
+	"res://labs/terrain_lab/shaders/terrain_surface_reference.gdshader"
+)
 
 const NATIVE_DEPENDENCY_CLASS := "WorldTransvoxelCellProbe"
 const CHUNK_RANGE := 1
@@ -382,6 +385,33 @@ func prepare_tangent_pole_capture() -> void:
 	camera.fov = 48.0
 	camera.position = Vector3(-1.0, 8.2, 6.8)
 	camera.look_at(Vector3(-1.0, 5.5, 4.0), Vector3.UP)
+
+
+func prepare_surface_shading_capture(distance_mode: String) -> void:
+	prepare_reference_capture()
+	bounds_root.visible = false
+	$Interface.visible = false
+	_apply_capture_shader(SurfaceReferenceShader)
+	if distance_mode == "far":
+		camera.fov = 26.0
+		camera.position = Vector3(-52.0, 42.0, 3.0)
+		camera.look_at(Vector3(3.0, 8.0, 3.0), Vector3.UP)
+	else:
+		camera.fov = 48.0
+		camera.position = Vector3(-25.0, 22.0, 3.0)
+		camera.look_at(Vector3(3.0, 8.0, 3.0), Vector3.UP)
+
+
+func _apply_capture_shader(shader: Shader) -> void:
+	var material := ShaderMaterial.new()
+	material.shader = shader
+	material.set_shader_parameter("terrain_textures", _build_texture_array())
+	material.set_shader_parameter("terrain_normal_textures", _build_normal_texture_array())
+	material.set_shader_parameter("texture_world_origin", Vector3.ZERO)
+	_surface_material = material
+	for child in mesh_root.get_children():
+		if child is MeshInstance3D:
+			(child as MeshInstance3D).material_override = material
 
 
 func _update_metrics_label(include_timing: bool) -> void:

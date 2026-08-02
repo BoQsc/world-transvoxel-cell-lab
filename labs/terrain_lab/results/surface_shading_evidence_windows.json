@@ -1,0 +1,52 @@
+{
+	"schema": "world_transvoxel.terrain_lab.surface_shading_evidence.v1",
+	"status": "PASS",
+	"capture_contract": {
+		"platform": "Windows",
+		"renderer": "forward_plus",
+		"driver": "vulkan",
+		"gpu": "NVIDIA GeForce GTX 1060 with Max-Q Design",
+		"godot": "4.7.1-stable (steam)",
+		"width": 1280,
+		"height": 720
+	},
+	"cameras": {
+		"near": {
+			"image": "res://labs/terrain_lab/results/surface_shading_near.png",
+			"sha256": "21910c11716cbe64f94069871a9f584aba0bf612bf8606d40f0250eab4f8a373",
+			"pass_count": 2,
+			"frames_per_pass": 8,
+			"pass_hashes": [
+				"1769abc13e2faccfe257e63b8e10b3e736d0e6005719710853e6c259ecfe6548",
+				"1769abc13e2faccfe257e63b8e10b3e736d0e6005719710853e6c259ecfe6548"
+			],
+			"unique_frame_hash_count": 1,
+			"cold_warm_identity": true,
+			"surface_pixels": 25306,
+			"decal_pixels": 70,
+			"wet_pixels": 973
+		},
+		"far": {
+			"image": "res://labs/terrain_lab/results/surface_shading_far.png",
+			"sha256": "2d84a02cd8b3a18e48ce3c18c36dfd8b93a4e5963f1150568344d96354fbc642",
+			"pass_count": 2,
+			"frames_per_pass": 8,
+			"pass_hashes": [
+				"2994bb914db94fb19a91949afb2eef487bcf693f12001c177becb4b09773b046",
+				"2994bb914db94fb19a91949afb2eef487bcf693f12001c177becb4b09773b046"
+			],
+			"unique_frame_hash_count": 1,
+			"cold_warm_identity": true,
+			"surface_pixels": 22404,
+			"decal_pixels": 15,
+			"wet_pixels": 11
+		}
+	},
+	"human_review": {
+		"status": "PENDING",
+		"required_for": [
+			"TQP-23"
+		]
+	},
+	"failures": []
+}

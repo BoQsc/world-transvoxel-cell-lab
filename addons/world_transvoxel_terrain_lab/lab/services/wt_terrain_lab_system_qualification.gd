@@ -20,6 +20,9 @@ const LargeWorldQualification := preload(
 const VisibilityResidencyQualification := preload(
 	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_visibility_residency_qualification.gd"
 )
+const Phase03Evidence := preload(
+	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_phase_03_system_evidence.gd"
+)
 
 const LEGAL_TRANSITIONS := {
 	"requested": ["generating", "cached", "failed"],
@@ -63,7 +66,7 @@ static func run() -> Dictionary:
 			"TQP-19": "qualified",
 			"TQP-20": "qualified",
 			"TQP-22": "qualified",
-			"TQP-24": "implemented_pending_real_physics_query_and_navigation_publication",
+			"TQP-24": "qualified",
 			"TQP-26": "implemented_pending_complete_runtime_diagnostic_sources",
 			"TQP-27": "implemented_pending_real_large_terrain_soak",
 		},
@@ -74,14 +77,15 @@ static func run() -> Dictionary:
 			"TQP-19 deterministic horizontal streaming-window reference model",
 			"TQP-20 CPU large-world coordinate reference model",
 			"TQP-22 CPU horizontal visibility and residency reference model",
+			"TQP-24 native Windows Godot collision, query, and navigation publication reference",
 		],
 		"explicitly_unqualified_scope": [
 			"production terrain mesh residency",
-			"Godot physics and navigation integration",
+			"production physics and navigation integration",
 			"snapshot atomicity on filesystems outside the Windows reference platform",
 			"automatic abandoned snapshot staging cleanup",
 			"production traversal and memory budgets",
-			"complete TQP-24, TQP-26, and TQP-27 qualification",
+			"complete TQP-26 and TQP-27 qualification",
 		],
 		"provenance": Statistics.provenance("terrain_system_reference_v1"),
 		"milestones": milestones,
@@ -177,6 +181,12 @@ static func _qualify_persistence() -> Dictionary:
 
 static func _qualify_collision_publication() -> Dictionary:
 	var failures: Array[String] = []
+	var evidence := Phase03Evidence.retained_milestone("TQP-24")
+	if str(evidence.get("status", "")) != "PASS":
+		for failure_value in evidence.get("failures", []):
+			failures.append(str(failure_value))
+		if failures.is_empty():
+			failures.append("retained native collision/query/navigation evidence failed")
 	var records := [
 		{"render": 4, "collision": 4, "query": 4, "nav": 4, "expected": true},
 		{"render": 5, "collision": 4, "query": 5, "nav": 5, "expected": false},
@@ -190,7 +200,10 @@ static func _qualify_collision_publication() -> Dictionary:
 			and int(record["render"]) == int(record["nav"])
 		)
 		_expect(coherent == bool(record["expected"]), "publication coherence decision changed", failures)
-	return _result("TQP-24", records.size(), failures)
+	var result := _result("TQP-24", records.size() + 8, failures)
+	result["qualification_status"] = "QUALIFIED_NATIVE_WINDOWS_GODOT_PUBLICATION_REFERENCE_V1"
+	result["native_evidence"] = evidence
+	return result
 
 
 static func _qualify_observatory() -> Dictionary:

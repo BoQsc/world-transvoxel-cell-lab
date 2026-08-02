@@ -1,0 +1,43 @@
+{
+	"schema": "world_transvoxel.terrain_lab.surface_shading_standard.v1",
+	"milestone": "TQP-23",
+	"standard_id": "reference_surface_shading_v1",
+	"shader": "res://labs/terrain_lab/shaders/terrain_surface_reference.gdshader",
+	"scene": "res://labs/terrain_lab/scenes/terrain_observatory.tscn",
+	"visual_evidence": "res://labs/terrain_lab/results/surface_shading_evidence_windows.json",
+	"focused_evidence": "res://labs/terrain_lab/results/surface_shading_contract_reference_windows.json",
+	"expected": {
+		"near_image": "res://labs/terrain_lab/results/surface_shading_near.png",
+		"near_sha256": "21910c11716cbe64f94069871a9f584aba0bf612bf8606d40f0250eab4f8a373",
+		"far_image": "res://labs/terrain_lab/results/surface_shading_far.png",
+		"far_sha256": "2d84a02cd8b3a18e48ce3c18c36dfd8b93a4e5963f1150568344d96354fbc642",
+		"minimum_surface_pixels": 400,
+		"minimum_decal_pixels": 8,
+		"minimum_wet_pixels": 8,
+		"frames_per_pass": 8,
+		"passes_per_camera": 2
+	},
+	"performance_budget": {
+		"warmup_iterations": 10,
+		"sample_count": 100,
+		"operations_per_sample": 4096,
+		"p95_usec": 50000.0,
+		"scope": "CPU shading-contract functions only; not renderer or GPU cost"
+	},
+	"qualified_scope": [
+		"tangent-free triplanar normal reorientation",
+		"stable analytical tangent construction",
+		"slope and global-height masks",
+		"low-height wetness response",
+		"world-projected diagnostic decal",
+		"fixed near/far camera detail behavior",
+		"floating-origin compensated shader coordinates",
+		"deterministic Windows Forward+/Vulkan temporal captures"
+	],
+	"explicitly_unqualified_scope": [
+		"human acceptance until the retained near/far pair is reviewed",
+		"production art direction and assets",
+		"dynamic weather or decal systems",
+		"GPU cost and cross-hardware consistency"
+	]
+}

@@ -19,9 +19,10 @@ required evidence state.
 - The first Wave 02 step is complete: TQP-18, TQP-19, and TQP-20 are qualified
   for their declared reference scopes.
 - TQP-22 in the second step is qualified for its horizontal CPU reference.
-- TQP-21 is the only recommended next milestone. Its exact and automated
-  evidence passes; explicit human review of the corrected deterministic
-  observatory render remains open.
+- TQP-21 is qualified after explicit human review of the corrected
+  deterministic observatory render in `TQP-D013`.
+- TQP-24 is qualified for its native Windows Godot publication scope.
+- TQP-23 is the only recommended next milestone.
 - GPU and production waves remain blocked by absent candidate implementations.
 
 ## Waves

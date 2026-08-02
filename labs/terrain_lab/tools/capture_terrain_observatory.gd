@@ -24,6 +24,10 @@ func _run() -> void:
 		scene.call("prepare_tangent_pole_capture")
 	elif capture_mode == "seam" and scene.has_method("prepare_seam_regression_capture"):
 		scene.call("prepare_seam_regression_capture")
+	elif capture_mode == "surface-near" and scene.has_method("prepare_surface_shading_capture"):
+		scene.call("prepare_surface_shading_capture", "near")
+	elif capture_mode == "surface-far" and scene.has_method("prepare_surface_shading_capture"):
+		scene.call("prepare_surface_shading_capture", "far")
 	elif scene.has_method("prepare_reference_capture"):
 		scene.call("prepare_reference_capture")
 	var image: Image

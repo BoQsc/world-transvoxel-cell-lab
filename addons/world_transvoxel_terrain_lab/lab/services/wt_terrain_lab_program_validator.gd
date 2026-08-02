@@ -11,6 +11,9 @@ const JsonLoader := preload(
 const TemporalWaveEvidence := preload(
 	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_temporal_wave_evidence.gd"
 )
+const Phase03SystemEvidence := preload(
+	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_phase_03_system_evidence.gd"
+)
 
 const PROGRAM_SCHEMA := "world_transvoxel.terrain_lab.program.v2"
 const LAB_SCOPE := "experimental_terrain_qualification"
@@ -91,6 +94,8 @@ static func validate(program: Dictionary, dependencies: Dictionary) -> Dictionar
 	_validate_temporal_wave_evidence(program, milestone_by_id, failures)
 	_validate_wave_02_first_batch_evidence(program, milestone_by_id, failures)
 	_validate_wave_02_second_batch_evidence(program, milestone_by_id, failures)
+	_validate_surface_shading_evidence(program, milestone_by_id, failures)
+	_validate_phase_03_system_evidence(program, milestone_by_id, failures)
 	_validate_visual_evidence(program, milestone_by_id, failures)
 	_validate_dependency_boundary(program, dependencies, failures)
 	_validate_source_boundary(failures)
@@ -215,7 +220,7 @@ static func _validate_evidence_files(program: Dictionary, failures: Array[String
 	for required in [
 		"TQP-D001", "TQP-D002", "TQP-D003", "TQP-D004", "TQP-D005",
 		"TQP-D006", "TQP-D007", "TQP-D008", "TQP-D009", "TQP-D010",
-		"TQP-D011", "TQP-D012",
+		"TQP-D011", "TQP-D012", "TQP-D013",
 	]:
 		_expect(decision_ids.has(required), "missing retained decision: " + required, failures)
 	for key in [
@@ -229,7 +234,12 @@ static func _validate_evidence_files(program: Dictionary, failures: Array[String
 		"streaming_window_standard",
 		"large_world_coordinate_standard",
 		"texture_system_standard",
+		"surface_shading_standard",
+		"surface_shading_evidence",
+		"surface_shading_contract_evidence",
 		"visibility_residency_standard",
+		"phase_03_system_standard",
+		"phase_03_system_evidence",
 		"wave_02_first_batch_evidence",
 		"wave_02_second_batch_evidence",
 		"execution_plan",
@@ -705,22 +715,84 @@ static func _validate_visual_evidence(
 	_expect(str(pole.get("cold_warm_capture_identity", "")) == "PASS", "tangent pole capture is not repeatable", failures)
 	_expect(str(pole.get("native_upstream_commit", "")) == "7e4f6946eaeb36728ac466f06b8da75e67e30fa8", "tangent pole evidence does not name the corrected native revision", failures)
 	var review: Dictionary = evidence.get("human_review", {})
+	_expect(str(review.get("status", "")) == "ACCEPTED", "TQP-21 visual is not accepted", failures)
+	_expect(str(review.get("decision", "")).ends_with("TQP-D013.json"), "TQP-21 visual acceptance decision is missing", failures)
+	_expect("TQP-21" in review.get("accepted_for", []), "TQP-21 is absent from accepted visual scope", failures)
+	_expect("TQP-23" in review.get("pending_for", []), "TQP-23 visual review must remain pending", failures)
+	_expect("TQP-25" in review.get("pending_for", []), "TQP-25 visual review must remain pending", failures)
 	_expect(
-		str(review.get("status", "")) == "PENDING",
-		"visual human review changed without a decision record",
+		str((milestone_by_id.get("TQP-21", {}) as Dictionary).get("status", "")) == "qualified",
+		"TQP-21 must match its accepted visual evidence",
 		failures
 	)
-	for milestone_id in ["TQP-21", "TQP-23"]:
-		var milestone: Dictionary = milestone_by_id.get(milestone_id, {})
-		_expect(
-			str(milestone.get("status", "")) == "implemented",
-			milestone_id + " must remain implemented until visual acceptance",
-			failures
-		)
+	_expect(
+		str((milestone_by_id.get("TQP-23", {}) as Dictionary).get("status", "")) == "implemented",
+		"TQP-23 must remain implemented until temporal visual acceptance",
+		failures
+	)
 	var visual_corpus: Dictionary = milestone_by_id.get("TQP-25", {})
 	_expect(
 		str(visual_corpus.get("status", "")) == "specified",
 		"TQP-25 must remain specified until human acceptance",
+		failures
+	)
+
+
+static func _validate_phase_03_system_evidence(
+	program: Dictionary,
+	milestone_by_id: Dictionary,
+	failures: Array[String]
+) -> void:
+	var standard := JsonLoader.load_dictionary(str(program.get("phase_03_system_standard", "")))
+	_expect(
+		str(standard.get("schema", ""))
+			== "world_transvoxel.terrain_lab.phase_03_system_standard.v1",
+		"Phase 3 system standard schema mismatch",
+		failures
+	)
+	var validation := Phase03SystemEvidence.validate_retained()
+	if str(validation.get("status", "")) != "PASS":
+		for failure_value in validation.get("failures", []):
+			failures.append("Phase 3 system: " + str(failure_value))
+	_expect(
+		str((milestone_by_id.get("TQP-24", {}) as Dictionary).get("status", "")) == "qualified",
+		"TQP-24 must match retained native Godot system evidence",
+		failures
+	)
+
+
+static func _validate_surface_shading_evidence(
+	program: Dictionary,
+	milestone_by_id: Dictionary,
+	failures: Array[String]
+) -> void:
+	var standard := JsonLoader.load_dictionary(str(program.get("surface_shading_standard", "")))
+	_expect(
+		str(standard.get("schema", ""))
+			== "world_transvoxel.terrain_lab.surface_shading_standard.v1",
+		"surface shading standard schema mismatch",
+		failures
+	)
+	var report := JsonLoader.load_dictionary(str(program.get("surface_shading_contract_evidence", "")))
+	_expect(
+		str(report.get("schema", ""))
+			== "world_transvoxel.terrain_lab.surface_shading_contract_qualification.v1",
+		"surface shading focused report schema mismatch",
+		failures
+	)
+	_expect(str(report.get("status", "")) == "PASS", "surface shading focused report failed", failures)
+	var milestone: Dictionary = report.get("milestone", {})
+	_expect(str(milestone.get("milestone", "")) == "TQP-23", "surface shading focused milestone changed", failures)
+	_expect(str(milestone.get("status", "")) == "PASS", "surface shading focused contract failed", failures)
+	_expect(
+		str((milestone.get("performance", {}) as Dictionary).get("budget_evaluation", ""))
+			== "ENFORCED_FOCUSED_RUN",
+		"surface shading focused performance ceiling was not enforced",
+		failures
+	)
+	_expect(
+		str((milestone_by_id.get("TQP-23", {}) as Dictionary).get("status", "")) == "implemented",
+		"TQP-23 must remain implemented until human temporal review",
 		failures
 	)
 
