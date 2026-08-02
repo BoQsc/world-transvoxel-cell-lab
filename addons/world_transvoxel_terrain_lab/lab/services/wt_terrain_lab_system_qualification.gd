@@ -2,6 +2,9 @@
 extends RefCounted
 class_name WtTerrainLabSystemQualification
 
+const ObservatoryQualification := preload(
+	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_observatory_qualification.gd"
+)
 const Observatory := preload(
 	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_observatory.gd"
 )
@@ -47,7 +50,7 @@ static func run() -> Dictionary:
 		LargeWorldQualification.run(),
 		VisibilityResidencyQualification.run(),
 		_qualify_collision_publication(),
-		_qualify_observatory(),
+		ObservatoryQualification.run(),
 		_qualify_reference_soak(),
 	]
 	var failures: Array[String] = []
@@ -67,7 +70,7 @@ static func run() -> Dictionary:
 			"TQP-20": "qualified",
 			"TQP-22": "qualified",
 			"TQP-24": "qualified",
-			"TQP-26": "implemented_pending_complete_runtime_diagnostic_sources",
+			"TQP-26": "qualified_terrain_observatory_diagnostics",
 			"TQP-27": "implemented_pending_real_large_terrain_soak",
 		},
 		"qualified_scope": [
@@ -78,6 +81,7 @@ static func run() -> Dictionary:
 			"TQP-20 CPU large-world coordinate reference model",
 			"TQP-22 CPU horizontal visibility and residency reference model",
 			"TQP-24 native Windows Godot collision, query, and navigation publication reference",
+			"TQP-26 deterministic diagnostic snapshots and signed repro export",
 		],
 		"explicitly_unqualified_scope": [
 			"production terrain mesh residency",
@@ -85,7 +89,7 @@ static func run() -> Dictionary:
 			"snapshot atomicity on filesystems outside the Windows reference platform",
 			"automatic abandoned snapshot staging cleanup",
 			"production traversal and memory budgets",
-			"complete TQP-26 and TQP-27 qualification",
+			"TQP-27 real large-terrain performance and soak qualification",
 		],
 		"provenance": Statistics.provenance("terrain_system_reference_v1"),
 		"milestones": milestones,
@@ -203,26 +207,6 @@ static func _qualify_collision_publication() -> Dictionary:
 	var result := _result("TQP-24", records.size() + 8, failures)
 	result["qualification_status"] = "QUALIFIED_NATIVE_WINDOWS_GODOT_PUBLICATION_REFERENCE_V1"
 	result["native_evidence"] = evidence
-	return result
-
-
-static func _qualify_observatory() -> Dictionary:
-	var failures: Array[String] = []
-	var observatory := Observatory.new()
-	observatory.set_chunk_state("0:0:0:0", "requested", 1, 0)
-	observatory.set_job("job-001", "0:0:0:0", 1, "running", 0)
-	observatory.record_rejection("0:0:0:0", 0, "stale_generation")
-	observatory.set_chunk_state("0:0:0:0", "visible", 1, 0)
-	observatory.record_publication("0:0:0:0", 1)
-	var snapshot := observatory.snapshot()
-	_expect(str(snapshot.get("schema", "")).ends_with(".v1"), "observatory schema changed", failures)
-	_expect(not str(snapshot.get("repro_signature", "")).is_empty(), "repro signature missing", failures)
-	var counters: Dictionary = snapshot.get("counters", {})
-	_expect(int(counters.get("published", 0)) == 1, "publication counter changed", failures)
-	_expect(int(counters.get("stale_rejections", 0)) == 1, "rejection counter changed", failures)
-	_expect((snapshot.get("events", []) as Array).size() == 5, "event retention changed", failures)
-	var result := _result("TQP-26", 5, failures)
-	result["snapshot"] = snapshot
 	return result
 
 

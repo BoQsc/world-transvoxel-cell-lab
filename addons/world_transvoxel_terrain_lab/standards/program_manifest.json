@@ -1,6 +1,6 @@
 {
 	"schema": "world_transvoxel.terrain_lab.program.v2",
-	"program_revision": 14,
+	"program_revision": 15,
 	"lab_scope": "experimental_terrain_qualification",
 	"authority": "EVIDENCE_PROGRAM_ONLY",
 	"production_status": "NOT_PRODUCTION",
@@ -26,6 +26,8 @@
 	"visibility_residency_standard": "res://addons/world_transvoxel_terrain_lab/standards/visibility_residency_standard.json",
 	"phase_03_system_standard": "res://addons/world_transvoxel_terrain_lab/standards/phase_03_system_standard.json",
 	"phase_03_system_evidence": "res://labs/terrain_lab/results/phase_03_system_reference_windows.json",
+	"terrain_observatory_standard": "res://addons/world_transvoxel_terrain_lab/standards/terrain_observatory_standard.json",
+	"terrain_observatory_evidence": "res://labs/terrain_lab/results/terrain_observatory_diagnostics_reference_windows.json",
 	"wave_02_first_batch_evidence": "res://labs/terrain_lab/results/wave_02_first_batch_reference_windows.json",
 	"wave_02_second_batch_evidence": "res://labs/terrain_lab/results/wave_02_second_batch_reference_windows.json",
 	"execution_plan": "res://addons/world_transvoxel_terrain_lab/standards/execution_plan.json",
@@ -163,7 +165,7 @@
 		{"id": "TQP-23", "title": "Surface Shading", "status": "qualified", "domain": "material_surface", "owner": "Material and Surface Lab", "depends_on": ["TQP-21"], "evidence_profile": "visual", "contract_ref": "#tqp-23-surface-shading", "claim_scope": "reference_renderer_profile"},
 		{"id": "TQP-24", "title": "Collision, Queries, And Navigation", "status": "qualified", "domain": "terrain_systems", "owner": "Terrain Systems Lab", "depends_on": ["TQP-06", "TQP-15", "TQP-16"], "evidence_profile": "systems", "contract_ref": "#tqp-24-collision-queries-and-navigation", "claim_scope": "reference_publication_model"},
 		{"id": "TQP-25", "title": "Visual Quality Corpus", "status": "specified", "domain": "material_surface", "owner": "Material and Surface Lab", "depends_on": ["TQP-05", "TQP-18", "TQP-21", "TQP-23"], "evidence_profile": "visual", "contract_ref": "#tqp-25-visual-quality-corpus", "claim_scope": "reviewed_visual_regression"},
-		{"id": "TQP-26", "title": "Terrain Observatory", "status": "implemented", "domain": "terrain_systems", "owner": "Terrain Systems Lab", "depends_on": ["TQP-06", "TQP-15", "TQP-16", "TQP-19", "TQP-20", "TQP-22", "TQP-24"], "evidence_profile": "systems", "contract_ref": "#tqp-26-terrain-observatory", "claim_scope": "terrain_lab_diagnostics"},
+		{"id": "TQP-26", "title": "Terrain Observatory", "status": "qualified", "domain": "terrain_systems", "owner": "Terrain Systems Lab", "depends_on": ["TQP-06", "TQP-15", "TQP-16", "TQP-19", "TQP-20", "TQP-22", "TQP-24"], "evidence_profile": "systems", "contract_ref": "#tqp-26-terrain-observatory", "claim_scope": "terrain_lab_diagnostics"},
 		{"id": "TQP-27", "title": "Large-Terrain Performance And Soak", "status": "implemented", "domain": "terrain_systems", "owner": "Terrain Systems Lab", "depends_on": ["TQP-04", "TQP-16", "TQP-19", "TQP-20", "TQP-22", "TQP-24", "TQP-26"], "evidence_profile": "systems", "contract_ref": "#tqp-27-large-terrain-performance-and-soak", "claim_scope": "reference_workload_only"},
 		{"id": "TQP-28", "title": "Explosion Corpus", "status": "implemented", "domain": "edit_semantics", "owner": "Edit Semantics Lab and Structural and World Systems Lab", "depends_on": ["TQP-09", "TQP-10", "TQP-11", "TQP-12", "TQP-13", "TQP-14", "TQP-17"], "evidence_profile": "semantic", "contract_ref": "#tqp-28-explosion-corpus", "claim_scope": "deterministic_reference_model"},
 		{"id": "TQP-29", "title": "Connectivity And Support", "status": "implemented", "domain": "structural_world", "owner": "Structural and World Systems Lab", "depends_on": ["TQP-02", "TQP-11", "TQP-12"], "evidence_profile": "semantic", "contract_ref": "#tqp-29-connectivity-and-support", "claim_scope": "reference_structural_policy"},
@@ -200,7 +202,8 @@
 		"TQP-21 accepted Windows reference triplanar texture-array presentation",
 		"TQP-22 deterministic horizontal CPU visibility and residency reference",
 		"TQP-23 accepted bounded Windows reference surface-shading contract",
-		"TQP-24 native Windows Godot collision, query, and navigation publication reference"
+		"TQP-24 native Windows Godot collision, query, and navigation publication reference",
+		"TQP-26 deterministic diagnostic snapshots and signed repro export"
 	],
 	"explicitly_unqualified_scope": [
 		"production terrain runtime",
@@ -209,7 +212,7 @@
 		"GPU field or meshing authority",
 		"non-Windows platforms",
 		"TQP-25 multi-scene visual-quality qualification",
-		"complete qualification of implemented TQP-26 through TQP-33 behavior",
+		"complete qualification of implemented TQP-27 through TQP-33 behavior",
 		"TQP-34 measured GPU candidate benefit",
 		"automatic cleanup of abandoned snapshot staging directories",
 		"snapshot atomicity outside the declared Windows reference platform",

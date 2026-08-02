@@ -14,6 +14,9 @@ const TemporalWaveEvidence := preload(
 const Phase03SystemEvidence := preload(
 	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_phase_03_system_evidence.gd"
 )
+const ObservatoryDiagnostics := preload(
+	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_observatory.gd"
+)
 
 const PROGRAM_SCHEMA := "world_transvoxel.terrain_lab.program.v2"
 const LAB_SCOPE := "experimental_terrain_qualification"
@@ -96,6 +99,7 @@ static func validate(program: Dictionary, dependencies: Dictionary) -> Dictionar
 	_validate_wave_02_second_batch_evidence(program, milestone_by_id, failures)
 	_validate_surface_shading_evidence(program, milestone_by_id, failures)
 	_validate_phase_03_system_evidence(program, milestone_by_id, failures)
+	_validate_terrain_observatory_evidence(program, milestone_by_id, failures)
 	_validate_visual_evidence(program, milestone_by_id, failures)
 	_validate_dependency_boundary(program, dependencies, failures)
 	_validate_source_boundary(failures)
@@ -244,6 +248,8 @@ static func _validate_evidence_files(program: Dictionary, failures: Array[String
 		"visibility_residency_standard",
 		"phase_03_system_standard",
 		"phase_03_system_evidence",
+		"terrain_observatory_standard",
+		"terrain_observatory_evidence",
 		"wave_02_first_batch_evidence",
 		"wave_02_second_batch_evidence",
 		"execution_plan",
@@ -1017,6 +1023,68 @@ static func _validate_surface_shading_evidence(
 	_expect(
 		str((milestone_by_id.get("TQP-23", {}) as Dictionary).get("status", "")) == "qualified",
 		"TQP-23 status does not match its accepted reference evidence",
+		failures
+	)
+
+
+static func _validate_terrain_observatory_evidence(
+	program: Dictionary,
+	milestone_by_id: Dictionary,
+	failures: Array[String]
+) -> void:
+	var standard := JsonLoader.load_dictionary(str(program.get("terrain_observatory_standard", "")))
+	_expect(
+		str(standard.get("schema", ""))
+			== "world_transvoxel.terrain_lab.terrain_observatory_standard.v1",
+		"terrain observatory standard schema mismatch",
+		failures
+	)
+	_expect(str(standard.get("milestone", "")) == "TQP-26", "terrain observatory standard milestone changed", failures)
+	_expect(FileAccess.file_exists(str(standard.get("editor_scene", ""))), "terrain observatory editor scene is missing", failures)
+	_expect((standard.get("required_chunk_fields", []) as Array).size() == 10, "terrain observatory chunk contract changed", failures)
+	_expect((standard.get("required_job_fields", []) as Array).size() == 7, "terrain observatory job contract changed", failures)
+	var report := JsonLoader.load_dictionary(str(program.get("terrain_observatory_evidence", "")))
+	_expect(
+		str(report.get("schema", ""))
+			== "world_transvoxel.terrain_lab.terrain_observatory_qualification.v1",
+		"terrain observatory retained report schema mismatch",
+		failures
+	)
+	_expect(str(report.get("status", "")) == "PASS", "terrain observatory retained report failed", failures)
+	var milestone: Dictionary = report.get("milestone", {})
+	_expect(str(milestone.get("milestone", "")) == "TQP-26", "terrain observatory evidence milestone changed", failures)
+	_expect(str(milestone.get("status", "")) == "PASS", "terrain observatory contract failed", failures)
+	_expect(
+		str(milestone.get("qualification_status", ""))
+			== "QUALIFIED_TERRAIN_OBSERVATORY_DIAGNOSTICS_V1",
+		"terrain observatory evidence is not qualified",
+		failures
+	)
+	_expect(int(milestone.get("fixture_count", 0)) >= 54, "terrain observatory fixture coverage changed", failures)
+	var snapshot: Dictionary = milestone.get("snapshot", {})
+	_expect(
+		str(ObservatoryDiagnostics.validate_snapshot(snapshot).get("status", "")) == "PASS",
+		"terrain observatory retained snapshot signature failed validation",
+		failures
+	)
+	_expect(
+		str(snapshot.get("schema", "")) == str(standard.get("snapshot_schema", "")),
+		"terrain observatory snapshot schema changed",
+		failures
+	)
+	_expect(str(snapshot.get("snapshot_signature", "")).length() == 64, "terrain observatory snapshot signature is invalid", failures)
+	_expect(str(milestone.get("repro_signature", "")).length() == 64, "terrain observatory repro signature is invalid", failures)
+	var resources: Dictionary = snapshot.get("resources", {})
+	_expect(int(resources.get("total_memory_bytes", 0)) > 0, "terrain observatory memory evidence is absent", failures)
+	_expect(not (resources.get("buffer_bytes", {}) as Dictionary).is_empty(), "terrain observatory buffer evidence is absent", failures)
+	_expect(not (resources.get("timing_max_usec", {}) as Dictionary).is_empty(), "terrain observatory timing evidence is absent", failures)
+	_expect(not (resources.get("collision_states", {}) as Dictionary).is_empty(), "terrain observatory collision evidence is absent", failures)
+	var controls: Dictionary = milestone.get("negative_controls", {})
+	_expect(bool(controls.get("tampered_repro_rejected", false)), "terrain observatory tamper control failed", failures)
+	_expect(bool(controls.get("event_overflow_ordering", false)), "terrain observatory event overflow control failed", failures)
+	_expect(
+		str((milestone_by_id.get("TQP-26", {}) as Dictionary).get("status", "")) == "qualified",
+		"TQP-26 status does not match retained observatory evidence",
 		failures
 	)
 

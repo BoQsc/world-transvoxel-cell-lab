@@ -12,6 +12,9 @@ const SurfaceShadingReviewScene := preload(
 const NativeEvidence := preload(
 	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_edit_native_evidence.gd"
 )
+const ObservatoryDiagnostics := preload(
+	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_observatory.gd"
+)
 
 
 func _initialize() -> void:
@@ -37,6 +40,8 @@ func _run() -> void:
 		"editor_show_chunk_bounds",
 		"editor_rebuild_now",
 		"editor_reset_now",
+		"editor_repro_path",
+		"editor_export_repro_now",
 		"editor_dig_now",
 		"editor_construct_now",
 	]:
@@ -71,6 +76,29 @@ func _run() -> void:
 	if not _window_topology_negative_control_passes():
 		_fail("window topology audit did not detect an injected interior opening")
 		return
+	var diagnostics: Dictionary = observatory.get_observatory_snapshot()
+	if str(diagnostics.get("schema", "")) != ObservatoryDiagnostics.SNAPSHOT_SCHEMA:
+		_fail("Terrain Observatory diagnostic snapshot schema changed")
+		return
+	var resources: Dictionary = diagnostics.get("resources", {})
+	if int(resources.get("chunk_count", 0)) <= 0 \
+			or int(resources.get("job_count", 0)) <= 0 \
+			or int(resources.get("total_memory_bytes", 0)) <= 0:
+		_fail("Terrain Observatory diagnostic resource summary is incomplete")
+		return
+	if (resources.get("collision_states", {}) as Dictionary).is_empty():
+		_fail("Terrain Observatory diagnostic collision state is absent")
+		return
+	var repro_path := "user://terrain_observatory_smoke_repro.json"
+	if observatory.export_observatory_repro(repro_path) != OK:
+		_fail("Terrain Observatory editor repro export failed")
+		return
+	var repro_value := JSON.parse_string(FileAccess.get_file_as_string(repro_path))
+	if not repro_value is Dictionary \
+			or str(ObservatoryDiagnostics.validate_repro(repro_value).get("status", "")) != "PASS":
+		_fail("Terrain Observatory editor repro failed validation")
+		return
+	DirAccess.remove_absolute(ProjectSettings.globalize_path(repro_path))
 	var canonical_edit_count := int(observatory_metrics.get("edit_count", 0))
 	observatory.call("_apply_editor_operation", "dig")
 	var edited_observatory_metrics: Dictionary = observatory.get_mesh_metrics()
@@ -171,7 +199,7 @@ func _run() -> void:
 	if int(validation.get("milestone_count", 0)) != 46:
 		_fail("terrain program milestone count changed")
 		return
-	if int(validation.get("qualified_milestone_count", 0)) != 24:
+	if int(validation.get("qualified_milestone_count", 0)) != 25:
 		_fail("qualified reference milestone count changed")
 		return
 	if int(validation.get("specified_milestone_count", 0)) != 2:
@@ -181,7 +209,7 @@ func _run() -> void:
 		_fail("one or more milestones lack a reviewed specification")
 		return
 	var status_counts: Dictionary = validation.get("status_counts", {})
-	if int(status_counts.get("implemented", 0)) != 8:
+	if int(status_counts.get("implemented", 0)) != 7:
 		_fail("implemented evidence count changed")
 		return
 	if int(status_counts.get("blocked", 0)) != 12:

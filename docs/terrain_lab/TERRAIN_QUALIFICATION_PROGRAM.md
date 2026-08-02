@@ -310,8 +310,8 @@ TQP-18 through TQP-24 are qualified for their declared reference scopes.
 TQP-21 closed after the corrected deterministic Forward+/D3D12 observatory
 render received explicit human acceptance in `TQP-D013`. TQP-23 then closed
 for its bounded reference surface-shading scope through `TQP-D014`, while
-`TQP-F001` remains open for TQP-25. The active execution batch is TQP-25 and
-TQP-26.
+`TQP-F001` remains open for TQP-25. TQP-26 is also qualified for its diagnostic
+and repro-export scope. The active execution milestone is TQP-25.
 
 ### TQP-18: Material Blending
 
@@ -429,12 +429,17 @@ recorded human acceptance.
 
 ### TQP-26: Terrain Observatory
 
-Status: `implemented`. Owner: Terrain Systems Lab. Depends on: TQP-06, TQP-15,
+Status: `qualified` for deterministic diagnostic snapshots and signed repro
+export. Owner: Terrain Systems Lab. Depends on: TQP-06, TQP-15,
 TQP-16, TQP-19, TQP-20, TQP-22, TQP-24.
 
-Complete when chunk state, jobs, versions, LOD decisions, edit dependencies,
-buffers, memory, timings, collision state, and rejection reasons can be
-inspected and exported as repros.
+The observatory model retains chunk and job state, generations, LOD decisions,
+edit dependencies, buffer and memory totals, timings, collision state, and
+rejection reasons. Its event ring has deterministic overflow ordering, and
+signed JSON repros pass export/reload validation while a tampered-repro negative
+control fails. The `@tool` Terrain Observatory presents a live summary and
+provides one-action repro export. Production telemetry, GPU timestamps, remote
+profiling, and TQP-27 large-terrain performance remain unqualified.
 
 ### TQP-27: Large-Terrain Performance And Soak
 
@@ -642,11 +647,11 @@ a standard, not an assertion that future terrain work is finished.
 
 The program has executed every milestone to a truthful evidence state:
 
-- `TQP-01` through `TQP-24` are qualified
+- `TQP-01` through `TQP-24`, plus `TQP-26`, are qualified
   for their narrow contract, native Windows reference, or reference-model
   scopes. Gate B is qualified; its native chunk rebuild benchmark remains a
   background/debug reference and is not a production frame-time claim.
-- `TQP-26` through `TQP-33` have
+- `TQP-27` through `TQP-33` have
   implemented reference behavior but
   still lack one or more exit criteria named in their milestone contracts.
 - `TQP-25` and `TQP-34` are specified. The former requires a complete visual
@@ -654,9 +659,9 @@ The program has executed every milestone to a truthful evidence state:
 - `TQP-35` through `TQP-46` are blocked by named external targets and exit
   conditions in `program_blockers.json`.
 
-The next dependency-ordered batch is TQP-25 visual quality and TQP-26 Terrain
-Observatory. TQP-23 closed through `TQP-D014`, with TQP-F001 retained for the
-broader TQP-25 review; TQP-24 passed its retained native Godot system fixture.
+The next dependency-ordered work is TQP-25 visual quality. TQP-23 closed through
+`TQP-D014`, with TQP-F001 retained for that broader review; TQP-24 and TQP-26
+pass their retained native publication and diagnostic fixtures.
 Production and GPU claims remain closed. A blocked milestone may advance only
 when its recorded exit condition exists and the required evidence passes.
 

@@ -24,7 +24,9 @@ required evidence state.
 - TQP-23 is qualified for its bounded reference surface-shading scope through
   `TQP-D014`; `TQP-F001` remains open for TQP-25.
 - TQP-24 is qualified for its native Windows Godot publication scope.
-- TQP-25 and TQP-26 are the recommended next execution batch.
+- TQP-26 is qualified for deterministic diagnostic snapshots and signed repro
+  export.
+- TQP-25 is the only remaining milestone in the active execution batch.
 - GPU and production waves remain blocked by absent candidate implementations.
 
 ## Waves

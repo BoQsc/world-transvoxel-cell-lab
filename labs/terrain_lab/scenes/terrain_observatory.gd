@@ -12,6 +12,9 @@ const TerrainLabScript := preload(
 const NativeEvidence := preload(
 	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_edit_native_evidence.gd"
 )
+const Observatory := preload(
+	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_observatory.gd"
+)
 const TerrainShader := preload(
 	"res://labs/terrain_lab/shaders/terrain_observatory.gdshader"
 )
@@ -62,6 +65,14 @@ const CHUNK_CELLS_PER_AXIS := 16.0
 		if value and is_inside_tree():
 			call_deferred("_reset_field")
 
+@export_group("Editor Diagnostics")
+@export var editor_repro_path := "user://terrain_observatory_repro.json"
+@export var editor_export_repro_now := false:
+	set(value):
+		editor_export_repro_now = false
+		if value and is_inside_tree():
+			call_deferred("_export_observatory_repro", editor_repro_path)
+
 @export_group("Editor Brush")
 @export var editor_brush_shape: BrushShape = BrushShape.SPHERE
 @export var editor_brush_center := Vector3(4.0, 9.0, 4.0)
@@ -96,6 +107,7 @@ const CHUNK_CELLS_PER_AXIS := 16.0
 @onready var bounds_toggle: CheckButton = %BoundsToggle
 
 var _field := EditField.new()
+var _diagnostics := Observatory.new()
 var _probe: RefCounted
 var _surface_material: ShaderMaterial
 var _operation_sequence := 0
@@ -271,6 +283,7 @@ func _rebuild() -> void:
 	status_label.text = "Meshing native chunks..."
 	_clear_children(mesh_root)
 	_clear_children(bounds_root)
+	_diagnostics.reset()
 	var started := Time.get_ticks_usec()
 	var chunk_count := 0
 	var vertex_count := 0
@@ -282,14 +295,102 @@ func _rebuild() -> void:
 		for y in range(0, editor_chunk_y_max + 1):
 			for z in range(-editor_chunk_range_xz, editor_chunk_range_xz + 1):
 				var coordinate := Vector3i(x, y, z)
+				var chunk_id := "%d:%d:%d:0" % [x, y, z]
+				var generation := _operation_sequence + 1
+				var edit_dependencies := {
+					"edit_count": _field.operations.size(),
+					"edit_revision": _operation_sequence,
+					"sample_scale_m": _field.sample_scale_m,
+				}
+				_diagnostics.set_chunk_state(
+					chunk_id,
+					"requested",
+					generation,
+					0,
+					"",
+					{"edit_dependencies": edit_dependencies}
+				)
+				var job_id := "mesh:" + chunk_id
+				_diagnostics.set_job(
+					job_id,
+					chunk_id,
+					generation,
+					"running",
+					0,
+					{"edit_dependencies": edit_dependencies}
+				)
+				var chunk_started := Time.get_ticks_usec()
 				var chunk := _mesh_chunk(coordinate)
+				var chunk_elapsed_usec := Time.get_ticks_usec() - chunk_started
 				if not bool(chunk.get("ok", false)):
 					failed_chunks += 1
+					var failed_diagnostics := {
+						"edit_dependencies": edit_dependencies,
+						"timings_usec": {"mesh": chunk_elapsed_usec, "total": chunk_elapsed_usec},
+						"collision_state": "not_requested",
+					}
+					_diagnostics.set_chunk_state(
+						chunk_id,
+						"failed",
+						generation,
+						0,
+						"native_meshing_failure",
+						failed_diagnostics
+					)
+					_diagnostics.set_job(
+						job_id,
+						chunk_id,
+						generation,
+						"failed",
+						0,
+						{
+							"edit_dependencies": edit_dependencies,
+							"timings_usec": failed_diagnostics["timings_usec"],
+							"rejection_reason": "native_meshing_failure",
+						}
+					)
+					_diagnostics.record_rejection(
+						chunk_id,
+						generation,
+						"native_meshing_failure"
+					)
 					continue
 				chunks_by_coordinate[coordinate] = chunk
 				var regular: Dictionary = chunk.get("regular", {})
+				var vertices: PackedVector3Array = regular.get("vertices", PackedVector3Array())
+				var indices: PackedInt32Array = regular.get("indices", PackedInt32Array())
+				var normals: PackedVector3Array = regular.get("normals", PackedVector3Array())
+				var material_ids: PackedInt32Array = regular.get("materials", PackedInt32Array())
+				var buffers := {
+					"vertex_bytes": vertices.size() * 12,
+					"normal_bytes": normals.size() * 12,
+					"index_bytes": indices.size() * 4,
+					"material_bytes": material_ids.size() * 4,
+					"collision_bytes": 0,
+				}
+				var chunk_diagnostics := {
+					"edit_dependencies": edit_dependencies,
+					"buffers": buffers,
+					"timings_usec": {"mesh": chunk_elapsed_usec, "total": chunk_elapsed_usec},
+					"collision_state": "not_requested",
+				}
 				var mesh := _array_mesh(regular)
 				if mesh.get_surface_count() == 0:
+					_diagnostics.set_chunk_state(
+						chunk_id, "cached", generation, 0, "empty_surface", chunk_diagnostics
+					)
+					_diagnostics.set_job(
+						job_id,
+						chunk_id,
+						generation,
+						"completed",
+						0,
+						{
+							"edit_dependencies": edit_dependencies,
+							"timings_usec": chunk_diagnostics["timings_usec"],
+						}
+					)
+					_diagnostics.record_publication(chunk_id, generation)
 					continue
 				var instance := MeshInstance3D.new()
 				instance.name = "Chunk_%d_%d_%d" % [x, y, z]
@@ -302,8 +403,6 @@ func _rebuild() -> void:
 				)
 				mesh_root.add_child(instance)
 				chunk_count += 1
-				var vertices: PackedVector3Array = regular.get("vertices", PackedVector3Array())
-				var indices: PackedInt32Array = regular.get("indices", PackedInt32Array())
 				for vertex in vertices:
 					if (
 						vertex.x < -0.001 or vertex.x > CHUNK_CELLS_PER_AXIS + 0.001
@@ -314,6 +413,21 @@ func _rebuild() -> void:
 				vertex_count += vertices.size()
 				triangle_count += indices.size() / 3
 				_add_chunk_bounds(instance.position)
+				_diagnostics.set_chunk_state(
+					chunk_id, "visible", generation, 0, "", chunk_diagnostics
+				)
+				_diagnostics.set_job(
+					job_id,
+					chunk_id,
+					generation,
+					"completed",
+					0,
+					{
+						"edit_dependencies": edit_dependencies,
+						"timings_usec": chunk_diagnostics["timings_usec"],
+					}
+				)
+				_diagnostics.record_publication(chunk_id, generation)
 	_seam_report = _validate_chunk_seams(chunks_by_coordinate)
 	_topology_report = NativeEvidence.same_lod_window_topology(
 		chunks_by_coordinate.values()
@@ -332,6 +446,8 @@ func _rebuild() -> void:
 		)
 		else "FAIL"
 	)
+	var observatory_snapshot := _diagnostics.snapshot()
+	var observatory_resources: Dictionary = observatory_snapshot.get("resources", {})
 	_mesh_metrics = {
 		"chunk_count": chunk_count,
 		"edit_count": _field.operations.size(),
@@ -347,6 +463,11 @@ func _rebuild() -> void:
 		"interior_open_edges": interior_open_edges,
 		"nonmanifold_edges": nonmanifold_edges,
 		"elapsed_ms": elapsed_ms,
+		"observatory_job_count": int(observatory_resources.get("job_count", 0)),
+		"observatory_memory_bytes": int(observatory_resources.get("total_memory_bytes", 0)),
+		"observatory_rejection_count": (observatory_snapshot.get("rejections", []) as Array).size(),
+		"observatory_collision_states": observatory_resources.get("collision_states", {}),
+		"observatory_snapshot_signature": str(observatory_snapshot.get("snapshot_signature", "")),
 	}
 	_update_metrics_label(true)
 
@@ -361,6 +482,26 @@ func get_seam_report() -> Dictionary:
 
 func get_topology_report() -> Dictionary:
 	return _topology_report.duplicate(true)
+
+
+func get_observatory_snapshot() -> Dictionary:
+	return _diagnostics.snapshot()
+
+
+func export_observatory_repro(path: String = "user://terrain_observatory_repro.json") -> Error:
+	return _diagnostics.export_repro(path, {
+		"scene": "terrain_observatory",
+		"sample_scale_m": _field.sample_scale_m,
+		"chunk_range_xz": editor_chunk_range_xz,
+		"chunk_y_max": editor_chunk_y_max,
+		"edit_count": _field.operations.size(),
+		"mesh_metrics": _mesh_metrics,
+	})
+
+
+func _export_observatory_repro(path: String) -> void:
+	var error := export_observatory_repro(path)
+	status_label.text = "Repro exported" if error == OK else "Repro export failed: " + error_string(error)
 
 
 func prepare_reference_capture() -> void:
@@ -451,7 +592,7 @@ func _update_metrics_label(include_timing: bool) -> void:
 	if include_timing:
 		final_line += " / %.1f ms" % float(_mesh_metrics.get("elapsed_ms", 0.0))
 	metrics_label.text = (
-		"%d chunks / %d edits\n%d vertices / %d triangles\n%d surface seams / %d seam errors\n%d interior openings / %d nonmanifold\n%s"
+		"%d chunks / %d edits\n%d vertices / %d triangles\n%d surface seams / %d seam errors\n%d interior openings / %d nonmanifold\n%d jobs / %.2f MiB / %d rejections\n%s"
 		% [
 			int(_mesh_metrics.get("chunk_count", 0)),
 			int(_mesh_metrics.get("edit_count", 0)),
@@ -461,6 +602,9 @@ func _update_metrics_label(include_timing: bool) -> void:
 			int(_mesh_metrics.get("seam_errors", 0)),
 			int(_mesh_metrics.get("interior_open_edges", 0)),
 			int(_mesh_metrics.get("nonmanifold_edges", 0)),
+			int(_mesh_metrics.get("observatory_job_count", 0)),
+			float(_mesh_metrics.get("observatory_memory_bytes", 0)) / 1048576.0,
+			int(_mesh_metrics.get("observatory_rejection_count", 0)),
 			final_line,
 		]
 	)

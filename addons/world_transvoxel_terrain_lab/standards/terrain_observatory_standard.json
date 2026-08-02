@@ -1,0 +1,59 @@
+{
+	"schema": "world_transvoxel.terrain_lab.terrain_observatory_standard.v1",
+	"milestone": "TQP-26",
+	"standard_id": "terrain_observatory_diagnostics_v1",
+	"snapshot_schema": "world_transvoxel.terrain_lab.observatory_snapshot.v2",
+	"repro_schema": "world_transvoxel.terrain_lab.observatory_repro.v1",
+	"maximum_retained_events": 1024,
+	"required_chunk_fields": [
+		"state",
+		"generation",
+		"lod",
+		"reason",
+		"edit_dependencies",
+		"buffers",
+		"memory_bytes",
+		"timings_usec",
+		"collision_state",
+		"last_rejection_reason"
+	],
+	"required_job_fields": [
+		"chunk_id",
+		"generation",
+		"state",
+		"priority",
+		"edit_dependencies",
+		"timings_usec",
+		"rejection_reason"
+	],
+	"required_resource_fields": [
+		"chunk_count",
+		"job_count",
+		"total_memory_bytes",
+		"buffer_bytes",
+		"collision_states",
+		"timing_max_usec"
+	],
+	"required_rejection_reasons": [
+		"stale_generation",
+		"dependency_changed",
+		"native_meshing_failure"
+	],
+	"editor_scene": "res://labs/terrain_lab/scenes/terrain_observatory.tscn",
+	"focused_evidence": "res://labs/terrain_lab/results/terrain_observatory_diagnostics_reference_windows.json",
+	"qualified_scope": [
+		"deterministic chunk and job diagnostic snapshots",
+		"generation, LOD, and edit-dependency inspection",
+		"buffer, memory, timing, collision-state, and rejection inspection",
+		"bounded ordered event retention with overflow coverage",
+		"signed JSON repro export, round-trip validation, and tamper rejection",
+		"Terrain Observatory editor summary and one-action repro export"
+	],
+	"explicitly_unqualified_scope": [
+		"production telemetry transport or remote profiling",
+		"production terrain runtime residency",
+		"GPU timestamps and driver memory accounting",
+		"non-Windows repro portability",
+		"TQP-27 large-terrain performance and soak"
+	]
+}
