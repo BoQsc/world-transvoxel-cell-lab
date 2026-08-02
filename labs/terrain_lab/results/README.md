@@ -17,6 +17,20 @@ debug regression ceilings. The combined report records post-soak timing
 distributions as observation-only so prior-suite load cannot make correctness
 qualification flaky.
 
+`surface_shading_review_automation_windows.json` and its four PNG captures are
+generated from the dedicated TQP-23 guided review scene by:
+
+```text
+godot --path . --resolution 1400x900 \
+  --script labs/terrain_lab/tools/capture_surface_shading_review.gd
+```
+
+The automation verifies distinct lit, mapped-normal, triplanar-weight, and
+camera-detail presentations. It does not replace the required live human
+review. The scene requires all nine diagnostics, two full camera cycles, and
+all seven observations before it can write a candidate-pass draft; that draft
+still cannot promote TQP-23 without a repository decision.
+
 `temporal_wave_reference_windows.json` is generated and checked against stable
 native invariants by:
 

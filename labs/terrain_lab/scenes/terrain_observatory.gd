@@ -402,6 +402,23 @@ func prepare_surface_shading_capture(distance_mode: String) -> void:
 		camera.look_at(Vector3(3.0, 8.0, 3.0), Vector3.UP)
 
 
+func prepare_surface_shading_review() -> void:
+	prepare_surface_shading_capture("near")
+	camera.near = 0.1
+
+
+func set_surface_shading_diagnostic_mode(mode: int) -> void:
+	if _surface_material == null or _surface_material.shader != SurfaceReferenceShader:
+		_apply_capture_shader(SurfaceReferenceShader)
+	_surface_material.set_shader_parameter("diagnostic_mode", clampi(mode, 0, 8))
+
+
+func get_surface_shading_diagnostic_mode() -> int:
+	if _surface_material == null or _surface_material.shader != SurfaceReferenceShader:
+		return -1
+	return int(_surface_material.get_shader_parameter("diagnostic_mode"))
+
+
 func _apply_capture_shader(shader: Shader) -> void:
 	var material := ShaderMaterial.new()
 	material.shader = shader

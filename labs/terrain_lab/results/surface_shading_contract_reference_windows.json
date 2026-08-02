@@ -80,10 +80,10 @@
 		},
 		"performance": {
 			"sample_count": 100,
-			"p50_usec": 20177.0,
-			"p95_usec": 21129.0,
-			"p99_usec": 21294.0,
-			"worst_usec": 21825.0,
+			"p50_usec": 20534.0,
+			"p95_usec": 22511.0,
+			"p99_usec": 22952.0,
+			"worst_usec": 23105.0,
 			"warmup_iterations": 10,
 			"operations_per_sample": 4096,
 			"budget_p95_usec": 50000.0,
@@ -91,8 +91,8 @@
 			"budget_evaluation": "ENFORCED_FOCUSED_RUN"
 		},
 		"memory": {
-			"retained_bytes": 25531235,
-			"peak_bytes": 27259659
+			"retained_bytes": 25538599,
+			"peak_bytes": 27265307
 		},
 		"provenance": {
 			"workload_signature": "tqp23_reference_surface_shading_v1",
@@ -113,10 +113,10 @@
 			"world-projected diagnostic decal",
 			"fixed near/far camera detail behavior",
 			"floating-origin compensated shader coordinates",
-			"deterministic Windows Forward+/D3D12 temporal captures"
+			"deterministic Windows Forward+/Vulkan temporal captures"
 		],
 		"explicitly_unqualified_scope": [
-			"human acceptance until the retained near/far pair is reviewed",
+			"human acceptance until the guided temporal and diagnostic review is completed",
 			"production art direction and assets",
 			"dynamic weather or decal systems",
 			"GPU cost and cross-hardware consistency"

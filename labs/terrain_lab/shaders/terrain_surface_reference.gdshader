@@ -15,6 +15,7 @@ uniform vec3 decal_center_world = vec3(5.5, 7.0, 2.5);
 uniform float decal_radius_m = 2.2;
 uniform float camera_detail_start_m = 18.0;
 uniform float camera_detail_end_m = 70.0;
+uniform int diagnostic_mode : hint_range(0, 8) = 0;
 
 varying vec3 world_position;
 varying vec3 world_normal;
@@ -69,10 +70,39 @@ void fragment() {
 	shaded = mix(shaded, shaded * vec3(0.40, 0.54, 0.58), wetness_mask * 0.58);
 	shaded = mix(shaded, vec3(0.82, 0.22, 0.08), decal_mask * 0.72);
 
-	ALBEDO = shaded;
-	ROUGHNESS = mix(0.82 - slope_mask * 0.08, 0.27, wetness_mask);
-	METALLIC = decal_mask * 0.08;
-	SPECULAR = mix(0.35, 0.72, wetness_mask);
-	AO = mix(1.0, 0.82, slope_mask * (1.0 - height_mask));
-	AO_LIGHT_AFFECT = 0.45;
+	vec3 diagnostic_color = shaded;
+	if (diagnostic_mode == 1) {
+		diagnostic_color = world_normal * 0.5 + 0.5;
+	} else if (diagnostic_mode == 2) {
+		diagnostic_color = final_world_normal * 0.5 + 0.5;
+	} else if (diagnostic_mode == 3) {
+		diagnostic_color = weights;
+	} else if (diagnostic_mode == 4) {
+		diagnostic_color = vec3(slope_mask);
+	} else if (diagnostic_mode == 5) {
+		diagnostic_color = vec3(height_mask);
+	} else if (diagnostic_mode == 6) {
+		diagnostic_color = vec3(0.08, 0.42, 0.88) * wetness_mask;
+	} else if (diagnostic_mode == 7) {
+		diagnostic_color = vec3(0.95, 0.24, 0.04) * decal_mask;
+	} else if (diagnostic_mode == 8) {
+		diagnostic_color = vec3(camera_detail);
+	}
+
+	if (diagnostic_mode == 0) {
+		ALBEDO = shaded;
+		ROUGHNESS = mix(0.82 - slope_mask * 0.08, 0.27, wetness_mask);
+		METALLIC = decal_mask * 0.08;
+		SPECULAR = mix(0.35, 0.72, wetness_mask);
+		AO = mix(1.0, 0.82, slope_mask * (1.0 - height_mask));
+		AO_LIGHT_AFFECT = 0.45;
+	} else {
+		ALBEDO = vec3(0.0);
+		EMISSION = diagnostic_color;
+		ROUGHNESS = 1.0;
+		METALLIC = 0.0;
+		SPECULAR = 0.0;
+		AO = 1.0;
+		AO_LIGHT_AFFECT = 0.0;
+	}
 }

@@ -130,7 +130,7 @@
 				"GPU field evaluation",
 				"TQP-28 fragmentation, collision, and production cost"
 			],
-			"elapsed_ms": 104083.682,
+			"elapsed_ms": 109080.789,
 			"provenance": {
 				"workload_signature": "edit_semantics_reference_v1",
 				"build_type": "debug",
@@ -143,8 +143,8 @@
 				"backend_revision": "7745271430da87604095038288ca0f668dff74e7c01b9b62361207c2530e7cc5"
 			},
 			"memory": {
-				"retained_bytes": 29308640,
-				"peak_bytes": 72507136
+				"retained_bytes": 29350672,
+				"peak_bytes": 72549168
 			},
 			"gate_b": {
 				"schema": "world_transvoxel.terrain_lab.edit_gate_b_qualification.v1",
@@ -178,7 +178,7 @@
 								],
 								"geometry_signature": "47a2219c0eaea6e3364797b228a756647af88d080887d011a0b83b86d0e68792",
 								"collision_signature": "3d4e05d601f943907691165f980c2fe7d5927adc0348432111cbb3e679736eac",
-								"elapsed_usec": 103242,
+								"elapsed_usec": 121950,
 								"failures": []
 							},
 							{
@@ -192,7 +192,7 @@
 								],
 								"geometry_signature": "047d15519714ea6b765987f4d8539693c91dc4e9516ad8ce00f4afd8855a7408",
 								"collision_signature": "511adbe35c25c1750ca8ed8ddb8758250a3b46d299f9840999f7ad578e98a555",
-								"elapsed_usec": 112716,
+								"elapsed_usec": 121173,
 								"failures": []
 							},
 							{
@@ -206,7 +206,7 @@
 								],
 								"geometry_signature": "53b72bcf767731b341c57b1fdee0d0725fc29fed1b46abc72ad346a98400372f",
 								"collision_signature": "35bd93e68a92bff43383e59d54ff20baf77e3c64858340949a9cae097e02ea24",
-								"elapsed_usec": 108817,
+								"elapsed_usec": 123270,
 								"failures": []
 							},
 							{
@@ -220,7 +220,7 @@
 								],
 								"geometry_signature": "2502d395952d5b37e118aeea66d90137f386de44027533a0945622e9bbd5de13",
 								"collision_signature": "57148b1fa32c05bf592b25b0bd286bf1c96d0a0144194a1d0cf814d4cbfd0cd2",
-								"elapsed_usec": 111828,
+								"elapsed_usec": 116478,
 								"failures": []
 							},
 							{
@@ -234,7 +234,7 @@
 								],
 								"geometry_signature": "03efb765b05d9590686c78715b49f3fc22a070192998bd5ca61592d636c95087",
 								"collision_signature": "781c1f0535e47b2f6bac029ab21bbc829f6699b817fd9d58a1d857ad4611f582",
-								"elapsed_usec": 113664,
+								"elapsed_usec": 113960,
 								"failures": []
 							},
 							{
@@ -248,7 +248,7 @@
 								],
 								"geometry_signature": "19e7bd5098200d48c0092d0d8a5f480072c2f15b6d387e80da5654681b480ab6",
 								"collision_signature": "7f381183b3777b01be0c566679462431118e4ff0c0f67eca6211175f9d699d37",
-								"elapsed_usec": 112963,
+								"elapsed_usec": 121124,
 								"failures": []
 							},
 							{
@@ -262,16 +262,16 @@
 								],
 								"geometry_signature": "afd8f0d1a43c49d564b3bf13b8c04dab4819cbc5724c4b078300acc1aa548cd9",
 								"collision_signature": "031d62a09266ca78cafe3d582be7b2f5c877204adab1fe014e312913b736f83b",
-								"elapsed_usec": 116552,
+								"elapsed_usec": 121850,
 								"failures": []
 							}
 						],
 						"performance": {
 							"sample_count": 100,
-							"p50_usec": 1478.0,
-							"p95_usec": 1669.0,
-							"p99_usec": 1791.0,
-							"worst_usec": 1891.0
+							"p50_usec": 1578.0,
+							"p95_usec": 2048.0,
+							"p99_usec": 2652.0,
+							"worst_usec": 2688.0
 						}
 					},
 					{
@@ -3342,29 +3342,29 @@
 						"performance": {
 							"transaction_append": {
 								"sample_count": 246,
-								"p50_usec": 598.0,
-								"p95_usec": 869.0,
-								"p99_usec": 1214.0,
-								"worst_usec": 1451.0
+								"p50_usec": 609.0,
+								"p95_usec": 920.0,
+								"p99_usec": 1596.0,
+								"worst_usec": 1922.0
 							},
 							"query_batch_64": {
 								"sample_count": 100,
-								"p50_usec": 1005.0,
-								"p95_usec": 1360.0,
-								"p99_usec": 1496.0,
-								"worst_usec": 1919.0
+								"p50_usec": 951.0,
+								"p95_usec": 1570.0,
+								"p99_usec": 2313.0,
+								"worst_usec": 2621.0
 							},
 							"native_chunk_rebuild": {
 								"sample_count": 100,
-								"p50_usec": 390520.0,
-								"p95_usec": 524326.0,
-								"p99_usec": 531752.0,
-								"worst_usec": 534834.0
+								"p50_usec": 402785.0,
+								"p95_usec": 549361.0,
+								"p99_usec": 573885.0,
+								"worst_usec": 576084.0
 							}
 						},
 						"memory": {
-							"retained_bytes": 57374848,
-							"peak_bytes": 72507136
+							"retained_bytes": 57416880,
+							"peak_bytes": 72549168
 						}
 					}
 				],
@@ -3428,10 +3428,10 @@
 					"scope": "reference_debug_workload_not_production_frame_budget",
 					"budget_evaluation": "OBSERVATION_ONLY_COMBINED_RUN",
 					"measured": {
-						"brush_batch_p95_usec": 1669.0,
-						"transaction_append_p95_usec": 869.0,
-						"query_batch_64_p95_usec": 1360.0,
-						"native_chunk_rebuild_p95_usec": 524326.0,
+						"brush_batch_p95_usec": 2048.0,
+						"transaction_append_p95_usec": 920.0,
+						"query_batch_64_p95_usec": 1570.0,
+						"native_chunk_rebuild_p95_usec": 549361.0,
 						"journal_bytes": 946099,
 						"largest_spatial_bucket": 15
 					},
@@ -3484,10 +3484,10 @@
 					"backend_revision": "7745271430da87604095038288ca0f668dff74e7c01b9b62361207c2530e7cc5"
 				},
 				"memory": {
-					"retained_bytes": 29311380,
-					"peak_bytes": 72507136
+					"retained_bytes": 29353412,
+					"peak_bytes": 72549168
 				},
-				"elapsed_ms": 104079.997,
+				"elapsed_ms": 109076.807,
 				"failures": []
 			},
 			"milestones": [
@@ -3525,7 +3525,7 @@
 							],
 							"geometry_signature": "47a2219c0eaea6e3364797b228a756647af88d080887d011a0b83b86d0e68792",
 							"collision_signature": "3d4e05d601f943907691165f980c2fe7d5927adc0348432111cbb3e679736eac",
-							"elapsed_usec": 103242,
+							"elapsed_usec": 121950,
 							"failures": []
 						},
 						{
@@ -3539,7 +3539,7 @@
 							],
 							"geometry_signature": "047d15519714ea6b765987f4d8539693c91dc4e9516ad8ce00f4afd8855a7408",
 							"collision_signature": "511adbe35c25c1750ca8ed8ddb8758250a3b46d299f9840999f7ad578e98a555",
-							"elapsed_usec": 112716,
+							"elapsed_usec": 121173,
 							"failures": []
 						},
 						{
@@ -3553,7 +3553,7 @@
 							],
 							"geometry_signature": "53b72bcf767731b341c57b1fdee0d0725fc29fed1b46abc72ad346a98400372f",
 							"collision_signature": "35bd93e68a92bff43383e59d54ff20baf77e3c64858340949a9cae097e02ea24",
-							"elapsed_usec": 108817,
+							"elapsed_usec": 123270,
 							"failures": []
 						},
 						{
@@ -3567,7 +3567,7 @@
 							],
 							"geometry_signature": "2502d395952d5b37e118aeea66d90137f386de44027533a0945622e9bbd5de13",
 							"collision_signature": "57148b1fa32c05bf592b25b0bd286bf1c96d0a0144194a1d0cf814d4cbfd0cd2",
-							"elapsed_usec": 111828,
+							"elapsed_usec": 116478,
 							"failures": []
 						},
 						{
@@ -3581,7 +3581,7 @@
 							],
 							"geometry_signature": "03efb765b05d9590686c78715b49f3fc22a070192998bd5ca61592d636c95087",
 							"collision_signature": "781c1f0535e47b2f6bac029ab21bbc829f6699b817fd9d58a1d857ad4611f582",
-							"elapsed_usec": 113664,
+							"elapsed_usec": 113960,
 							"failures": []
 						},
 						{
@@ -3595,7 +3595,7 @@
 							],
 							"geometry_signature": "19e7bd5098200d48c0092d0d8a5f480072c2f15b6d387e80da5654681b480ab6",
 							"collision_signature": "7f381183b3777b01be0c566679462431118e4ff0c0f67eca6211175f9d699d37",
-							"elapsed_usec": 112963,
+							"elapsed_usec": 121124,
 							"failures": []
 						},
 						{
@@ -3609,16 +3609,16 @@
 							],
 							"geometry_signature": "afd8f0d1a43c49d564b3bf13b8c04dab4819cbc5724c4b078300acc1aa548cd9",
 							"collision_signature": "031d62a09266ca78cafe3d582be7b2f5c877204adab1fe014e312913b736f83b",
-							"elapsed_usec": 116552,
+							"elapsed_usec": 121850,
 							"failures": []
 						}
 					],
 					"performance": {
 						"sample_count": 100,
-						"p50_usec": 1478.0,
-						"p95_usec": 1669.0,
-						"p99_usec": 1791.0,
-						"worst_usec": 1891.0
+						"p50_usec": 1578.0,
+						"p95_usec": 2048.0,
+						"p99_usec": 2652.0,
+						"worst_usec": 2688.0
 					}
 				},
 				{
@@ -6689,29 +6689,29 @@
 					"performance": {
 						"transaction_append": {
 							"sample_count": 246,
-							"p50_usec": 598.0,
-							"p95_usec": 869.0,
-							"p99_usec": 1214.0,
-							"worst_usec": 1451.0
+							"p50_usec": 609.0,
+							"p95_usec": 920.0,
+							"p99_usec": 1596.0,
+							"worst_usec": 1922.0
 						},
 						"query_batch_64": {
 							"sample_count": 100,
-							"p50_usec": 1005.0,
-							"p95_usec": 1360.0,
-							"p99_usec": 1496.0,
-							"worst_usec": 1919.0
+							"p50_usec": 951.0,
+							"p95_usec": 1570.0,
+							"p99_usec": 2313.0,
+							"worst_usec": 2621.0
 						},
 						"native_chunk_rebuild": {
 							"sample_count": 100,
-							"p50_usec": 390520.0,
-							"p95_usec": 524326.0,
-							"p99_usec": 531752.0,
-							"worst_usec": 534834.0
+							"p50_usec": 402785.0,
+							"p95_usec": 549361.0,
+							"p99_usec": 573885.0,
+							"worst_usec": 576084.0
 						}
 					},
 					"memory": {
-						"retained_bytes": 57374848,
-						"peak_bytes": 72507136
+						"retained_bytes": 57416880,
+						"peak_bytes": 72549168
 					}
 				},
 				{
@@ -6792,7 +6792,7 @@
 				"TQP-08": "qualified",
 				"TQP-18": "qualified",
 				"TQP-21": "qualified",
-				"TQP-23": "implemented_pending_temporal_inspection",
+				"TQP-23": "implemented_pending_human_temporal_review",
 				"TQP-25": "specified_pending_human_acceptance"
 			},
 			"qualified_scope": [
@@ -6873,18 +6873,18 @@
 					},
 					"performance": {
 						"sample_count": 100,
-						"p50_usec": 4534.0,
-						"p95_usec": 5338.0,
-						"p99_usec": 5595.0,
-						"worst_usec": 5661.0,
+						"p50_usec": 4666.0,
+						"p95_usec": 5989.0,
+						"p99_usec": 6266.0,
+						"worst_usec": 6657.0,
 						"warmup_iterations": 10,
 						"blends_per_sample": 512,
 						"budget_p95_usec": 30000.0,
 						"budget_evaluation": "OBSERVATION_ONLY_COMBINED_RUN"
 					},
 					"memory": {
-						"retained_bytes": 29336848,
-						"peak_bytes": 72507136
+						"retained_bytes": 29378880,
+						"peak_bytes": 72549168
 					},
 					"provenance": {
 						"workload_signature": "tqp18_material_blending_reference_v1",
@@ -7045,10 +7045,10 @@
 					},
 					"performance": {
 						"sample_count": 100,
-						"p50_usec": 8218.0,
-						"p95_usec": 9188.0,
-						"p99_usec": 9541.0,
-						"worst_usec": 9616.0,
+						"p50_usec": 8350.0,
+						"p95_usec": 10255.0,
+						"p99_usec": 10666.0,
+						"worst_usec": 10709.0,
 						"warmup_iterations": 10,
 						"mapping_operations_per_sample": 2048,
 						"budget_p95_usec": 50000.0,
@@ -7056,8 +7056,8 @@
 						"budget_evaluation": "OBSERVATION_ONLY_COMBINED_RUN"
 					},
 					"memory": {
-						"retained_bytes": 29360876,
-						"peak_bytes": 72507136
+						"retained_bytes": 29402908,
+						"peak_bytes": 72549168
 					},
 					"provenance": {
 						"workload_signature": "tqp21_reference_triplanar_texture_array_v1",
@@ -7174,10 +7174,10 @@
 					},
 					"performance": {
 						"sample_count": 100,
-						"p50_usec": 19799.0,
-						"p95_usec": 20658.0,
-						"p99_usec": 21098.0,
-						"worst_usec": 21298.0,
+						"p50_usec": 20240.0,
+						"p95_usec": 22111.0,
+						"p99_usec": 22525.0,
+						"worst_usec": 22534.0,
 						"warmup_iterations": 10,
 						"operations_per_sample": 4096,
 						"budget_p95_usec": 50000.0,
@@ -7185,8 +7185,8 @@
 						"budget_evaluation": "OBSERVATION_ONLY_COMBINED_RUN"
 					},
 					"memory": {
-						"retained_bytes": 29376616,
-						"peak_bytes": 72507136
+						"retained_bytes": 29420936,
+						"peak_bytes": 72549168
 					},
 					"provenance": {
 						"workload_signature": "tqp23_reference_surface_shading_v1",
@@ -7207,10 +7207,10 @@
 						"world-projected diagnostic decal",
 						"fixed near/far camera detail behavior",
 						"floating-origin compensated shader coordinates",
-						"deterministic Windows Forward+/D3D12 temporal captures"
+						"deterministic Windows Forward+/Vulkan temporal captures"
 					],
 					"explicitly_unqualified_scope": [
-						"human acceptance until the retained near/far pair is reviewed",
+						"human acceptance until the guided temporal and diagnostic review is completed",
 						"production art direction and assets",
 						"dynamic weather or decal systems",
 						"GPU cost and cross-hardware consistency"
@@ -7599,18 +7599,18 @@
 					},
 					"performance": {
 						"sample_count": 100,
-						"p50_usec": 47787.0,
-						"p95_usec": 50534.0,
-						"p99_usec": 51281.0,
-						"worst_usec": 51349.0,
+						"p50_usec": 49710.0,
+						"p95_usec": 57842.0,
+						"p99_usec": 59377.0,
+						"worst_usec": 65331.0,
 						"warmup_iterations": 10,
 						"path_updates_per_sample": 64,
 						"budget_p95_usec": 150000.0,
 						"budget_evaluation": "OBSERVATION_ONLY_COMBINED_RUN"
 					},
 					"memory": {
-						"retained_bytes": 29457520,
-						"peak_bytes": 72507136
+						"retained_bytes": 29499676,
+						"peak_bytes": 72549168
 					},
 					"provenance": {
 						"workload_signature": "tqp19_streaming_window_reference_v1",
@@ -7812,18 +7812,18 @@
 					},
 					"performance": {
 						"sample_count": 100,
-						"p50_usec": 5908.0,
-						"p95_usec": 7024.0,
-						"p99_usec": 7467.0,
-						"worst_usec": 7683.0,
+						"p50_usec": 5797.0,
+						"p95_usec": 6430.0,
+						"p99_usec": 7547.0,
+						"worst_usec": 7863.0,
 						"warmup_iterations": 10,
 						"coordinate_round_trips_per_sample": 1024,
 						"budget_p95_usec": 15000.0,
 						"budget_evaluation": "OBSERVATION_ONLY_COMBINED_RUN"
 					},
 					"memory": {
-						"retained_bytes": 29487232,
-						"peak_bytes": 72507136
+						"retained_bytes": 29529388,
+						"peak_bytes": 72549168
 					},
 					"provenance": {
 						"workload_signature": "tqp20_cpu_large_world_coordinate_reference_v1",
@@ -7932,10 +7932,10 @@
 					},
 					"performance": {
 						"sample_count": 100,
-						"p50_usec": 123999.0,
-						"p95_usec": 129569.0,
-						"p99_usec": 134641.0,
-						"worst_usec": 146133.0,
+						"p50_usec": 123865.0,
+						"p95_usec": 132826.0,
+						"p99_usec": 137065.0,
+						"worst_usec": 143364.0,
 						"warmup_iterations": 10,
 						"views_per_sample": 16,
 						"budget_p95_usec": 300000.0,
@@ -7943,8 +7943,8 @@
 						"budget_evaluation": "OBSERVATION_ONLY_COMBINED_RUN"
 					},
 					"memory": {
-						"retained_bytes": 29504188,
-						"peak_bytes": 72507136
+						"retained_bytes": 29546344,
+						"peak_bytes": 72549168
 					},
 					"provenance": {
 						"workload_signature": "tqp22_cpu_horizontal_visibility_residency_reference_v1",
@@ -8265,17 +8265,17 @@
 					"failures": [],
 					"performance": {
 						"sample_count": 100,
-						"p50_usec": 1200.0,
-						"p95_usec": 1825.0,
-						"p99_usec": 2153.0,
-						"worst_usec": 2355.0,
+						"p50_usec": 1262.0,
+						"p95_usec": 1902.0,
+						"p99_usec": 2681.0,
+						"worst_usec": 2960.0,
 						"target_p95_usec": 4000.0,
 						"target_status": "MET",
 						"budget_evaluation": "OBSERVATION_ONLY_IMPLEMENTED_MILESTONE"
 					},
 					"memory": {
-						"retained_bytes": 30479812,
-						"peak_bytes": 72507136
+						"retained_bytes": 30521968,
+						"peak_bytes": 72549168
 					},
 					"retained_chunk_count": 127,
 					"qualification_scope": "REFERENCE_MODEL_NOT_PRODUCTION_TERRAIN"

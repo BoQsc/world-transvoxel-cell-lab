@@ -6,6 +6,9 @@ const TerrainLabScript := preload(
 const TerrainObservatoryScene := preload(
 	"res://labs/terrain_lab/scenes/terrain_observatory.tscn"
 )
+const SurfaceShadingReviewScene := preload(
+	"res://labs/terrain_lab/scenes/surface_shading_review.tscn"
+)
 const NativeEvidence := preload(
 	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_edit_native_evidence.gd"
 )
@@ -79,6 +82,70 @@ func _run() -> void:
 		_fail("Terrain Observatory editor reset did not restore the canonical fixture")
 		return
 	observatory.free()
+	var review_script := load(
+		"res://labs/terrain_lab/scenes/surface_shading_review.gd"
+	) as Script
+	if review_script == null or not review_script.is_tool():
+		_fail("TQP-23 Surface Review must execute as an editor tool")
+		return
+	var surface_review := SurfaceShadingReviewScene.instantiate()
+	root.add_child(surface_review)
+	var review_contract: Dictionary = surface_review.get_review_contract()
+	if str(review_contract.get("milestone", "")) != "TQP-23":
+		_fail("surface review milestone contract changed")
+		return
+	if not bool(review_contract.get("formal_decision_required", false)):
+		_fail("surface review can bypass the formal decision")
+		return
+	if int(review_contract.get("diagnostic_mode_count", 0)) != 9:
+		_fail("surface review diagnostic catalog changed")
+		return
+	if int(review_contract.get("minimum_motion_cycles", 0)) != 2:
+		_fail("surface review motion-cycle gate changed")
+		return
+	if int(review_contract.get("required_diagnostic_modes", 0)) != 9:
+		_fail("surface review required diagnostic count changed")
+		return
+	if (review_contract.get("criterion_ids", []) as Array).size() != 7:
+		_fail("surface review criteria changed")
+		return
+	var review_observatory: Node = surface_review.get_node("TerrainObservatory")
+	for diagnostic_mode in range(9):
+		surface_review.editor_diagnostic_mode = diagnostic_mode
+		surface_review.call("_apply_diagnostic_mode")
+		if int(review_observatory.call("get_surface_shading_diagnostic_mode")) != diagnostic_mode:
+			_fail("surface review diagnostic mode did not reach the native fixture material")
+			return
+	for criterion_node in [
+		"ProjectionAnchored",
+		"NoFlicker",
+		"TriplanarCoherent",
+		"DetailFadeContinuous",
+		"NormalsCoherent",
+		"MasksAttached",
+		"NoDiscontinuity",
+	]:
+		(surface_review.get_node("%" + criterion_node) as CheckBox).button_pressed = true
+	if bool(surface_review.call("_candidate_pass_ready")):
+		_fail("surface review candidate pass bypassed the motion-cycle gate")
+		return
+	surface_review.set("_motion_cycles", 2)
+	if not bool(surface_review.call("_candidate_pass_ready")):
+		_fail("surface review candidate pass did not open after every required observation")
+		return
+	surface_review.set_review_camera_progress(0.0, 0.0)
+	var near_state: Dictionary = surface_review.get_review_camera_state()
+	surface_review.set_review_camera_progress(1.0, 0.0)
+	var far_state: Dictionary = surface_review.get_review_camera_state()
+	var near_position: Vector3 = near_state.get("position", Vector3.ZERO)
+	var far_position: Vector3 = far_state.get("position", Vector3.ZERO)
+	if not near_position.is_equal_approx(Vector3(-25.0, 22.0, 3.0)):
+		_fail("surface review near endpoint changed")
+		return
+	if not far_position.is_equal_approx(Vector3(-52.0, 42.0, 3.0)):
+		_fail("surface review far endpoint changed")
+		return
+	surface_review.free()
 	var terrain_lab := TerrainLabScript.new()
 	root.add_child(terrain_lab)
 	var validation: Dictionary = terrain_lab.validate_program_boundary()

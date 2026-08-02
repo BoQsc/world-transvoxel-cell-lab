@@ -1,0 +1,160 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://labs/terrain_lab/scenes/surface_shading_review.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://labs/terrain_lab/scenes/terrain_observatory.tscn" id="2_observatory"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_dock"]
+bg_color = Color(0.025, 0.035, 0.04, 1)
+border_width_right = 1
+border_color = Color(0.16, 0.35, 0.36, 1)
+content_margin_left = 16.0
+content_margin_top = 16.0
+content_margin_right = 16.0
+content_margin_bottom = 16.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_title"]
+font_size = 21
+font_color = Color(0.9, 0.95, 0.94, 1)
+
+[node name="SurfaceShadingReview" type="Node3D"]
+script = ExtResource("1_script")
+
+[node name="TerrainObservatory" parent="." instance=ExtResource("2_observatory")]
+editor_show_chunk_bounds = false
+
+[node name="ReviewInterface" type="CanvasLayer" parent="."]
+
+[node name="Dock" type="PanelContainer" parent="ReviewInterface"]
+offset_right = 390.0
+anchor_bottom = 1.0
+grow_vertical = 1
+theme_override_styles/panel = SubResource("StyleBox_dock")
+
+[node name="Content" type="VBoxContainer" parent="ReviewInterface/Dock"]
+theme_override_constants/separation = 5
+
+[node name="Title" type="Label" parent="ReviewInterface/Dock/Content"]
+text = "TQP-23 Surface Review"
+label_settings = SubResource("LabelSettings_title")
+
+[node name="Scope" type="Label" parent="ReviewInterface/Dock/Content"]
+theme_override_colors/font_color = Color(0.48, 0.72, 0.72, 1)
+text = "TEMPORAL AND SHADER CONTRACT"
+
+[node name="ReviewStatus" type="Label" parent="ReviewInterface/Dock/Content"]
+unique_name_in_owner = true
+theme_override_colors/font_color = Color(0.95, 0.72, 0.3, 1)
+theme_override_font_sizes/font_size = 16
+text = "PENDING HUMAN REVIEW"
+
+[node name="Separator1" type="HSeparator" parent="ReviewInterface/Dock/Content"]
+
+[node name="ModeLabel" type="Label" parent="ReviewInterface/Dock/Content"]
+text = "Diagnostic"
+
+[node name="DiagnosticMode" type="OptionButton" parent="ReviewInterface/Dock/Content"]
+unique_name_in_owner = true
+tooltip_text = "Surface shading diagnostic mode"
+
+[node name="CameraLabel" type="Label" parent="ReviewInterface/Dock/Content"]
+text = "Camera"
+
+[node name="CameraPresets" type="HBoxContainer" parent="ReviewInterface/Dock/Content"]
+theme_override_constants/separation = 6
+
+[node name="NearButton" type="Button" parent="ReviewInterface/Dock/Content/CameraPresets"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+text = "Near"
+
+[node name="FarButton" type="Button" parent="ReviewInterface/Dock/Content/CameraPresets"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+text = "Far"
+
+[node name="MotionButton" type="Button" parent="ReviewInterface/Dock/Content/CameraPresets"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+text = "Motion"
+
+[node name="MotionControls" type="HBoxContainer" parent="ReviewInterface/Dock/Content"]
+theme_override_constants/separation = 6
+
+[node name="MotionToggle" type="CheckButton" parent="ReviewInterface/Dock/Content/MotionControls"]
+unique_name_in_owner = true
+text = "Motion"
+
+[node name="RestartButton" type="Button" parent="ReviewInterface/Dock/Content/MotionControls"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+text = "Restart"
+
+[node name="MotionProgress" type="ProgressBar" parent="ReviewInterface/Dock/Content"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 14)
+show_percentage = false
+
+[node name="Separator2" type="HSeparator" parent="ReviewInterface/Dock/Content"]
+
+[node name="CriteriaLabel" type="Label" parent="ReviewInterface/Dock/Content"]
+text = "Required observations"
+
+[node name="CriteriaScroll" type="ScrollContainer" parent="ReviewInterface/Dock/Content"]
+custom_minimum_size = Vector2(0, 140)
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="Criteria" type="VBoxContainer" parent="ReviewInterface/Dock/Content/CriteriaScroll"]
+size_flags_horizontal = 3
+theme_override_constants/separation = 5
+
+[node name="ProjectionAnchored" type="CheckBox" parent="ReviewInterface/Dock/Content/CriteriaScroll/Criteria"]
+unique_name_in_owner = true
+text = "Projection remains world-anchored"
+
+[node name="NoFlicker" type="CheckBox" parent="ReviewInterface/Dock/Content/CriteriaScroll/Criteria"]
+unique_name_in_owner = true
+text = "No temporal flicker or unstable shimmer"
+
+[node name="TriplanarCoherent" type="CheckBox" parent="ReviewInterface/Dock/Content/CriteriaScroll/Criteria"]
+unique_name_in_owner = true
+text = "Triplanar transitions remain coherent"
+
+[node name="DetailFadeContinuous" type="CheckBox" parent="ReviewInterface/Dock/Content/CriteriaScroll/Criteria"]
+unique_name_in_owner = true
+text = "Camera detail fade is continuous"
+
+[node name="NormalsCoherent" type="CheckBox" parent="ReviewInterface/Dock/Content/CriteriaScroll/Criteria"]
+unique_name_in_owner = true
+text = "Normal response remains coherent"
+
+[node name="MasksAttached" type="CheckBox" parent="ReviewInterface/Dock/Content/CriteriaScroll/Criteria"]
+unique_name_in_owner = true
+text = "Slope, height, wetness, and decal remain attached"
+
+[node name="NoDiscontinuity" type="CheckBox" parent="ReviewInterface/Dock/Content/CriteriaScroll/Criteria"]
+unique_name_in_owner = true
+text = "Shading introduces no surface discontinuity"
+
+[node name="ReviewNotes" type="LineEdit" parent="ReviewInterface/Dock/Content"]
+unique_name_in_owner = true
+placeholder_text = "Observed defect or review note"
+
+[node name="Verdict" type="HBoxContainer" parent="ReviewInterface/Dock/Content"]
+theme_override_constants/separation = 8
+
+[node name="RecordFailureButton" type="Button" parent="ReviewInterface/Dock/Content/Verdict"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+text = "Record Failure"
+
+[node name="RecordPassButton" type="Button" parent="ReviewInterface/Dock/Content/Verdict"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+disabled = true
+text = "Record Candidate Pass"
+
+[node name="Authority" type="Label" parent="ReviewInterface/Dock/Content"]
+theme_override_colors/font_color = Color(0.48, 0.54, 0.54, 1)
+text = "DRAFT ONLY / FORMAL DECISION REQUIRED"
+horizontal_alignment = 1

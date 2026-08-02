@@ -6,6 +6,9 @@
 	"scene": "res://labs/terrain_lab/scenes/terrain_observatory.tscn",
 	"visual_evidence": "res://labs/terrain_lab/results/surface_shading_evidence_windows.json",
 	"focused_evidence": "res://labs/terrain_lab/results/surface_shading_contract_reference_windows.json",
+	"review_protocol": "res://addons/world_transvoxel_terrain_lab/standards/surface_shading_review_protocol.json",
+	"review_scene": "res://labs/terrain_lab/scenes/surface_shading_review.tscn",
+	"review_automation": "res://labs/terrain_lab/results/surface_shading_review_automation_windows.json",
 	"expected": {
 		"near_image": "res://labs/terrain_lab/results/surface_shading_near.png",
 		"near_sha256": "21910c11716cbe64f94069871a9f584aba0bf612bf8606d40f0250eab4f8a373",
@@ -35,7 +38,7 @@
 		"deterministic Windows Forward+/Vulkan temporal captures"
 	],
 	"explicitly_unqualified_scope": [
-		"human acceptance until the retained near/far pair is reviewed",
+		"human acceptance until the guided temporal and diagnostic review is completed",
 		"production art direction and assets",
 		"dynamic weather or decal systems",
 		"GPU cost and cross-hardware consistency"

@@ -1,0 +1,79 @@
+{
+	"schema": "world_transvoxel.terrain_lab.surface_shading_review_protocol.v1",
+	"milestone": "TQP-23",
+	"review_scene": "res://labs/terrain_lab/scenes/surface_shading_review.tscn",
+	"draft_path": "user://tqp23_surface_review_draft.json",
+	"formal_decision_required": true,
+	"minimum_motion_cycles": 2,
+	"camera_path": {
+		"near_position": [-25.0, 22.0, 3.0],
+		"far_position": [-52.0, 42.0, 3.0],
+		"target": [3.0, 8.0, 3.0],
+		"near_fov_degrees": 48.0,
+		"far_fov_degrees": 26.0,
+		"lateral_amplitude_m": 8.0
+	},
+	"diagnostic_modes": [
+		{"id": 0, "name": "lit_surface"},
+		{"id": 1, "name": "geometric_normal"},
+		{"id": 2, "name": "mapped_normal"},
+		{"id": 3, "name": "triplanar_weights"},
+		{"id": 4, "name": "slope_mask"},
+		{"id": 5, "name": "height_mask"},
+		{"id": 6, "name": "wetness_mask"},
+		{"id": 7, "name": "decal_mask"},
+		{"id": 8, "name": "camera_detail_fade"}
+	],
+	"criteria": [
+		{
+			"id": "projection_world_anchored",
+			"label": "Projection remains world-anchored",
+			"failure": "Texture, wetness, or decal features slide across the terrain while the camera moves."
+		},
+		{
+			"id": "no_temporal_flicker",
+			"label": "No temporal flicker or unstable shimmer",
+			"failure": "A stationary terrain feature changes discontinuously between adjacent motion frames."
+		},
+		{
+			"id": "triplanar_transition_coherent",
+			"label": "Triplanar transitions remain coherent",
+			"failure": "Axis transitions expose a hard seam, inversion, or disproportionate stretching."
+		},
+		{
+			"id": "detail_fade_continuous",
+			"label": "Camera detail fade is continuous",
+			"failure": "Normal detail pops, reverses, or changes abruptly between the near and far endpoints."
+		},
+		{
+			"id": "normal_response_coherent",
+			"label": "Normal response remains coherent",
+			"failure": "Mapped normals invert, form an axis-dependent lighting discontinuity, or detach from geometry."
+		},
+		{
+			"id": "masks_stable_and_attached",
+			"label": "Slope, height, wetness, and decal masks remain attached",
+			"failure": "A diagnostic mask swims, flickers, or appears on a surface that violates its declared rule."
+		},
+		{
+			"id": "no_new_surface_discontinuity",
+			"label": "Shading introduces no visible surface discontinuity",
+			"failure": "The lit or diagnostic view exposes a shading crack not present in the qualified geometry evidence."
+		}
+	],
+	"decision_policy": {
+		"candidate_pass_requires_all_criteria": true,
+		"candidate_pass_requires_motion_cycles": true,
+		"candidate_pass_requires_all_diagnostic_modes": true,
+		"any_failed_criterion_blocks_qualification": true,
+		"draft_cannot_promote_milestone": true,
+		"repository_decision_required_for_promotion": true,
+		"uncertain_review_is_pending": true
+	},
+	"explicitly_out_of_scope": [
+		"production art direction",
+		"texture asset quality",
+		"GPU performance",
+		"cross-hardware equivalence"
+	]
+}

@@ -1,0 +1,80 @@
+{
+	"schema": "world_transvoxel.terrain_lab.surface_shading_review_automation.v1",
+	"milestone": "TQP-23",
+	"status": "PASS",
+	"review_scene": "res://labs/terrain_lab/scenes/surface_shading_review.tscn",
+	"capture_contract": {
+		"platform": "Windows",
+		"renderer": "forward_plus",
+		"driver": "vulkan",
+		"gpu": "NVIDIA GeForce GTX 1060 with Max-Q Design",
+		"godot": "4.7.1-stable (steam)",
+		"width": 1400,
+		"height": 900
+	},
+	"captures": [
+		{
+			"id": "lit_motion",
+			"diagnostic_mode": 0,
+			"camera_progress": 0.35,
+			"lateral_phase": 0.8,
+			"image": "res://labs/terrain_lab/results/surface_shading_review_lit_motion.png",
+			"sha256": "cb49ac18b6dd50ee378ecb66701647946329889f599f419d38d73cbb27373914",
+			"metrics": {
+				"sample_count": 78750,
+				"luminance_min": 0.0229035280644894,
+				"luminance_max": 1.0,
+				"luminance_range": 0.977096471935511,
+				"colorful_samples": 16873
+			}
+		},
+		{
+			"id": "mapped_normal",
+			"diagnostic_mode": 2,
+			"camera_progress": 0.35,
+			"lateral_phase": 0.8,
+			"image": "res://labs/terrain_lab/results/surface_shading_review_mapped_normal.png",
+			"sha256": "52995540c3b644f81a13417e188ced1b9ecd0f5888e9f1d06b0a7adfc2346b46",
+			"metrics": {
+				"sample_count": 78750,
+				"luminance_min": 0.0229035280644894,
+				"luminance_max": 1.0,
+				"luminance_range": 0.977096471935511,
+				"colorful_samples": 17195
+			}
+		},
+		{
+			"id": "triplanar_weights",
+			"diagnostic_mode": 3,
+			"camera_progress": 0.35,
+			"lateral_phase": 0.8,
+			"image": "res://labs/terrain_lab/results/surface_shading_review_triplanar_weights.png",
+			"sha256": "aa6624d199d99c4bc704c880b3901fe3a915b95b2d5040d6435e91592b76cd66",
+			"metrics": {
+				"sample_count": 78750,
+				"luminance_min": 0.0229035280644894,
+				"luminance_max": 1.0,
+				"luminance_range": 0.977096471935511,
+				"colorful_samples": 17191
+			}
+		},
+		{
+			"id": "detail_fade",
+			"diagnostic_mode": 8,
+			"camera_progress": 0.55,
+			"lateral_phase": -0.6,
+			"image": "res://labs/terrain_lab/results/surface_shading_review_detail_fade.png",
+			"sha256": "2f76a15f97b30234a1cf6806d32b58c96998dffc86a7b92b8c8578d1525bfa71",
+			"metrics": {
+				"sample_count": 78750,
+				"luminance_min": 0.0229035280644894,
+				"luminance_max": 1.0,
+				"luminance_range": 0.977096471935511,
+				"colorful_samples": 257
+			}
+		}
+	],
+	"unique_capture_hash_count": 4,
+	"formal_human_review": "PENDING",
+	"failures": []
+}

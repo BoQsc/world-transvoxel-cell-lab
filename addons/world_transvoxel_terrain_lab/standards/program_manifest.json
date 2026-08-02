@@ -1,6 +1,6 @@
 {
 	"schema": "world_transvoxel.terrain_lab.program.v2",
-	"program_revision": 11,
+	"program_revision": 12,
 	"lab_scope": "experimental_terrain_qualification",
 	"authority": "EVIDENCE_PROGRAM_ONLY",
 	"production_status": "NOT_PRODUCTION",
@@ -17,6 +17,8 @@
 	"large_world_coordinate_standard": "res://addons/world_transvoxel_terrain_lab/standards/large_world_coordinate_standard.json",
 	"texture_system_standard": "res://addons/world_transvoxel_terrain_lab/standards/texture_system_standard.json",
 	"surface_shading_standard": "res://addons/world_transvoxel_terrain_lab/standards/surface_shading_standard.json",
+	"surface_shading_review_protocol": "res://addons/world_transvoxel_terrain_lab/standards/surface_shading_review_protocol.json",
+	"surface_shading_review_evidence": "res://labs/terrain_lab/results/surface_shading_review_automation_windows.json",
 	"surface_shading_evidence": "res://labs/terrain_lab/results/surface_shading_evidence_windows.json",
 	"surface_shading_contract_evidence": "res://labs/terrain_lab/results/surface_shading_contract_reference_windows.json",
 	"visibility_residency_standard": "res://addons/world_transvoxel_terrain_lab/standards/visibility_residency_standard.json",

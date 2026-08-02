@@ -235,6 +235,8 @@ static func _validate_evidence_files(program: Dictionary, failures: Array[String
 		"large_world_coordinate_standard",
 		"texture_system_standard",
 		"surface_shading_standard",
+		"surface_shading_review_protocol",
+		"surface_shading_review_evidence",
 		"surface_shading_evidence",
 		"surface_shading_contract_evidence",
 		"visibility_residency_standard",
@@ -771,6 +773,84 @@ static func _validate_surface_shading_evidence(
 		str(standard.get("schema", ""))
 			== "world_transvoxel.terrain_lab.surface_shading_standard.v1",
 		"surface shading standard schema mismatch",
+		failures
+	)
+	var review_protocol := JsonLoader.load_dictionary(
+		str(program.get("surface_shading_review_protocol", ""))
+	)
+	_expect(
+		str(review_protocol.get("schema", ""))
+			== "world_transvoxel.terrain_lab.surface_shading_review_protocol.v1",
+		"surface shading review protocol schema mismatch",
+		failures
+	)
+	_expect(
+		str(review_protocol.get("milestone", "")) == "TQP-23",
+		"surface shading review protocol milestone changed",
+		failures
+	)
+	_expect(
+		bool(review_protocol.get("formal_decision_required", false)),
+		"surface shading review must require a formal decision",
+		failures
+	)
+	_expect(
+		int(review_protocol.get("minimum_motion_cycles", 0)) == 2,
+		"surface shading review motion-cycle gate changed",
+		failures
+	)
+	_expect(
+		(review_protocol.get("diagnostic_modes", []) as Array).size() == 9,
+		"surface shading review diagnostic catalog changed",
+		failures
+	)
+	_expect(
+		(review_protocol.get("criteria", []) as Array).size() == 7,
+		"surface shading review criteria changed",
+		failures
+	)
+	var decision_policy: Dictionary = review_protocol.get("decision_policy", {})
+	for required_policy in [
+		"candidate_pass_requires_all_criteria",
+		"candidate_pass_requires_motion_cycles",
+		"candidate_pass_requires_all_diagnostic_modes",
+		"any_failed_criterion_blocks_qualification",
+		"draft_cannot_promote_milestone",
+		"repository_decision_required_for_promotion",
+		"uncertain_review_is_pending",
+	]:
+		_expect(
+			bool(decision_policy.get(required_policy, false)),
+			"surface shading review policy is not fail-closed: " + required_policy,
+			failures
+		)
+	_expect(
+		FileAccess.file_exists(str(review_protocol.get("review_scene", ""))),
+		"surface shading guided review scene is missing",
+		failures
+	)
+	var review_evidence := JsonLoader.load_dictionary(
+		str(program.get("surface_shading_review_evidence", ""))
+	)
+	_expect(
+		str(review_evidence.get("schema", ""))
+			== "world_transvoxel.terrain_lab.surface_shading_review_automation.v1",
+		"surface shading guided review evidence schema mismatch",
+		failures
+	)
+	_expect(
+		str(review_evidence.get("status", "")) == "PASS",
+		"surface shading guided review automation failed",
+		failures
+	)
+	_expect(
+		(review_evidence.get("captures", []) as Array).size() == 4,
+		"surface shading guided review capture catalog changed",
+		failures
+	)
+	_expect(
+		str(review_evidence.get("formal_human_review", "")) == "PENDING",
+		"surface shading review evidence bypassed the formal human gate",
 		failures
 	)
 	var report := JsonLoader.load_dictionary(str(program.get("surface_shading_contract_evidence", "")))

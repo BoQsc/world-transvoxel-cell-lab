@@ -59,6 +59,19 @@ status is fail-closed on exact boundary-edge agreement across all adjacent
 same-LOD chunks, including the canonical tangent-edit regression retained by
 `TQP-D011`.
 
+TQP-23 guided surface review:
+
+```text
+res://labs/terrain_lab/scenes/surface_shading_review.tscn
+```
+
+Open it from **Project > Tools > Open TQP-23 Surface Review**. Its root is an
+`@tool` node with Inspector controls for the diagnostic mode, camera endpoint,
+and motion preview. Running the scene adds a deterministic near/far camera
+cycle, nine diagnostic views, seven required observations, and fail-closed
+draft verdict recording. Drafts are written under `user://`; they cannot
+qualify TQP-23 without a separate repository decision.
+
 Full machine report:
 
 ```text

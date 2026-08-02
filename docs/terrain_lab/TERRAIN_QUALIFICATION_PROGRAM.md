@@ -381,10 +381,15 @@ Status: `implemented`. Owner: Material and Surface Lab. Depends on: TQP-21.
 The separate reference shader now passes analytical normals, stable tangents,
 slope and global-height masks, wetness, projected decal, origin precision, and
 camera-distance contracts. Retained near/far Forward+/Vulkan captures each use
-two cold/warm instances with eight byte-identical measured frames. Promotion
-remains fail-closed until those new images receive explicit human acceptance;
-production art direction, dynamic weather/decals, GPU cost, and other hardware
-remain unqualified.
+two cold/warm instances with eight byte-identical measured frames. A separate
+`@tool` review scene now drives the same native fixture through a deterministic
+near/far motion path and nine lit or diagnostic views. Seven named criteria
+cover world anchoring, temporal flicker, triplanar transitions, detail fade,
+normal response, mask attachment, and visible shading discontinuities. A
+candidate pass requires every criterion; uncertainty remains pending, and the
+scene writes only a non-authoritative `user://` draft. Promotion still requires
+an explicit repository decision. Production art direction, dynamic
+weather/decals, GPU cost, and other hardware remain unqualified.
 
 ### TQP-24: Collision, Queries, And Navigation
 
