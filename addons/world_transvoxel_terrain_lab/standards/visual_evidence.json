@@ -13,14 +13,18 @@
 	"scene": "res://labs/terrain_lab/scenes/terrain_observatory.tscn",
 	"capture_tool": "res://labs/terrain_lab/tools/capture_terrain_observatory.gd",
 	"image": "res://labs/terrain_lab/results/terrain_observatory_reference.png",
-	"sha256": "98f6f03e53ee73ef9026f6fcabbef354f858e0d5aaa135633c2eb79bd25fd7fd",
+	"sha256": "009c19eb1a4ef56ae9ab0d9b98922573de72abeb202c460cdf54d00874afe752",
 	"automated_checks": {
 		"status": "PASS",
-		"native_chunk_count": 9,
+		"requested_chunk_count": 18,
+		"native_chunk_count": 16,
+		"horizontal_window": "3x3",
+		"vertical_layers": [0, 1],
 		"local_bounds_errors": 0,
 		"surface_pixel_presence": "PASS",
 		"material_distinction": "PASS",
-		"dock_within_viewport": "PASS"
+		"dock_within_viewport": "PASS",
+		"cold_warm_capture_identity": "PASS"
 	},
 	"supports": [
 		"TQP-21 candidate triplanar texture-array presentation",
@@ -34,6 +38,7 @@
 	"explicitly_unqualified_scope": [
 		"production visual quality",
 		"temporal stability",
+		"human acceptance of the corrected 3x3x2 diagnostic fixture",
 		"non-Windows rendering",
 		"cross-GPU consistency"
 	]

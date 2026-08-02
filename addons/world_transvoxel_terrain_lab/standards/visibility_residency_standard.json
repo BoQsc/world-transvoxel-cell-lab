@@ -1,0 +1,57 @@
+{
+	"schema": "world_transvoxel.terrain_lab.visibility_residency_standard.v1",
+	"milestone": "TQP-22",
+	"standard_id": "cpu_horizontal_visibility_residency_reference_v1",
+	"visibility_contract": {
+		"window_axes": "x_z_with_single_y_layer",
+		"chunk_world_size_m": 16.0,
+		"candidate_radius_chunks": 16,
+		"horizontal_fov_degrees": 90.0,
+		"near_distance_m": 1.0,
+		"far_distance_m": 320.0,
+		"chunk_bound_radius_m": 11.3137085,
+		"occlusion_policy": "conservative_angular_interval_reference",
+		"occlusion_epsilon_m": 0.01
+	},
+	"representation_contract": {
+		"lod_ring_maximum_chunks": [3, 6, 10],
+		"hlod_cluster_size_chunks": 4,
+		"lod0_bytes_per_chunk": 2097152,
+		"lod1_bytes_per_chunk": 1048576,
+		"lod2_bytes_per_chunk": 524288,
+		"hlod_bytes_per_cluster": 262144,
+		"resident_memory_budget_bytes": 268435456,
+		"draw_submission_budget": 160,
+		"edit_overlap_versions_retained": 2
+	},
+	"fixture_contract": {
+		"fixed_views": ["near_forward", "rotated", "far_origin_shift", "teleport"],
+		"required_cases": ["frustum", "occlusion", "lod", "hlod", "draw_count", "buffer_residency", "distant_representation", "edit_republication", "teleport", "origin_shift"],
+		"origin_shift_visibility_difference_budget": 0,
+		"teleport_convergence_updates": 1,
+		"stale_publication_allowed": false
+	},
+	"performance_budget": {
+		"warmup_iterations": 10,
+		"sample_count": 100,
+		"views_per_sample": 16,
+		"p95_usec": 300000.0,
+		"calibration_p95_usec": [111186.0, 112438.0, 219144.0, 139006.0, 158708.0, 116653.0],
+		"budget_basis": "six Windows debug observations, including an after-workload outlier, ranged from 111186 to 219144 usec for 16 views; 300000 usec is a load-variance regression ceiling and not a production frame budget",
+		"scope": "CPU reference-policy evaluation; not renderer or GPU submission cost"
+	},
+	"qualified_scope": [
+		"deterministic horizontal CPU frustum and conservative occlusion reference",
+		"LOD and HLOD representation selection",
+		"reference draw-submission and retained-buffer accounting",
+		"origin-shift and teleport invariance",
+		"versioned edit republication and stale-buffer rejection"
+	],
+	"explicitly_unqualified_scope": [
+		"vertical multi-layer visibility and residency",
+		"Godot renderer frustum or occlusion implementation",
+		"real GPU draw submission and buffer allocation",
+		"production HLOD geometry generation",
+		"production memory or frame-time budgets"
+	]
+}

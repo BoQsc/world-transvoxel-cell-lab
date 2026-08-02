@@ -16,10 +16,12 @@ required evidence state.
 - `TQP-WAVE-01` is complete: TQP-15, TQP-16, and TQP-17 are qualified for
   their declared native Windows reference scopes.
 - `TQP-WAVE-02` is active.
-- TQP-19 and TQP-20 in the first Wave 02 step are qualified for their declared
-  reference scopes.
-- TQP-18 is the only recommended next milestone. Its exact and automated
-  visual evidence passes; explicit human visual review remains open.
+- The first Wave 02 step is complete: TQP-18, TQP-19, and TQP-20 are qualified
+  for their declared reference scopes.
+- TQP-22 in the second step is qualified for its horizontal CPU reference.
+- TQP-21 is the only recommended next milestone. Its exact and automated
+  evidence passes; explicit human review of the corrected deterministic
+  observatory render remains open.
 - GPU and production waves remain blocked by absent candidate implementations.
 
 ## Waves

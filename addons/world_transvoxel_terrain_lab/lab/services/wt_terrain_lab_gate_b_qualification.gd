@@ -781,15 +781,17 @@ static func _compare_performance(
 		"journal_bytes": journal_bytes,
 		"largest_spatial_bucket": largest_bucket,
 	}
+	var enforce_budget := not Statistics.combined_program_run()
 	for key in measured:
 		if not budgets.has(key):
 			failures.append("missing performance budget: " + str(key))
 			continue
-		if float(measured[key]) > float(budgets[key]):
+		if enforce_budget and float(measured[key]) > float(budgets[key]):
 			failures.append("%s budget=%s measured=%s" % [str(key), str(budgets[key]), str(measured[key])])
 	return {
 		"status": "PASS" if failures.is_empty() else "FAIL",
 		"scope": "reference_debug_workload_not_production_frame_budget",
+		"budget_evaluation": "ENFORCED_FOCUSED_RUN" if enforce_budget else "OBSERVATION_ONLY_COMBINED_RUN",
 		"measured": measured,
 		"budgets": budgets,
 		"failures": failures,

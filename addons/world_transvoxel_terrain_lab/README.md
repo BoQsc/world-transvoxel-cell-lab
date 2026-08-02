@@ -67,3 +67,9 @@ Focused Wave 02 first-batch report:
 ```text
 res://labs/terrain_lab/tools/run_wave_02_validation.gd
 ```
+
+Focused Wave 02 second-batch report:
+
+```text
+res://labs/terrain_lab/tools/run_wave_02_second_batch_validation.gd
+```

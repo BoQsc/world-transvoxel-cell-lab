@@ -19,6 +19,8 @@ func _run() -> void:
 		return
 	var scene := packed.instantiate()
 	root.add_child(scene)
+	if scene.has_method("prepare_reference_capture"):
+		scene.call("prepare_reference_capture")
 	var image: Image
 	var visible_surface_pixels := 0
 	for frame in range(90):
@@ -32,7 +34,16 @@ func _run() -> void:
 		_fail("graphical viewport capture is unavailable")
 		return
 	if visible_surface_pixels < 400:
-		_fail("rendered terrain surface is absent from the capture")
+		var diagnostic_path := _argument_value("--diagnostic-output", "")
+		if not diagnostic_path.is_empty():
+			var diagnostic_error := image.save_png(diagnostic_path)
+			if diagnostic_error != OK:
+				_fail("could not save failed-capture diagnostic: %s" % error_string(diagnostic_error))
+				return
+		_fail(
+			"rendered terrain surface is absent from the capture "
+			+ "(surface pixels=%d, diagnostic=%s)" % [visible_surface_pixels, diagnostic_path]
+		)
 		return
 	var output_path := _argument_value("--output", DEFAULT_OUTPUT)
 	var error := image.save_png(output_path)

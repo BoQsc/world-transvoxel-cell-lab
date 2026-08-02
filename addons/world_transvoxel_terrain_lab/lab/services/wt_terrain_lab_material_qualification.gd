@@ -11,13 +11,16 @@ const Statistics := preload(
 const MaterialBlendingQualification := preload(
 	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_material_blending_qualification.gd"
 )
+const TextureSystemQualification := preload(
+	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_texture_system_qualification.gd"
+)
 
 
 static func run() -> Dictionary:
 	var milestones: Array[Dictionary] = [
 		_qualify_material_contract(),
 		MaterialBlendingQualification.run(),
-		_implement_texture_contract(),
+		TextureSystemQualification.run(),
 		_implement_surface_shading(),
 		_specify_visual_corpus(),
 	]
@@ -32,18 +35,17 @@ static func run() -> Dictionary:
 		"status": "PASS" if failures.is_empty() else "FAIL",
 		"scope_status": {
 			"TQP-08": "qualified",
-			"TQP-18": "implemented_pending_human_visual_review",
-			"TQP-21": "implemented_pending_render_validation",
+			"TQP-18": "qualified",
+			"TQP-21": "implemented_pending_human_render_review",
 			"TQP-23": "implemented_pending_temporal_inspection",
 			"TQP-25": "specified_pending_human_acceptance",
 		},
 		"qualified_scope": [
 			"deterministic material IDs, weights, ties, and construction provenance",
-			"TQP-18 automated exact blending corpus and retained visual checks",
+			"TQP-18 accepted exact blending corpus and retained diagnostic visual",
 		],
 		"explicitly_unqualified_scope": [
 			"production texture assets",
-			"TQP-18 human visual acceptance",
 			"visual pleasantness",
 			"temporal shader stability",
 			"renderer and GPU cost",
@@ -80,45 +82,6 @@ static func _qualify_material_contract() -> Dictionary:
 	_expect(field.material_at(point, field.density(point)) == 12, "construction provenance changed", failures)
 	_expect(field.material_at(Vector3(0.0, 10.0, 0.0), -2.0) == 1, "base provenance changed", failures)
 	return _result("TQP-08", 6, failures)
-
-
-static func _implement_texture_contract() -> Dictionary:
-	var failures: Array[String] = []
-	var scale_m := 2.0
-	for point in [
-		Vector3.ZERO,
-		Vector3(100000.25, -4000.5, 80000.75),
-		Vector3(-100000.25, 4000.5, -80000.75),
-	]:
-		var coordinates := _world_triplanar_coordinates(point, scale_m)
-		_expect(
-			(coordinates["xy"] as Vector2).is_equal_approx(Vector2(point.x, point.y) / scale_m),
-			"XY triplanar coordinates changed",
-			failures
-		)
-		_expect(
-			(coordinates["xz"] as Vector2).is_equal_approx(Vector2(point.x, point.z) / scale_m),
-			"XZ triplanar coordinates changed",
-			failures
-		)
-		_expect(
-			(coordinates["yz"] as Vector2).is_equal_approx(Vector2(point.y, point.z) / scale_m),
-			"YZ triplanar coordinates changed",
-			failures
-		)
-	var policy := {
-		"storage": "texture_array",
-		"mapping": "world_space_triplanar",
-		"mipmaps": "required",
-		"anisotropy": "required",
-		"normal_maps": "tangent_free_triplanar_reorientation",
-		"edited_surface_coordinates": "world_position_not_edit_local",
-	}
-	_expect(policy.size() == 6, "texture policy is incomplete", failures)
-	var result := _result("TQP-21", 10, failures)
-	result["policy"] = policy
-	result["qualification_status"] = "IMPLEMENTED_PENDING_RENDER_VALIDATION"
-	return result
 
 
 static func _implement_surface_shading() -> Dictionary:
@@ -196,14 +159,6 @@ static func _weight_sum(weights: Dictionary) -> float:
 	for material_id in weights:
 		result += float(weights[material_id])
 	return result
-
-
-static func _world_triplanar_coordinates(point: Vector3, scale_m: float) -> Dictionary:
-	return {
-		"xy": Vector2(point.x, point.y) / scale_m,
-		"xz": Vector2(point.x, point.z) / scale_m,
-		"yz": Vector2(point.y, point.z) / scale_m,
-	}
 
 
 static func _triplanar_weights(normal: Vector3, sharpness: float) -> Vector3:

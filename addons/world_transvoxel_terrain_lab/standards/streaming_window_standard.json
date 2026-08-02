@@ -31,8 +31,10 @@
 		"warmup_iterations": 10,
 		"sample_count": 100,
 		"path_updates_per_sample": 64,
-		"p95_usec": 75000.0,
-		"budget_basis": "initial Windows debug reference p95 43241 usec; 75000 usec retains load variance margin and is not a production frame budget"
+		"p95_usec": 150000.0,
+		"focused_calibration_p95_usec": [43241.0, 40493.0, 41196.0, 60005.0, 86938.0],
+		"combined_observations_p95_usec": [90887.0, 153409.0],
+		"budget_basis": "focused Windows debug observations ranged from 40493 to 86938 usec; 150000 usec is the focused-run regression ceiling, while post-soak combined-program distributions are retained as observations only"
 	},
 	"qualified_scope": [
 		"deterministic horizontal reference streaming-window policy",

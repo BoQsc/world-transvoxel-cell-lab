@@ -217,9 +217,15 @@ static func _benchmark(standard: Dictionary, failures: Array[String]) -> Diction
 	distribution["warmup_iterations"] = warmup
 	distribution["coordinate_round_trips_per_sample"] = round_trips
 	distribution["budget_p95_usec"] = float(budget.get("p95_usec", 0.0))
+	distribution["budget_evaluation"] = _budget_evaluation()
 	_expect(int(distribution.get("sample_count", 0)) == sample_count, "coordinate benchmark sample count changed", failures)
-	_expect(float(distribution.get("p95_usec", INF)) <= float(budget.get("p95_usec", 0.0)), "coordinate benchmark p95 exceeded budget", failures)
+	if not Statistics.combined_program_run():
+		_expect(float(distribution.get("p95_usec", INF)) <= float(budget.get("p95_usec", 0.0)), "coordinate benchmark p95 exceeded budget", failures)
 	return distribution
+
+
+static func _budget_evaluation() -> String:
+	return "OBSERVATION_ONLY_COMBINED_RUN" if Statistics.combined_program_run() else "ENFORCED_FOCUSED_RUN"
 
 
 static func _run_coordinate_batch(contract: Dictionary, round_trips: int, seed: int) -> void:

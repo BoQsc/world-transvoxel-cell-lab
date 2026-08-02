@@ -1,0 +1,27 @@
+{
+	"schema": "world_transvoxel.terrain_lab.decision.v1",
+	"id": "TQP-D008",
+	"date": "2026-08-02",
+	"decision": "Accept the retained TQP-18 material-blending diagnostic visual and promote TQP-18 for the reference material-model scope.",
+	"authority": "explicit project-owner instruction in the review task",
+	"reviewed_artifact": {
+		"path": "res://labs/terrain_lab/results/material_blending_reference.png",
+		"sha256": "bcf98539bf2e5536a45d7ee5b0bc3bfecb4355c36bac68a1308ff1499dfabd55",
+		"pixel_signature": "8c0c2a41bf616cbaef75a19033871038358b928292d0ea3e5838b7faea63b640",
+		"decision": "ACCEPTED"
+	},
+	"qualified_scope": [
+		"normalized deterministic material weights",
+		"deterministic top-four reduction and categorical tie policy",
+		"regular-to-transition shared-position interpolation",
+		"LOD0-7 shared-position continuity in the reference material field",
+		"the four-panel diagnostic presentation of those invariants"
+	],
+	"explicit_non_claims": [
+		"no production texture or shader acceptance",
+		"no terrain art-direction or pleasantness claim",
+		"no GPU material interpolation equivalence",
+		"no production material-buffer performance claim",
+		"no TQP-21, TQP-23, or TQP-25 visual acceptance"
+	]
+}

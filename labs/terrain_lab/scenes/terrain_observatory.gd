@@ -12,7 +12,9 @@ const TerrainShader := preload(
 
 const NATIVE_DEPENDENCY_CLASS := "WorldTransvoxelCellProbe"
 const CHUNK_RANGE := 1
-const CHUNK_SIZE := 32.0
+const CHUNK_Y_MIN := 0
+const CHUNK_Y_MAX := 1
+const CHUNK_CELLS_PER_AXIS := 16.0
 
 @onready var mesh_root: Node3D = %MeshRoot
 @onready var bounds_root: Node3D = %BoundsRoot
@@ -35,9 +37,10 @@ var _surface_material: ShaderMaterial
 var _operation_sequence := 0
 var _orbit_yaw := -0.65
 var _orbit_pitch := -0.42
-var _orbit_distance := 92.0
-var _orbit_target := Vector3(16.0, 7.0, 16.0)
+var _orbit_distance := 42.0
+var _orbit_target := Vector3(4.0, 10.0, 4.0)
 var _orbiting := false
+var _mesh_metrics := {}
 
 
 func _ready() -> void:
@@ -45,6 +48,10 @@ func _ready() -> void:
 	_surface_material = ShaderMaterial.new()
 	_surface_material.shader = TerrainShader
 	_surface_material.set_shader_parameter("terrain_textures", _build_texture_array())
+	_surface_material.set_shader_parameter("terrain_normal_textures", _build_normal_texture_array())
+	_surface_material.set_shader_parameter("texture_world_origin", Vector3.ZERO)
+	mesh_root.scale = Vector3.ONE * _field.sample_scale_m
+	bounds_root.scale = Vector3.ONE * _field.sample_scale_m
 	shape_option.add_item("Sphere", 0)
 	shape_option.add_item("Capsule", 1)
 	shape_option.add_item("Rounded Box", 2)
@@ -82,25 +89,25 @@ func _seed_initial_edits() -> void:
 		"id": "initial-crater",
 		"mode": "dig",
 		"shape": "sphere",
-		"center": Vector3(2.0, 8.5, 7.0),
-		"radius_m": 6.0,
+		"center": Vector3(-1.0, 9.5, 4.0),
+		"radius_m": 4.0,
 		"smoothing_m": 0.75,
 	})
 	_field.add_operation({
 		"id": "initial-tunnel",
 		"mode": "dig",
 		"shape": "capsule",
-		"segment_a": Vector3(15.0, 6.0, -8.0),
-		"segment_b": Vector3(15.0, 6.0, 17.0),
-		"radius_m": 3.0,
+		"segment_a": Vector3(7.0, 9.0, -5.0),
+		"segment_b": Vector3(7.0, 9.0, 13.0),
+		"radius_m": 2.25,
 		"smoothing_m": 0.35,
 	})
 	_field.add_operation({
 		"id": "initial-construct",
 		"mode": "construct",
 		"shape": "rounded_box",
-		"center": Vector3(27.0, 12.0, 13.0),
-		"half_extents": Vector3(7.0, 1.4, 3.0),
+		"center": Vector3(11.0, 12.5, 5.0),
+		"half_extents": Vector3(3.5, 1.4, 2.25),
 		"rounding_m": 0.6,
 		"material": 7,
 	})
@@ -156,54 +163,73 @@ func _rebuild() -> void:
 	var failed_chunks := 0
 	var local_bounds_violations := 0
 	for x in range(-CHUNK_RANGE, CHUNK_RANGE + 1):
-		for z in range(-CHUNK_RANGE, CHUNK_RANGE + 1):
-			var coordinate := Vector3i(x, 0, z)
-			var chunk := _mesh_chunk(coordinate)
-			if not bool(chunk.get("ok", false)):
-				failed_chunks += 1
-				continue
-			var regular: Dictionary = chunk.get("regular", {})
-			var mesh := _array_mesh(regular)
-			if mesh.get_surface_count() == 0:
-				continue
-			var instance := MeshInstance3D.new()
-			instance.name = "Chunk_%d_0_%d" % [x, z]
-			instance.mesh = mesh
-			instance.material_override = _surface_material
-			instance.position = Vector3(
-				float(chunk.get("world_origin_x", x * CHUNK_SIZE)),
-				float(chunk.get("world_origin_y", 0.0)),
-				float(chunk.get("world_origin_z", z * CHUNK_SIZE))
-			)
-			mesh_root.add_child(instance)
-			chunk_count += 1
-			var vertices: PackedVector3Array = regular.get("vertices", PackedVector3Array())
-			var indices: PackedInt32Array = regular.get("indices", PackedInt32Array())
-			for vertex in vertices:
-				if (
-					vertex.x < -0.001 or vertex.x > CHUNK_SIZE + 0.001
-					or vertex.y < -0.001 or vertex.y > CHUNK_SIZE + 0.001
-					or vertex.z < -0.001 or vertex.z > CHUNK_SIZE + 0.001
-				):
-					local_bounds_violations += 1
-			vertex_count += vertices.size()
-			triangle_count += indices.size() / 3
-			_add_chunk_bounds(instance.position)
+		for y in range(CHUNK_Y_MIN, CHUNK_Y_MAX + 1):
+			for z in range(-CHUNK_RANGE, CHUNK_RANGE + 1):
+				var coordinate := Vector3i(x, y, z)
+				var chunk := _mesh_chunk(coordinate)
+				if not bool(chunk.get("ok", false)):
+					failed_chunks += 1
+					continue
+				var regular: Dictionary = chunk.get("regular", {})
+				var mesh := _array_mesh(regular)
+				if mesh.get_surface_count() == 0:
+					continue
+				var instance := MeshInstance3D.new()
+				instance.name = "Chunk_%d_%d_%d" % [x, y, z]
+				instance.mesh = mesh
+				instance.material_override = _surface_material
+				instance.position = Vector3(
+					float(chunk.get("world_origin_x", x * CHUNK_CELLS_PER_AXIS)),
+					float(chunk.get("world_origin_y", y * CHUNK_CELLS_PER_AXIS)),
+					float(chunk.get("world_origin_z", z * CHUNK_CELLS_PER_AXIS))
+				)
+				mesh_root.add_child(instance)
+				chunk_count += 1
+				var vertices: PackedVector3Array = regular.get("vertices", PackedVector3Array())
+				var indices: PackedInt32Array = regular.get("indices", PackedInt32Array())
+				for vertex in vertices:
+					if (
+						vertex.x < -0.001 or vertex.x > CHUNK_CELLS_PER_AXIS + 0.001
+						or vertex.y < -0.001 or vertex.y > CHUNK_CELLS_PER_AXIS + 0.001
+						or vertex.z < -0.001 or vertex.z > CHUNK_CELLS_PER_AXIS + 0.001
+					):
+						local_bounds_violations += 1
+				vertex_count += vertices.size()
+				triangle_count += indices.size() / 3
+				_add_chunk_bounds(instance.position)
 	var elapsed_ms := float(Time.get_ticks_usec() - started) / 1000.0
 	status_label.text = (
 		"PASS"
 		if failed_chunks == 0 and local_bounds_violations == 0
 		else "FAIL"
 	)
+	_mesh_metrics = {
+		"chunk_count": chunk_count,
+		"edit_count": _field.operations.size(),
+		"vertex_count": vertex_count,
+		"triangle_count": triangle_count,
+		"bounds_errors": local_bounds_violations,
+		"elapsed_ms": elapsed_ms,
+	}
+	_update_metrics_label(true)
+
+
+func prepare_reference_capture() -> void:
+	_update_metrics_label(false)
+
+
+func _update_metrics_label(include_timing: bool) -> void:
+	var final_line := "%d bounds errors" % int(_mesh_metrics.get("bounds_errors", 0))
+	if include_timing:
+		final_line += " / %.1f ms" % float(_mesh_metrics.get("elapsed_ms", 0.0))
 	metrics_label.text = (
-		"%d chunks / %d edits\n%d vertices / %d triangles\n%d bounds errors / %.1f ms"
+		"%d chunks / %d edits\n%d vertices / %d triangles\n%s"
 		% [
-			chunk_count,
-			_field.operations.size(),
-			vertex_count,
-			triangle_count,
-			local_bounds_violations,
-			elapsed_ms,
+			int(_mesh_metrics.get("chunk_count", 0)),
+			int(_mesh_metrics.get("edit_count", 0)),
+			int(_mesh_metrics.get("vertex_count", 0)),
+			int(_mesh_metrics.get("triangle_count", 0)),
+			final_line,
 		]
 	)
 
@@ -249,9 +275,9 @@ func _add_chunk_bounds(origin: Vector3) -> void:
 	immediate.surface_begin(Mesh.PRIMITIVE_LINES)
 	var corners: Array[Vector3] = [
 		origin + Vector3(0.0, 0.05, 0.0),
-		origin + Vector3(CHUNK_SIZE, 0.05, 0.0),
-		origin + Vector3(CHUNK_SIZE, 0.05, CHUNK_SIZE),
-		origin + Vector3(0.0, 0.05, CHUNK_SIZE),
+		origin + Vector3(CHUNK_CELLS_PER_AXIS, 0.05, 0.0),
+		origin + Vector3(CHUNK_CELLS_PER_AXIS, 0.05, CHUNK_CELLS_PER_AXIS),
+		origin + Vector3(0.0, 0.05, CHUNK_CELLS_PER_AXIS),
 	]
 	for edge in [[0, 1], [1, 2], [2, 3], [3, 0]]:
 		immediate.surface_add_vertex(corners[edge[0]])
@@ -278,10 +304,7 @@ func _build_texture_array() -> Texture2DArray:
 		var image := Image.create(128, 128, false, Image.FORMAT_RGBA8)
 		for y in range(128):
 			for x in range(128):
-				var grain := (
-					sin(float(x * 13 + y * 7 + layer * 19) * 0.17) * 0.5
-					+ sin(float(x * 3 - y * 11 + layer * 5) * 0.11) * 0.5
-				)
+				var grain := _texture_height(x, y, layer)
 				var grid := 0.08 if (x % 32 == 0 or y % 32 == 0) else 0.0
 				var color := base_colors[layer].lightened(clampf(grain * 0.08 + grid, -0.08, 0.14))
 				image.set_pixel(x, y, color)
@@ -290,6 +313,32 @@ func _build_texture_array() -> Texture2DArray:
 	var texture := Texture2DArray.new()
 	texture.create_from_images(images)
 	return texture
+
+
+func _build_normal_texture_array() -> Texture2DArray:
+	var images: Array[Image] = []
+	for layer in range(3):
+		var image := Image.create(128, 128, false, Image.FORMAT_RGBA8)
+		for y in range(128):
+			for x in range(128):
+				var left := _texture_height((x - 1 + 128) % 128, y, layer)
+				var right := _texture_height((x + 1) % 128, y, layer)
+				var down := _texture_height(x, (y - 1 + 128) % 128, layer)
+				var up := _texture_height(x, (y + 1) % 128, layer)
+				var normal := Vector3((left - right) * 0.35, (down - up) * 0.35, 1.0).normalized()
+				image.set_pixel(x, y, Color(normal.x * 0.5 + 0.5, normal.y * 0.5 + 0.5, normal.z * 0.5 + 0.5, 1.0))
+		image.generate_mipmaps()
+		images.append(image)
+	var texture := Texture2DArray.new()
+	texture.create_from_images(images)
+	return texture
+
+
+func _texture_height(x: int, y: int, layer: int) -> float:
+	return (
+		sin(float(x * 13 + y * 7 + layer * 19) * 0.17) * 0.5
+		+ sin(float(x * 3 - y * 11 + layer * 5) * 0.11) * 0.5
+	)
 
 
 func _run_qualification() -> void:

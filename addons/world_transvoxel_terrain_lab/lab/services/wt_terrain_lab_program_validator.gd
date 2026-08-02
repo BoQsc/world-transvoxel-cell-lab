@@ -90,6 +90,7 @@ static func validate(program: Dictionary, dependencies: Dictionary) -> Dictionar
 	_validate_edit_gate_b_evidence(program, milestone_by_id, failures)
 	_validate_temporal_wave_evidence(program, milestone_by_id, failures)
 	_validate_wave_02_first_batch_evidence(program, milestone_by_id, failures)
+	_validate_wave_02_second_batch_evidence(program, milestone_by_id, failures)
 	_validate_visual_evidence(program, milestone_by_id, failures)
 	_validate_dependency_boundary(program, dependencies, failures)
 	_validate_source_boundary(failures)
@@ -211,7 +212,10 @@ static func _validate_evidence_files(program: Dictionary, failures: Array[String
 		_expect(not decision_id.is_empty(), "decision ID is missing: " + path, failures)
 		_expect(not decision_ids.has(decision_id), "duplicate decision ID: " + decision_id, failures)
 		decision_ids[decision_id] = true
-	for required in ["TQP-D001", "TQP-D002", "TQP-D003", "TQP-D004", "TQP-D005", "TQP-D006", "TQP-D007"]:
+	for required in [
+		"TQP-D001", "TQP-D002", "TQP-D003", "TQP-D004", "TQP-D005",
+		"TQP-D006", "TQP-D007", "TQP-D008", "TQP-D009", "TQP-D010",
+	]:
 		_expect(decision_ids.has(required), "missing retained decision: " + required, failures)
 	for key in [
 		"qualification_state",
@@ -223,7 +227,10 @@ static func _validate_evidence_files(program: Dictionary, failures: Array[String
 		"material_blending_standard",
 		"streaming_window_standard",
 		"large_world_coordinate_standard",
+		"texture_system_standard",
+		"visibility_residency_standard",
 		"wave_02_first_batch_evidence",
+		"wave_02_second_batch_evidence",
 		"execution_plan",
 	]:
 		var path := str(program.get(key, ""))
@@ -376,11 +383,12 @@ static func _validate_qualification_state(
 			"retained qualification report schema mismatch",
 			failures
 		)
-		_expect(
-			str(retained.get("status", "")) == "PASS",
-			"retained qualification report did not pass",
-			failures
-		)
+		if not _is_regenerating_retained_report(retained_path):
+			_expect(
+				str(retained.get("status", "")) == "PASS",
+				"retained qualification report did not pass",
+				failures
+			)
 		_expect(
 			int(retained.get("milestone_count", 0)) == 46,
 			"retained qualification report milestone count changed",
@@ -538,6 +546,12 @@ static func _validate_wave_02_first_batch_evidence(
 	for milestone_id in ["TQP-18", "TQP-19", "TQP-20"]:
 		var result: Dictionary = result_by_id.get(milestone_id, {})
 		_expect(str(result.get("status", "")) == "PASS", milestone_id + " retained batch evidence failed", failures)
+		_expect(
+			str((result.get("performance", {}) as Dictionary).get("budget_evaluation", ""))
+				== "ENFORCED_FOCUSED_RUN",
+			milestone_id + " retained performance budget was not enforced",
+			failures
+		)
 	var material_qualification := str(
 		(result_by_id.get("TQP-18", {}) as Dictionary).get("qualification_status", "")
 	)
@@ -554,6 +568,71 @@ static func _validate_wave_02_first_batch_evidence(
 	_expect(
 		str((result_by_id.get("TQP-20", {}) as Dictionary).get("qualification_status", "")).begins_with("QUALIFIED"),
 		"TQP-20 retained evidence is not qualified",
+		failures
+	)
+
+
+static func _validate_wave_02_second_batch_evidence(
+	program: Dictionary,
+	milestone_by_id: Dictionary,
+	failures: Array[String]
+) -> void:
+	var standard_schemas := {
+		"texture_system_standard": "world_transvoxel.terrain_lab.texture_system_standard.v1",
+		"visibility_residency_standard": "world_transvoxel.terrain_lab.visibility_residency_standard.v1",
+	}
+	for key in standard_schemas:
+		var standard := JsonLoader.load_dictionary(str(program.get(key, "")))
+		_expect(
+			str(standard.get("schema", "")) == str(standard_schemas[key]),
+			"Wave 02 second-batch standard schema mismatch: " + str(key),
+			failures
+		)
+	var visual := JsonLoader.load_dictionary(str(program.get("visual_evidence", "")))
+	var human_review := str((visual.get("human_review", {}) as Dictionary).get("status", ""))
+	var texture_status := str((milestone_by_id.get("TQP-21", {}) as Dictionary).get("status", ""))
+	_expect(
+		(texture_status == "qualified") == (human_review == "ACCEPTED"),
+		"TQP-21 status does not match corrected observatory visual review",
+		failures
+	)
+	_expect(
+		str((milestone_by_id.get("TQP-22", {}) as Dictionary).get("status", "")) == "qualified",
+		"TQP-22 must match retained horizontal CPU visibility evidence",
+		failures
+	)
+	var report := JsonLoader.load_dictionary(str(program.get("wave_02_second_batch_evidence", "")))
+	_expect(
+		str(report.get("schema", ""))
+			== "world_transvoxel.terrain_lab.wave_02_second_batch_qualification.v1",
+		"Wave 02 second-batch report schema mismatch",
+		failures
+	)
+	_expect(str(report.get("status", "")) == "PASS", "Wave 02 second-batch report failed", failures)
+	var result_by_id := {}
+	for result_value in report.get("milestones", []):
+		var result: Dictionary = result_value
+		result_by_id[str(result.get("milestone", ""))] = result
+	for milestone_id in ["TQP-21", "TQP-22"]:
+		var result: Dictionary = result_by_id.get(milestone_id, {})
+		_expect(str(result.get("status", "")) == "PASS", milestone_id + " retained batch evidence failed", failures)
+		_expect(
+			str((result.get("performance", {}) as Dictionary).get("budget_evaluation", ""))
+				== "ENFORCED_FOCUSED_RUN",
+			milestone_id + " retained performance budget was not enforced",
+			failures
+		)
+	var texture_qualification := str(
+		(result_by_id.get("TQP-21", {}) as Dictionary).get("qualification_status", "")
+	)
+	_expect(
+		(texture_qualification.begins_with("QUALIFIED")) == (human_review == "ACCEPTED"),
+		"TQP-21 retained qualification state does not match visual review",
+		failures
+	)
+	_expect(
+		str((result_by_id.get("TQP-22", {}) as Dictionary).get("qualification_status", "")).begins_with("QUALIFIED"),
+		"TQP-22 retained evidence is not qualified",
 		failures
 	)
 
@@ -579,7 +658,10 @@ static func _validate_visual_evidence(
 		)
 	var automated: Dictionary = evidence.get("automated_checks", {})
 	_expect(str(automated.get("status", "")) == "PASS", "visual automated checks failed", failures)
+	_expect(int(automated.get("requested_chunk_count", 0)) == 18, "visual requested chunk corpus changed", failures)
+	_expect(int(automated.get("native_chunk_count", 0)) == 16, "visual rendered chunk corpus changed", failures)
 	_expect(int(automated.get("local_bounds_errors", -1)) == 0, "visual bounds errors exist", failures)
+	_expect(str(automated.get("cold_warm_capture_identity", "")) == "PASS", "visual capture is not repeatable", failures)
 	var review: Dictionary = evidence.get("human_review", {})
 	_expect(
 		str(review.get("status", "")) == "PENDING",
@@ -658,6 +740,14 @@ static func _gdscript_paths(root_path: String) -> Array[String]:
 		entry = directory.get_next()
 	directory.list_dir_end()
 	return result
+
+
+static func _is_regenerating_retained_report(retained_path: String) -> bool:
+	var arguments := OS.get_cmdline_user_args()
+	for index in range(arguments.size() - 1):
+		if arguments[index] == "--output" and arguments[index + 1] == retained_path:
+			return true
+	return false
 
 
 static func _gate_status(members: Array, milestone_by_id: Dictionary) -> String:

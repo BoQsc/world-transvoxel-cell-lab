@@ -1,0 +1,295 @@
+{
+	"schema": "world_transvoxel.terrain_lab.wave_02_second_batch_qualification.v1",
+	"status": "PASS",
+	"milestones": [
+		{
+			"milestone": "TQP-21",
+			"status": "PASS",
+			"qualification_status": "IMPLEMENTED_PENDING_HUMAN_RENDER_REVIEW",
+			"fixture_count": 80,
+			"exact_corpus": {
+				"status": "PASS",
+				"fixture_count": 80,
+				"coordinate_records": [
+					{
+						"global_position": "(0.0, 0.0, 0.0)",
+						"coordinates": {
+							"xy": "(0.0, 0.0)",
+							"xz": "(0.0, 0.0)",
+							"yz": "(0.0, 0.0)"
+						}
+					},
+					{
+						"global_position": "(12.25, -8.5, 31.75)",
+						"coordinates": {
+							"xy": "(4.083333, -2.833333)",
+							"xz": "(4.083333, 10.58333)",
+							"yz": "(-2.833333, 10.58333)"
+						}
+					},
+					{
+						"global_position": "(-100000.3, 4000.5, 80000.75)",
+						"coordinates": {
+							"xy": "(-33333.42, 1333.5)",
+							"xz": "(-33333.42, 26666.92)",
+							"yz": "(1333.5, 26666.92)"
+						}
+					},
+					{
+						"global_position": "(100000.3, -4000.5, -80000.75)",
+						"coordinates": {
+							"xy": "(33333.42, -1333.5)",
+							"xz": "(33333.42, -26666.92)",
+							"yz": "(-1333.5, -26666.92)"
+						}
+					}
+				],
+				"normal_records": [
+					{
+						"id": "up",
+						"weights": "(0.0, 1.0, 0.0)",
+						"flat_normal": "(0.0, 1.0, 0.0)",
+						"perturbed_normal": "(0.120065, 0.989534, -0.080043)"
+					},
+					{
+						"id": "down",
+						"weights": "(0.0, 1.0, 0.0)",
+						"flat_normal": "(0.0, -1.0, 0.0)",
+						"perturbed_normal": "(0.120065, -0.989534, -0.080043)"
+					},
+					{
+						"id": "cliff_x",
+						"weights": "(1.0, 0.0, 0.0)",
+						"flat_normal": "(1.0, 0.0, 0.0)",
+						"perturbed_normal": "(0.989534, 0.120065, -0.080043)"
+					},
+					{
+						"id": "cliff_z",
+						"weights": "(0.0, 0.0, 1.0)",
+						"flat_normal": "(0.0, 0.0, 1.0)",
+						"perturbed_normal": "(0.120065, -0.080043, 0.989534)"
+					},
+					{
+						"id": "oblique",
+						"weights": "(0.005158, 0.987824, 0.007018)",
+						"flat_normal": "(0.005222, 0.999961, -0.007104)",
+						"perturbed_normal": "(0.125906, 0.988188, -0.087367)"
+					},
+					{
+						"id": "cave_oblique",
+						"weights": "(0.014759, 0.958398, 0.026843)",
+						"flat_normal": "(-0.015392, -0.99949, 0.027994)",
+						"perturbed_normal": "(0.108486, -0.992646, -0.053708)"
+					}
+				],
+				"lod_records": [
+					{
+						"lod": 0,
+						"maximum_coordinate_error": 0.0
+					},
+					{
+						"lod": 1,
+						"maximum_coordinate_error": 0.0
+					},
+					{
+						"lod": 2,
+						"maximum_coordinate_error": 0.0
+					},
+					{
+						"lod": 3,
+						"maximum_coordinate_error": 0.0
+					},
+					{
+						"lod": 4,
+						"maximum_coordinate_error": 0.0
+					},
+					{
+						"lod": 5,
+						"maximum_coordinate_error": 0.0
+					},
+					{
+						"lod": 6,
+						"maximum_coordinate_error": 0.0
+					},
+					{
+						"lod": 7,
+						"maximum_coordinate_error": 0.0
+					}
+				],
+				"layer_count": 3,
+				"mipmap_level_count": 8
+			},
+			"performance": {
+				"sample_count": 100,
+				"p50_usec": 8247.0,
+				"p95_usec": 13189.0,
+				"p99_usec": 18025.0,
+				"worst_usec": 18551.0,
+				"warmup_iterations": 10,
+				"mapping_operations_per_sample": 2048,
+				"budget_p95_usec": 50000.0,
+				"scope": "CPU contract model only; not shader or GPU cost",
+				"budget_evaluation": "ENFORCED_FOCUSED_RUN"
+			},
+			"memory": {
+				"retained_bytes": 25746359,
+				"peak_bytes": 29524999
+			},
+			"provenance": {
+				"workload_signature": "tqp21_reference_triplanar_texture_array_v1",
+				"build_type": "debug",
+				"os": "Windows",
+				"architecture": "x86_64",
+				"cpu": "Intel(R) Core(TM) i5-7300HQ CPU @ 2.50GHz",
+				"gpu": "",
+				"driver": "opengl3",
+				"godot_version": "4.7.1-stable (official)",
+				"backend_revision": "a5c681d4061c5bcf2f779f7ae841d5d8ebffcdf2725040087386257ac2c3e32b"
+			},
+			"visual_evidence": {
+				"image": "res://labs/terrain_lab/results/terrain_observatory_reference.png",
+				"sha256": "009c19eb1a4ef56ae9ab0d9b98922573de72abeb202c460cdf54d00874afe752",
+				"automated_status": "PASS",
+				"human_review": "PENDING"
+			},
+			"qualified_scope": [
+				"three-layer albedo and normal texture-array contract",
+				"global world-space triplanar coordinates with floating-origin compensation",
+				"mipmap and anisotropic sampling declarations",
+				"LOD0-7 coordinate continuity at shared global positions",
+				"reference normal reorientation for cliffs, cave ceilings, and oblique surfaces"
+			],
+			"explicitly_unqualified_scope": [
+				"human renderer acceptance until the retained observatory image is reviewed",
+				"production texture assets or art direction",
+				"GPU shader cost and cross-GPU consistency",
+				"virtual texturing or sparse texture residency",
+				"production normal-map quality"
+			],
+			"failures": []
+		},
+		{
+			"milestone": "TQP-22",
+			"status": "PASS",
+			"qualification_status": "QUALIFIED_CPU_HORIZONTAL_VISIBILITY_RESIDENCY_REFERENCE_V1",
+			"fixture_count": 25,
+			"fixture_corpus": {
+				"status": "PASS",
+				"fixture_count": 25,
+				"views": [
+					{
+						"id": "near_forward",
+						"candidate_count": 1089,
+						"frustum_culled_count": 800,
+						"occluded_count": 140,
+						"visible_chunk_count": 149,
+						"lod_counts": {
+							"0": 10,
+							"1": 19,
+							"2": 24
+						},
+						"hlod_cluster_count": 14,
+						"draw_submission_count": 67,
+						"resident_bytes": 57147392,
+						"representation_signature": "62c91cfc3f24289f394c4087d4a79742d50b4cc331b5f4b736a0e9d79c6d6203"
+					},
+					{
+						"id": "rotated",
+						"candidate_count": 1089,
+						"frustum_culled_count": 806,
+						"occluded_count": 178,
+						"visible_chunk_count": 105,
+						"lod_counts": {
+							"0": 11,
+							"1": 16,
+							"2": 24
+						},
+						"hlod_cluster_count": 8,
+						"draw_submission_count": 59,
+						"resident_bytes": 54525952,
+						"representation_signature": "af90cbb114532fecb45ab04578d43b69138cad5d5363e508ea855009cc2aec25"
+					},
+					{
+						"id": "far_origin_shift",
+						"candidate_count": 1089,
+						"frustum_culled_count": 800,
+						"occluded_count": 140,
+						"visible_chunk_count": 149,
+						"lod_counts": {
+							"0": 10,
+							"1": 19,
+							"2": 24
+						},
+						"hlod_cluster_count": 14,
+						"draw_submission_count": 67,
+						"resident_bytes": 57147392,
+						"representation_signature": "e256ee7a8992d71d601fa1dbc83800b0591f2449b5171ed662e99e8a0ce3459d"
+					},
+					{
+						"id": "teleport",
+						"candidate_count": 1089,
+						"frustum_culled_count": 800,
+						"occluded_count": 140,
+						"visible_chunk_count": 149,
+						"lod_counts": {
+							"0": 10,
+							"1": 19,
+							"2": 24
+						},
+						"hlod_cluster_count": 14,
+						"draw_submission_count": 67,
+						"resident_bytes": 57147392,
+						"representation_signature": "ee3ac943a37e1736a187a3eda39e83f7881c849c4dbc841137f0dd32aadd9d59"
+					}
+				],
+				"origin_shift_visibility_difference": 0,
+				"teleport_convergence_updates": 1,
+				"draw_submission_budget": 160,
+				"resident_memory_budget_bytes": 268435456
+			},
+			"performance": {
+				"sample_count": 100,
+				"p50_usec": 113398.0,
+				"p95_usec": 122461.0,
+				"p99_usec": 129125.0,
+				"worst_usec": 129907.0,
+				"warmup_iterations": 10,
+				"views_per_sample": 16,
+				"budget_p95_usec": 300000.0,
+				"scope": "CPU reference-policy evaluation; not renderer or GPU submission cost",
+				"budget_evaluation": "ENFORCED_FOCUSED_RUN"
+			},
+			"memory": {
+				"retained_bytes": 25763527,
+				"peak_bytes": 29524999
+			},
+			"provenance": {
+				"workload_signature": "tqp22_cpu_horizontal_visibility_residency_reference_v1",
+				"build_type": "debug",
+				"os": "Windows",
+				"architecture": "x86_64",
+				"cpu": "Intel(R) Core(TM) i5-7300HQ CPU @ 2.50GHz",
+				"gpu": "",
+				"driver": "opengl3",
+				"godot_version": "4.7.1-stable (official)",
+				"backend_revision": "a5c681d4061c5bcf2f779f7ae841d5d8ebffcdf2725040087386257ac2c3e32b"
+			},
+			"qualified_scope": [
+				"deterministic horizontal CPU frustum and conservative occlusion reference",
+				"LOD and HLOD representation selection",
+				"reference draw-submission and retained-buffer accounting",
+				"origin-shift and teleport invariance",
+				"versioned edit republication and stale-buffer rejection"
+			],
+			"explicitly_unqualified_scope": [
+				"vertical multi-layer visibility and residency",
+				"Godot renderer frustum or occlusion implementation",
+				"real GPU draw submission and buffer allocation",
+				"production HLOD geometry generation",
+				"production memory or frame-time budgets"
+			],
+			"failures": []
+		}
+	],
+	"failures": []
+}

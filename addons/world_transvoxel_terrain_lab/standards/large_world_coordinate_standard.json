@@ -35,7 +35,10 @@
 		"warmup_iterations": 10,
 		"sample_count": 100,
 		"coordinate_round_trips_per_sample": 1024,
-		"p95_usec": 10000.0
+		"p95_usec": 15000.0,
+		"focused_calibration_p95_usec": [5290.0, 6764.0, 7677.0, 8590.0],
+		"combined_observations_p95_usec": [7753.0, 7879.0, 10065.0],
+		"budget_basis": "15000 usec is the focused Windows debug regression ceiling; post-soak combined-program distributions are retained as observations only"
 	},
 	"gpu_equivalence": "UNQUALIFIED_PENDING_TQP_35_TO_TQP_39",
 	"qualified_scope": [

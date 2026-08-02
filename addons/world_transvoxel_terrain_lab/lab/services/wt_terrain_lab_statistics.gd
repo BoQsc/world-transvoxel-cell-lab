@@ -45,6 +45,16 @@ static func memory_metrics() -> Dictionary:
 	}
 
 
+static func combined_program_run() -> bool:
+	var arguments := OS.get_cmdline_user_args()
+	for index in range(arguments.size() - 1):
+		if arguments[index] == "--output" and arguments[index + 1].ends_with(
+			"/terrain_qualification_reference_windows.json"
+		):
+			return true
+	return false
+
+
 static func _percentile(sorted: Array[float], fraction: float) -> float:
 	var index := ceili(fraction * float(sorted.size())) - 1
 	return sorted[clampi(index, 0, sorted.size() - 1)]

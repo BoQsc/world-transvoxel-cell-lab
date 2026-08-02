@@ -1,0 +1,54 @@
+{
+	"schema": "world_transvoxel.terrain_lab.texture_system_standard.v1",
+	"milestone": "TQP-21",
+	"standard_id": "reference_triplanar_texture_array_v1",
+	"renderer_contract": {
+		"shader": "res://labs/terrain_lab/shaders/terrain_observatory.gdshader",
+		"scene": "res://labs/terrain_lab/scenes/terrain_observatory.tscn",
+		"albedo_storage": "Texture2DArray",
+		"normal_storage": "Texture2DArray",
+		"layer_count": 3,
+		"layer_size_px": 128,
+		"format": "RGBA8",
+		"mipmaps": "required",
+		"mipmap_level_count": 8,
+		"anisotropy": "filter_linear_mipmap_anisotropic",
+		"mapping": "world_space_triplanar",
+		"normal_mapping": "tangent_free_world_axis_reorientation",
+		"texture_scale_m": 3.0,
+		"triplanar_sharpness": 4.0,
+		"origin_shift_rule": "global_texture_position_equals_origin_relative_world_position_plus_texture_world_origin"
+	},
+	"fixture_contract": {
+		"qualified_normals": ["up", "down", "cliff_x", "cliff_z", "oblique", "cave_oblique"],
+		"qualified_surfaces": ["base", "constructed", "dug_boundary", "cliff", "cave_ceiling"],
+		"qualified_lods": [0, 1, 2, 3, 4, 5, 6, 7],
+		"coordinate_error_budget": 0.000001,
+		"normal_length_error_budget": 0.00001,
+		"normal_hemisphere_minimum_dot": 0.0
+	},
+	"performance_budget": {
+		"warmup_iterations": 10,
+		"sample_count": 100,
+		"mapping_operations_per_sample": 2048,
+		"p95_usec": 50000.0,
+		"focused_calibration_p95_usec": [17176.0, 15679.0, 20835.0, 30402.0],
+		"budget_basis": "50000 usec is the focused Windows debug CPU-contract regression ceiling; it is not a shader or GPU budget",
+		"scope": "CPU contract model only; not shader or GPU cost"
+	},
+	"visual_evidence": "res://addons/world_transvoxel_terrain_lab/standards/visual_evidence.json",
+	"qualified_scope": [
+		"three-layer albedo and normal texture-array contract",
+		"global world-space triplanar coordinates with floating-origin compensation",
+		"mipmap and anisotropic sampling declarations",
+		"LOD0-7 coordinate continuity at shared global positions",
+		"reference normal reorientation for cliffs, cave ceilings, and oblique surfaces"
+	],
+	"explicitly_unqualified_scope": [
+		"human renderer acceptance until the retained observatory image is reviewed",
+		"production texture assets or art direction",
+		"GPU shader cost and cross-GPU consistency",
+		"virtual texturing or sparse texture residency",
+		"production normal-map quality"
+	]
+}

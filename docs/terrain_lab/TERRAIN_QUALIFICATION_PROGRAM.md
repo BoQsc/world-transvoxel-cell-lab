@@ -306,15 +306,16 @@ Execution batches: (TQP-18, TQP-19, TQP-20) ->
 (TQP-21, TQP-22) -> (TQP-23, TQP-24) ->
 (TQP-25, TQP-26) -> TQP-27.
 
-TQP-19 and TQP-20 are qualified for their declared reference scopes. The
-current work is exactly TQP-18; its exact corpus and automated visual checks
-pass, but promotion remains fail-closed until the retained material-blending
-artifact receives explicit human review.
+TQP-18 through TQP-20 and TQP-22 are qualified for their declared reference
+scopes. The current work is exactly TQP-21: its CPU contract corpus and
+corrected deterministic Forward+/D3D12 render pass, but promotion remains
+fail-closed until the retained observatory artifact receives explicit human
+review.
 
 ### TQP-18: Material Blending
 
-Status: `implemented` pending human visual review. Owner: Material and Surface
-Lab. Depends on: TQP-08.
+Status: `qualified` for the deterministic reference material-blending scope.
+Owner: Material and Surface Lab. Depends on: TQP-08.
 
 Complete when normalized weights, top-material reduction, categorical
 boundaries, transition interpolation, and LOD continuity pass exact and visual
@@ -343,21 +344,28 @@ equivalence remains explicitly unqualified until TQP-35 through TQP-39.
 
 ### TQP-21: Texture System
 
-Status: `implemented`. Owner: Material and Surface Lab. Depends on: TQP-08,
-TQP-18.
+Status: `implemented` pending human review of the corrected observatory render.
+Owner: Material and Surface Lab. Depends on: TQP-08, TQP-18.
 
-Complete when texture arrays, world-space triplanar mapping, scale, mipmaps,
-anisotropy, normal maps, caves, cliffs, and edited surfaces remain continuous
-within performance budgets.
+The 80-fixture CPU contract covers texture arrays, floating-origin compensated
+world-space triplanar coordinates, mipmaps, anisotropy, normal reorientation,
+and shared-position continuity at LOD0-7. The 3x3x2 observatory fixture now
+applies the qualified 0.5 m sample scale, renders both vertical layers needed
+for dug surfaces, and produces byte-identical cold/warm captures. Production
+assets, GPU cost, cross-GPU equivalence, and visual acceptance remain open.
 
 ### TQP-22: Visibility And Residency
 
-Status: `implemented`. Owner: Terrain Systems Lab and Material and Surface Lab.
-Depends on: TQP-05, TQP-19, TQP-20.
+Status: `qualified` for the deterministic horizontal CPU reference. Owner:
+Terrain Systems Lab and Material and Surface Lab. Depends on: TQP-05, TQP-19,
+TQP-20.
 
-Complete when culling, occlusion, LOD/HLOD policy, draw counts, buffer
-residency, distant representation, and memory budgets are observable and
-qualified.
+Qualified behavior includes fixed-view frustum and conservative angular
+occlusion, LOD and HLOD selection, reference draw and retained-buffer
+accounting, origin-shift and teleport invariance, and stale edit-buffer
+rejection. Vertical multi-layer residency, Godot renderer occlusion, real GPU
+submission, production HLOD geometry, and production budgets remain
+explicitly unqualified.
 
 ### TQP-23: Surface Shading
 
@@ -599,11 +607,11 @@ a standard, not an assertion that future terrain work is finished.
 
 The program has executed every milestone to a truthful evidence state:
 
-- `TQP-01` through `TQP-17`, plus `TQP-19` and `TQP-20`, are qualified
+- `TQP-01` through `TQP-20`, plus `TQP-22`, are qualified
   for their narrow contract, native Windows reference, or reference-model
   scopes. Gate B is qualified; its native chunk rebuild benchmark remains a
   background/debug reference and is not a production frame-time claim.
-- `TQP-18`, `TQP-21` through `TQP-24`, and `TQP-26` through `TQP-33` have
+- `TQP-21`, `TQP-23`, `TQP-24`, and `TQP-26` through `TQP-33` have
   implemented reference behavior but
   still lack one or more exit criteria named in their milestone contracts.
 - `TQP-25` and `TQP-34` are specified. The former requires human visual
@@ -611,10 +619,10 @@ The program has executed every milestone to a truthful evidence state:
 - `TQP-35` through `TQP-46` are blocked by named external targets and exit
   conditions in `program_blockers.json`.
 
-The next dependency-ordered work is the explicit TQP-18 material-blending
-visual decision. TQP-19 streaming windows and TQP-20 large-world coordinates
-have passed their declared reference scopes; TQP-21 and TQP-22 do not become
-the active step until TQP-18 closes.
+The next dependency-ordered work is the explicit TQP-21 corrected-observatory
+visual decision. TQP-18 through TQP-20 and TQP-22 have passed their declared
+reference scopes; TQP-23 and TQP-24 do not become the active step until TQP-21
+closes.
 Production and GPU claims remain closed. A blocked milestone may advance only
 when its recorded exit condition exists and the required evidence passes.
 
@@ -647,3 +655,11 @@ Retained decisions:
   through TQP-46 execution sequence without changing milestone evidence state.
 - `TQP-D007`: qualify TQP-19 and TQP-20 for deterministic reference scopes and
   retain TQP-18 as implemented pending explicit human visual review.
+- `TQP-D008`: accept the retained TQP-18 material-blending diagnostic and
+  promote only its deterministic reference material-model scope.
+- `TQP-D009`: qualify the narrow TQP-22 horizontal CPU visibility/residency
+  reference and retain TQP-21 pending review of the corrected observatory.
+- `TQP-D010`: calibrate TQP-19 and TQP-22 debug reference-policy regression
+  ceilings in focused retained runners and label post-soak full-program timing
+  distributions as observation-only, without making a production performance
+  claim.

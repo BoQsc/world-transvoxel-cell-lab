@@ -5,7 +5,7 @@
 		{
 			"milestone": "TQP-18",
 			"status": "PASS",
-			"qualification_status": "IMPLEMENTED_PENDING_HUMAN_VISUAL_REVIEW",
+			"qualification_status": "QUALIFIED_REFERENCE_MATERIAL_BLENDING_V1",
 			"fixture_count": 597,
 			"exact_corpus": {
 				"status": "PASS",
@@ -50,17 +50,18 @@
 			},
 			"performance": {
 				"sample_count": 100,
-				"p50_usec": 3643.0,
-				"p95_usec": 5722.0,
-				"p99_usec": 10696.0,
-				"worst_usec": 16758.0,
+				"p50_usec": 4628.0,
+				"p95_usec": 5487.0,
+				"p99_usec": 6122.0,
+				"worst_usec": 6715.0,
 				"warmup_iterations": 10,
 				"blends_per_sample": 512,
-				"budget_p95_usec": 30000.0
+				"budget_p95_usec": 30000.0,
+				"budget_evaluation": "ENFORCED_FOCUSED_RUN"
 			},
 			"memory": {
-				"retained_bytes": 25963305,
-				"peak_bytes": 31420009
+				"retained_bytes": 25987379,
+				"peak_bytes": 31505522
 			},
 			"provenance": {
 				"workload_signature": "tqp18_material_blending_reference_v1",
@@ -80,7 +81,7 @@
 				"pixel_signature": "8c0c2a41bf616cbaef75a19033871038358b928292d0ea3e5838b7faea63b640",
 				"generated_pixel_signature": "8c0c2a41bf616cbaef75a19033871038358b928292d0ea3e5838b7faea63b640",
 				"automated_status": "PASS",
-				"human_review": "PENDING",
+				"human_review": "ACCEPTED",
 				"panels": [
 					"continuous_and_categorical",
 					"regular_transition_interpolation",
@@ -92,11 +93,11 @@
 				"normalized deterministic material weights",
 				"deterministic top-four reduction and categorical tie policy",
 				"regular-to-transition shared-position interpolation",
-				"LOD0-7 shared-position continuity in the reference material field"
+				"LOD0-7 shared-position continuity in the reference material field",
+				"accepted four-panel diagnostic presentation"
 			],
 			"explicitly_unqualified_scope": [
 				"production texture assets and shader presentation",
-				"visual acceptance until the retained artifact is reviewed",
 				"GPU interpolation equivalence",
 				"production material-buffer cost"
 			],
@@ -140,17 +141,18 @@
 			},
 			"performance": {
 				"sample_count": 100,
-				"p50_usec": 35919.0,
-				"p95_usec": 40493.0,
-				"p99_usec": 47187.0,
-				"worst_usec": 48116.0,
+				"p50_usec": 47334.0,
+				"p95_usec": 50939.0,
+				"p99_usec": 53202.0,
+				"worst_usec": 54072.0,
 				"warmup_iterations": 10,
 				"path_updates_per_sample": 64,
-				"budget_p95_usec": 75000.0
+				"budget_p95_usec": 150000.0,
+				"budget_evaluation": "ENFORCED_FOCUSED_RUN"
 			},
 			"memory": {
-				"retained_bytes": 25972489,
-				"peak_bytes": 31420009
+				"retained_bytes": 25997503,
+				"peak_bytes": 31505522
 			},
 			"provenance": {
 				"workload_signature": "tqp19_streaming_window_reference_v1",
@@ -352,17 +354,18 @@
 			},
 			"performance": {
 				"sample_count": 100,
-				"p50_usec": 4402.0,
-				"p95_usec": 5290.0,
-				"p99_usec": 5676.0,
-				"worst_usec": 6819.0,
+				"p50_usec": 5851.0,
+				"p95_usec": 7922.0,
+				"p99_usec": 30072.0,
+				"worst_usec": 36459.0,
 				"warmup_iterations": 10,
 				"coordinate_round_trips_per_sample": 1024,
-				"budget_p95_usec": 10000.0
+				"budget_p95_usec": 15000.0,
+				"budget_evaluation": "ENFORCED_FOCUSED_RUN"
 			},
 			"memory": {
-				"retained_bytes": 26001669,
-				"peak_bytes": 31420009
+				"retained_bytes": 26027227,
+				"peak_bytes": 31505522
 			},
 			"provenance": {
 				"workload_signature": "tqp20_cpu_large_world_coordinate_reference_v1",

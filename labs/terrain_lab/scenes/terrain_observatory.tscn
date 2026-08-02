@@ -142,7 +142,7 @@ custom_minimum_size = Vector2(82, 0)
 min_value = -64.0
 max_value = 96.0
 step = 0.5
-value = 16.0
+value = 4.0
 
 [node name="LabelY" type="Label" parent="Interface/Dock/Content/Parameters"]
 text = "Y"
@@ -164,7 +164,7 @@ custom_minimum_size = Vector2(82, 0)
 min_value = -64.0
 max_value = 96.0
 step = 0.5
-value = 16.0
+value = 4.0
 
 [node name="LabelRadius" type="Label" parent="Interface/Dock/Content/Parameters"]
 text = "R"

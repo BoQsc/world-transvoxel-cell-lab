@@ -18,7 +18,9 @@
 			"godot_version",
 			"backend_revision"
 		],
-		"baseline_change_policy": "reviewed_reason_plus_before_after_distribution"
+		"baseline_change_policy": "reviewed_reason_plus_before_after_distribution",
+		"focused_retained_runner": "enforce_declared_regression_ceiling",
+		"combined_program_runner": "record_distribution_observation_only_after_prior_suite_load"
 	},
 	"fixtures": {
 		"required_classes": ["positive", "boundary", "retained_negative"],

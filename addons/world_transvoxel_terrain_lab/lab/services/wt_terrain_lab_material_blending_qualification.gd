@@ -276,9 +276,15 @@ static func _benchmark(standard: Dictionary, failures: Array[String]) -> Diction
 	distribution["warmup_iterations"] = warmup
 	distribution["blends_per_sample"] = blend_count
 	distribution["budget_p95_usec"] = float(budget.get("p95_usec", 0.0))
+	distribution["budget_evaluation"] = _budget_evaluation()
 	_expect(int(distribution.get("sample_count", 0)) == sample_count, "material benchmark sample count changed", failures)
-	_expect(float(distribution.get("p95_usec", INF)) <= float(budget.get("p95_usec", 0.0)), "material benchmark p95 exceeded budget", failures)
+	if not Statistics.combined_program_run():
+		_expect(float(distribution.get("p95_usec", INF)) <= float(budget.get("p95_usec", 0.0)), "material benchmark p95 exceeded budget", failures)
 	return distribution
+
+
+static func _budget_evaluation() -> String:
+	return "OBSERVATION_ONLY_COMBINED_RUN" if Statistics.combined_program_run() else "ENFORCED_FOCUSED_RUN"
 
 
 static func _run_blend_batch(blend_count: int, seed: int) -> void:

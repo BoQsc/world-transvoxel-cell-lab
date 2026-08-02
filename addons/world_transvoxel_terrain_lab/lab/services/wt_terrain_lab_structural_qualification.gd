@@ -38,7 +38,7 @@ static func run() -> Dictionary:
 		"status": "PASS" if failures.is_empty() else "FAIL",
 		"scope_status": {
 			"TQP-29": "implemented_pending_strength_and_under_resolution_matrix",
-			"TQP-30": "implemented_pending_TQP_22_qualification",
+			"TQP-30": "implemented_ownership_only_pending_fluid_system_evidence",
 			"TQP-31": "implemented_pending_collision_destruction_and_persistence",
 			"TQP-32": "implemented_pending_bridge_authoring_and_lod_matrix",
 			"TQP-33": "implemented_pending_rigid_body_remesh_collision_and_persistence",

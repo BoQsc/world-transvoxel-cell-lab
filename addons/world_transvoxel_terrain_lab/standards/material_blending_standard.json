@@ -42,17 +42,18 @@
 		"sha256": "bcf98539bf2e5536a45d7ee5b0bc3bfecb4355c36bac68a1308ff1499dfabd55",
 		"pixel_signature": "8c0c2a41bf616cbaef75a19033871038358b928292d0ea3e5838b7faea63b640",
 		"automated_status": "PASS",
-		"human_review": "PENDING"
+		"human_review": "ACCEPTED",
+		"human_review_decision": "TQP-D008"
 	},
 	"qualified_scope": [
 		"normalized deterministic material weights",
 		"deterministic top-four reduction and categorical tie policy",
 		"regular-to-transition shared-position interpolation",
-		"LOD0-7 shared-position continuity in the reference material field"
+		"LOD0-7 shared-position continuity in the reference material field",
+		"accepted four-panel diagnostic presentation"
 	],
 	"explicitly_unqualified_scope": [
 		"production texture assets and shader presentation",
-		"visual acceptance until the retained artifact is reviewed",
 		"GPU interpolation equivalence",
 		"production material-buffer cost"
 	]

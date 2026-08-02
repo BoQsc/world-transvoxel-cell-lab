@@ -1,0 +1,25 @@
+{
+	"schema": "world_transvoxel.terrain_lab.decision.v1",
+	"id": "TQP-D010",
+	"date": "2026-08-02",
+	"decision": "Enforce Wave 02 debug performance ceilings in focused retained runners and treat monolithic post-soak program timings as recorded observations without changing correctness contracts or making production performance claims.",
+	"reason": "The full program executes allocation-heavy GDScript reference workloads after a long native edit soak. Exact fixtures, signatures, memory accounting, and state invariants remained stable while p95 timing tails varied enough to make the combined runner flaky. Focused retained reports continue to enforce reviewed ceilings calibrated from repeated observations for TQP-18 through TQP-22; the combined report retains distributions and budget comparisons as observation-only evidence.",
+	"evidence": [
+		"res://addons/world_transvoxel_terrain_lab/standards/streaming_window_standard.json",
+		"res://addons/world_transvoxel_terrain_lab/standards/visibility_residency_standard.json",
+		"res://labs/terrain_lab/results/wave_02_first_batch_reference_windows.json",
+		"res://labs/terrain_lab/results/wave_02_second_batch_reference_windows.json",
+		"res://labs/terrain_lab/results/terrain_qualification_reference_windows.json"
+	],
+	"qualified_scope": [
+		"focused-run debug CPU reference-policy regression ceilings on the retained Windows machine",
+		"combined-run timing distributions labeled as observation-only after prior suite load",
+		"unchanged deterministic TQP-18 through TQP-22 correctness fixtures and signatures"
+	],
+	"explicit_non_claims": [
+		"no production frame-time, throughput, residency, or hitch budget",
+		"no optimization claim",
+		"no cross-machine or cross-platform timing portability",
+		"no renderer or GPU performance qualification"
+	]
+}

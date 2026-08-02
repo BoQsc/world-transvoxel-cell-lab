@@ -1,0 +1,30 @@
+{
+	"schema": "world_transvoxel.terrain_lab.decision.v1",
+	"id": "TQP-D009",
+	"date": "2026-08-02",
+	"decision": "Qualify TQP-22 for the deterministic horizontal CPU visibility and residency reference while retaining TQP-21 as implemented pending human review of the corrected observatory render.",
+	"reason": "TQP-22 passes fixed-view frustum and conservative occlusion fixtures, LOD and HLOD selection, draw and memory accounting, origin-shift and teleport invariance, stale edit rejection, a calibrated CPU performance window, provenance, and explicit non-claims. TQP-21 passes its coordinate, texture-array, normal-reorientation, LOD-continuity, and CPU contract tests, but renderer qualification remains fail-closed until the corrected deterministic 3x3x2 observatory image is accepted.",
+	"evidence": [
+		"res://addons/world_transvoxel_terrain_lab/standards/texture_system_standard.json",
+		"res://addons/world_transvoxel_terrain_lab/standards/visibility_residency_standard.json",
+		"res://addons/world_transvoxel_terrain_lab/standards/visual_evidence.json",
+		"res://labs/terrain_lab/results/terrain_observatory_reference.png",
+		"res://labs/terrain_lab/results/wave_02_second_batch_reference_windows.json"
+	],
+	"qualified_scope": [
+		"TQP-22 deterministic horizontal CPU frustum and conservative occlusion reference",
+		"TQP-22 LOD and HLOD representation selection",
+		"TQP-22 reference draw-submission and retained-buffer accounting",
+		"TQP-22 origin-shift, teleport, edit-version, and stale-buffer behavior"
+	],
+	"held_scope": [
+		"TQP-21 remains implemented until terrain_observatory_reference.png receives an explicit human ACCEPTED or REJECTED decision"
+	],
+	"explicit_non_claims": [
+		"no vertical multi-layer visibility or residency qualification",
+		"no Godot renderer occlusion or GPU draw qualification",
+		"no production memory, frame-time, HLOD, texture, or shader budget",
+		"no TQP-21, TQP-23, TQP-25, or TQP-26 promotion",
+		"no production terrain visual-quality claim"
+	]
+}
