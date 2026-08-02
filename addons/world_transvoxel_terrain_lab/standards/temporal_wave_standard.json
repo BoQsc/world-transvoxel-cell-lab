@@ -1,0 +1,65 @@
+{
+	"schema": "world_transvoxel.terrain_lab.temporal_wave_standard.v1",
+	"authority": "world-transvoxel native GDExtension; no fallback path",
+	"evidence": "res://labs/terrain_lab/results/temporal_wave_reference_windows.json",
+	"qualified_milestones": ["TQP-21", "TQP-25", "TQP-13"],
+	"stable_expected": {
+		"TQP-21": {
+			"worker_count": 2,
+			"minimum_sample_jobs": 1,
+			"minimum_mesh_jobs": 1,
+			"minimum_published_events": 1,
+			"minimum_coalesced_viewer_events": 1,
+			"target_mesh_signature": "e999a45b93a74279675fbc433bacfafea95cc85f3d421a91ab87b9006138dea1",
+			"published_generation": 2,
+			"stale_render_rejections": 2,
+			"stale_collision_rejections": 2,
+			"performance_sample_count": 100,
+			"minimum_application_latency_frames": 1
+		},
+		"TQP-13": {
+			"commits": 2,
+			"stale_rejections": 1,
+			"minimum_chunk_replacements": 1,
+			"stale_error": "edit transaction world revision is stale",
+			"edit_snapshot_ordering_world_revision": 13,
+			"samples": {
+				"initial_sample": {"density": -2.0, "material": 4, "source_revision": 8101, "world_revision": 0},
+				"carved_sample": {"density": 4.0, "material": 4, "source_revision": 8101, "world_revision": 1},
+				"constructed_sample": {"density": -2.5, "material": 7, "source_revision": 8101, "world_revision": 2},
+				"restart_sample": {"density": -2.5, "material": 7, "source_revision": 8101, "world_revision": 2}
+			},
+			"journal_after_carve_sha256": "04435eb1d0248e24e424294840325a27b2de4275114b91fb9c263f93a7399045",
+			"journal_final_sha256": "cf816b9777d668f0f51a1b70955270ae6ef51cc925d63ee0e9bb434083314e80"
+		},
+		"TQP-25": {
+			"fixture_upstream_revision": "8313650766b6b901f5b5ecdc8d84e03b6b87fd66",
+			"current_manifest_sha256": "0a1c6cc94c99feaf888e07c1fd2934189c50b50ab6399c5fbf4a652a706cdc51",
+			"legacy_manifest_sha256": "d50702392465c054da5059745f444f52182533a06f01ff27dba82e3c693603b3",
+			"journal_sha256": "5e9ccbab0ee933240309d0b2e3b107063be28662c19ad8bf54ec9ea16d95fd87",
+			"snapshot_manifest_sha256": "aa8b6568490a272758990e1a9824ddc58620bde40b7d1887e4d825a0ca20b891",
+			"samples": {
+				"initial_sample": {"density": -0.25, "material": 7, "source_revision": 7001, "world_revision": 12},
+				"edited_sample": {"density": 10.0, "material": 7, "source_revision": 7001, "world_revision": 13},
+				"restart_sample": {"density": 10.0, "material": 7, "source_revision": 7001, "world_revision": 13},
+				"compacted_sample": {"density": 10.0, "material": 7, "source_revision": 7002, "world_revision": 13},
+				"migrated_sample": {"density": 10.0, "material": 7, "source_revision": 7002, "world_revision": 13},
+				"recovered_sample": {"density": 10.0, "material": 7, "source_revision": 7002, "world_revision": 13},
+				"legacy_sample": {"density": -0.25, "material": 7, "source_revision": 9001, "world_revision": 0},
+				"legacy_migrated_sample": {"density": -0.25, "material": 7, "source_revision": 9001, "world_revision": 0}
+			},
+			"journal_corruption_error": "edit journal is corrupt",
+			"manifest_corruption_error": "manifest validation failed",
+			"page_corruption_error": "authoritative sample page loading failed",
+			"interrupted_staging_error": "world snapshot file writing failed",
+			"existing_output_error": "world snapshot output directory already exists",
+			"snapshot_page_count": 4
+		}
+	},
+	"explicitly_unqualified_scope": [
+		"automatic cleanup of abandoned snapshot staging directories",
+		"atomicity guarantees for filesystems outside the declared Windows reference platform",
+		"networked edit ordering",
+		"large streaming-window policy covered by TQP-22"
+	]
+}

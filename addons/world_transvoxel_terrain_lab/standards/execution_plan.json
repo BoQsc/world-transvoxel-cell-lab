@@ -1,0 +1,82 @@
+{
+	"schema": "world_transvoxel.terrain_lab.execution_plan.v1",
+	"plan_revision": 1,
+	"catalog_order": "domain_grouped_stable_identifiers_not_execution_sequence",
+	"execution_policy": "complete_and_promote_in_dependency_order_only",
+	"current_wave": "TQP-WAVE-02",
+	"recommended_next": ["TQP-16", "TQP-22", "TQP-23"],
+	"waves": [
+		{
+			"id": "TQP-WAVE-00",
+			"title": "Qualified foundations and reference semantics",
+			"status": "completed",
+			"steps": [
+				["TQP-01"],
+				["TQP-02", "TQP-03", "TQP-05"],
+				["TQP-04", "TQP-20"],
+				["TQP-06", "TQP-15"],
+				["TQP-07"],
+				["TQP-08", "TQP-09"],
+				["TQP-10", "TQP-11"],
+				["TQP-12"]
+			]
+		},
+		{
+			"id": "TQP-WAVE-01",
+			"title": "Temporal integrity and durable publication",
+			"status": "completed",
+			"steps": [
+				["TQP-21", "TQP-25"],
+				["TQP-13"]
+			]
+		},
+		{
+			"id": "TQP-WAVE-02",
+			"title": "Streaming, materials, collision, and observability",
+			"status": "active",
+			"steps": [
+				["TQP-16", "TQP-22", "TQP-23"],
+				["TQP-17", "TQP-24"],
+				["TQP-18", "TQP-26"],
+				["TQP-19", "TQP-27"],
+				["TQP-28"]
+			]
+		},
+		{
+			"id": "TQP-WAVE-03",
+			"title": "Destruction and structural world systems",
+			"status": "pending",
+			"steps": [
+				["TQP-14", "TQP-29", "TQP-31", "TQP-32", "TQP-33"],
+				["TQP-30"]
+			]
+		},
+		{
+			"id": "TQP-WAVE-04",
+			"title": "GPU candidate qualification",
+			"status": "blocked",
+			"steps": [
+				["TQP-34"],
+				["TQP-35"],
+				["TQP-36"],
+				["TQP-37", "TQP-38"],
+				["TQP-39"]
+			],
+			"blocker": "candidate GPU field, meshing, and residency implementations are absent"
+		},
+		{
+			"id": "TQP-WAVE-05",
+			"title": "Production terrain and release qualification",
+			"status": "blocked",
+			"steps": [
+				["TQP-40"],
+				["TQP-41", "TQP-43"],
+				["TQP-42"],
+				["TQP-44"],
+				["TQP-45"],
+				["TQP-46"]
+			],
+			"blocker": "a pinned candidate production terrain addon does not exist"
+		}
+	]
+}

@@ -11,6 +11,9 @@ const Statistics := preload(
 const GateBQualification := preload(
 	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_gate_b_qualification.gd"
 )
+const TemporalWaveEvidence := preload(
+	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_temporal_wave_evidence.gd"
+)
 
 const SAMPLE_EPSILON := 0.00001
 
@@ -22,7 +25,7 @@ static func run() -> Dictionary:
 		_qualify_field_algebra(),
 	]
 	milestones.append_array(gate_b.get("milestones", []))
-	milestones.append(_specify_temporal_edits())
+	milestones.append(_qualify_temporal_edits())
 	milestones.append(_specify_explosions())
 	var failures: Array[String] = []
 	for milestone in milestones:
@@ -44,21 +47,19 @@ static func run() -> Dictionary:
 			"TQP-10": "qualified",
 			"TQP-11": "qualified",
 			"TQP-12": "qualified",
-			"TQP-13": "implemented_pending_real_worker_and_streaming_faults",
+			"TQP-13": "qualified",
 			"TQP-14": "implemented_pending_fragmentation_collision_and_cost",
 		},
 		"qualified_scope": [
 			"deterministic CPU reference field and edit journal",
 			"TQP-06 deterministic CPU reference field algebra",
 			"TQP-07 through TQP-12 Gate B reference edit qualification",
+			"TQP-13 native Windows temporal edit and replay reference",
 		],
 		"explicitly_unqualified_scope": [
-			"production scheduler concurrency",
-			"physics collision publication",
 			"networked edit ordering",
 			"production-scale explosion fragmentation",
 			"GPU field evaluation",
-			"TQP-13 real worker and streaming temporal faults",
 			"TQP-14 fragmentation, collision, and production cost",
 		],
 		"elapsed_ms": float(Time.get_ticks_usec() - started_usec) / 1000.0,
@@ -102,25 +103,17 @@ static func _qualify_field_algebra() -> Dictionary:
 	return _result("TQP-06", 57, failures)
 
 
-static func _specify_temporal_edits() -> Dictionary:
+static func _qualify_temporal_edits() -> Dictionary:
 	var failures: Array[String] = []
-	var generation := 4
-	var published_generation := 3
-	var candidate_generations := [4, 2, 5, 3, 6]
-	var accepted: Array[int] = []
-	var rejected: Array[int] = []
-	for candidate in candidate_generations:
-		if candidate == generation and candidate > published_generation:
-			published_generation = candidate
-			accepted.append(candidate)
-		else:
-			rejected.append(candidate)
-	_expect(accepted == [4], "temporal publication accepted stale work", failures)
-	_expect(rejected == [2, 5, 3, 6], "temporal rejection corpus changed", failures)
-	var result := _result("TQP-13", candidate_generations.size(), failures)
-	result["qualification_status"] = "QUALIFIED_WITH_TQP_20_AND_TQP_21_REFERENCE_MODELS"
-	result["accepted_generations"] = accepted
-	result["rejected_generations"] = rejected
+	var evidence := TemporalWaveEvidence.retained_milestone("TQP-13")
+	if str(evidence.get("status", "")) != "PASS":
+		for failure_value in evidence.get("failures", []):
+			failures.append(str(failure_value))
+		if failures.is_empty():
+			failures.append("retained native temporal evidence failed")
+	var result := _result("TQP-13", 12, failures)
+	result["qualification_status"] = "QUALIFIED_NATIVE_WINDOWS_TEMPORAL_REFERENCE_V1"
+	result["native_evidence"] = evidence
 	return result
 
 

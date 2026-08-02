@@ -1,6 +1,6 @@
 {
 	"schema": "world_transvoxel.terrain_lab.program.v2",
-	"program_revision": 3,
+	"program_revision": 4,
 	"lab_scope": "experimental_terrain_qualification",
 	"authority": "EVIDENCE_PROGRAM_ONLY",
 	"production_status": "NOT_PRODUCTION",
@@ -11,6 +11,8 @@
 	"blocker_catalog": "res://addons/world_transvoxel_terrain_lab/standards/program_blockers.json",
 	"visual_evidence": "res://addons/world_transvoxel_terrain_lab/standards/visual_evidence.json",
 	"edit_gate_b_evidence": "res://addons/world_transvoxel_terrain_lab/standards/edit_gate_b_standard.json",
+	"temporal_wave_standard": "res://addons/world_transvoxel_terrain_lab/standards/temporal_wave_standard.json",
+	"execution_plan": "res://addons/world_transvoxel_terrain_lab/standards/execution_plan.json",
 	"runtime_dependencies": ["world_transvoxel"],
 	"future_optional_test_dependencies": ["world_transvoxel_terrain"],
 	"forbidden_dependencies": ["world_transvoxel_cell_lab"],
@@ -107,7 +109,8 @@
 		"res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D001.json",
 		"res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D002.json",
 		"res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D003.json",
-		"res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D004.json"
+		"res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D004.json",
+		"res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D005.json"
 	],
 	"milestones": [
 		{"id": "TQP-01", "title": "Operating Envelope", "status": "qualified", "domain": "foundation", "owner": "Terrain Qualification Program", "depends_on": [], "evidence_profile": "foundation", "contract_ref": "#tqp-01-operating-envelope", "claim_scope": "reference_envelope_v1"},
@@ -122,7 +125,7 @@
 		{"id": "TQP-10", "title": "Resolvability Envelope", "status": "qualified", "domain": "edit_semantics", "owner": "Edit Semantics Lab", "depends_on": ["TQP-04", "TQP-07", "TQP-08", "TQP-09"], "evidence_profile": "semantic", "contract_ref": "#tqp-10-resolvability-envelope", "claim_scope": "native_lod_feature_matrix_v1"},
 		{"id": "TQP-11", "title": "Edit Journal, Undo, And Compaction", "status": "qualified", "domain": "edit_semantics", "owner": "Edit Semantics Lab", "depends_on": ["TQP-02", "TQP-08", "TQP-09"], "evidence_profile": "semantic", "contract_ref": "#tqp-11-edit-journal-undo-and-compaction", "claim_scope": "deterministic_edit_journal_v2"},
 		{"id": "TQP-12", "title": "Long Edit Soak", "status": "qualified", "domain": "edit_semantics", "owner": "Edit Semantics Lab", "depends_on": ["TQP-05", "TQP-10", "TQP-11"], "evidence_profile": "systems", "contract_ref": "#tqp-12-long-edit-soak", "claim_scope": "native_edit_soak_windows_reference_v1"},
-		{"id": "TQP-13", "title": "Concurrent And Temporal Edits", "status": "implemented", "domain": "edit_semantics", "owner": "Edit Semantics Lab and Terrain Systems Lab", "depends_on": ["TQP-11", "TQP-20", "TQP-21"], "evidence_profile": "systems", "contract_ref": "#tqp-13-concurrent-and-temporal-edits", "claim_scope": "deterministic_scheduler_model"},
+		{"id": "TQP-13", "title": "Concurrent And Temporal Edits", "status": "qualified", "domain": "edit_semantics", "owner": "Edit Semantics Lab and Terrain Systems Lab", "depends_on": ["TQP-11", "TQP-20", "TQP-21"], "evidence_profile": "systems", "contract_ref": "#tqp-13-concurrent-and-temporal-edits", "claim_scope": "native_temporal_edit_reference_windows_v1"},
 		{"id": "TQP-14", "title": "Explosion Corpus", "status": "implemented", "domain": "edit_semantics", "owner": "Edit Semantics Lab and Structural and World Systems Lab", "depends_on": ["TQP-07", "TQP-08", "TQP-09", "TQP-10", "TQP-11", "TQP-12", "TQP-13"], "evidence_profile": "semantic", "contract_ref": "#tqp-14-explosion-corpus", "claim_scope": "deterministic_reference_model"},
 		{"id": "TQP-15", "title": "Material Field Contract", "status": "qualified", "domain": "material_surface", "owner": "Material and Surface Lab", "depends_on": ["TQP-02", "TQP-04"], "evidence_profile": "semantic", "contract_ref": "#tqp-15-material-field-contract", "claim_scope": "reference_material_model"},
 		{"id": "TQP-16", "title": "Material Blending", "status": "implemented", "domain": "material_surface", "owner": "Material and Surface Lab", "depends_on": ["TQP-15"], "evidence_profile": "visual", "contract_ref": "#tqp-16-material-blending", "claim_scope": "reference_material_model"},
@@ -130,11 +133,11 @@
 		{"id": "TQP-18", "title": "Surface Shading", "status": "implemented", "domain": "material_surface", "owner": "Material and Surface Lab", "depends_on": ["TQP-17"], "evidence_profile": "visual", "contract_ref": "#tqp-18-surface-shading", "claim_scope": "reference_renderer_profile"},
 		{"id": "TQP-19", "title": "Visual Quality Corpus", "status": "specified", "domain": "material_surface", "owner": "Material and Surface Lab", "depends_on": ["TQP-04", "TQP-16", "TQP-17", "TQP-18"], "evidence_profile": "visual", "contract_ref": "#tqp-19-visual-quality-corpus", "claim_scope": "reviewed_visual_regression"},
 		{"id": "TQP-20", "title": "Chunk Lifecycle", "status": "qualified", "domain": "terrain_systems", "owner": "Terrain Systems Lab", "depends_on": ["TQP-02", "TQP-03"], "evidence_profile": "systems", "contract_ref": "#tqp-20-chunk-lifecycle", "claim_scope": "deterministic_system_model"},
-		{"id": "TQP-21", "title": "Scheduling, Versioning, And Publication", "status": "implemented", "domain": "terrain_systems", "owner": "Terrain Systems Lab", "depends_on": ["TQP-05", "TQP-20"], "evidence_profile": "systems", "contract_ref": "#tqp-21-scheduling-versioning-and-publication", "claim_scope": "deterministic_system_model"},
+		{"id": "TQP-21", "title": "Scheduling, Versioning, And Publication", "status": "qualified", "domain": "terrain_systems", "owner": "Terrain Systems Lab", "depends_on": ["TQP-05", "TQP-20"], "evidence_profile": "systems", "contract_ref": "#tqp-21-scheduling-versioning-and-publication", "claim_scope": "native_worker_publication_reference_windows_v1"},
 		{"id": "TQP-22", "title": "Streaming Windows", "status": "implemented", "domain": "terrain_systems", "owner": "Terrain Systems Lab", "depends_on": ["TQP-04", "TQP-20", "TQP-21"], "evidence_profile": "systems", "contract_ref": "#tqp-22-streaming-windows", "claim_scope": "reference_streaming_model"},
 		{"id": "TQP-23", "title": "Large-World Coordinates", "status": "implemented", "domain": "terrain_systems", "owner": "Terrain Systems Lab", "depends_on": ["TQP-03", "TQP-20"], "evidence_profile": "systems", "contract_ref": "#tqp-23-large-world-coordinates", "claim_scope": "cpu_coordinate_reference_v1"},
 		{"id": "TQP-24", "title": "Visibility And Residency", "status": "implemented", "domain": "terrain_systems", "owner": "Terrain Systems Lab and Material and Surface Lab", "depends_on": ["TQP-04", "TQP-22", "TQP-23"], "evidence_profile": "systems", "contract_ref": "#tqp-24-visibility-and-residency", "claim_scope": "reference_residency_model"},
-		{"id": "TQP-25", "title": "Persistence, Migration, And Recovery", "status": "implemented", "domain": "terrain_systems", "owner": "Terrain Systems Lab", "depends_on": ["TQP-02", "TQP-11", "TQP-20"], "evidence_profile": "systems", "contract_ref": "#tqp-25-persistence-migration-and-recovery", "claim_scope": "reference_persistence_model"},
+		{"id": "TQP-25", "title": "Persistence, Migration, And Recovery", "status": "qualified", "domain": "terrain_systems", "owner": "Terrain Systems Lab", "depends_on": ["TQP-02", "TQP-11", "TQP-20"], "evidence_profile": "systems", "contract_ref": "#tqp-25-persistence-migration-and-recovery", "claim_scope": "native_persistence_recovery_reference_windows_v1"},
 		{"id": "TQP-26", "title": "Collision, Queries, And Navigation", "status": "implemented", "domain": "terrain_systems", "owner": "Terrain Systems Lab", "depends_on": ["TQP-20", "TQP-21", "TQP-25"], "evidence_profile": "systems", "contract_ref": "#tqp-26-collision-queries-and-navigation", "claim_scope": "reference_publication_model"},
 		{"id": "TQP-27", "title": "Terrain Observatory", "status": "implemented", "domain": "terrain_systems", "owner": "Terrain Systems Lab", "depends_on": ["TQP-20", "TQP-21", "TQP-22", "TQP-23", "TQP-24", "TQP-25", "TQP-26"], "evidence_profile": "systems", "contract_ref": "#tqp-27-terrain-observatory", "claim_scope": "terrain_lab_diagnostics"},
 		{"id": "TQP-28", "title": "Large-Terrain Performance And Soak", "status": "implemented", "domain": "terrain_systems", "owner": "Terrain Systems Lab", "depends_on": ["TQP-05", "TQP-22", "TQP-23", "TQP-24", "TQP-25", "TQP-26", "TQP-27"], "evidence_profile": "systems", "contract_ref": "#tqp-28-large-terrain-performance-and-soak", "claim_scope": "reference_workload_only"},
@@ -160,8 +163,11 @@
 	"qualified_scope": [
 		"TQP-01 through TQP-06 foundation and field-algebra reference scopes",
 		"TQP-07 through TQP-12 Gate B edit semantics and native Windows reference workload",
+		"TQP-13 native Windows temporal edit and deterministic replay reference",
 		"TQP-15 material-field contract",
-		"TQP-20 chunk-lifecycle reference model"
+		"TQP-20 chunk-lifecycle reference model",
+		"TQP-21 native Windows worker scheduling and publication reference",
+		"TQP-25 native Windows persistence, migration, and recovery reference"
 	],
 	"explicitly_unqualified_scope": [
 		"production terrain runtime",
@@ -170,9 +176,11 @@
 		"GPU field or meshing authority",
 		"non-Windows platforms",
 		"TQP-16 through TQP-19 visual qualification",
-		"complete qualification of implemented TQP-13, TQP-14, TQP-21 through TQP-30, TQP-32, and TQP-33 behavior",
+		"complete qualification of implemented TQP-14, TQP-22 through TQP-24, TQP-26 through TQP-30, TQP-32, and TQP-33 behavior",
 		"TQP-34 measured GPU candidate benefit",
-		"TQP-31 qualification until TQP-22 and TQP-25 dependencies qualify",
+		"TQP-31 qualification until TQP-22 qualifies",
+		"automatic cleanup of abandoned snapshot staging directories",
+		"snapshot atomicity outside the declared Windows reference platform",
 		"cross-hardware performance",
 		"long-haul certification"
 	]

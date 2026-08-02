@@ -5,14 +5,14 @@
 	"status_counts": {
 		"proposed": 0,
 		"specified": 2,
-		"implemented": 18,
-		"qualified": 14,
+		"implemented": 15,
+		"qualified": 17,
 		"production": 0,
 		"blocked": 12
 	},
 	"proposed_milestone_count": 0,
 	"specified_milestone_count": 2,
-	"qualified_milestone_count": 14,
+	"qualified_milestone_count": 17,
 	"gate_statuses": {
 		"GATE_A": "QUALIFIED",
 		"GATE_B": "QUALIFIED",
@@ -115,24 +115,22 @@
 				"TQP-10": "qualified",
 				"TQP-11": "qualified",
 				"TQP-12": "qualified",
-				"TQP-13": "implemented_pending_real_worker_and_streaming_faults",
+				"TQP-13": "qualified",
 				"TQP-14": "implemented_pending_fragmentation_collision_and_cost"
 			},
 			"qualified_scope": [
 				"deterministic CPU reference field and edit journal",
 				"TQP-06 deterministic CPU reference field algebra",
-				"TQP-07 through TQP-12 Gate B reference edit qualification"
+				"TQP-07 through TQP-12 Gate B reference edit qualification",
+				"TQP-13 native Windows temporal edit and replay reference"
 			],
 			"explicitly_unqualified_scope": [
-				"production scheduler concurrency",
-				"physics collision publication",
 				"networked edit ordering",
 				"production-scale explosion fragmentation",
 				"GPU field evaluation",
-				"TQP-13 real worker and streaming temporal faults",
 				"TQP-14 fragmentation, collision, and production cost"
 			],
-			"elapsed_ms": 116853.12,
+			"elapsed_ms": 79230.445,
 			"provenance": {
 				"workload_signature": "edit_semantics_reference_v1",
 				"build_type": "debug",
@@ -145,8 +143,8 @@
 				"backend_revision": "a5c681d4061c5bcf2f779f7ae841d5d8ebffcdf2725040087386257ac2c3e32b"
 			},
 			"memory": {
-				"retained_bytes": 27940649,
-				"peak_bytes": 71150389
+				"retained_bytes": 28129418,
+				"peak_bytes": 71327954
 			},
 			"gate_b": {
 				"schema": "world_transvoxel.terrain_lab.edit_gate_b_qualification.v1",
@@ -180,7 +178,7 @@
 								],
 								"geometry_signature": "47a2219c0eaea6e3364797b228a756647af88d080887d011a0b83b86d0e68792",
 								"collision_signature": "3d4e05d601f943907691165f980c2fe7d5927adc0348432111cbb3e679736eac",
-								"elapsed_usec": 136968,
+								"elapsed_usec": 142750,
 								"failures": []
 							},
 							{
@@ -194,7 +192,7 @@
 								],
 								"geometry_signature": "047d15519714ea6b765987f4d8539693c91dc4e9516ad8ce00f4afd8855a7408",
 								"collision_signature": "511adbe35c25c1750ca8ed8ddb8758250a3b46d299f9840999f7ad578e98a555",
-								"elapsed_usec": 132159,
+								"elapsed_usec": 104224,
 								"failures": []
 							},
 							{
@@ -208,7 +206,7 @@
 								],
 								"geometry_signature": "53b72bcf767731b341c57b1fdee0d0725fc29fed1b46abc72ad346a98400372f",
 								"collision_signature": "35bd93e68a92bff43383e59d54ff20baf77e3c64858340949a9cae097e02ea24",
-								"elapsed_usec": 165436,
+								"elapsed_usec": 114728,
 								"failures": []
 							},
 							{
@@ -222,7 +220,7 @@
 								],
 								"geometry_signature": "2502d395952d5b37e118aeea66d90137f386de44027533a0945622e9bbd5de13",
 								"collision_signature": "57148b1fa32c05bf592b25b0bd286bf1c96d0a0144194a1d0cf814d4cbfd0cd2",
-								"elapsed_usec": 148369,
+								"elapsed_usec": 87991,
 								"failures": []
 							},
 							{
@@ -236,7 +234,7 @@
 								],
 								"geometry_signature": "03efb765b05d9590686c78715b49f3fc22a070192998bd5ca61592d636c95087",
 								"collision_signature": "781c1f0535e47b2f6bac029ab21bbc829f6699b817fd9d58a1d857ad4611f582",
-								"elapsed_usec": 166648,
+								"elapsed_usec": 90718,
 								"failures": []
 							},
 							{
@@ -250,7 +248,7 @@
 								],
 								"geometry_signature": "19e7bd5098200d48c0092d0d8a5f480072c2f15b6d387e80da5654681b480ab6",
 								"collision_signature": "7f381183b3777b01be0c566679462431118e4ff0c0f67eca6211175f9d699d37",
-								"elapsed_usec": 142811,
+								"elapsed_usec": 91979,
 								"failures": []
 							},
 							{
@@ -264,16 +262,16 @@
 								],
 								"geometry_signature": "afd8f0d1a43c49d564b3bf13b8c04dab4819cbc5724c4b078300acc1aa548cd9",
 								"collision_signature": "031d62a09266ca78cafe3d582be7b2f5c877204adab1fe014e312913b736f83b",
-								"elapsed_usec": 145229,
+								"elapsed_usec": 119152,
 								"failures": []
 							}
 						],
 						"performance": {
 							"sample_count": 100,
-							"p50_usec": 1705.0,
-							"p95_usec": 3348.0,
-							"p99_usec": 6479.0,
-							"worst_usec": 9037.0
+							"p50_usec": 1179.0,
+							"p95_usec": 1695.0,
+							"p99_usec": 2044.0,
+							"worst_usec": 2100.0
 						}
 					},
 					{
@@ -3344,29 +3342,29 @@
 						"performance": {
 							"transaction_append": {
 								"sample_count": 246,
-								"p50_usec": 599.0,
-								"p95_usec": 1044.0,
-								"p99_usec": 1390.0,
-								"worst_usec": 1865.0
+								"p50_usec": 427.0,
+								"p95_usec": 710.0,
+								"p99_usec": 1602.0,
+								"worst_usec": 3171.0
 							},
 							"query_batch_64": {
 								"sample_count": 100,
-								"p50_usec": 914.0,
-								"p95_usec": 1255.0,
-								"p99_usec": 1289.0,
-								"worst_usec": 1359.0
+								"p50_usec": 671.0,
+								"p95_usec": 1091.0,
+								"p99_usec": 1722.0,
+								"worst_usec": 1902.0
 							},
 							"native_chunk_rebuild": {
 								"sample_count": 100,
-								"p50_usec": 419524.0,
-								"p95_usec": 577224.0,
-								"p99_usec": 737616.0,
-								"worst_usec": 801090.0
+								"p50_usec": 293005.0,
+								"p95_usec": 393180.0,
+								"p99_usec": 426455.0,
+								"worst_usec": 637378.0
 							}
 						},
 						"memory": {
-							"retained_bytes": 56017909,
-							"peak_bytes": 71150389
+							"retained_bytes": 56195474,
+							"peak_bytes": 71327954
 						}
 					}
 				],
@@ -3429,10 +3427,10 @@
 					"status": "PASS",
 					"scope": "reference_debug_workload_not_production_frame_budget",
 					"measured": {
-						"brush_batch_p95_usec": 3348.0,
-						"transaction_append_p95_usec": 1044.0,
-						"query_batch_64_p95_usec": 1255.0,
-						"native_chunk_rebuild_p95_usec": 577224.0,
+						"brush_batch_p95_usec": 1695.0,
+						"transaction_append_p95_usec": 710.0,
+						"query_batch_64_p95_usec": 1091.0,
+						"native_chunk_rebuild_p95_usec": 393180.0,
 						"journal_bytes": 946099,
 						"largest_spatial_bucket": 15
 					},
@@ -3485,10 +3483,10 @@
 					"backend_revision": "a5c681d4061c5bcf2f779f7ae841d5d8ebffcdf2725040087386257ac2c3e32b"
 				},
 				"memory": {
-					"retained_bytes": 27954869,
-					"peak_bytes": 71150389
+					"retained_bytes": 28132146,
+					"peak_bytes": 71327954
 				},
-				"elapsed_ms": 116850.467,
+				"elapsed_ms": 79227.637,
 				"failures": []
 			},
 			"milestones": [
@@ -3526,7 +3524,7 @@
 							],
 							"geometry_signature": "47a2219c0eaea6e3364797b228a756647af88d080887d011a0b83b86d0e68792",
 							"collision_signature": "3d4e05d601f943907691165f980c2fe7d5927adc0348432111cbb3e679736eac",
-							"elapsed_usec": 136968,
+							"elapsed_usec": 142750,
 							"failures": []
 						},
 						{
@@ -3540,7 +3538,7 @@
 							],
 							"geometry_signature": "047d15519714ea6b765987f4d8539693c91dc4e9516ad8ce00f4afd8855a7408",
 							"collision_signature": "511adbe35c25c1750ca8ed8ddb8758250a3b46d299f9840999f7ad578e98a555",
-							"elapsed_usec": 132159,
+							"elapsed_usec": 104224,
 							"failures": []
 						},
 						{
@@ -3554,7 +3552,7 @@
 							],
 							"geometry_signature": "53b72bcf767731b341c57b1fdee0d0725fc29fed1b46abc72ad346a98400372f",
 							"collision_signature": "35bd93e68a92bff43383e59d54ff20baf77e3c64858340949a9cae097e02ea24",
-							"elapsed_usec": 165436,
+							"elapsed_usec": 114728,
 							"failures": []
 						},
 						{
@@ -3568,7 +3566,7 @@
 							],
 							"geometry_signature": "2502d395952d5b37e118aeea66d90137f386de44027533a0945622e9bbd5de13",
 							"collision_signature": "57148b1fa32c05bf592b25b0bd286bf1c96d0a0144194a1d0cf814d4cbfd0cd2",
-							"elapsed_usec": 148369,
+							"elapsed_usec": 87991,
 							"failures": []
 						},
 						{
@@ -3582,7 +3580,7 @@
 							],
 							"geometry_signature": "03efb765b05d9590686c78715b49f3fc22a070192998bd5ca61592d636c95087",
 							"collision_signature": "781c1f0535e47b2f6bac029ab21bbc829f6699b817fd9d58a1d857ad4611f582",
-							"elapsed_usec": 166648,
+							"elapsed_usec": 90718,
 							"failures": []
 						},
 						{
@@ -3596,7 +3594,7 @@
 							],
 							"geometry_signature": "19e7bd5098200d48c0092d0d8a5f480072c2f15b6d387e80da5654681b480ab6",
 							"collision_signature": "7f381183b3777b01be0c566679462431118e4ff0c0f67eca6211175f9d699d37",
-							"elapsed_usec": 142811,
+							"elapsed_usec": 91979,
 							"failures": []
 						},
 						{
@@ -3610,16 +3608,16 @@
 							],
 							"geometry_signature": "afd8f0d1a43c49d564b3bf13b8c04dab4819cbc5724c4b078300acc1aa548cd9",
 							"collision_signature": "031d62a09266ca78cafe3d582be7b2f5c877204adab1fe014e312913b736f83b",
-							"elapsed_usec": 145229,
+							"elapsed_usec": 119152,
 							"failures": []
 						}
 					],
 					"performance": {
 						"sample_count": 100,
-						"p50_usec": 1705.0,
-						"p95_usec": 3348.0,
-						"p99_usec": 6479.0,
-						"worst_usec": 9037.0
+						"p50_usec": 1179.0,
+						"p95_usec": 1695.0,
+						"p99_usec": 2044.0,
+						"worst_usec": 2100.0
 					}
 				},
 				{
@@ -6690,46 +6688,90 @@
 					"performance": {
 						"transaction_append": {
 							"sample_count": 246,
-							"p50_usec": 599.0,
-							"p95_usec": 1044.0,
-							"p99_usec": 1390.0,
-							"worst_usec": 1865.0
+							"p50_usec": 427.0,
+							"p95_usec": 710.0,
+							"p99_usec": 1602.0,
+							"worst_usec": 3171.0
 						},
 						"query_batch_64": {
 							"sample_count": 100,
-							"p50_usec": 914.0,
-							"p95_usec": 1255.0,
-							"p99_usec": 1289.0,
-							"worst_usec": 1359.0
+							"p50_usec": 671.0,
+							"p95_usec": 1091.0,
+							"p99_usec": 1722.0,
+							"worst_usec": 1902.0
 						},
 						"native_chunk_rebuild": {
 							"sample_count": 100,
-							"p50_usec": 419524.0,
-							"p95_usec": 577224.0,
-							"p99_usec": 737616.0,
-							"worst_usec": 801090.0
+							"p50_usec": 293005.0,
+							"p95_usec": 393180.0,
+							"p99_usec": 426455.0,
+							"worst_usec": 637378.0
 						}
 					},
 					"memory": {
-						"retained_bytes": 56017909,
-						"peak_bytes": 71150389
+						"retained_bytes": 56195474,
+						"peak_bytes": 71327954
 					}
 				},
 				{
 					"milestone": "TQP-13",
 					"status": "PASS",
-					"fixture_count": 5,
+					"fixture_count": 12,
 					"failures": [],
-					"qualification_status": "QUALIFIED_WITH_TQP_20_AND_TQP_21_REFERENCE_MODELS",
-					"accepted_generations": [
-						4
-					],
-					"rejected_generations": [
-						2,
-						5,
-						3,
-						6
-					]
+					"qualification_status": "QUALIFIED_NATIVE_WINDOWS_TEMPORAL_REFERENCE_V1",
+					"native_evidence": {
+						"status": "PASS",
+						"commits": 2.0,
+						"stale_rejections": 1.0,
+						"chunk_replacements": 2.0,
+						"initial_sample": {
+							"status": "PASS",
+							"point": "(40, 6, 40)",
+							"lod": 0.0,
+							"density": -2.0,
+							"material": 4.0,
+							"source_revision": 8101.0,
+							"world_revision": 0.0,
+							"agreeing_page_count": 1.0
+						},
+						"carved_sample": {
+							"status": "PASS",
+							"point": "(40, 6, 40)",
+							"lod": 0.0,
+							"density": 4.0,
+							"material": 4.0,
+							"source_revision": 8101.0,
+							"world_revision": 1.0,
+							"agreeing_page_count": 1.0
+						},
+						"constructed_sample": {
+							"status": "PASS",
+							"point": "(40, 6, 40)",
+							"lod": 0.0,
+							"density": -2.5,
+							"material": 7.0,
+							"source_revision": 8101.0,
+							"world_revision": 2.0,
+							"agreeing_page_count": 1.0
+						},
+						"restart_sample": {
+							"status": "PASS",
+							"point": "(40, 6, 40)",
+							"lod": 0.0,
+							"density": -2.5,
+							"material": 7.0,
+							"source_revision": 8101.0,
+							"world_revision": 2.0,
+							"agreeing_page_count": 1.0
+						},
+						"stale_error": "edit transaction world revision is stale",
+						"streaming_and_lod_overlap": true,
+						"journal_after_carve_sha256": "04435eb1d0248e24e424294840325a27b2de4275114b91fb9c263f93a7399045",
+						"journal_after_rejection_sha256": "04435eb1d0248e24e424294840325a27b2de4275114b91fb9c263f93a7399045",
+						"journal_final_sha256": "cf816b9777d668f0f51a1b70955270ae6ef51cc925d63ee0e9bb434083314e80",
+						"restart_mesh_signature": "e999a45b93a74279675fbc433bacfafea95cc85f3d421a91ab87b9006138dea1",
+						"edit_snapshot_ordering_world_revision": 13.0
+					}
 				},
 				{
 					"milestone": "TQP-14",
@@ -6787,10 +6829,10 @@
 					"failures": [],
 					"performance": {
 						"sample_count": 100,
-						"p50_usec": 700.0,
-						"p95_usec": 947.0,
-						"p99_usec": 1081.0,
-						"worst_usec": 1475.0
+						"p50_usec": 499.0,
+						"p95_usec": 758.0,
+						"p99_usec": 1068.0,
+						"worst_usec": 1603.0
 					},
 					"qualification_status": "IMPLEMENTED_PENDING_VISUAL_EVIDENCE"
 				},
@@ -6879,25 +6921,27 @@
 			"status": "PASS",
 			"scope_status": {
 				"TQP-20": "qualified",
-				"TQP-21": "implemented_pending_cancellation_and_atomic_publication",
+				"TQP-21": "qualified",
 				"TQP-22": "implemented_pending_hysteresis_prefetch_eviction_and_edit_matrix",
 				"TQP-23": "implemented_pending_long_traversal_save_and_gpu_equivalence",
 				"TQP-24": "implemented_pending_culling_hlod_draw_and_buffer_evidence",
-				"TQP-25": "implemented_pending_atomic_disk_crash_and_baked_recovery",
+				"TQP-25": "qualified",
 				"TQP-26": "implemented_pending_real_physics_query_and_navigation_publication",
 				"TQP-27": "implemented_pending_complete_runtime_diagnostic_sources",
 				"TQP-28": "implemented_pending_real_large_terrain_soak"
 			},
 			"qualified_scope": [
-				"TQP-20 deterministic reference chunk lifecycle"
+				"TQP-20 deterministic reference chunk lifecycle",
+				"TQP-21 native Windows worker, versioning, and publication reference",
+				"TQP-25 native Windows persistence, recovery, and migration reference"
 			],
 			"explicitly_unqualified_scope": [
-				"production worker-thread implementation",
 				"production terrain mesh residency",
 				"Godot physics and navigation integration",
-				"disk crash atomicity on every filesystem",
+				"snapshot atomicity on filesystems outside the Windows reference platform",
+				"automatic abandoned snapshot staging cleanup",
 				"production traversal and memory budgets",
-				"complete TQP-21 through TQP-28 qualification"
+				"complete TQP-22 through TQP-24 and TQP-26 through TQP-28 qualification"
 			],
 			"provenance": {
 				"workload_signature": "terrain_system_reference_v1",
@@ -6933,8 +6977,66 @@
 				{
 					"milestone": "TQP-21",
 					"status": "PASS",
-					"fixture_count": 6,
-					"failures": []
+					"fixture_count": 20,
+					"failures": [],
+					"qualification_status": "QUALIFIED_NATIVE_WINDOWS_PUBLICATION_REFERENCE_V1",
+					"native_evidence": {
+						"milestone": "TQP-21",
+						"status": "PASS",
+						"worker_pipeline": {
+							"status": "PASS",
+							"fixture": "native_production_worker_runtime",
+							"worker_count": 2.0,
+							"sample_jobs": 30.0,
+							"mesh_jobs": 29.0,
+							"published_events": 105.0,
+							"coalesced_viewer_events": 1.0,
+							"initial_settlement_frames": 4.0,
+							"final_settlement_frames": 29.0,
+							"target_chunk": {
+								"coordinate": "(2, 0, 2)",
+								"lod": 0.0,
+								"generation": 30.0,
+								"render_generation": 30.0,
+								"staged_render_generation": 0.0,
+								"collision_generation": 30.0,
+								"visual_ready": true,
+								"collision_ready": true,
+								"fully_ready": true
+							},
+							"target_mesh_signature": "e999a45b93a74279675fbc433bacfafea95cc85f3d421a91ab87b9006138dea1"
+						},
+						"publication": {
+							"schema": "world_transvoxel.terrain_lab.native_publication_qualification.v1",
+							"milestone": "TQP-21",
+							"status": "PASS",
+							"fixture": "native_m3_publication",
+							"checks": 8.0,
+							"published_generation": 2.0,
+							"stale_render_rejections": 2.0,
+							"stale_collision_rejections": 2.0,
+							"teardown_clean": true,
+							"performance": {
+								"sample_count": 100.0,
+								"p50_usec": 16325.0,
+								"p95_usec": 21587.0,
+								"p99_usec": 25518.0,
+								"worst_usec": 28887.0
+							},
+							"performance_scope": "NATIVE_DEBUG_REFERENCE_OBSERVATION_NOT_TQP_28",
+							"render_latency_frames_maximum": 2.0,
+							"collision_latency_frames_maximum": 2.0,
+							"failures": []
+						}
+					},
+					"independent_invariants": {
+						"accepted_generation_count": 1,
+						"priority_order": [
+							"visible",
+							"collision",
+							"far"
+						]
+					}
 				},
 				{
 					"milestone": "TQP-22",
@@ -6982,9 +7084,188 @@
 				{
 					"milestone": "TQP-25",
 					"status": "PASS",
-					"fixture_count": 4,
+					"fixture_count": 28,
 					"failures": [],
-					"save_signature": "fcbf74b38bb194614ff82d02e102dc4327f172dc8aaea9f790372342b18ad11a"
+					"qualification_status": "QUALIFIED_NATIVE_WINDOWS_PERSISTENCE_REFERENCE_V1",
+					"native_evidence": {
+						"schema": "world_transvoxel.terrain_lab.native_persistence_qualification.v1",
+						"milestone": "TQP-25",
+						"status": "PASS",
+						"qualification_scope": "native Windows current and legacy schema reference fixtures",
+						"explicitly_unqualified_scope": [
+							"automatic cleanup of abandoned snapshot staging directories",
+							"atomicity guarantees for filesystems outside the declared reference platform"
+						],
+						"fixture": {
+							"schema": "world_transvoxel.terrain_lab.native_persistence_fixture.v1",
+							"authority": "world-transvoxel generated native lifecycle fixture",
+							"upstream_revision": "8313650766b6b901f5b5ecdc8d84e03b6b87fd66",
+							"source": "world-transvoxel/build/production-lifecycle-fixture",
+							"current_world": {
+								"manifest": "streaming.wtworld",
+								"manifest_sha256": "0a1c6cc94c99feaf888e07c1fd2934189c50b50ab6399c5fbf4a652a706cdc51",
+								"source_revision": 7001.0,
+								"world_revision": 12.0,
+								"pages": [
+									"777c2591d483617fa591479a1caea6c48b5edc6097dba355f9073408114a492c.wtchunk",
+									"bae10e742d80d628b737ba1e8d8b238bad8a6f1359b592d1e016a2bb975e7f24.wtchunk",
+									"d02314179dacdaca652c0137c70f98f64e517c60d11ff0fc06c31e5017a7b48e.wtchunk",
+									"ec11ed9f35db3bc245459fb9085298055b4d2c1ef4953e8b63a16fe79151c895.wtchunk"
+								]
+							},
+							"legacy_world": {
+								"manifest": "legacy.wtworld",
+								"manifest_sha256": "d50702392465c054da5059745f444f52182533a06f01ff27dba82e3c693603b3",
+								"source_revision": 9001.0,
+								"world_revision": 0.0,
+								"pages": [
+									"0f60091491190907bfd04e5ffadb6f081ed8c163ed838ca708e33d57fcc30a11.wtchunk",
+									"a92139fd2d3ebced0f75de07d2b9903e4d8a17f758d91298ec2bc6341280daaa.wtchunk",
+									"d235f05b90e515a051c339a9431e57c290b3df314fce44b876d0fb4a2fc482e3.wtchunk",
+									"e5fbcdfce7a1f0163f2d7c455b03e4737479261c86c62c24adf014712f6659d4.wtchunk"
+								]
+							}
+						},
+						"evidence": {
+							"initial_sample": {
+								"status": "PASS",
+								"point": "(8, 8, 8)",
+								"lod": 0.0,
+								"density": -0.25,
+								"material": 7.0,
+								"source_revision": 7001.0,
+								"world_revision": 12.0,
+								"agreeing_page_count": 1.0
+							},
+							"edited_sample": {
+								"status": "PASS",
+								"point": "(8, 8, 8)",
+								"lod": 0.0,
+								"density": 10.0,
+								"material": 7.0,
+								"source_revision": 7001.0,
+								"world_revision": 13.0,
+								"agreeing_page_count": 1.0
+							},
+							"restart_sample": {
+								"status": "PASS",
+								"point": "(8, 8, 8)",
+								"lod": 0.0,
+								"density": 10.0,
+								"material": 7.0,
+								"source_revision": 7001.0,
+								"world_revision": 13.0,
+								"agreeing_page_count": 1.0
+							},
+							"compacted_sample": {
+								"status": "PASS",
+								"point": "(8, 8, 8)",
+								"lod": 0.0,
+								"density": 10.0,
+								"material": 7.0,
+								"source_revision": 7002.0,
+								"world_revision": 13.0,
+								"agreeing_page_count": 1.0
+							},
+							"migrated_sample": {
+								"status": "PASS",
+								"point": "(8, 8, 8)",
+								"lod": 0.0,
+								"density": 10.0,
+								"material": 7.0,
+								"source_revision": 7002.0,
+								"world_revision": 13.0,
+								"agreeing_page_count": 1.0
+							},
+							"recovered_sample": {
+								"status": "PASS",
+								"point": "(8, 8, 8)",
+								"lod": 0.0,
+								"density": 10.0,
+								"material": 7.0,
+								"source_revision": 7002.0,
+								"world_revision": 13.0,
+								"agreeing_page_count": 1.0
+							},
+							"legacy_sample": {
+								"status": "PASS",
+								"point": "(8, 8, 8)",
+								"lod": 0.0,
+								"density": -0.25,
+								"material": 7.0,
+								"source_revision": 9001.0,
+								"world_revision": 0.0,
+								"agreeing_page_count": 1.0
+							},
+							"legacy_migrated_sample": {
+								"status": "PASS",
+								"point": "(8, 8, 8)",
+								"lod": 0.0,
+								"density": -0.25,
+								"material": 7.0,
+								"source_revision": 9001.0,
+								"world_revision": 0.0,
+								"agreeing_page_count": 1.0
+							},
+							"stale_error": "edit transaction world revision is stale",
+							"journal_before_rejection_sha256": "5e9ccbab0ee933240309d0b2e3b107063be28662c19ad8bf54ec9ea16d95fd87",
+							"journal_after_rejection_sha256": "5e9ccbab0ee933240309d0b2e3b107063be28662c19ad8bf54ec9ea16d95fd87",
+							"compacted_manifest_sha256": "aa8b6568490a272758990e1a9824ddc58620bde40b7d1887e4d825a0ca20b891",
+							"migrated_manifest_sha256": "aa8b6568490a272758990e1a9824ddc58620bde40b7d1887e4d825a0ca20b891",
+							"journal_corruption": {
+								"rejected": true,
+								"error": "edit journal is corrupt",
+								"accepted_async": true
+							},
+							"journal_truncated_tail_recovery": {
+								"recovered": true,
+								"world_revision": 12.0,
+								"committed_prefix_bytes": 0.0,
+								"sample": {
+									"status": "PASS",
+									"point": "(8, 8, 8)",
+									"lod": 0.0,
+									"density": -0.25,
+									"material": 7.0,
+									"source_revision": 7001.0,
+									"world_revision": 12.0,
+									"agreeing_page_count": 1.0
+								}
+							},
+							"manifest_corruption": {
+								"rejected": true,
+								"records": [
+									{
+										"rejected": true,
+										"error": "manifest validation failed",
+										"accepted_async": true
+									},
+									{
+										"rejected": true,
+										"error": "manifest validation failed",
+										"accepted_async": true
+									}
+								]
+							},
+							"page_corruption": {
+								"rejected": true,
+								"error": "authoritative sample page loading failed"
+							},
+							"interrupted_staging": {
+								"status": "FAIL",
+								"error": "world snapshot file writing failed"
+							},
+							"existing_output_rejection": {
+								"status": "FAIL",
+								"error": "world snapshot output directory already exists"
+							},
+							"compacted_page_count": 4.0,
+							"migrated_page_count": 4.0,
+							"legacy_migrated_page_count": 4.0,
+							"edit_snapshot_ordering_world_revision": 13.0
+						},
+						"failures": []
+					}
 				},
 				{
 					"milestone": "TQP-26",
@@ -7069,14 +7350,14 @@
 					"failures": [],
 					"performance": {
 						"sample_count": 100,
-						"p50_usec": 1234.0,
-						"p95_usec": 2118.0,
-						"p99_usec": 2929.0,
-						"worst_usec": 3324.0
+						"p50_usec": 794.0,
+						"p95_usec": 1508.0,
+						"p99_usec": 1723.0,
+						"worst_usec": 1861.0
 					},
 					"memory": {
-						"retained_bytes": 28899481,
-						"peak_bytes": 71150389
+						"retained_bytes": 29142706,
+						"peak_bytes": 71327954
 					},
 					"retained_chunk_count": 127,
 					"qualification_scope": "REFERENCE_MODEL_NOT_PRODUCTION_TERRAIN"
@@ -7090,7 +7371,7 @@
 			"scope_status": {
 				"TQP-29": "implemented_pending_strength_and_under_resolution_matrix",
 				"TQP-30": "implemented_pending_rigid_body_remesh_collision_and_persistence",
-				"TQP-31": "implemented_pending_TQP_22_and_TQP_25_qualification",
+				"TQP-31": "implemented_pending_TQP_22_qualification",
 				"TQP-32": "implemented_pending_collision_destruction_and_persistence",
 				"TQP-33": "implemented_pending_bridge_authoring_and_lod_matrix"
 			},

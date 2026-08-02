@@ -1,0 +1,316 @@
+{
+	"schema": "world_transvoxel.terrain_lab.temporal_wave_qualification.v1",
+	"status": "PASS",
+	"authority": "world-transvoxel native GDExtension; no fallback path",
+	"platform_scope": "Godot 4.7.1 Windows x86_64 reference run",
+	"provenance": {
+		"workload_signature": "native_temporal_integrity_windows_v1",
+		"build_type": "debug",
+		"os": "Windows",
+		"architecture": "x86_64",
+		"cpu": "Intel(R) Core(TM) i5-7300HQ CPU @ 2.50GHz",
+		"gpu": "",
+		"driver": "opengl3",
+		"godot_version": "4.7.1-stable (official)",
+		"backend_revision": "a5c681d4061c5bcf2f779f7ae841d5d8ebffcdf2725040087386257ac2c3e32b"
+	},
+	"memory": {
+		"retained_bytes": 27075760,
+		"peak_bytes": 31711734
+	},
+	"milestones": {
+		"TQP-21": {
+			"milestone": "TQP-21",
+			"status": "PASS",
+			"worker_pipeline": {
+				"status": "PASS",
+				"fixture": "native_production_worker_runtime",
+				"worker_count": 2,
+				"sample_jobs": 30,
+				"mesh_jobs": 29,
+				"published_events": 105,
+				"coalesced_viewer_events": 1,
+				"initial_settlement_frames": 4,
+				"final_settlement_frames": 29,
+				"target_chunk": {
+					"coordinate": "(2, 0, 2)",
+					"lod": 0,
+					"generation": 30,
+					"render_generation": 30,
+					"staged_render_generation": 0,
+					"collision_generation": 30,
+					"visual_ready": true,
+					"collision_ready": true,
+					"fully_ready": true
+				},
+				"target_mesh_signature": "e999a45b93a74279675fbc433bacfafea95cc85f3d421a91ab87b9006138dea1"
+			},
+			"publication": {
+				"schema": "world_transvoxel.terrain_lab.native_publication_qualification.v1",
+				"milestone": "TQP-21",
+				"status": "PASS",
+				"fixture": "native_m3_publication",
+				"checks": 8,
+				"published_generation": 2,
+				"stale_render_rejections": 2,
+				"stale_collision_rejections": 2,
+				"teardown_clean": true,
+				"performance": {
+					"sample_count": 100,
+					"p50_usec": 16325.0,
+					"p95_usec": 21587.0,
+					"p99_usec": 25518.0,
+					"worst_usec": 28887.0
+				},
+				"performance_scope": "NATIVE_DEBUG_REFERENCE_OBSERVATION_NOT_TQP_28",
+				"render_latency_frames_maximum": 2,
+				"collision_latency_frames_maximum": 2,
+				"failures": []
+			}
+		},
+		"TQP-25": {
+			"schema": "world_transvoxel.terrain_lab.native_persistence_qualification.v1",
+			"milestone": "TQP-25",
+			"status": "PASS",
+			"qualification_scope": "native Windows current and legacy schema reference fixtures",
+			"explicitly_unqualified_scope": [
+				"automatic cleanup of abandoned snapshot staging directories",
+				"atomicity guarantees for filesystems outside the declared reference platform"
+			],
+			"fixture": {
+				"schema": "world_transvoxel.terrain_lab.native_persistence_fixture.v1",
+				"authority": "world-transvoxel generated native lifecycle fixture",
+				"upstream_revision": "8313650766b6b901f5b5ecdc8d84e03b6b87fd66",
+				"source": "world-transvoxel/build/production-lifecycle-fixture",
+				"current_world": {
+					"manifest": "streaming.wtworld",
+					"manifest_sha256": "0a1c6cc94c99feaf888e07c1fd2934189c50b50ab6399c5fbf4a652a706cdc51",
+					"source_revision": 7001.0,
+					"world_revision": 12.0,
+					"pages": [
+						"777c2591d483617fa591479a1caea6c48b5edc6097dba355f9073408114a492c.wtchunk",
+						"bae10e742d80d628b737ba1e8d8b238bad8a6f1359b592d1e016a2bb975e7f24.wtchunk",
+						"d02314179dacdaca652c0137c70f98f64e517c60d11ff0fc06c31e5017a7b48e.wtchunk",
+						"ec11ed9f35db3bc245459fb9085298055b4d2c1ef4953e8b63a16fe79151c895.wtchunk"
+					]
+				},
+				"legacy_world": {
+					"manifest": "legacy.wtworld",
+					"manifest_sha256": "d50702392465c054da5059745f444f52182533a06f01ff27dba82e3c693603b3",
+					"source_revision": 9001.0,
+					"world_revision": 0.0,
+					"pages": [
+						"0f60091491190907bfd04e5ffadb6f081ed8c163ed838ca708e33d57fcc30a11.wtchunk",
+						"a92139fd2d3ebced0f75de07d2b9903e4d8a17f758d91298ec2bc6341280daaa.wtchunk",
+						"d235f05b90e515a051c339a9431e57c290b3df314fce44b876d0fb4a2fc482e3.wtchunk",
+						"e5fbcdfce7a1f0163f2d7c455b03e4737479261c86c62c24adf014712f6659d4.wtchunk"
+					]
+				}
+			},
+			"evidence": {
+				"initial_sample": {
+					"status": "PASS",
+					"point": "(8, 8, 8)",
+					"lod": 0,
+					"density": -0.25,
+					"material": 7,
+					"source_revision": 7001,
+					"world_revision": 12,
+					"agreeing_page_count": 1
+				},
+				"edited_sample": {
+					"status": "PASS",
+					"point": "(8, 8, 8)",
+					"lod": 0,
+					"density": 10.0,
+					"material": 7,
+					"source_revision": 7001,
+					"world_revision": 13,
+					"agreeing_page_count": 1
+				},
+				"restart_sample": {
+					"status": "PASS",
+					"point": "(8, 8, 8)",
+					"lod": 0,
+					"density": 10.0,
+					"material": 7,
+					"source_revision": 7001,
+					"world_revision": 13,
+					"agreeing_page_count": 1
+				},
+				"compacted_sample": {
+					"status": "PASS",
+					"point": "(8, 8, 8)",
+					"lod": 0,
+					"density": 10.0,
+					"material": 7,
+					"source_revision": 7002,
+					"world_revision": 13,
+					"agreeing_page_count": 1
+				},
+				"migrated_sample": {
+					"status": "PASS",
+					"point": "(8, 8, 8)",
+					"lod": 0,
+					"density": 10.0,
+					"material": 7,
+					"source_revision": 7002,
+					"world_revision": 13,
+					"agreeing_page_count": 1
+				},
+				"recovered_sample": {
+					"status": "PASS",
+					"point": "(8, 8, 8)",
+					"lod": 0,
+					"density": 10.0,
+					"material": 7,
+					"source_revision": 7002,
+					"world_revision": 13,
+					"agreeing_page_count": 1
+				},
+				"legacy_sample": {
+					"status": "PASS",
+					"point": "(8, 8, 8)",
+					"lod": 0,
+					"density": -0.25,
+					"material": 7,
+					"source_revision": 9001,
+					"world_revision": 0,
+					"agreeing_page_count": 1
+				},
+				"legacy_migrated_sample": {
+					"status": "PASS",
+					"point": "(8, 8, 8)",
+					"lod": 0,
+					"density": -0.25,
+					"material": 7,
+					"source_revision": 9001,
+					"world_revision": 0,
+					"agreeing_page_count": 1
+				},
+				"stale_error": "edit transaction world revision is stale",
+				"journal_before_rejection_sha256": "5e9ccbab0ee933240309d0b2e3b107063be28662c19ad8bf54ec9ea16d95fd87",
+				"journal_after_rejection_sha256": "5e9ccbab0ee933240309d0b2e3b107063be28662c19ad8bf54ec9ea16d95fd87",
+				"compacted_manifest_sha256": "aa8b6568490a272758990e1a9824ddc58620bde40b7d1887e4d825a0ca20b891",
+				"migrated_manifest_sha256": "aa8b6568490a272758990e1a9824ddc58620bde40b7d1887e4d825a0ca20b891",
+				"journal_corruption": {
+					"rejected": true,
+					"error": "edit journal is corrupt",
+					"accepted_async": true
+				},
+				"journal_truncated_tail_recovery": {
+					"recovered": true,
+					"world_revision": 12,
+					"committed_prefix_bytes": 0,
+					"sample": {
+						"status": "PASS",
+						"point": "(8, 8, 8)",
+						"lod": 0,
+						"density": -0.25,
+						"material": 7,
+						"source_revision": 7001,
+						"world_revision": 12,
+						"agreeing_page_count": 1
+					}
+				},
+				"manifest_corruption": {
+					"rejected": true,
+					"records": [
+						{
+							"rejected": true,
+							"error": "manifest validation failed",
+							"accepted_async": true
+						},
+						{
+							"rejected": true,
+							"error": "manifest validation failed",
+							"accepted_async": true
+						}
+					]
+				},
+				"page_corruption": {
+					"rejected": true,
+					"error": "authoritative sample page loading failed"
+				},
+				"interrupted_staging": {
+					"status": "FAIL",
+					"error": "world snapshot file writing failed"
+				},
+				"existing_output_rejection": {
+					"status": "FAIL",
+					"error": "world snapshot output directory already exists"
+				},
+				"compacted_page_count": 4,
+				"migrated_page_count": 4,
+				"legacy_migrated_page_count": 4,
+				"edit_snapshot_ordering_world_revision": 13
+			},
+			"failures": []
+		},
+		"TQP-13": {
+			"status": "PASS",
+			"commits": 2,
+			"stale_rejections": 1,
+			"chunk_replacements": 2,
+			"initial_sample": {
+				"status": "PASS",
+				"point": "(40, 6, 40)",
+				"lod": 0,
+				"density": -2.0,
+				"material": 4,
+				"source_revision": 8101,
+				"world_revision": 0,
+				"agreeing_page_count": 1
+			},
+			"carved_sample": {
+				"status": "PASS",
+				"point": "(40, 6, 40)",
+				"lod": 0,
+				"density": 4.0,
+				"material": 4,
+				"source_revision": 8101,
+				"world_revision": 1,
+				"agreeing_page_count": 1
+			},
+			"constructed_sample": {
+				"status": "PASS",
+				"point": "(40, 6, 40)",
+				"lod": 0,
+				"density": -2.5,
+				"material": 7,
+				"source_revision": 8101,
+				"world_revision": 2,
+				"agreeing_page_count": 1
+			},
+			"restart_sample": {
+				"status": "PASS",
+				"point": "(40, 6, 40)",
+				"lod": 0,
+				"density": -2.5,
+				"material": 7,
+				"source_revision": 8101,
+				"world_revision": 2,
+				"agreeing_page_count": 1
+			},
+			"stale_error": "edit transaction world revision is stale",
+			"streaming_and_lod_overlap": true,
+			"journal_after_carve_sha256": "04435eb1d0248e24e424294840325a27b2de4275114b91fb9c263f93a7399045",
+			"journal_after_rejection_sha256": "04435eb1d0248e24e424294840325a27b2de4275114b91fb9c263f93a7399045",
+			"journal_final_sha256": "cf816b9777d668f0f51a1b70955270ae6ef51cc925d63ee0e9bb434083314e80",
+			"restart_mesh_signature": "e999a45b93a74279675fbc433bacfafea95cc85f3d421a91ab87b9006138dea1",
+			"edit_snapshot_ordering_world_revision": 13
+		}
+	},
+	"elapsed_ms": 3595.122,
+	"failures": [],
+	"standard_validation": {
+		"schema": "world_transvoxel.terrain_lab.temporal_wave_evidence_validation.v1",
+		"status": "PASS",
+		"qualified_milestones": [
+			"TQP-21",
+			"TQP-25",
+			"TQP-13"
+		],
+		"failures": []
+	}
+}

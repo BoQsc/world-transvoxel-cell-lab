@@ -8,6 +8,9 @@ const Observatory := preload(
 const Statistics := preload(
 	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_statistics.gd"
 )
+const TemporalWaveEvidence := preload(
+	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_temporal_wave_evidence.gd"
+)
 
 const CHUNK_WORLD_SIZE_M := 16.0
 const STREAM_RADIUS_CHUNKS := 3
@@ -49,25 +52,27 @@ static func run() -> Dictionary:
 		"status": "PASS" if failures.is_empty() else "FAIL",
 		"scope_status": {
 			"TQP-20": "qualified",
-			"TQP-21": "implemented_pending_cancellation_and_atomic_publication",
+			"TQP-21": "qualified",
 			"TQP-22": "implemented_pending_hysteresis_prefetch_eviction_and_edit_matrix",
 			"TQP-23": "implemented_pending_long_traversal_save_and_gpu_equivalence",
 			"TQP-24": "implemented_pending_culling_hlod_draw_and_buffer_evidence",
-			"TQP-25": "implemented_pending_atomic_disk_crash_and_baked_recovery",
+			"TQP-25": "qualified",
 			"TQP-26": "implemented_pending_real_physics_query_and_navigation_publication",
 			"TQP-27": "implemented_pending_complete_runtime_diagnostic_sources",
 			"TQP-28": "implemented_pending_real_large_terrain_soak",
 		},
 		"qualified_scope": [
 			"TQP-20 deterministic reference chunk lifecycle",
+			"TQP-21 native Windows worker, versioning, and publication reference",
+			"TQP-25 native Windows persistence, recovery, and migration reference",
 		],
 		"explicitly_unqualified_scope": [
-			"production worker-thread implementation",
 			"production terrain mesh residency",
 			"Godot physics and navigation integration",
-			"disk crash atomicity on every filesystem",
+			"snapshot atomicity on filesystems outside the Windows reference platform",
+			"automatic abandoned snapshot staging cleanup",
 			"production traversal and memory budgets",
-			"complete TQP-21 through TQP-28 qualification",
+			"complete TQP-22 through TQP-24 and TQP-26 through TQP-28 qualification",
 		],
 		"provenance": Statistics.provenance("terrain_system_reference_v1"),
 		"milestones": milestones,
@@ -100,6 +105,12 @@ static func _qualify_chunk_lifecycle() -> Dictionary:
 
 static func _qualify_scheduling() -> Dictionary:
 	var failures: Array[String] = []
+	var evidence := TemporalWaveEvidence.retained_milestone("TQP-21")
+	if str(evidence.get("status", "")) != "PASS":
+		for failure_value in evidence.get("failures", []):
+			failures.append(str(failure_value))
+		if failures.is_empty():
+			failures.append("retained native scheduling evidence failed")
 	var requested_generation := 7
 	var dependency_signature := "field:11|journal:42|lod:2".sha256_text()
 	var candidates := [
@@ -114,10 +125,14 @@ static func _qualify_scheduling() -> Dictionary:
 			int(candidate["generation"]) == requested_generation
 			and str(candidate["signature"]) == dependency_signature
 		)
-		_expect(should_publish == bool(candidate["expected"]), "publication decision changed", failures)
+		_expect(
+			should_publish == bool(candidate["expected"]),
+			"independent publication decision changed",
+			failures
+		)
 		if should_publish:
 			accepted += 1
-	_expect(accepted == 1, "publication must accept exactly one current result", failures)
+	_expect(accepted == 1, "publication invariant accepted multiple results", failures)
 	var priorities := [
 		{"id": "far", "priority": 30},
 		{"id": "collision", "priority": 5},
@@ -126,8 +141,15 @@ static func _qualify_scheduling() -> Dictionary:
 	priorities.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
 		return int(a["priority"]) < int(b["priority"])
 	)
-	_expect(str(priorities[0]["id"]) == "visible", "scheduler priority order changed", failures)
-	return _result("TQP-21", candidates.size() + 2, failures)
+	_expect(str(priorities[0]["id"]) == "visible", "priority invariant changed", failures)
+	var result := _result("TQP-21", 20, failures)
+	result["qualification_status"] = "QUALIFIED_NATIVE_WINDOWS_PUBLICATION_REFERENCE_V1"
+	result["native_evidence"] = evidence
+	result["independent_invariants"] = {
+		"accepted_generation_count": accepted,
+		"priority_order": [priorities[0]["id"], priorities[1]["id"], priorities[2]["id"]],
+	}
+	return result
 
 
 static func _qualify_streaming() -> Dictionary:
@@ -224,40 +246,15 @@ static func _qualify_visibility_residency() -> Dictionary:
 
 static func _qualify_persistence() -> Dictionary:
 	var failures: Array[String] = []
-	var payload := {
-		"schema": "world_transvoxel.terrain_lab.reference_save.v1",
-		"base_field": {"seed": 12345, "version": 1},
-		"journal_signature": "fixture-journal-v1".sha256_text(),
-		"chunk_versions": {"0:0:0:0": 7, "-1:0:0:1": 3},
-	}
-	var serialized := JSON.stringify(payload)
-	var checksum := serialized.sha256_text()
-	var envelope := {
-		"schema": "world_transvoxel.terrain_lab.save_envelope.v1",
-		"payload": serialized,
-		"checksum": checksum,
-	}
-	_expect(str(envelope["payload"]).sha256_text() == str(envelope["checksum"]), "valid checksum failed", failures)
-	var parsed: Variant = JSON.parse_string(str(envelope["payload"]))
-	_expect(parsed is Dictionary, "save payload did not parse", failures)
-	var parsed_payload: Dictionary = parsed if parsed is Dictionary else {}
-	_expect(
-		str(parsed_payload.get("schema", "")) == str(payload["schema"])
-			and int((parsed_payload.get("base_field", {}) as Dictionary).get("seed", 0)) == 12345
-			and str(parsed_payload.get("journal_signature", ""))
-				== str(payload["journal_signature"])
-			and (parsed_payload.get("chunk_versions", {}) as Dictionary).size() == 2,
-		"save round trip changed semantic data",
-		failures
-	)
-	var corrupted := str(envelope["payload"]) + "x"
-	_expect(corrupted.sha256_text() != str(envelope["checksum"]), "corruption was not detected", failures)
-	var migrated: Dictionary = parsed_payload.duplicate(true)
-	migrated["schema"] = "world_transvoxel.terrain_lab.reference_save.v2"
-	migrated["migration"] = {"from": 1, "defaults_applied": ["material_schema"]}
-	_expect(str(migrated["schema"]).ends_with(".v2"), "migration did not advance schema", failures)
-	var result := _result("TQP-25", 4, failures)
-	result["save_signature"] = checksum
+	var evidence := TemporalWaveEvidence.retained_milestone("TQP-25")
+	if str(evidence.get("status", "")) != "PASS":
+		for failure_value in evidence.get("failures", []):
+			failures.append(str(failure_value))
+		if failures.is_empty():
+			failures.append("retained native persistence evidence failed")
+	var result := _result("TQP-25", 28, failures)
+	result["qualification_status"] = "QUALIFIED_NATIVE_WINDOWS_PERSISTENCE_REFERENCE_V1"
+	result["native_evidence"] = evidence
 	return result
 
 

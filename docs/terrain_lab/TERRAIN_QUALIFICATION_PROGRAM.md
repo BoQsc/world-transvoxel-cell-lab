@@ -225,7 +225,7 @@ budgets, and retained-memory budgets.
 
 ### TQP-13: Concurrent And Temporal Edits
 
-Status: `implemented`. Owner: Edit Semantics Lab and Terrain Systems Lab. Depends
+Status: `qualified`. Owner: Edit Semantics Lab and Terrain Systems Lab. Depends
 on: TQP-11, TQP-20, TQP-21.
 
 Complete when edits during streaming, LOD changes, saves, collision rebuilds,
@@ -295,7 +295,7 @@ cached, failed, and evicted states have legal transitions and fault fixtures.
 
 ### TQP-21: Scheduling, Versioning, And Publication
 
-Status: `implemented`. Owner: Terrain Systems Lab. Depends on: TQP-05, TQP-20.
+Status: `qualified`. Owner: Terrain Systems Lab. Depends on: TQP-05, TQP-20.
 
 Complete when job ownership, cancellation, generation numbers, priorities,
 atomic publication, stale rejection, and deterministic test scheduling are
@@ -327,7 +327,7 @@ qualified.
 
 ### TQP-25: Persistence, Migration, And Recovery
 
-Status: `implemented`. Owner: Terrain Systems Lab. Depends on: TQP-02, TQP-11,
+Status: `qualified`. Owner: Terrain Systems Lab. Depends on: TQP-02, TQP-11,
 TQP-20.
 
 Complete when base fields, journals, baked bricks, checksums, atomic writes,
@@ -517,21 +517,21 @@ a standard, not an assertion that future terrain work is finished.
 
 The program has executed every milestone to a truthful evidence state:
 
-- `TQP-01` through `TQP-12`, `TQP-15`, and `TQP-20` are qualified
+- `TQP-01` through `TQP-13`, `TQP-15`, `TQP-20`, `TQP-21`, and `TQP-25` are qualified
   for their narrow contract, native Windows reference, or reference-model
   scopes. Gate B is qualified; its native chunk rebuild benchmark remains a
   background/debug reference and is not a production frame-time claim.
-- `TQP-13`, `TQP-14`, `TQP-16` through `TQP-18`, and `TQP-21` through
-  `TQP-33` have implemented reference behavior but
+- `TQP-14`, `TQP-16` through `TQP-18`, `TQP-22` through `TQP-24`, and
+  `TQP-26` through `TQP-33` have implemented reference behavior but
   still lack one or more exit criteria named in their milestone contracts.
 - `TQP-19` and `TQP-34` are specified. The former requires human visual
   acceptance; the latter requires measured GPU-candidate benefit.
 - `TQP-35` through `TQP-46` are blocked by named external targets and exit
   conditions in `program_blockers.json`.
 
-The next work is to close the explicit gaps retained by each implemented
-milestone, beginning with Gate C visual qualification and TQP-21 scheduling
-qualification required by temporal edits.
+The next dependency-ordered work is TQP-16 material blending, TQP-22 streaming
+windows, and TQP-23 large-world coordinates. These are independent entries in
+the first step of `TQP-WAVE-02`.
 Production and GPU claims remain closed. A blocked milestone may advance only
 when its recorded exit condition exists and the required evidence passes.
 
@@ -556,3 +556,7 @@ Retained decisions:
   rather than inferring unavailable evidence.
 - `TQP-D003`: retain `world-transvoxel` CPU meshing as authority and keep GPU
   field, meshing, residency, and readback as separate candidate promotions.
+- `TQP-D004`: qualify the Gate B native edit corpus and long-edit reference
+  workload without claiming production frame-time performance.
+- `TQP-D005`: qualify TQP-21, TQP-25, and TQP-13 for the retained native
+  Windows temporal-integrity and persistence reference scope.

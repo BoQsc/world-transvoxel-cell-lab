@@ -1,0 +1,29 @@
+{
+	"schema": "world_transvoxel.terrain_lab.decision.v1",
+	"id": "TQP-D005",
+	"date": "2026-08-02",
+	"decision": "Promote TQP-21, TQP-25, and TQP-13 to qualified for the declared Godot 4.7.1 Windows x86_64 native reference scope.",
+	"reason": "The retained wave directly exercises world-transvoxel workers, stale generation rejection, atomic render and collision publication, temporal carve and construction ordering, journal replay, truncated-tail recovery, complete-segment corruption rejection, baked-page checksums, compaction, current and legacy migration, and fail-closed snapshot publication.",
+	"alternatives": [
+		"retain deterministic model-only evidence",
+		"promote procedural compaction despite the native baked-source contract",
+		"claim cross-filesystem or network qualification without evidence"
+	],
+	"evidence": [
+		"temporal_wave_standard.json",
+		"temporal_wave_reference_windows.json",
+		"world-transvoxel generated current and legacy persistence fixtures"
+	],
+	"qualified_scope": [
+		"native Windows worker scheduling and publication reference",
+		"native Windows temporal edit and deterministic restart replay reference",
+		"native Windows current and legacy persistence, corruption, compaction, migration, and recovery reference"
+	],
+	"explicit_non_claims": [
+		"automatic cleanup of abandoned snapshot staging directories",
+		"atomicity guarantees outside the declared Windows reference platform",
+		"networked edit ordering",
+		"large streaming-window policy"
+	],
+	"downstream_impact": "TQP-WAVE-01 is complete and TQP-WAVE-02 becomes the active dependency-ordered work set."
+}

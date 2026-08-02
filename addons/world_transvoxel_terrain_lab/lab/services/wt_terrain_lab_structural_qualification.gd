@@ -39,7 +39,7 @@ static func run() -> Dictionary:
 		"scope_status": {
 			"TQP-29": "implemented_pending_strength_and_under_resolution_matrix",
 			"TQP-30": "implemented_pending_rigid_body_remesh_collision_and_persistence",
-			"TQP-31": "implemented_pending_TQP_22_and_TQP_25_qualification",
+			"TQP-31": "implemented_pending_TQP_22_qualification",
 			"TQP-32": "implemented_pending_collision_destruction_and_persistence",
 			"TQP-33": "implemented_pending_bridge_authoring_and_lod_matrix",
 		},

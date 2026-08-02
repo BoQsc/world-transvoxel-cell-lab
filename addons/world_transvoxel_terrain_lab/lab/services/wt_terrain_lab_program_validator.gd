@@ -8,6 +8,9 @@ const FoundationQualification := preload(
 const JsonLoader := preload(
 	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_json.gd"
 )
+const TemporalWaveEvidence := preload(
+	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_temporal_wave_evidence.gd"
+)
 
 const PROGRAM_SCHEMA := "world_transvoxel.terrain_lab.program.v2"
 const LAB_SCOPE := "experimental_terrain_qualification"
@@ -82,8 +85,10 @@ static func validate(program: Dictionary, dependencies: Dictionary) -> Dictionar
 	_validate_dependencies(milestones, milestone_by_id, gates, failures)
 	_validate_evidence_profiles(program, failures)
 	_validate_evidence_files(program, failures)
+	_validate_execution_plan(program, milestone_by_id, failures)
 	_validate_qualification_state(program, milestone_by_id, failures)
 	_validate_edit_gate_b_evidence(program, milestone_by_id, failures)
+	_validate_temporal_wave_evidence(program, milestone_by_id, failures)
 	_validate_visual_evidence(program, milestone_by_id, failures)
 	_validate_dependency_boundary(program, dependencies, failures)
 	_validate_source_boundary(failures)
@@ -205,7 +210,7 @@ static func _validate_evidence_files(program: Dictionary, failures: Array[String
 		_expect(not decision_id.is_empty(), "decision ID is missing: " + path, failures)
 		_expect(not decision_ids.has(decision_id), "duplicate decision ID: " + decision_id, failures)
 		decision_ids[decision_id] = true
-	for required in ["TQP-D001", "TQP-D002", "TQP-D003", "TQP-D004"]:
+	for required in ["TQP-D001", "TQP-D002", "TQP-D003", "TQP-D004", "TQP-D005"]:
 		_expect(decision_ids.has(required), "missing retained decision: " + required, failures)
 	for key in [
 		"qualification_state",
@@ -213,10 +218,94 @@ static func _validate_evidence_files(program: Dictionary, failures: Array[String
 		"blocker_catalog",
 		"visual_evidence",
 		"edit_gate_b_evidence",
+		"temporal_wave_standard",
+		"execution_plan",
 	]:
 		var path := str(program.get(key, ""))
 		_expect(FileAccess.file_exists(path), "missing program evidence: " + key, failures)
 		_expect(not JsonLoader.load_dictionary(path).is_empty(), "invalid program evidence: " + key, failures)
+
+
+static func _validate_execution_plan(
+	program: Dictionary,
+	milestone_by_id: Dictionary,
+	failures: Array[String]
+) -> void:
+	var plan := JsonLoader.load_dictionary(str(program.get("execution_plan", "")))
+	_expect(
+		str(plan.get("schema", ""))
+			== "world_transvoxel.terrain_lab.execution_plan.v1",
+		"execution plan schema mismatch",
+		failures
+	)
+	var positions := {}
+	var active_wave_count := 0
+	var current_wave := str(plan.get("current_wave", ""))
+	var active_wave: Dictionary = {}
+	var waves: Array = plan.get("waves", [])
+	for wave_index in range(waves.size()):
+		var wave: Dictionary = waves[wave_index]
+		var wave_id := str(wave.get("id", ""))
+		var wave_status := str(wave.get("status", ""))
+		if wave_status == "active":
+			active_wave_count += 1
+			active_wave = wave
+			_expect(wave_id == current_wave, "active execution wave differs from current_wave", failures)
+		for step_index in range((wave.get("steps", []) as Array).size()):
+			var step: Array = (wave.get("steps", []) as Array)[step_index]
+			_expect(not step.is_empty(), wave_id + " contains an empty step", failures)
+			for milestone_value in step:
+				var milestone_id := str(milestone_value)
+				_expect(milestone_by_id.has(milestone_id), "execution plan has unknown milestone " + milestone_id, failures)
+				_expect(not positions.has(milestone_id), "execution plan duplicates " + milestone_id, failures)
+				positions[milestone_id] = Vector2i(wave_index, step_index)
+				if wave_status == "completed":
+					var milestone: Dictionary = milestone_by_id.get(milestone_id, {})
+					_expect(
+						str(milestone.get("status", "")) in ["qualified", "production"],
+						"completed execution wave contains unqualified " + milestone_id,
+						failures
+					)
+	_expect(active_wave_count == 1, "execution plan must have exactly one active wave", failures)
+	_expect(positions.size() == 46, "execution plan must cover all 46 milestones", failures)
+	for milestone_id in milestone_by_id:
+		var milestone: Dictionary = milestone_by_id[milestone_id]
+		var milestone_position: Vector2i = positions.get(milestone_id, Vector2i(-1, -1))
+		for dependency_value in milestone.get("depends_on", []):
+			var dependencies: Array = []
+			var dependency_id := str(dependency_value)
+			if (program.get("gates", {}) as Dictionary).has(dependency_id):
+				dependencies = (program.get("gates", {}) as Dictionary)[dependency_id]
+			else:
+				dependencies = [dependency_id]
+			for expanded_value in dependencies:
+				var expanded_id := str(expanded_value)
+				var dependency_position: Vector2i = positions.get(expanded_id, Vector2i(-1, -1))
+				_expect(
+					dependency_position.x < milestone_position.x
+						or (
+							dependency_position.x == milestone_position.x
+							and dependency_position.y < milestone_position.y
+						),
+					milestone_id + " is not scheduled after " + expanded_id,
+					failures
+				)
+	var expected_next: Array = []
+	for step_value in active_wave.get("steps", []):
+		var step: Array = step_value
+		var incomplete := false
+		for milestone_value in step:
+			var milestone: Dictionary = milestone_by_id.get(str(milestone_value), {})
+			if str(milestone.get("status", "")) not in ["qualified", "production"]:
+				incomplete = true
+		if incomplete:
+			expected_next = step.duplicate()
+			break
+	_expect(
+		plan.get("recommended_next", []) == expected_next,
+		"execution plan recommended_next differs from the first incomplete active step",
+		failures
+	)
 
 
 static func _validate_qualification_state(
@@ -228,6 +317,11 @@ static func _validate_qualification_state(
 	_expect(
 		str(state.get("schema", "")) == "world_transvoxel.terrain_lab.qualification_state.v1",
 		"qualification state schema mismatch",
+		failures
+	)
+	_expect(
+		int(state.get("program_revision", -1)) == int(program.get("program_revision", -2)),
+		"qualification state program revision mismatch",
 		failures
 	)
 	var status_lists: Dictionary = state.get("statuses", {})
@@ -353,6 +447,33 @@ static func _validate_edit_gate_b_evidence(
 		"Gate B diagnostic sequence panel contract changed",
 		failures
 	)
+
+
+static func _validate_temporal_wave_evidence(
+	program: Dictionary,
+	milestone_by_id: Dictionary,
+	failures: Array[String]
+) -> void:
+	var standard := JsonLoader.load_dictionary(
+		str(program.get("temporal_wave_standard", ""))
+	)
+	_expect(
+		str(standard.get("schema", ""))
+			== "world_transvoxel.terrain_lab.temporal_wave_standard.v1",
+		"temporal wave standard schema mismatch",
+		failures
+	)
+	var validation := TemporalWaveEvidence.validate_retained()
+	if str(validation.get("status", "")) != "PASS":
+		for failure_value in validation.get("failures", []):
+			failures.append("temporal wave: " + str(failure_value))
+	for milestone_id in ["TQP-21", "TQP-25", "TQP-13"]:
+		var milestone: Dictionary = milestone_by_id.get(milestone_id, {})
+		_expect(
+			str(milestone.get("status", "")) == "qualified",
+			milestone_id + " must match retained native temporal wave evidence",
+			failures
+		)
 
 
 static func _validate_visual_evidence(
