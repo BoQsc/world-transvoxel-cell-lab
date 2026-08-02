@@ -11,7 +11,7 @@ func run() -> Dictionary:
 	var failures: Array[String] = []
 	var result := {
 		"schema": "world_transvoxel.terrain_lab.native_publication_qualification.v1",
-		"milestone": "TQP-21",
+		"milestone": "TQP-15",
 		"status": "FAIL",
 		"fixture": "native_m3_publication",
 		"checks": 0,

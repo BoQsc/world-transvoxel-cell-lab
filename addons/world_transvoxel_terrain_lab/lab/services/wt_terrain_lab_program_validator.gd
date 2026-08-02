@@ -210,7 +210,7 @@ static func _validate_evidence_files(program: Dictionary, failures: Array[String
 		_expect(not decision_id.is_empty(), "decision ID is missing: " + path, failures)
 		_expect(not decision_ids.has(decision_id), "duplicate decision ID: " + decision_id, failures)
 		decision_ids[decision_id] = true
-	for required in ["TQP-D001", "TQP-D002", "TQP-D003", "TQP-D004", "TQP-D005"]:
+	for required in ["TQP-D001", "TQP-D002", "TQP-D003", "TQP-D004", "TQP-D005", "TQP-D006"]:
 		_expect(decision_ids.has(required), "missing retained decision: " + required, failures)
 	for key in [
 		"qualification_state",
@@ -415,7 +415,7 @@ static func _validate_edit_gate_b_evidence(
 				break
 		_expect(found, "Gate B LOD matrix is missing LOD%d" % lod, failures)
 	var stable_expected: Dictionary = standard.get("stable_expected", {})
-	for index in range(7, 13):
+	for index in range(9, 15):
 		var milestone_id := "TQP-%02d" % index
 		_expect(stable_expected.has(milestone_id), "Gate B standard missing " + milestone_id, failures)
 		_expect(
@@ -467,7 +467,7 @@ static func _validate_temporal_wave_evidence(
 	if str(validation.get("status", "")) != "PASS":
 		for failure_value in validation.get("failures", []):
 			failures.append("temporal wave: " + str(failure_value))
-	for milestone_id in ["TQP-21", "TQP-25", "TQP-13"]:
+	for milestone_id in ["TQP-15", "TQP-16", "TQP-17"]:
 		var milestone: Dictionary = milestone_by_id.get(milestone_id, {})
 		_expect(
 			str(milestone.get("status", "")) == "qualified",
@@ -504,17 +504,17 @@ static func _validate_visual_evidence(
 		"visual human review changed without a decision record",
 		failures
 	)
-	for milestone_id in ["TQP-16", "TQP-17", "TQP-18"]:
+	for milestone_id in ["TQP-18", "TQP-21", "TQP-23"]:
 		var milestone: Dictionary = milestone_by_id.get(milestone_id, {})
 		_expect(
 			str(milestone.get("status", "")) == "implemented",
 			milestone_id + " must remain implemented until visual acceptance",
 			failures
 		)
-	var visual_corpus: Dictionary = milestone_by_id.get("TQP-19", {})
+	var visual_corpus: Dictionary = milestone_by_id.get("TQP-25", {})
 	_expect(
 		str(visual_corpus.get("status", "")) == "specified",
-		"TQP-19 must remain specified until human acceptance",
+		"TQP-25 must remain specified until human acceptance",
 		failures
 	)
 

@@ -557,7 +557,7 @@ static func _result(
 ) -> Dictionary:
 	return {
 		"schema": "world_transvoxel.terrain_lab.native_persistence_qualification.v1",
-		"milestone": "TQP-25",
+		"milestone": "TQP-16",
 		"status": "PASS" if failures.is_empty() else "FAIL",
 		"qualification_scope": "native Windows current and legacy schema reference fixtures",
 		"explicitly_unqualified_scope": [

@@ -28,11 +28,11 @@ static func run() -> Dictionary:
 		"schema": "world_transvoxel.terrain_lab.material_surface_qualification.v1",
 		"status": "PASS" if failures.is_empty() else "FAIL",
 		"scope_status": {
-			"TQP-15": "qualified",
-			"TQP-16": "implemented_pending_visual_evidence",
-			"TQP-17": "implemented_pending_render_validation",
-			"TQP-18": "implemented_pending_temporal_inspection",
-			"TQP-19": "specified_pending_human_acceptance",
+			"TQP-08": "qualified",
+			"TQP-18": "implemented_pending_visual_evidence",
+			"TQP-21": "implemented_pending_render_validation",
+			"TQP-23": "implemented_pending_temporal_inspection",
+			"TQP-25": "specified_pending_human_acceptance",
 		},
 		"qualified_scope": [
 			"deterministic material IDs, weights, ties, and construction provenance",
@@ -74,7 +74,7 @@ static func _qualify_material_contract() -> Dictionary:
 	var point := Vector3(4.0, 16.0, 4.0)
 	_expect(field.material_at(point, field.density(point)) == 12, "construction provenance changed", failures)
 	_expect(field.material_at(Vector3(0.0, 10.0, 0.0), -2.0) == 1, "base provenance changed", failures)
-	return _result("TQP-15", 6, failures)
+	return _result("TQP-08", 6, failures)
 
 
 static func _implement_material_blending() -> Dictionary:
@@ -96,7 +96,7 @@ static func _implement_material_blending() -> Dictionary:
 		for blend_index in range(128):
 			_blend_weights(left, right, float(blend_index) / 127.0)
 		timings.append(float(Time.get_ticks_usec() - started))
-	var result := _result("TQP-16", 6, failures)
+	var result := _result("TQP-18", 6, failures)
 	result["performance"] = Statistics.distribution(timings)
 	result["qualification_status"] = "IMPLEMENTED_PENDING_VISUAL_EVIDENCE"
 	return result
@@ -135,7 +135,7 @@ static func _implement_texture_contract() -> Dictionary:
 		"edited_surface_coordinates": "world_position_not_edit_local",
 	}
 	_expect(policy.size() == 6, "texture policy is incomplete", failures)
-	var result := _result("TQP-17", 10, failures)
+	var result := _result("TQP-21", 10, failures)
 	result["policy"] = policy
 	result["qualification_status"] = "IMPLEMENTED_PENDING_RENDER_VALIDATION"
 	return result
@@ -162,7 +162,7 @@ static func _implement_surface_shading() -> Dictionary:
 			"tangent": tangent,
 			"slope": 1.0 - absf(normal.y),
 		})
-	var result := _result("TQP-18", normals.size() * 3, failures)
+	var result := _result("TQP-23", normals.size() * 3, failures)
 	result["records"] = records
 	result["qualification_status"] = "IMPLEMENTED_PENDING_TEMPORAL_INSPECTION"
 	return result
@@ -179,7 +179,7 @@ static func _specify_visual_corpus() -> Dictionary:
 	for scene in scenes:
 		_expect(bool(scene.get("fixed_camera", false)), "visual fixture lacks a fixed camera", failures)
 		_expect(str(scene.get("human_review", "")) == "PENDING", "unreviewed scene was accepted", failures)
-	var result := _result("TQP-19", scenes.size(), failures)
+	var result := _result("TQP-25", scenes.size(), failures)
 	result["scenes"] = scenes
 	result["qualification_status"] = "SPECIFIED_PENDING_HUMAN_ACCEPTANCE"
 	return result

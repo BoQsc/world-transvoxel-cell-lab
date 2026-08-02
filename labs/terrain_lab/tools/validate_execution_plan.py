@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
 
 
@@ -24,8 +25,13 @@ def main() -> int:
         failures.append("execution plan schema mismatch")
 
     milestones = {item["id"]: item for item in manifest["milestones"]}
+    expected_ids = [f"TQP-{number:02d}" for number in range(1, 47)]
+    manifest_order = [item["id"] for item in manifest["milestones"]]
+    if manifest_order != expected_ids:
+        failures.append("program manifest is not in TQP-01 through TQP-46 order")
     gates = manifest["gates"]
     positions: dict[str, tuple[int, int]] = {}
+    execution_order: list[str] = []
     active_waves: list[str] = []
 
     for wave_index, wave in enumerate(plan.get("waves", [])):
@@ -34,6 +40,7 @@ def main() -> int:
             active_waves.append(wave_id)
         for step_index, step in enumerate(wave.get("steps", [])):
             for milestone_id in step:
+                execution_order.append(milestone_id)
                 if milestone_id in positions:
                     failures.append(f"duplicate execution placement: {milestone_id}")
                 positions[milestone_id] = (wave_index, step_index)
@@ -44,6 +51,18 @@ def main() -> int:
         failures.append("execution plan missing: " + ",".join(missing))
     if unknown:
         failures.append("execution plan has unknown IDs: " + ",".join(unknown))
+    if execution_order != expected_ids:
+        failures.append("execution plan is not in TQP-01 through TQP-46 order")
+
+    contract_path = ROOT / manifest["contract_document"].removeprefix("res://")
+    contract_source = contract_path.read_text(encoding="utf-8")
+    contract_order = re.findall(
+        r"^### (TQP-[0-9]{2}):",
+        contract_source,
+        re.MULTILINE,
+    )
+    if contract_order != expected_ids:
+        failures.append("TQP document is not in TQP-01 through TQP-46 order")
 
     for milestone_id, milestone in milestones.items():
         if milestone_id not in positions:

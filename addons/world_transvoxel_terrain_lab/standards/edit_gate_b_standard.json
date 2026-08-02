@@ -38,7 +38,7 @@
 		"largest_spatial_bucket": 64
 	},
 	"stable_expected": {
-		"TQP-07": {
+		"TQP-09": {
 			"shape_ids": [
 				"sphere",
 				"capsule",
@@ -51,17 +51,17 @@
 			"shape_signature": "720da849d92bcc48cfb2899f33dfb7a8a8dffac19dafe562727491f0ec142548",
 			"native_shape_signature": "681f123f75bc3c8aba268699dc89b4ba3a8e3d042c70c10549cfa21443492708"
 		},
-		"TQP-08": {
+		"TQP-10": {
 			"lod_count": 8,
 			"geometry_signature": "6fd41b2365404b563445dc108c1cd2722d52208e2019ab291c77f04adbbbcb92",
 			"seam_failures": 0
 		},
-		"TQP-09": {
+		"TQP-11": {
 			"lod_count": 8,
 			"geometry_signature": "52155e60263001b738d953db043ac17f756652de574f70e2fa36301f3af63292",
 			"seam_failures": 0
 		},
-		"TQP-10": {
+		"TQP-12": {
 			"record_count": 240,
 			"classification_counts": {
 				"pass": 96,
@@ -70,13 +70,13 @@
 			},
 			"matrix_signature": "30527edb23727478b768e35dc76eaf50bfe053700299c4ea586c7f3a9b4c525a"
 		},
-		"TQP-11": {
+		"TQP-13": {
 			"journal_signature": "3d6cb69df38771d6d2ee842be1153ec1885178edf7a6f35c9e28b4fbc84f8d5b",
 			"compacted_journal_signature": "ee1849d09cd894bff5a32c070cfffc69e6e74d6dd82a0c0594d79c580bfeaf37",
 			"bake_signature": "9f822e5b3090d57c60482ce57f9a7d7aecc45314cc3448b39ffbe738f5533e86",
 			"migration_target": "world_transvoxel.terrain_lab.edit_journal.v2"
 		},
-		"TQP-12": {
+		"TQP-14": {
 			"operation_count": 2048,
 			"checkpoint_count": 4,
 			"chunk_count": 9,

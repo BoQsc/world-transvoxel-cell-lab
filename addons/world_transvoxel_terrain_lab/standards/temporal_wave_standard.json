@@ -2,9 +2,9 @@
 	"schema": "world_transvoxel.terrain_lab.temporal_wave_standard.v1",
 	"authority": "world-transvoxel native GDExtension; no fallback path",
 	"evidence": "res://labs/terrain_lab/results/temporal_wave_reference_windows.json",
-	"qualified_milestones": ["TQP-21", "TQP-25", "TQP-13"],
+	"qualified_milestones": ["TQP-15", "TQP-16", "TQP-17"],
 	"stable_expected": {
-		"TQP-21": {
+		"TQP-15": {
 			"worker_count": 2,
 			"minimum_sample_jobs": 1,
 			"minimum_mesh_jobs": 1,
@@ -17,7 +17,7 @@
 			"performance_sample_count": 100,
 			"minimum_application_latency_frames": 1
 		},
-		"TQP-13": {
+		"TQP-17": {
 			"commits": 2,
 			"stale_rejections": 1,
 			"minimum_chunk_replacements": 1,
@@ -32,7 +32,7 @@
 			"journal_after_carve_sha256": "04435eb1d0248e24e424294840325a27b2de4275114b91fb9c263f93a7399045",
 			"journal_final_sha256": "cf816b9777d668f0f51a1b70955270ae6ef51cc925d63ee0e9bb434083314e80"
 		},
-		"TQP-25": {
+		"TQP-16": {
 			"fixture_upstream_revision": "8313650766b6b901f5b5ecdc8d84e03b6b87fd66",
 			"current_manifest_sha256": "0a1c6cc94c99feaf888e07c1fd2934189c50b50ab6399c5fbf4a652a706cdc51",
 			"legacy_manifest_sha256": "d50702392465c054da5059745f444f52182533a06f01ff27dba82e3c693603b3",
@@ -60,6 +60,6 @@
 		"automatic cleanup of abandoned snapshot staging directories",
 		"atomicity guarantees for filesystems outside the declared Windows reference platform",
 		"networked edit ordering",
-		"large streaming-window policy covered by TQP-22"
+		"large streaming-window policy covered by TQP-19"
 	]
 }

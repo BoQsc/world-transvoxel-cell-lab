@@ -1,22 +1,23 @@
 {
 	"schema": "world_transvoxel.terrain_lab.qualification_state.v1",
 	"as_of": "2026-08-02",
-	"program_revision": 4,
+	"program_revision": 5,
 	"policy": "manifest status must match retained evidence and fail closed",
 	"statuses": {
 		"qualified": [
 			"TQP-01", "TQP-02", "TQP-03", "TQP-04", "TQP-05",
 			"TQP-06", "TQP-07", "TQP-08", "TQP-09", "TQP-10",
-			"TQP-11", "TQP-12", "TQP-13", "TQP-15", "TQP-20",
-			"TQP-21", "TQP-25"
+			"TQP-11", "TQP-12", "TQP-13", "TQP-14", "TQP-15",
+			"TQP-16", "TQP-17"
 		],
 		"implemented": [
-			"TQP-14", "TQP-16", "TQP-17", "TQP-18",
-			"TQP-22", "TQP-23", "TQP-24", "TQP-26",
-			"TQP-27", "TQP-28", "TQP-29",
-			"TQP-30", "TQP-31", "TQP-32", "TQP-33"
+			"TQP-18", "TQP-19", "TQP-20", "TQP-21", "TQP-22",
+			"TQP-23", "TQP-24", "TQP-26", "TQP-27", "TQP-28",
+			"TQP-29", "TQP-30", "TQP-31", "TQP-32", "TQP-33"
 		],
-		"specified": ["TQP-19", "TQP-34"],
+		"specified": [
+			"TQP-25", "TQP-34"
+		],
 		"blocked": [
 			"TQP-35", "TQP-36", "TQP-37", "TQP-38", "TQP-39",
 			"TQP-40", "TQP-41", "TQP-42", "TQP-43", "TQP-44",
@@ -27,15 +28,15 @@
 	},
 	"suites": [
 		{"id": "foundation", "schema": "world_transvoxel.terrain_lab.foundation_qualification.v1", "milestones": ["TQP-01", "TQP-02", "TQP-03", "TQP-04", "TQP-05"]},
-		{"id": "edit_semantics", "schema": "world_transvoxel.terrain_lab.edit_semantics_qualification.v1", "milestones": ["TQP-06", "TQP-07", "TQP-08", "TQP-09", "TQP-10", "TQP-11", "TQP-12", "TQP-13", "TQP-14"]},
-		{"id": "material_surface", "schema": "world_transvoxel.terrain_lab.material_surface_qualification.v1", "milestones": ["TQP-15", "TQP-16", "TQP-17", "TQP-18", "TQP-19"]},
-		{"id": "terrain_systems", "schema": "world_transvoxel.terrain_lab.system_qualification.v1", "milestones": ["TQP-20", "TQP-21", "TQP-22", "TQP-23", "TQP-24", "TQP-25", "TQP-26", "TQP-27", "TQP-28"]},
+		{"id": "edit_semantics", "schema": "world_transvoxel.terrain_lab.edit_semantics_qualification.v1", "milestones": ["TQP-07", "TQP-09", "TQP-10", "TQP-11", "TQP-12", "TQP-13", "TQP-14", "TQP-17", "TQP-28"]},
+		{"id": "material_surface", "schema": "world_transvoxel.terrain_lab.material_surface_qualification.v1", "milestones": ["TQP-08", "TQP-18", "TQP-21", "TQP-23", "TQP-25"]},
+		{"id": "terrain_systems", "schema": "world_transvoxel.terrain_lab.system_qualification.v1", "milestones": ["TQP-06", "TQP-15", "TQP-16", "TQP-19", "TQP-20", "TQP-22", "TQP-24", "TQP-26", "TQP-27"]},
 		{"id": "structural_world", "schema": "world_transvoxel.terrain_lab.structural_world_qualification.v1", "milestones": ["TQP-29", "TQP-30", "TQP-31", "TQP-32", "TQP-33"]},
 		{"id": "completion", "schema": "world_transvoxel.terrain_lab.completion_qualification.v1", "milestones": ["TQP-34", "TQP-35", "TQP-36", "TQP-37", "TQP-38", "TQP-39", "TQP-40", "TQP-41", "TQP-42", "TQP-43", "TQP-44", "TQP-45", "TQP-46"]}
 	],
 	"cross_suite_promotions": [
-		{"milestone": "TQP-13", "requires": ["TQP-11", "TQP-20", "TQP-21"]},
-		{"milestone": "TQP-14", "requires": ["TQP-07", "TQP-08", "TQP-09", "TQP-10", "TQP-11", "TQP-12", "TQP-13"]}
+		{"milestone": "TQP-17", "requires": ["TQP-06", "TQP-13", "TQP-15"]},
+		{"milestone": "TQP-28", "requires": ["TQP-09", "TQP-10", "TQP-11", "TQP-12", "TQP-13", "TQP-14", "TQP-17"]}
 	],
 	"retained_report": "res://labs/terrain_lab/results/terrain_qualification_reference_windows.json"
 }

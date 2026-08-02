@@ -13,21 +13,21 @@ scopes, fifteen have implemented evidence with named gaps, two are
 specified, and twelve GPU or production milestones are blocked by named
 external targets.
 
-TQP numbers are stable domain identifiers, not execution order. The separate
-[Terrain Execution Plan](TERRAIN_EXECUTION_PLAN.md) is the authoritative,
-dependency-ordered work sequence and next-milestone queue.
+TQP revision 5 numbers are the execution order. Read TQP-01 through TQP-46 in
+the [Terrain Qualification Program](TERRAIN_QUALIFICATION_PROGRAM.md); the
+[Terrain Execution Plan](TERRAIN_EXECUTION_PLAN.md) is its concise wave index.
 
-Gate B (`TQP-06` through `TQP-11`) is qualified. Its evidence includes seven
+Gate B (`TQP-07` plus `TQP-09` through `TQP-13`) is qualified. Its evidence includes seven
 brush primitives, native digging and construction at LOD0-7, a 240-fixture
 resolvability matrix, edit-journal v2 transactions and migration, collision
 input agreement, seam checks, deterministic replay, diagnostic cross-sections,
-and a 2,048-edit reference soak. `TQP-12` is also qualified for that declared
+and a 2,048-edit reference soak. `TQP-14` is also qualified for that declared
 Windows debug reference workload; it is not a production frame-time claim.
 
 The temporal-integrity wave is also qualified for its Godot 4.7.1 Windows
-x86_64 native reference scope. TQP-21 exercises real workers, stale generation
-rejection, and atomic render/collision publication. TQP-13 covers temporal
-carve/construction ordering and deterministic restart replay. TQP-25 covers
+x86_64 native reference scope. TQP-15 exercises real workers, stale generation
+rejection, and atomic render/collision publication. TQP-17 covers temporal
+carve/construction ordering and deterministic restart replay. TQP-16 covers
 durable journals, truncated-tail recovery, corruption rejection, compaction,
 and current plus legacy schema migration. Cross-filesystem guarantees,
 networked edit ordering, and automatic stale staging cleanup remain explicit

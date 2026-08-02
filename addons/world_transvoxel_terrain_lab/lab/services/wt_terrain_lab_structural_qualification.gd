@@ -22,10 +22,10 @@ const NEIGHBORS: Array[Vector3i] = [
 static func run() -> Dictionary:
 	var milestones: Array[Dictionary] = [
 		_qualify_connectivity(),
-		_qualify_collapse_policy(),
 		_qualify_fluid_ownership(),
 		_qualify_placement_invalidation(),
 		_qualify_authored_composition(),
+		_qualify_collapse_policy(),
 	]
 	var failures: Array[String] = []
 	for milestone in milestones:
@@ -38,10 +38,10 @@ static func run() -> Dictionary:
 		"status": "PASS" if failures.is_empty() else "FAIL",
 		"scope_status": {
 			"TQP-29": "implemented_pending_strength_and_under_resolution_matrix",
-			"TQP-30": "implemented_pending_rigid_body_remesh_collision_and_persistence",
-			"TQP-31": "implemented_pending_TQP_22_qualification",
-			"TQP-32": "implemented_pending_collision_destruction_and_persistence",
-			"TQP-33": "implemented_pending_bridge_authoring_and_lod_matrix",
+			"TQP-30": "implemented_pending_TQP_22_qualification",
+			"TQP-31": "implemented_pending_collision_destruction_and_persistence",
+			"TQP-32": "implemented_pending_bridge_authoring_and_lod_matrix",
+			"TQP-33": "implemented_pending_rigid_body_remesh_collision_and_persistence",
 		},
 		"implemented_scope": [
 			"fluid ownership boundary",
@@ -52,7 +52,7 @@ static func run() -> Dictionary:
 			"production vegetation rendering",
 			"road and bridge authoring tools",
 			"gameplay suitability",
-			"complete TQP-29, TQP-30, TQP-32, and TQP-33 qualification",
+			"complete TQP-29 through TQP-33 qualification",
 		],
 		"provenance": Statistics.provenance("structural_world_reference_v1"),
 		"milestones": milestones,
@@ -95,7 +95,7 @@ static func _qualify_collapse_policy() -> Dictionary:
 		_expect(decision == str(component["expected"]), "collapse policy changed", failures)
 	var replay_signature := JSON.stringify(components).sha256_text()
 	_expect(not replay_signature.is_empty(), "collapse replay signature missing", failures)
-	var result := _result("TQP-30", components.size() + 1, failures)
+	var result := _result("TQP-33", components.size() + 1, failures)
 	result["replay_signature"] = replay_signature
 	result["qualification_scope"] = "REFERENCE_POLICY_NO_RIGID_BODY_IMPLEMENTATION"
 	return result
@@ -122,7 +122,7 @@ static func _qualify_fluid_ownership() -> Dictionary:
 		"fluid volume must not become terrain density authority",
 		failures
 	)
-	var result := _result("TQP-31", ownership.size() + 1, failures)
+	var result := _result("TQP-30", ownership.size() + 1, failures)
 	result["ownership"] = ownership
 	result["qualification_scope"] = "OWNERSHIP_CONTRACT_ONLY"
 	return result
@@ -136,7 +136,7 @@ static func _qualify_placement_invalidation() -> Dictionary:
 	_expect(first == replay, "placement replay is not deterministic", failures)
 	_expect(first != changed_surface, "surface version did not invalidate placement", failures)
 	_expect(first.size() == 16, "placement count changed", failures)
-	var result := _result("TQP-32", first.size() + 2, failures)
+	var result := _result("TQP-31", first.size() + 2, failures)
 	result["placement_signature"] = JSON.stringify(first).sha256_text()
 	return result
 
@@ -169,7 +169,7 @@ static func _qualify_authored_composition() -> Dictionary:
 	var replay := EditField.new()
 	_expect(replay.reconstruct(field.serialized_journal()), "authored replay failed", failures)
 	_expect(replay.journal_signature() == field.journal_signature(), "authored replay diverged", failures)
-	var result := _result("TQP-33", 7, failures)
+	var result := _result("TQP-32", 7, failures)
 	result["composition_order"] = [
 		"procedural_and_authored_base",
 		"ordered_construction_and_subtraction_journal",

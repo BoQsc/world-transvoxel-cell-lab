@@ -141,7 +141,7 @@ static func _qualify_brush_corpus(probe: RefCounted) -> Dictionary:
 				))
 		if iteration >= 10:
 			timings.append(float(Time.get_ticks_usec() - timing_start))
-	var result := _result("TQP-07", shapes.size() * 291 + invalid_operations.size(), failures)
+	var result := _result("TQP-09", shapes.size() * 291 + invalid_operations.size(), failures)
 	result["shape_ids"] = shapes.map(func(shape: Dictionary) -> String: return str(shape["id"]))
 	result["shape_signature"] = "\n".join(shape_lines).sha256_text()
 	result["native_shape_signature"] = "\n".join(native_lines).sha256_text()
@@ -208,7 +208,7 @@ static func _qualify_digging(probe: RefCounted) -> Dictionary:
 	var seam := NativeEvidence.same_lod_seam(left, right, 0)
 	_expect(str(seam.get("status", "")) == "PASS", "dig boundary seam failed", failures)
 	_expect(int(seam.get("left_edge_count", 0)) > 0, "dig boundary fixture has no seam edges", failures)
-	var result := _result("TQP-08", records.size() * 9 + 2, failures)
+	var result := _result("TQP-10", records.size() * 9 + 2, failures)
 	result["lod_records"] = records
 	result["geometry_signature"] = "\n".join(geometry_lines).sha256_text()
 	result["boundary_seam"] = seam
@@ -287,7 +287,7 @@ static func _qualify_construction(probe: RefCounted) -> Dictionary:
 	var seam := NativeEvidence.same_lod_seam(left, right, 0)
 	_expect(str(seam.get("status", "")) == "PASS", "construction boundary seam failed", failures)
 	_expect(int(seam.get("left_edge_count", 0)) > 0, "construction boundary fixture has no seam edges", failures)
-	var result := _result("TQP-09", records.size() * 11 + 2, failures)
+	var result := _result("TQP-11", records.size() * 11 + 2, failures)
 	result["lod_records"] = records
 	result["geometry_signature"] = "\n".join(geometry_lines).sha256_text()
 	result["boundary_seam"] = seam
@@ -334,7 +334,7 @@ static func _qualify_resolvability(probe: RefCounted) -> Dictionary:
 				})
 				signature_lines.append("%s:%d:%.1f:%s:%d:%s" % [feature_kind, lod, feature_cells, classification, triangle_count, signature])
 	_expect(records.size() == 240, "resolvability record count changed", failures)
-	var result := _result("TQP-10", records.size(), failures)
+	var result := _result("TQP-12", records.size(), failures)
 	result["feature_kinds"] = feature_kinds
 	result["classification_counts"] = counts
 	result["matrix_signature"] = "\n".join(signature_lines).sha256_text()
@@ -398,7 +398,7 @@ static func _qualify_journal() -> Dictionary:
 	)
 	_expect(not field.reconstruct(JSON.stringify(invalid_document)), "duplicate journal operation accepted", failures)
 	_expect(field.serialized_journal() == atomic_before, "failed reconstruction mutated field", failures)
-	var result := _result("TQP-11", points.size() * 4 + 19, failures)
+	var result := _result("TQP-13", points.size() * 4 + 19, failures)
 	result["journal_signature"] = field.journal_signature()
 	result["compacted_journal_signature"] = compacted.sha256_text()
 	result["bake_signature"] = str(bake.get("sample_signature", ""))
@@ -507,7 +507,7 @@ static func _qualify_long_soak(probe: RefCounted) -> Dictionary:
 		)
 		if iteration >= 10:
 			mesh_timings.append(float(Time.get_ticks_usec() - mesh_started))
-	var result := _result("TQP-12", SOAK_OPERATION_COUNT + checkpoints.size() * 64 + chunks.size() + seam_records.size(), failures)
+	var result := _result("TQP-14", SOAK_OPERATION_COUNT + checkpoints.size() * 64 + chunks.size() + seam_records.size(), failures)
 	result["operation_count"] = field.operations.size()
 	result["enabled_operation_count"] = (JSON.parse_string(compacted) as Dictionary).get("operations", []).size()
 	result["checkpoint_count"] = checkpoints.size()
@@ -677,41 +677,41 @@ static func _stable_summary(milestones: Array[Dictionary], visual: Dictionary) -
 	for milestone in milestones:
 		by_id[str(milestone.get("milestone", ""))] = milestone
 	return {
-		"TQP-07": {
-			"shape_ids": by_id["TQP-07"].get("shape_ids", []),
-			"shape_signature": by_id["TQP-07"].get("shape_signature", ""),
-			"native_shape_signature": by_id["TQP-07"].get("native_shape_signature", ""),
-		},
-		"TQP-08": {
-			"lod_count": (by_id["TQP-08"].get("lod_records", []) as Array).size(),
-			"geometry_signature": by_id["TQP-08"].get("geometry_signature", ""),
-			"seam_failures": int((by_id["TQP-08"].get("boundary_seam", {}) as Dictionary).get("left_only_count", -1)) + int((by_id["TQP-08"].get("boundary_seam", {}) as Dictionary).get("right_only_count", -1)),
-		},
 		"TQP-09": {
-			"lod_count": (by_id["TQP-09"].get("lod_records", []) as Array).size(),
-			"geometry_signature": by_id["TQP-09"].get("geometry_signature", ""),
-			"seam_failures": int((by_id["TQP-09"].get("boundary_seam", {}) as Dictionary).get("left_only_count", -1)) + int((by_id["TQP-09"].get("boundary_seam", {}) as Dictionary).get("right_only_count", -1)),
+			"shape_ids": by_id["TQP-09"].get("shape_ids", []),
+			"shape_signature": by_id["TQP-09"].get("shape_signature", ""),
+			"native_shape_signature": by_id["TQP-09"].get("native_shape_signature", ""),
 		},
 		"TQP-10": {
-			"record_count": (by_id["TQP-10"].get("records", []) as Array).size(),
-			"classification_counts": by_id["TQP-10"].get("classification_counts", {}),
-			"matrix_signature": by_id["TQP-10"].get("matrix_signature", ""),
+			"lod_count": (by_id["TQP-10"].get("lod_records", []) as Array).size(),
+			"geometry_signature": by_id["TQP-10"].get("geometry_signature", ""),
+			"seam_failures": int((by_id["TQP-10"].get("boundary_seam", {}) as Dictionary).get("left_only_count", -1)) + int((by_id["TQP-10"].get("boundary_seam", {}) as Dictionary).get("right_only_count", -1)),
 		},
 		"TQP-11": {
-			"journal_signature": by_id["TQP-11"].get("journal_signature", ""),
-			"compacted_journal_signature": by_id["TQP-11"].get("compacted_journal_signature", ""),
-			"bake_signature": by_id["TQP-11"].get("bake_signature", ""),
-			"migration_target": by_id["TQP-11"].get("migration_target", ""),
+			"lod_count": (by_id["TQP-11"].get("lod_records", []) as Array).size(),
+			"geometry_signature": by_id["TQP-11"].get("geometry_signature", ""),
+			"seam_failures": int((by_id["TQP-11"].get("boundary_seam", {}) as Dictionary).get("left_only_count", -1)) + int((by_id["TQP-11"].get("boundary_seam", {}) as Dictionary).get("right_only_count", -1)),
 		},
 		"TQP-12": {
-			"operation_count": by_id["TQP-12"].get("operation_count", 0),
-			"checkpoint_count": by_id["TQP-12"].get("checkpoint_count", 0),
-			"chunk_count": by_id["TQP-12"].get("chunk_count", 0),
-			"seam_count": by_id["TQP-12"].get("seam_count", 0),
-			"seam_failures": by_id["TQP-12"].get("seam_failures", -1),
-			"collision_failures": by_id["TQP-12"].get("collision_failures", -1),
-			"sample_signature": by_id["TQP-12"].get("sample_signature", ""),
-			"geometry_signature": by_id["TQP-12"].get("geometry_signature", ""),
+			"record_count": (by_id["TQP-12"].get("records", []) as Array).size(),
+			"classification_counts": by_id["TQP-12"].get("classification_counts", {}),
+			"matrix_signature": by_id["TQP-12"].get("matrix_signature", ""),
+		},
+		"TQP-13": {
+			"journal_signature": by_id["TQP-13"].get("journal_signature", ""),
+			"compacted_journal_signature": by_id["TQP-13"].get("compacted_journal_signature", ""),
+			"bake_signature": by_id["TQP-13"].get("bake_signature", ""),
+			"migration_target": by_id["TQP-13"].get("migration_target", ""),
+		},
+		"TQP-14": {
+			"operation_count": by_id["TQP-14"].get("operation_count", 0),
+			"checkpoint_count": by_id["TQP-14"].get("checkpoint_count", 0),
+			"chunk_count": by_id["TQP-14"].get("chunk_count", 0),
+			"seam_count": by_id["TQP-14"].get("seam_count", 0),
+			"seam_failures": by_id["TQP-14"].get("seam_failures", -1),
+			"collision_failures": by_id["TQP-14"].get("collision_failures", -1),
+			"sample_signature": by_id["TQP-14"].get("sample_signature", ""),
+			"geometry_signature": by_id["TQP-14"].get("geometry_signature", ""),
 		},
 		"visual_pixel_signature": visual.get("reference_signature", ""),
 	}
@@ -766,13 +766,13 @@ static func _compare_performance(
 	var by_id := {}
 	for milestone in milestones:
 		by_id[str(milestone.get("milestone", ""))] = milestone
-	var brush_p95 := float((by_id["TQP-07"].get("performance", {}) as Dictionary).get("p95_usec", INF))
-	var soak_performance: Dictionary = by_id["TQP-12"].get("performance", {})
+	var brush_p95 := float((by_id["TQP-09"].get("performance", {}) as Dictionary).get("p95_usec", INF))
+	var soak_performance: Dictionary = by_id["TQP-14"].get("performance", {})
 	var append_p95 := float((soak_performance.get("transaction_append", {}) as Dictionary).get("p95_usec", INF))
 	var query_p95 := float((soak_performance.get("query_batch_64", {}) as Dictionary).get("p95_usec", INF))
 	var mesh_p95 := float((soak_performance.get("native_chunk_rebuild", {}) as Dictionary).get("p95_usec", INF))
-	var journal_bytes := int(by_id["TQP-12"].get("journal_bytes", 0))
-	var largest_bucket := int((by_id["TQP-12"].get("spatial", {}) as Dictionary).get("largest_bucket", 0))
+	var journal_bytes := int(by_id["TQP-14"].get("journal_bytes", 0))
+	var largest_bucket := int((by_id["TQP-14"].get("spatial", {}) as Dictionary).get("largest_bucket", 0))
 	var measured := {
 		"brush_batch_p95_usec": brush_p95,
 		"transaction_append_p95_usec": append_p95,

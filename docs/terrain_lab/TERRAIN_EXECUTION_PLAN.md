@@ -1,7 +1,7 @@
 # Terrain Qualification Execution Plan
 
-The TQP identifiers are stable, domain-grouped catalog identifiers. They are
-not an instruction to complete milestones in numerical order.
+TQP revision 5 identifiers are the ground-up execution sequence. Reading
+TQP-01 through TQP-46 now follows the program from foundations to release.
 
 The authoritative execution order is
 `addons/world_transvoxel_terrain_lab/standards/execution_plan.json`. It places
@@ -12,11 +12,11 @@ required evidence state.
 
 ## Current Execution State
 
-- `TQP-WAVE-00` is complete: TQP-01 through TQP-12, TQP-15, and TQP-20.
-- `TQP-WAVE-01` is complete: TQP-21, TQP-25, and TQP-13 are qualified for
+- `TQP-WAVE-00` is complete: TQP-01 through TQP-14.
+- `TQP-WAVE-01` is complete: TQP-15, TQP-16, and TQP-17 are qualified for
   their declared native Windows reference scopes.
 - `TQP-WAVE-02` is active.
-- The first active step is TQP-16, TQP-22, and TQP-23.
+- The first active step is TQP-18, TQP-19, and TQP-20.
 - GPU and production waves remain blocked by absent candidate implementations.
 
 ## Waves

@@ -1,0 +1,44 @@
+{
+	"schema": "world_transvoxel.terrain_lab.decision.v1",
+	"id": "TQP-D006",
+	"date": "2026-08-02",
+	"decision": "Renumber TQP milestones so TQP-01 through TQP-46 are the ground-up execution sequence rather than domain-grouped catalog identifiers.",
+	"reason": "The former stable identifiers forced the human roadmap to jump backward and forward numerically, obscuring the actual dependency sequence and current work.",
+	"alternatives": [
+		"retain domain-grouped identifiers and maintain a separate execution plan",
+		"add a second display-only sequence beside the TQP identifiers",
+		"continue physically reordering sections while leaving non-sequential identifiers"
+	],
+	"evidence": [
+		"execution_plan.json revision 2",
+		"program manifest revision 5",
+		"repository-wide identifier and dependency validation"
+	],
+	"qualified_scope": [
+		"identifier migration only; milestone behavior, evidence status, and claim scope are unchanged"
+	],
+	"explicit_non_claims": [
+		"no new milestone qualification",
+		"no production or GPU promotion",
+		"no change to world-transvoxel authority"
+	],
+	"old_to_revision_5": {
+		"TQP-01": "TQP-01", "TQP-02": "TQP-02", "TQP-03": "TQP-03",
+		"TQP-04": "TQP-05", "TQP-05": "TQP-04", "TQP-06": "TQP-07",
+		"TQP-07": "TQP-09", "TQP-08": "TQP-10", "TQP-09": "TQP-11",
+		"TQP-10": "TQP-12", "TQP-11": "TQP-13", "TQP-12": "TQP-14",
+		"TQP-13": "TQP-17", "TQP-14": "TQP-28", "TQP-15": "TQP-08",
+		"TQP-16": "TQP-18", "TQP-17": "TQP-21", "TQP-18": "TQP-23",
+		"TQP-19": "TQP-25", "TQP-20": "TQP-06", "TQP-21": "TQP-15",
+		"TQP-22": "TQP-19", "TQP-23": "TQP-20", "TQP-24": "TQP-22",
+		"TQP-25": "TQP-16", "TQP-26": "TQP-24", "TQP-27": "TQP-26",
+		"TQP-28": "TQP-27", "TQP-29": "TQP-29", "TQP-30": "TQP-33",
+		"TQP-31": "TQP-30", "TQP-32": "TQP-31", "TQP-33": "TQP-32",
+		"TQP-34": "TQP-34", "TQP-35": "TQP-35", "TQP-36": "TQP-36",
+		"TQP-37": "TQP-37", "TQP-38": "TQP-38", "TQP-39": "TQP-39",
+		"TQP-40": "TQP-40", "TQP-41": "TQP-41", "TQP-42": "TQP-43",
+		"TQP-43": "TQP-42", "TQP-44": "TQP-44", "TQP-45": "TQP-45",
+		"TQP-46": "TQP-46"
+	},
+	"downstream_impact": "All TQP references, reports, fixtures, validators, blockers, decisions, and documentation use revision 5 identifiers; the active work is TQP-18, TQP-19, and TQP-20."
+}

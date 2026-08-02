@@ -10,16 +10,16 @@ const STANDARD_PATHS: Array[String] = [
 	"res://addons/world_transvoxel_terrain_lab/standards/operating_envelope.json",
 	"res://addons/world_transvoxel_terrain_lab/standards/authority_data_model.json",
 	"res://addons/world_transvoxel_terrain_lab/standards/coordinate_precision_standard.json",
-	"res://addons/world_transvoxel_terrain_lab/standards/resolution_error_standard.json",
 	"res://addons/world_transvoxel_terrain_lab/standards/qualification_protocol.json",
+	"res://addons/world_transvoxel_terrain_lab/standards/resolution_error_standard.json",
 ]
 
 const EXPECTED_SCHEMAS := {
 	"TQP-01": "world_transvoxel.terrain_lab.operating_envelope.v1",
 	"TQP-02": "world_transvoxel.terrain_lab.authority_data_model.v1",
 	"TQP-03": "world_transvoxel.terrain_lab.coordinate_precision.v1",
-	"TQP-04": "world_transvoxel.terrain_lab.resolution_error.v1",
-	"TQP-05": "world_transvoxel.terrain_lab.qualification_protocol.v1",
+	"TQP-04": "world_transvoxel.terrain_lab.qualification_protocol.v1",
+	"TQP-05": "world_transvoxel.terrain_lab.resolution_error.v1",
 }
 
 
@@ -38,8 +38,8 @@ static func run() -> Dictionary:
 			_qualify_operating_envelope(standards[0]),
 			_qualify_authority_model(standards[1]),
 			_qualify_coordinates(standards[2]),
-			_qualify_resolution(standards[3]),
-			_qualify_protocol(standards[4]),
+			_qualify_protocol(standards[3]),
+			_qualify_resolution(standards[4]),
 		]
 	for result in results:
 		for failure_value in result.get("failures", []):
@@ -229,7 +229,7 @@ static func _qualify_coordinates(standard: Dictionary) -> Dictionary:
 
 static func _qualify_resolution(standard: Dictionary) -> Dictionary:
 	var failures: Array[String] = []
-	_expect_schema("TQP-04", standard, failures)
+	_expect_schema("TQP-05", standard, failures)
 	var base_cell := float(standard.get("base_cell_size_m", 0.0))
 	var maximum_lod := int(standard.get("maximum_lod", -1))
 	var lods: Array = standard.get("lods", [])
@@ -266,12 +266,12 @@ static func _qualify_resolution(standard: Dictionary) -> Dictionary:
 		"density downsampling must not become authority",
 		failures
 	)
-	return _result("TQP-04", lods.size() * 4 + 5, failures)
+	return _result("TQP-05", lods.size() * 4 + 5, failures)
 
 
 static func _qualify_protocol(standard: Dictionary) -> Dictionary:
 	var failures: Array[String] = []
-	_expect_schema("TQP-05", standard, failures)
+	_expect_schema("TQP-04", standard, failures)
 	var states: Array = standard.get("promotion_states", [])
 	for required in ["proposed", "specified", "implemented", "qualified", "production", "blocked"]:
 		_expect(required in states, "missing promotion state: " + required, failures)
@@ -326,7 +326,7 @@ static func _qualify_protocol(standard: Dictionary) -> Dictionary:
 		"production_requires_release_bundle",
 	]:
 		_expect(bool(qualification.get(key, false)), "qualification rule disabled: " + key, failures)
-	return _result("TQP-05", 34, failures)
+	return _result("TQP-04", 34, failures)
 
 
 static func _expect_schema(

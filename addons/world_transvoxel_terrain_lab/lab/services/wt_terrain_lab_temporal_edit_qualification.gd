@@ -20,11 +20,11 @@ func run() -> Dictionary:
 	var harness := Harness.new()
 	add_child(harness)
 	if not harness.create_runtime(2):
-		failures.append("TQP-21: native runtime harness could not be created")
+		failures.append("TQP-15: native runtime harness could not be created")
 		await _dispose_harness(harness)
 		return _result({}, {}, failures)
 	if not await harness.start_flat_world(FIXTURE_ROOT, SOURCE_REVISION):
-		failures.append("TQP-21: native flat world did not reach running")
+		failures.append("TQP-15: native flat world did not reach running")
 		await _dispose_harness(harness)
 		return _result({}, {}, failures)
 	var terrain := harness.terrain
@@ -35,49 +35,49 @@ func run() -> Dictionary:
 	]:
 		_expect(
 			bool(terrain.call("update_viewer", VIEWER_ID, update[0], update[1], 0, 0)),
-			"TQP-21: rapid native viewer update was rejected",
+			"TQP-15: rapid native viewer update was rejected",
 			failures
 		)
 	var initial_settlement: Dictionary = await harness.wait_for_settled(1)
 	_expect(
 		str(initial_settlement.get("status", "")) == "PASS",
-		"TQP-21: native worker pipeline did not settle",
+		"TQP-15: native worker pipeline did not settle",
 		failures
 	)
 	var initial_metrics: Dictionary = initial_settlement.get("metrics", {})
 	_expect(
 		int(initial_metrics.get("storage_worker_count", 0)) == 2,
-		"TQP-21: configured native worker count was not active",
+		"TQP-15: configured native worker count was not active",
 		failures
 	)
 	_expect(
 		int(initial_metrics.get("sample_jobs", 0)) > 0
 			and int(initial_metrics.get("mesh_jobs", 0)) > 0
 			and int(initial_metrics.get("published_events", 0)) > 0,
-		"TQP-21: native sampling, meshing, or publication work was not observed",
+		"TQP-15: native sampling, meshing, or publication work was not observed",
 		failures
 	)
 	_expect(
 		int(initial_metrics.get("scheduler_failed_records", 0)) == 0
 			and int(initial_metrics.get("scheduler_queue_rejections", 0)) == 0,
-		"TQP-21: native scheduler reported failed or rejected records",
+		"TQP-15: native scheduler reported failed or rejected records",
 		failures
 	)
 	_expect(
 		int(initial_metrics.get("coalesced_viewer_events", 0)) > 0,
-		"TQP-21: rapid viewer revisions did not coalesce superseded work",
+		"TQP-15: rapid viewer revisions did not coalesce superseded work",
 		failures
 	)
 	var initial_sample: Dictionary = await harness.request_sample(TARGET_POINT)
 	_expect(
 		str(initial_sample.get("status", "")) == "PASS"
 			and int(initial_sample.get("world_revision", -1)) == 0,
-		"TQP-13: initial authoritative sample failed",
+		"TQP-17: initial authoritative sample failed",
 		failures
 	)
 	var valid: RefCounted = terrain.call("begin_edit_transaction", 1301)
 	var stale: RefCounted = terrain.call("begin_edit_transaction", 1302)
-	_expect(valid != null and stale != null, "TQP-13: edit transactions were not created", failures)
+	_expect(valid != null and stale != null, "TQP-17: edit transactions were not created", failures)
 	if valid == null or stale == null:
 		await _dispose_harness(harness)
 		return _result({}, {}, failures)
@@ -85,7 +85,7 @@ func run() -> Dictionary:
 		bool(valid.call(
 			"carve_smooth_sdf_sphere", Vector3(TARGET_POINT), 4.0, 1.0, 0.75
 		)),
-		"TQP-13: carve command construction failed",
+		"TQP-17: carve command construction failed",
 		failures
 	)
 	_expect(
@@ -93,19 +93,19 @@ func run() -> Dictionary:
 			"construct_material_smooth_sdf_sphere",
 			Vector3(TARGET_POINT), 2.0, 1.0, 7, 0.5
 		)),
-		"TQP-13: stale construction command construction failed",
+		"TQP-17: stale construction command construction failed",
 		failures
 	)
 	_expect(
 		bool(terrain.call("commit_edit_transaction", valid)),
-		"TQP-13: carve transaction submission failed",
+		"TQP-17: carve transaction submission failed",
 		failures
 	)
 	_expect(
 		bool(terrain.call("update_viewer", VIEWER_ID, 4, Vector3(104, 8, 40), 0, 0))
 			and bool(terrain.call("update_viewer", VIEWER_ID, 5, Vector3(40, 8, 40), 0, 1))
 			and bool(terrain.call("update_viewer", VIEWER_ID, 6, Vector3(40, 8, 40), 0, 0)),
-		"TQP-13: streaming/LOD overlap updates were rejected",
+		"TQP-17: streaming/LOD overlap updates were rejected",
 		failures
 	)
 	var carved_sample: Dictionary = await harness.request_sample(TARGET_POINT)
@@ -115,37 +115,37 @@ func run() -> Dictionary:
 			and int(carved_sample.get("world_revision", -1)) == 1
 			and float(carved_sample.get("density", -INF))
 				> float(initial_sample.get("density", INF)),
-		"TQP-13: edit/query ordering did not expose committed carve revision",
+		"TQP-17: edit/query ordering did not expose committed carve revision",
 		failures
 	)
 	var journal_path := FIXTURE_ROOT + "/world.wtedit"
 	var journal_after_carve := _file_signature(journal_path)
 	_expect(
 		not journal_after_carve.is_empty(),
-		"TQP-13: committed carve did not create a durable journal",
+		"TQP-17: committed carve did not create a durable journal",
 		failures
 	)
 	var failure_count := harness.edit_failures.size()
 	_expect(
 		bool(terrain.call("commit_edit_transaction", stale)),
-		"TQP-13: stale transaction was not accepted for asynchronous validation",
+		"TQP-17: stale transaction was not accepted for asynchronous validation",
 		failures
 	)
 	var stale_error: String = await harness.wait_for_edit_failure(failure_count)
 	_expect(
 		stale_error == "edit transaction world revision is stale"
 			and int(terrain.call("get_world_revision")) == 1,
-		"TQP-13: stale transaction was not rejected at revision 1",
+		"TQP-17: stale transaction was not rejected at revision 1",
 		failures
 	)
 	var journal_after_rejection := _file_signature(journal_path)
 	_expect(
 		journal_after_rejection == journal_after_carve,
-		"TQP-13: stale rejection mutated durable journal bytes",
+		"TQP-17: stale rejection mutated durable journal bytes",
 		failures
 	)
 	var construction: RefCounted = terrain.call("begin_edit_transaction", 1303)
-	_expect(construction != null, "TQP-13: construction transaction was not created", failures)
+	_expect(construction != null, "TQP-17: construction transaction was not created", failures)
 	if construction == null:
 		await _dispose_harness(harness)
 		return _result({}, {}, failures)
@@ -154,18 +154,18 @@ func run() -> Dictionary:
 			"construct_material_smooth_sdf_sphere",
 			Vector3(TARGET_POINT), 2.5, 1.0, 7, 0.5
 		)),
-		"TQP-13: construction command failed",
+		"TQP-17: construction command failed",
 		failures
 	)
 	_expect(
 		bool(terrain.call("commit_edit_transaction", construction)),
-		"TQP-13: construction transaction submission failed",
+		"TQP-17: construction transaction submission failed",
 		failures
 	)
 	_expect(
 		bool(terrain.call("update_viewer", VIEWER_ID, 7, Vector3(72, 8, 40), 0, 1))
 			and bool(terrain.call("update_viewer", VIEWER_ID, 8, Vector3(40, 8, 40), 0, 0)),
-		"TQP-13: construction overlap viewer updates failed",
+		"TQP-17: construction overlap viewer updates failed",
 		failures
 	)
 	var final_sample: Dictionary = await harness.request_sample(TARGET_POINT)
@@ -175,7 +175,7 @@ func run() -> Dictionary:
 			and int(final_sample.get("world_revision", -1)) == 2
 			and float(final_sample.get("density", INF)) < 0.0
 			and int(final_sample.get("material", 0)) == 7,
-		"TQP-13: authoritative construction density/material mismatch",
+		"TQP-17: authoritative construction density/material mismatch",
 		failures
 	)
 	var final_settlement: Dictionary = await harness.wait_for_settled(1)
@@ -190,7 +190,7 @@ func run() -> Dictionary:
 				== int(target_snapshot.get("render_generation", -2))
 			and int(target_snapshot.get("generation", -1))
 				== int(target_snapshot.get("collision_generation", -2)),
-		"TQP-21: edited target render/collision generations did not settle coherently",
+		"TQP-15: edited target render/collision generations did not settle coherently",
 		failures
 	)
 	var final_metrics: Dictionary = final_settlement.get("metrics", {})
@@ -198,36 +198,36 @@ func run() -> Dictionary:
 		int(final_metrics.get("edit_commits", 0)) == 2
 			and int(final_metrics.get("edit_rejections", 0)) == 1
 			and int(final_metrics.get("edit_replacements", 0)) > 0,
-		"TQP-13: native edit commit/rejection/replacement metrics mismatch",
+		"TQP-17: native edit commit/rejection/replacement metrics mismatch",
 		failures
 	)
 	var mesh_signature := harness.mesh_signature(TARGET_CHUNK_NAME)
-	_expect(mesh_signature != "EMPTY", "TQP-21: edited target mesh is empty", failures)
+	_expect(mesh_signature != "EMPTY", "TQP-15: edited target mesh is empty", failures)
 	var journal_final := _file_signature(journal_path)
 	_expect(
 		not journal_final.is_empty() and journal_final != journal_after_carve,
-		"TQP-13: second committed edit did not advance journal bytes",
+		"TQP-17: second committed edit did not advance journal bytes",
 		failures
 	)
-	_expect(await harness.stop_world(), "TQP-13: edited world did not stop", failures)
+	_expect(await harness.stop_world(), "TQP-17: edited world did not stop", failures)
 	harness.clear_events()
 	_expect(
 		await harness.start_flat_world(FIXTURE_ROOT, SOURCE_REVISION),
-		"TQP-13: edited procedural world did not restart",
+		"TQP-17: edited procedural world did not restart",
 		failures
 	)
 	var replay_sample: Dictionary = await harness.request_sample(TARGET_POINT)
 	_expect(
 		_samples_equal(final_sample, replay_sample)
 			and int(harness.terrain.call("get_world_revision")) == 2,
-		"TQP-13: restart did not replay the committed temporal edits",
+		"TQP-17: restart did not replay the committed temporal edits",
 		failures
 	)
 	_expect(
 		bool(harness.terrain.call(
 			"update_viewer", VIEWER_ID, 1, Vector3(40, 8, 40), 0, 0
 		)),
-		"TQP-21: replay viewer update failed",
+		"TQP-15: replay viewer update failed",
 		failures
 	)
 	var replay_settlement: Dictionary = await harness.wait_for_settled(1)
@@ -235,11 +235,11 @@ func run() -> Dictionary:
 	_expect(
 		str(replay_settlement.get("status", "")) == "PASS"
 			and replay_mesh_signature == mesh_signature,
-		"TQP-13/TQP-21: restart changed settled edited mesh bytes",
+		"TQP-17/TQP-15: restart changed settled edited mesh bytes",
 		failures
 	)
 	var scheduling := {
-		"status": "PASS" if not _has_failure(failures, "TQP-21") else "FAIL",
+		"status": "PASS" if not _has_failure(failures, "TQP-15") else "FAIL",
 		"fixture": "native_production_worker_runtime",
 		"worker_count": int(initial_metrics.get("storage_worker_count", 0)),
 		"sample_jobs": int(final_metrics.get("sample_jobs", 0)),
@@ -252,7 +252,7 @@ func run() -> Dictionary:
 		"target_mesh_signature": mesh_signature,
 	}
 	var temporal := {
-		"status": "PASS" if not _has_failure(failures, "TQP-13") else "FAIL",
+		"status": "PASS" if not _has_failure(failures, "TQP-17") else "FAIL",
 		"commits": int(final_metrics.get("edit_commits", 0)),
 		"stale_rejections": int(final_metrics.get("edit_rejections", 0)),
 		"chunk_replacements": int(final_metrics.get("edit_replacements", 0)),

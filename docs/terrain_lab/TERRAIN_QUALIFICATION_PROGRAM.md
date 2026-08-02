@@ -111,15 +111,40 @@ human review in addition to automated checks.
 
 - Gate A: `TQP-01` through `TQP-05` must become `qualified` before a production
   terrain architecture or GPU implementation is selected.
-- Gate B: edit-driven production work requires `TQP-06` through `TQP-11`.
-- Gate C: production surface rendering requires `TQP-15` through `TQP-18`.
-- Gate D: large-world production claims require `TQP-20` through `TQP-28`.
+- Gate B: edit-driven production work requires `TQP-07` and `TQP-09` through
+  `TQP-13`.
+- Gate C: production surface rendering requires `TQP-08`, `TQP-18`, `TQP-21`,
+  and `TQP-23`.
+- Gate D: large-world production claims require `TQP-06`, `TQP-15`, `TQP-16`,
+  `TQP-19`, `TQP-20`, `TQP-22`, `TQP-24`, `TQP-26`, and `TQP-27`.
 - Gate E: GPU authority cannot advance until `TQP-34` through `TQP-39` pass
   differential qualification.
 - Gate F: production release requires every applicable prerequisite and
   `TQP-40` through `TQP-46`.
 
-## Foundation
+## How To Follow This Program
+
+The milestones below are numbered and arranged in ground-up execution order.
+Items inside parentheses may proceed in parallel. Arrows between batches are
+promotion order: investigation may happen early, but qualification cannot skip
+an earlier dependency.
+
+The machine-readable execution_plan.json mirrors the same order. TQP revision
+5 deliberately replaces the former domain-grouped identifiers; retained
+TQP-D006 records the migration from the previous numbering.
+
+## Phase 1: Qualified Foundations And Reference Semantics
+
+This phase fixes the operating envelope, authority, coordinates,
+benchmark rules, resolution behavior, chunk lifecycle, field algebra, material
+authority, edit semantics, and long-edit baseline before system behavior builds
+on them.
+
+Execution batches: TQP-01 -> (TQP-02, TQP-03, TQP-04) ->
+(TQP-05, TQP-06) -> (TQP-07, TQP-08) -> TQP-09 ->
+(TQP-10, TQP-11) -> (TQP-12, TQP-13) -> TQP-14.
+
+This phase is complete for its declared reference scopes.
 
 ### TQP-01: Operating Envelope
 
@@ -145,7 +170,15 @@ Complete when sample-space addressing, chunk ownership, negative rounding,
 global/local conversion, floating origin, precision budgets, and CPU/GPU
 coordinate equivalence have boundary fixtures.
 
-### TQP-04: Resolution And Error Standard
+### TQP-04: Qualification And Benchmark Protocol
+
+Status: `qualified`. Owner: Terrain Qualification Program. Depends on: TQP-01.
+
+Complete when evidence formats, promotion states, hardware metadata, warmups,
+sample counts, statistical reporting, baseline changes, and review rules are
+machine-readable and tested.
+
+### TQP-05: Resolution And Error Standard
 
 Status: `qualified`. Owner: Terrain Qualification Program. Depends on: TQP-01,
 TQP-03.
@@ -154,17 +187,14 @@ Complete when every LOD has world-space cell size, preservation requirements,
 allowed feature disappearance, field-filtering rules, geometric error, and
 screen-space error budgets.
 
-### TQP-05: Qualification And Benchmark Protocol
+### TQP-06: Chunk Lifecycle
 
-Status: `qualified`. Owner: Terrain Qualification Program. Depends on: TQP-01.
+Status: `qualified`. Owner: Terrain Systems Lab. Depends on: TQP-02, TQP-03.
 
-Complete when evidence formats, promotion states, hardware metadata, warmups,
-sample counts, statistical reporting, baseline changes, and review rules are
-machine-readable and tested.
+Complete when requested, generating, ready, visible, collidable, dirty, stale,
+cached, failed, and evicted states have legal transitions and fault fixtures.
 
-## Edit Semantics Lab
-
-### TQP-06: Field Algebra
+### TQP-07: Field Algebra
 
 Status: `qualified`. Owner: Edit Semantics Lab. Depends on: Gate A.
 
@@ -172,237 +202,269 @@ Complete when density sign, isovalue, exact and smooth CSG, gradient sampling,
 composition order, finite support, and algebraic properties have independent
 fixtures.
 
-### TQP-07: Brush Shape Corpus
+### TQP-08: Material Field Contract
 
-Status: `qualified`. Owner: Edit Semantics Lab. Depends on: TQP-04, TQP-06.
+Status: `qualified`. Owner: Material and Surface Lab. Depends on: TQP-02,
+TQP-05.
+
+Complete when IDs, weights, provenance, deterministic ties, construction
+ownership, edit composition, storage, and interpolation semantics are fixed.
+
+### TQP-09: Brush Shape Corpus
+
+Status: `qualified`. Owner: Edit Semantics Lab. Depends on: TQP-05, TQP-07.
 
 Complete when spheres, capsules, swept strokes, rounded boxes, planes, stamps,
 and bounded-noise shapes have analytic definitions, resolution limits, visual
 references, and performance distributions.
 
-### TQP-08: Digging Standard
+### TQP-10: Digging Standard
 
-Status: `qualified`. Owner: Edit Semantics Lab. Depends on: TQP-06, TQP-07.
+Status: `qualified`. Owner: Edit Semantics Lab. Depends on: TQP-07, TQP-09.
 
 Complete when subtraction, continuous strokes, overlaps, tunnel clearance,
 chunk boundaries, materials, collision publication, and replay are predictable
 across qualified LODs.
 
-### TQP-09: Construction Standard
+### TQP-11: Construction Standard
 
-Status: `qualified`. Owner: Edit Semantics Lab. Depends on: TQP-06, TQP-07.
+Status: `qualified`. Owner: Edit Semantics Lab. Depends on: TQP-07, TQP-09.
 
 Complete when addition, overlaps, material provenance, architectural shapes,
 surface continuity, support metadata, collision publication, and replay are
 predictable.
 
-### TQP-10: Resolvability Envelope
+### TQP-12: Resolvability Envelope
 
-Status: `qualified`. Owner: Edit Semantics Lab. Depends on: TQP-04, TQP-07,
-TQP-08, TQP-09.
+Status: `qualified`. Owner: Edit Semantics Lab. Depends on: TQP-05, TQP-09,
+TQP-10, TQP-11.
 
 Complete when minimum radius, wall thickness, clearance, curvature, smoothing
 width, and noise frequency are measured at every LOD with pass, degradation,
 and intentional-disappearance classifications.
 
-### TQP-11: Edit Journal, Undo, And Compaction
+### TQP-13: Edit Journal, Undo, And Compaction
 
-Status: `qualified`. Owner: Edit Semantics Lab. Depends on: TQP-02, TQP-08,
-TQP-09.
+Status: `qualified`. Owner: Edit Semantics Lab. Depends on: TQP-02, TQP-10,
+TQP-11.
 
 Complete when ordering, duplicate IDs, cancellation, undo/redo, transactions,
 serialization, migration, baking, compaction, and deterministic reconstruction
 are proven equivalent.
 
-### TQP-12: Long Edit Soak
+### TQP-14: Long Edit Soak
 
-Status: `qualified`. Owner: Edit Semantics Lab. Depends on: TQP-05, TQP-10,
-TQP-11.
+Status: `qualified`. Owner: Edit Semantics Lab. Depends on: TQP-04, TQP-12,
+TQP-13.
 
 Complete when seeded campaigns containing thousands of edits preserve full
 rebuild equivalence, seams, collision agreement, latency budgets, allocation
 budgets, and retained-memory budgets.
 
-### TQP-13: Concurrent And Temporal Edits
+## Phase 2: Temporal Integrity And Durable Publication
 
-Status: `qualified`. Owner: Edit Semantics Lab and Terrain Systems Lab. Depends
-on: TQP-11, TQP-20, TQP-21.
+This phase proves that real native workers, versioned publication,
+persistence, and concurrent edits cannot publish incoherent terrain state.
 
-Complete when edits during streaming, LOD changes, saves, collision rebuilds,
-worker cancellation, and stale-result arrival cannot publish incoherent state.
+Execution batches: (TQP-15, TQP-16) -> TQP-17.
 
-### TQP-14: Explosion Corpus
+This phase is complete for the declared Godot 4.7.1 Windows x86_64 native
+reference scope.
 
-Status: `implemented`. Owner: Edit Semantics Lab and Structural Systems Lab.
-Depends on: TQP-07 through TQP-13.
+### TQP-15: Scheduling, Versioning, And Publication
 
-Complete when radial and directed blasts, material damage, bounded noise,
-overlap, fragmentation inputs, collision timing, replay, and cost are
-qualified.
-
-## Material And Surface Lab
-
-### TQP-15: Material Field Contract
-
-Status: `qualified`. Owner: Material and Surface Lab. Depends on: TQP-02,
-TQP-04.
-
-Complete when IDs, weights, provenance, deterministic ties, construction
-ownership, edit composition, storage, and interpolation semantics are fixed.
-
-### TQP-16: Material Blending
-
-Status: `implemented`. Owner: Material and Surface Lab. Depends on: TQP-15.
-
-Complete when normalized weights, top-material reduction, categorical
-boundaries, transition interpolation, and LOD continuity pass exact and visual
-standards.
-
-### TQP-17: Texture System
-
-Status: `implemented`. Owner: Material and Surface Lab. Depends on: TQP-15,
-TQP-16.
-
-Complete when texture arrays, world-space triplanar mapping, scale, mipmaps,
-anisotropy, normal maps, caves, cliffs, and edited surfaces remain continuous
-within performance budgets.
-
-### TQP-18: Surface Shading
-
-Status: `implemented`. Owner: Material and Surface Lab. Depends on: TQP-17.
-
-Complete when normals, tangents, slope and height masks, lighting, decals,
-wetness, precision, and camera-distance behavior pass fixed and temporal
-inspection.
-
-### TQP-19: Visual Quality Corpus
-
-Status: `specified`. Owner: Material and Surface Lab. Depends on: TQP-04,
-TQP-16 through TQP-18.
-
-Complete when natural, constructed, destroyed, and adversarial terrain scenes
-have art-direction targets, fixed cameras, videos, automated comparisons, and
-recorded human acceptance.
-
-## Terrain Systems Lab
-
-### TQP-20: Chunk Lifecycle
-
-Status: `qualified`. Owner: Terrain Systems Lab. Depends on: TQP-02, TQP-03.
-
-Complete when requested, generating, ready, visible, collidable, dirty, stale,
-cached, failed, and evicted states have legal transitions and fault fixtures.
-
-### TQP-21: Scheduling, Versioning, And Publication
-
-Status: `qualified`. Owner: Terrain Systems Lab. Depends on: TQP-05, TQP-20.
+Status: `qualified`. Owner: Terrain Systems Lab. Depends on: TQP-04, TQP-06.
 
 Complete when job ownership, cancellation, generation numbers, priorities,
 atomic publication, stale rejection, and deterministic test scheduling are
 proven.
 
-### TQP-22: Streaming Windows
+### TQP-16: Persistence, Migration, And Recovery
 
-Status: `implemented`. Owner: Terrain Systems Lab. Depends on: TQP-04, TQP-20,
-TQP-21.
-
-Complete when fixed camera paths, hysteresis, LOD movement, prefetch, eviction,
-teleportation, edit arrival, and boundary stability meet explicit budgets.
-
-### TQP-23: Large-World Coordinates
-
-Status: `implemented`. Owner: Terrain Systems Lab. Depends on: TQP-03, TQP-20.
-
-Complete when origin shifts, distant edits, negative coordinates, save
-coordinates, long traversal, and CPU/GPU precision remain stable.
-
-### TQP-24: Visibility And Residency
-
-Status: `implemented`. Owner: Terrain Systems Lab and Material and Surface Lab.
-Depends on: TQP-04, TQP-22, TQP-23.
-
-Complete when culling, occlusion, LOD/HLOD policy, draw counts, buffer
-residency, distant representation, and memory budgets are observable and
-qualified.
-
-### TQP-25: Persistence, Migration, And Recovery
-
-Status: `qualified`. Owner: Terrain Systems Lab. Depends on: TQP-02, TQP-11,
-TQP-20.
+Status: `qualified`. Owner: Terrain Systems Lab. Depends on: TQP-02, TQP-13,
+TQP-06.
 
 Complete when base fields, journals, baked bricks, checksums, atomic writes,
 crash recovery, corruption, compaction, and schema migrations retain
 deterministic world state.
 
-### TQP-26: Collision, Queries, And Navigation
+### TQP-17: Concurrent And Temporal Edits
 
-Status: `implemented`. Owner: Terrain Systems Lab. Depends on: TQP-20, TQP-21,
-TQP-25.
+Status: `qualified`. Owner: Edit Semantics Lab and Terrain Systems Lab. Depends
+on: TQP-13, TQP-06, TQP-15.
+
+Complete when edits during streaming, LOD changes, saves, collision rebuilds,
+worker cancellation, and stale-result arrival cannot publish incoherent state.
+
+## Phase 3: Core Terrain Surface And Systems Qualification
+
+This is the active phase. It closes material appearance, streaming,
+large-world coordinates, visibility, collision, observability, visual review,
+and large-terrain performance in dependency order.
+
+Execution batches: (TQP-18, TQP-19, TQP-20) ->
+(TQP-21, TQP-22) -> (TQP-23, TQP-24) ->
+(TQP-25, TQP-26) -> TQP-27.
+
+The current work is exactly TQP-18, TQP-19, and TQP-20. They may be
+implemented in parallel, but each is promoted independently only after its
+declared evidence passes.
+
+### TQP-18: Material Blending
+
+Status: `implemented`. Owner: Material and Surface Lab. Depends on: TQP-08.
+
+Complete when normalized weights, top-material reduction, categorical
+boundaries, transition interpolation, and LOD continuity pass exact and visual
+standards.
+
+### TQP-19: Streaming Windows
+
+Status: `implemented`. Owner: Terrain Systems Lab. Depends on: TQP-05, TQP-06,
+TQP-15.
+
+Complete when fixed camera paths, hysteresis, LOD movement, prefetch, eviction,
+teleportation, edit arrival, and boundary stability meet explicit budgets.
+
+### TQP-20: Large-World Coordinates
+
+Status: `implemented`. Owner: Terrain Systems Lab. Depends on: TQP-03, TQP-06.
+
+Complete when origin shifts, distant edits, negative coordinates, save
+coordinates, long traversal, and CPU/GPU precision remain stable.
+
+### TQP-21: Texture System
+
+Status: `implemented`. Owner: Material and Surface Lab. Depends on: TQP-08,
+TQP-18.
+
+Complete when texture arrays, world-space triplanar mapping, scale, mipmaps,
+anisotropy, normal maps, caves, cliffs, and edited surfaces remain continuous
+within performance budgets.
+
+### TQP-22: Visibility And Residency
+
+Status: `implemented`. Owner: Terrain Systems Lab and Material and Surface Lab.
+Depends on: TQP-05, TQP-19, TQP-20.
+
+Complete when culling, occlusion, LOD/HLOD policy, draw counts, buffer
+residency, distant representation, and memory budgets are observable and
+qualified.
+
+### TQP-23: Surface Shading
+
+Status: `implemented`. Owner: Material and Surface Lab. Depends on: TQP-21.
+
+Complete when normals, tangents, slope and height masks, lighting, decals,
+wetness, precision, and camera-distance behavior pass fixed and temporal
+inspection.
+
+### TQP-24: Collision, Queries, And Navigation
+
+Status: `implemented`. Owner: Terrain Systems Lab. Depends on: TQP-06, TQP-15,
+TQP-16.
 
 Complete when render meshes, physics shapes, field queries, raycasts, navmesh
 updates, and publication versions agree during edits and streaming.
 
-### TQP-27: Terrain Observatory
+### TQP-25: Visual Quality Corpus
 
-Status: `implemented`. Owner: Terrain Systems Lab. Depends on: TQP-20 through
-TQP-26.
+Status: `specified`. Owner: Material and Surface Lab. Depends on: TQP-05,
+TQP-18, TQP-21, TQP-23.
+
+Complete when natural, constructed, destroyed, and adversarial terrain scenes
+have art-direction targets, fixed cameras, videos, automated comparisons, and
+recorded human acceptance.
+
+### TQP-26: Terrain Observatory
+
+Status: `implemented`. Owner: Terrain Systems Lab. Depends on: TQP-06, TQP-15,
+TQP-16, TQP-19, TQP-20, TQP-22, TQP-24.
 
 Complete when chunk state, jobs, versions, LOD decisions, edit dependencies,
 buffers, memory, timings, collision state, and rejection reasons can be
 inspected and exported as repros.
 
-### TQP-28: Large-Terrain Performance And Soak
+### TQP-27: Large-Terrain Performance And Soak
 
-Status: `implemented`. Owner: Terrain Systems Lab. Depends on: TQP-05, TQP-22
-through TQP-27.
+Status: `implemented`. Owner: Terrain Systems Lab. Depends on: TQP-04, TQP-16,
+TQP-19, TQP-20, TQP-22, TQP-24, TQP-26.
 
 Complete when fixed traversal, teleportation, editing, save/load, and failure
 scenarios pass frame-time, throughput, memory, hitch, and long-duration
 budgets.
 
-## Structural And World Systems Lab
+## Phase 4: Destruction And Structural World Systems
+
+This phase qualifies destructive edits and optional world systems only
+after the core edit, persistence, streaming, material, and collision contracts
+they consume are stable.
+
+Execution batches: (TQP-28, TQP-29, TQP-30, TQP-31, TQP-32) ->
+TQP-33.
+
+Reference behavior exists, but these milestones remain unqualified until their
+native, temporal, persistence, visual, and performance gaps close.
+
+### TQP-28: Explosion Corpus
+
+Status: `implemented`. Owner: Edit Semantics Lab and Structural Systems Lab.
+Depends on: TQP-09, TQP-10, TQP-11, TQP-12, TQP-13, TQP-14, TQP-17.
+
+Complete when radial and directed blasts, material damage, bounded noise,
+overlap, fragmentation inputs, collision timing, replay, and cost are
+qualified.
 
 ### TQP-29: Connectivity And Support
 
 Status: `implemented`. Owner: Structural and World Systems Lab. Depends on:
-TQP-02, TQP-09, TQP-10.
+TQP-02, TQP-11, TQP-12.
 
 Complete when anchors, solid connectivity, support graphs, floating terrain,
 material strength, and under-resolved supports have deterministic policies.
 
-### TQP-30: Collapse And Debris
+### TQP-30: Fluids And Hydrology
 
 Status: `implemented`. Owner: Structural and World Systems Lab. Depends on:
-TQP-14, TQP-26, TQP-29.
-
-Complete when separated components, collapse decisions, rigid-body conversion,
-remeshing, collision, cleanup, persistence, and replay are qualified.
-
-### TQP-31: Fluids And Hydrology
-
-Status: `implemented`. Owner: Structural and World Systems Lab. Depends on:
-TQP-04, TQP-22, TQP-25.
+TQP-05, TQP-16, TQP-19.
 
 Complete when terrain-water intersections, coastlines, caves, drainage,
 flooding, edits, LODs, persistence, and rendering have defined ownership.
 
-### TQP-32: Vegetation And Object Placement
+### TQP-31: Vegetation And Object Placement
 
 Status: `implemented`. Owner: Structural and World Systems Lab. Depends on:
-TQP-15, TQP-22, TQP-25.
+TQP-08, TQP-16, TQP-19.
 
 Complete when placement provenance, invalidation, regeneration, persistence,
 collision, and destruction after terrain edits are deterministic.
 
-### TQP-33: Roads, Structures, And Authored Terrain
+### TQP-32: Roads, Structures, And Authored Terrain
 
 Status: `implemented`. Owner: Structural and World Systems Lab. Depends on:
-TQP-09, TQP-15, TQP-25.
+TQP-08, TQP-11, TQP-16.
 
 Complete when stamps, foundations, tunnels, bridges, authored construction,
 procedural fields, edits, materials, and LODs compose predictably.
 
-## Backend Qualification Lab
+### TQP-33: Collapse And Debris
+
+Status: `implemented`. Owner: Structural and World Systems Lab. Depends on:
+TQP-24, TQP-28, TQP-29.
+
+Complete when separated components, collapse decisions, rigid-body conversion,
+remeshing, collision, cleanup, persistence, and replay are qualified.
+
+## Phase 5: GPU Candidate Qualification
+
+This phase evaluates GPU acceleration against the qualified CPU
+reference. It does not replace CPU authority or begin by rewriting the lab.
+
+Execution batches: TQP-34 -> TQP-35 -> TQP-36 ->
+(TQP-37, TQP-38) -> TQP-39.
+
+TQP-34 is specified. Later batches remain blocked until concrete GPU field,
+meshing, residency, and multi-vendor hardware targets exist.
 
 ### TQP-34: GPU Architecture Decision
 
@@ -414,8 +476,8 @@ separate measured decisions.
 
 ### TQP-35: GPU Field Evaluation
 
-Status: `blocked`. Owner: Backend Qualification Lab. Depends on: TQP-06,
-TQP-10, TQP-15, TQP-34.
+Status: `blocked`. Owner: Backend Qualification Lab. Depends on: TQP-07,
+TQP-08, TQP-12, TQP-34.
 
 Complete when GPU density, gradients, materials, edits, filtering, precision,
 and determinism pass analytical and CPU differential evidence.
@@ -439,20 +501,31 @@ numeric tolerances pass the shared primitive and terrain corpora.
 ### TQP-38: GPU Residency And Publication
 
 Status: `blocked`. Owner: Backend Qualification Lab and Terrain Systems Lab.
-Depends on: TQP-21, TQP-24, TQP-36.
+Depends on: TQP-15, TQP-22, TQP-36.
 
 Complete when allocation, reuse, indirect drawing, transfer, collision
 readback, stale work, synchronization, and device-loss recovery are qualified.
 
 ### TQP-39: Cross-Hardware GPU Matrix
 
-Status: `blocked`. Owner: Backend Qualification Lab. Depends on: TQP-05,
+Status: `blocked`. Owner: Backend Qualification Lab. Depends on: TQP-04,
 TQP-37, TQP-38.
 
 Complete when correctness, reproducibility, performance, memory, drivers,
 vendors, graphics APIs, and explicitly unsupported hardware are recorded.
 
-## Production Qualification
+## Phase 6: Production Terrain And Release Qualification
+
+This phase begins only with a pinned production terrain candidate and
+qualified prerequisite gates. It proves the addon boundary, authoring,
+networking when applicable, integration-game parity, release matrix, and
+long-haul behavior before publishing Standard 1.0.
+
+Execution batches: TQP-40 -> (TQP-41, TQP-42) -> TQP-43 ->
+TQP-44 -> TQP-45 -> TQP-46.
+
+This phase is blocked because a pinned candidate production addon and its later
+release evidence do not yet exist.
 
 ### TQP-40: Production Addon Boundary
 
@@ -465,28 +538,29 @@ candidate release.
 
 ### TQP-41: Authoring And Inspection Workflow
 
-Status: `blocked`. Owner: `world-transvoxel-terrain`. Depends on: TQP-08
-through TQP-19, TQP-27, TQP-40.
+Status: `blocked`. Owner: `world-transvoxel-terrain`. Depends on: TQP-08,
+TQP-10, TQP-11, TQP-12, TQP-13, TQP-14, TQP-17, TQP-18, TQP-21, TQP-23,
+TQP-25, TQP-26, TQP-28, TQP-40.
 
 Complete when brushes, previews, undo/redo, material authoring, diagnostics,
 imports, profiling, and one-action repro export support real workflows.
 
-### TQP-42: Integration-Game Parity
-
-Status: `blocked`. Owner: Integration game and `world-transvoxel-terrain`.
-Depends on: TQP-28, TQP-40, TQP-41.
-
-Complete when representative gameplay terrain, edits, saves, rendering,
-collision, and failures reduce to canonical qualification evidence.
-
-### TQP-43: Networking And Recovery
+### TQP-42: Networking And Recovery
 
 Status: `blocked`. Owner: Production terrain and integration layers. Depends
-on: TQP-11, TQP-13, TQP-25, TQP-40.
+on: TQP-13, TQP-16, TQP-17, TQP-40.
 
 Complete when replication, ordering, conflict resolution, late join, save
 recovery, disconnects, corruption, and authority transitions are qualified for
 the declared multiplayer model.
+
+### TQP-43: Integration-Game Parity
+
+Status: `blocked`. Owner: Integration game and `world-transvoxel-terrain`.
+Depends on: TQP-27, TQP-40, TQP-41.
+
+Complete when representative gameplay terrain, edits, saves, rendering,
+collision, and failures reduce to canonical qualification evidence.
 
 ### TQP-44: Production Release Matrix
 
@@ -517,20 +591,20 @@ a standard, not an assertion that future terrain work is finished.
 
 The program has executed every milestone to a truthful evidence state:
 
-- `TQP-01` through `TQP-13`, `TQP-15`, `TQP-20`, `TQP-21`, and `TQP-25` are qualified
+- `TQP-01` through `TQP-17` are qualified
   for their narrow contract, native Windows reference, or reference-model
   scopes. Gate B is qualified; its native chunk rebuild benchmark remains a
   background/debug reference and is not a production frame-time claim.
-- `TQP-14`, `TQP-16` through `TQP-18`, `TQP-22` through `TQP-24`, and
-  `TQP-26` through `TQP-33` have implemented reference behavior but
+- `TQP-18` through `TQP-24` and `TQP-26` through `TQP-33` have implemented
+  reference behavior but
   still lack one or more exit criteria named in their milestone contracts.
-- `TQP-19` and `TQP-34` are specified. The former requires human visual
+- `TQP-25` and `TQP-34` are specified. The former requires human visual
   acceptance; the latter requires measured GPU-candidate benefit.
 - `TQP-35` through `TQP-46` are blocked by named external targets and exit
   conditions in `program_blockers.json`.
 
-The next dependency-ordered work is TQP-16 material blending, TQP-22 streaming
-windows, and TQP-23 large-world coordinates. These are independent entries in
+The next dependency-ordered work is TQP-18 material blending, TQP-19 streaming
+windows, and TQP-20 large-world coordinates. These are independent entries in
 the first step of `TQP-WAVE-02`.
 Production and GPU claims remain closed. A blocked milestone may advance only
 when its recorded exit condition exists and the required evidence passes.
@@ -558,5 +632,7 @@ Retained decisions:
   field, meshing, residency, and readback as separate candidate promotions.
 - `TQP-D004`: qualify the Gate B native edit corpus and long-edit reference
   workload without claiming production frame-time performance.
-- `TQP-D005`: qualify TQP-21, TQP-25, and TQP-13 for the retained native
+- `TQP-D005`: qualify TQP-15, TQP-16, and TQP-17 for the retained native
   Windows temporal-integrity and persistence reference scope.
+- `TQP-D006`: replace domain-grouped identifiers with the ground-up TQP-01
+  through TQP-46 execution sequence without changing milestone evidence state.

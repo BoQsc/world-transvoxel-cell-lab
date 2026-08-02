@@ -9,7 +9,7 @@ machine-readable contracts, evidence states, executable coverage, or explicit
 external blockers. No milestone is left `proposed`.
 
 Gate B edit qualification is retained in
-`standards/edit_gate_b_standard.json`. It qualifies `TQP-07` through `TQP-12`
+`standards/edit_gate_b_standard.json`. It qualifies `TQP-09` through `TQP-14`
 for their declared CPU/Windows reference scopes while leaving worker
 concurrency, production collision scheduling, networking, GPU execution, and
 production frame-time performance explicitly unqualified.

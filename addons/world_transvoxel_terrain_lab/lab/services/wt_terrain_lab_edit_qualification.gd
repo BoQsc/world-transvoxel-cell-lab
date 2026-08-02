@@ -40,27 +40,27 @@ static func run() -> Dictionary:
 		"schema": "world_transvoxel.terrain_lab.edit_semantics_qualification.v1",
 		"status": "PASS" if failures.is_empty() else "FAIL",
 		"scope_status": {
-			"TQP-06": "qualified",
 			"TQP-07": "qualified",
-			"TQP-08": "qualified",
 			"TQP-09": "qualified",
 			"TQP-10": "qualified",
 			"TQP-11": "qualified",
 			"TQP-12": "qualified",
 			"TQP-13": "qualified",
-			"TQP-14": "implemented_pending_fragmentation_collision_and_cost",
+			"TQP-14": "qualified",
+			"TQP-17": "qualified",
+			"TQP-28": "implemented_pending_fragmentation_collision_and_cost",
 		},
 		"qualified_scope": [
 			"deterministic CPU reference field and edit journal",
-			"TQP-06 deterministic CPU reference field algebra",
-			"TQP-07 through TQP-12 Gate B reference edit qualification",
-			"TQP-13 native Windows temporal edit and replay reference",
+			"TQP-07 deterministic CPU reference field algebra",
+			"TQP-09 through TQP-14 Gate B reference edit qualification",
+			"TQP-17 native Windows temporal edit and replay reference",
 		],
 		"explicitly_unqualified_scope": [
 			"networked edit ordering",
 			"production-scale explosion fragmentation",
 			"GPU field evaluation",
-			"TQP-14 fragmentation, collision, and production cost",
+			"TQP-28 fragmentation, collision, and production cost",
 		],
 		"elapsed_ms": float(Time.get_ticks_usec() - started_usec) / 1000.0,
 		"provenance": Statistics.provenance("edit_semantics_reference_v1"),
@@ -100,18 +100,18 @@ static func _qualify_field_algebra() -> Dictionary:
 			_expect(smooth_value <= minf(a, b) + SAMPLE_EPSILON, "smooth union escaped bound", failures)
 	var gradient := field.gradient(Vector3(3.0, 12.0, 4.0))
 	_expect(gradient.distance_to(Vector3.UP) <= 0.001, "base gradient direction changed", failures)
-	return _result("TQP-06", 57, failures)
+	return _result("TQP-07", 57, failures)
 
 
 static func _qualify_temporal_edits() -> Dictionary:
 	var failures: Array[String] = []
-	var evidence := TemporalWaveEvidence.retained_milestone("TQP-13")
+	var evidence := TemporalWaveEvidence.retained_milestone("TQP-17")
 	if str(evidence.get("status", "")) != "PASS":
 		for failure_value in evidence.get("failures", []):
 			failures.append(str(failure_value))
 		if failures.is_empty():
 			failures.append("retained native temporal evidence failed")
-	var result := _result("TQP-13", 12, failures)
+	var result := _result("TQP-17", 12, failures)
 	result["qualification_status"] = "QUALIFIED_NATIVE_WINDOWS_TEMPORAL_REFERENCE_V1"
 	result["native_evidence"] = evidence
 	return result
@@ -141,7 +141,7 @@ static func _specify_explosions() -> Dictionary:
 			"blast replay diverged",
 			failures
 		)
-	var result := _result("TQP-14", _probe_points().size() + 3, failures)
+	var result := _result("TQP-28", _probe_points().size() + 3, failures)
 	result["qualification_status"] = "QUALIFIED_REFERENCE_EXPLOSION_INPUT"
 	result["blast_signature"] = field.journal_signature()
 	return result

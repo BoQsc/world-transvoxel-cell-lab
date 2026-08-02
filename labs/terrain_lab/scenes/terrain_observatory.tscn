@@ -268,5 +268,5 @@ offset_bottom = 66.0
 grow_horizontal = 0
 theme_override_colors/font_color = Color(0.86, 0.91, 0.9, 0.9)
 theme_override_font_sizes/font_size = 14
-text = "TQP-27  TERRAIN LAB"
+text = "TQP-26  TERRAIN LAB"
 horizontal_alignment = 2

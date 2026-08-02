@@ -28,9 +28,9 @@ func run() -> Dictionary:
 	var temporal_result: Dictionary = await temporal.run()
 	var persistence_result: Dictionary = await persistence.run()
 	var failures: Array[String] = []
-	_append_failures("TQP-21 publication", publication_result, failures)
+	_append_failures("TQP-15 publication", publication_result, failures)
 	_append_failures("temporal runtime", temporal_result, failures)
-	_append_failures("TQP-25 persistence", persistence_result, failures)
+	_append_failures("TQP-16 persistence", persistence_result, failures)
 	var scheduling: Dictionary = temporal_result.get("scheduling", {})
 	var temporal_edits: Dictionary = temporal_result.get("temporal_edits", {})
 	var persistence_evidence: Dictionary = persistence_result.get("evidence", {})
@@ -49,14 +49,14 @@ func run() -> Dictionary:
 		"provenance": Statistics.provenance("native_temporal_integrity_windows_v1"),
 		"memory": Statistics.memory_metrics(),
 		"milestones": {
-			"TQP-21": {
-				"milestone": "TQP-21",
+			"TQP-15": {
+				"milestone": "TQP-15",
 				"status": tqp_21_status,
 				"worker_pipeline": scheduling,
 				"publication": publication_result,
 			},
-			"TQP-25": persistence_result,
-			"TQP-13": temporal_edits,
+			"TQP-16": persistence_result,
+			"TQP-17": temporal_edits,
 		},
 		"elapsed_ms": float(Time.get_ticks_usec() - started_usec) / 1000.0,
 		"failures": failures,

@@ -50,8 +50,8 @@
 				"res://addons/world_transvoxel_terrain_lab/standards/operating_envelope.json": "a39680c85ed856b1b8218a7af2720389e6f32fd0323187cf2d76de08ccb041d8",
 				"res://addons/world_transvoxel_terrain_lab/standards/authority_data_model.json": "43ee227708c62ecda4daf16c24f3ec1534c51fa48348220f42ddb9355d62ae08",
 				"res://addons/world_transvoxel_terrain_lab/standards/coordinate_precision_standard.json": "e3aa58859d567212808980dde1ab16263f523436efc5820a7573819346fcde42",
-				"res://addons/world_transvoxel_terrain_lab/standards/resolution_error_standard.json": "dac862fe46e89dace1e2480b35411770c30425c3335c8eaef8e2e2741d72edd0",
-				"res://addons/world_transvoxel_terrain_lab/standards/qualification_protocol.json": "aef20b63327b5b6eb2cd674cab125ec11c7ad6d7beca38261f70fd5beaf7a27f"
+				"res://addons/world_transvoxel_terrain_lab/standards/qualification_protocol.json": "aef20b63327b5b6eb2cd674cab125ec11c7ad6d7beca38261f70fd5beaf7a27f",
+				"res://addons/world_transvoxel_terrain_lab/standards/resolution_error_standard.json": "dac862fe46e89dace1e2480b35411770c30425c3335c8eaef8e2e2741d72edd0"
 			},
 			"aggregate": "282f88034820c402576e4d0b74dd71dc9a761117bff937d34644a882cc961d88"
 		},
@@ -77,13 +77,13 @@
 			{
 				"milestone": "TQP-04",
 				"status": "PASS",
-				"fixture_count": 37,
+				"fixture_count": 34,
 				"failures": []
 			},
 			{
 				"milestone": "TQP-05",
 				"status": "PASS",
-				"fixture_count": 34,
+				"fixture_count": 37,
 				"failures": []
 			}
 		],
@@ -108,29 +108,29 @@
 			"schema": "world_transvoxel.terrain_lab.edit_semantics_qualification.v1",
 			"status": "PASS",
 			"scope_status": {
-				"TQP-06": "qualified",
 				"TQP-07": "qualified",
-				"TQP-08": "qualified",
 				"TQP-09": "qualified",
 				"TQP-10": "qualified",
 				"TQP-11": "qualified",
 				"TQP-12": "qualified",
 				"TQP-13": "qualified",
-				"TQP-14": "implemented_pending_fragmentation_collision_and_cost"
+				"TQP-14": "qualified",
+				"TQP-17": "qualified",
+				"TQP-28": "implemented_pending_fragmentation_collision_and_cost"
 			},
 			"qualified_scope": [
 				"deterministic CPU reference field and edit journal",
-				"TQP-06 deterministic CPU reference field algebra",
-				"TQP-07 through TQP-12 Gate B reference edit qualification",
-				"TQP-13 native Windows temporal edit and replay reference"
+				"TQP-07 deterministic CPU reference field algebra",
+				"TQP-09 through TQP-14 Gate B reference edit qualification",
+				"TQP-17 native Windows temporal edit and replay reference"
 			],
 			"explicitly_unqualified_scope": [
 				"networked edit ordering",
 				"production-scale explosion fragmentation",
 				"GPU field evaluation",
-				"TQP-14 fragmentation, collision, and production cost"
+				"TQP-28 fragmentation, collision, and production cost"
 			],
-			"elapsed_ms": 79230.445,
+			"elapsed_ms": 85351.484,
 			"provenance": {
 				"workload_signature": "edit_semantics_reference_v1",
 				"build_type": "debug",
@@ -143,15 +143,15 @@
 				"backend_revision": "a5c681d4061c5bcf2f779f7ae841d5d8ebffcdf2725040087386257ac2c3e32b"
 			},
 			"memory": {
-				"retained_bytes": 28129418,
-				"peak_bytes": 71327954
+				"retained_bytes": 28129530,
+				"peak_bytes": 71328066
 			},
 			"gate_b": {
 				"schema": "world_transvoxel.terrain_lab.edit_gate_b_qualification.v1",
 				"status": "PASS",
 				"milestones": [
 					{
-						"milestone": "TQP-07",
+						"milestone": "TQP-09",
 						"status": "PASS",
 						"fixture_count": 2043,
 						"failures": [],
@@ -178,7 +178,7 @@
 								],
 								"geometry_signature": "47a2219c0eaea6e3364797b228a756647af88d080887d011a0b83b86d0e68792",
 								"collision_signature": "3d4e05d601f943907691165f980c2fe7d5927adc0348432111cbb3e679736eac",
-								"elapsed_usec": 142750,
+								"elapsed_usec": 81676,
 								"failures": []
 							},
 							{
@@ -192,7 +192,7 @@
 								],
 								"geometry_signature": "047d15519714ea6b765987f4d8539693c91dc4e9516ad8ce00f4afd8855a7408",
 								"collision_signature": "511adbe35c25c1750ca8ed8ddb8758250a3b46d299f9840999f7ad578e98a555",
-								"elapsed_usec": 104224,
+								"elapsed_usec": 89845,
 								"failures": []
 							},
 							{
@@ -206,7 +206,7 @@
 								],
 								"geometry_signature": "53b72bcf767731b341c57b1fdee0d0725fc29fed1b46abc72ad346a98400372f",
 								"collision_signature": "35bd93e68a92bff43383e59d54ff20baf77e3c64858340949a9cae097e02ea24",
-								"elapsed_usec": 114728,
+								"elapsed_usec": 117168,
 								"failures": []
 							},
 							{
@@ -220,7 +220,7 @@
 								],
 								"geometry_signature": "2502d395952d5b37e118aeea66d90137f386de44027533a0945622e9bbd5de13",
 								"collision_signature": "57148b1fa32c05bf592b25b0bd286bf1c96d0a0144194a1d0cf814d4cbfd0cd2",
-								"elapsed_usec": 87991,
+								"elapsed_usec": 90759,
 								"failures": []
 							},
 							{
@@ -234,7 +234,7 @@
 								],
 								"geometry_signature": "03efb765b05d9590686c78715b49f3fc22a070192998bd5ca61592d636c95087",
 								"collision_signature": "781c1f0535e47b2f6bac029ab21bbc829f6699b817fd9d58a1d857ad4611f582",
-								"elapsed_usec": 90718,
+								"elapsed_usec": 99187,
 								"failures": []
 							},
 							{
@@ -248,7 +248,7 @@
 								],
 								"geometry_signature": "19e7bd5098200d48c0092d0d8a5f480072c2f15b6d387e80da5654681b480ab6",
 								"collision_signature": "7f381183b3777b01be0c566679462431118e4ff0c0f67eca6211175f9d699d37",
-								"elapsed_usec": 91979,
+								"elapsed_usec": 85739,
 								"failures": []
 							},
 							{
@@ -262,20 +262,20 @@
 								],
 								"geometry_signature": "afd8f0d1a43c49d564b3bf13b8c04dab4819cbc5724c4b078300acc1aa548cd9",
 								"collision_signature": "031d62a09266ca78cafe3d582be7b2f5c877204adab1fe014e312913b736f83b",
-								"elapsed_usec": 119152,
+								"elapsed_usec": 90986,
 								"failures": []
 							}
 						],
 						"performance": {
 							"sample_count": 100,
-							"p50_usec": 1179.0,
-							"p95_usec": 1695.0,
-							"p99_usec": 2044.0,
-							"worst_usec": 2100.0
+							"p50_usec": 1109.0,
+							"p95_usec": 1371.0,
+							"p99_usec": 1532.0,
+							"worst_usec": 1619.0
 						}
 					},
 					{
-						"milestone": "TQP-08",
+						"milestone": "TQP-10",
 						"status": "PASS",
 						"fixture_count": 74,
 						"failures": [],
@@ -353,7 +353,7 @@
 						}
 					},
 					{
-						"milestone": "TQP-09",
+						"milestone": "TQP-11",
 						"status": "PASS",
 						"fixture_count": 90,
 						"failures": [],
@@ -463,7 +463,7 @@
 						}
 					},
 					{
-						"milestone": "TQP-10",
+						"milestone": "TQP-12",
 						"status": "PASS",
 						"fixture_count": 240,
 						"failures": [],
@@ -3125,7 +3125,7 @@
 						]
 					},
 					{
-						"milestone": "TQP-11",
+						"milestone": "TQP-13",
 						"status": "PASS",
 						"fixture_count": 531,
 						"failures": [],
@@ -3137,7 +3137,7 @@
 						"operation_count": 4
 					},
 					{
-						"milestone": "TQP-12",
+						"milestone": "TQP-14",
 						"status": "PASS",
 						"fixture_count": 2325,
 						"failures": [],
@@ -3342,34 +3342,34 @@
 						"performance": {
 							"transaction_append": {
 								"sample_count": 246,
-								"p50_usec": 427.0,
-								"p95_usec": 710.0,
-								"p99_usec": 1602.0,
-								"worst_usec": 3171.0
+								"p50_usec": 441.0,
+								"p95_usec": 727.0,
+								"p99_usec": 973.0,
+								"worst_usec": 1502.0
 							},
 							"query_batch_64": {
 								"sample_count": 100,
-								"p50_usec": 671.0,
-								"p95_usec": 1091.0,
-								"p99_usec": 1722.0,
-								"worst_usec": 1902.0
+								"p50_usec": 713.0,
+								"p95_usec": 981.0,
+								"p99_usec": 1218.0,
+								"worst_usec": 1289.0
 							},
 							"native_chunk_rebuild": {
 								"sample_count": 100,
-								"p50_usec": 293005.0,
-								"p95_usec": 393180.0,
-								"p99_usec": 426455.0,
-								"worst_usec": 637378.0
+								"p50_usec": 309067.0,
+								"p95_usec": 469688.0,
+								"p99_usec": 573327.0,
+								"worst_usec": 677753.0
 							}
 						},
 						"memory": {
-							"retained_bytes": 56195474,
-							"peak_bytes": 71327954
+							"retained_bytes": 56195586,
+							"peak_bytes": 71328066
 						}
 					}
 				],
 				"stable_summary": {
-					"TQP-07": {
+					"TQP-09": {
 						"shape_ids": [
 							"sphere",
 							"capsule",
@@ -3382,17 +3382,17 @@
 						"shape_signature": "720da849d92bcc48cfb2899f33dfb7a8a8dffac19dafe562727491f0ec142548",
 						"native_shape_signature": "681f123f75bc3c8aba268699dc89b4ba3a8e3d042c70c10549cfa21443492708"
 					},
-					"TQP-08": {
+					"TQP-10": {
 						"lod_count": 8,
 						"geometry_signature": "6fd41b2365404b563445dc108c1cd2722d52208e2019ab291c77f04adbbbcb92",
 						"seam_failures": 0
 					},
-					"TQP-09": {
+					"TQP-11": {
 						"lod_count": 8,
 						"geometry_signature": "52155e60263001b738d953db043ac17f756652de574f70e2fa36301f3af63292",
 						"seam_failures": 0
 					},
-					"TQP-10": {
+					"TQP-12": {
 						"record_count": 240,
 						"classification_counts": {
 							"pass": 96,
@@ -3401,13 +3401,13 @@
 						},
 						"matrix_signature": "30527edb23727478b768e35dc76eaf50bfe053700299c4ea586c7f3a9b4c525a"
 					},
-					"TQP-11": {
+					"TQP-13": {
 						"journal_signature": "3d6cb69df38771d6d2ee842be1153ec1885178edf7a6f35c9e28b4fbc84f8d5b",
 						"compacted_journal_signature": "ee1849d09cd894bff5a32c070cfffc69e6e74d6dd82a0c0594d79c580bfeaf37",
 						"bake_signature": "9f822e5b3090d57c60482ce57f9a7d7aecc45314cc3448b39ffbe738f5533e86",
 						"migration_target": "world_transvoxel.terrain_lab.edit_journal.v2"
 					},
-					"TQP-12": {
+					"TQP-14": {
 						"operation_count": 2048,
 						"checkpoint_count": 4,
 						"chunk_count": 9,
@@ -3427,10 +3427,10 @@
 					"status": "PASS",
 					"scope": "reference_debug_workload_not_production_frame_budget",
 					"measured": {
-						"brush_batch_p95_usec": 1695.0,
-						"transaction_append_p95_usec": 710.0,
-						"query_batch_64_p95_usec": 1091.0,
-						"native_chunk_rebuild_p95_usec": 393180.0,
+						"brush_batch_p95_usec": 1371.0,
+						"transaction_append_p95_usec": 727.0,
+						"query_batch_64_p95_usec": 981.0,
+						"native_chunk_rebuild_p95_usec": 469688.0,
 						"journal_bytes": 946099,
 						"largest_spatial_bucket": 15
 					},
@@ -3483,21 +3483,21 @@
 					"backend_revision": "a5c681d4061c5bcf2f779f7ae841d5d8ebffcdf2725040087386257ac2c3e32b"
 				},
 				"memory": {
-					"retained_bytes": 28132146,
-					"peak_bytes": 71327954
+					"retained_bytes": 28132258,
+					"peak_bytes": 71328066
 				},
-				"elapsed_ms": 79227.637,
+				"elapsed_ms": 85348.435,
 				"failures": []
 			},
 			"milestones": [
 				{
-					"milestone": "TQP-06",
+					"milestone": "TQP-07",
 					"status": "PASS",
 					"fixture_count": 57,
 					"failures": []
 				},
 				{
-					"milestone": "TQP-07",
+					"milestone": "TQP-09",
 					"status": "PASS",
 					"fixture_count": 2043,
 					"failures": [],
@@ -3524,7 +3524,7 @@
 							],
 							"geometry_signature": "47a2219c0eaea6e3364797b228a756647af88d080887d011a0b83b86d0e68792",
 							"collision_signature": "3d4e05d601f943907691165f980c2fe7d5927adc0348432111cbb3e679736eac",
-							"elapsed_usec": 142750,
+							"elapsed_usec": 81676,
 							"failures": []
 						},
 						{
@@ -3538,7 +3538,7 @@
 							],
 							"geometry_signature": "047d15519714ea6b765987f4d8539693c91dc4e9516ad8ce00f4afd8855a7408",
 							"collision_signature": "511adbe35c25c1750ca8ed8ddb8758250a3b46d299f9840999f7ad578e98a555",
-							"elapsed_usec": 104224,
+							"elapsed_usec": 89845,
 							"failures": []
 						},
 						{
@@ -3552,7 +3552,7 @@
 							],
 							"geometry_signature": "53b72bcf767731b341c57b1fdee0d0725fc29fed1b46abc72ad346a98400372f",
 							"collision_signature": "35bd93e68a92bff43383e59d54ff20baf77e3c64858340949a9cae097e02ea24",
-							"elapsed_usec": 114728,
+							"elapsed_usec": 117168,
 							"failures": []
 						},
 						{
@@ -3566,7 +3566,7 @@
 							],
 							"geometry_signature": "2502d395952d5b37e118aeea66d90137f386de44027533a0945622e9bbd5de13",
 							"collision_signature": "57148b1fa32c05bf592b25b0bd286bf1c96d0a0144194a1d0cf814d4cbfd0cd2",
-							"elapsed_usec": 87991,
+							"elapsed_usec": 90759,
 							"failures": []
 						},
 						{
@@ -3580,7 +3580,7 @@
 							],
 							"geometry_signature": "03efb765b05d9590686c78715b49f3fc22a070192998bd5ca61592d636c95087",
 							"collision_signature": "781c1f0535e47b2f6bac029ab21bbc829f6699b817fd9d58a1d857ad4611f582",
-							"elapsed_usec": 90718,
+							"elapsed_usec": 99187,
 							"failures": []
 						},
 						{
@@ -3594,7 +3594,7 @@
 							],
 							"geometry_signature": "19e7bd5098200d48c0092d0d8a5f480072c2f15b6d387e80da5654681b480ab6",
 							"collision_signature": "7f381183b3777b01be0c566679462431118e4ff0c0f67eca6211175f9d699d37",
-							"elapsed_usec": 91979,
+							"elapsed_usec": 85739,
 							"failures": []
 						},
 						{
@@ -3608,20 +3608,20 @@
 							],
 							"geometry_signature": "afd8f0d1a43c49d564b3bf13b8c04dab4819cbc5724c4b078300acc1aa548cd9",
 							"collision_signature": "031d62a09266ca78cafe3d582be7b2f5c877204adab1fe014e312913b736f83b",
-							"elapsed_usec": 119152,
+							"elapsed_usec": 90986,
 							"failures": []
 						}
 					],
 					"performance": {
 						"sample_count": 100,
-						"p50_usec": 1179.0,
-						"p95_usec": 1695.0,
-						"p99_usec": 2044.0,
-						"worst_usec": 2100.0
+						"p50_usec": 1109.0,
+						"p95_usec": 1371.0,
+						"p99_usec": 1532.0,
+						"worst_usec": 1619.0
 					}
 				},
 				{
-					"milestone": "TQP-08",
+					"milestone": "TQP-10",
 					"status": "PASS",
 					"fixture_count": 74,
 					"failures": [],
@@ -3699,7 +3699,7 @@
 					}
 				},
 				{
-					"milestone": "TQP-09",
+					"milestone": "TQP-11",
 					"status": "PASS",
 					"fixture_count": 90,
 					"failures": [],
@@ -3809,7 +3809,7 @@
 					}
 				},
 				{
-					"milestone": "TQP-10",
+					"milestone": "TQP-12",
 					"status": "PASS",
 					"fixture_count": 240,
 					"failures": [],
@@ -6471,7 +6471,7 @@
 					]
 				},
 				{
-					"milestone": "TQP-11",
+					"milestone": "TQP-13",
 					"status": "PASS",
 					"fixture_count": 531,
 					"failures": [],
@@ -6483,7 +6483,7 @@
 					"operation_count": 4
 				},
 				{
-					"milestone": "TQP-12",
+					"milestone": "TQP-14",
 					"status": "PASS",
 					"fixture_count": 2325,
 					"failures": [],
@@ -6688,33 +6688,33 @@
 					"performance": {
 						"transaction_append": {
 							"sample_count": 246,
-							"p50_usec": 427.0,
-							"p95_usec": 710.0,
-							"p99_usec": 1602.0,
-							"worst_usec": 3171.0
+							"p50_usec": 441.0,
+							"p95_usec": 727.0,
+							"p99_usec": 973.0,
+							"worst_usec": 1502.0
 						},
 						"query_batch_64": {
 							"sample_count": 100,
-							"p50_usec": 671.0,
-							"p95_usec": 1091.0,
-							"p99_usec": 1722.0,
-							"worst_usec": 1902.0
+							"p50_usec": 713.0,
+							"p95_usec": 981.0,
+							"p99_usec": 1218.0,
+							"worst_usec": 1289.0
 						},
 						"native_chunk_rebuild": {
 							"sample_count": 100,
-							"p50_usec": 293005.0,
-							"p95_usec": 393180.0,
-							"p99_usec": 426455.0,
-							"worst_usec": 637378.0
+							"p50_usec": 309067.0,
+							"p95_usec": 469688.0,
+							"p99_usec": 573327.0,
+							"worst_usec": 677753.0
 						}
 					},
 					"memory": {
-						"retained_bytes": 56195474,
-						"peak_bytes": 71327954
+						"retained_bytes": 56195586,
+						"peak_bytes": 71328066
 					}
 				},
 				{
-					"milestone": "TQP-13",
+					"milestone": "TQP-17",
 					"status": "PASS",
 					"fixture_count": 12,
 					"failures": [],
@@ -6774,7 +6774,7 @@
 					}
 				},
 				{
-					"milestone": "TQP-14",
+					"milestone": "TQP-28",
 					"status": "PASS",
 					"fixture_count": 67,
 					"failures": [],
@@ -6788,11 +6788,11 @@
 			"schema": "world_transvoxel.terrain_lab.material_surface_qualification.v1",
 			"status": "PASS",
 			"scope_status": {
-				"TQP-15": "qualified",
-				"TQP-16": "implemented_pending_visual_evidence",
-				"TQP-17": "implemented_pending_render_validation",
-				"TQP-18": "implemented_pending_temporal_inspection",
-				"TQP-19": "specified_pending_human_acceptance"
+				"TQP-08": "qualified",
+				"TQP-18": "implemented_pending_visual_evidence",
+				"TQP-21": "implemented_pending_render_validation",
+				"TQP-23": "implemented_pending_temporal_inspection",
+				"TQP-25": "specified_pending_human_acceptance"
 			},
 			"qualified_scope": [
 				"deterministic material IDs, weights, ties, and construction provenance"
@@ -6817,27 +6817,27 @@
 			},
 			"milestones": [
 				{
-					"milestone": "TQP-15",
+					"milestone": "TQP-08",
 					"status": "PASS",
 					"fixture_count": 6,
 					"failures": []
 				},
 				{
-					"milestone": "TQP-16",
+					"milestone": "TQP-18",
 					"status": "PASS",
 					"fixture_count": 6,
 					"failures": [],
 					"performance": {
 						"sample_count": 100,
-						"p50_usec": 499.0,
-						"p95_usec": 758.0,
-						"p99_usec": 1068.0,
-						"worst_usec": 1603.0
+						"p50_usec": 506.0,
+						"p95_usec": 756.0,
+						"p99_usec": 1130.0,
+						"worst_usec": 1228.0
 					},
 					"qualification_status": "IMPLEMENTED_PENDING_VISUAL_EVIDENCE"
 				},
 				{
-					"milestone": "TQP-17",
+					"milestone": "TQP-21",
 					"status": "PASS",
 					"fixture_count": 10,
 					"failures": [],
@@ -6852,7 +6852,7 @@
 					"qualification_status": "IMPLEMENTED_PENDING_RENDER_VALIDATION"
 				},
 				{
-					"milestone": "TQP-18",
+					"milestone": "TQP-23",
 					"status": "PASS",
 					"fixture_count": 12,
 					"failures": [],
@@ -6885,7 +6885,7 @@
 					"qualification_status": "IMPLEMENTED_PENDING_TEMPORAL_INSPECTION"
 				},
 				{
-					"milestone": "TQP-19",
+					"milestone": "TQP-25",
 					"status": "PASS",
 					"fixture_count": 4,
 					"failures": [],
@@ -6920,20 +6920,20 @@
 			"schema": "world_transvoxel.terrain_lab.system_qualification.v1",
 			"status": "PASS",
 			"scope_status": {
-				"TQP-20": "qualified",
-				"TQP-21": "qualified",
-				"TQP-22": "implemented_pending_hysteresis_prefetch_eviction_and_edit_matrix",
-				"TQP-23": "implemented_pending_long_traversal_save_and_gpu_equivalence",
-				"TQP-24": "implemented_pending_culling_hlod_draw_and_buffer_evidence",
-				"TQP-25": "qualified",
-				"TQP-26": "implemented_pending_real_physics_query_and_navigation_publication",
-				"TQP-27": "implemented_pending_complete_runtime_diagnostic_sources",
-				"TQP-28": "implemented_pending_real_large_terrain_soak"
+				"TQP-06": "qualified",
+				"TQP-15": "qualified",
+				"TQP-16": "qualified",
+				"TQP-19": "implemented_pending_hysteresis_prefetch_eviction_and_edit_matrix",
+				"TQP-20": "implemented_pending_long_traversal_save_and_gpu_equivalence",
+				"TQP-22": "implemented_pending_culling_hlod_draw_and_buffer_evidence",
+				"TQP-24": "implemented_pending_real_physics_query_and_navigation_publication",
+				"TQP-26": "implemented_pending_complete_runtime_diagnostic_sources",
+				"TQP-27": "implemented_pending_real_large_terrain_soak"
 			},
 			"qualified_scope": [
-				"TQP-20 deterministic reference chunk lifecycle",
-				"TQP-21 native Windows worker, versioning, and publication reference",
-				"TQP-25 native Windows persistence, recovery, and migration reference"
+				"TQP-06 deterministic reference chunk lifecycle",
+				"TQP-15 native Windows worker, versioning, and publication reference",
+				"TQP-16 native Windows persistence, recovery, and migration reference"
 			],
 			"explicitly_unqualified_scope": [
 				"production terrain mesh residency",
@@ -6941,7 +6941,7 @@
 				"snapshot atomicity on filesystems outside the Windows reference platform",
 				"automatic abandoned snapshot staging cleanup",
 				"production traversal and memory budgets",
-				"complete TQP-22 through TQP-24 and TQP-26 through TQP-28 qualification"
+				"complete TQP-19, TQP-20, TQP-22, TQP-24, TQP-26, and TQP-27 qualification"
 			],
 			"provenance": {
 				"workload_signature": "terrain_system_reference_v1",
@@ -6956,7 +6956,7 @@
 			},
 			"milestones": [
 				{
-					"milestone": "TQP-20",
+					"milestone": "TQP-06",
 					"status": "PASS",
 					"fixture_count": 36,
 					"failures": [],
@@ -6975,13 +6975,13 @@
 					"legal_transition_count": 31
 				},
 				{
-					"milestone": "TQP-21",
+					"milestone": "TQP-15",
 					"status": "PASS",
 					"fixture_count": 20,
 					"failures": [],
 					"qualification_status": "QUALIFIED_NATIVE_WINDOWS_PUBLICATION_REFERENCE_V1",
 					"native_evidence": {
-						"milestone": "TQP-21",
+						"milestone": "TQP-15",
 						"status": "PASS",
 						"worker_pipeline": {
 							"status": "PASS",
@@ -7008,7 +7008,7 @@
 						},
 						"publication": {
 							"schema": "world_transvoxel.terrain_lab.native_publication_qualification.v1",
-							"milestone": "TQP-21",
+							"milestone": "TQP-15",
 							"status": "PASS",
 							"fixture": "native_m3_publication",
 							"checks": 8.0,
@@ -7039,57 +7039,14 @@
 					}
 				},
 				{
-					"milestone": "TQP-22",
-					"status": "PASS",
-					"fixture_count": 12,
-					"failures": [],
-					"windows": [
-						{
-							"center": "(0, 0, 0)",
-							"requested_count": 49
-						},
-						{
-							"center": "(0, 0, 0)",
-							"requested_count": 49
-						},
-						{
-							"center": "(1, 0, 0)",
-							"requested_count": 49
-						},
-						{
-							"center": "(2, 0, -2)",
-							"requested_count": 49
-						},
-						{
-							"center": "(64, 0, 64)",
-							"requested_count": 49
-						}
-					]
-				},
-				{
-					"milestone": "TQP-23",
-					"status": "PASS",
-					"fixture_count": 30,
-					"failures": []
-				},
-				{
-					"milestone": "TQP-24",
-					"status": "PASS",
-					"fixture_count": 292,
-					"failures": [],
-					"resident_count": 64,
-					"retained_bytes": 268435456,
-					"budget_bytes": 268435456
-				},
-				{
-					"milestone": "TQP-25",
+					"milestone": "TQP-16",
 					"status": "PASS",
 					"fixture_count": 28,
 					"failures": [],
 					"qualification_status": "QUALIFIED_NATIVE_WINDOWS_PERSISTENCE_REFERENCE_V1",
 					"native_evidence": {
 						"schema": "world_transvoxel.terrain_lab.native_persistence_qualification.v1",
-						"milestone": "TQP-25",
+						"milestone": "TQP-16",
 						"status": "PASS",
 						"qualification_scope": "native Windows current and legacy schema reference fixtures",
 						"explicitly_unqualified_scope": [
@@ -7268,13 +7225,56 @@
 					}
 				},
 				{
-					"milestone": "TQP-26",
+					"milestone": "TQP-19",
+					"status": "PASS",
+					"fixture_count": 12,
+					"failures": [],
+					"windows": [
+						{
+							"center": "(0, 0, 0)",
+							"requested_count": 49
+						},
+						{
+							"center": "(0, 0, 0)",
+							"requested_count": 49
+						},
+						{
+							"center": "(1, 0, 0)",
+							"requested_count": 49
+						},
+						{
+							"center": "(2, 0, -2)",
+							"requested_count": 49
+						},
+						{
+							"center": "(64, 0, 64)",
+							"requested_count": 49
+						}
+					]
+				},
+				{
+					"milestone": "TQP-20",
+					"status": "PASS",
+					"fixture_count": 30,
+					"failures": []
+				},
+				{
+					"milestone": "TQP-22",
+					"status": "PASS",
+					"fixture_count": 292,
+					"failures": [],
+					"resident_count": 64,
+					"retained_bytes": 268435456,
+					"budget_bytes": 268435456
+				},
+				{
+					"milestone": "TQP-24",
 					"status": "PASS",
 					"fixture_count": 4,
 					"failures": []
 				},
 				{
-					"milestone": "TQP-27",
+					"milestone": "TQP-26",
 					"status": "PASS",
 					"fixture_count": 5,
 					"failures": [],
@@ -7344,20 +7344,20 @@
 					}
 				},
 				{
-					"milestone": "TQP-28",
+					"milestone": "TQP-27",
 					"status": "PASS",
 					"fixture_count": 10000,
 					"failures": [],
 					"performance": {
 						"sample_count": 100,
-						"p50_usec": 794.0,
-						"p95_usec": 1508.0,
-						"p99_usec": 1723.0,
-						"worst_usec": 1861.0
+						"p50_usec": 900.0,
+						"p95_usec": 1533.0,
+						"p99_usec": 1901.0,
+						"worst_usec": 1995.0
 					},
 					"memory": {
-						"retained_bytes": 29142706,
-						"peak_bytes": 71327954
+						"retained_bytes": 29142818,
+						"peak_bytes": 71328066
 					},
 					"retained_chunk_count": 127,
 					"qualification_scope": "REFERENCE_MODEL_NOT_PRODUCTION_TERRAIN"
@@ -7370,10 +7370,10 @@
 			"status": "PASS",
 			"scope_status": {
 				"TQP-29": "implemented_pending_strength_and_under_resolution_matrix",
-				"TQP-30": "implemented_pending_rigid_body_remesh_collision_and_persistence",
-				"TQP-31": "implemented_pending_TQP_22_qualification",
-				"TQP-32": "implemented_pending_collision_destruction_and_persistence",
-				"TQP-33": "implemented_pending_bridge_authoring_and_lod_matrix"
+				"TQP-30": "implemented_pending_TQP_22_qualification",
+				"TQP-31": "implemented_pending_collision_destruction_and_persistence",
+				"TQP-32": "implemented_pending_bridge_authoring_and_lod_matrix",
+				"TQP-33": "implemented_pending_rigid_body_remesh_collision_and_persistence"
 			},
 			"implemented_scope": [
 				"fluid ownership boundary"
@@ -7384,7 +7384,7 @@
 				"production vegetation rendering",
 				"road and bridge authoring tools",
 				"gameplay suitability",
-				"complete TQP-29, TQP-30, TQP-32, and TQP-33 qualification"
+				"complete TQP-29 through TQP-33 qualification"
 			],
 			"provenance": {
 				"workload_signature": "structural_world_reference_v1",
@@ -7409,14 +7409,6 @@
 				{
 					"milestone": "TQP-30",
 					"status": "PASS",
-					"fixture_count": 4,
-					"failures": [],
-					"replay_signature": "3f94e603f5ebc9e237bac592bcc5b5bf0ac4e72d72bd24c5eaf6a58d43c25d8d",
-					"qualification_scope": "REFERENCE_POLICY_NO_RIGID_BODY_IMPLEMENTATION"
-				},
-				{
-					"milestone": "TQP-31",
-					"status": "PASS",
 					"fixture_count": 11,
 					"failures": [],
 					"ownership": {
@@ -7434,14 +7426,14 @@
 					"qualification_scope": "OWNERSHIP_CONTRACT_ONLY"
 				},
 				{
-					"milestone": "TQP-32",
+					"milestone": "TQP-31",
 					"status": "PASS",
 					"fixture_count": 18,
 					"failures": [],
 					"placement_signature": "c0da3eb2f76345ca8817b702827df800bcf8dcb32e809f3e8a00f1b44a7e1f1e"
 				},
 				{
-					"milestone": "TQP-33",
+					"milestone": "TQP-32",
 					"status": "PASS",
 					"fixture_count": 7,
 					"failures": [],
@@ -7451,6 +7443,14 @@
 						"derived_material_and_mesh_publication"
 					],
 					"journal_signature": "16dca3e7476260f0f3ad9db05326d88f44beeb6b233a9a2e8e8682557cac870c"
+				},
+				{
+					"milestone": "TQP-33",
+					"status": "PASS",
+					"fixture_count": 4,
+					"failures": [],
+					"replay_signature": "3f94e603f5ebc9e237bac592bcc5b5bf0ac4e72d72bd24c5eaf6a58d43c25d8d",
+					"qualification_scope": "REFERENCE_POLICY_NO_RIGID_BODY_IMPLEMENTATION"
 				}
 			],
 			"failures": []
@@ -7562,19 +7562,19 @@
 					"milestone": "TQP-41",
 					"code": "PRODUCTION_AUTHORING_TARGET_ABSENT",
 					"owner": "world-transvoxel-terrain",
-					"exit": "TQP-40 candidate and accepted TQP-19 visual corpus exist"
+					"exit": "TQP-40 candidate and accepted TQP-25 visual corpus exist"
 				},
 				{
 					"milestone": "TQP-42",
-					"code": "DOWNSTREAM_PARITY_TARGET_UNPINNED",
-					"owner": "Integration game and world-transvoxel-terrain",
-					"exit": "candidate production addon and integration-game revisions are pinned"
-				},
-				{
-					"milestone": "TQP-43",
 					"code": "NETWORK_MODEL_UNQUALIFIED",
 					"owner": "Production terrain and integration layers",
 					"exit": "multiplayer authority model advances beyond single-player local authority"
+				},
+				{
+					"milestone": "TQP-43",
+					"code": "DOWNSTREAM_PARITY_TARGET_UNPINNED",
+					"owner": "Integration game and world-transvoxel-terrain",
+					"exit": "candidate production addon and integration-game revisions are pinned"
 				},
 				{
 					"milestone": "TQP-44",

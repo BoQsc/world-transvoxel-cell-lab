@@ -33,10 +33,10 @@ static func run() -> Dictionary:
 	var milestones: Array[Dictionary] = [
 		_qualify_chunk_lifecycle(),
 		_qualify_scheduling(),
+		_qualify_persistence(),
 		_qualify_streaming(),
 		_qualify_large_world(),
 		_qualify_visibility_residency(),
-		_qualify_persistence(),
 		_qualify_collision_publication(),
 		_qualify_observatory(),
 		_qualify_reference_soak(),
@@ -51,20 +51,20 @@ static func run() -> Dictionary:
 		"schema": "world_transvoxel.terrain_lab.system_qualification.v1",
 		"status": "PASS" if failures.is_empty() else "FAIL",
 		"scope_status": {
-			"TQP-20": "qualified",
-			"TQP-21": "qualified",
-			"TQP-22": "implemented_pending_hysteresis_prefetch_eviction_and_edit_matrix",
-			"TQP-23": "implemented_pending_long_traversal_save_and_gpu_equivalence",
-			"TQP-24": "implemented_pending_culling_hlod_draw_and_buffer_evidence",
-			"TQP-25": "qualified",
-			"TQP-26": "implemented_pending_real_physics_query_and_navigation_publication",
-			"TQP-27": "implemented_pending_complete_runtime_diagnostic_sources",
-			"TQP-28": "implemented_pending_real_large_terrain_soak",
+			"TQP-06": "qualified",
+			"TQP-15": "qualified",
+			"TQP-16": "qualified",
+			"TQP-19": "implemented_pending_hysteresis_prefetch_eviction_and_edit_matrix",
+			"TQP-20": "implemented_pending_long_traversal_save_and_gpu_equivalence",
+			"TQP-22": "implemented_pending_culling_hlod_draw_and_buffer_evidence",
+			"TQP-24": "implemented_pending_real_physics_query_and_navigation_publication",
+			"TQP-26": "implemented_pending_complete_runtime_diagnostic_sources",
+			"TQP-27": "implemented_pending_real_large_terrain_soak",
 		},
 		"qualified_scope": [
-			"TQP-20 deterministic reference chunk lifecycle",
-			"TQP-21 native Windows worker, versioning, and publication reference",
-			"TQP-25 native Windows persistence, recovery, and migration reference",
+			"TQP-06 deterministic reference chunk lifecycle",
+			"TQP-15 native Windows worker, versioning, and publication reference",
+			"TQP-16 native Windows persistence, recovery, and migration reference",
 		],
 		"explicitly_unqualified_scope": [
 			"production terrain mesh residency",
@@ -72,7 +72,7 @@ static func run() -> Dictionary:
 			"snapshot atomicity on filesystems outside the Windows reference platform",
 			"automatic abandoned snapshot staging cleanup",
 			"production traversal and memory budgets",
-			"complete TQP-22 through TQP-24 and TQP-26 through TQP-28 qualification",
+			"complete TQP-19, TQP-20, TQP-22, TQP-24, TQP-26, and TQP-27 qualification",
 		],
 		"provenance": Statistics.provenance("terrain_system_reference_v1"),
 		"milestones": milestones,
@@ -97,7 +97,7 @@ static func _qualify_chunk_lifecycle() -> Dictionary:
 		["ready", "generating"],
 	]:
 		_expect(not _can_transition(pair[0], pair[1]), "illegal transition accepted", failures)
-	var result := _result("TQP-20", transition_count + 5, failures)
+	var result := _result("TQP-06", transition_count + 5, failures)
 	result["states"] = LEGAL_TRANSITIONS.keys()
 	result["legal_transition_count"] = transition_count
 	return result
@@ -105,7 +105,7 @@ static func _qualify_chunk_lifecycle() -> Dictionary:
 
 static func _qualify_scheduling() -> Dictionary:
 	var failures: Array[String] = []
-	var evidence := TemporalWaveEvidence.retained_milestone("TQP-21")
+	var evidence := TemporalWaveEvidence.retained_milestone("TQP-15")
 	if str(evidence.get("status", "")) != "PASS":
 		for failure_value in evidence.get("failures", []):
 			failures.append(str(failure_value))
@@ -142,7 +142,7 @@ static func _qualify_scheduling() -> Dictionary:
 		return int(a["priority"]) < int(b["priority"])
 	)
 	_expect(str(priorities[0]["id"]) == "visible", "priority invariant changed", failures)
-	var result := _result("TQP-21", 20, failures)
+	var result := _result("TQP-15", 20, failures)
 	result["qualification_status"] = "QUALIFIED_NATIVE_WINDOWS_PUBLICATION_REFERENCE_V1"
 	result["native_evidence"] = evidence
 	result["independent_invariants"] = {
@@ -182,7 +182,7 @@ static func _qualify_streaming() -> Dictionary:
 		"chunk-boundary crossing was missed",
 		failures
 	)
-	var result := _result("TQP-22", path.size() * 2 + 2, failures)
+	var result := _result("TQP-19", path.size() * 2 + 2, failures)
 	result["windows"] = windows
 	return result
 
@@ -207,7 +207,7 @@ static func _qualify_large_world() -> Dictionary:
 		var local_sample: int = sample - chunk * 32
 		_expect(local_sample >= 0 and local_sample < 32, "negative sample address escaped chunk", failures)
 		_expect(chunk * 32 + local_sample == sample, "negative sample address did not round trip", failures)
-	return _result("TQP-23", coordinates.size() * 2 + 20, failures)
+	return _result("TQP-20", coordinates.size() * 2 + 20, failures)
 
 
 static func _qualify_visibility_residency() -> Dictionary:
@@ -237,7 +237,7 @@ static func _qualify_visibility_residency() -> Dictionary:
 	_expect(retained <= budget, "residency exceeded memory budget", failures)
 	_expect(resident.size() == 64, "residency count changed", failures)
 	_expect("0:0" in resident, "nearest chunk was not resident", failures)
-	var result := _result("TQP-24", candidates.size() + 3, failures)
+	var result := _result("TQP-22", candidates.size() + 3, failures)
 	result["resident_count"] = resident.size()
 	result["retained_bytes"] = retained
 	result["budget_bytes"] = budget
@@ -246,13 +246,13 @@ static func _qualify_visibility_residency() -> Dictionary:
 
 static func _qualify_persistence() -> Dictionary:
 	var failures: Array[String] = []
-	var evidence := TemporalWaveEvidence.retained_milestone("TQP-25")
+	var evidence := TemporalWaveEvidence.retained_milestone("TQP-16")
 	if str(evidence.get("status", "")) != "PASS":
 		for failure_value in evidence.get("failures", []):
 			failures.append(str(failure_value))
 		if failures.is_empty():
 			failures.append("retained native persistence evidence failed")
-	var result := _result("TQP-25", 28, failures)
+	var result := _result("TQP-16", 28, failures)
 	result["qualification_status"] = "QUALIFIED_NATIVE_WINDOWS_PERSISTENCE_REFERENCE_V1"
 	result["native_evidence"] = evidence
 	return result
@@ -273,7 +273,7 @@ static func _qualify_collision_publication() -> Dictionary:
 			and int(record["render"]) == int(record["nav"])
 		)
 		_expect(coherent == bool(record["expected"]), "publication coherence decision changed", failures)
-	return _result("TQP-26", records.size(), failures)
+	return _result("TQP-24", records.size(), failures)
 
 
 static func _qualify_observatory() -> Dictionary:
@@ -291,7 +291,7 @@ static func _qualify_observatory() -> Dictionary:
 	_expect(int(counters.get("published", 0)) == 1, "publication counter changed", failures)
 	_expect(int(counters.get("stale_rejections", 0)) == 1, "rejection counter changed", failures)
 	_expect((snapshot.get("events", []) as Array).size() == 5, "event retention changed", failures)
-	var result := _result("TQP-27", 5, failures)
+	var result := _result("TQP-26", 5, failures)
 	result["snapshot"] = snapshot
 	return result
 
@@ -318,7 +318,7 @@ static func _qualify_reference_soak() -> Dictionary:
 	_expect(int(distribution.get("sample_count", 0)) == 100, "soak sample count changed", failures)
 	_expect(float(distribution.get("p95_usec", INF)) < 4000.0, "reference model p95 exceeded 4 ms", failures)
 	_expect(published_generation.size() <= 127 * 127, "soak residency escaped coordinate corpus", failures)
-	var result := _result("TQP-28", 10000, failures)
+	var result := _result("TQP-27", 10000, failures)
 	result["performance"] = distribution
 	result["memory"] = Statistics.memory_metrics()
 	result["retained_chunk_count"] = published_generation.size()

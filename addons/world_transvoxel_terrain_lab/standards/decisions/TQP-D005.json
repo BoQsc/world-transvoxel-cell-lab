@@ -2,7 +2,7 @@
 	"schema": "world_transvoxel.terrain_lab.decision.v1",
 	"id": "TQP-D005",
 	"date": "2026-08-02",
-	"decision": "Promote TQP-21, TQP-25, and TQP-13 to qualified for the declared Godot 4.7.1 Windows x86_64 native reference scope.",
+	"decision": "Promote TQP-15, TQP-16, and TQP-17 to qualified for the declared Godot 4.7.1 Windows x86_64 native reference scope.",
 	"reason": "The retained wave directly exercises world-transvoxel workers, stale generation rejection, atomic render and collision publication, temporal carve and construction ordering, journal replay, truncated-tail recovery, complete-segment corruption rejection, baked-page checksums, compaction, current and legacy migration, and fail-closed snapshot publication.",
 	"alternatives": [
 		"retain deterministic model-only evidence",
