@@ -1,0 +1,31 @@
+{
+	"schema": "world_transvoxel.terrain_lab.decision.v1",
+	"id": "TQP-D016",
+	"date": "2026-08-02",
+	"decision": "Accept the bounded TQP-27 native Windows large-terrain performance and soak reference while retaining unsupported large-volume snapshot compaction as TQP-F002.",
+	"reason": "The retained world-transvoxel-only run uses the documented 128 x 16 x 128 procedural volume with vertical origin -8, representing 299,520 catalog pages across a 2048 x 256 x 2048 cell volume. It traverses a 1,984 m span, settles 29 windows, observes more than 280 unique render and collision chunks, performs four committed edits, rejects stale viewer and edit work, reopens from the durable edit journal, verifies all post-restart authoritative samples, and shuts down without retained resources. The run passes the predeclared frame, update, settlement, throughput, memory, queue, and resource ceilings. Snapshot compaction rejects the large procedural catalog during manifest validation and publishes no partial output; TQP-F002 keeps that capability explicitly unqualified rather than weakening the fixture or misreporting the rejection as success.",
+	"evidence": [
+		"res://addons/world_transvoxel_terrain_lab/standards/large_terrain_soak_standard.json",
+		"res://addons/world_transvoxel_terrain_lab/standards/large_volume_snapshot_finding.json",
+		"res://labs/terrain_lab/results/large_terrain_soak_reference_windows.json"
+	],
+	"qualified_scope": [
+		"native world-transvoxel Windows debug streaming over the documented 2K volumetric reference",
+		"continuous traversal, distant teleport, editing, and stale-work controls",
+		"durable edit-journal restart and authoritative post-restart query agreement",
+		"bounded frame, settlement, throughput, memory, resource, and queue regression ceilings",
+		"clean native resource shutdown"
+	],
+	"held_scope": [
+		"large-volume snapshot compaction recorded by TQP-F002",
+		"production frame-time, player-count, and gameplay budgets",
+		"multi-hour and multi-day long-haul certification",
+		"GPU and cross-hardware performance",
+		"integration-game suitability"
+	],
+	"explicit_non_claims": [
+		"no production terrain-runtime qualification",
+		"no compacted-snapshot qualification for the 2K volumetric profile",
+		"no GPU, cross-platform, networking, or gameplay qualification"
+	]
+}

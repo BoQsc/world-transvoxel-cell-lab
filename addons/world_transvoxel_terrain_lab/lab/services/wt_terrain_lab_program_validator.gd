@@ -20,6 +20,9 @@ const ObservatoryDiagnostics := preload(
 const VisualQualityQualification := preload(
 	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_visual_quality_qualification.gd"
 )
+const LargeTerrainSoakEvidence := preload(
+	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_large_terrain_soak_evidence.gd"
+)
 
 const PROGRAM_SCHEMA := "world_transvoxel.terrain_lab.program.v2"
 const LAB_SCOPE := "experimental_terrain_qualification"
@@ -104,6 +107,7 @@ static func validate(program: Dictionary, dependencies: Dictionary) -> Dictionar
 	_validate_visual_quality_corpus(program, milestone_by_id, failures)
 	_validate_phase_03_system_evidence(program, milestone_by_id, failures)
 	_validate_terrain_observatory_evidence(program, milestone_by_id, failures)
+	_validate_large_terrain_soak_evidence(program, milestone_by_id, failures)
 	_validate_visual_evidence(program, milestone_by_id, failures)
 	_validate_dependency_boundary(program, dependencies, failures)
 	_validate_source_boundary(failures)
@@ -228,7 +232,8 @@ static func _validate_evidence_files(program: Dictionary, failures: Array[String
 	for required in [
 		"TQP-D001", "TQP-D002", "TQP-D003", "TQP-D004", "TQP-D005",
 		"TQP-D006", "TQP-D007", "TQP-D008", "TQP-D009", "TQP-D010",
-		"TQP-D011", "TQP-D012", "TQP-D013", "TQP-D014",
+		"TQP-D011", "TQP-D012", "TQP-D013", "TQP-D014", "TQP-D015",
+		"TQP-D016",
 	]:
 		_expect(decision_ids.has(required), "missing retained decision: " + required, failures)
 	for key in [
@@ -256,6 +261,9 @@ static func _validate_evidence_files(program: Dictionary, failures: Array[String
 		"phase_03_system_evidence",
 		"terrain_observatory_standard",
 		"terrain_observatory_evidence",
+		"large_terrain_soak_standard",
+		"large_terrain_soak_evidence",
+		"large_volume_snapshot_finding",
 		"wave_02_first_batch_evidence",
 		"wave_02_second_batch_evidence",
 		"execution_plan",
@@ -821,6 +829,39 @@ static func _validate_phase_03_system_evidence(
 	)
 
 
+static func _validate_large_terrain_soak_evidence(
+	program: Dictionary,
+	milestone_by_id: Dictionary,
+	failures: Array[String]
+) -> void:
+	var standard := JsonLoader.load_dictionary(str(program.get("large_terrain_soak_standard", "")))
+	_expect(
+		str(standard.get("schema", ""))
+			== "world_transvoxel.terrain_lab.large_terrain_soak_standard.v1",
+		"TQP-27 large-terrain soak standard schema mismatch",
+		failures
+	)
+	var validation := LargeTerrainSoakEvidence.validate_retained()
+	if str(validation.get("status", "")) != "PASS":
+		for failure_value in validation.get("failures", []):
+			failures.append("TQP-27 large-terrain soak: " + str(failure_value))
+	_expect(
+		str((milestone_by_id.get("TQP-27", {}) as Dictionary).get("status", ""))
+			== "qualified",
+		"TQP-27 must match retained native large-terrain soak evidence",
+		failures
+	)
+	var finding := JsonLoader.load_dictionary(
+		str(program.get("large_volume_snapshot_finding", ""))
+	)
+	_expect(str(finding.get("id", "")) == "TQP-F002", "large-volume snapshot finding ID changed", failures)
+	_expect(str(finding.get("status", "")) == "OPEN_UPSTREAM_CAPACITY_LIMIT", "large-volume snapshot finding was closed without upstream evidence", failures)
+	_expect(
+		str((validation.get("persistence", {}) as Dictionary).get("large_volume_compaction_status", ""))
+			== "EXPECTED_CAPACITY_REJECTION",
+		"TQP-F002 negative control did not fail closed",
+		failures
+	)
 static func _validate_surface_shading_evidence(
 	program: Dictionary,
 	milestone_by_id: Dictionary,

@@ -1,0 +1,68 @@
+{
+	"schema": "world_transvoxel.terrain_lab.large_terrain_soak_standard.v1",
+	"milestone": "TQP-27",
+	"standard_id": "native_large_terrain_soak_windows_v1",
+	"authority": "world_transvoxel_native_runtime",
+	"evidence": "res://labs/terrain_lab/results/large_terrain_soak_reference_windows.json",
+	"runtime_profile": {
+		"platform": "Windows",
+		"build": "debug_reference",
+		"worker_count": 2,
+		"viewer_radius_chunks": 1,
+		"maximum_lod": 1,
+		"active_chunk_capacity": 128,
+		"volume_chunks": [128, 16, 128],
+		"vertical_chunk_origin": -8,
+		"volume_cells": [2048, 256, 2048]
+	},
+	"workload": {
+		"minimum_duration_ms": 15000,
+		"continuous_traversal_steps": 24,
+		"minimum_teleports": 4,
+		"minimum_committed_edits": 4,
+		"minimum_virtual_span_m": 1900.0,
+		"minimum_catalog_pages": 250000,
+		"minimum_unique_render_chunks": 100,
+		"required_failure_scenarios": ["stale_viewer_revision", "stale_edit_transaction"],
+		"requires_durable_journal_restart": true,
+		"requires_authoritative_post_restart_queries": true,
+		"requires_clean_resource_shutdown": true,
+		"large_volume_compaction_policy": "fail_closed_capacity_control",
+		"expected_compaction_error": "world snapshot manifest validation failed"
+	},
+	"budgets": {
+		"minimum_frame_samples": 60,
+		"maximum_frame_p99_usec": 250000.0,
+		"maximum_frame_usec": 2000000.0,
+		"maximum_viewer_update_p95_usec": 10000.0,
+		"maximum_settlement_p95_usec": 4000000.0,
+		"minimum_settled_windows_per_second": 0.5,
+		"maximum_snapshot_capacity_control_usec": 10000000.0,
+		"maximum_restart_settlement_usec": 10000000.0,
+		"maximum_memory_bytes": 805306368,
+		"maximum_transient_chunk_records": 256,
+		"maximum_non_retiring_chunks": 128,
+		"maximum_render_resources": 128,
+		"maximum_collision_resources": 128,
+		"maximum_render_queue": 128,
+		"maximum_collision_queue": 128
+	},
+	"budget_basis": "The frame, hitch, and memory ceilings are inherited from the world-transvoxel production full-world Godot soak. Two complete Windows debug calibration runs observed settlement p95 values of 2166763 and 3095576 usec; 4000000 usec is the bounded regression ceiling. Update, persistence, and throughput limits are reference ceilings, not production frame-time targets.",
+	"qualified_scope": [
+		"native world-transvoxel procedural terrain streaming over a roughly two-kilometre reference span",
+		"continuous traversal and distant teleport settlement",
+		"native edit publication and authoritative query agreement during the soak",
+		"stale viewer and stale edit rejection while the world remains usable",
+		"durable edit-journal restart and post-restart authoritative query agreement",
+		"fail-closed negative control for unsupported large-volume snapshot compaction",
+		"bounded Windows debug frame, throughput, memory, queue, resource, and shutdown regression ceilings"
+	],
+	"explicitly_unqualified_scope": [
+		"production frame-time or player-count budgets",
+		"multi-hour or multi-day long-haul certification",
+		"GPU meshing, GPU residency, or driver performance",
+		"cross-hardware and non-Windows performance",
+		"large-volume snapshot compaction beyond the current native page and byte capacities",
+		"production navigation, gameplay, networking, or integration-game suitability"
+	]
+}

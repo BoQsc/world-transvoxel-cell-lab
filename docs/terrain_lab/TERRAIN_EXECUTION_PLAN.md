@@ -15,7 +15,9 @@ required evidence state.
 - `TQP-WAVE-00` is complete: TQP-01 through TQP-14.
 - `TQP-WAVE-01` is complete: TQP-15, TQP-16, and TQP-17 are qualified for
   their declared native Windows reference scopes.
-- `TQP-WAVE-02` is active.
+- `TQP-WAVE-02` is complete: TQP-18 through TQP-27 are qualified for their
+  declared bounded reference scopes.
+- `TQP-WAVE-03` is active.
 - The first Wave 02 step is complete: TQP-18, TQP-19, and TQP-20 are qualified
   for their declared reference scopes.
 - TQP-22 in the second step is qualified for its horizontal CPU reference.
@@ -29,7 +31,10 @@ required evidence state.
 - TQP-25 is qualified for its bounded four-fixture Windows reference corpus
   through `TQP-D015`; the decision closes `TQP-F001` only for that declared
   scope and retains production and cross-hardware visual quality as unqualified.
-- TQP-27 is the next dependency-ordered qualification target.
+- TQP-27 is qualified through `TQP-D016` for its native Windows 2K volumetric
+  reference soak. `TQP-F002` retains unsupported large-volume snapshot
+  compaction; durable edit-journal restart is the qualified save/load path.
+- TQP-28 through TQP-32 are the next dependency-ordered parallel targets.
 - GPU and production waves remain blocked by absent candidate implementations.
 
 ## Waves

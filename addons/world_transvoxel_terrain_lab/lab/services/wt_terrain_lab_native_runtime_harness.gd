@@ -59,16 +59,23 @@ func create_runtime(worker_count: int = 2) -> bool:
 	return true
 
 
-func start_flat_world(object_root: String, source_revision: int) -> bool:
+func start_flat_world(
+	object_root: String,
+	source_revision: int,
+	chunk_count_x: int = 8,
+	chunk_count_y: int = 4,
+	chunk_origin_y: int = -2,
+	chunk_count_z: int = 8
+) -> bool:
 	if terrain == null:
 		return false
 	ensure_directory(object_root)
 	if not bool(terrain.call(
 		"start_flat_world_with_vertical_origin",
-		8,
-		4,
-		-2,
-		8,
+		chunk_count_x,
+		chunk_count_y,
+		chunk_origin_y,
+		chunk_count_z,
 		source_revision,
 		object_root
 	)):

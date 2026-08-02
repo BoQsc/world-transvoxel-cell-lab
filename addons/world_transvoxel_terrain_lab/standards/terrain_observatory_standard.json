@@ -54,6 +54,6 @@
 		"production terrain runtime residency",
 		"GPU timestamps and driver memory accounting",
 		"non-Windows repro portability",
-		"TQP-27 large-terrain performance and soak"
+		"multi-hour production performance monitoring"
 	]
 }

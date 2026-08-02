@@ -1,0 +1,27 @@
+{
+	"schema": "world_transvoxel.terrain_lab.finding.v1",
+	"id": "TQP-F002",
+	"title": "Large-volume snapshot compaction capacity",
+	"status": "OPEN_UPSTREAM_CAPACITY_LIMIT",
+	"reported_by": "TQP-27 native large-terrain soak",
+	"reported_on": "2026-08-02",
+	"observed_in": "128 x 16 x 128 procedural volumetric reference",
+	"classification": "PERSISTENCE_SCALABILITY_LIMIT",
+	"observations": [
+		"The documented 2K volumetric procedural profile contains roughly 299,520 catalog pages across its LOD hierarchy.",
+		"The native snapshot path rejects this procedural catalog during snapshot-manifest validation before compaction.",
+		"The snapshot store also declares a separate 4,096-page source capacity, far below this profile's catalog size.",
+		"The same large world reopens successfully from its procedural source and durable edit journal, preserving committed authoritative samples.",
+		"The rejection is deterministic, explicit, and leaves no partially published output directory."
+	],
+	"bounded_conclusion": [
+		"Large-world durable journal save/load can be qualified independently of snapshot compaction.",
+		"Large-volume compacted snapshots are not qualified and must not be inferred from TQP-16 small-fixture compaction evidence.",
+		"No evidence attributes this limit to Transvoxel meshing tables or terrain geometry correctness."
+	],
+	"disposition": {
+		"TQP-27": "Retain the deterministic capacity rejection as a required negative control and qualify only durable journal restart.",
+		"upstream": "Replace or extend the bounded all-pages snapshot path before claiming compacted snapshots for the 2K volumetric profile.",
+		"production": "Keep large-volume compaction unqualified until an upstream implementation passes equivalent large-world save, recovery, memory, and atomic-publication evidence."
+	}
+}

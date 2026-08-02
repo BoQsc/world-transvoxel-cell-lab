@@ -5,19 +5,19 @@
 	"status_counts": {
 		"proposed": 0,
 		"specified": 1,
-		"implemented": 7,
-		"qualified": 26,
+		"implemented": 6,
+		"qualified": 27,
 		"production": 0,
 		"blocked": 12
 	},
 	"proposed_milestone_count": 0,
 	"specified_milestone_count": 1,
-	"qualified_milestone_count": 26,
+	"qualified_milestone_count": 27,
 	"gate_statuses": {
 		"GATE_A": "QUALIFIED",
 		"GATE_B": "QUALIFIED",
 		"GATE_C": "QUALIFIED",
-		"GATE_D": "SPECIFIED",
+		"GATE_D": "QUALIFIED",
 		"GATE_E": "CLOSED",
 		"GATE_F": "CLOSED"
 	},
@@ -130,7 +130,7 @@
 				"GPU field evaluation",
 				"TQP-28 fragmentation, collision, and production cost"
 			],
-			"elapsed_ms": 111935.322,
+			"elapsed_ms": 86572.924,
 			"provenance": {
 				"workload_signature": "edit_semantics_reference_v1",
 				"build_type": "debug",
@@ -143,8 +143,8 @@
 				"backend_revision": "7745271430da87604095038288ca0f668dff74e7c01b9b62361207c2530e7cc5"
 			},
 			"memory": {
-				"retained_bytes": 29780974,
-				"peak_bytes": 72979470
+				"retained_bytes": 29868453,
+				"peak_bytes": 73066949
 			},
 			"gate_b": {
 				"schema": "world_transvoxel.terrain_lab.edit_gate_b_qualification.v1",
@@ -178,7 +178,7 @@
 								],
 								"geometry_signature": "47a2219c0eaea6e3364797b228a756647af88d080887d011a0b83b86d0e68792",
 								"collision_signature": "3d4e05d601f943907691165f980c2fe7d5927adc0348432111cbb3e679736eac",
-								"elapsed_usec": 104337,
+								"elapsed_usec": 120880,
 								"failures": []
 							},
 							{
@@ -192,7 +192,7 @@
 								],
 								"geometry_signature": "047d15519714ea6b765987f4d8539693c91dc4e9516ad8ce00f4afd8855a7408",
 								"collision_signature": "511adbe35c25c1750ca8ed8ddb8758250a3b46d299f9840999f7ad578e98a555",
-								"elapsed_usec": 89532,
+								"elapsed_usec": 116134,
 								"failures": []
 							},
 							{
@@ -206,7 +206,7 @@
 								],
 								"geometry_signature": "53b72bcf767731b341c57b1fdee0d0725fc29fed1b46abc72ad346a98400372f",
 								"collision_signature": "35bd93e68a92bff43383e59d54ff20baf77e3c64858340949a9cae097e02ea24",
-								"elapsed_usec": 93595,
+								"elapsed_usec": 101522,
 								"failures": []
 							},
 							{
@@ -220,7 +220,7 @@
 								],
 								"geometry_signature": "2502d395952d5b37e118aeea66d90137f386de44027533a0945622e9bbd5de13",
 								"collision_signature": "57148b1fa32c05bf592b25b0bd286bf1c96d0a0144194a1d0cf814d4cbfd0cd2",
-								"elapsed_usec": 694802,
+								"elapsed_usec": 93833,
 								"failures": []
 							},
 							{
@@ -234,7 +234,7 @@
 								],
 								"geometry_signature": "03efb765b05d9590686c78715b49f3fc22a070192998bd5ca61592d636c95087",
 								"collision_signature": "781c1f0535e47b2f6bac029ab21bbc829f6699b817fd9d58a1d857ad4611f582",
-								"elapsed_usec": 372649,
+								"elapsed_usec": 88368,
 								"failures": []
 							},
 							{
@@ -248,7 +248,7 @@
 								],
 								"geometry_signature": "19e7bd5098200d48c0092d0d8a5f480072c2f15b6d387e80da5654681b480ab6",
 								"collision_signature": "7f381183b3777b01be0c566679462431118e4ff0c0f67eca6211175f9d699d37",
-								"elapsed_usec": 149150,
+								"elapsed_usec": 84661,
 								"failures": []
 							},
 							{
@@ -262,16 +262,16 @@
 								],
 								"geometry_signature": "afd8f0d1a43c49d564b3bf13b8c04dab4819cbc5724c4b078300acc1aa548cd9",
 								"collision_signature": "031d62a09266ca78cafe3d582be7b2f5c877204adab1fe014e312913b736f83b",
-								"elapsed_usec": 157221,
+								"elapsed_usec": 84477,
 								"failures": []
 							}
 						],
 						"performance": {
 							"sample_count": 100,
-							"p50_usec": 1337.0,
-							"p95_usec": 9309.0,
-							"p99_usec": 12960.0,
-							"worst_usec": 13135.0
+							"p50_usec": 1076.0,
+							"p95_usec": 1449.0,
+							"p99_usec": 1808.0,
+							"worst_usec": 2880.0
 						}
 					},
 					{
@@ -3342,29 +3342,29 @@
 						"performance": {
 							"transaction_append": {
 								"sample_count": 246,
-								"p50_usec": 485.0,
-								"p95_usec": 1491.0,
-								"p99_usec": 5872.0,
-								"worst_usec": 6165.0
+								"p50_usec": 435.0,
+								"p95_usec": 814.0,
+								"p99_usec": 1274.0,
+								"worst_usec": 2760.0
 							},
 							"query_batch_64": {
 								"sample_count": 100,
-								"p50_usec": 711.0,
-								"p95_usec": 1490.0,
-								"p99_usec": 3675.0,
-								"worst_usec": 5562.0
+								"p50_usec": 675.0,
+								"p95_usec": 1096.0,
+								"p99_usec": 1318.0,
+								"worst_usec": 2537.0
 							},
 							"native_chunk_rebuild": {
 								"sample_count": 100,
-								"p50_usec": 338642.0,
-								"p95_usec": 568650.0,
-								"p99_usec": 729908.0,
-								"worst_usec": 1068004.0
+								"p50_usec": 287415.0,
+								"p95_usec": 420334.0,
+								"p99_usec": 486971.0,
+								"worst_usec": 701710.0
 							}
 						},
 						"memory": {
-							"retained_bytes": 57847182,
-							"peak_bytes": 72979470
+							"retained_bytes": 57934661,
+							"peak_bytes": 73066949
 						}
 					}
 				],
@@ -3428,10 +3428,10 @@
 					"scope": "reference_debug_workload_not_production_frame_budget",
 					"budget_evaluation": "OBSERVATION_ONLY_COMBINED_RUN",
 					"measured": {
-						"brush_batch_p95_usec": 9309.0,
-						"transaction_append_p95_usec": 1491.0,
-						"query_batch_64_p95_usec": 1490.0,
-						"native_chunk_rebuild_p95_usec": 568650.0,
+						"brush_batch_p95_usec": 1449.0,
+						"transaction_append_p95_usec": 814.0,
+						"query_batch_64_p95_usec": 1096.0,
+						"native_chunk_rebuild_p95_usec": 420334.0,
 						"journal_bytes": 946099,
 						"largest_spatial_bucket": 15
 					},
@@ -3484,10 +3484,10 @@
 					"backend_revision": "7745271430da87604095038288ca0f668dff74e7c01b9b62361207c2530e7cc5"
 				},
 				"memory": {
-					"retained_bytes": 29783714,
-					"peak_bytes": 72979470
+					"retained_bytes": 29871193,
+					"peak_bytes": 73066949
 				},
-				"elapsed_ms": 111932.311,
+				"elapsed_ms": 86570.05,
 				"failures": []
 			},
 			"milestones": [
@@ -3525,7 +3525,7 @@
 							],
 							"geometry_signature": "47a2219c0eaea6e3364797b228a756647af88d080887d011a0b83b86d0e68792",
 							"collision_signature": "3d4e05d601f943907691165f980c2fe7d5927adc0348432111cbb3e679736eac",
-							"elapsed_usec": 104337,
+							"elapsed_usec": 120880,
 							"failures": []
 						},
 						{
@@ -3539,7 +3539,7 @@
 							],
 							"geometry_signature": "047d15519714ea6b765987f4d8539693c91dc4e9516ad8ce00f4afd8855a7408",
 							"collision_signature": "511adbe35c25c1750ca8ed8ddb8758250a3b46d299f9840999f7ad578e98a555",
-							"elapsed_usec": 89532,
+							"elapsed_usec": 116134,
 							"failures": []
 						},
 						{
@@ -3553,7 +3553,7 @@
 							],
 							"geometry_signature": "53b72bcf767731b341c57b1fdee0d0725fc29fed1b46abc72ad346a98400372f",
 							"collision_signature": "35bd93e68a92bff43383e59d54ff20baf77e3c64858340949a9cae097e02ea24",
-							"elapsed_usec": 93595,
+							"elapsed_usec": 101522,
 							"failures": []
 						},
 						{
@@ -3567,7 +3567,7 @@
 							],
 							"geometry_signature": "2502d395952d5b37e118aeea66d90137f386de44027533a0945622e9bbd5de13",
 							"collision_signature": "57148b1fa32c05bf592b25b0bd286bf1c96d0a0144194a1d0cf814d4cbfd0cd2",
-							"elapsed_usec": 694802,
+							"elapsed_usec": 93833,
 							"failures": []
 						},
 						{
@@ -3581,7 +3581,7 @@
 							],
 							"geometry_signature": "03efb765b05d9590686c78715b49f3fc22a070192998bd5ca61592d636c95087",
 							"collision_signature": "781c1f0535e47b2f6bac029ab21bbc829f6699b817fd9d58a1d857ad4611f582",
-							"elapsed_usec": 372649,
+							"elapsed_usec": 88368,
 							"failures": []
 						},
 						{
@@ -3595,7 +3595,7 @@
 							],
 							"geometry_signature": "19e7bd5098200d48c0092d0d8a5f480072c2f15b6d387e80da5654681b480ab6",
 							"collision_signature": "7f381183b3777b01be0c566679462431118e4ff0c0f67eca6211175f9d699d37",
-							"elapsed_usec": 149150,
+							"elapsed_usec": 84661,
 							"failures": []
 						},
 						{
@@ -3609,16 +3609,16 @@
 							],
 							"geometry_signature": "afd8f0d1a43c49d564b3bf13b8c04dab4819cbc5724c4b078300acc1aa548cd9",
 							"collision_signature": "031d62a09266ca78cafe3d582be7b2f5c877204adab1fe014e312913b736f83b",
-							"elapsed_usec": 157221,
+							"elapsed_usec": 84477,
 							"failures": []
 						}
 					],
 					"performance": {
 						"sample_count": 100,
-						"p50_usec": 1337.0,
-						"p95_usec": 9309.0,
-						"p99_usec": 12960.0,
-						"worst_usec": 13135.0
+						"p50_usec": 1076.0,
+						"p95_usec": 1449.0,
+						"p99_usec": 1808.0,
+						"worst_usec": 2880.0
 					}
 				},
 				{
@@ -6689,29 +6689,29 @@
 					"performance": {
 						"transaction_append": {
 							"sample_count": 246,
-							"p50_usec": 485.0,
-							"p95_usec": 1491.0,
-							"p99_usec": 5872.0,
-							"worst_usec": 6165.0
+							"p50_usec": 435.0,
+							"p95_usec": 814.0,
+							"p99_usec": 1274.0,
+							"worst_usec": 2760.0
 						},
 						"query_batch_64": {
 							"sample_count": 100,
-							"p50_usec": 711.0,
-							"p95_usec": 1490.0,
-							"p99_usec": 3675.0,
-							"worst_usec": 5562.0
+							"p50_usec": 675.0,
+							"p95_usec": 1096.0,
+							"p99_usec": 1318.0,
+							"worst_usec": 2537.0
 						},
 						"native_chunk_rebuild": {
 							"sample_count": 100,
-							"p50_usec": 338642.0,
-							"p95_usec": 568650.0,
-							"p99_usec": 729908.0,
-							"worst_usec": 1068004.0
+							"p50_usec": 287415.0,
+							"p95_usec": 420334.0,
+							"p99_usec": 486971.0,
+							"worst_usec": 701710.0
 						}
 					},
 					"memory": {
-						"retained_bytes": 57847182,
-						"peak_bytes": 72979470
+						"retained_bytes": 57934661,
+						"peak_bytes": 73066949
 					}
 				},
 				{
@@ -6874,18 +6874,18 @@
 					},
 					"performance": {
 						"sample_count": 100,
-						"p50_usec": 3595.0,
-						"p95_usec": 8158.0,
-						"p99_usec": 10252.0,
-						"worst_usec": 18337.0,
+						"p50_usec": 3258.0,
+						"p95_usec": 3891.0,
+						"p99_usec": 4203.0,
+						"worst_usec": 4311.0,
 						"warmup_iterations": 10,
 						"blends_per_sample": 512,
 						"budget_p95_usec": 30000.0,
 						"budget_evaluation": "OBSERVATION_ONLY_COMBINED_RUN"
 					},
 					"memory": {
-						"retained_bytes": 29809182,
-						"peak_bytes": 72979470
+						"retained_bytes": 29896661,
+						"peak_bytes": 73066949
 					},
 					"provenance": {
 						"workload_signature": "tqp18_material_blending_reference_v1",
@@ -7046,10 +7046,10 @@
 					},
 					"performance": {
 						"sample_count": 100,
-						"p50_usec": 6900.0,
-						"p95_usec": 11984.0,
-						"p99_usec": 17909.0,
-						"worst_usec": 18395.0,
+						"p50_usec": 5919.0,
+						"p95_usec": 6744.0,
+						"p99_usec": 7042.0,
+						"worst_usec": 7073.0,
 						"warmup_iterations": 10,
 						"mapping_operations_per_sample": 2048,
 						"budget_p95_usec": 50000.0,
@@ -7057,8 +7057,8 @@
 						"budget_evaluation": "OBSERVATION_ONLY_COMBINED_RUN"
 					},
 					"memory": {
-						"retained_bytes": 29833210,
-						"peak_bytes": 72979470
+						"retained_bytes": 29920689,
+						"peak_bytes": 73066949
 					},
 					"provenance": {
 						"workload_signature": "tqp21_reference_triplanar_texture_array_v1",
@@ -7175,10 +7175,10 @@
 					},
 					"performance": {
 						"sample_count": 100,
-						"p50_usec": 18332.0,
-						"p95_usec": 25101.0,
-						"p99_usec": 28989.0,
-						"worst_usec": 38984.0,
+						"p50_usec": 14905.0,
+						"p95_usec": 15704.0,
+						"p99_usec": 16534.0,
+						"worst_usec": 16975.0,
 						"warmup_iterations": 10,
 						"operations_per_sample": 4096,
 						"budget_p95_usec": 50000.0,
@@ -7186,8 +7186,8 @@
 						"budget_evaluation": "OBSERVATION_ONLY_COMBINED_RUN"
 					},
 					"memory": {
-						"retained_bytes": 29852470,
-						"peak_bytes": 72979470
+						"retained_bytes": 29939949,
+						"peak_bytes": 73066949
 					},
 					"provenance": {
 						"workload_signature": "tqp23_reference_surface_shading_v1",
@@ -7340,7 +7340,7 @@
 				"TQP-22": "qualified",
 				"TQP-24": "qualified",
 				"TQP-26": "qualified_terrain_observatory_diagnostics",
-				"TQP-27": "implemented_pending_real_large_terrain_soak"
+				"TQP-27": "qualified_native_windows_large_terrain_soak"
 			},
 			"qualified_scope": [
 				"TQP-06 deterministic reference chunk lifecycle",
@@ -7350,7 +7350,8 @@
 				"TQP-20 CPU large-world coordinate reference model",
 				"TQP-22 CPU horizontal visibility and residency reference model",
 				"TQP-24 native Windows Godot collision, query, and navigation publication reference",
-				"TQP-26 deterministic diagnostic snapshots and signed repro export"
+				"TQP-26 deterministic diagnostic snapshots and signed repro export",
+				"TQP-27 bounded native Windows 2K volumetric terrain performance and soak"
 			],
 			"explicitly_unqualified_scope": [
 				"production terrain mesh residency",
@@ -7358,7 +7359,7 @@
 				"snapshot atomicity on filesystems outside the Windows reference platform",
 				"automatic abandoned snapshot staging cleanup",
 				"production traversal and memory budgets",
-				"TQP-27 real large-terrain performance and soak qualification"
+				"large-volume snapshot compaction beyond current native manifest and page capacities"
 			],
 			"provenance": {
 				"workload_signature": "terrain_system_reference_v1",
@@ -7679,18 +7680,18 @@
 					},
 					"performance": {
 						"sample_count": 100,
-						"p50_usec": 45716.0,
-						"p95_usec": 58637.0,
-						"p99_usec": 67250.0,
-						"worst_usec": 69193.0,
+						"p50_usec": 33434.0,
+						"p95_usec": 36796.0,
+						"p99_usec": 91826.0,
+						"worst_usec": 115116.0,
 						"warmup_iterations": 10,
 						"path_updates_per_sample": 64,
 						"budget_p95_usec": 150000.0,
 						"budget_evaluation": "OBSERVATION_ONLY_COMBINED_RUN"
 					},
 					"memory": {
-						"retained_bytes": 29949370,
-						"peak_bytes": 72979470
+						"retained_bytes": 30036849,
+						"peak_bytes": 73066949
 					},
 					"provenance": {
 						"workload_signature": "tqp19_streaming_window_reference_v1",
@@ -7892,18 +7893,18 @@
 					},
 					"performance": {
 						"sample_count": 100,
-						"p50_usec": 4561.0,
-						"p95_usec": 9924.0,
-						"p99_usec": 15498.0,
-						"worst_usec": 27252.0,
+						"p50_usec": 4173.0,
+						"p95_usec": 5001.0,
+						"p99_usec": 5316.0,
+						"worst_usec": 5372.0,
 						"warmup_iterations": 10,
 						"coordinate_round_trips_per_sample": 1024,
 						"budget_p95_usec": 15000.0,
 						"budget_evaluation": "OBSERVATION_ONLY_COMBINED_RUN"
 					},
 					"memory": {
-						"retained_bytes": 29979082,
-						"peak_bytes": 72979470
+						"retained_bytes": 30066561,
+						"peak_bytes": 73066949
 					},
 					"provenance": {
 						"workload_signature": "tqp20_cpu_large_world_coordinate_reference_v1",
@@ -8012,10 +8013,10 @@
 					},
 					"performance": {
 						"sample_count": 100,
-						"p50_usec": 117208.0,
-						"p95_usec": 141683.0,
-						"p99_usec": 148293.0,
-						"worst_usec": 153453.0,
+						"p50_usec": 83290.0,
+						"p95_usec": 87995.0,
+						"p99_usec": 89711.0,
+						"worst_usec": 90381.0,
 						"warmup_iterations": 10,
 						"views_per_sample": 16,
 						"budget_p95_usec": 300000.0,
@@ -8023,8 +8024,8 @@
 						"budget_evaluation": "OBSERVATION_ONLY_COMBINED_RUN"
 					},
 					"memory": {
-						"retained_bytes": 29996038,
-						"peak_bytes": 72979470
+						"retained_bytes": 30083517,
+						"peak_bytes": 73066949
 					},
 					"provenance": {
 						"workload_signature": "tqp22_cpu_horizontal_visibility_residency_reference_v1",
@@ -8456,7 +8457,7 @@
 						"production terrain runtime residency",
 						"GPU timestamps and driver memory accounting",
 						"non-Windows repro portability",
-						"TQP-27 large-terrain performance and soak"
+						"multi-hour production performance monitoring"
 					],
 					"provenance": {
 						"workload_signature": "tqp26_terrain_observatory_diagnostics_v1",
@@ -8472,26 +8473,451 @@
 					"failures": []
 				},
 				{
+					"schema": "world_transvoxel.terrain_lab.large_terrain_soak_qualification.v1",
 					"milestone": "TQP-27",
+					"standard_id": "native_large_terrain_soak_windows_v1",
+					"authority": "world_transvoxel_native_runtime",
 					"status": "PASS",
-					"fixture_count": 10000,
-					"failures": [],
+					"provenance": {
+						"workload_signature": "tqp27_native_large_terrain_soak_windows_v1",
+						"build_type": "debug",
+						"os": "Windows",
+						"architecture": "x86_64",
+						"cpu": "Intel(R) Core(TM) i5-7300HQ CPU @ 2.50GHz",
+						"gpu": "",
+						"driver": "opengl3",
+						"godot_version": "4.7.1-stable (steam)",
+						"backend_revision": "7745271430da87604095038288ca0f668dff74e7c01b9b62361207c2530e7cc5"
+					},
+					"coverage": {
+						"requested_duration_ms": 15000.0,
+						"actual_duration_ms": 30184.0,
+						"movement_settlements": 29.0,
+						"continuous_traversal_steps": 24.0,
+						"teleports": 4.0,
+						"committed_edits": 4.0,
+						"virtual_span_m": 1984.0,
+						"unique_render_chunks": 295.0,
+						"unique_collision_chunks": 295.0,
+						"stale_viewer_revision_rejected": true,
+						"stale_edit_transaction_rejected": true,
+						"post_restart_query_count": 4.0,
+						"shutdown_clean": true
+					},
 					"performance": {
-						"sample_count": 100,
-						"p50_usec": 1683.0,
-						"p95_usec": 6606.0,
-						"p99_usec": 9150.0,
-						"worst_usec": 13472.0,
-						"target_p95_usec": 4000.0,
-						"target_status": "EXCEEDED",
-						"budget_evaluation": "OBSERVATION_ONLY_IMPLEMENTED_MILESTONE"
+						"frame": {
+							"sample_count": 4170.0,
+							"p50_usec": 6899.0,
+							"p95_usec": 13204.0,
+							"p99_usec": 33765.0,
+							"worst_usec": 127072.0
+						},
+						"viewer_update": {
+							"sample_count": 29.0,
+							"p50_usec": 8.0,
+							"p95_usec": 1909.0,
+							"p99_usec": 9208.0,
+							"worst_usec": 9208.0
+						},
+						"window_settlement": {
+							"sample_count": 29.0,
+							"p50_usec": 883926.0,
+							"p95_usec": 2501421.0,
+							"p99_usec": 2791471.0,
+							"worst_usec": 2791471.0
+						},
+						"edit_commit_to_settlement": {
+							"sample_count": 4.0,
+							"p50_usec": 219929.0,
+							"p95_usec": 1031669.0,
+							"p99_usec": 1031669.0,
+							"worst_usec": 1031669.0
+						},
+						"settled_windows_per_second": 0.960773919957593,
+						"snapshot_capacity_control_usec": 6583.0,
+						"restart_to_settlement_usec": 904575.0
 					},
-					"memory": {
-						"retained_bytes": 31086098,
-						"peak_bytes": 72979470
+					"resources": {
+						"maximum_memory_bytes": 32402674.0,
+						"maximum_transient_chunk_records": 175.0,
+						"maximum_non_retiring_chunks": 92.0,
+						"maximum_render_resources": 45.0,
+						"maximum_collision_resources": 45.0,
+						"maximum_render_queue": 0.0,
+						"maximum_collision_queue": 2.0
 					},
-					"retained_chunk_count": 127,
-					"qualification_scope": "REFERENCE_MODEL_NOT_PRODUCTION_TERRAIN"
+					"persistence": {
+						"save_mode": "durable_edit_journal_replay",
+						"catalog_page_count": 299520.0,
+						"journal_restart_status": "PASS",
+						"post_restart_query_count": 4.0,
+						"post_restart_queries_agreed": true,
+						"large_volume_compaction_status": "EXPECTED_CAPACITY_REJECTION",
+						"large_volume_compaction_error": "world snapshot manifest validation failed",
+						"partial_compaction_output_exists": false
+					},
+					"runtime_metrics": {
+						"source": {
+							"world_running": true,
+							"viewer_updates": 28.0,
+							"viewer_removals": 0.0,
+							"collision_viewer_updates": 0.0,
+							"collision_viewer_removals": 0.0,
+							"coalesced_viewer_events": 0.0,
+							"planned_demands": 1846.0,
+							"sample_jobs": 1194.0,
+							"mesh_jobs": 1193.0,
+							"sample_job_time_ns_last": 11100.0,
+							"sample_job_time_ns_total": 364704600.0,
+							"sample_job_time_ns_maximum": 24997200.0,
+							"mesh_job_time_ns_last": 6404900.0,
+							"mesh_job_time_ns_total": 14522579500.0,
+							"mesh_job_time_ns_maximum": 145641300.0,
+							"storage_completions": 4010.0,
+							"mesh_completions": 1193.0,
+							"transition_mesh_completions": 203.0,
+							"edit_commits": 4.0,
+							"edit_rejections": 1.0,
+							"edit_replacements": 4.0,
+							"edit_lod_retention_zones": 4.0,
+							"edit_lod_retention_active_viewers": 0.0,
+							"edit_lod_retention_plans": 1.0,
+							"edit_lod_retention_fallbacks": 3.0,
+							"sample_queries": 4.0,
+							"sample_query_rejections": 0.0,
+							"world_snapshots": 0.0,
+							"world_snapshot_rejections": 1.0,
+							"published_events": 7329.0,
+							"rejected_events": 1.0,
+							"scheduler_requested_records": 0.0,
+							"scheduler_sampling_records": 0.0,
+							"scheduler_meshing_records": 0.0,
+							"scheduler_ready_records": 83.0,
+							"scheduler_failed_records": 0.0,
+							"scheduler_queued_jobs": 0.0,
+							"scheduler_queued_completions": 0.0,
+							"scheduler_queue_rejections": 0.0,
+							"storage_queued_requests": 0.0,
+							"storage_queued_completions": 0.0,
+							"storage_active_requests": 0.0,
+							"storage_accepted_requests": 4010.0,
+							"storage_started_requests": 4010.0,
+							"storage_completed_requests": 4010.0,
+							"storage_request_queue_rejections": 95.0,
+							"storage_duplicate_requests": 550.0,
+							"storage_successful_pages": 4010.0,
+							"storage_load_time_ns_last": 2324700.0,
+							"storage_load_time_ns_total": 10274327700.0,
+							"storage_load_time_ns_maximum": 90595100.0,
+							"storage_worker_count": 2.0,
+							"storage_in_flight_requests": 0.0,
+							"storage_maximum_in_flight_requests": 2.0,
+							"storage_in_flight_elapsed_ns": 0.0,
+							"storage_in_flight_key_x": 0.0,
+							"storage_in_flight_key_y": 0.0,
+							"storage_in_flight_key_z": 0.0,
+							"storage_in_flight_key_lod": 0.0,
+							"storage_in_flight_generation": 0.0,
+							"page_sample_failures": 0.0,
+							"page_mesh_failures": 0.0,
+							"page_storage_failures": 0.0,
+							"page_cache_failures": 0.0,
+							"page_scheduler_backpressure": 0.0,
+							"page_dependency_requests": 4010.0,
+							"page_dependency_reprioritizations": 0.0,
+							"page_dependency_cache_hits": 1266.0,
+							"page_dependency_cache_misses": 4655.0,
+							"page_accepted_storage_completions": 4560.0,
+							"page_stale_storage_completions": 0.0,
+							"page_cache_encoded_entries": 128.0,
+							"page_cache_decoded_entries": 128.0,
+							"page_cache_encoded_hits": 4057.0,
+							"page_cache_encoded_misses": 6105.0,
+							"page_cache_encoded_insertions": 4010.0,
+							"page_cache_encoded_refreshes": 0.0,
+							"page_cache_encoded_evictions": 3606.0,
+							"page_cache_decoded_hits": 1769.0,
+							"page_cache_decoded_misses": 10162.0,
+							"page_cache_decoded_insertions": 4057.0,
+							"page_cache_decoded_evictions": 3635.0,
+							"page_loading_records": 0.0,
+							"page_sample_ready_records": 0.0,
+							"page_awaiting_mesh_records": 0.0,
+							"page_mesh_ready_records": 0.0,
+							"page_ready_records": 83.0,
+							"page_unresolved_dependencies": 371.0,
+							"page_pending_dependency_requests": 0.0,
+							"page_pinned_pages": 0.0,
+							"page_last_failure_key_x": 0.0,
+							"page_last_failure_key_y": 0.0,
+							"page_last_failure_key_z": 0.0,
+							"page_last_failure_key_lod": 0.0,
+							"application_submitted_render": 2251.0,
+							"application_submitted_collision": 2821.0,
+							"application_applied_render": 2188.0,
+							"application_applied_collision": 2747.0,
+							"application_stale_render": 63.0,
+							"application_last_stale_render_key_x": 62.0,
+							"application_last_stale_render_key_y": 0.0,
+							"application_last_stale_render_key_z": 62.0,
+							"application_last_stale_render_key_lod": 0.0,
+							"application_last_stale_render_generation": 1153.0,
+							"application_last_stale_render_record_generation": 1194.0,
+							"application_stale_collision": 74.0,
+							"application_unrequired_collision": 0.0,
+							"application_sink_failures": 0.0,
+							"application_queue_rejections": 0.0,
+							"render_latency_frames_maximum": 3.0,
+							"collision_latency_frames_maximum": 4.0,
+							"collision_apply_time_ns_last": 200.0,
+							"collision_apply_time_ns_maximum": 33987800.0,
+							"collision_apply_time_ns_total": 552046800.0,
+							"collision_apply_deadline_exhaustions": 0.0,
+							"collision_apply_deadline_ns": 12000000.0,
+							"collision_apply_frame_time_ns_last": 575000.0,
+							"collision_apply_frame_time_ns_total": 552046800.0,
+							"collision_apply_frame_time_ns_maximum": 33987800.0,
+							"collision_apply_frame_items_last": 1.0,
+							"collision_apply_frame_items_maximum": 2.0,
+							"collision_apply_frame_deadline_overruns": 1.0,
+							"active_chunk_records": 83.0,
+							"visual_ready_chunk_records": 83.0,
+							"visual_required_chunk_records": 83.0,
+							"collision_ready_chunk_records": 83.0,
+							"collision_required_chunk_records": 83.0,
+							"collision_required_not_ready_chunk_records": 0.0,
+							"first_collision_not_ready_key_x": 0.0,
+							"first_collision_not_ready_key_y": 0.0,
+							"first_collision_not_ready_key_z": 0.0,
+							"first_collision_not_ready_key_lod": 0.0,
+							"first_collision_not_ready_generation": 0.0,
+							"first_collision_not_ready_visual_required": false,
+							"first_collision_not_ready_visual_ready": false,
+							"first_collision_not_ready_staged": false,
+							"fully_ready_chunk_records": 83.0,
+							"non_retiring_chunk_records": 83.0,
+							"non_retiring_visual_ready_chunk_records": 83.0,
+							"non_retiring_fully_ready_chunk_records": 83.0,
+							"pending_retirement_records": 0.0,
+							"pending_retirement_records_missing": 0.0,
+							"pending_chunk_retirements": 0.0,
+							"pending_chunk_replacements": 0.0,
+							"blocked_pending_chunk_replacements": 0.0,
+							"first_blocked_replacement_key_x": 0.0,
+							"first_blocked_replacement_key_y": 0.0,
+							"first_blocked_replacement_key_z": 0.0,
+							"first_blocked_replacement_key_lod": 0.0,
+							"first_blocked_replacement_missing": false,
+							"first_blocked_replacement_visual_required": false,
+							"first_blocked_replacement_visual_ready": false,
+							"first_blocked_replacement_collision_required": false,
+							"first_blocked_replacement_collision_ready": false,
+							"first_blocked_replacement_staged": false,
+							"first_blocked_replacement_render_record_present": false,
+							"first_blocked_replacement_render_staged": false,
+							"first_blocked_replacement_generation": 0.0,
+							"first_blocked_replacement_render_generation": 0.0,
+							"first_blocked_replacement_staged_render_generation": 0.0,
+							"pending_render_retirements": 0.0,
+							"queued_render": 0.0,
+							"queued_collision": 0.0,
+							"deferred_collision": 0.0,
+							"total_collision_backlog": 0.0,
+							"render_resources": 21.0,
+							"render_fading_resources": 0.0,
+							"staged_render_resources": 0.0,
+							"collision_resources": 21.0
+						},
+						"restart": {
+							"world_running": true,
+							"viewer_updates": 1.0,
+							"viewer_removals": 0.0,
+							"collision_viewer_updates": 0.0,
+							"collision_viewer_removals": 0.0,
+							"coalesced_viewer_events": 0.0,
+							"planned_demands": 46.0,
+							"sample_jobs": 46.0,
+							"mesh_jobs": 46.0,
+							"sample_job_time_ns_last": 1000.0,
+							"sample_job_time_ns_total": 150000.0,
+							"sample_job_time_ns_maximum": 18500.0,
+							"mesh_job_time_ns_last": 5281200.0,
+							"mesh_job_time_ns_total": 499467900.0,
+							"mesh_job_time_ns_maximum": 37970900.0,
+							"storage_completions": 164.0,
+							"mesh_completions": 46.0,
+							"transition_mesh_completions": 8.0,
+							"edit_commits": 0.0,
+							"edit_rejections": 0.0,
+							"edit_replacements": 0.0,
+							"edit_lod_retention_zones": 0.0,
+							"edit_lod_retention_active_viewers": 0.0,
+							"edit_lod_retention_plans": 0.0,
+							"edit_lod_retention_fallbacks": 0.0,
+							"sample_queries": 4.0,
+							"sample_query_rejections": 0.0,
+							"world_snapshots": 0.0,
+							"world_snapshot_rejections": 0.0,
+							"published_events": 182.0,
+							"rejected_events": 0.0,
+							"scheduler_requested_records": 0.0,
+							"scheduler_sampling_records": 0.0,
+							"scheduler_meshing_records": 0.0,
+							"scheduler_ready_records": 46.0,
+							"scheduler_failed_records": 0.0,
+							"scheduler_queued_jobs": 0.0,
+							"scheduler_queued_completions": 0.0,
+							"scheduler_queue_rejections": 0.0,
+							"storage_queued_requests": 0.0,
+							"storage_queued_completions": 0.0,
+							"storage_active_requests": 0.0,
+							"storage_accepted_requests": 164.0,
+							"storage_started_requests": 164.0,
+							"storage_completed_requests": 164.0,
+							"storage_request_queue_rejections": 12.0,
+							"storage_duplicate_requests": 44.0,
+							"storage_successful_pages": 164.0,
+							"storage_load_time_ns_last": 2793600.0,
+							"storage_load_time_ns_total": 423933100.0,
+							"storage_load_time_ns_maximum": 13697200.0,
+							"storage_worker_count": 2.0,
+							"storage_in_flight_requests": 0.0,
+							"storage_maximum_in_flight_requests": 2.0,
+							"storage_in_flight_elapsed_ns": 0.0,
+							"storage_in_flight_key_x": 0.0,
+							"storage_in_flight_key_y": 0.0,
+							"storage_in_flight_key_z": 0.0,
+							"storage_in_flight_key_lod": 0.0,
+							"storage_in_flight_generation": 0.0,
+							"page_sample_failures": 0.0,
+							"page_mesh_failures": 0.0,
+							"page_storage_failures": 0.0,
+							"page_cache_failures": 0.0,
+							"page_scheduler_backpressure": 0.0,
+							"page_dependency_requests": 164.0,
+							"page_dependency_reprioritizations": 0.0,
+							"page_dependency_cache_hits": 6.0,
+							"page_dependency_cache_misses": 220.0,
+							"page_accepted_storage_completions": 208.0,
+							"page_stale_storage_completions": 0.0,
+							"page_cache_encoded_entries": 128.0,
+							"page_cache_decoded_entries": 128.0,
+							"page_cache_encoded_hits": 164.0,
+							"page_cache_encoded_misses": 272.0,
+							"page_cache_encoded_insertions": 164.0,
+							"page_cache_encoded_refreshes": 0.0,
+							"page_cache_encoded_evictions": 36.0,
+							"page_cache_decoded_hits": 50.0,
+							"page_cache_decoded_misses": 436.0,
+							"page_cache_decoded_insertions": 164.0,
+							"page_cache_decoded_evictions": 36.0,
+							"page_loading_records": 0.0,
+							"page_sample_ready_records": 0.0,
+							"page_awaiting_mesh_records": 0.0,
+							"page_mesh_ready_records": 0.0,
+							"page_ready_records": 46.0,
+							"page_unresolved_dependencies": 214.0,
+							"page_pending_dependency_requests": 0.0,
+							"page_pinned_pages": 0.0,
+							"page_last_failure_key_x": 0.0,
+							"page_last_failure_key_y": 0.0,
+							"page_last_failure_key_z": 0.0,
+							"page_last_failure_key_lod": 0.0,
+							"application_submitted_render": 46.0,
+							"application_submitted_collision": 78.0,
+							"application_applied_render": 46.0,
+							"application_applied_collision": 78.0,
+							"application_stale_render": 0.0,
+							"application_last_stale_render_key_x": 0.0,
+							"application_last_stale_render_key_y": 0.0,
+							"application_last_stale_render_key_z": 0.0,
+							"application_last_stale_render_key_lod": 0.0,
+							"application_last_stale_render_generation": 0.0,
+							"application_last_stale_render_record_generation": 0.0,
+							"application_stale_collision": 0.0,
+							"application_unrequired_collision": 0.0,
+							"application_sink_failures": 0.0,
+							"application_queue_rejections": 0.0,
+							"render_latency_frames_maximum": 2.0,
+							"collision_latency_frames_maximum": 1.0,
+							"collision_apply_time_ns_last": 300.0,
+							"collision_apply_time_ns_maximum": 1434100.0,
+							"collision_apply_time_ns_total": 16580500.0,
+							"collision_apply_deadline_exhaustions": 0.0,
+							"collision_apply_deadline_ns": 12000000.0,
+							"collision_apply_frame_time_ns_last": 300.0,
+							"collision_apply_frame_time_ns_total": 16580500.0,
+							"collision_apply_frame_time_ns_maximum": 2288400.0,
+							"collision_apply_frame_items_last": 0.0,
+							"collision_apply_frame_items_maximum": 2.0,
+							"collision_apply_frame_deadline_overruns": 0.0,
+							"active_chunk_records": 46.0,
+							"visual_ready_chunk_records": 46.0,
+							"visual_required_chunk_records": 46.0,
+							"collision_ready_chunk_records": 46.0,
+							"collision_required_chunk_records": 46.0,
+							"collision_required_not_ready_chunk_records": 0.0,
+							"first_collision_not_ready_key_x": 0.0,
+							"first_collision_not_ready_key_y": 0.0,
+							"first_collision_not_ready_key_z": 0.0,
+							"first_collision_not_ready_key_lod": 0.0,
+							"first_collision_not_ready_generation": 0.0,
+							"first_collision_not_ready_visual_required": false,
+							"first_collision_not_ready_visual_ready": false,
+							"first_collision_not_ready_staged": false,
+							"fully_ready_chunk_records": 46.0,
+							"non_retiring_chunk_records": 46.0,
+							"non_retiring_visual_ready_chunk_records": 46.0,
+							"non_retiring_fully_ready_chunk_records": 46.0,
+							"pending_retirement_records": 0.0,
+							"pending_retirement_records_missing": 0.0,
+							"pending_chunk_retirements": 0.0,
+							"pending_chunk_replacements": 0.0,
+							"blocked_pending_chunk_replacements": 0.0,
+							"first_blocked_replacement_key_x": 0.0,
+							"first_blocked_replacement_key_y": 0.0,
+							"first_blocked_replacement_key_z": 0.0,
+							"first_blocked_replacement_key_lod": 0.0,
+							"first_blocked_replacement_missing": false,
+							"first_blocked_replacement_visual_required": false,
+							"first_blocked_replacement_visual_ready": false,
+							"first_blocked_replacement_collision_required": false,
+							"first_blocked_replacement_collision_ready": false,
+							"first_blocked_replacement_staged": false,
+							"first_blocked_replacement_render_record_present": false,
+							"first_blocked_replacement_render_staged": false,
+							"first_blocked_replacement_generation": 0.0,
+							"first_blocked_replacement_render_generation": 0.0,
+							"first_blocked_replacement_staged_render_generation": 0.0,
+							"pending_render_retirements": 0.0,
+							"queued_render": 0.0,
+							"queued_collision": 0.0,
+							"deferred_collision": 0.0,
+							"total_collision_backlog": 0.0,
+							"render_resources": 12.0,
+							"render_fading_resources": 0.0,
+							"staged_render_resources": 0.0,
+							"collision_resources": 12.0
+						}
+					},
+					"qualified_scope": [
+						"native world-transvoxel procedural terrain streaming over a roughly two-kilometre reference span",
+						"continuous traversal and distant teleport settlement",
+						"native edit publication and authoritative query agreement during the soak",
+						"stale viewer and stale edit rejection while the world remains usable",
+						"durable edit-journal restart and post-restart authoritative query agreement",
+						"fail-closed negative control for unsupported large-volume snapshot compaction",
+						"bounded Windows debug frame, throughput, memory, queue, resource, and shutdown regression ceilings"
+					],
+					"explicitly_unqualified_scope": [
+						"production frame-time or player-count budgets",
+						"multi-hour or multi-day long-haul certification",
+						"GPU meshing, GPU residency, or driver performance",
+						"cross-hardware and non-Windows performance",
+						"large-volume snapshot compaction beyond the current native page and byte capacities",
+						"production navigation, gameplay, networking, or integration-game suitability"
+					],
+					"failures": []
 				}
 			],
 			"failures": []

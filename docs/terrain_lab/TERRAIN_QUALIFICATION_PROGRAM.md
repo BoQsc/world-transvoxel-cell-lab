@@ -306,14 +306,17 @@ Execution batches: (TQP-18, TQP-19, TQP-20) ->
 (TQP-21, TQP-22) -> (TQP-23, TQP-24) ->
 (TQP-25, TQP-26) -> TQP-27.
 
-TQP-18 through TQP-26 are qualified for their declared reference scopes.
+TQP-18 through TQP-27 are qualified for their declared reference scopes.
 TQP-21 closed after the corrected deterministic Forward+/D3D12 observatory
 render received explicit human acceptance in `TQP-D013`. TQP-23 then closed
 for its bounded reference surface-shading scope through `TQP-D014`. TQP-25
 closed through `TQP-D015` after complete human review of its four fixtures,
 motion cycles, and adversarial shadow controls; `TQP-F001` is closed only for
 that declared Windows reference scope. TQP-26 is qualified for its diagnostic
-and repro-export scope.
+and repro-export scope. TQP-27 is qualified through `TQP-D016` for its bounded
+native Windows 2K-world performance and durability scope. `TQP-F002` keeps
+large-volume snapshot compaction open while durable edit-journal restart is the
+qualified persistence path.
 
 ### TQP-18: Material Blending
 
@@ -451,16 +454,30 @@ rejection reasons. Its event ring has deterministic overflow ordering, and
 signed JSON repros pass export/reload validation while a tampered-repro negative
 control fails. The `@tool` Terrain Observatory presents a live summary and
 provides one-action repro export. Production telemetry, GPU timestamps, remote
-profiling, and TQP-27 large-terrain performance remain unqualified.
+profiling, multi-hour production soaks, and portable performance budgets remain
+unqualified.
 
 ### TQP-27: Large-Terrain Performance And Soak
 
-Status: `implemented`. Owner: Terrain Systems Lab. Depends on: TQP-04, TQP-16,
+Status: `qualified` for the bounded native Windows 2K-world reference soak.
+Owner: Terrain Systems Lab. Depends on: TQP-04, TQP-16,
 TQP-19, TQP-20, TQP-22, TQP-24, TQP-26.
 
-Complete when fixed traversal, teleportation, editing, save/load, and failure
-scenarios pass frame-time, throughput, memory, hitch, and long-duration
-budgets.
+The retained native run uses `WorldTransvoxelTerrain` directly over a
+128x16x128-chunk procedural volume, representing 2048x256x2048 cells and
+299,520 catalog pages. It passes continuous traversal, four long-range
+teleports, four committed edits, stale-viewer and stale-edit rejection,
+resource-retirement ceilings, frame and settlement distributions, memory and
+throughput budgets, durable edit-journal restart, post-restart query agreement,
+and clean shutdown. The measured route spans 1,984 metres and observes more
+than 280 unique render and collision chunks in the retained run.
+
+Large-volume snapshot compaction is a required fail-closed negative control:
+the native authority rejects the operation with `world snapshot manifest
+validation failed` and leaves no partial output. `TQP-F002` records that open
+upstream capacity limitation. `TQP-D016` therefore qualifies journal-backed
+restart and the bounded reference soak, not snapshot compaction, multi-hour or
+production workloads, GPU performance, other hardware, or non-Windows targets.
 
 ## Phase 4: Destruction And Structural World Systems
 
@@ -659,20 +676,22 @@ a standard, not an assertion that future terrain work is finished.
 
 The program has executed every milestone to a truthful evidence state:
 
-- `TQP-01` through `TQP-26` are qualified
+- `TQP-01` through `TQP-27` are qualified
   for their narrow contract, native Windows reference, or reference-model
   scopes. Gate B is qualified; its native chunk rebuild benchmark remains a
   background/debug reference and is not a production frame-time claim.
-- `TQP-27` through `TQP-33` have implemented reference behavior but
+- `TQP-28` through `TQP-33` have implemented reference behavior but
   still lack one or more exit criteria named in their milestone contracts.
 - `TQP-34` is specified and requires measured GPU-candidate benefit.
 - `TQP-35` through `TQP-46` are blocked by named external targets and exit
   conditions in `program_blockers.json`.
 
-The next dependency-ordered action is TQP-27 large-terrain performance and soak
-qualification. TQP-25 is qualified through `TQP-D015`, with `TQP-F001` closed
-only for its reviewed Windows reference corpus. TQP-24 and TQP-26 pass their
-retained native publication and diagnostic fixtures.
+The next dependency-ordered batch is TQP-28 through TQP-32: explosion,
+construction, support and stability, destruction and debris, and deterministic
+world-event replay. TQP-27 is qualified through `TQP-D016` for its bounded
+native Windows 2K-world soak and durable edit-journal restart. `TQP-F002`
+retains large-volume snapshot compaction as an open upstream capacity issue.
+Gate D is qualified only for this bounded reference claim.
 Production and GPU claims remain closed. A blocked milestone may advance only
 when its recorded exit condition exists and the required evidence passes.
 
@@ -730,3 +749,7 @@ Retained decisions:
 - `TQP-D015`: accept the bounded four-fixture TQP-25 Windows reference corpus
   and close TQP-F001 for that scope while retaining production, large-terrain,
   and cross-hardware visual quality as unqualified.
+- `TQP-D016`: accept the bounded native Windows TQP-27 2K-world soak and
+  journal-backed restart evidence while retaining large-volume snapshot
+  compaction in `TQP-F002` and production, multi-hour, GPU, cross-hardware, and
+  non-Windows performance as unqualified.

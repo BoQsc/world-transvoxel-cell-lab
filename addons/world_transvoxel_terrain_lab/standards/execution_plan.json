@@ -1,10 +1,10 @@
 {
 	"schema": "world_transvoxel.terrain_lab.execution_plan.v1",
-	"plan_revision": 9,
+	"plan_revision": 10,
 	"catalog_order": "ground_up_execution_sequence",
 	"execution_policy": "complete_and_promote_in_dependency_order_only",
-	"current_wave": "TQP-WAVE-02",
-	"recommended_next": ["TQP-27"],
+	"current_wave": "TQP-WAVE-03",
+	"recommended_next": ["TQP-28", "TQP-29", "TQP-30", "TQP-31", "TQP-32"],
 	"waves": [
 		{
 			"id": "TQP-WAVE-00",
@@ -33,7 +33,7 @@
 		{
 			"id": "TQP-WAVE-02",
 			"title": "Streaming, materials, collision, and observability",
-			"status": "active",
+			"status": "completed",
 			"steps": [
 				["TQP-18", "TQP-19", "TQP-20"],
 				["TQP-21", "TQP-22"],
@@ -45,7 +45,7 @@
 		{
 			"id": "TQP-WAVE-03",
 			"title": "Destruction and structural world systems",
-			"status": "pending",
+			"status": "active",
 			"steps": [
 				["TQP-28", "TQP-29", "TQP-30", "TQP-31", "TQP-32"],
 				["TQP-33"]

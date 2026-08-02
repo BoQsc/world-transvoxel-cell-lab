@@ -5,9 +5,6 @@ class_name WtTerrainLabSystemQualification
 const ObservatoryQualification := preload(
 	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_observatory_qualification.gd"
 )
-const Observatory := preload(
-	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_observatory.gd"
-)
 const Statistics := preload(
 	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_statistics.gd"
 )
@@ -25,6 +22,9 @@ const VisibilityResidencyQualification := preload(
 )
 const Phase03Evidence := preload(
 	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_phase_03_system_evidence.gd"
+)
+const LargeTerrainSoakEvidence := preload(
+	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_large_terrain_soak_evidence.gd"
 )
 
 const LEGAL_TRANSITIONS := {
@@ -51,7 +51,7 @@ static func run() -> Dictionary:
 		VisibilityResidencyQualification.run(),
 		_qualify_collision_publication(),
 		ObservatoryQualification.run(),
-		_qualify_reference_soak(),
+		LargeTerrainSoakEvidence.retained_milestone(),
 	]
 	var failures: Array[String] = []
 	for milestone in milestones:
@@ -71,7 +71,7 @@ static func run() -> Dictionary:
 			"TQP-22": "qualified",
 			"TQP-24": "qualified",
 			"TQP-26": "qualified_terrain_observatory_diagnostics",
-			"TQP-27": "implemented_pending_real_large_terrain_soak",
+			"TQP-27": "qualified_native_windows_large_terrain_soak",
 		},
 		"qualified_scope": [
 			"TQP-06 deterministic reference chunk lifecycle",
@@ -82,6 +82,7 @@ static func run() -> Dictionary:
 			"TQP-22 CPU horizontal visibility and residency reference model",
 			"TQP-24 native Windows Godot collision, query, and navigation publication reference",
 			"TQP-26 deterministic diagnostic snapshots and signed repro export",
+			"TQP-27 bounded native Windows 2K volumetric terrain performance and soak",
 		],
 		"explicitly_unqualified_scope": [
 			"production terrain mesh residency",
@@ -89,7 +90,7 @@ static func run() -> Dictionary:
 			"snapshot atomicity on filesystems outside the Windows reference platform",
 			"automatic abandoned snapshot staging cleanup",
 			"production traversal and memory budgets",
-			"TQP-27 real large-terrain performance and soak qualification",
+			"large-volume snapshot compaction beyond current native manifest and page capacities",
 		],
 		"provenance": Statistics.provenance("terrain_system_reference_v1"),
 		"milestones": milestones,
@@ -210,46 +211,8 @@ static func _qualify_collision_publication() -> Dictionary:
 	return result
 
 
-static func _qualify_reference_soak() -> Dictionary:
-	var failures: Array[String] = []
-	var observatory := Observatory.new()
-	var timings: Array[float] = []
-	var published_generation := {}
-	for batch in range(100):
-		var started := Time.get_ticks_usec()
-		for index in range(100):
-			var sequence := batch * 100 + index
-			var coordinate := Vector3i((sequence * 17) % 127 - 63, 0, (sequence * 29) % 127 - 63)
-			var chunk_id := _chunk_key(coordinate)
-			var generation := int(published_generation.get(chunk_id, 0)) + 1
-			observatory.set_chunk_state(chunk_id, "requested", generation, sequence % 5)
-			if sequence % 19 == 0:
-				observatory.record_rejection(chunk_id, generation - 1, "stale_generation")
-			observatory.record_publication(chunk_id, generation)
-			published_generation[chunk_id] = generation
-		timings.append(float(Time.get_ticks_usec() - started))
-	var distribution := Statistics.distribution(timings)
-	_expect(int(distribution.get("sample_count", 0)) == 100, "soak sample count changed", failures)
-	distribution["target_p95_usec"] = 4000.0
-	distribution["target_status"] = (
-		"MET" if float(distribution.get("p95_usec", INF)) < 4000.0 else "EXCEEDED"
-	)
-	distribution["budget_evaluation"] = "OBSERVATION_ONLY_IMPLEMENTED_MILESTONE"
-	_expect(published_generation.size() <= 127 * 127, "soak residency escaped coordinate corpus", failures)
-	var result := _result("TQP-27", 10000, failures)
-	result["performance"] = distribution
-	result["memory"] = Statistics.memory_metrics()
-	result["retained_chunk_count"] = published_generation.size()
-	result["qualification_scope"] = "REFERENCE_MODEL_NOT_PRODUCTION_TERRAIN"
-	return result
-
-
 static func _can_transition(from_state: String, to_state: String) -> bool:
 	return to_state in LEGAL_TRANSITIONS.get(from_state, [])
-
-
-static func _chunk_key(coordinate: Vector3i) -> String:
-	return "%d:%d:%d" % [coordinate.x, coordinate.y, coordinate.z]
 
 
 static func _result(
