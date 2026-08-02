@@ -291,6 +291,7 @@ func _rebuild() -> void:
 	var failed_chunks := 0
 	var local_bounds_violations := 0
 	var chunks_by_coordinate := {}
+	var chunk_signatures: Array[String] = []
 	for x in range(-editor_chunk_range_xz, editor_chunk_range_xz + 1):
 		for y in range(0, editor_chunk_y_max + 1):
 			for z in range(-editor_chunk_range_xz, editor_chunk_range_xz + 1):
@@ -356,6 +357,9 @@ func _rebuild() -> void:
 					)
 					continue
 				chunks_by_coordinate[coordinate] = chunk
+				chunk_signatures.append(
+					"%s:%s" % [str(coordinate), NativeEvidence.chunk_signature(chunk)]
+				)
 				var regular: Dictionary = chunk.get("regular", {})
 				var vertices: PackedVector3Array = regular.get("vertices", PackedVector3Array())
 				var indices: PackedInt32Array = regular.get("indices", PackedInt32Array())
@@ -468,6 +472,8 @@ func _rebuild() -> void:
 		"observatory_rejection_count": (observatory_snapshot.get("rejections", []) as Array).size(),
 		"observatory_collision_states": observatory_resources.get("collision_states", {}),
 		"observatory_snapshot_signature": str(observatory_snapshot.get("snapshot_signature", "")),
+		"geometry_signature": "\n".join(chunk_signatures).sha256_text(),
+		"field_journal_signature": _field.journal_signature(),
 	}
 	_update_metrics_label(true)
 
@@ -482,6 +488,46 @@ func get_seam_report() -> Dictionary:
 
 func get_topology_report() -> Dictionary:
 	return _topology_report.duplicate(true)
+
+
+func configure_reference_fixture(config: Dictionary) -> Dictionary:
+	if config.is_empty():
+		return {"status": "FAIL", "failures": ["fixture configuration is empty"]}
+	var previous_auto_rebuild := editor_auto_rebuild
+	editor_auto_rebuild = false
+	editor_preview_enabled = true
+	editor_sample_scale_m = float(config.get("sample_scale_m", 0.5))
+	editor_chunk_range_xz = int(config.get("chunk_range_xz", DEFAULT_CHUNK_RANGE_XZ))
+	editor_chunk_y_max = int(config.get("chunk_y_max", DEFAULT_CHUNK_Y_MAX))
+	editor_seed_canonical_edits = false
+	_field = EditField.new()
+	_field.terrain_profile = str(config.get("terrain_profile", "observatory"))
+	_field.sample_scale_m = editor_sample_scale_m
+	_operation_sequence = 0
+	var failures: Array[String] = []
+	for operation_value in config.get("operations", []):
+		if not operation_value is Dictionary or not _field.add_operation(operation_value):
+			failures.append("fixture operation was rejected")
+		else:
+			_operation_sequence += 1
+	mesh_root.scale = Vector3.ONE * _field.sample_scale_m
+	bounds_root.scale = Vector3.ONE * _field.sample_scale_m
+	editor_auto_rebuild = previous_auto_rebuild
+	_rebuild()
+	return {
+		"status": "PASS" if failures.is_empty() else "FAIL",
+		"operation_count": _operation_sequence,
+		"metrics": get_mesh_metrics(),
+		"failures": failures,
+	}
+
+
+func prepare_visual_quality_fixture(config: Dictionary) -> Dictionary:
+	var result := configure_reference_fixture(config)
+	_set_bounds_visible(false)
+	$Interface.visible = false
+	_apply_capture_shader(SurfaceReferenceShader)
+	return result
 
 
 func get_observatory_snapshot() -> Dictionary:

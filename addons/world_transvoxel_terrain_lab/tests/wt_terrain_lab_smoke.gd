@@ -202,14 +202,14 @@ func _run() -> void:
 	if int(validation.get("qualified_milestone_count", 0)) != 25:
 		_fail("qualified reference milestone count changed")
 		return
-	if int(validation.get("specified_milestone_count", 0)) != 2:
+	if int(validation.get("specified_milestone_count", 0)) != 1:
 		_fail("open specification count changed")
 		return
 	if int(validation.get("proposed_milestone_count", -1)) != 0:
 		_fail("one or more milestones lack a reviewed specification")
 		return
 	var status_counts: Dictionary = validation.get("status_counts", {})
-	if int(status_counts.get("implemented", 0)) != 7:
+	if int(status_counts.get("implemented", 0)) != 8:
 		_fail("implemented evidence count changed")
 		return
 	if int(status_counts.get("blocked", 0)) != 12:

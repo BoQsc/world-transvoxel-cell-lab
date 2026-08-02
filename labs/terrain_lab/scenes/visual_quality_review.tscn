@@ -1,0 +1,132 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://labs/terrain_lab/scenes/visual_quality_review.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://labs/terrain_lab/scenes/terrain_observatory.tscn" id="2_observatory"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_panel"]
+bg_color = Color(0.035, 0.045, 0.052, 0.97)
+border_width_left = 1
+border_color = Color(0.18, 0.29, 0.30, 1)
+content_margin_left = 16.0
+content_margin_top = 16.0
+content_margin_right = 16.0
+content_margin_bottom = 16.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_status"]
+bg_color = Color(0.055, 0.075, 0.08, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.13, 0.55, 0.48, 0.7)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+content_margin_left = 10.0
+content_margin_top = 8.0
+content_margin_right = 10.0
+content_margin_bottom = 8.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_title"]
+font_size = 21
+font_color = Color(0.91, 0.95, 0.94, 1)
+
+[node name="VisualQualityReview" type="Node3D"]
+script = ExtResource("1_script")
+
+[node name="TerrainObservatory" parent="." instance=ExtResource("2_observatory")]
+editor_preview_enabled = false
+editor_auto_rebuild = false
+editor_seed_canonical_edits = false
+editor_show_chunk_bounds = false
+
+[node name="ReviewInterface" type="CanvasLayer" parent="."]
+unique_name_in_owner = true
+
+[node name="Dock" type="PanelContainer" parent="ReviewInterface"]
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -380.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBox_panel")
+
+[node name="Content" type="VBoxContainer" parent="ReviewInterface/Dock"]
+theme_override_constants/separation = 7
+
+[node name="Title" type="Label" parent="ReviewInterface/Dock/Content"]
+text = "TQP-25 Visual Quality"
+label_settings = SubResource("LabelSettings_title")
+
+[node name="Subtitle" type="Label" parent="ReviewInterface/Dock/Content"]
+theme_override_colors/font_color = Color(0.52, 0.72, 0.70, 1)
+text = "Native reference corpus"
+
+[node name="FixtureOption" type="OptionButton" parent="ReviewInterface/Dock/Content"]
+unique_name_in_owner = true
+tooltip_text = "Visual fixture"
+
+[node name="FixtureNavigation" type="HBoxContainer" parent="ReviewInterface/Dock/Content"]
+theme_override_constants/separation = 6
+
+[node name="PreviousButton" type="Button" parent="ReviewInterface/Dock/Content/FixtureNavigation"]
+unique_name_in_owner = true
+text = "Previous"
+
+[node name="NextButton" type="Button" parent="ReviewInterface/Dock/Content/FixtureNavigation"]
+unique_name_in_owner = true
+text = "Next"
+
+[node name="MotionToggle" type="CheckButton" parent="ReviewInterface/Dock/Content/FixtureNavigation"]
+unique_name_in_owner = true
+text = "Motion"
+
+[node name="RestartButton" type="Button" parent="ReviewInterface/Dock/Content/FixtureNavigation"]
+unique_name_in_owner = true
+text = "Restart"
+
+[node name="ShadowToggle" type="CheckButton" parent="ReviewInterface/Dock/Content"]
+unique_name_in_owner = true
+button_pressed = true
+text = "Cast shadows"
+
+[node name="StatusPanel" type="PanelContainer" parent="ReviewInterface/Dock/Content"]
+theme_override_styles/panel = SubResource("StyleBox_status")
+
+[node name="ReviewStatus" type="Label" parent="ReviewInterface/Dock/Content/StatusPanel"]
+unique_name_in_owner = true
+text = "0/4 fixtures | 0/4 motion | 0/2 shadows"
+
+[node name="TargetHeading" type="Label" parent="ReviewInterface/Dock/Content"]
+theme_override_colors/font_color = Color(0.78, 0.84, 0.82, 1)
+text = "Visual target"
+
+[node name="TargetLabel" type="Label" parent="ReviewInterface/Dock/Content"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 52)
+theme_override_colors/font_color = Color(0.68, 0.75, 0.73, 1)
+autowrap_mode = 2
+
+[node name="Separator" type="HSeparator" parent="ReviewInterface/Dock/Content"]
+
+[node name="Criteria" type="VBoxContainer" parent="ReviewInterface/Dock/Content"]
+unique_name_in_owner = true
+theme_override_constants/separation = 2
+
+[node name="ReviewNotes" type="LineEdit" parent="ReviewInterface/Dock/Content"]
+unique_name_in_owner = true
+placeholder_text = "Review notes"
+
+[node name="DecisionButtons" type="HBoxContainer" parent="ReviewInterface/Dock/Content"]
+theme_override_constants/separation = 8
+
+[node name="RecordFailureButton" type="Button" parent="ReviewInterface/Dock/Content/DecisionButtons"]
+unique_name_in_owner = true
+text = "Record failure"
+
+[node name="RecordCandidateButton" type="Button" parent="ReviewInterface/Dock/Content/DecisionButtons"]
+unique_name_in_owner = true
+disabled = true
+text = "Record candidate pass"

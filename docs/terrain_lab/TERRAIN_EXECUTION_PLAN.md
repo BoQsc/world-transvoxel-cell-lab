@@ -26,7 +26,9 @@ required evidence state.
 - TQP-24 is qualified for its native Windows Godot publication scope.
 - TQP-26 is qualified for deterministic diagnostic snapshots and signed repro
   export.
-- TQP-25 is the only remaining milestone in the active execution batch.
+- TQP-25 has a passing four-fixture automated corpus and guided `@tool` review;
+  explicit human visual acceptance and a repository decision remain the only
+  open requirements in the active execution batch.
 - GPU and production waves remain blocked by absent candidate implementations.
 
 ## Waves

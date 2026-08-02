@@ -311,7 +311,9 @@ TQP-21 closed after the corrected deterministic Forward+/D3D12 observatory
 render received explicit human acceptance in `TQP-D013`. TQP-23 then closed
 for its bounded reference surface-shading scope through `TQP-D014`, while
 `TQP-F001` remains open for TQP-25. TQP-26 is also qualified for its diagnostic
-and repro-export scope. The active execution milestone is TQP-25.
+and repro-export scope. TQP-25 now has a complete automated corpus and guided
+review scene, but remains at `implemented` until explicit human acceptance and
+a repository decision close its visual gate.
 
 ### TQP-18: Material Blending
 
@@ -420,12 +422,18 @@ agents, avoidance, and non-Windows servers remain unqualified.
 
 ### TQP-25: Visual Quality Corpus
 
-Status: `specified`. Owner: Material and Surface Lab. Depends on: TQP-05,
+Status: `implemented`, pending human visual acceptance. Owner: Material and
+Surface Lab. Depends on: TQP-05,
 TQP-18, TQP-21, TQP-23.
 
-Complete when natural, constructed, destroyed, and adversarial terrain scenes
-have art-direction targets, fixed cameras, videos, automated comparisons, and
-recorded human acceptance.
+The dedicated `@tool` review scene provides natural, constructed, destroyed,
+and adversarial native fixtures with declared art-direction targets, fixed
+still cameras, full motion sweeps, and shadow controls. Retained Windows
+evidence includes exact-repeat PNGs, H.264 videos, geometry signatures, seam
+and assembled-window topology reports, image-coverage checks, and temporal
+change measurements. Automation passes all four fixtures but cannot accept
+visual pleasantness or close `TQP-F001`. Completion still requires a full live
+review, explicit shadow judgment, and a repository decision.
 
 ### TQP-26: Terrain Observatory
 
@@ -651,17 +659,17 @@ The program has executed every milestone to a truthful evidence state:
   for their narrow contract, native Windows reference, or reference-model
   scopes. Gate B is qualified; its native chunk rebuild benchmark remains a
   background/debug reference and is not a production frame-time claim.
-- `TQP-27` through `TQP-33` have
+- `TQP-25` and `TQP-27` through `TQP-33` have
   implemented reference behavior but
   still lack one or more exit criteria named in their milestone contracts.
-- `TQP-25` and `TQP-34` are specified. The former requires a complete visual
-  acceptance; the latter requires measured GPU-candidate benefit.
+- `TQP-34` is specified and requires measured GPU-candidate benefit.
 - `TQP-35` through `TQP-46` are blocked by named external targets and exit
   conditions in `program_blockers.json`.
 
-The next dependency-ordered work is TQP-25 visual quality. TQP-23 closed through
-`TQP-D014`, with TQP-F001 retained for that broader review; TQP-24 and TQP-26
-pass their retained native publication and diagnostic fixtures.
+The next dependency-ordered action is TQP-25 human visual review. Its automated
+corpus is implemented and passing, but no visual acceptance is inferred.
+TQP-23 closed through `TQP-D014`, with TQP-F001 retained for the broader review;
+TQP-24 and TQP-26 pass their retained native publication and diagnostic fixtures.
 Production and GPU claims remain closed. A blocked milestone may advance only
 when its recorded exit condition exists and the required evidence passes.
 

@@ -1,0 +1,190 @@
+{
+	"schema": "world_transvoxel.terrain_lab.visual_quality_corpus_standard.v1",
+	"milestone": "TQP-25",
+	"standard_id": "reference_visual_quality_corpus_v1",
+	"review_scene": "res://labs/terrain_lab/scenes/visual_quality_review.tscn",
+	"draft_path": "user://tqp25_visual_quality_review_draft.json",
+	"automated_evidence": "res://labs/terrain_lab/results/visual_quality_corpus_reference_windows.json",
+	"formal_decision_required": true,
+	"native_dependency_only": true,
+	"capture_contract": {
+		"width": 1280,
+		"height": 720,
+		"motion_frame_count": 48,
+		"motion_fps": 24,
+		"repeatability_passes": 2,
+		"minimum_unique_motion_frames": 40,
+		"video_codec": "h264",
+		"video_pixel_format": "yuv420p"
+	},
+	"criteria": [
+		{
+			"id": "natural_forms_coherent",
+			"label": "Natural forms remain coherent",
+			"failure": "Natural slopes, cuts, or undercuts read as accidental faceting, cracks, or detached shading."
+		},
+		{
+			"id": "construction_legible",
+			"label": "Construction remains legible",
+			"failure": "Authored platforms, walls, spans, supports, or openings lose their intended shape or material boundary."
+		},
+		{
+			"id": "destruction_coherent",
+			"label": "Destruction remains coherent",
+			"failure": "Overlapping craters, tunnels, or damaged construction produce unexplained holes, sheets, or disconnected fragments."
+		},
+		{
+			"id": "adversarial_behavior_bounded",
+			"label": "Adversarial behavior is bounded",
+			"failure": "Thin, tangent, noisy, or overlapping features fail outside the limits declared by the resolution standard."
+		},
+		{
+			"id": "materials_and_shading_stable",
+			"label": "Materials and shading remain attached",
+			"failure": "Texture projection, normals, masks, or material identity slide, pop, invert, or expose a chunk boundary during motion."
+		},
+		{
+			"id": "shadow_quality_acceptable",
+			"label": "Shadow behavior is acceptable at declared resolution",
+			"failure": "Cast shadows slide, pop, change topology, or remain unacceptably stepped on the 0.25 m adversarial reference fixture."
+		},
+		{
+			"id": "no_unclassified_visual_defect",
+			"label": "No visual defect remains unclassified",
+			"failure": "A visible inconsistency is accepted without an identified cause, bounded scope, and retained finding."
+		}
+	],
+	"decision_policy": {
+		"all_fixtures_must_be_visited": true,
+		"all_fixtures_require_one_motion_cycle": true,
+		"adversarial_requires_shadow_on_off_comparison": true,
+		"all_criteria_required_for_candidate_acceptance": true,
+		"uncertain_review_is_pending": true,
+		"draft_cannot_promote_milestone": true,
+		"repository_decision_required_for_promotion": true,
+		"tqp_f001_closes_only_with_explicit_shadow_decision": true
+	},
+	"finite_window_boundary_policy": {
+		"operations_must_not_intersect_the_declared_window_exterior": true,
+		"exterior_open_edges_are_expected_only_on_window_planes": true,
+		"views_through_an_uncapped_window_exterior_are_not_interior_terrain_holes": true,
+		"interior_open_edges_or_nonmanifold_edges_always_fail": true
+	},
+	"fixtures": [
+		{
+			"id": "natural",
+			"label": "Natural Terrain",
+			"terrain_profile": "observatory",
+			"sample_scale_m": 0.5,
+			"chunk_range_xz": 1,
+			"chunk_y_max": 2,
+			"operations": [
+				{"id": "natural-ravine", "mode": "dig", "shape": "capsule", "segment_a": [-5.0, 8.0, -5.0], "segment_b": [9.0, 7.0, 9.0], "radius_m": 1.8, "smoothing_m": 0.9},
+				{"id": "natural-undercut", "mode": "dig", "shape": "ellipsoid_stamp", "center": [-2.0, 7.0, 3.0], "half_extents": [4.0, 2.1, 3.5], "smoothing_m": 0.7},
+				{"id": "natural-erosion", "mode": "dig", "shape": "bounded_noise", "center": [7.0, 9.0, -2.0], "radius_m": 5.0, "noise_amplitude_m": 0.75, "noise_frequency": 0.7, "smoothing_m": 0.45}
+			],
+			"camera": {"still_position": [-20.0, 23.0, 20.0], "target": [2.0, 7.5, 2.0], "fov_degrees": 46.0, "motion_radius_m": 26.0, "motion_height_m": 18.0, "motion_start_degrees": 32.0, "motion_end_degrees": 212.0},
+			"art_direction_target": {
+				"intent": "Layered rolling terrain with an eroded ravine and readable undercut, without manufactured silhouettes.",
+				"must_show": ["continuous rolling silhouette", "readable ravine", "coherent undercut", "stable natural material projection"],
+				"reject_if": ["chunk-aligned crease", "unexplained open sheet", "shading detached from geometry"]
+			},
+			"minimums": {"surface_pixels": 18000, "colorful_pixels": 1500, "triangle_count": 4000, "surface_seam_pairs": 20},
+			"expected": {"still_sha256": "9bde6b8577ebdeab8312f0ab2d3c2f978855a3250c41257f1cdc4cf3a96b1fdc", "motion_sequence_sha256": "1f78452d14adf40546a67d91df8118181b57c11feefc2ff738be9153dec15816", "video_sha256": "0105e0e761d06cf09b14f67e193e95ed275c35f9877ed8945dfb7a046111a580", "geometry_signature": "ffd7f5673a5ab4107c5f2e2ccb865642fab2fafe97085da6f6a5c65836cd40f0"}
+		},
+		{
+			"id": "constructed",
+			"label": "Constructed Terrain",
+			"terrain_profile": "observatory",
+			"sample_scale_m": 0.5,
+			"chunk_range_xz": 1,
+			"chunk_y_max": 2,
+			"operations": [
+				{"id": "constructed-platform", "mode": "construct", "shape": "rounded_box", "center": [1.0, 10.5, 1.0], "half_extents": [7.0, 1.2, 5.0], "rounding_m": 0.7, "smoothing_m": 0.25, "material": 7},
+				{"id": "constructed-wall", "mode": "construct", "shape": "rounded_box", "center": [5.0, 13.0, 1.0], "half_extents": [1.0, 3.6, 5.0], "rounding_m": 0.45, "smoothing_m": 0.2, "material": 5},
+				{"id": "constructed-span", "mode": "construct", "shape": "capsule", "segment_a": [-5.0, 12.0, -3.0], "segment_b": [7.0, 12.0, -3.0], "radius_m": 1.25, "smoothing_m": 0.25, "material": 7},
+				{"id": "constructed-pillar-a", "mode": "construct", "shape": "capsule", "segment_a": [-4.0, 7.0, -3.0], "segment_b": [-4.0, 12.0, -3.0], "radius_m": 1.0, "smoothing_m": 0.2, "material": 7},
+				{"id": "constructed-pillar-b", "mode": "construct", "shape": "capsule", "segment_a": [6.0, 7.0, -3.0], "segment_b": [6.0, 12.0, -3.0], "radius_m": 1.0, "smoothing_m": 0.2, "material": 7},
+				{"id": "constructed-door", "mode": "dig", "shape": "rounded_box", "center": [5.0, 11.5, 1.0], "half_extents": [1.5, 2.1, 1.5], "rounding_m": 0.4, "smoothing_m": 0.2}
+			],
+			"camera": {"still_position": [-20.0, 23.0, 21.0], "target": [1.0, 10.0, 0.0], "fov_degrees": 45.0, "motion_radius_m": 26.0, "motion_height_m": 16.0, "motion_start_degrees": 28.0, "motion_end_degrees": 208.0},
+			"art_direction_target": {
+				"intent": "Clearly authored platform, retaining wall, supported span, and opening that remain volumetric rather than mesh-like decoration.",
+				"must_show": ["legible platform edge", "continuous wall volume", "supported span", "clean authored opening", "distinct construction material"],
+				"reject_if": ["melted structural edge", "floating support", "material leakage", "opening sealed by interpolation"]
+			},
+			"minimums": {"surface_pixels": 19000, "colorful_pixels": 1800, "triangle_count": 5000, "surface_seam_pairs": 12},
+			"expected": {"still_sha256": "e175dfa225938062194702c7a20ffc7e520dd9ca8074159d6e3295e5ae4bee32", "motion_sequence_sha256": "9fd13843dcd90bcd4639bf9a9229038afa51debec85386a3033a65590d462012", "video_sha256": "ec453a9b353f3a717c0404e77a3aea9c066686fe882e4073c3405fc35f8b70a8", "geometry_signature": "de428bc7dcb0a0e70533763948340c830457246223076b17aee03df4e394aac9"}
+		},
+		{
+			"id": "destroyed",
+			"label": "Destroyed Terrain",
+			"terrain_profile": "observatory",
+			"sample_scale_m": 0.5,
+			"chunk_range_xz": 1,
+			"chunk_y_max": 2,
+			"operations": [
+				{"id": "destroyed-bunker", "mode": "construct", "shape": "rounded_box", "center": [2.0, 10.5, 1.0], "half_extents": [6.0, 2.3, 5.0], "rounding_m": 0.8, "smoothing_m": 0.3, "material": 7},
+				{"id": "destroyed-crater-main", "mode": "dig", "shape": "sphere", "center": [1.0, 11.0, 1.0], "radius_m": 4.4, "smoothing_m": 0.75},
+				{"id": "destroyed-crater-left", "mode": "dig", "shape": "sphere", "center": [-4.0, 9.5, -2.0], "radius_m": 2.5, "smoothing_m": 0.55},
+				{"id": "destroyed-crater-right", "mode": "dig", "shape": "sphere", "center": [7.0, 10.0, 4.0], "radius_m": 2.8, "smoothing_m": 0.5},
+				{"id": "destroyed-breach", "mode": "dig", "shape": "capsule", "segment_a": [-5.0, 8.0, 1.0], "segment_b": [8.0, 10.0, 1.0], "radius_m": 1.7, "smoothing_m": 0.4},
+				{"id": "destroyed-chipping", "mode": "dig", "shape": "bounded_noise", "center": [2.0, 10.0, 1.0], "radius_m": 6.0, "noise_amplitude_m": 0.9, "noise_frequency": 1.1, "smoothing_m": 0.25}
+			],
+			"camera": {"still_position": [-20.0, 23.0, 21.0], "target": [1.0, 8.5, 1.0], "fov_degrees": 46.0, "motion_radius_m": 26.0, "motion_height_m": 17.0, "motion_start_degrees": 35.0, "motion_end_degrees": 215.0},
+			"art_direction_target": {
+				"intent": "Overlapping blast damage and a breached constructed volume with continuous crater interiors and readable surviving structure.",
+				"must_show": ["overlapping crater continuity", "readable breach", "surviving constructed material", "no accidental internal sheets"],
+				"reject_if": ["crater seam", "detached triangle island", "zero-thickness wall", "collision-looking hole without field cause"]
+			},
+			"minimums": {"surface_pixels": 18000, "colorful_pixels": 1500, "triangle_count": 5500, "surface_seam_pairs": 20},
+			"expected": {"still_sha256": "d25e10d070477c360a806bac3d537a3be6d6025517ffd71c4e5b0e8359766d48", "motion_sequence_sha256": "8982837686b24423fee0e81dd8f6a02f46190f0da4b0cc7fdaf19da1bc35515b", "video_sha256": "0296ecf8f10d6a0c277009946330f0cac6d2d92346dd3b9e47794aa868b1db3c", "geometry_signature": "f2ee213bbc4e7d65c4a7cdfa36f7664321add33be0a01c083499cedc83adf116"}
+		},
+		{
+			"id": "adversarial",
+			"label": "Adversarial Terrain",
+			"terrain_profile": "observatory",
+			"sample_scale_m": 0.25,
+			"chunk_range_xz": 2,
+			"chunk_y_max": 3,
+			"operations": [
+				{"id": "adversarial-tangent-crater", "mode": "dig", "shape": "sphere", "center": [-1.0, 9.5, 4.0], "radius_m": 4.0, "smoothing_m": 0.75},
+				{"id": "adversarial-thin-wall", "mode": "construct", "shape": "rounded_box", "center": [0.0, 11.0, 0.0], "half_extents": [0.5, 3.0, 6.0], "rounding_m": 0.25, "smoothing_m": 0.1, "material": 7},
+				{"id": "adversarial-narrow-tunnel", "mode": "dig", "shape": "capsule", "segment_a": [-6.0, 8.0, 0.0], "segment_b": [8.0, 8.0, 0.0], "radius_m": 0.8, "smoothing_m": 0.2},
+				{"id": "adversarial-thin-shelf", "mode": "construct", "shape": "ellipsoid_stamp", "center": [4.0, 12.0, 4.0], "half_extents": [3.0, 0.65, 3.0], "smoothing_m": 0.15, "material": 5},
+				{"id": "adversarial-noise", "mode": "dig", "shape": "bounded_noise", "center": [-3.0, 9.0, -3.0], "radius_m": 3.0, "noise_amplitude_m": 0.65, "noise_frequency": 1.6, "smoothing_m": 0.1}
+			],
+			"camera": {"still_position": [-18.0, 22.0, 18.0], "target": [0.0, 8.5, 0.0], "fov_degrees": 44.0, "motion_radius_m": 22.0, "motion_height_m": 15.0, "motion_start_degrees": 25.0, "motion_end_degrees": 205.0},
+			"art_direction_target": {
+				"intent": "A deliberately difficult but resolvable 0.25 m fixture exposing tangency, thin construction, narrow excavation, high curvature, and cast-shadow behavior.",
+				"must_show": ["closed tangent crater", "continuous thin wall", "bounded narrow tunnel", "readable thin shelf", "stable cast shadow during motion"],
+				"reject_if": ["interior opening", "non-manifold edge", "chunk seam", "shadow topology pop", "unclassified feature loss"]
+			},
+			"minimums": {"surface_pixels": 17000, "colorful_pixels": 1400, "triangle_count": 12000, "surface_seam_pairs": 40},
+			"expected": {"still_sha256": "5e79e194ae19e1e9b3c4038eec196e9784c154127284c1c75c34da6d4ac38466", "motion_sequence_sha256": "966fecc92298ea56dc36f97e5ba04ba8629e15faa2f7215c7128f8a10bedec72", "video_sha256": "12a4a0700d3154cdaf643b053354b53134295bf3646c12843b84cfaf4a5d06be", "geometry_signature": "5c57088afb46fc6c03870b401a14075ca6beb7536b7857a4516b4c28f51db0b5"}
+		}
+	],
+	"finding_resolution": {
+		"finding": "TQP-F001",
+		"required_fixture": "adversarial",
+		"required_sample_scale_m": 0.25,
+		"requires_shadow_on_off_pair": true,
+		"requires_full_motion_video": true,
+		"automated_result_cannot_close_finding": true
+	},
+	"implemented_scope": [
+		"four deterministic native visual-quality fixtures",
+		"fixed still cameras and complete deterministic motion paths",
+		"repeatable still and motion-frame comparisons",
+		"retained H.264 review videos and shadow controls",
+		"geometry, topology, image-presence, and temporal-change checks",
+		"fail-closed guided human review with explicit TQP-F001 handling"
+	],
+	"explicitly_unqualified_scope": [
+		"human visual acceptance until a repository decision is recorded",
+		"production art assets or final art direction",
+		"production renderer and GPU performance",
+		"cross-hardware visual equivalence",
+		"general terrain-runtime production suitability"
+	]
+}

@@ -17,6 +17,9 @@ const TextureSystemQualification := preload(
 const SurfaceShadingQualification := preload(
 	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_surface_shading_qualification.gd"
 )
+const VisualQualityQualification := preload(
+	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_visual_quality_qualification.gd"
+)
 
 
 static func run() -> Dictionary:
@@ -25,7 +28,7 @@ static func run() -> Dictionary:
 		MaterialBlendingQualification.run(),
 		TextureSystemQualification.run(),
 		SurfaceShadingQualification.run(),
-		_specify_visual_corpus(),
+		VisualQualityQualification.run(),
 	]
 	var failures: Array[String] = []
 	for milestone in milestones:
@@ -41,7 +44,7 @@ static func run() -> Dictionary:
 			"TQP-18": "qualified",
 			"TQP-21": "qualified",
 			"TQP-23": "qualified_reference_surface_shading",
-			"TQP-25": "specified_pending_human_acceptance",
+			"TQP-25": "implemented_pending_human_visual_acceptance",
 		},
 		"qualified_scope": [
 			"deterministic material IDs, weights, ties, and construction provenance",
@@ -54,7 +57,7 @@ static func run() -> Dictionary:
 			"visual pleasantness",
 			"temporal shader stability",
 			"renderer and GPU cost",
-			"TQP-25 multi-scene human visual acceptance",
+			"TQP-25 human visual acceptance and repository decision",
 		],
 		"provenance": Statistics.provenance("material_surface_reference_v1"),
 		"milestones": milestones,
@@ -113,23 +116,6 @@ static func _implement_surface_shading() -> Dictionary:
 	var result := _result("TQP-23", normals.size() * 3, failures)
 	result["records"] = records
 	result["qualification_status"] = "IMPLEMENTED_PENDING_TEMPORAL_INSPECTION"
-	return result
-
-
-static func _specify_visual_corpus() -> Dictionary:
-	var failures: Array[String] = []
-	var scenes := [
-		{"id": "natural", "fixed_camera": true, "human_review": "PENDING"},
-		{"id": "constructed", "fixed_camera": true, "human_review": "PENDING"},
-		{"id": "destroyed", "fixed_camera": true, "human_review": "PENDING"},
-		{"id": "adversarial", "fixed_camera": true, "human_review": "PENDING"},
-	]
-	for scene in scenes:
-		_expect(bool(scene.get("fixed_camera", false)), "visual fixture lacks a fixed camera", failures)
-		_expect(str(scene.get("human_review", "")) == "PENDING", "unreviewed scene was accepted", failures)
-	var result := _result("TQP-25", scenes.size(), failures)
-	result["scenes"] = scenes
-	result["qualification_status"] = "SPECIFIED_PENDING_HUMAN_ACCEPTANCE"
 	return result
 
 

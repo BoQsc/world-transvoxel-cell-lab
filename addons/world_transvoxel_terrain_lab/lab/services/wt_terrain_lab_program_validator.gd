@@ -17,6 +17,9 @@ const Phase03SystemEvidence := preload(
 const ObservatoryDiagnostics := preload(
 	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_observatory.gd"
 )
+const VisualQualityQualification := preload(
+	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_visual_quality_qualification.gd"
+)
 
 const PROGRAM_SCHEMA := "world_transvoxel.terrain_lab.program.v2"
 const LAB_SCOPE := "experimental_terrain_qualification"
@@ -98,6 +101,7 @@ static func validate(program: Dictionary, dependencies: Dictionary) -> Dictionar
 	_validate_wave_02_first_batch_evidence(program, milestone_by_id, failures)
 	_validate_wave_02_second_batch_evidence(program, milestone_by_id, failures)
 	_validate_surface_shading_evidence(program, milestone_by_id, failures)
+	_validate_visual_quality_corpus(program, milestone_by_id, failures)
 	_validate_phase_03_system_evidence(program, milestone_by_id, failures)
 	_validate_terrain_observatory_evidence(program, milestone_by_id, failures)
 	_validate_visual_evidence(program, milestone_by_id, failures)
@@ -232,6 +236,8 @@ static func _validate_evidence_files(program: Dictionary, failures: Array[String
 		"backend_decision",
 		"blocker_catalog",
 		"visual_evidence",
+		"visual_quality_corpus_standard",
+		"visual_quality_corpus_evidence",
 		"edit_gate_b_evidence",
 		"temporal_wave_standard",
 		"material_blending_standard",
@@ -742,8 +748,47 @@ static func _validate_visual_evidence(
 	)
 	var visual_corpus: Dictionary = milestone_by_id.get("TQP-25", {})
 	_expect(
-		str(visual_corpus.get("status", "")) == "specified",
-		"TQP-25 must remain specified until human acceptance",
+		str(visual_corpus.get("status", "")) == "implemented",
+		"TQP-25 must remain implemented until human acceptance",
+		failures
+	)
+
+
+static func _validate_visual_quality_corpus(
+	program: Dictionary,
+	milestone_by_id: Dictionary,
+	failures: Array[String]
+) -> void:
+	var standard := JsonLoader.load_dictionary(
+		str(program.get("visual_quality_corpus_standard", ""))
+	)
+	_expect(
+		str(standard.get("schema", ""))
+			== "world_transvoxel.terrain_lab.visual_quality_corpus_standard.v1",
+		"visual quality corpus standard schema mismatch",
+		failures
+	)
+	_expect(
+		str(standard.get("automated_evidence", ""))
+			== str(program.get("visual_quality_corpus_evidence", "")),
+		"visual quality corpus evidence path changed",
+		failures
+	)
+	var result := VisualQualityQualification.run()
+	_expect(str(result.get("status", "")) == "PASS", "TQP-25 visual corpus implementation failed", failures)
+	var human_review := str(result.get("formal_human_review", ""))
+	var milestone_status := str(
+		(milestone_by_id.get("TQP-25", {}) as Dictionary).get("status", "")
+	)
+	_expect(
+		milestone_status == ("qualified" if human_review == "ACCEPTED" else "implemented"),
+		"TQP-25 status does not match formal visual review",
+		failures
+	)
+	_expect(
+		str((result.get("finding", {}) as Dictionary).get("status", ""))
+			== "OPEN_PENDING_HUMAN_VISUAL_REVIEW",
+		"TQP-F001 was closed without a formal TQP-25 decision",
 		failures
 	)
 
