@@ -20,6 +20,12 @@ qualified 0.5 m sample scale, and both vertical layers needed by the dug
 fixture are retained. It can apply sphere, capsule, and rounded-box edits
 without depending on Cell Lab code.
 
+The scene executes as an `@tool` preview in the Godot 3D editor. Selecting the
+`TerrainObservatory` root exposes live Inspector controls for preview enable,
+automatic rebuild, canonical edit seeding, chunk bounds, brush parameters,
+dig, construction, reset, and explicit rebuild. Running the scene retains the
+same terrain and exposes the larger on-screen interaction panel.
+
 `tools/run_edit_gate_b_validation.gd` executes the focused `TQP-09` through
 `TQP-14` qualification. `tools/capture_edit_qualification_visual.gd`
 regenerates the deterministic brush and temporal-edit cross-section reference.

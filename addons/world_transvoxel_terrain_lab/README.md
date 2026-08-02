@@ -50,6 +50,12 @@ Terrain Observatory:
 res://labs/terrain_lab/scenes/terrain_observatory.tscn
 ```
 
+The observatory root is an `@tool` Node3D. Open it from **Project > Tools >
+Open Terrain Observatory**, select the root node, and use the **Editor Preview**
+and **Editor Brush** Inspector groups to rebuild/reset the canonical fixture or
+apply live dig and construction operations. The generated editor mesh uses the
+pinned native `world_transvoxel` dependency; there is no fallback path.
+
 Full machine report:
 
 ```text

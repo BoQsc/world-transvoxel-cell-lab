@@ -1,4 +1,7 @@
+@tool
 extends Node3D
+
+enum BrushShape { SPHERE, CAPSULE, ROUNDED_BOX }
 
 const EditField := preload(
 	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_edit_field.gd"
@@ -15,6 +18,50 @@ const CHUNK_RANGE := 1
 const CHUNK_Y_MIN := 0
 const CHUNK_Y_MAX := 1
 const CHUNK_CELLS_PER_AXIS := 16.0
+
+@export_group("Editor Preview")
+@export var editor_preview_enabled := true:
+	set(value):
+		editor_preview_enabled = value
+		_request_editor_rebuild()
+@export var editor_auto_rebuild := true
+@export var editor_seed_canonical_edits := true:
+	set(value):
+		editor_seed_canonical_edits = value
+		_request_editor_reset()
+@export var editor_show_chunk_bounds := true:
+	set(value):
+		editor_show_chunk_bounds = value
+		if is_instance_valid(bounds_root):
+			bounds_root.visible = value
+@export var editor_rebuild_now := false:
+	set(value):
+		editor_rebuild_now = false
+		if value and is_inside_tree():
+			call_deferred("_rebuild")
+@export var editor_reset_now := false:
+	set(value):
+		editor_reset_now = false
+		if value and is_inside_tree():
+			call_deferred("_reset_field")
+
+@export_group("Editor Brush")
+@export var editor_brush_shape: BrushShape = BrushShape.SPHERE
+@export var editor_brush_center := Vector3(4.0, 9.0, 4.0)
+@export_range(0.5, 24.0, 0.5) var editor_brush_radius := 4.0
+@export var editor_brush_extents := Vector3(4.0, 2.0, 4.0)
+@export_range(1, 65535, 1) var editor_construct_material := 7
+@export var editor_dig_now := false:
+	set(value):
+		editor_dig_now = false
+		if value and is_inside_tree():
+			call_deferred("_apply_editor_operation", "dig")
+@export var editor_construct_now := false:
+	set(value):
+		editor_construct_now = false
+		if value and is_inside_tree():
+			call_deferred("_apply_editor_operation", "construct")
+@export_group("")
 
 @onready var mesh_root: Node3D = %MeshRoot
 @onready var bounds_root: Node3D = %BoundsRoot
@@ -41,6 +88,8 @@ var _orbit_distance := 42.0
 var _orbit_target := Vector3(4.0, 10.0, 4.0)
 var _orbiting := false
 var _mesh_metrics := {}
+var _editor_rebuild_queued := false
+var _editor_reset_queued := false
 
 
 func _ready() -> void:
@@ -52,16 +101,19 @@ func _ready() -> void:
 	_surface_material.set_shader_parameter("texture_world_origin", Vector3.ZERO)
 	mesh_root.scale = Vector3.ONE * _field.sample_scale_m
 	bounds_root.scale = Vector3.ONE * _field.sample_scale_m
-	shape_option.add_item("Sphere", 0)
-	shape_option.add_item("Capsule", 1)
-	shape_option.add_item("Rounded Box", 2)
+	shape_option.clear()
+	shape_option.add_item("Sphere", BrushShape.SPHERE)
+	shape_option.add_item("Capsule", BrushShape.CAPSULE)
+	shape_option.add_item("Rounded Box", BrushShape.ROUNDED_BOX)
 	%DigButton.pressed.connect(_apply_operation.bind("dig"))
 	%ConstructButton.pressed.connect(_apply_operation.bind("construct"))
 	%ResetButton.pressed.connect(_reset_field)
 	%QualifyButton.pressed.connect(_run_qualification)
 	bounds_toggle.toggled.connect(_set_bounds_visible)
 	_probe = _create_probe()
-	_seed_initial_edits()
+	if editor_seed_canonical_edits:
+		_seed_initial_edits()
+	bounds_root.visible = editor_show_chunk_bounds
 	_rebuild()
 	_update_camera()
 
@@ -115,23 +167,52 @@ func _seed_initial_edits() -> void:
 
 func _apply_operation(mode: String) -> void:
 	var center := Vector3(position_x.value, position_y.value, position_z.value)
+	_apply_brush_operation(
+		mode,
+		shape_option.get_selected_id(),
+		center,
+		radius.value,
+		Vector3(extent_x.value, extent_y.value, extent_z.value),
+		7
+	)
+
+
+func _apply_editor_operation(mode: String) -> void:
+	_apply_brush_operation(
+		mode,
+		editor_brush_shape,
+		editor_brush_center,
+		editor_brush_radius,
+		editor_brush_extents,
+		editor_construct_material
+	)
+
+
+func _apply_brush_operation(
+	mode: String,
+	shape: int,
+	center: Vector3,
+	brush_radius: float,
+	brush_extents: Vector3,
+	material_id: int
+) -> void:
 	var operation := {
 		"id": "interactive-%04d" % _operation_sequence,
 		"mode": mode,
 		"center": center,
-		"radius_m": radius.value,
-		"material": 7,
+		"radius_m": brush_radius,
+		"material": material_id,
 		"smoothing_m": 0.35,
 	}
-	match shape_option.get_selected_id():
-		1:
+	match shape:
+		BrushShape.CAPSULE:
 			operation["shape"] = "capsule"
-			operation["segment_a"] = center - Vector3(extent_x.value, extent_y.value, extent_z.value)
-			operation["segment_b"] = center + Vector3(extent_x.value, extent_y.value, extent_z.value)
-		2:
+			operation["segment_a"] = center - brush_extents
+			operation["segment_b"] = center + brush_extents
+		BrushShape.ROUNDED_BOX:
 			operation["shape"] = "rounded_box"
-			operation["half_extents"] = Vector3(extent_x.value, extent_y.value, extent_z.value)
-			operation["rounding_m"] = minf(radius.value * 0.25, 1.0)
+			operation["half_extents"] = brush_extents
+			operation["rounding_m"] = minf(brush_radius * 0.25, 1.0)
 		_:
 			operation["shape"] = "sphere"
 	if not _field.add_operation(operation):
@@ -145,11 +226,22 @@ func _reset_field() -> void:
 	_field = EditField.new()
 	_field.terrain_profile = "observatory"
 	_operation_sequence = 0
-	_seed_initial_edits()
+	if editor_seed_canonical_edits:
+		_seed_initial_edits()
 	_rebuild()
 
 
 func _rebuild() -> void:
+	_editor_rebuild_queued = false
+	if not is_inside_tree() or not is_instance_valid(mesh_root) or not is_instance_valid(bounds_root):
+		return
+	if Engine.is_editor_hint() and not editor_preview_enabled:
+		_clear_children(mesh_root)
+		_clear_children(bounds_root)
+		_mesh_metrics = {}
+		status_label.text = "Editor preview disabled"
+		_update_metrics_label(false)
+		return
 	if _probe == null:
 		status_label.text = "FAIL: world-transvoxel unavailable"
 		return
@@ -212,6 +304,10 @@ func _rebuild() -> void:
 		"elapsed_ms": elapsed_ms,
 	}
 	_update_metrics_label(true)
+
+
+func get_mesh_metrics() -> Dictionary:
+	return _mesh_metrics.duplicate(true)
 
 
 func prepare_reference_capture() -> void:
@@ -373,6 +469,38 @@ func _create_probe() -> RefCounted:
 
 func _set_bounds_visible(visible_value: bool) -> void:
 	bounds_root.visible = visible_value
+	if Engine.is_editor_hint():
+		editor_show_chunk_bounds = visible_value
+
+
+func _request_editor_rebuild() -> void:
+	if (
+		not Engine.is_editor_hint()
+		or not editor_auto_rebuild
+		or not is_inside_tree()
+		or _editor_rebuild_queued
+	):
+		return
+	_editor_rebuild_queued = true
+	call_deferred("_rebuild")
+
+
+func _request_editor_reset() -> void:
+	if (
+		not Engine.is_editor_hint()
+		or not editor_auto_rebuild
+		or not is_inside_tree()
+		or _editor_reset_queued
+	):
+		return
+	_editor_reset_queued = true
+	call_deferred("_flush_editor_reset")
+
+
+func _flush_editor_reset() -> void:
+	_editor_reset_queued = false
+	if is_inside_tree():
+		_reset_field()
 
 
 func _update_camera() -> void:
