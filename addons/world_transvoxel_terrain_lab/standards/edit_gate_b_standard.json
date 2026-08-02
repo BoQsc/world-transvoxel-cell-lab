@@ -58,7 +58,7 @@
 		},
 		"TQP-11": {
 			"lod_count": 8,
-			"geometry_signature": "e52fd57bb785a63fbb260dce522ed3730aed158a293ea228a566123394683fdd",
+			"geometry_signature": "b202b771c1055ee0ae0bf4791296a0ca0cf60bdb5fd676f05bf5755b91aeea0b",
 			"seam_failures": 0
 		},
 		"TQP-12": {
@@ -68,7 +68,7 @@
 				"degraded": 96,
 				"intentional_disappearance": 48
 			},
-			"matrix_signature": "c26d3ee318008ac38b962d58b26b9c60e3e4acb74a8674164d0882b5d531ba8d"
+			"matrix_signature": "8126553267e9266a37cf756fed31f9248e2afeb41be6ac5267fea7aca6decba5"
 		},
 		"TQP-13": {
 			"journal_signature": "3d6cb69df38771d6d2ee842be1153ec1885178edf7a6f35c9e28b4fbc84f8d5b",

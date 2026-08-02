@@ -193,6 +193,13 @@ static func _validate_visual(standard: Dictionary, failures: Array[String]) -> D
 		failures
 	)
 	_expect(
+		str(automated.get("assembled_window_topology", "")) == "PASS"
+			and int(automated.get("interior_open_edge_count", -1)) == 0
+			and int(automated.get("nonmanifold_edge_count", -1)) == 0,
+		"texture-system assembled topology failed",
+		failures
+	)
+	_expect(
 		str(automated.get("tangent_edit_regression", "")) == "PASS",
 		"texture-system tangent edit regression failed",
 		failures

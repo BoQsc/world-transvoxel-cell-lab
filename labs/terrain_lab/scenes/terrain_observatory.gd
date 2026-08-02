@@ -92,6 +92,7 @@ var _orbit_target := Vector3(4.0, 10.0, 4.0)
 var _orbiting := false
 var _mesh_metrics := {}
 var _seam_report := {}
+var _topology_report := {}
 var _editor_rebuild_queued := false
 var _editor_reset_queued := false
 
@@ -296,11 +297,21 @@ func _rebuild() -> void:
 				triangle_count += indices.size() / 3
 				_add_chunk_bounds(instance.position)
 	_seam_report = _validate_chunk_seams(chunks_by_coordinate)
+	_topology_report = NativeEvidence.same_lod_window_topology(
+		chunks_by_coordinate.values()
+	)
 	var seam_failures := int(_seam_report.get("failure_count", -1))
+	var interior_open_edges := int(_topology_report.get("interior_open_edge_count", -1))
+	var nonmanifold_edges := int(_topology_report.get("nonmanifold_edge_count", -1))
 	var elapsed_ms := float(Time.get_ticks_usec() - started) / 1000.0
 	status_label.text = (
 		"PASS"
-		if failed_chunks == 0 and local_bounds_violations == 0 and seam_failures == 0
+		if (
+			failed_chunks == 0
+			and local_bounds_violations == 0
+			and seam_failures == 0
+			and str(_topology_report.get("status", "")) == "PASS"
+		)
 		else "FAIL"
 	)
 	_mesh_metrics = {
@@ -312,6 +323,11 @@ func _rebuild() -> void:
 		"seam_pair_count": int(_seam_report.get("pair_count", 0)),
 		"surface_seam_pair_count": int(_seam_report.get("surface_pair_count", 0)),
 		"seam_errors": seam_failures,
+		"exterior_open_edges": int(
+			_topology_report.get("exterior_open_edge_count", 0)
+		),
+		"interior_open_edges": interior_open_edges,
+		"nonmanifold_edges": nonmanifold_edges,
 		"elapsed_ms": elapsed_ms,
 	}
 	_update_metrics_label(true)
@@ -323,6 +339,10 @@ func get_mesh_metrics() -> Dictionary:
 
 func get_seam_report() -> Dictionary:
 	return _seam_report.duplicate(true)
+
+
+func get_topology_report() -> Dictionary:
+	return _topology_report.duplicate(true)
 
 
 func prepare_reference_capture() -> void:
@@ -354,12 +374,22 @@ func prepare_seam_regression_capture() -> void:
 	camera.look_at(Vector3(-1.25, 9.55, 0.0), Vector3.UP)
 
 
+func prepare_tangent_pole_capture() -> void:
+	prepare_reference_capture()
+	bounds_root.visible = false
+	$Interface.visible = false
+	camera.near = 0.01
+	camera.fov = 48.0
+	camera.position = Vector3(-1.0, 8.2, 6.8)
+	camera.look_at(Vector3(-1.0, 5.5, 4.0), Vector3.UP)
+
+
 func _update_metrics_label(include_timing: bool) -> void:
 	var final_line := "%d bounds errors" % int(_mesh_metrics.get("bounds_errors", 0))
 	if include_timing:
 		final_line += " / %.1f ms" % float(_mesh_metrics.get("elapsed_ms", 0.0))
 	metrics_label.text = (
-		"%d chunks / %d edits\n%d vertices / %d triangles\n%d surface seams / %d seam errors\n%s"
+		"%d chunks / %d edits\n%d vertices / %d triangles\n%d surface seams / %d seam errors\n%d interior openings / %d nonmanifold\n%s"
 		% [
 			int(_mesh_metrics.get("chunk_count", 0)),
 			int(_mesh_metrics.get("edit_count", 0)),
@@ -367,6 +397,8 @@ func _update_metrics_label(include_timing: bool) -> void:
 			int(_mesh_metrics.get("triangle_count", 0)),
 			int(_mesh_metrics.get("surface_seam_pair_count", 0)),
 			int(_mesh_metrics.get("seam_errors", 0)),
+			int(_mesh_metrics.get("interior_open_edges", 0)),
+			int(_mesh_metrics.get("nonmanifold_edges", 0)),
 			final_line,
 		]
 	)

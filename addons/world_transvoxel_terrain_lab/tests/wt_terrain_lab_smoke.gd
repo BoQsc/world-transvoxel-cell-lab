@@ -6,6 +6,9 @@ const TerrainLabScript := preload(
 const TerrainObservatoryScene := preload(
 	"res://labs/terrain_lab/scenes/terrain_observatory.tscn"
 )
+const NativeEvidence := preload(
+	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_edit_native_evidence.gd"
+)
 
 
 func _initialize() -> void:
@@ -54,6 +57,16 @@ func _run() -> void:
 			"Terrain Observatory canonical fixture has mismatched chunk seams: "
 			+ str(observatory.get_seam_report())
 		)
+		return
+	if int(observatory_metrics.get("interior_open_edges", -1)) != 0 \
+			or int(observatory_metrics.get("nonmanifold_edges", -1)) != 0:
+		_fail(
+			"Terrain Observatory canonical fixture has invalid window topology: "
+			+ str(observatory.get_topology_report())
+		)
+		return
+	if not _window_topology_negative_control_passes():
+		_fail("window topology audit did not detect an injected interior opening")
 		return
 	var canonical_edit_count := int(observatory_metrics.get("edit_count", 0))
 	observatory.call("_apply_editor_operation", "dig")
@@ -114,9 +127,50 @@ func _run() -> void:
 		if str(gates.get(gate_name, "")) != "CLOSED":
 			_fail(gate_name + " must fail closed while blockers remain")
 			return
-	print("WT_TERRAIN_LAB_SMOKE_PASS")
+	print(
+		"WT_TERRAIN_LAB_SMOKE_PASS topology="
+		+ JSON.stringify(observatory_metrics)
+	)
 	terrain_lab.free()
 	quit(0)
+
+
+func _window_topology_negative_control_passes() -> bool:
+	var vertices := PackedVector3Array([
+		Vector3(4.0, 4.0, 4.0),
+		Vector3(8.0, 4.0, 4.0),
+		Vector3(6.0, 8.0, 4.0),
+		Vector3(6.0, 6.0, 8.0),
+	])
+	var closed_chunk := {
+		"ok": true,
+		"lod": 0,
+		"world_origin_x": 0.0,
+		"world_origin_y": 0.0,
+		"world_origin_z": 0.0,
+		"regular": {
+			"vertices": vertices,
+			"indices": PackedInt32Array([
+				0, 2, 1,
+				0, 1, 3,
+				1, 2, 3,
+				2, 0, 3,
+			]),
+		},
+	}
+	var closed_report := NativeEvidence.same_lod_window_topology([closed_chunk])
+	var open_chunk: Dictionary = closed_chunk.duplicate(true)
+	open_chunk["regular"]["indices"] = PackedInt32Array([
+		0, 2, 1,
+		0, 1, 3,
+		1, 2, 3,
+	])
+	var open_report := NativeEvidence.same_lod_window_topology([open_chunk])
+	return (
+		str(closed_report.get("status", "")) == "PASS"
+		and str(open_report.get("status", "")) == "FAIL"
+		and int(open_report.get("interior_open_edge_count", 0)) == 3
+	)
 
 
 func _fail(message: String) -> void:

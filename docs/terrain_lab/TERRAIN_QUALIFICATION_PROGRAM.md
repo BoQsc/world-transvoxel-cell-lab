@@ -351,11 +351,15 @@ The 80-fixture CPU contract covers texture arrays, floating-origin compensated
 world-space triplanar coordinates, mipmaps, anisotropy, normal reorientation,
 and shared-position continuity at LOD0-7. The 3x3x2 observatory fixture now
 applies the qualified 0.5 m sample scale, renders both vertical layers needed
-for dug surfaces, compares all 33 adjacent same-LOD chunk pairs, requires zero
-errors across its 27 surface-bearing interfaces, and produces byte-identical
-cold/warm full and tangent-seam captures. `TQP-D011` retains the previously
-missed canonical tangent crack and its native correction. Production assets,
-GPU cost, cross-GPU equivalence, and visual acceptance remain open.
+for dug surfaces, compares all 33 adjacent same-LOD chunk pairs, and requires
+zero errors across its 27 surface-bearing interfaces. It also merges all regular
+triangles into an independent finite-window edge audit that requires zero
+interior openings and zero non-manifold edges, with an injected-hole negative
+control. Full, tangent-seam, and tangent-pole captures are byte-identical across
+cold/warm runs. `TQP-D011` retains the first pairwise tangent-seam correction;
+`TQP-D012` records the later assembled-topology false negative and exact-
+isovalue endpoint correction. Production assets, GPU cost, cross-GPU
+equivalence, and visual acceptance remain open.
 
 ### TQP-22: Visibility And Residency
 
@@ -672,3 +676,7 @@ Retained decisions:
   in the observatory and qualification program. Rebaseline the affected TQP-11,
   TQP-12, and TQP-14 geometry signatures only after their semantic, seam, and
   collision invariants pass under the corrected native revision.
+- `TQP-D012`: record that all-neighbor seam equality still missed 24 interior
+  open edges at exact-isovalue tangent poles, require assembled finite-window
+  edge multiplicity plus an injected-hole negative control, and move endpoint
+  regularization before native cell-level degenerate cleanup.

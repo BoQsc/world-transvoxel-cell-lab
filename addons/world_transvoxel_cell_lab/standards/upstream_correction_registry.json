@@ -49,6 +49,26 @@
 				"seeded_warp_29:1 interior_open_edges 4 -> 0"
 			],
 			"resolution": "retain nonzero near-endpoint triangles until endpoint regularization and chunk finalization; all four former expected negatives now pass the ordinary integrity contract"
+		},
+		{
+			"id": "exact_isovalue_tangent_pole_v2",
+			"status": "resolved",
+			"owning_layer": "world_transvoxel",
+			"classification": "exact-isovalue triangles removed before shared endpoint regularization",
+			"minimized_native_repro": "world-transvoxel M1 exact-isovalue cell plus M2 18-chunk smoothed-crater topology window",
+			"stated_invariant": "every non-exterior edge in an assembled same-LOD terrain window must have multiplicity two",
+			"deterministic_reproduction": true,
+			"focused_automated_coverage": "upstream M1/M2 debug and release regressions plus Terrain Observatory assembled-window topology smoke and injected-hole negative control",
+			"visual_evidence_for_geometry": "res://labs/terrain_lab/results/terrain_observatory_tangent_pole.png",
+			"retained_regression_standard": "res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D012.json",
+			"downstream_parity_proof": "complete Terrain Lab program and Cell Lab qualification suites",
+			"upstream_fix_reference": "world-transvoxel@7e4f6946eaeb36728ac466f06b8da75e67e30fa8",
+			"failure_before_correction": {
+				"surface_seam_errors": 0,
+				"interior_open_edges": 24,
+				"nonmanifold_edges": 0
+			},
+			"resolution": "apply the shared [1/32, 31/32] interpolation policy before cell-level degenerate cleanup; require zero interior openings and zero non-manifold edges in the unchanged 3x3x2 fixture"
 		}
 	]
 }

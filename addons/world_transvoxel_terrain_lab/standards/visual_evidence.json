@@ -13,7 +13,7 @@
 	"scene": "res://labs/terrain_lab/scenes/terrain_observatory.tscn",
 	"capture_tool": "res://labs/terrain_lab/tools/capture_terrain_observatory.gd",
 	"image": "res://labs/terrain_lab/results/terrain_observatory_reference.png",
-	"sha256": "391745ca7e57f26c1cf5dfda4d905c614be9521c4e304bc23b4f6b27095312f7",
+	"sha256": "7e969c3138ec76afc73365658cad1a8b78dff2215c92436a970e756df0cf025f",
 	"automated_checks": {
 		"status": "PASS",
 		"requested_chunk_count": 18,
@@ -24,6 +24,12 @@
 		"adjacent_seam_pair_count": 33,
 		"surface_seam_pair_count": 27,
 		"surface_seam_errors": 0,
+		"assembled_window_topology": "PASS",
+		"window_unique_edge_count": 15504,
+		"exterior_open_edge_count": 216,
+		"interior_open_edge_count": 0,
+		"nonmanifold_edge_count": 0,
+		"topology_negative_control": "PASS",
 		"tangent_edit_regression": "PASS",
 		"surface_pixel_presence": "PASS",
 		"material_distinction": "PASS",
@@ -40,12 +46,27 @@
 			"right_edge_count": 19
 		},
 		"image": "res://labs/terrain_lab/results/terrain_observatory_tangent_seam.png",
-		"sha256": "ea46a4827309416394200b405f1a97cfbcf815e525f8ad1445ddee727b0e62bb",
+		"sha256": "c708263a1d71fc4067169503928a796a7e6e113a89aa95985b51cd653c6c73ba",
 		"cold_warm_capture_identity": "PASS",
-		"native_upstream_commit": "39572401cc0b0898f70ea6c9dcbe3ca5d6f1138b"
+		"prior_pairwise_correction_commit": "39572401cc0b0898f70ea6c9dcbe3ca5d6f1138b",
+		"native_upstream_commit": "7e4f6946eaeb36728ac466f06b8da75e67e30fa8"
+	},
+	"tangent_pole_regression": {
+		"trigger": "canonical crater lower pole at native position [-2, 11, 8], where the sampled density equals the isovalue exactly",
+		"failure_before_correction": {
+			"interior_open_edge_count": 24,
+			"nonmanifold_edge_count": 0,
+			"pairwise_surface_seam_errors": 0
+		},
+		"image": "res://labs/terrain_lab/results/terrain_observatory_tangent_pole.png",
+		"sha256": "b7a6cc91a285f84b10d4ebd337cb4949b1b2142ca3e63a1ad83b9f83162798a1",
+		"cold_warm_capture_identity": "PASS",
+		"native_upstream_commit": "7e4f6946eaeb36728ac466f06b8da75e67e30fa8"
 	},
 	"supports": [
 		"canonical same-LOD tangent-edit seam regression",
+		"assembled 3x3x2 window topology regression with an injected-hole negative control",
+		"exact-isovalue tangent-pole visual regression",
 		"TQP-21 candidate triplanar texture-array presentation",
 		"TQP-23 candidate surface shading presentation",
 		"TQP-26 Terrain Observatory presentation"

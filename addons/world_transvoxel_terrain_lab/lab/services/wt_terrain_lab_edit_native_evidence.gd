@@ -194,6 +194,107 @@ static func same_lod_seam(
 	}
 
 
+static func same_lod_window_topology(chunks: Array) -> Dictionary:
+	var failures: Array[String] = []
+	var edge_records := {}
+	var window_min := Vector3(INF, INF, INF)
+	var window_max := Vector3(-INF, -INF, -INF)
+	var expected_lod := -1
+	var triangle_count := 0
+	for chunk_value in chunks:
+		if not chunk_value is Dictionary:
+			failures.append("window contains a non-dictionary chunk")
+			continue
+		var chunk: Dictionary = chunk_value
+		if not bool(chunk.get("ok", false)):
+			failures.append("window contains an unsuccessful chunk")
+			continue
+		var lod := int(chunk.get("lod", 0))
+		if expected_lod < 0:
+			expected_lod = lod
+		elif lod != expected_lod:
+			failures.append("window contains mixed LODs")
+		var origin := chunk_origin(chunk)
+		var extent := float(CHUNK_CELLS_PER_AXIS * (1 << maxi(lod, 0)))
+		window_min = window_min.min(origin)
+		window_max = window_max.max(origin + Vector3.ONE * extent)
+		var regular: Dictionary = chunk.get("regular", {})
+		var vertices: PackedVector3Array = regular.get("vertices", PackedVector3Array())
+		var indices: PackedInt32Array = regular.get("indices", PackedInt32Array())
+		for triangle_start in range(0, indices.size(), 3):
+			if triangle_start + 2 >= indices.size():
+				failures.append("window contains a non-triangular index buffer")
+				break
+			var triangle := [
+				int(indices[triangle_start]),
+				int(indices[triangle_start + 1]),
+				int(indices[triangle_start + 2]),
+			]
+			var valid := true
+			for vertex_index in triangle:
+				if int(vertex_index) < 0 or int(vertex_index) >= vertices.size():
+					valid = false
+					break
+			if not valid:
+				failures.append("window contains an invalid triangle index")
+				continue
+			triangle_count += 1
+			for edge in [[0, 1], [1, 2], [2, 0]]:
+				var a := origin + vertices[int(triangle[edge[0]])]
+				var b := origin + vertices[int(triangle[edge[1]])]
+				var key := _segment_key(a, b)
+				var record: Dictionary = edge_records.get(
+					key,
+					{"count": 0, "a": a, "b": b}
+				)
+				record["count"] = int(record["count"]) + 1
+				edge_records[key] = record
+	if chunks.is_empty():
+		failures.append("window contains no chunks")
+	var exterior_open_edges := 0
+	var interior_open_edges := 0
+	var nonmanifold_edges := 0
+	var sample_interior_open_edges: Array[String] = []
+	var sample_nonmanifold_edges: Array[String] = []
+	for key in edge_records:
+		var record: Dictionary = edge_records[key]
+		var multiplicity := int(record.get("count", 0))
+		if multiplicity == 1:
+			if _edge_on_box_boundary(
+				record.get("a", Vector3.ZERO),
+				record.get("b", Vector3.ZERO),
+				window_min,
+				window_max
+			):
+				exterior_open_edges += 1
+			else:
+				interior_open_edges += 1
+				if sample_interior_open_edges.size() < 8:
+					sample_interior_open_edges.append(str(key))
+		elif multiplicity != 2:
+			nonmanifold_edges += 1
+			if sample_nonmanifold_edges.size() < 8:
+				sample_nonmanifold_edges.append("%s:%d" % [str(key), multiplicity])
+	if interior_open_edges > 0:
+		failures.append("interior_open_edges=%d" % interior_open_edges)
+	if nonmanifold_edges > 0:
+		failures.append("nonmanifold_edges=%d" % nonmanifold_edges)
+	return {
+		"status": "PASS" if failures.is_empty() else "FAIL",
+		"chunk_count": chunks.size(),
+		"triangle_count": triangle_count,
+		"unique_edge_count": edge_records.size(),
+		"exterior_open_edge_count": exterior_open_edges,
+		"interior_open_edge_count": interior_open_edges,
+		"nonmanifold_edge_count": nonmanifold_edges,
+		"window_min": window_min,
+		"window_max": window_max,
+		"sample_interior_open_edges": sample_interior_open_edges,
+		"sample_nonmanifold_edges": sample_nonmanifold_edges,
+		"failures": failures,
+	}
+
+
 static func chunk_signature(chunk: Dictionary) -> String:
 	var lines: Array[String] = [
 		str(chunk.get("chunk_coordinate", Vector3i.ZERO)),
@@ -295,6 +396,24 @@ static func _segment_key(a: Vector3, b: Vector3) -> String:
 	var a_key := _vector_key(a)
 	var b_key := _vector_key(b)
 	return a_key + "|" + b_key if a_key < b_key else b_key + "|" + a_key
+
+
+static func _edge_on_box_boundary(
+	a: Vector3,
+	b: Vector3,
+	box_min: Vector3,
+	box_max: Vector3
+) -> bool:
+	for axis in range(3):
+		if (
+			is_equal_approx(a[axis], box_min[axis])
+			and is_equal_approx(b[axis], box_min[axis])
+		) or (
+			is_equal_approx(a[axis], box_max[axis])
+			and is_equal_approx(b[axis], box_max[axis])
+		):
+			return true
+	return false
 
 
 static func _vector_key(value: Vector3) -> String:

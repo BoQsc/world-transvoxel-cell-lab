@@ -215,7 +215,7 @@ static func _validate_evidence_files(program: Dictionary, failures: Array[String
 	for required in [
 		"TQP-D001", "TQP-D002", "TQP-D003", "TQP-D004", "TQP-D005",
 		"TQP-D006", "TQP-D007", "TQP-D008", "TQP-D009", "TQP-D010",
-		"TQP-D011",
+		"TQP-D011", "TQP-D012",
 	]:
 		_expect(decision_ids.has(required), "missing retained decision: " + required, failures)
 	for key in [
@@ -665,6 +665,12 @@ static func _validate_visual_evidence(
 	_expect(int(automated.get("adjacent_seam_pair_count", 0)) == 33, "visual seam corpus changed", failures)
 	_expect(int(automated.get("surface_seam_pair_count", 0)) == 27, "visual surface seam corpus changed", failures)
 	_expect(int(automated.get("surface_seam_errors", -1)) == 0, "visual surface seam errors exist", failures)
+	_expect(str(automated.get("assembled_window_topology", "")) == "PASS", "assembled visual topology failed", failures)
+	_expect(int(automated.get("window_unique_edge_count", 0)) == 15504, "assembled visual edge corpus changed", failures)
+	_expect(int(automated.get("exterior_open_edge_count", 0)) == 216, "assembled visual exterior contour changed", failures)
+	_expect(int(automated.get("interior_open_edge_count", -1)) == 0, "assembled visual terrain has interior openings", failures)
+	_expect(int(automated.get("nonmanifold_edge_count", -1)) == 0, "assembled visual terrain has nonmanifold edges", failures)
+	_expect(str(automated.get("topology_negative_control", "")) == "PASS", "assembled topology negative control failed", failures)
 	_expect(str(automated.get("tangent_edit_regression", "")) == "PASS", "tangent edit regression failed", failures)
 	_expect(str(automated.get("cold_warm_capture_identity", "")) == "PASS", "visual capture is not repeatable", failures)
 	var tangent: Dictionary = evidence.get("tangent_seam_regression", {})
@@ -683,10 +689,21 @@ static func _validate_visual_evidence(
 	)
 	_expect(
 		str(tangent.get("native_upstream_commit", ""))
-			== "39572401cc0b0898f70ea6c9dcbe3ca5d6f1138b",
+			== "7e4f6946eaeb36728ac466f06b8da75e67e30fa8",
 		"tangent seam evidence does not name the corrected native revision",
 		failures
 	)
+	var pole: Dictionary = evidence.get("tangent_pole_regression", {})
+	var pole_image_path := str(pole.get("image", ""))
+	_expect(FileAccess.file_exists(pole_image_path), "tangent pole evidence image is missing", failures)
+	if FileAccess.file_exists(pole_image_path):
+		_expect(
+			FileAccess.get_sha256(pole_image_path) == str(pole.get("sha256", "")),
+			"tangent pole evidence image hash changed",
+			failures
+		)
+	_expect(str(pole.get("cold_warm_capture_identity", "")) == "PASS", "tangent pole capture is not repeatable", failures)
+	_expect(str(pole.get("native_upstream_commit", "")) == "7e4f6946eaeb36728ac466f06b8da75e67e30fa8", "tangent pole evidence does not name the corrected native revision", failures)
 	var review: Dictionary = evidence.get("human_review", {})
 	_expect(
 		str(review.get("status", "")) == "PENDING",

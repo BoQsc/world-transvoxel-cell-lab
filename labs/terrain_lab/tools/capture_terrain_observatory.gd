@@ -20,7 +20,9 @@ func _run() -> void:
 	var scene := packed.instantiate()
 	root.add_child(scene)
 	var capture_mode := _argument_value("--mode", "reference")
-	if capture_mode == "seam" and scene.has_method("prepare_seam_regression_capture"):
+	if capture_mode == "pole" and scene.has_method("prepare_tangent_pole_capture"):
+		scene.call("prepare_tangent_pole_capture")
+	elif capture_mode == "seam" and scene.has_method("prepare_seam_regression_capture"):
 		scene.call("prepare_seam_regression_capture")
 	elif scene.has_method("prepare_reference_capture"):
 		scene.call("prepare_reference_capture")

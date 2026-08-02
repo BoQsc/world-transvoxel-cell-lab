@@ -134,7 +134,7 @@ func _run() -> void:
 		_fail("native dependency provenance did not pass")
 		return
 	if str(dependency.get("source", {}).get("commit", "")) \
-			!= "39572401cc0b0898f70ea6c9dcbe3ca5d6f1138b":
+			!= "7e4f6946eaeb36728ac466f06b8da75e67e30fa8":
 		_fail("native dependency source commit changed")
 		return
 	var authority_stress: Dictionary = lab.validate_authority_stress()
@@ -445,11 +445,11 @@ func _run() -> void:
 			or int(
 				(release.get("upstream_governance", {}) as Dictionary)
 					.get("case_count", 0)
-			) != 2 \
+			) != 3 \
 			or int(
 				(release.get("upstream_governance", {}) as Dictionary)
 					.get("confirmed_upstream_correction_count", 0)
-			) != 1 \
+			) != 2 \
 			or int(
 				(release.get("upstream_governance", {}) as Dictionary)
 					.get("retained_negative_count", 0)
