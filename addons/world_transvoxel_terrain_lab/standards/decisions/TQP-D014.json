@@ -1,0 +1,34 @@
+{
+	"schema": "world_transvoxel.terrain_lab.decision.v1",
+	"id": "TQP-D014",
+	"date": "2026-08-02",
+	"decision": "Accept the bounded TQP-23 reference surface-shading scope and advance the qualification program without claiming production visual quality.",
+	"reason": "The project owner approved progress after reviewing the live guided fixture and the reported moving-shadow concern. The analytical shader corpus passes, the retained near and far captures are deterministic, all guided diagnostic captures pass their automated checks, and the 0.25 m native fixture reports zero seam errors, zero interior openings, and zero non-manifold edges. TQP-F001 remains open because the cast-shadow silhouette is resolution-limited and must be judged in the broader TQP-25 visual corpus. This decision accepts only the declared reference behavior and does not treat uncertainty about final production appearance as proof of production quality.",
+	"evidence": [
+		"res://addons/world_transvoxel_terrain_lab/standards/surface_shading_standard.json",
+		"res://addons/world_transvoxel_terrain_lab/standards/surface_shadow_resolution_finding.json",
+		"res://labs/terrain_lab/results/surface_shading_contract_reference_windows.json",
+		"res://labs/terrain_lab/results/surface_shading_evidence_windows.json",
+		"res://labs/terrain_lab/results/surface_shading_review_automation_windows.json",
+		"res://labs/terrain_lab/results/surface_shadow_resolution_evidence_windows.json"
+	],
+	"qualified_scope": [
+		"tangent-free triplanar normal reorientation and stable analytical tangents",
+		"slope, global-height, wetness, and world-projected diagnostic masks",
+		"fixed near and far camera detail behavior",
+		"floating-origin compensated shader coordinates",
+		"deterministic Windows Forward+/Vulkan reference captures",
+		"guided diagnostic inspection on the 0.25 m native fixture"
+	],
+	"held_scope": [
+		"TQP-F001 shadow silhouette smoothness and TQP-25 visual-quality acceptance",
+		"production art direction, textures, decals, and weather",
+		"GPU cost and cross-hardware consistency",
+		"production terrain runtime suitability"
+	],
+	"explicit_non_claims": [
+		"no production visual-quality qualification",
+		"no claim that cast shadows are smooth at every terrain resolution",
+		"no GPU performance or cross-platform renderer qualification"
+	]
+}

@@ -220,7 +220,7 @@ static func _validate_evidence_files(program: Dictionary, failures: Array[String
 	for required in [
 		"TQP-D001", "TQP-D002", "TQP-D003", "TQP-D004", "TQP-D005",
 		"TQP-D006", "TQP-D007", "TQP-D008", "TQP-D009", "TQP-D010",
-		"TQP-D011", "TQP-D012", "TQP-D013",
+		"TQP-D011", "TQP-D012", "TQP-D013", "TQP-D014",
 	]:
 		_expect(decision_ids.has(required), "missing retained decision: " + required, failures)
 	for key in [
@@ -722,7 +722,7 @@ static func _validate_visual_evidence(
 	_expect(str(review.get("status", "")) == "ACCEPTED", "TQP-21 visual is not accepted", failures)
 	_expect(str(review.get("decision", "")).ends_with("TQP-D013.json"), "TQP-21 visual acceptance decision is missing", failures)
 	_expect("TQP-21" in review.get("accepted_for", []), "TQP-21 is absent from accepted visual scope", failures)
-	_expect("TQP-23" in review.get("pending_for", []), "TQP-23 visual review must remain pending", failures)
+	_expect("TQP-23" not in review.get("pending_for", []), "TQP-23 remains incorrectly pending in observatory evidence", failures)
 	_expect("TQP-25" in review.get("pending_for", []), "TQP-25 visual review must remain pending", failures)
 	_expect(
 		str((milestone_by_id.get("TQP-21", {}) as Dictionary).get("status", "")) == "qualified",
@@ -730,8 +730,8 @@ static func _validate_visual_evidence(
 		failures
 	)
 	_expect(
-		str((milestone_by_id.get("TQP-23", {}) as Dictionary).get("status", "")) == "implemented",
-		"TQP-23 must remain implemented until temporal visual acceptance",
+		str((milestone_by_id.get("TQP-23", {}) as Dictionary).get("status", "")) == "qualified",
+		"TQP-23 must match its accepted bounded surface-shading evidence",
 		failures
 	)
 	var visual_corpus: Dictionary = milestone_by_id.get("TQP-25", {})
@@ -844,6 +844,25 @@ static func _validate_surface_shading_evidence(
 		"surface shading guided review scene is missing",
 		failures
 	)
+	var static_evidence := JsonLoader.load_dictionary(
+		str(program.get("surface_shading_evidence", ""))
+	)
+	var static_review: Dictionary = static_evidence.get("human_review", {})
+	_expect(
+		str(static_review.get("status", "")) == "ACCEPTED",
+		"surface shading static evidence is not accepted",
+		failures
+	)
+	_expect(
+		str(static_review.get("decision", "")).ends_with("TQP-D014.json"),
+		"surface shading static acceptance decision is missing",
+		failures
+	)
+	_expect(
+		"TQP-23" in static_review.get("accepted_for", []),
+		"TQP-23 is absent from accepted surface-shading scope",
+		failures
+	)
 	var review_evidence := JsonLoader.load_dictionary(
 		str(program.get("surface_shading_review_evidence", ""))
 	)
@@ -878,6 +897,14 @@ static func _validate_surface_shading_evidence(
 	for capture_value in review_evidence.get("captures", []):
 		var capture: Dictionary = capture_value
 		review_capture_by_id[str(capture.get("id", ""))] = capture
+		var capture_path := str(capture.get("image", ""))
+		_expect(FileAccess.file_exists(capture_path), "surface shading review capture is missing: " + capture_path, failures)
+		if FileAccess.file_exists(capture_path):
+			_expect(
+				FileAccess.get_sha256(capture_path) == str(capture.get("sha256", "")),
+				"surface shading review capture hash changed: " + capture_path,
+				failures
+			)
 	_expect(
 		bool((review_capture_by_id.get("shadow_isolation", {}) as Dictionary).get(
 			"sun_shadows",
@@ -895,8 +922,13 @@ static func _validate_surface_shading_evidence(
 		failures
 	)
 	_expect(
-		str(review_evidence.get("formal_human_review", "")) == "PENDING",
-		"surface shading review evidence bypassed the formal human gate",
+		str(review_evidence.get("formal_human_review", "")) == "ACCEPTED",
+		"surface shading guided review is not formally accepted",
+		failures
+	)
+	_expect(
+		str(review_evidence.get("review_decision", "")).ends_with("TQP-D014.json"),
+		"surface shading guided review decision is missing",
 		failures
 	)
 	var shadow_finding := JsonLoader.load_dictionary(
@@ -970,14 +1002,21 @@ static func _validate_surface_shading_evidence(
 	_expect(str(milestone.get("milestone", "")) == "TQP-23", "surface shading focused milestone changed", failures)
 	_expect(str(milestone.get("status", "")) == "PASS", "surface shading focused contract failed", failures)
 	_expect(
+		str(milestone.get("qualification_status", "")).begins_with("QUALIFIED"),
+		"surface shading focused contract is not qualified",
+		failures
+	)
+	var visual: Dictionary = milestone.get("visual_evidence", {})
+	_expect(str(visual.get("human_review", "")) == "ACCEPTED", "surface shading focused report lacks accepted review", failures)
+	_expect(
 		str((milestone.get("performance", {}) as Dictionary).get("budget_evaluation", ""))
 			== "ENFORCED_FOCUSED_RUN",
 		"surface shading focused performance ceiling was not enforced",
 		failures
 	)
 	_expect(
-		str((milestone_by_id.get("TQP-23", {}) as Dictionary).get("status", "")) == "implemented",
-		"TQP-23 must remain implemented until human temporal review",
+		str((milestone_by_id.get("TQP-23", {}) as Dictionary).get("status", "")) == "qualified",
+		"TQP-23 status does not match its accepted reference evidence",
 		failures
 	)
 

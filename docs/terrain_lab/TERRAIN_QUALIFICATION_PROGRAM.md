@@ -306,10 +306,12 @@ Execution batches: (TQP-18, TQP-19, TQP-20) ->
 (TQP-21, TQP-22) -> (TQP-23, TQP-24) ->
 (TQP-25, TQP-26) -> TQP-27.
 
-TQP-18 through TQP-22 are qualified for their declared reference scopes.
+TQP-18 through TQP-24 are qualified for their declared reference scopes.
 TQP-21 closed after the corrected deterministic Forward+/D3D12 observatory
-render received explicit human acceptance in `TQP-D013`. The active execution
-step is now TQP-23; TQP-24 has qualified independently within the same batch.
+render received explicit human acceptance in `TQP-D013`. TQP-23 then closed
+for its bounded reference surface-shading scope through `TQP-D014`, while
+`TQP-F001` remains open for TQP-25. The active execution batch is TQP-25 and
+TQP-26.
 
 ### TQP-18: Material Blending
 
@@ -376,7 +378,8 @@ explicitly unqualified.
 
 ### TQP-23: Surface Shading
 
-Status: `implemented`. Owner: Material and Surface Lab. Depends on: TQP-21.
+Status: `qualified` for the bounded Windows reference surface-shading scope.
+Owner: Material and Surface Lab. Depends on: TQP-21.
 
 The separate reference shader now passes analytical normals, stable tangents,
 slope and global-height masks, wetness, projected decal, origin precision, and
@@ -399,8 +402,9 @@ concern, shadows-enabled/disabled controls, native `0.5 m` versus `0.25 m`
 comparison, clean seam/topology results, and the bounded resolution-limit
 interpretation. It remains open until TQP-25 rather than being treated as proof
 of production visual quality.
-Promotion still requires an explicit repository decision. Production art direction, dynamic
-weather/decals, GPU cost, and other hardware remain unqualified.
+`TQP-D014` records explicit acceptance of this bounded reference scope.
+Production art direction, TQP-25 visual quality, dynamic weather/decals, GPU
+cost, and other hardware remain unqualified.
 
 ### TQP-24: Collision, Queries, And Navigation
 
@@ -638,11 +642,11 @@ a standard, not an assertion that future terrain work is finished.
 
 The program has executed every milestone to a truthful evidence state:
 
-- `TQP-01` through `TQP-22`, plus `TQP-24`, are qualified
+- `TQP-01` through `TQP-24` are qualified
   for their narrow contract, native Windows reference, or reference-model
   scopes. Gate B is qualified; its native chunk rebuild benchmark remains a
   background/debug reference and is not a production frame-time claim.
-- `TQP-23` and `TQP-26` through `TQP-33` have
+- `TQP-26` through `TQP-33` have
   implemented reference behavior but
   still lack one or more exit criteria named in their milestone contracts.
 - `TQP-25` and `TQP-34` are specified. The former requires a complete visual
@@ -650,8 +654,9 @@ The program has executed every milestone to a truthful evidence state:
 - `TQP-35` through `TQP-46` are blocked by named external targets and exit
   conditions in `program_blockers.json`.
 
-The next dependency-ordered work is TQP-23 surface shading. TQP-21 closed
-through `TQP-D013`, and TQP-24 passed its retained native Godot system fixture.
+The next dependency-ordered batch is TQP-25 visual quality and TQP-26 Terrain
+Observatory. TQP-23 closed through `TQP-D014`, with TQP-F001 retained for the
+broader TQP-25 review; TQP-24 passed its retained native Godot system fixture.
 Production and GPU claims remain closed. A blocked milestone may advance only
 when its recorded exit condition exists and the required evidence passes.
 
@@ -702,3 +707,7 @@ Retained decisions:
   open edges at exact-isovalue tangent poles, require assembled finite-window
   edge multiplicity plus an injected-hole negative control, and move endpoint
   regularization before native cell-level degenerate cleanup.
+- `TQP-D013`: accept the corrected deterministic Terrain Observatory render for
+  the bounded TQP-21 reference texture-system scope.
+- `TQP-D014`: accept the bounded TQP-23 reference surface-shading contract while
+  retaining TQP-F001 and production visual quality for TQP-25.

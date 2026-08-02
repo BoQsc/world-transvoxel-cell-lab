@@ -30,8 +30,9 @@ camera-detail, constant-material shadow-isolation, and shadows-disabled control
 presentations at the `0.25 m` native fixture resolution. It does
 not replace the required live human review. The scene requires all ten
 diagnostics, two full camera cycles, both sun-shadow states, and all eight
-observations before it can write a candidate-pass draft; that draft still
-cannot promote TQP-23 without a repository decision.
+observations before it can write a candidate-pass draft; that draft cannot
+promote TQP-23 by itself. `TQP-D014` records acceptance of the retained bounded
+reference scope.
 
 `surface_shadow_resolution_evidence_windows.json` retains finding `TQP-F001`
 with constant-material shadow-on and shadow-off captures at native `0.5 m` and
@@ -149,8 +150,9 @@ godot --resolution 1280x720 --path . \
   --script labs/terrain_lab/tools/capture_surface_shading_evidence.gd
 ```
 
-The near/far pair remains pending human acceptance and does not alter the
-accepted TQP-21 observatory shader or image.
+The retained near/far pair is accepted for the bounded TQP-23 reference scope
+through `TQP-D014`; it does not alter the accepted TQP-21 observatory shader or
+image and does not qualify TQP-25 production visual quality.
 
 The focused CPU shading-contract ceiling is retained separately by:
 

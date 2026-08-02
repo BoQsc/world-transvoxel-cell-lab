@@ -21,8 +21,10 @@ required evidence state.
 - TQP-22 in the second step is qualified for its horizontal CPU reference.
 - TQP-21 is qualified after explicit human review of the corrected
   deterministic observatory render in `TQP-D013`.
+- TQP-23 is qualified for its bounded reference surface-shading scope through
+  `TQP-D014`; `TQP-F001` remains open for TQP-25.
 - TQP-24 is qualified for its native Windows Godot publication scope.
-- TQP-23 is the only recommended next milestone.
+- TQP-25 and TQP-26 are the recommended next execution batch.
 - GPU and production waves remain blocked by absent candidate implementations.
 
 ## Waves

@@ -4,7 +4,7 @@
 	"milestone": {
 		"milestone": "TQP-23",
 		"status": "PASS",
-		"qualification_status": "IMPLEMENTED_PENDING_HUMAN_TEMPORAL_REVIEW",
+		"qualification_status": "QUALIFIED_WINDOWS_REFERENCE_SURFACE_SHADING_V1",
 		"fixture_count": 31,
 		"exact_corpus": {
 			"status": "PASS",
@@ -44,7 +44,7 @@
 		},
 		"visual_evidence": {
 			"status": "PASS",
-			"human_review": "PENDING",
+			"human_review": "ACCEPTED",
 			"cameras": {
 				"near": {
 					"image": "res://labs/terrain_lab/results/surface_shading_near.png",
@@ -80,10 +80,10 @@
 		},
 		"performance": {
 			"sample_count": 100,
-			"p50_usec": 21233.0,
-			"p95_usec": 22498.0,
-			"p99_usec": 22768.0,
-			"worst_usec": 23228.0,
+			"p50_usec": 21114.0,
+			"p95_usec": 22806.0,
+			"p99_usec": 23271.0,
+			"worst_usec": 23411.0,
 			"warmup_iterations": 10,
 			"operations_per_sample": 4096,
 			"budget_p95_usec": 50000.0,
@@ -91,7 +91,7 @@
 			"budget_evaluation": "ENFORCED_FOCUSED_RUN"
 		},
 		"memory": {
-			"retained_bytes": 25540243,
+			"retained_bytes": 25539831,
 			"peak_bytes": 27265307
 		},
 		"provenance": {
@@ -116,7 +116,6 @@
 			"deterministic Windows Forward+/Vulkan temporal captures"
 		],
 		"explicitly_unqualified_scope": [
-			"human acceptance until the guided temporal and diagnostic review is completed",
 			"shadow silhouette smoothness across terrain resolutions (TQP-25)",
 			"production art direction and assets",
 			"dynamic weather or decal systems",
