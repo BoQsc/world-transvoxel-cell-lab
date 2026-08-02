@@ -20,9 +20,8 @@ const SurfaceReferenceShader := preload(
 )
 
 const NATIVE_DEPENDENCY_CLASS := "WorldTransvoxelCellProbe"
-const CHUNK_RANGE := 1
-const CHUNK_Y_MIN := 0
-const CHUNK_Y_MAX := 1
+const DEFAULT_CHUNK_RANGE_XZ := 1
+const DEFAULT_CHUNK_Y_MAX := 1
 const CHUNK_CELLS_PER_AXIS := 16.0
 
 @export_group("Editor Preview")
@@ -31,6 +30,18 @@ const CHUNK_CELLS_PER_AXIS := 16.0
 		editor_preview_enabled = value
 		_request_editor_rebuild()
 @export var editor_auto_rebuild := true
+@export_range(0.125, 1.0, 0.125) var editor_sample_scale_m := 0.5:
+	set(value):
+		editor_sample_scale_m = value
+		_request_editor_reset()
+@export_range(1, 3, 1) var editor_chunk_range_xz := DEFAULT_CHUNK_RANGE_XZ:
+	set(value):
+		editor_chunk_range_xz = value
+		_request_editor_rebuild()
+@export_range(1, 3, 1) var editor_chunk_y_max := DEFAULT_CHUNK_Y_MAX:
+	set(value):
+		editor_chunk_y_max = value
+		_request_editor_rebuild()
 @export var editor_seed_canonical_edits := true:
 	set(value):
 		editor_seed_canonical_edits = value
@@ -102,6 +113,7 @@ var _editor_reset_queued := false
 
 func _ready() -> void:
 	_field.terrain_profile = "observatory"
+	_field.sample_scale_m = editor_sample_scale_m
 	_surface_material = ShaderMaterial.new()
 	_surface_material.shader = TerrainShader
 	_surface_material.set_shader_parameter("terrain_textures", _build_texture_array())
@@ -233,6 +245,9 @@ func _apply_brush_operation(
 func _reset_field() -> void:
 	_field = EditField.new()
 	_field.terrain_profile = "observatory"
+	_field.sample_scale_m = editor_sample_scale_m
+	mesh_root.scale = Vector3.ONE * _field.sample_scale_m
+	bounds_root.scale = Vector3.ONE * _field.sample_scale_m
 	_operation_sequence = 0
 	if editor_seed_canonical_edits:
 		_seed_initial_edits()
@@ -263,9 +278,9 @@ func _rebuild() -> void:
 	var failed_chunks := 0
 	var local_bounds_violations := 0
 	var chunks_by_coordinate := {}
-	for x in range(-CHUNK_RANGE, CHUNK_RANGE + 1):
-		for y in range(CHUNK_Y_MIN, CHUNK_Y_MAX + 1):
-			for z in range(-CHUNK_RANGE, CHUNK_RANGE + 1):
+	for x in range(-editor_chunk_range_xz, editor_chunk_range_xz + 1):
+		for y in range(0, editor_chunk_y_max + 1):
+			for z in range(-editor_chunk_range_xz, editor_chunk_range_xz + 1):
 				var coordinate := Vector3i(x, y, z)
 				var chunk := _mesh_chunk(coordinate)
 				if not bool(chunk.get("ok", false)):
@@ -410,7 +425,7 @@ func prepare_surface_shading_review() -> void:
 func set_surface_shading_diagnostic_mode(mode: int) -> void:
 	if _surface_material == null or _surface_material.shader != SurfaceReferenceShader:
 		_apply_capture_shader(SurfaceReferenceShader)
-	_surface_material.set_shader_parameter("diagnostic_mode", clampi(mode, 0, 8))
+	_surface_material.set_shader_parameter("diagnostic_mode", clampi(mode, 0, 9))
 
 
 func get_surface_shading_diagnostic_mode() -> int:

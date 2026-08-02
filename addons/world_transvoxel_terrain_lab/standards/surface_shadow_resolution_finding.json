@@ -1,0 +1,28 @@
+{
+	"schema": "world_transvoxel.terrain_lab.finding.v1",
+	"id": "TQP-F001",
+	"title": "Resolution-limited cast-shadow silhouette",
+	"status": "OPEN_DEFERRED_TQP25",
+	"reported_by": "human_review",
+	"reported_on": "2026-08-02",
+	"observed_in": "TQP-23 guided surface review",
+	"evidence": "res://labs/terrain_lab/results/surface_shadow_resolution_evidence_windows.json",
+	"classification": "VISUAL_QUALITY_RESOLUTION_LIMIT",
+	"observations": [
+		"The moving crater shadow appeared visually strange to the human reviewer.",
+		"Constant-material isolation reproduced a stepped cast-shadow boundary.",
+		"Disabling cast shadows removed the stepped component but retained smooth directional shading.",
+		"Halving native sample spacing from 0.5 m to 0.25 m refined the silhouette while seam and topology checks remained clean.",
+		"Cascade range, split mode, split blending, soft-shadow angle, and bias experiments did not remove the resolution-correlated silhouette."
+	],
+	"bounded_conclusion": [
+		"Evidence is consistent with a shadow cast by the polygonal terrain silhouette at the declared sample resolution.",
+		"No evidence currently attributes this observation to Transvoxel table, seam, topology, texture projection, or mapped-normal incorrectness.",
+		"This does not establish production visual acceptability."
+	],
+	"disposition": {
+		"TQP-23": "Use the finding to distinguish shadow attachment from production smoothness; keep formal human review pending.",
+		"TQP-25": "Qualify visual quality across declared sample resolutions, LODs, camera paths, lighting profiles, and shadow settings.",
+		"production": "Reopen if the silhouette does not scale with geometry resolution or if a world-space boundary slides or changes topology."
+	}
+}

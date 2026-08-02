@@ -15,7 +15,7 @@ uniform vec3 decal_center_world = vec3(5.5, 7.0, 2.5);
 uniform float decal_radius_m = 2.2;
 uniform float camera_detail_start_m = 18.0;
 uniform float camera_detail_end_m = 70.0;
-uniform int diagnostic_mode : hint_range(0, 8) = 0;
+uniform int diagnostic_mode : hint_range(0, 9) = 0;
 
 varying vec3 world_position;
 varying vec3 world_normal;
@@ -96,6 +96,14 @@ void fragment() {
 		SPECULAR = mix(0.35, 0.72, wetness_mask);
 		AO = mix(1.0, 0.82, slope_mask * (1.0 - height_mask));
 		AO_LIGHT_AFFECT = 0.45;
+	} else if (diagnostic_mode == 9) {
+		NORMAL = normalize((VIEW_MATRIX * vec4(world_normal, 0.0)).xyz);
+		ALBEDO = vec3(0.72);
+		ROUGHNESS = 1.0;
+		METALLIC = 0.0;
+		SPECULAR = 0.0;
+		AO = 1.0;
+		AO_LIGHT_AFFECT = 0.0;
 	} else {
 		ALBEDO = vec3(0.0);
 		EMISSION = diagnostic_color;

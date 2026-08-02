@@ -1,0 +1,87 @@
+{
+	"schema": "world_transvoxel.terrain_lab.surface_shadow_resolution_evidence.v1",
+	"milestone": "TQP-23",
+	"follow_up_milestone": "TQP-25",
+	"finding": "TQP-F001",
+	"status": "PASS",
+	"capture_contract": {
+		"platform": "Windows",
+		"renderer": "forward_plus",
+		"driver": "vulkan",
+		"gpu": "NVIDIA GeForce GTX 1060 with Max-Q Design",
+		"godot": "4.7.1-stable (steam)",
+		"width": 1280,
+		"height": 720
+	},
+	"resolution_profiles": [
+		{
+			"id": "coarse_0_5m",
+			"sample_scale_m": 0.5,
+			"chunk_range_xz": 1,
+			"chunk_y_max": 1,
+			"mesh": {
+				"chunk_count": 16,
+				"vertex_count": 5856,
+				"triangle_count": 10264,
+				"seam_errors": 0,
+				"interior_open_edges": 0,
+				"nonmanifold_edges": 0
+			},
+			"captures": [
+				{
+					"sun_shadows": true,
+					"image": "res://labs/terrain_lab/results/surface_shadow_coarse_0_5m_enabled.png",
+					"sha256": "3888e1d8eb4b29fc5237c7b4578b36b43ea1cd94149dac3bd30ec435c559484f"
+				},
+				{
+					"sun_shadows": false,
+					"image": "res://labs/terrain_lab/results/surface_shadow_coarse_0_5m_disabled.png",
+					"sha256": "e1eac380fb09a8d54cfd66d25bea3d4406438893f28aa57e9351ef630e4a61d4"
+				}
+			]
+		},
+		{
+			"id": "fine_0_25m",
+			"sample_scale_m": 0.25,
+			"chunk_range_xz": 3,
+			"chunk_y_max": 3,
+			"mesh": {
+				"chunk_count": 86,
+				"vertex_count": 28248,
+				"triangle_count": 50134,
+				"seam_errors": 0,
+				"interior_open_edges": 0,
+				"nonmanifold_edges": 0
+			},
+			"captures": [
+				{
+					"sun_shadows": true,
+					"image": "res://labs/terrain_lab/results/surface_shadow_fine_0_25m_enabled.png",
+					"sha256": "5337193d94c91c57c484f68c8bbea0ebe813bef7d0329f3f5e92debef37201f1"
+				},
+				{
+					"sun_shadows": false,
+					"image": "res://labs/terrain_lab/results/surface_shadow_fine_0_25m_disabled.png",
+					"sha256": "c0b33f8cda28051003b2a8ceea9da3e15267b7460f51018f84bf239c4a99c30e"
+				}
+			]
+		}
+	],
+	"interpretation": {
+		"automated_demonstrated": [
+			"shadow-enabled and shadow-disabled captures are distinct at both resolutions",
+			"halving native sample spacing increases native triangle count",
+			"both native resolution fixtures retain zero seam and topology errors"
+		],
+		"reviewed_visual_interpretation": [
+			"the stepped component is associated with the cast-shadow presentation",
+			"the visible cast silhouette refines with the finer native fixture"
+		],
+		"not_demonstrated": [
+			"production visual acceptability",
+			"cross-hardware shadow stability",
+			"all production LOD and lighting combinations"
+		]
+	},
+	"failures": []
+}

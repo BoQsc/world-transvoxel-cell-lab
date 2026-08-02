@@ -21,6 +21,9 @@ script = ExtResource("1_script")
 
 [node name="TerrainObservatory" parent="." instance=ExtResource("2_observatory")]
 editor_show_chunk_bounds = false
+editor_sample_scale_m = 0.25
+editor_chunk_range_xz = 3
+editor_chunk_y_max = 3
 
 [node name="ReviewInterface" type="CanvasLayer" parent="."]
 
@@ -39,7 +42,7 @@ label_settings = SubResource("LabelSettings_title")
 
 [node name="Scope" type="Label" parent="ReviewInterface/Dock/Content"]
 theme_override_colors/font_color = Color(0.48, 0.72, 0.72, 1)
-text = "TEMPORAL AND SHADER CONTRACT"
+text = "TEMPORAL AND SHADER CONTRACT / 0.25 M"
 
 [node name="ReviewStatus" type="Label" parent="ReviewInterface/Dock/Content"]
 unique_name_in_owner = true
@@ -94,6 +97,12 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 14)
 show_percentage = false
 
+[node name="ShadowToggle" type="CheckButton" parent="ReviewInterface/Dock/Content"]
+unique_name_in_owner = true
+button_pressed = true
+text = "Sun shadows"
+tooltip_text = "Compare the moving review with directional shadows enabled or disabled"
+
 [node name="Separator2" type="HSeparator" parent="ReviewInterface/Dock/Content"]
 
 [node name="CriteriaLabel" type="Label" parent="ReviewInterface/Dock/Content"]
@@ -135,6 +144,10 @@ text = "Slope, height, wetness, and decal remain attached"
 [node name="NoDiscontinuity" type="CheckBox" parent="ReviewInterface/Dock/Content/CriteriaScroll/Criteria"]
 unique_name_in_owner = true
 text = "Shading introduces no surface discontinuity"
+
+[node name="ShadowAnchored" type="CheckBox" parent="ReviewInterface/Dock/Content/CriteriaScroll/Criteria"]
+unique_name_in_owner = true
+text = "Cast shadow remains attached to the terrain"
 
 [node name="ReviewNotes" type="LineEdit" parent="ReviewInterface/Dock/Content"]
 unique_name_in_owner = true

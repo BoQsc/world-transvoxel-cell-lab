@@ -5,6 +5,13 @@
 	"draft_path": "user://tqp23_surface_review_draft.json",
 	"formal_decision_required": true,
 	"minimum_motion_cycles": 2,
+	"fixture": {
+		"sample_scale_m": 0.25,
+		"chunk_range_xz": 3,
+		"chunk_y_max": 3,
+		"coarse_observatory_baseline_m": 0.5,
+		"native_dependency_only": true
+	},
 	"camera_path": {
 		"near_position": [-25.0, 22.0, 3.0],
 		"far_position": [-52.0, 42.0, 3.0],
@@ -22,7 +29,8 @@
 		{"id": 5, "name": "height_mask"},
 		{"id": 6, "name": "wetness_mask"},
 		{"id": 7, "name": "decal_mask"},
-		{"id": 8, "name": "camera_detail_fade"}
+		{"id": 8, "name": "camera_detail_fade"},
+		{"id": 9, "name": "shadow_isolation"}
 	],
 	"criteria": [
 		{
@@ -59,12 +67,19 @@
 			"id": "no_new_surface_discontinuity",
 			"label": "Shading introduces no visible surface discontinuity",
 			"failure": "The lit or diagnostic view exposes a shading crack not present in the qualified geometry evidence."
+		},
+		{
+			"id": "shadow_world_anchored",
+			"label": "Cast shadow remains attached to the terrain",
+			"failure": "A cast-shadow boundary visibly slides, pops, or changes topology over a fixed world-space surface during camera motion."
 		}
 	],
 	"decision_policy": {
 		"candidate_pass_requires_all_criteria": true,
 		"candidate_pass_requires_motion_cycles": true,
 		"candidate_pass_requires_all_diagnostic_modes": true,
+		"candidate_pass_requires_shadow_comparison": true,
+		"candidate_pass_requires_reference_shadows_enabled": true,
 		"any_failed_criterion_blocks_qualification": true,
 		"draft_cannot_promote_milestone": true,
 		"repository_decision_required_for_promotion": true,
@@ -73,6 +88,7 @@
 	"explicitly_out_of_scope": [
 		"production art direction",
 		"texture asset quality",
+		"shadow silhouette smoothness across terrain resolutions (TQP-25)",
 		"GPU performance",
 		"cross-hardware equivalence"
 	]

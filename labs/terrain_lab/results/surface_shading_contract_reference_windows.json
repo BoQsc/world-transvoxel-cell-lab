@@ -80,10 +80,10 @@
 		},
 		"performance": {
 			"sample_count": 100,
-			"p50_usec": 20534.0,
-			"p95_usec": 22511.0,
-			"p99_usec": 22952.0,
-			"worst_usec": 23105.0,
+			"p50_usec": 21233.0,
+			"p95_usec": 22498.0,
+			"p99_usec": 22768.0,
+			"worst_usec": 23228.0,
 			"warmup_iterations": 10,
 			"operations_per_sample": 4096,
 			"budget_p95_usec": 50000.0,
@@ -91,7 +91,7 @@
 			"budget_evaluation": "ENFORCED_FOCUSED_RUN"
 		},
 		"memory": {
-			"retained_bytes": 25538599,
+			"retained_bytes": 25540243,
 			"peak_bytes": 27265307
 		},
 		"provenance": {
@@ -117,6 +117,7 @@
 		],
 		"explicitly_unqualified_scope": [
 			"human acceptance until the guided temporal and diagnostic review is completed",
+			"shadow silhouette smoothness across terrain resolutions (TQP-25)",
 			"production art direction and assets",
 			"dynamic weather or decal systems",
 			"GPU cost and cross-hardware consistency"

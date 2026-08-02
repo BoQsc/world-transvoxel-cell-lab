@@ -89,6 +89,10 @@ func _run() -> void:
 		_fail("TQP-23 Surface Review must execute as an editor tool")
 		return
 	var surface_review := SurfaceShadingReviewScene.instantiate()
+	var smoke_review_observatory := surface_review.get_node("TerrainObservatory")
+	smoke_review_observatory.editor_sample_scale_m = 0.5
+	smoke_review_observatory.editor_chunk_range_xz = 1
+	smoke_review_observatory.editor_chunk_y_max = 1
 	root.add_child(surface_review)
 	var review_contract: Dictionary = surface_review.get_review_contract()
 	if str(review_contract.get("milestone", "")) != "TQP-23":
@@ -97,20 +101,23 @@ func _run() -> void:
 	if not bool(review_contract.get("formal_decision_required", false)):
 		_fail("surface review can bypass the formal decision")
 		return
-	if int(review_contract.get("diagnostic_mode_count", 0)) != 9:
+	if int(review_contract.get("diagnostic_mode_count", 0)) != 10:
 		_fail("surface review diagnostic catalog changed")
 		return
 	if int(review_contract.get("minimum_motion_cycles", 0)) != 2:
 		_fail("surface review motion-cycle gate changed")
 		return
-	if int(review_contract.get("required_diagnostic_modes", 0)) != 9:
+	if int(review_contract.get("required_diagnostic_modes", 0)) != 10:
 		_fail("surface review required diagnostic count changed")
 		return
-	if (review_contract.get("criterion_ids", []) as Array).size() != 7:
+	if not bool(review_contract.get("shadow_comparison_required", false)):
+		_fail("surface review shadow comparison is not required")
+		return
+	if (review_contract.get("criterion_ids", []) as Array).size() != 8:
 		_fail("surface review criteria changed")
 		return
-	var review_observatory: Node = surface_review.get_node("TerrainObservatory")
-	for diagnostic_mode in range(9):
+	var review_observatory: Node = smoke_review_observatory
+	for diagnostic_mode in range(10):
 		surface_review.editor_diagnostic_mode = diagnostic_mode
 		surface_review.call("_apply_diagnostic_mode")
 		if int(review_observatory.call("get_surface_shading_diagnostic_mode")) != diagnostic_mode:
@@ -124,12 +131,21 @@ func _run() -> void:
 		"NormalsCoherent",
 		"MasksAttached",
 		"NoDiscontinuity",
+		"ShadowAnchored",
 	]:
 		(surface_review.get_node("%" + criterion_node) as CheckBox).button_pressed = true
 	if bool(surface_review.call("_candidate_pass_ready")):
 		_fail("surface review candidate pass bypassed the motion-cycle gate")
 		return
 	surface_review.set("_motion_cycles", 2)
+	if bool(surface_review.call("_candidate_pass_ready")):
+		_fail("surface review candidate pass bypassed the shadow comparison")
+		return
+	surface_review.call("_set_shadows_enabled", false)
+	if bool(surface_review.call("_candidate_pass_ready")):
+		_fail("surface review candidate pass opened with reference shadows disabled")
+		return
+	surface_review.call("_set_shadows_enabled", true)
 	if not bool(surface_review.call("_candidate_pass_ready")):
 		_fail("surface review candidate pass did not open after every required observation")
 		return

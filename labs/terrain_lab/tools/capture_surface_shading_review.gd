@@ -9,6 +9,14 @@ const CAPTURES := [
 	{"id": "mapped_normal", "mode": 2, "progress": 0.35, "lateral": 0.8},
 	{"id": "triplanar_weights", "mode": 3, "progress": 0.35, "lateral": 0.8},
 	{"id": "detail_fade", "mode": 8, "progress": 0.55, "lateral": -0.6},
+	{"id": "shadow_isolation", "mode": 9, "progress": 0.35, "lateral": 0.8},
+	{
+		"id": "shadow_disabled_control",
+		"mode": 9,
+		"progress": 0.35,
+		"lateral": 0.8,
+		"shadows": false
+	},
 ]
 
 
@@ -28,6 +36,7 @@ func _run() -> void:
 	var unique_hashes := {}
 	var failures: Array[String] = []
 	for capture in CAPTURES:
+		scene.call("_set_shadows_enabled", bool(capture.get("shadows", true)))
 		scene.editor_diagnostic_mode = int(capture["mode"])
 		scene.call("_apply_diagnostic_mode")
 		scene.set_review_camera_progress(
@@ -55,6 +64,7 @@ func _run() -> void:
 			"diagnostic_mode": int(capture["mode"]),
 			"camera_progress": float(capture["progress"]),
 			"lateral_phase": float(capture["lateral"]),
+			"sun_shadows": bool(capture.get("shadows", true)),
 			"image": image_path,
 			"sha256": image_hash,
 			"metrics": metrics,
@@ -66,6 +76,7 @@ func _run() -> void:
 		"milestone": "TQP-23",
 		"status": "PASS" if failures.is_empty() else "FAIL",
 		"review_scene": REVIEW_SCENE,
+		"review_contract": scene.get_review_contract(),
 		"capture_contract": {
 			"platform": OS.get_name(),
 			"renderer": RenderingServer.get_current_rendering_method(),

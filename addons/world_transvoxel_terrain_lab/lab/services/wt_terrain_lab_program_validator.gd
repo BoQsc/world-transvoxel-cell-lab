@@ -237,6 +237,8 @@ static func _validate_evidence_files(program: Dictionary, failures: Array[String
 		"surface_shading_standard",
 		"surface_shading_review_protocol",
 		"surface_shading_review_evidence",
+		"surface_shadow_resolution_finding",
+		"surface_shadow_resolution_evidence",
 		"surface_shading_evidence",
 		"surface_shading_contract_evidence",
 		"visibility_residency_standard",
@@ -799,13 +801,24 @@ static func _validate_surface_shading_evidence(
 		"surface shading review motion-cycle gate changed",
 		failures
 	)
+	var review_fixture: Dictionary = review_protocol.get("fixture", {})
 	_expect(
-		(review_protocol.get("diagnostic_modes", []) as Array).size() == 9,
+		is_equal_approx(float(review_fixture.get("sample_scale_m", 0.0)), 0.25),
+		"surface shading review fixture resolution changed",
+		failures
+	)
+	_expect(
+		bool(review_fixture.get("native_dependency_only", false)),
+		"surface shading review fixture permits a fallback",
+		failures
+	)
+	_expect(
+		(review_protocol.get("diagnostic_modes", []) as Array).size() == 10,
 		"surface shading review diagnostic catalog changed",
 		failures
 	)
 	_expect(
-		(review_protocol.get("criteria", []) as Array).size() == 7,
+		(review_protocol.get("criteria", []) as Array).size() == 8,
 		"surface shading review criteria changed",
 		failures
 	)
@@ -814,6 +827,8 @@ static func _validate_surface_shading_evidence(
 		"candidate_pass_requires_all_criteria",
 		"candidate_pass_requires_motion_cycles",
 		"candidate_pass_requires_all_diagnostic_modes",
+		"candidate_pass_requires_shadow_comparison",
+		"candidate_pass_requires_reference_shadows_enabled",
 		"any_failed_criterion_blocks_qualification",
 		"draft_cannot_promote_milestone",
 		"repository_decision_required_for_promotion",
@@ -844,8 +859,39 @@ static func _validate_surface_shading_evidence(
 		failures
 	)
 	_expect(
-		(review_evidence.get("captures", []) as Array).size() == 4,
+		(review_evidence.get("captures", []) as Array).size() == 6,
 		"surface shading guided review capture catalog changed",
+		failures
+	)
+	_expect(
+		is_equal_approx(
+			float((review_evidence.get("review_contract", {}) as Dictionary).get(
+				"fixture_sample_scale_m",
+				0.0
+			)),
+			0.25
+		),
+		"surface shading review evidence used the wrong fixture resolution",
+		failures
+	)
+	var review_capture_by_id := {}
+	for capture_value in review_evidence.get("captures", []):
+		var capture: Dictionary = capture_value
+		review_capture_by_id[str(capture.get("id", ""))] = capture
+	_expect(
+		bool((review_capture_by_id.get("shadow_isolation", {}) as Dictionary).get(
+			"sun_shadows",
+			false
+		)),
+		"surface shadow isolation capture has shadows disabled",
+		failures
+	)
+	_expect(
+		not bool((review_capture_by_id.get("shadow_disabled_control", {}) as Dictionary).get(
+			"sun_shadows",
+			true
+		)),
+		"surface shadow disabled control has shadows enabled",
 		failures
 	)
 	_expect(
@@ -853,6 +899,65 @@ static func _validate_surface_shading_evidence(
 		"surface shading review evidence bypassed the formal human gate",
 		failures
 	)
+	var shadow_finding := JsonLoader.load_dictionary(
+		str(program.get("surface_shadow_resolution_finding", ""))
+	)
+	_expect(
+		str(shadow_finding.get("schema", "")) == "world_transvoxel.terrain_lab.finding.v1",
+		"surface shadow finding schema mismatch",
+		failures
+	)
+	_expect(
+		str(shadow_finding.get("id", "")) == "TQP-F001",
+		"surface shadow finding ID changed",
+		failures
+	)
+	_expect(
+		str(shadow_finding.get("status", "")) == "OPEN_DEFERRED_TQP25",
+		"surface shadow finding must remain open for TQP-25",
+		failures
+	)
+	var shadow_evidence := JsonLoader.load_dictionary(
+		str(program.get("surface_shadow_resolution_evidence", ""))
+	)
+	_expect(
+		str(shadow_evidence.get("schema", ""))
+			== "world_transvoxel.terrain_lab.surface_shadow_resolution_evidence.v1",
+		"surface shadow resolution evidence schema mismatch",
+		failures
+	)
+	_expect(
+		str(shadow_evidence.get("status", "")) == "PASS",
+		"surface shadow resolution evidence failed",
+		failures
+	)
+	_expect(
+		str(shadow_evidence.get("finding", "")) == "TQP-F001",
+		"surface shadow evidence is detached from its finding",
+		failures
+	)
+	var shadow_profiles: Array = shadow_evidence.get("resolution_profiles", [])
+	_expect(shadow_profiles.size() == 2, "surface shadow resolution profile count changed", failures)
+	if shadow_profiles.size() == 2:
+		var coarse_mesh: Dictionary = (shadow_profiles[0] as Dictionary).get("mesh", {})
+		var fine_mesh: Dictionary = (shadow_profiles[1] as Dictionary).get("mesh", {})
+		_expect(
+			int(fine_mesh.get("triangle_count", 0)) > int(coarse_mesh.get("triangle_count", 0)),
+			"fine surface shadow fixture did not increase native mesh resolution",
+			failures
+		)
+		for mesh in [coarse_mesh, fine_mesh]:
+			_expect(int(mesh.get("seam_errors", -1)) == 0, "shadow fixture seam error", failures)
+			_expect(
+				int(mesh.get("interior_open_edges", -1)) == 0,
+				"shadow fixture interior opening",
+				failures
+			)
+			_expect(
+				int(mesh.get("nonmanifold_edges", -1)) == 0,
+				"shadow fixture nonmanifold topology",
+				failures
+			)
 	var report := JsonLoader.load_dictionary(str(program.get("surface_shading_contract_evidence", "")))
 	_expect(
 		str(report.get("schema", ""))

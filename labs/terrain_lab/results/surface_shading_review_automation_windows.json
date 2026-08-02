@@ -3,6 +3,27 @@
 	"milestone": "TQP-23",
 	"status": "PASS",
 	"review_scene": "res://labs/terrain_lab/scenes/surface_shading_review.tscn",
+	"review_contract": {
+		"milestone": "TQP-23",
+		"protocol": "res://addons/world_transvoxel_terrain_lab/standards/surface_shading_review_protocol.json",
+		"draft_path": "user://tqp23_surface_review_draft.json",
+		"diagnostic_mode_count": 10,
+		"required_diagnostic_modes": 10,
+		"shadow_comparison_required": true,
+		"fixture_sample_scale_m": 0.25,
+		"criterion_ids": [
+			"projection_world_anchored",
+			"no_temporal_flicker",
+			"triplanar_transition_coherent",
+			"detail_fade_continuous",
+			"normal_response_coherent",
+			"masks_stable_and_attached",
+			"no_new_surface_discontinuity",
+			"shadow_world_anchored"
+		],
+		"minimum_motion_cycles": 2,
+		"formal_decision_required": true
+	},
 	"capture_contract": {
 		"platform": "Windows",
 		"renderer": "forward_plus",
@@ -18,14 +39,15 @@
 			"diagnostic_mode": 0,
 			"camera_progress": 0.35,
 			"lateral_phase": 0.8,
+			"sun_shadows": true,
 			"image": "res://labs/terrain_lab/results/surface_shading_review_lit_motion.png",
-			"sha256": "cb49ac18b6dd50ee378ecb66701647946329889f599f419d38d73cbb27373914",
+			"sha256": "a5f2f5c060c9bf5943a0d08cdcc48d776a91dedb65dc1ff32030de5db778523e",
 			"metrics": {
 				"sample_count": 78750,
 				"luminance_min": 0.0229035280644894,
 				"luminance_max": 1.0,
 				"luminance_range": 0.977096471935511,
-				"colorful_samples": 16873
+				"colorful_samples": 22756
 			}
 		},
 		{
@@ -33,14 +55,15 @@
 			"diagnostic_mode": 2,
 			"camera_progress": 0.35,
 			"lateral_phase": 0.8,
+			"sun_shadows": true,
 			"image": "res://labs/terrain_lab/results/surface_shading_review_mapped_normal.png",
-			"sha256": "52995540c3b644f81a13417e188ced1b9ecd0f5888e9f1d06b0a7adfc2346b46",
+			"sha256": "77266a5df6b30d8c8d17947d5a420de1ca5687a816af2ef30ffaa83042fb6b86",
 			"metrics": {
 				"sample_count": 78750,
 				"luminance_min": 0.0229035280644894,
 				"luminance_max": 1.0,
 				"luminance_range": 0.977096471935511,
-				"colorful_samples": 17195
+				"colorful_samples": 22983
 			}
 		},
 		{
@@ -48,14 +71,15 @@
 			"diagnostic_mode": 3,
 			"camera_progress": 0.35,
 			"lateral_phase": 0.8,
+			"sun_shadows": true,
 			"image": "res://labs/terrain_lab/results/surface_shading_review_triplanar_weights.png",
-			"sha256": "aa6624d199d99c4bc704c880b3901fe3a915b95b2d5040d6435e91592b76cd66",
+			"sha256": "252d99740ba6764ca42b923d35be9e79d44954b23a8edb801e386c52c1002147",
 			"metrics": {
 				"sample_count": 78750,
 				"luminance_min": 0.0229035280644894,
 				"luminance_max": 1.0,
 				"luminance_range": 0.977096471935511,
-				"colorful_samples": 17191
+				"colorful_samples": 22986
 			}
 		},
 		{
@@ -63,18 +87,51 @@
 			"diagnostic_mode": 8,
 			"camera_progress": 0.55,
 			"lateral_phase": -0.6,
+			"sun_shadows": true,
 			"image": "res://labs/terrain_lab/results/surface_shading_review_detail_fade.png",
-			"sha256": "2f76a15f97b30234a1cf6806d32b58c96998dffc86a7b92b8c8578d1525bfa71",
+			"sha256": "3edde4d9faadf861ac591396055e23665575b1c45b4d6816a96e7246f11e325f",
 			"metrics": {
 				"sample_count": 78750,
 				"luminance_min": 0.0229035280644894,
 				"luminance_max": 1.0,
 				"luminance_range": 0.977096471935511,
-				"colorful_samples": 257
+				"colorful_samples": 359
+			}
+		},
+		{
+			"id": "shadow_isolation",
+			"diagnostic_mode": 9,
+			"camera_progress": 0.35,
+			"lateral_phase": 0.8,
+			"sun_shadows": true,
+			"image": "res://labs/terrain_lab/results/surface_shading_review_shadow_isolation.png",
+			"sha256": "f94f95ca658d2de5d5b94fcdca55300fbab4243e67bcd871540f5688b00692a8",
+			"metrics": {
+				"sample_count": 78750,
+				"luminance_min": 0.0229035280644894,
+				"luminance_max": 1.0,
+				"luminance_range": 0.977096471935511,
+				"colorful_samples": 3643
+			}
+		},
+		{
+			"id": "shadow_disabled_control",
+			"diagnostic_mode": 9,
+			"camera_progress": 0.35,
+			"lateral_phase": 0.8,
+			"sun_shadows": false,
+			"image": "res://labs/terrain_lab/results/surface_shading_review_shadow_disabled_control.png",
+			"sha256": "65b2be1f9ed998cc10516bd81344045f47a7362341e2509994ae3b9c495676ff",
+			"metrics": {
+				"sample_count": 78750,
+				"luminance_min": 0.0229035280644894,
+				"luminance_max": 1.0,
+				"luminance_range": 0.977096471935511,
+				"colorful_samples": 3608
 			}
 		}
 	],
-	"unique_capture_hash_count": 4,
+	"unique_capture_hash_count": 6,
 	"formal_human_review": "PENDING",
 	"failures": []
 }

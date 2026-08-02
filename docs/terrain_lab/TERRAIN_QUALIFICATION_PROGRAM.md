@@ -383,12 +383,23 @@ slope and global-height masks, wetness, projected decal, origin precision, and
 camera-distance contracts. Retained near/far Forward+/Vulkan captures each use
 two cold/warm instances with eight byte-identical measured frames. A separate
 `@tool` review scene now drives the same native fixture through a deterministic
-near/far motion path and nine lit or diagnostic views. Seven named criteria
+near/far motion path and ten lit or diagnostic views. Eight named criteria
 cover world anchoring, temporal flicker, triplanar transitions, detail fade,
-normal response, mask attachment, and visible shading discontinuities. A
-candidate pass requires every criterion; uncertainty remains pending, and the
-scene writes only a non-authoritative `user://` draft. Promotion still requires
-an explicit repository decision. Production art direction, dynamic
+normal response, mask attachment, visible shading discontinuities, and
+world-anchored cast shadows. The shadow-isolation mode uses constant material
+response, and an on/off sun-shadow comparison separates renderer shadows from
+surface texture and normal behavior. A candidate pass requires every criterion,
+both shadow states, every diagnostic, and two complete motion cycles;
+uncertainty remains pending, and the scene writes only a non-authoritative
+`user://` draft. The guided review uses a finer `0.25 m` native fixture while
+the accepted Observatory baseline remains `0.5 m`; cast-shadow silhouette
+smoothness across resolutions belongs to TQP-25 and remains unqualified here.
+Finding `TQP-F001` permanently records the reviewer-reported moving-shadow
+concern, shadows-enabled/disabled controls, native `0.5 m` versus `0.25 m`
+comparison, clean seam/topology results, and the bounded resolution-limit
+interpretation. It remains open until TQP-25 rather than being treated as proof
+of production visual quality.
+Promotion still requires an explicit repository decision. Production art direction, dynamic
 weather/decals, GPU cost, and other hardware remain unqualified.
 
 ### TQP-24: Collision, Queries, And Navigation

@@ -11,6 +11,7 @@ enum DiagnosticMode {
 	WETNESS_MASK,
 	DECAL_MASK,
 	CAMERA_DETAIL_FADE,
+	SHADOW_ISOLATION,
 }
 
 enum CameraPreset { NEAR, FAR, MOTION }
@@ -35,6 +36,7 @@ const DIAGNOSTIC_LABELS := [
 	"Wetness Mask",
 	"Decal Mask",
 	"Camera Detail Fade",
+	"Shadow Isolation",
 ]
 const CRITERIA := [
 	{"id": "projection_world_anchored", "node": "ProjectionAnchored"},
@@ -44,6 +46,7 @@ const CRITERIA := [
 	{"id": "normal_response_coherent", "node": "NormalsCoherent"},
 	{"id": "masks_stable_and_attached", "node": "MasksAttached"},
 	{"id": "no_new_surface_discontinuity", "node": "NoDiscontinuity"},
+	{"id": "shadow_world_anchored", "node": "ShadowAnchored"},
 ]
 
 @export_group("Surface Review")
@@ -63,6 +66,11 @@ const CRITERIA := [
 		if is_inside_tree():
 			_motion_enabled = value
 @export_range(8.0, 60.0, 1.0) var motion_cycle_seconds := 20.0
+@export var editor_sun_shadows := true:
+	set(value):
+		editor_sun_shadows = value
+		if is_inside_tree():
+			call_deferred("_set_shadows_enabled", value)
 @export var editor_restart_motion := false:
 	set(value):
 		editor_restart_motion = false
@@ -72,9 +80,11 @@ const CRITERIA := [
 
 @onready var observatory: Node3D = $TerrainObservatory
 @onready var camera: Camera3D = $TerrainObservatory/Camera3D
+@onready var sun: DirectionalLight3D = $TerrainObservatory/Sun
 @onready var mode_option: OptionButton = %DiagnosticMode
 @onready var motion_toggle: CheckButton = %MotionToggle
 @onready var motion_progress: ProgressBar = %MotionProgress
+@onready var shadow_toggle: CheckButton = %ShadowToggle
 @onready var review_status: Label = %ReviewStatus
 @onready var pass_button: Button = %RecordPassButton
 @onready var notes: LineEdit = %ReviewNotes
@@ -84,6 +94,7 @@ var _motion_elapsed := 0.0
 var _motion_cycles := 0
 var _criterion_boxes: Array[CheckBox] = []
 var _visited_diagnostic_modes := {}
+var _visited_shadow_states := {}
 var _recorded_draft_status := ""
 
 
@@ -93,6 +104,7 @@ func _ready() -> void:
 	_motion_enabled = editor_motion_preview if Engine.is_editor_hint() else true
 	motion_toggle.button_pressed = _motion_enabled
 	_apply_diagnostic_mode()
+	_set_shadows_enabled(editor_sun_shadows)
 	if _motion_enabled:
 		set_review_camera_progress(0.0, 0.0)
 	else:
@@ -125,6 +137,7 @@ func _setup_controls() -> void:
 	%FarButton.pressed.connect(_set_camera_preset.bind(CameraPreset.FAR))
 	%MotionButton.pressed.connect(_set_camera_preset.bind(CameraPreset.MOTION))
 	motion_toggle.toggled.connect(_set_motion_enabled)
+	shadow_toggle.toggled.connect(_set_shadows_enabled)
 	%RestartButton.pressed.connect(_restart_motion)
 	%RecordFailureButton.pressed.connect(_record_review_draft.bind("REJECTED"))
 	pass_button.pressed.connect(_record_review_draft.bind("CANDIDATE_ACCEPTED"))
@@ -181,6 +194,17 @@ func _restart_motion() -> void:
 	_update_review_status()
 
 
+func _set_shadows_enabled(enabled: bool) -> void:
+	if not is_instance_valid(sun):
+		return
+	sun.shadow_enabled = enabled
+	_visited_shadow_states[enabled] = true
+	if is_instance_valid(shadow_toggle):
+		shadow_toggle.set_pressed_no_signal(enabled)
+	if is_instance_valid(review_status):
+		_update_review_status()
+
+
 func set_review_camera_progress(progress: float, lateral_phase: float = 0.0) -> void:
 	var clamped_progress := clampf(progress, 0.0, 1.0)
 	var position := NEAR_POSITION.lerp(FAR_POSITION, clamped_progress)
@@ -209,6 +233,8 @@ func get_review_contract() -> Dictionary:
 		"draft_path": DRAFT_PATH,
 		"diagnostic_mode_count": DIAGNOSTIC_LABELS.size(),
 		"required_diagnostic_modes": DIAGNOSTIC_LABELS.size(),
+		"shadow_comparison_required": true,
+		"fixture_sample_scale_m": float(observatory.get("editor_sample_scale_m")),
 		"criterion_ids": criterion_ids,
 		"minimum_motion_cycles": 2,
 		"formal_decision_required": true,
@@ -242,13 +268,14 @@ func _update_review_status() -> void:
 		if box.button_pressed:
 			checked += 1
 	review_status.text = (
-		"PENDING HUMAN REVIEW\n%d / %d diagnostics viewed\n%d / %d criteria checked\n%d / 2 motion cycles observed"
+		"PENDING HUMAN REVIEW\n%d / %d diagnostics viewed\n%d / %d criteria checked\n%d / 2 motion cycles observed\n%d / 1 shadow comparison"
 		% [
 			_visited_diagnostic_modes.size(),
 			DIAGNOSTIC_LABELS.size(),
 			checked,
 			_criterion_boxes.size(),
 			mini(_motion_cycles, 2),
+			1 if _visited_shadow_states.size() == 2 else 0,
 		]
 	)
 
@@ -275,6 +302,7 @@ func _record_review_draft(status: String) -> void:
 		"motion_cycles_observed": _motion_cycles,
 		"diagnostic_mode": int(editor_diagnostic_mode),
 		"diagnostic_modes_viewed": visited_diagnostic_modes,
+		"shadow_states_viewed": _visited_shadow_states.keys(),
 		"criteria": criteria,
 		"notes": notes.text.strip_edges(),
 		"environment": {
@@ -300,4 +328,6 @@ func _candidate_pass_ready() -> bool:
 		_all_criteria_pass()
 		and _motion_cycles >= 2
 		and _visited_diagnostic_modes.size() == DIAGNOSTIC_LABELS.size()
+		and _visited_shadow_states.size() == 2
+		and sun.shadow_enabled
 	)
