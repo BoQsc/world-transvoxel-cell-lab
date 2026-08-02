@@ -1,10 +1,10 @@
 {
 	"schema": "world_transvoxel.terrain_lab.execution_plan.v1",
-	"plan_revision": 8,
+	"plan_revision": 9,
 	"catalog_order": "ground_up_execution_sequence",
 	"execution_policy": "complete_and_promote_in_dependency_order_only",
 	"current_wave": "TQP-WAVE-02",
-	"recommended_next": ["TQP-25"],
+	"recommended_next": ["TQP-27"],
 	"waves": [
 		{
 			"id": "TQP-WAVE-00",

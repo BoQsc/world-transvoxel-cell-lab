@@ -6723,10 +6723,25 @@
 	],
 	"finding": {
 		"id": "TQP-F001",
-		"status": "OPEN_PENDING_HUMAN_VISUAL_REVIEW",
-		"automated_result_cannot_close_finding": true
+		"status": "CLOSED_BOUNDED_TQP25_ACCEPTANCE",
+		"automated_result_cannot_close_finding": true,
+		"closure_basis": "res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D015.json",
+		"closure_scope": "declared TQP-25 Windows reference visual-quality corpus"
 	},
-	"formal_human_review": "PENDING",
-	"qualification_status": "IMPLEMENTED_PENDING_HUMAN_VISUAL_ACCEPTANCE",
+	"formal_human_review": "ACCEPTED",
+	"qualification_status": "QUALIFIED_REFERENCE_VISUAL_QUALITY_CORPUS_V1",
+	"review_decision": "res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D015.json",
+	"human_review": {
+		"status": "ACCEPTED",
+		"date": "2026-08-02",
+		"decision": "res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D015.json",
+		"scope": "bounded_windows_reference_visual_quality_corpus_v1",
+		"reviewed_fixtures": ["natural", "constructed", "destroyed", "adversarial"],
+		"complete_motion_cycle_reviewed": true,
+		"adversarial_shadow_pair_reviewed": true,
+		"result": "No rejectable defect was identified in the declared reference corpus.",
+		"boundary": "This is bounded reference acceptance, not production or cross-hardware visual qualification.",
+		"reopen_policy": "Reopen for sliding, popping, topology changes, failed resolution scaling, or unacceptable production behavior."
+	},
 	"failures": []
 }

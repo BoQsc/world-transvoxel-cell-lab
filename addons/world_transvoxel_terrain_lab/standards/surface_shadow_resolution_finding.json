@@ -2,7 +2,7 @@
 	"schema": "world_transvoxel.terrain_lab.finding.v1",
 	"id": "TQP-F001",
 	"title": "Resolution-limited cast-shadow silhouette",
-	"status": "OPEN_DEFERRED_TQP25",
+	"status": "CLOSED_BOUNDED_TQP25_ACCEPTANCE",
 	"reported_by": "human_review",
 	"reported_on": "2026-08-02",
 	"observed_in": "TQP-23 guided surface review",
@@ -18,11 +18,15 @@
 	"bounded_conclusion": [
 		"Evidence is consistent with a shadow cast by the polygonal terrain silhouette at the declared sample resolution.",
 		"No evidence currently attributes this observation to Transvoxel table, seam, topology, texture projection, or mapped-normal incorrectness.",
-		"This does not establish production visual acceptability."
+		"Human review did not identify a rejectable shadow defect in the declared 0.25 m TQP-25 adversarial fixture.",
+		"This does not establish production visual acceptability outside the accepted reference corpus."
 	],
+	"closed_on": "2026-08-02",
+	"closure_decision": "res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D015.json",
+	"closure_scope": "TQP-25 Windows reference visual-quality corpus at its declared fixture resolutions",
 	"disposition": {
-		"TQP-23": "Use the finding to distinguish shadow attachment from production smoothness; keep formal human review pending.",
-		"TQP-25": "Qualify visual quality across declared sample resolutions, LODs, camera paths, lighting profiles, and shadow settings.",
-		"production": "Reopen if the silhouette does not scale with geometry resolution or if a world-space boundary slides or changes topology."
+		"TQP-23": "Retain the finding to distinguish correct shadow attachment from production smoothness within the accepted bounded surface-shading scope.",
+		"TQP-25": "Closed for the accepted four-fixture Windows reference corpus by TQP-D015.",
+		"production": "Reopen if the silhouette does not scale with geometry resolution, if a world-space boundary slides, pops, or changes topology, or if production review finds the behavior unacceptable."
 	}
 }

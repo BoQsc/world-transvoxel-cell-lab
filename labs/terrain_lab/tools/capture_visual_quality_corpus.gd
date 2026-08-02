@@ -69,6 +69,7 @@ func _run() -> void:
 		"qualification_status": "IMPLEMENTED_PENDING_HUMAN_VISUAL_ACCEPTANCE",
 		"failures": failures,
 	}
+	_apply_formal_review(report, standard)
 	var file := FileAccess.open(REPORT_PATH, FileAccess.WRITE)
 	if file == null:
 		_fail("could not open visual quality evidence output")
@@ -79,6 +80,26 @@ func _run() -> void:
 		return
 	print("WT_TERRAIN_VISUAL_QUALITY_CAPTURE_PASS")
 	quit(0)
+
+
+static func _apply_formal_review(report: Dictionary, standard: Dictionary) -> void:
+	var review: Dictionary = standard.get("formal_review", {})
+	if str(review.get("status", "")) != "ACCEPTED":
+		return
+	var decision := str(review.get("decision", ""))
+	if not decision.ends_with("TQP-D015.json"):
+		return
+	report["formal_human_review"] = "ACCEPTED"
+	report["qualification_status"] = "QUALIFIED_REFERENCE_VISUAL_QUALITY_CORPUS_V1"
+	report["review_decision"] = decision
+	report["human_review"] = review.duplicate(true)
+	report["finding"] = {
+		"id": "TQP-F001",
+		"status": "CLOSED_BOUNDED_TQP25_ACCEPTANCE",
+		"automated_result_cannot_close_finding": true,
+		"closure_basis": decision,
+		"closure_scope": "declared TQP-25 Windows reference visual-quality corpus",
+	}
 
 
 func _capture_fixture(

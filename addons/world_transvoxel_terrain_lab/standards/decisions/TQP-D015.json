@@ -1,0 +1,34 @@
+{
+	"schema": "world_transvoxel.terrain_lab.decision.v1",
+	"id": "TQP-D015",
+	"date": "2026-08-02",
+	"decision": "Accept the bounded TQP-25 Windows reference visual-quality corpus and close TQP-F001 for the declared reference scope without claiming production visual quality.",
+	"reason": "The project owner completed live human review of all four TQP-25 fixtures, their complete camera-motion cycles, and the adversarial shadow-enabled and shadow-disabled comparison, and did not identify a rejectable defect in the declared corpus. The retained automated evidence also passes exact repeatability, geometry-signature, seam, interior-opening, non-manifold, image-coverage, motion, and shadow-control checks. The previously reported moving-shadow silhouette was inspected at the 0.25 m adversarial resolution and was not judged rejectable in this bounded reference. This acceptance remains reopenable when later production, scale, renderer, or hardware evidence exposes sliding, popping, topology changes, or unacceptable resolution behavior.",
+	"evidence": [
+		"res://addons/world_transvoxel_terrain_lab/standards/visual_quality_corpus_standard.json",
+		"res://addons/world_transvoxel_terrain_lab/standards/surface_shadow_resolution_finding.json",
+		"res://labs/terrain_lab/results/visual_quality_corpus_reference_windows.json",
+		"res://labs/terrain_lab/results/visual_quality_natural.png",
+		"res://labs/terrain_lab/results/visual_quality_constructed.png",
+		"res://labs/terrain_lab/results/visual_quality_destroyed.png",
+		"res://labs/terrain_lab/results/visual_quality_adversarial.png"
+	],
+	"qualified_scope": [
+		"four-fixture natural, constructed, destroyed, and adversarial Windows reference corpus",
+		"deterministic still captures and complete deterministic camera-motion review",
+		"geometry, seam, topology, image-presence, and temporal-change checks",
+		"shadow-enabled and shadow-disabled review of the 0.25 m adversarial fixture",
+		"TQP-F001 resolution-limited shadow behavior within the declared reference fixture"
+	],
+	"held_scope": [
+		"production art direction, assets, cameras, lighting, and renderer settings",
+		"large-terrain runtime, LOD transitions, streaming, and performance",
+		"non-Windows and cross-GPU visual equivalence",
+		"visual behavior outside the declared fixture dimensions and sample resolutions"
+	],
+	"explicit_non_claims": [
+		"no production visual-quality qualification",
+		"no claim that every terrain resolution or camera distance produces a smooth silhouette",
+		"no GPU performance, cross-hardware, or large-world qualification"
+	]
+}

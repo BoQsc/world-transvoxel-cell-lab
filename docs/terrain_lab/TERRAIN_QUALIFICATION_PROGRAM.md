@@ -306,14 +306,14 @@ Execution batches: (TQP-18, TQP-19, TQP-20) ->
 (TQP-21, TQP-22) -> (TQP-23, TQP-24) ->
 (TQP-25, TQP-26) -> TQP-27.
 
-TQP-18 through TQP-24 are qualified for their declared reference scopes.
+TQP-18 through TQP-26 are qualified for their declared reference scopes.
 TQP-21 closed after the corrected deterministic Forward+/D3D12 observatory
 render received explicit human acceptance in `TQP-D013`. TQP-23 then closed
-for its bounded reference surface-shading scope through `TQP-D014`, while
-`TQP-F001` remains open for TQP-25. TQP-26 is also qualified for its diagnostic
-and repro-export scope. TQP-25 now has a complete automated corpus and guided
-review scene, but remains at `implemented` until explicit human acceptance and
-a repository decision close its visual gate.
+for its bounded reference surface-shading scope through `TQP-D014`. TQP-25
+closed through `TQP-D015` after complete human review of its four fixtures,
+motion cycles, and adversarial shadow controls; `TQP-F001` is closed only for
+that declared Windows reference scope. TQP-26 is qualified for its diagnostic
+and repro-export scope.
 
 ### TQP-18: Material Blending
 
@@ -402,11 +402,11 @@ smoothness across resolutions belongs to TQP-25 and remains unqualified here.
 Finding `TQP-F001` permanently records the reviewer-reported moving-shadow
 concern, shadows-enabled/disabled controls, native `0.5 m` versus `0.25 m`
 comparison, clean seam/topology results, and the bounded resolution-limit
-interpretation. It remains open until TQP-25 rather than being treated as proof
-of production visual quality.
+interpretation. `TQP-D015` later closes the finding only for the reviewed
+TQP-25 Windows reference corpus; this is not proof of production visual quality.
 `TQP-D014` records explicit acceptance of this bounded reference scope.
-Production art direction, TQP-25 visual quality, dynamic weather/decals, GPU
-cost, and other hardware remain unqualified.
+Production art direction, visual behavior outside the TQP-25 reference corpus,
+dynamic weather/decals, GPU cost, and other hardware remain unqualified.
 
 ### TQP-24: Collision, Queries, And Navigation
 
@@ -422,8 +422,8 @@ agents, avoidance, and non-Windows servers remain unqualified.
 
 ### TQP-25: Visual Quality Corpus
 
-Status: `implemented`, pending human visual acceptance. Owner: Material and
-Surface Lab. Depends on: TQP-05,
+Status: `qualified` for the bounded Windows reference corpus. Owner: Material
+and Surface Lab. Depends on: TQP-05,
 TQP-18, TQP-21, TQP-23.
 
 The dedicated `@tool` review scene provides natural, constructed, destroyed,
@@ -432,8 +432,12 @@ still cameras, full motion sweeps, and shadow controls. Retained Windows
 evidence includes exact-repeat PNGs, H.264 videos, geometry signatures, seam
 and assembled-window topology reports, image-coverage checks, and temporal
 change measurements. Automation passes all four fixtures but cannot accept
-visual pleasantness or close `TQP-F001`. Completion still requires a full live
-review, explicit shadow judgment, and a repository decision.
+visual quality or close a human finding by itself. The project owner completed
+the live fixture, motion, and adversarial shadow comparison; `TQP-D015` records
+bounded acceptance and closes `TQP-F001` for this corpus. Production art,
+large-terrain LOD and streaming, other renderer profiles, and cross-hardware
+behavior remain unqualified and can reopen the finding with contradictory
+evidence.
 
 ### TQP-26: Terrain Observatory
 
@@ -655,21 +659,20 @@ a standard, not an assertion that future terrain work is finished.
 
 The program has executed every milestone to a truthful evidence state:
 
-- `TQP-01` through `TQP-24`, plus `TQP-26`, are qualified
+- `TQP-01` through `TQP-26` are qualified
   for their narrow contract, native Windows reference, or reference-model
   scopes. Gate B is qualified; its native chunk rebuild benchmark remains a
   background/debug reference and is not a production frame-time claim.
-- `TQP-25` and `TQP-27` through `TQP-33` have
-  implemented reference behavior but
+- `TQP-27` through `TQP-33` have implemented reference behavior but
   still lack one or more exit criteria named in their milestone contracts.
 - `TQP-34` is specified and requires measured GPU-candidate benefit.
 - `TQP-35` through `TQP-46` are blocked by named external targets and exit
   conditions in `program_blockers.json`.
 
-The next dependency-ordered action is TQP-25 human visual review. Its automated
-corpus is implemented and passing, but no visual acceptance is inferred.
-TQP-23 closed through `TQP-D014`, with TQP-F001 retained for the broader review;
-TQP-24 and TQP-26 pass their retained native publication and diagnostic fixtures.
+The next dependency-ordered action is TQP-27 large-terrain performance and soak
+qualification. TQP-25 is qualified through `TQP-D015`, with `TQP-F001` closed
+only for its reviewed Windows reference corpus. TQP-24 and TQP-26 pass their
+retained native publication and diagnostic fixtures.
 Production and GPU claims remain closed. A blocked milestone may advance only
 when its recorded exit condition exists and the required evidence passes.
 
@@ -724,3 +727,6 @@ Retained decisions:
   the bounded TQP-21 reference texture-system scope.
 - `TQP-D014`: accept the bounded TQP-23 reference surface-shading contract while
   retaining TQP-F001 and production visual quality for TQP-25.
+- `TQP-D015`: accept the bounded four-fixture TQP-25 Windows reference corpus
+  and close TQP-F001 for that scope while retaining production, large-terrain,
+  and cross-hardware visual quality as unqualified.

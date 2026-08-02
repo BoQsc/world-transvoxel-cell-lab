@@ -87,6 +87,9 @@ static func _validate_standard(standard: Dictionary, failures: Array[String]) ->
 	_expect(bool(finding.get("requires_shadow_on_off_pair", false)), "shadow finding lacks a control pair", failures)
 	_expect(bool(finding.get("requires_full_motion_video", false)), "shadow finding lacks motion evidence", failures)
 	_expect(bool(finding.get("automated_result_cannot_close_finding", false)), "automation can incorrectly close TQP-F001", failures)
+	var formal_review: Dictionary = standard.get("formal_review", {})
+	_expect(str(formal_review.get("status", "")) == "ACCEPTED", "visual corpus formal review is not accepted", failures)
+	_expect(str(formal_review.get("decision", "")).ends_with("TQP-D015.json"), "visual corpus acceptance decision is missing", failures)
 
 
 static func _validate_fixture_standard(
@@ -152,9 +155,15 @@ static func _validate_evidence(
 		_validate_fixture_evidence(fixture_id, fixture, records_by_id.get(fixture_id, {}), contract, failures)
 	var finding: Dictionary = evidence.get("finding", {})
 	_expect(str(finding.get("id", "")) == "TQP-F001", "visual evidence finding changed", failures)
-	_expect(str(finding.get("status", "")) == "OPEN_PENDING_HUMAN_VISUAL_REVIEW", "TQP-F001 was closed without review", failures)
 	_expect(bool(finding.get("automated_result_cannot_close_finding", false)), "visual evidence permits automated finding closure", failures)
-	_expect(str(evidence.get("formal_human_review", "")) in ["PENDING", "ACCEPTED"], "visual human review state is invalid", failures)
+	var human_review := str(evidence.get("formal_human_review", ""))
+	_expect(human_review in ["PENDING", "ACCEPTED"], "visual human review state is invalid", failures)
+	if human_review == "ACCEPTED":
+		_expect(str(finding.get("status", "")) == "CLOSED_BOUNDED_TQP25_ACCEPTANCE", "accepted TQP-F001 finding is not closed for its bounded scope", failures)
+		_expect(str(evidence.get("review_decision", "")).ends_with("TQP-D015.json"), "accepted visual evidence lacks TQP-D015", failures)
+		_expect(str((evidence.get("human_review", {}) as Dictionary).get("status", "")) == "ACCEPTED", "visual human-review record is not accepted", failures)
+	else:
+		_expect(str(finding.get("status", "")) == "OPEN_PENDING_HUMAN_VISUAL_REVIEW", "TQP-F001 was closed without review", failures)
 
 
 static func _validate_fixture_evidence(

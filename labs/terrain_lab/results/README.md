@@ -68,8 +68,10 @@ This TQP-25 capture requires a real Forward+ render window and must not be run
 with `--headless`; the builder also requires `ffmpeg` and `ffprobe` on `PATH`.
 Each fixture is rendered twice, requires exact still and motion-frame identity,
 retains native geometry and field signatures, and fails on seam, interior-open,
-or non-manifold topology evidence. A passing automated report leaves formal
-human review and `TQP-F001` open.
+or non-manifold topology evidence. `TQP-D015` records the completed bounded
+human acceptance and closes `TQP-F001` only for this reference corpus. Capture
+regeneration preserves that formal decision; automation cannot create, broaden,
+or replace it.
 
 Validate the retained corpus without regenerating it by:
 

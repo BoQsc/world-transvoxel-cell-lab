@@ -1,6 +1,6 @@
 {
 	"schema": "world_transvoxel.terrain_lab.program.v2",
-	"program_revision": 16,
+	"program_revision": 17,
 	"lab_scope": "experimental_terrain_qualification",
 	"authority": "EVIDENCE_PROGRAM_ONLY",
 	"production_status": "NOT_PRODUCTION",
@@ -139,7 +139,8 @@
 		"res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D011.json",
 		"res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D012.json",
 		"res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D013.json",
-		"res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D014.json"
+		"res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D014.json",
+		"res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D015.json"
 	],
 	"milestones": [
 		{"id": "TQP-01", "title": "Operating Envelope", "status": "qualified", "domain": "foundation", "owner": "Terrain Qualification Program", "depends_on": [], "evidence_profile": "foundation", "contract_ref": "#tqp-01-operating-envelope", "claim_scope": "reference_envelope_v1"},
@@ -166,7 +167,7 @@
 		{"id": "TQP-22", "title": "Visibility And Residency", "status": "qualified", "domain": "terrain_systems", "owner": "Terrain Systems Lab and Material and Surface Lab", "depends_on": ["TQP-05", "TQP-19", "TQP-20"], "evidence_profile": "systems", "contract_ref": "#tqp-22-visibility-and-residency", "claim_scope": "cpu_horizontal_visibility_residency_reference_v1"},
 		{"id": "TQP-23", "title": "Surface Shading", "status": "qualified", "domain": "material_surface", "owner": "Material and Surface Lab", "depends_on": ["TQP-21"], "evidence_profile": "visual", "contract_ref": "#tqp-23-surface-shading", "claim_scope": "reference_renderer_profile"},
 		{"id": "TQP-24", "title": "Collision, Queries, And Navigation", "status": "qualified", "domain": "terrain_systems", "owner": "Terrain Systems Lab", "depends_on": ["TQP-06", "TQP-15", "TQP-16"], "evidence_profile": "systems", "contract_ref": "#tqp-24-collision-queries-and-navigation", "claim_scope": "reference_publication_model"},
-		{"id": "TQP-25", "title": "Visual Quality Corpus", "status": "implemented", "domain": "material_surface", "owner": "Material and Surface Lab", "depends_on": ["TQP-05", "TQP-18", "TQP-21", "TQP-23"], "evidence_profile": "visual", "contract_ref": "#tqp-25-visual-quality-corpus", "claim_scope": "reviewed_visual_regression"},
+		{"id": "TQP-25", "title": "Visual Quality Corpus", "status": "qualified", "domain": "material_surface", "owner": "Material and Surface Lab", "depends_on": ["TQP-05", "TQP-18", "TQP-21", "TQP-23"], "evidence_profile": "visual", "contract_ref": "#tqp-25-visual-quality-corpus", "claim_scope": "reviewed_visual_regression"},
 		{"id": "TQP-26", "title": "Terrain Observatory", "status": "qualified", "domain": "terrain_systems", "owner": "Terrain Systems Lab", "depends_on": ["TQP-06", "TQP-15", "TQP-16", "TQP-19", "TQP-20", "TQP-22", "TQP-24"], "evidence_profile": "systems", "contract_ref": "#tqp-26-terrain-observatory", "claim_scope": "terrain_lab_diagnostics"},
 		{"id": "TQP-27", "title": "Large-Terrain Performance And Soak", "status": "implemented", "domain": "terrain_systems", "owner": "Terrain Systems Lab", "depends_on": ["TQP-04", "TQP-16", "TQP-19", "TQP-20", "TQP-22", "TQP-24", "TQP-26"], "evidence_profile": "systems", "contract_ref": "#tqp-27-large-terrain-performance-and-soak", "claim_scope": "reference_workload_only"},
 		{"id": "TQP-28", "title": "Explosion Corpus", "status": "implemented", "domain": "edit_semantics", "owner": "Edit Semantics Lab and Structural and World Systems Lab", "depends_on": ["TQP-09", "TQP-10", "TQP-11", "TQP-12", "TQP-13", "TQP-14", "TQP-17"], "evidence_profile": "semantic", "contract_ref": "#tqp-28-explosion-corpus", "claim_scope": "deterministic_reference_model"},
@@ -213,7 +214,7 @@
 		"networked terrain",
 		"GPU field or meshing authority",
 		"non-Windows platforms",
-		"TQP-25 human visual acceptance and repository decision",
+		"visual behavior outside the accepted TQP-25 Windows reference corpus",
 		"complete qualification of implemented TQP-27 through TQP-33 behavior",
 		"TQP-34 measured GPU candidate benefit",
 		"automatic cleanup of abandoned snapshot staging directories",

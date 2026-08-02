@@ -22,13 +22,14 @@ required evidence state.
 - TQP-21 is qualified after explicit human review of the corrected
   deterministic observatory render in `TQP-D013`.
 - TQP-23 is qualified for its bounded reference surface-shading scope through
-  `TQP-D014`; `TQP-F001` remains open for TQP-25.
+  `TQP-D014`.
 - TQP-24 is qualified for its native Windows Godot publication scope.
 - TQP-26 is qualified for deterministic diagnostic snapshots and signed repro
   export.
-- TQP-25 has a passing four-fixture automated corpus and guided `@tool` review;
-  explicit human visual acceptance and a repository decision remain the only
-  open requirements in the active execution batch.
+- TQP-25 is qualified for its bounded four-fixture Windows reference corpus
+  through `TQP-D015`; the decision closes `TQP-F001` only for that declared
+  scope and retains production and cross-hardware visual quality as unqualified.
+- TQP-27 is the next dependency-ordered qualification target.
 - GPU and production waves remain blocked by absent candidate implementations.
 
 ## Waves

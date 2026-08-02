@@ -735,7 +735,7 @@ static func _validate_visual_evidence(
 	_expect(str(review.get("decision", "")).ends_with("TQP-D013.json"), "TQP-21 visual acceptance decision is missing", failures)
 	_expect("TQP-21" in review.get("accepted_for", []), "TQP-21 is absent from accepted visual scope", failures)
 	_expect("TQP-23" not in review.get("pending_for", []), "TQP-23 remains incorrectly pending in observatory evidence", failures)
-	_expect("TQP-25" in review.get("pending_for", []), "TQP-25 visual review must remain pending", failures)
+	_expect("TQP-25" not in review.get("pending_for", []), "TQP-25 remains incorrectly pending in observatory evidence", failures)
 	_expect(
 		str((milestone_by_id.get("TQP-21", {}) as Dictionary).get("status", "")) == "qualified",
 		"TQP-21 must match its accepted visual evidence",
@@ -748,8 +748,8 @@ static func _validate_visual_evidence(
 	)
 	var visual_corpus: Dictionary = milestone_by_id.get("TQP-25", {})
 	_expect(
-		str(visual_corpus.get("status", "")) == "implemented",
-		"TQP-25 must remain implemented until human acceptance",
+		str(visual_corpus.get("status", "")) == "qualified",
+		"TQP-25 must match its accepted bounded visual evidence",
 		failures
 	)
 
@@ -785,10 +785,15 @@ static func _validate_visual_quality_corpus(
 		"TQP-25 status does not match formal visual review",
 		failures
 	)
+	var expected_finding_status := (
+		"CLOSED_BOUNDED_TQP25_ACCEPTANCE"
+		if human_review == "ACCEPTED"
+		else "OPEN_PENDING_HUMAN_VISUAL_REVIEW"
+	)
 	_expect(
 		str((result.get("finding", {}) as Dictionary).get("status", ""))
-			== "OPEN_PENDING_HUMAN_VISUAL_REVIEW",
-		"TQP-F001 was closed without a formal TQP-25 decision",
+			== expected_finding_status,
+		"TQP-F001 status does not match formal TQP-25 review",
 		failures
 	)
 
@@ -996,8 +1001,13 @@ static func _validate_surface_shading_evidence(
 		failures
 	)
 	_expect(
-		str(shadow_finding.get("status", "")) == "OPEN_DEFERRED_TQP25",
-		"surface shadow finding must remain open for TQP-25",
+		str(shadow_finding.get("status", "")) == "CLOSED_BOUNDED_TQP25_ACCEPTANCE",
+		"surface shadow finding is not closed for accepted TQP-25 scope",
+		failures
+	)
+	_expect(
+		str(shadow_finding.get("closure_decision", "")).ends_with("TQP-D015.json"),
+		"surface shadow finding lacks its bounded closure decision",
 		failures
 	)
 	var shadow_evidence := JsonLoader.load_dictionary(
