@@ -12,7 +12,7 @@ lab ownership over another.
 | Addon | Status | Responsibility |
 | --- | --- | --- |
 | `world_transvoxel_cell_lab` | Qualified milestones 1-29 | Native cells, transitions, chunks, seams, minimized repros, controlled terrain fixtures, and primitive benchmarks |
-| `world_transvoxel_terrain_lab` | Program scaffold; all TQP milestones proposed | Controlled research into edit semantics, materials, resolution, large terrain, structural behavior, GPU candidates, and system performance |
+| `world_transvoxel_terrain_lab` | TQP-01 through TQP-31 qualified in bounded scopes; Gate E open | Controlled research into edit semantics, materials, resolution, adaptive terrain, large terrain, structural behavior, GPU candidates, and system performance |
 
 The production addons and game remain separate repositories:
 

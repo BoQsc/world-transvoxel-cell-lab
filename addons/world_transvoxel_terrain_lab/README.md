@@ -4,12 +4,12 @@ The Terrain Lab addon owns controlled experiments for the Terrain Qualification
 Program. It is separate from `world_transvoxel_cell_lab` even though both addons
 share this repository and the pinned `world_transvoxel` dependency.
 
-Current status: fail-closed program revision 20. All 64 milestones have a
-machine-readable evidence state. TQP-01 through TQP-29 retain their bounded
-qualified scopes; TQP-28 and TQP-29 establish the deterministic native field
-contract and LOD0 complex-field corpus, while TQP-30 through TQP-45 remain
-`proposed`. Destruction, GPU, and production promotion remain closed behind
-Gate E.
+Current status: fail-closed program revision 21. All 64 milestones have a
+machine-readable evidence state. TQP-01 through TQP-31 retain their bounded
+qualified scopes; TQP-28 through TQP-31 establish the deterministic native
+field contract, LOD0 complex-field corpus, bounded adaptive selector, and
+native transition-assembly matrix. TQP-32 through TQP-45 remain `proposed`.
+Destruction, GPU, and production promotion remain closed behind Gate E.
 
 Gate B edit qualification is retained in
 `standards/edit_gate_b_standard.json`. It qualifies `TQP-09` through `TQP-14`
@@ -31,10 +31,11 @@ production frame-time performance explicitly unqualified.
 
 The addon provides deterministic reference implementations and qualification
 fixtures for edit semantics, material semantics, terrain-system policy,
-structural policy, observability, and backend decisions. It also records the
-new native adaptive-terrain qualification gaps without claiming they pass.
-These reference models are not a production terrain runtime. GPU and
-production milestones remain blocked and no fallback mesher exists.
+structural policy, observability, and backend decisions. It qualifies only the
+bounded native adaptive-terrain scopes backed by retained evidence and records
+the remaining gaps without widening those claims. These reference models are
+not a production terrain runtime. GPU and production milestones remain blocked
+and no fallback mesher exists.
 
 Program document:
 

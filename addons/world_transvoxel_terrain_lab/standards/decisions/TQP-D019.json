@@ -1,0 +1,47 @@
+{
+	"schema": "world_transvoxel.terrain_lab.decision.v1",
+	"id": "TQP-D019",
+	"date": "2026-08-03",
+	"decision": "Qualify TQP-30 and TQP-31 for the retained bounded adaptive LOD selector and native Windows regular/transition assembly matrix, without widening the claim to dynamic adaptive terrain or world-boundary policy.",
+	"affected_milestones": ["TQP-30", "TQP-31"],
+	"repositories": ["world-transvoxel-cell-lab", "world-transvoxel"],
+	"alternatives": [
+		"reuse the production streaming selector without a separately bounded structural contract",
+		"qualify transition assembly from one face or one LOD relationship",
+		"accept interface screenshots without exact native edge and ownership evidence",
+		"require every skinny triangle geometric normal to agree with interpolated SDF normals instead of enforcing the native connected-component winding contract"
+	],
+	"evidence": [
+		"adaptive_lod_standard.json and adaptive_lod_reference_windows.json",
+		"ten deterministic cold/warm hierarchy scenarios covering interior, faces, edges, vertical exterior viewers, far viewers, and signed million-chunk origins",
+		"six injected invalid-hierarchy controls proving overlap, hole, alignment, LOD-range, neighbor-delta, and split-record detection",
+		"transition_assembly_standard.json and transition_assembly_reference_windows.json",
+		"658 direct WorldTransvoxelCellProbe chunk calls covering 18 coarse-to-four-fine face fixtures plus fully assembled fine neighbors for 12 edge masks, 8 corner masks, all faces, and empty/full controls",
+		"exact interface equality, transition ownership, material, finite-buffer, connected-component winding, and cold/warm signature evidence",
+		"focused lod3_positive_x repro and native finalizer source inspection distinguishing one retained local skinny-triangle normal disagreement from a component winding defect"
+	],
+	"qualified_scope": [
+		"balanced finite-root octree selection over a 16 by 16 by 16 LOD0 chunk domain with maximum LOD 4",
+		"deterministic split, merge, hysteresis, teleport reset, complete vertical coverage, origin shift, and maximum neighbor delta one policies",
+		"native coarse-to-four-fine regular/transition interfaces for all six faces at LOD 1/0, 2/1, and 3/2",
+		"native transition ownership for all perpendicular edge masks, corner masks, the all-face mask, and empty/full boundaries",
+		"retained Windows debug performance distributions and exact signatures"
+	],
+	"unqualified_scope": [
+		"finite-world caps, unloaded-neighbor behavior, catalog boundaries, and enclosure policy",
+		"arbitrary adaptive arrangements beyond the retained static selector and assembly matrices",
+		"dynamic LOD publication, rendering, edits, streaming, collision, navigation, and persistence",
+		"independent topology oracles and adversarial randomized corpora reserved for TQP-33 and TQP-34",
+		"production performance, other platforms, and other native build profiles"
+	],
+	"baseline_changes": [
+		"Terrain Qualification Program revision 21",
+		"program manifest and qualification state revision 21",
+		"execution plan revision 13",
+		"adaptive LOD standard TQP-ADAPTIVE-LOD-WINDOWS-V1",
+		"transition assembly standard TQP-TRANSITION-ASSEMBLY-WINDOWS-V1",
+		"winding evidence aligned with world-transvoxel connected-component orientation semantics while retaining local triangle disagreements as diagnostics"
+	],
+	"review": "Automated structural, analytical, negative-control, native interface, ownership, integrity, material, determinism, performance, and minimized-repro evidence passed. TQP-30 is a selector contract and TQP-31 is static machine geometry evidence; neither milestone claims visual acceptance or a dynamic terrain runtime.",
+	"downstream_impact": "TQP-32 becomes the next dependency-ordered milestone. Gate E remains closed and production, destruction promotion, and GPU authority remain frozen behind it. No world-transvoxel source or binary change was required."
+}

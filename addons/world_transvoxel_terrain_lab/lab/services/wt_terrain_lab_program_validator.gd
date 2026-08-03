@@ -26,6 +26,12 @@ const LargeTerrainSoakEvidence := preload(
 const NativeFieldEvidence := preload(
 	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_native_field_evidence.gd"
 )
+const AdaptiveLodEvidence := preload(
+	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_adaptive_lod_evidence.gd"
+)
+const TransitionAssemblyEvidence := preload(
+	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_transition_assembly_evidence.gd"
+)
 
 const PROGRAM_SCHEMA := "world_transvoxel.terrain_lab.program.v2"
 const LAB_SCOPE := "experimental_terrain_qualification"
@@ -112,6 +118,8 @@ static func validate(program: Dictionary, dependencies: Dictionary) -> Dictionar
 	_validate_terrain_observatory_evidence(program, milestone_by_id, failures)
 	_validate_large_terrain_soak_evidence(program, milestone_by_id, failures)
 	_validate_native_field_evidence(program, milestone_by_id, failures)
+	_validate_adaptive_lod_evidence(program, milestone_by_id, failures)
+	_validate_transition_assembly_evidence(program, milestone_by_id, failures)
 	_validate_visual_evidence(program, milestone_by_id, failures)
 	_validate_dependency_boundary(program, dependencies, failures)
 	_validate_source_boundary(failures)
@@ -239,7 +247,7 @@ static func _validate_evidence_files(program: Dictionary, failures: Array[String
 		"TQP-D001", "TQP-D002", "TQP-D003", "TQP-D004", "TQP-D005",
 		"TQP-D006", "TQP-D007", "TQP-D008", "TQP-D009", "TQP-D010",
 		"TQP-D011", "TQP-D012", "TQP-D013", "TQP-D014", "TQP-D015",
-		"TQP-D016", "TQP-D017", "TQP-D018",
+		"TQP-D016", "TQP-D017", "TQP-D018", "TQP-D019",
 	]:
 		_expect(decision_ids.has(required), "missing retained decision: " + required, failures)
 	for key in [
@@ -272,6 +280,10 @@ static func _validate_evidence_files(program: Dictionary, failures: Array[String
 		"large_volume_snapshot_finding",
 		"native_field_standard",
 		"native_field_evidence",
+		"adaptive_lod_standard",
+		"adaptive_lod_evidence",
+		"transition_assembly_standard",
+		"transition_assembly_evidence",
 		"wave_02_first_batch_evidence",
 		"wave_02_second_batch_evidence",
 		"execution_plan",
@@ -897,6 +909,56 @@ static func _validate_native_field_evidence(
 			milestone_id + " must match retained native field evidence",
 			failures
 		)
+
+
+static func _validate_adaptive_lod_evidence(
+	program: Dictionary,
+	milestone_by_id: Dictionary,
+	failures: Array[String]
+) -> void:
+	var standard := JsonLoader.load_dictionary(str(program.get("adaptive_lod_standard", "")))
+	_expect(
+		str(standard.get("schema", ""))
+			== "world_transvoxel.terrain_lab.adaptive_lod_standard.v1",
+		"TQP-30 adaptive LOD standard schema mismatch",
+		failures
+	)
+	var validation := AdaptiveLodEvidence.validate_retained()
+	if str(validation.get("status", "")) != "PASS":
+		for failure_value in validation.get("failures", []):
+			failures.append("TQP-30 adaptive LOD: " + str(failure_value))
+	_expect(
+		str((milestone_by_id.get("TQP-30", {}) as Dictionary).get("status", ""))
+			== "qualified",
+		"TQP-30 must match retained adaptive LOD evidence",
+		failures
+	)
+
+
+static func _validate_transition_assembly_evidence(
+	program: Dictionary,
+	milestone_by_id: Dictionary,
+	failures: Array[String]
+) -> void:
+	var standard := JsonLoader.load_dictionary(
+		str(program.get("transition_assembly_standard", ""))
+	)
+	_expect(
+		str(standard.get("schema", ""))
+			== "world_transvoxel.terrain_lab.transition_assembly_standard.v1",
+		"TQP-31 transition assembly standard schema mismatch",
+		failures
+	)
+	var validation := TransitionAssemblyEvidence.validate_retained()
+	if str(validation.get("status", "")) != "PASS":
+		for failure_value in validation.get("failures", []):
+			failures.append("TQP-31 transition assembly: " + str(failure_value))
+	_expect(
+		str((milestone_by_id.get("TQP-31", {}) as Dictionary).get("status", ""))
+			== "qualified",
+		"TQP-31 must match retained transition assembly evidence",
+		failures
+	)
 
 
 static func _validate_surface_shading_evidence(

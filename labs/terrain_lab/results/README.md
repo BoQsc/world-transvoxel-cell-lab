@@ -16,6 +16,35 @@ single-fixture repro. This corpus is a Windows debug regression reference; it
 does not qualify adaptive LOD selection, transition cells, or production
 terrain performance.
 
+`adaptive_lod_reference_windows.json` retains the focused TQP-30 bounded
+adaptive hierarchy, hysteresis, origin-shift, teleport, exact-coverage, and
+invalid-arrangement evidence:
+
+```text
+godot --headless --path . \
+  --script labs/terrain_lab/tools/run_adaptive_lod_validation.gd -- \
+  --output res://labs/terrain_lab/results/adaptive_lod_reference_windows.json
+```
+
+Use `--scenario <scenario_id>` for a focused selector repro. The retained
+performance distribution is a Windows debug regression ceiling for the finite
+16x16x16-chunk hierarchy, not a production streaming budget.
+
+`transition_assembly_reference_windows.json` retains the focused TQP-31 native
+regular/transition matrix:
+
+```text
+godot --headless --path . \
+  --script labs/terrain_lab/tools/run_transition_assembly_validation.gd -- \
+  --output res://labs/terrain_lab/results/transition_assembly_reference_windows.json
+```
+
+Use `--fixture <fixture_id>` for any retained face, edge, corner, all-face, or
+empty/full minimized repro. The full matrix calls `WorldTransvoxelCellProbe`
+directly 658 times with no fallback and retains exact cold/warm signatures.
+Its static bounded claim does not include dynamic LOD publication, arbitrary
+hierarchies, enclosure policy, or production performance.
+
 `terrain_observatory_diagnostics_reference_windows.json` retains the focused
 TQP-26 chunk, job, resource, collision, rejection, event-retention, and signed
 repro-export contract:

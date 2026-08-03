@@ -133,10 +133,9 @@ promotion order: investigation may happen early, but qualification cannot skip
 an earlier dependency.
 
 The machine-readable `execution_plan.json` mirrors the same order but is not a
-second human roadmap. Program revision 19 preserves accepted `TQP-01` through
-`TQP-27` identifiers, inserts the missing native adaptive-terrain phase, and
-moves only unqualified later work. `TQP-D017` records that migration. The older
-revision-5 migration remains retained in `TQP-D006` as history.
+second human roadmap. Program revision 21 preserves the ground-up sequence
+introduced by `TQP-D017` and advances only milestones with retained evidence.
+The older revision-5 migration remains retained in `TQP-D006` as history.
 
 ## Completeness And Claim Boundary
 
@@ -157,8 +156,8 @@ residency shape, edit history, or runtime scale. In particular:
 
 The 2026-08-02 terrain-core completeness audit found the former roadmap moved
 from bounded TQP-27 evidence directly to destruction. Phase 4 closes that gap.
-Until Gate E passes, this program may claim the qualified TQP-01 through TQP-27
-scopes, but it must not claim authoritative adaptive Transvoxel terrain.
+Until Gate E passes, this program may claim the qualified TQP-01 through TQP-31
+scopes, but it must not claim authoritative dynamic adaptive Transvoxel terrain.
 
 ## Phase 1: Qualified Foundations And Reference Semantics
 
@@ -566,7 +565,8 @@ transition cells; those begin at TQP-30 and TQP-31.
 
 ### TQP-30: Adaptive LOD Selection And Neighbor Contract
 
-Status: `proposed`. Owner: Terrain Systems Lab. Depends on: TQP-05, TQP-19,
+Status: `qualified` for the bounded deterministic hierarchy reference. Owner:
+Terrain Systems Lab. Depends on: TQP-05, TQP-19,
 TQP-20, TQP-22, TQP-29.
 
 Complete when the octree or equivalent hierarchy, split/merge thresholds,
@@ -574,15 +574,36 @@ hysteresis, viewer metric, parent/child coverage, maximum neighbor delta,
 vertical residency, origin shifts, teleports, and invalid LOD arrangements have
 deterministic policies and exhaustive structural checks.
 
+The retained `TQP-ADAPTIVE-LOD-WINDOWS-V1` standard defines a balanced finite
+octree over a 16x16x16 LOD0-chunk root through LOD4. Ten cold/warm scenarios
+cover interior, face, edge, vertical exterior, far-viewer, and signed
+million-chunk origins. Exact coverage, parent/child ownership, maximum
+face-neighbor delta one, full vertical ownership, hysteresis, origin shifts,
+and one-selection teleport convergence pass. Six injected invalid arrangements
+prove that overlap, holes, misalignment, invalid LOD, neighbor delta, and
+incomplete split records are detected. Dynamic publication and production
+streaming remain unqualified.
+
 ### TQP-31: Regular And Transition Assembly Matrix
 
-Status: `proposed`. Owner: Terrain Systems Lab and Cell Lab. Depends on:
-TQP-29, TQP-30.
+Status: `qualified` for the retained native Windows static assembly matrix.
+Owner: Terrain Systems Lab and Cell Lab. Depends on: TQP-29, TQP-30.
 
 Complete when assembled native chunks exercise every transition-face
 orientation, regular/transition ownership rule, permitted LOD relationship,
 edge and corner meeting, positive and negative coordinates, winding, normals,
 materials, and empty/full boundary case without fallback geometry.
+
+The retained `TQP-TRANSITION-ASSEMBLY-WINDOWS-V1` matrix makes 658 direct
+`WorldTransvoxelCellProbe` chunk calls with no fallback. It proves exact
+coarse-to-four-fine interface equality on every face for LOD 1/0, 2/1, and
+3/2, plus all twelve perpendicular edge masks, eight corner masks, all faces,
+and four fine regular neighbors for every requested face. It also covers signed
+coordinates, four materials, and empty/full controls. Winding is checked
+for shared-edge consistency and connected-component normal polarity, matching
+the native finalizer contract. One local skinny-triangle normal disagreement is
+retained as a diagnostic and is not a component winding defect. Dynamic or
+arbitrary adaptive arrangements and world-boundary policy remain unqualified.
 
 ### TQP-32: Chunk, World Boundary, And Enclosure Policy
 
@@ -930,21 +951,22 @@ a standard, not an assertion that future terrain work is finished.
 
 The program records every milestone at a truthful evidence state:
 
-- `TQP-01` through `TQP-29` are qualified
+- `TQP-01` through `TQP-31` are qualified
   for their narrow contract, native Windows reference, or reference-model
   scopes. Gate B is qualified; its native chunk rebuild benchmark remains a
   background/debug reference and is not a production frame-time claim.
-- `TQP-28` and `TQP-29` qualify the deterministic field contract and bounded
-  LOD0 same-resolution complex native corpus. `TQP-30` through `TQP-45`
-  remain proposed and make no adaptive-terrain authority claim.
+- `TQP-28` through `TQP-31` qualify the deterministic field contract, bounded
+  LOD0 complex native corpus, finite adaptive selector, and static native
+  transition-assembly matrix. `TQP-32` through `TQP-45` remain proposed, so
+  the program makes no Gate E adaptive-terrain authority claim.
 - `TQP-46` through `TQP-51` retain the previously implemented destruction and
   structural reference behavior under their revision-19 identifiers.
 - `TQP-52` is specified and requires measured GPU-candidate benefit.
 - `TQP-53` through `TQP-64` are blocked by named external targets and exit
   conditions in `program_blockers.json`.
 
-The next dependency-ordered milestone is TQP-30, the adaptive LOD selection and
-neighbor contract. TQP-27 remains qualified through `TQP-D016` only for its
+The next dependency-ordered milestone is TQP-32, the chunk, world-boundary, and
+enclosure policy. TQP-27 remains qualified through `TQP-D016` only for its
 bounded native Windows 2K-world soak and durable edit-journal restart.
 `TQP-F002` retains large-volume snapshot compaction as an open upstream
 capacity issue. Gate D is qualified only for that bounded reference claim;
@@ -953,20 +975,17 @@ behind it. A milestone may advance only when its declared evidence passes.
 
 ## What Comes Next
 
-The immediate task is TQP-30. It will define the adaptive spatial hierarchy
-before more terrain behavior is built on top of it. This means fixing node and
-chunk identity, parent/child coverage, viewer-distance error metrics,
-split/merge thresholds, hysteresis, maximum neighbor LOD difference, and the
-rules that prevent holes, duplicate coverage, or unstable LOD oscillation. The
-result must be deterministic and inspectable from analytical fixtures and
-recorded decision traces; it is not yet a production streamer.
+The immediate task is TQP-32. It will define chunk and finite-world boundary
+ownership, vertical limits, outside-field sampling, closed versus intentionally
+open contours, unloaded neighbors, caps, and catalog limits without accepting
+skirts or hidden overlap as topology corrections.
 
-TQP-31 through TQP-34 then establish mixed-resolution geometry confidence.
-They cover regular and transition-cell assembly, every face orientation and
-neighbor arrangement, finite-world boundaries and enclosure, independent
-geometry/topology oracles, and adversarial or randomized cases with minimized
-repros. This is where the lab must prove that complex fields remain connected
-and explain failures without relying only on the implementation being tested.
+TQP-33 and TQP-34 then add independent geometry/topology oracles and
+adversarial or randomized cases with minimized repros. This is where the lab
+must prove that complex mixed-resolution fields remain connected and explain
+failures without relying only on the implementation being tested. TQP-30 and
+TQP-31 already establish the bounded selector and static native assembly inputs
+for that work; they do not pre-qualify these broader arrangements.
 
 TQP-35 through TQP-42 move from static geometry to a changing terrain system.
 They qualify dynamic LOD publication, temporal stability, edit invalidation,
@@ -1064,3 +1083,8 @@ Retained decisions:
   contract and bounded Windows LOD0 complex native-field corpus, correct the
   large-coordinate lab oracle to a window-relative frame, and retain adaptive
   LOD, transitions, production terrain, and other platforms as unqualified.
+- `TQP-D019`: qualify TQP-30 and TQP-31 for the bounded deterministic adaptive
+  selector and retained native Windows transition-assembly matrix, align the
+  winding oracle with the native connected-component contract, and retain
+  dynamic terrain, enclosure, independent-oracle, and production claims as
+  unqualified.

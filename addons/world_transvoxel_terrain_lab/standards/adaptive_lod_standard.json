@@ -1,0 +1,85 @@
+{
+	"schema": "world_transvoxel.terrain_lab.adaptive_lod_standard.v1",
+	"standard_id": "TQP-ADAPTIVE-LOD-WINDOWS-V1",
+	"authority": "BOUNDED_DETERMINISTIC_ADAPTIVE_HIERARCHY_REFERENCE",
+	"milestone": "TQP-30",
+	"evidence": "res://labs/terrain_lab/results/adaptive_lod_reference_windows.json",
+	"contract": {
+		"hierarchy": "balanced_octree_over_finite_cubic_lod0_chunk_domain",
+		"coordinate_authority": "signed_integer_lod0_chunk_origin_plus_lod",
+		"viewer_metric": "euclidean_distance_to_node_aabb_in_root_local_metres",
+		"lod0_chunk_world_size_m": 8.0,
+		"maximum_lod": 4,
+		"root_span_lod0_chunks": 16,
+		"split_distances_m": [0.0, 6.0, 12.0, 24.0, 32.0],
+		"merge_distances_m": [0.0, 9.0, 18.0, 36.0, 48.0],
+		"threshold_ownership": "split_at_or_inside_merge_only_outside",
+		"hysteresis_state": "previous_refined_descendant_retains_parent_split_until_merge_distance",
+		"maximum_neighbor_lod_delta": 1,
+		"balance_policy": "split_coarser_leaf_only_until_all_face_neighbors_differ_by_at_most_one",
+		"coverage_policy": "exactly_one_leaf_owns_every_lod0_chunk_cell",
+		"vertical_residency": "all_y_layers_inside_the_finite_root_are_owned",
+		"origin_shift_policy": "viewer_metric_is_root_local_and_integer_chunk_origins_shift_without_selection_change",
+		"teleport_reset_distance_m": 256.0,
+		"teleport_policy": "clear_hysteresis_history_and_converge_in_one_selection",
+		"invalid_arrangements": [
+			"parent_child_overlap",
+			"coverage_hole",
+			"misaligned_node",
+			"out_of_range_lod",
+			"neighbor_delta_above_one",
+			"incomplete_split_record"
+		]
+	},
+	"scenarios": [
+		{"id": "center", "root_origin_chunk": [0, 0, 0], "viewer_local_m": [64.0, 64.0, 64.0]},
+		{"id": "near_negative_corner", "root_origin_chunk": [0, 0, 0], "viewer_local_m": [4.0, 4.0, 4.0]},
+		{"id": "near_positive_corner", "root_origin_chunk": [0, 0, 0], "viewer_local_m": [124.0, 124.0, 124.0]},
+		{"id": "x_face", "root_origin_chunk": [0, 0, 0], "viewer_local_m": [2.0, 64.0, 64.0]},
+		{"id": "xz_edge", "root_origin_chunk": [0, 0, 0], "viewer_local_m": [2.0, 64.0, 126.0]},
+		{"id": "above_root", "root_origin_chunk": [0, 0, 0], "viewer_local_m": [64.0, 160.0, 64.0]},
+		{"id": "below_root", "root_origin_chunk": [0, 0, 0], "viewer_local_m": [64.0, -32.0, 64.0]},
+		{"id": "far_outside", "root_origin_chunk": [0, 0, 0], "viewer_local_m": [400.0, 64.0, 64.0]},
+		{"id": "negative_origin", "root_origin_chunk": [-1000000, -500000, -250000], "viewer_local_m": [38.0, 57.0, 79.0]},
+		{"id": "positive_origin", "root_origin_chunk": [1000000, 500000, 250000], "viewer_local_m": [91.0, 35.0, 68.0]}
+	],
+	"budgets": {
+		"minimum_scenario_count": 10,
+		"minimum_negative_control_count": 6,
+		"maximum_scenario_p95_usec": 5000000,
+		"maximum_total_usec": 30000000
+	},
+	"runtime_profile": {
+		"platform": "Windows",
+		"build_type": "debug_editor_headless"
+	},
+	"stable_expected": {
+		"scenario_corpus_signature": "9c02b07a21687804171d9f2b01185528489ee26243af9fb42db253f5c815b799",
+		"scenarios": {
+			"center": "b842240929582107d6ceb940e47a3aed79eaba14711fec94cc47fe51e6638a88",
+			"near_negative_corner": "575bbb0ab713f257ffc65f0f00ee0a637e47a20261333a7f6f06b43f7c2d7287",
+			"near_positive_corner": "e4448eea39f0ead33ca59be52a6ec9db40827f343f1ff20d8e2a573438b9a352",
+			"x_face": "be98c4029d683a837cc5fdf500f8c56d8008a26e6497de9d54814a233e9c51c3",
+			"xz_edge": "11fd80a9ff69a6de08b38f59f4ac108386a805bc136c5d72f36209f4adcf8681",
+			"above_root": "6d4291cebf993a0079382c22451e92fa0582bbb33dc33e40c64dd3e4b1a4299c",
+			"below_root": "6d4291cebf993a0079382c22451e92fa0582bbb33dc33e40c64dd3e4b1a4299c",
+			"far_outside": "8affe12adf0f76ad24ebf2a4d7a5c517890e9d3a2413f48751c2568a9ca2a0fc",
+			"negative_origin": "dc94f4ea381b25d2eb1a2171237d1c3ff9939705f5f21bdc03b8d747526e0daf",
+			"positive_origin": "6e1b5cc32c69762032d963161499033d46f711ac530ed799b53b76e2edd3a2ae"
+		}
+	},
+	"qualified_scope": [
+		"deterministic balanced finite-root octree selection contract",
+		"split/merge hysteresis and one-step teleport reset",
+		"exact parent/child, volume, overlap, hole, alignment, face-neighbor, and vertical-layer structural validation",
+		"integer-origin rebasing at positive and negative large chunk addresses",
+		"bounded Windows debug reference performance distribution"
+	],
+	"explicitly_unqualified_scope": [
+		"native regular or transition mesh assembly",
+		"dynamic asynchronous publication and temporal rendering",
+		"unbounded or planet-scale hierarchy storage",
+		"production streaming, memory, renderer, collision, or navigation behavior",
+		"other hierarchy policies, platforms, and build profiles"
+	]
+}

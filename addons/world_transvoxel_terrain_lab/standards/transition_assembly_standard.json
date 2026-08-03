@@ -1,0 +1,118 @@
+{
+	"schema": "world_transvoxel.terrain_lab.transition_assembly_standard.v1",
+	"standard_id": "TQP-TRANSITION-ASSEMBLY-WINDOWS-V1",
+	"authority": "WORLD_TRANSVOXEL_NATIVE_ASSEMBLY_REFERENCE",
+	"milestone": "TQP-31",
+	"evidence": "res://labs/terrain_lab/results/transition_assembly_reference_windows.json",
+	"contract": {
+		"native_dependency": "WorldTransvoxelCellProbe",
+		"fallback_geometry": "forbidden",
+		"face_order": ["negative_x", "positive_x", "negative_y", "positive_y", "negative_z", "positive_z"],
+		"transition_ownership": "coarse_chunk_owns_transition_surface_on_faces_adjacent_to_lod_minus_one_neighbors",
+		"fine_ownership": "four_fine_neighbors_contribute_regular_surface_only",
+		"permitted_neighbor_lod_delta": 1,
+		"coarse_lods": [1, 2, 3],
+		"transition_mask": "bit_per_face_in_face_order",
+		"interface_match": "coarse_regular_plus_requested_transition_open_edges_equal_four_fine_regular_open_edges",
+		"position_frame": "coarse_chunk_relative_before_float_edge_quantization",
+		"winding_normal_polarity": "clockwise Godot-facing indices; every connected component is internally consistent and has aggregate geometric-to-SDF-normal polarity -1; individual skinny triangles remain diagnostic because interpolated normals are not per-triangle geometric normals",
+		"material_ids": [1, 2, 3, 4],
+		"empty_full_policy": "successful_native_empty_result_with_zero_regular_and_transition_triangles"
+	},
+	"coordinate_profiles": {
+		"1": [0, 0, 0],
+		"2": [-3, 2, -2],
+		"3": [4, -3, 3]
+	},
+	"edge_face_pairs": [
+		[0, 2], [0, 3], [1, 2], [1, 3],
+		[0, 4], [0, 5], [1, 4], [1, 5],
+		[2, 4], [2, 5], [3, 4], [3, 5]
+	],
+	"corner_face_triples": [
+		[0, 2, 4], [0, 2, 5], [0, 3, 4], [0, 3, 5],
+		[1, 2, 4], [1, 2, 5], [1, 3, 4], [1, 3, 5]
+	],
+	"budgets": {
+		"minimum_face_fixture_count": 18,
+		"minimum_matching_interface_count": 72,
+		"minimum_edge_mask_count": 12,
+		"minimum_corner_mask_count": 8,
+		"minimum_boundary_control_count": 2,
+		"minimum_native_chunk_call_count": 658,
+		"maximum_fixture_p95_usec": 10000000,
+		"maximum_total_usec": 120000000
+	},
+	"runtime_profile": {
+		"platform": "Windows",
+		"build_type": "debug_editor_headless",
+		"backend": "world_transvoxel_native_extension"
+	},
+	"stable_expected": {
+		"matrix_geometry_signature": "f73050cbc45e939f42cd161cfae22e685b5fe02b89d39ea90d36d04ff6ce2cfb",
+		"face_fixtures": {
+			"lod1_negative_x": "5e3c1f9399fad90db2cc64514de16ab54061586eae706688f50caa8a521031a8",
+			"lod1_positive_x": "24ccbee8143e124547aa1f6d110aee5268ad2ec810d4394e1aeb1c450dfe6f6f",
+			"lod1_negative_y": "59a5def4d7982d09c11736c284d73ad296af43a2b0775366a945c4fd881b6640",
+			"lod1_positive_y": "50c6d204bf239bfcd4b53c0bc1e90fef6ccecd58276100c3535a8299096f7115",
+			"lod1_negative_z": "25239e38f0dcc067e804b35dd2fd52cb77ff80f8988ce0e186e157d995a1b4fb",
+			"lod1_positive_z": "d99a4d89beeaaef5021e0279b4902dbb75d8818f85ac364dacc39aeee963b30e",
+			"lod2_negative_x": "8e50e66ccc2817006a03f7979b1ce6f5edb154c4229fd2882143871509a5570c",
+			"lod2_positive_x": "49ccb66eec13c296f9dd575321f190bf2f61765c9beaf202a46b183a9aebef15",
+			"lod2_negative_y": "ca68b9e81a2d2b466c3b86df64e2d77a47196cbfd37a5e6cfa4a52f1c963e791",
+			"lod2_positive_y": "1e8a6d0043c5415743b875dbf3fca90e0bcf68ee47e5d4db8d55ee40c91a6f72",
+			"lod2_negative_z": "0793bbee2e76f660bf182998c1d1d970d7b4c1b469e527519539a4f780c1f87b",
+			"lod2_positive_z": "fa82b2cad82dd103a6a5c12a1a13bf9b9f2755a908e78cb5e3f9a1151d454c5d",
+			"lod3_negative_x": "13cba35936e8790a893d1a14805eb802cda3658dd0ca311a9f102785adf1649c",
+			"lod3_positive_x": "dc30fc0039fbced7ad911b9b3be3ef9ec9952bb96592d794be2424bfd37492d1",
+			"lod3_negative_y": "5abc67ba9003f01eb0b3f9c73a60e86351059eb0e315fa42b3126f7ed4f24e56",
+			"lod3_positive_y": "32cd01150e5a061852770ca9c42514bd8e2e52a011a9ccf2cfff5c7938c2efe8",
+			"lod3_negative_z": "c254782a64a504603268bfd4609bbc35678980c417073140d43186a4670e1548",
+			"lod3_positive_z": "34f7b6b2ca358c2f2cd37a34bd816c1f107afdae53eb155e4b30d7d83bb81168"
+		},
+		"edge_masks": {
+			"edge_0_2": "00d5c3a11c66e56cc754fe951a9328d8fdfd4b2db16eab49a4db8546700feb08",
+			"edge_0_3": "4c85d2e3f5f2c6d3f5e95747699df661d7eef46e59dcd479c44f15baec61ca6e",
+			"edge_1_2": "3e0c590b454bbe2d78bbe2b43958098a962ef8df1a6a81357e2a4443ef0a06e4",
+			"edge_1_3": "2fe684f4b62668ccb810f36e1a451dbf97a145c344b6fc6b46a80fbac479fd48",
+			"edge_0_4": "2dd8455890dce38743c3d1da539c57d347553e1e203ff94c306b535dbf640c7b",
+			"edge_0_5": "6738aa79705adb4259d58e0db01c5e2f0422f762fb5ea7d353fd5f8ebec924d7",
+			"edge_1_4": "1afe0f8d6f2e041b6ff722945d4802e3f8241f7cdb285b8f277b7a3d3c89f477",
+			"edge_1_5": "a3f9d81428ae06f453056ed03e5fa046342cb0f015fa60700c759f4c327d2f3f",
+			"edge_2_4": "2e30441fb4d13531932875f5f644e3fa107cecead805915a293ab958561530f6",
+			"edge_2_5": "19e18211101d802055e175f19bf0477da155dfc4ed40009e57ddce889f9f41c0",
+			"edge_3_4": "a8de9a3605eb72ded708c74413693c00e3fcbbe5f876869cba7e22a8f2ca3df9",
+			"edge_3_5": "78e304f01853099d32fc42199167b623e5fb09b0a08158277a651648096e7005"
+		},
+		"corner_masks": {
+			"corner_0_2_4": "ae4b05cc83f0bd65ad1d578c633505d1a92eec2fa9140f231d2979a2092ed9ab",
+			"corner_0_2_5": "95f0ff23e2d4b98ae569c3e31dc3735e7a3ad8e8fe4d7471e9995871f501280c",
+			"corner_0_3_4": "0f6b9ea53e3011c76a73a72af4eb2022f1c21fab7db218d86f67938959709e31",
+			"corner_0_3_5": "555fd85f4868966f06155d8b1e4dbccb7222f9abda46ae1355eb0b411d88bfe9",
+			"corner_1_2_4": "960fed96377a1c6b51a876cb37a31d81854ba85d727035024a5af627f68ae880",
+			"corner_1_2_5": "e189bcd1f64cb509e7745a53427ae1492fb49f9aaa52b24e1ba121158aabbd7f",
+			"corner_1_3_4": "fdbd8b901dd738c1f582f1a0cc6b19d439409143e8616560e234aaf36805afb2",
+			"corner_1_3_5": "14059420ff666fe0d3089476319955efabf33c00120c0524028cf118159a91d6"
+		},
+		"all_faces": "9310243347e9cad662fa80a2e5e65f6caab1f173fa5760d800dde724fadd450a",
+		"boundary_controls": {
+			"empty": "530b28a706263dd150cfb3bb1ae7aee9b9f9e52d2af2c470672d66f5fb5ad5da",
+			"full": "530b28a706263dd150cfb3bb1ae7aee9b9f9e52d2af2c470672d66f5fb5ad5da"
+		}
+	},
+	"qualified_scope": [
+		"native coarse-to-four-fine interface equality for all six faces at LOD 1/0, 2/1, and 3/2",
+		"positive, zero, and negative signed chunk coordinates in coarse-relative comparison frames",
+		"all twelve perpendicular edge masks, eight corner masks, and the all-face mask assembled against four fine regular neighbors per requested face",
+		"regular/transition ownership, finite buffers, bounds, indices, connected-component winding/normal polarity, local disagreement diagnostics, and mixed materials",
+		"native empty and full all-face boundary controls without fallback geometry",
+		"cold/warm exact native geometry signatures on the retained Windows debug backend"
+	],
+	"explicitly_unqualified_scope": [
+		"arbitrary adaptive hierarchy arrangements beyond the retained face/edge/corner matrix",
+		"finite-world caps, unloaded-neighbor policy, or catalog enclosure",
+		"independent topology oracles and injected mesh defects reserved for TQP-33",
+		"dynamic LOD publication, edits, streaming, rendering, collision, or navigation",
+		"production performance, other platforms, and other native build profiles"
+	]
+}
