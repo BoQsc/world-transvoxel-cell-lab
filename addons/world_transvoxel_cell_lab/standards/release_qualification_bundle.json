@@ -3,7 +3,7 @@
 	"status": "PASS",
 	"authority": "NATIVE_TRANSVOXEL_BACKEND_AUTHORITATIVE",
 	"qualification_standard_schema": "world_transvoxel.cell_lab.qualification_standard.v1",
-	"bundle_hash": "6a662dfeef8be964c828fb5ae2f6e99ea3b77b4c7b3a9e1d84404e40e7097005",
+	"bundle_hash": "74212fc37e22a832108de4800a4c69f2d7ad1cc934349921b9349504d021ed0e",
 	"core_evidence_file_count": 10,
 	"evidence_file_count": 11,
 	"visual_standard_count": 14,
@@ -31,12 +31,12 @@
 	"evidence_files": [
 		{
 			"path": "res://addons/world_transvoxel_cell_lab/standards/native_dependency_manifest.json",
-			"sha256": "6807c4d54cd8122c3c9dc8c6541a4de03db5bd53af16fd87a6906280e50f911b",
+			"sha256": "5196c353ca4c3fc98577f6cfa83fddbea07645e034949388aab69240e4638aea",
 			"bytes": 1473
 		},
 		{
 			"path": "res://addons/world_transvoxel_cell_lab/standards/reference_terrain_standard.json",
-			"sha256": "f1f00af267f059655a5dc3fdbdb6f67ee3e0ff4e3407fcb7da45898ee2f4be24",
+			"sha256": "3b941b2361522ce0f181334f3cb5deb53d4ad598ae930423961ef7e6886e9c58",
 			"bytes": 4161
 		},
 		{
@@ -61,8 +61,8 @@
 		},
 		{
 			"path": "res://addons/world_transvoxel_cell_lab/standards/upstream_correction_registry.json",
-			"sha256": "48efe59076143d53ad5ef893846070f9a88853b38c480ea7b42315f9e85f26ab",
-			"bytes": 4178
+			"sha256": "1fe272a813be1a5453b96452e5bf6c66898ad0ba26b774f7eaf91c9ac3c8c0ee",
+			"bytes": 5555
 		},
 		{
 			"path": "res://addons/world_transvoxel_cell_lab/standards/integration_parity/debug_snapshot_pass.json",
@@ -81,7 +81,7 @@
 		},
 		{
 			"path": "res://addons/world_transvoxel_cell_lab/standards/qualification_standard.json",
-			"sha256": "78b572804d4524ddd4b1da3aa2a1683143fe54e0a1e12a29fff04b1f053fd12b",
+			"sha256": "c33af8bb37b4d6a983facbf7ee14a0f4288847209cd5411613973ae79c5dbeeb",
 			"bytes": 2566
 		}
 	]

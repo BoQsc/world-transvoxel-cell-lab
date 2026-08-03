@@ -69,6 +69,25 @@
 				"nonmanifold_edges": 0
 			},
 			"resolution": "apply the shared [1/32, 31/32] interpolation policy before cell-level degenerate cleanup; require zero interior openings and zero non-manifold edges in the unchanged 3x3x2 fixture"
+		},
+		{
+			"id": "dynamic_lod_double_collision_ownership_v1",
+			"status": "resolved",
+			"owning_layer": "world_transvoxel",
+			"classification": "replacement collision resources published before retiring overlapping hierarchy ownership",
+			"minimized_native_repro": "TQP-35 retained LOD1/LOD0 split and merge publication path",
+			"stated_invariant": "old and replacement hierarchy collision bodies must never own overlapping positive-volume regions in the same observed frame",
+			"deterministic_reproduction": true,
+			"focused_automated_coverage": "upstream production_lod_streaming_test.gd on Godot 4.6.3 and 4.7 plus TQP-35 full frame trace",
+			"visual_evidence_for_geometry": "res://labs/terrain_lab/results/dynamic_lod_publication_motion_windows.json",
+			"retained_regression_standard": "res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D023.json",
+			"downstream_parity_proof": "complete Terrain Lab program and Cell Lab preservation suites",
+			"upstream_fix_reference": "world-transvoxel@a64b4c04582892abdeb77d7812a1fe31eee22887",
+			"failure_before_correction": {
+				"audited_frames": 885,
+				"double_collision_frames": 289
+			},
+			"resolution": "stage replacement collision shapes and unattached bodies alongside render staging, retire old hierarchy ownership first, then publish staged collision resources atomically on the owner thread"
 		}
 	]
 }

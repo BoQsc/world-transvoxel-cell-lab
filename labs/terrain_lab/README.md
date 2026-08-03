@@ -49,6 +49,14 @@ replays, and optional seed overrides while reporting the TQP-33 independent
 oracle verdict. It does not simulate actual concurrent publication or widen
 the retained corpus into a production terrain claim.
 
+The TQP-35 Dynamic LOD Publication Observatory is a separate `@tool` scene at
+`scenes/dynamic_lod_publication_observatory.tscn`. It runs the actual native
+world-transvoxel runtime and exposes initial, split, merge, rapid supersession,
+teleport, unload, and restart actions with live render/collision staging,
+replacement, stale-result, coalescing, and transition-completion metrics.
+Resident ownership bounds are diagnostic; the retained full frame trace, not
+the settled screenshots, is authoritative for holes and overlap.
+
 `tools/run_edit_gate_b_validation.gd` executes the focused `TQP-09` through
 `TQP-14` qualification. `tools/capture_edit_qualification_visual.gd`
 regenerates the deterministic brush and temporal-edit cross-section reference.

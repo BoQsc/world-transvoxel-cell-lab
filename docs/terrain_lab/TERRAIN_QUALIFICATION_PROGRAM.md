@@ -133,7 +133,7 @@ promotion order: investigation may happen early, but qualification cannot skip
 an earlier dependency.
 
 The machine-readable `execution_plan.json` mirrors the same order but is not a
-second human roadmap. Program revision 21 preserves the ground-up sequence
+second human roadmap. Program revision 25 preserves the ground-up sequence
 introduced by `TQP-D017` and advances only milestones with retained evidence.
 The older revision-5 migration remains retained in `TQP-D006` as history.
 
@@ -681,7 +681,7 @@ repeat; these are correctness lanes, not hardware-cache isolation claims.
 
 ### TQP-35: Dynamic LOD Publication And Temporal Stability
 
-Status: `proposed`. Owner: Terrain Systems Lab. Depends on: TQP-15, TQP-17,
+Status: `qualified`. Owner: Terrain Systems Lab. Depends on: TQP-15, TQP-17,
 TQP-19, TQP-22, TQP-30, TQP-31, TQP-33, TQP-34.
 
 Complete when split, merge, replacement, cancellation, stale-result rejection,
@@ -689,6 +689,19 @@ origin shift, teleport, and unload/reload publish coherent generations without
 holes, overlaps, double collision, stale materials, flicker, or unbounded
 popping. Automated frame-state checks and retained motion evidence are both
 required.
+
+`TQP-D023` qualifies the bounded Windows debug profile over actual native
+LOD1/LOD0 publication. The retained run audits 1,184 frames and records eight
+splits, four merges, 603 replacement frames, 50 transition completions, rapid
+viewer coalescing, stale-result rejection, presentation-parent rebasing,
+teleport, clean unload, and exact reload agreement. All hole, render-overlap,
+double-collision, generation-incoherence, same-generation material-mutation,
+and frame-failure counters are zero. The first candidate was rejected after
+recording 289 double-collision frames; world-transvoxel was corrected to stage
+replacement collision bodies until atomic hierarchy publication. Dynamic
+LOD2 and deeper hierarchies, native floating-origin remapping, crossfade
+quality, adaptive edits, arbitrary fault timing, production performance, and
+other platforms remain explicitly unqualified.
 
 ### TQP-36: Edit Invalidation And Incremental Remeshing
 
@@ -995,15 +1008,16 @@ a standard, not an assertion that future terrain work is finished.
 
 The program records every milestone at a truthful evidence state:
 
-- `TQP-01` through `TQP-34` are qualified
+- `TQP-01` through `TQP-35` are qualified
   for their narrow contract, native Windows reference, or reference-model
   scopes. Gate B is qualified; its native chunk rebuild benchmark remains a
   background/debug reference and is not a production frame-time claim.
-- `TQP-28` through `TQP-34` qualify the deterministic field contract, bounded
+- `TQP-28` through `TQP-35` qualify the deterministic field contract, bounded
   LOD0 complex native corpus, finite adaptive selector, and static native
   transition-assembly matrix, bounded boundary/enclosure policy, and independent
-  geometry/topology oracles, and seeded adversarial/minimized repro corpus.
-  `TQP-35` through `TQP-45` remain proposed, so
+  geometry/topology oracles, seeded adversarial/minimized repro corpus, and
+  bounded native dynamic LOD publication with temporal ownership checks.
+  `TQP-36` through `TQP-45` remain proposed, so
   the program makes no Gate E adaptive-terrain authority claim.
 - `TQP-46` through `TQP-51` retain the previously implemented destruction and
   structural reference behavior under their revision-19 identifiers.
@@ -1011,8 +1025,8 @@ The program records every milestone at a truthful evidence state:
 - `TQP-53` through `TQP-64` are blocked by named external targets and exit
   conditions in `program_blockers.json`.
 
-The next dependency-ordered milestone is TQP-35, dynamic LOD publication and
-temporal stability. TQP-27 remains qualified through `TQP-D016` only for its
+The next dependency-ordered milestone is TQP-36, edit invalidation and
+incremental remeshing. TQP-27 remains qualified through `TQP-D016` only for its
 bounded native Windows 2K-world soak and durable edit-journal restart.
 `TQP-F002` retains large-volume snapshot compaction as an open upstream
 capacity issue. Gate D is qualified only for that bounded reference claim;
@@ -1033,8 +1047,8 @@ large coordinates, corrected regressions, traversal permutations, and a
 deterministic minimized-failure control. It does not claim arbitrary fuzzing or
 actual concurrent publication.
 
-TQP-35 through TQP-42 move from static geometry to a changing terrain system.
-They qualify dynamic LOD publication, temporal stability, edit invalidation,
+TQP-35 begins the changing-terrain system and now qualifies the bounded native
+LOD1/LOD0 publication timeline. TQP-36 through TQP-42 qualify edit invalidation,
 incremental remeshing, digging and construction across LOD boundaries,
 material continuity, render/collision/query/navigation agreement, streaming,
 persistence, replay, failure recovery, and determinism under different work
@@ -1149,3 +1163,7 @@ Retained decisions:
   two-triangle failure minimization, and retained TQP-D011/TQP-D018/TQP-D019
   corrected regressions while leaving actual concurrency and dynamic terrain
   publication to later milestones.
+- `TQP-D023`: qualify TQP-35 for bounded native LOD1/LOD0 dynamic publication
+  after rejecting the original double-collision result and correcting upstream
+  replacement collision staging; retain deeper LOD, edits, crossfade, fault
+  injection, production performance, and other platforms as unqualified.

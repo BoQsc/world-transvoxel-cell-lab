@@ -13,7 +13,10 @@ var committed_revisions: Array[int] = []
 var edit_failures: Array[String] = []
 
 
-func create_runtime(worker_count: int = 2) -> bool:
+func create_runtime(
+	worker_count: int = 2,
+	configuration_overrides: Dictionary = {}
+) -> bool:
 	if not ClassDB.class_exists("WorldTransvoxelConfig") \
 			or not ClassDB.class_exists("WorldTransvoxelTerrain") \
 			or not ClassDB.class_exists("WorldTransvoxelEditTransaction") \
@@ -43,7 +46,14 @@ func create_runtime(worker_count: int = 2) -> bool:
 		"collision_apply_deadline_us": 12000,
 		"collision_activation_distance": 256.0,
 		"collision_deactivation_distance": 320.0,
+		"render_transition_frames": 0,
+		"shader_fade_parameter_enabled": false,
+		"global_coarse_lod_coverage": false,
 	}
+	for property_name in configuration_overrides:
+		if not configuration_values.has(property_name):
+			return false
+		configuration_values[property_name] = configuration_overrides[property_name]
 	for property_name in configuration_values:
 		config.set(property_name, configuration_values[property_name])
 	if not bool(config.call("is_valid")):
@@ -77,6 +87,34 @@ func start_flat_world(
 		chunk_origin_y,
 		chunk_count_z,
 		source_revision,
+		object_root
+	)):
+		return false
+	return await wait_for_state("running")
+
+
+func start_procedural_world_preset(
+	object_root: String,
+	source_revision: int,
+	seed: int,
+	preset_id: String,
+	chunk_count_x: int,
+	chunk_count_y: int,
+	chunk_origin_y: int,
+	chunk_count_z: int
+) -> bool:
+	if terrain == null:
+		return false
+	ensure_directory(object_root)
+	if not bool(terrain.call(
+		"start_procedural_world_preset_with_vertical_origin",
+		chunk_count_x,
+		chunk_count_y,
+		chunk_origin_y,
+		chunk_count_z,
+		seed,
+		source_revision,
+		preset_id,
 		object_root
 	)):
 		return false

@@ -75,10 +75,10 @@
 		"explicitly_unqualified_target_count": 5,
 		"release_evidence_file_count": 10,
 		"release_visual_count": 14,
-		"release_bundle_hash": "6a662dfeef8be964c828fb5ae2f6e99ea3b77b4c7b3a9e1d84404e40e7097005",
-		"governance_case_count": 3,
+		"release_bundle_hash": "74212fc37e22a832108de4800a4c69f2d7ad1cc934349921b9349504d021ed0e",
+		"governance_case_count": 4,
 		"governance_required_evidence_count": 8,
-		"confirmed_upstream_correction_count": 2,
+		"confirmed_upstream_correction_count": 3,
 		"status": "PASS"
 	},
 	"status": "PASS"

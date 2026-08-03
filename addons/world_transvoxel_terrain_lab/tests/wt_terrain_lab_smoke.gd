@@ -21,6 +21,9 @@ const IndependentOracleObservatoryScene := preload(
 const AdversarialCorpusObservatoryScene := preload(
 	"res://labs/terrain_lab/scenes/adversarial_corpus_observatory.tscn"
 )
+const DynamicLodPublicationObservatoryScene := preload(
+	"res://labs/terrain_lab/scenes/dynamic_lod_publication_observatory.tscn"
+)
 const NativeEvidence := preload(
 	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_edit_native_evidence.gd"
 )
@@ -155,6 +158,62 @@ func _run() -> void:
 		_fail("TQP-34 exact-isovalue observatory case failed")
 		return
 	corpus_observatory.free()
+	var publication_script := load(
+		"res://labs/terrain_lab/scenes/dynamic_lod_publication_observatory.gd"
+	) as Script
+	if publication_script == null or not publication_script.is_tool():
+		_fail("TQP-35 Dynamic Publication Observatory must execute as an editor tool")
+		return
+	var publication_method_names := PackedStringArray()
+	for method in publication_script.get_script_method_list():
+		publication_method_names.append(str(method.get("name", "")))
+	for required_method in [
+		"wait_until_ready", "run_action_and_wait", "get_validation_snapshot",
+		"restart_and_wait", "shutdown_for_validation",
+	]:
+		if required_method not in publication_method_names:
+			_fail("TQP-35 Dynamic Publication Observatory lacks " + required_method)
+			return
+	var publication_observatory := DynamicLodPublicationObservatoryScene.instantiate()
+	root.add_child(publication_observatory)
+	var publication_ready: Dictionary = await publication_observatory.wait_until_ready()
+	if str(publication_ready.get("status", "")) != "PASS":
+		_fail("TQP-35 Dynamic Publication Observatory did not become ready")
+		return
+	var initial_publication: Dictionary = publication_observatory.get_validation_snapshot()
+	if str(initial_publication.get("status", "")) != "PASS" \
+			or int(initial_publication.get("collision_overlap_count", -1)) != 0 \
+			or (initial_publication.get("render_keys", []) as Array).is_empty() \
+			or initial_publication.get("render_keys", []) != initial_publication.get("collision_keys", []):
+		_fail("TQP-35 initial render/collision ownership failed")
+		return
+	var initial_publication_signature := str(initial_publication.get("render_key_signature", ""))
+	var split_publication: Dictionary = await publication_observatory.run_action_and_wait("split_approach")
+	if str(split_publication.get("status", "")) != "PASS":
+		_fail("TQP-35 split observatory action failed")
+		return
+	var split_snapshot: Dictionary = split_publication.get("snapshot", {})
+	if int(split_snapshot.get("collision_overlap_count", -1)) != 0 \
+			or str(split_snapshot.get("render_key_signature", "")) == initial_publication_signature:
+		_fail("TQP-35 split did not change ownership cleanly")
+		return
+	var merge_publication: Dictionary = await publication_observatory.run_action_and_wait("merge_retreat")
+	if str(merge_publication.get("status", "")) != "PASS" \
+			or int((merge_publication.get("snapshot", {}) as Dictionary).get("collision_overlap_count", -1)) != 0:
+		_fail("TQP-35 merge observatory action failed")
+		return
+	var rapid_publication: Dictionary = await publication_observatory.run_action_and_wait("rapid_supersession")
+	var rapid_metrics: Dictionary = (rapid_publication.get("snapshot", {}) as Dictionary).get("metrics", {})
+	if str(rapid_publication.get("status", "")) != "PASS" \
+			or int(rapid_metrics.get("coalesced_viewer_events", 0)) <= 0 \
+			or int(rapid_metrics.get("application_stale_render", 0)) \
+				+ int(rapid_metrics.get("application_stale_collision", 0)) <= 0:
+		_fail("TQP-35 rapid supersession controls were not exercised")
+		return
+	if str((await publication_observatory.shutdown_for_validation()).get("status", "")) != "PASS":
+		_fail("TQP-35 observatory did not shut down cleanly")
+		return
+	publication_observatory.free()
 	var observatory_property_names := PackedStringArray()
 	for property in observatory_script.get_script_property_list():
 		observatory_property_names.append(str(property.get("name", "")))
@@ -323,13 +382,13 @@ func _run() -> void:
 	if int(validation.get("milestone_count", 0)) != 64:
 		_fail("terrain program milestone count changed")
 		return
-	if int(validation.get("qualified_milestone_count", 0)) != 34:
+	if int(validation.get("qualified_milestone_count", 0)) != 35:
 		_fail("qualified reference milestone count changed")
 		return
 	if int(validation.get("specified_milestone_count", 0)) != 1:
 		_fail("open specification count changed")
 		return
-	if int(validation.get("proposed_milestone_count", -1)) != 11:
+	if int(validation.get("proposed_milestone_count", -1)) != 10:
 		_fail("native adaptive-terrain proposal count changed")
 		return
 	var status_counts: Dictionary = validation.get("status_counts", {})

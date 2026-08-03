@@ -1,0 +1,45 @@
+{
+	"schema": "world_transvoxel.terrain_lab.decision.v1",
+	"id": "TQP-D023",
+	"date": "2026-08-03",
+	"decision": "Qualify TQP-35 for the retained bounded Windows native LOD1/LOD0 dynamic-publication profile after correcting world-transvoxel collision staging so old and replacement hierarchy bodies are never simultaneously live.",
+	"affected_milestones": ["TQP-35"],
+	"repositories": ["world-transvoxel-cell-lab", "world-transvoxel"],
+	"alternatives_considered": [
+		"accept collision continuity while allowing parent and child StaticBody3D ownership to overlap",
+		"disable collision during LOD replacement and tolerate transient collision holes",
+		"weaken the laboratory double-collision invariant after it detected the upstream behavior",
+		"qualify settled screenshots without a complete frame-state trace",
+		"claim deeper LOD, crossfade, edit, fault-injection, or production behavior from the bounded LOD1/LOD0 run"
+	],
+	"evidence": [
+		"dynamic_lod_publication_standard.json, dynamic_lod_publication_reference_windows.json, and dynamic_lod_publication_motion_windows.json",
+		"two cold qualification runs with exact checkpoint-matrix and reload-state signature agreement",
+		"1,184 retained audited frames covering split, merge, replacement, rapid supersession, stale viewer rejection, presentation rebase, teleport, unload, and deterministic restart",
+		"zero visible-hole, render-overlap, double-collision, generation-incoherence, material-mutation, and frame-failure observations",
+		"eight parent-to-child split and four child-to-parent merge observations, 603 replacement frames, 50 transition completions, three coalesced viewer events, and one stale application rejection",
+		"world-transvoxel regression coverage proving collision continuity and zero live parent/child collision overlap while collision replacement resources are staged",
+		"debug timing distributions, memory telemetry, provenance, full frame trace, exact mesh/material signatures, focused runner, and four-state @tool observatory capture sequence"
+	],
+	"qualified_scope": [
+		"actual concurrent native world-transvoxel procedural generation and bounded LOD1/LOD0 publication on the retained Windows debug profile",
+		"atomic split, merge, replacement, rapid viewer supersession, stale-result rejection, teleport, viewer unload, and deterministic world reload",
+		"frame-by-frame render and collision ownership, generation, material, hole, and overlap invariants",
+		"Godot parent-transform presentation rebasing without mutation of native local publication state",
+		"retained deterministic signatures, performance distributions, provenance, full frame trace, and editor motion evidence"
+	],
+	"unqualified_scope": [
+		"native floating-origin or large-coordinate remapping beyond presentation-parent rebasing",
+		"dynamic LOD2 and deeper hierarchies, crossfade visual quality, and arbitrary viewer arrangements",
+		"cross-LOD edits, digging, construction, adaptive materials, persistence, and multi-layer streaming owned by TQP-36 through TQP-41",
+		"fault injection and schedule-order determinism owned by TQP-42",
+		"production frame-time, GPU performance, other hardware, other platforms, and release qualification"
+	],
+	"standards_changed": [
+		"Terrain Qualification Program revision 25",
+		"execution-plan revision 17",
+		"dynamic LOD publication standard native_dynamic_lod_publication_windows_v1"
+	],
+	"review": "Qualification must fail closed if the retained report, full trace, exact signatures, motion capture hashes, upstream staged-collision behavior, focused runner, program validation, or preservation smoke tests differ. The original laboratory run recorded 289 double-collision frames; that result was rejected and retained as the defect trigger, not promoted.",
+	"downstream_impact": "TQP-36 becomes the next dependency-ordered milestone. Gate E remains closed. TQP-35 does not authorize adaptive edits, materials, persistence, deeper LOD, GPU authority, or production terrain. A world-transvoxel source and binary correction was required."
+}

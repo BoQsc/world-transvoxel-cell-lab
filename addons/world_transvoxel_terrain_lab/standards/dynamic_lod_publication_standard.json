@@ -1,0 +1,102 @@
+{
+	"schema": "world_transvoxel.terrain_lab.dynamic_lod_publication_standard.v1",
+	"milestone": "TQP-35",
+	"standard_id": "native_dynamic_lod_publication_windows_v1",
+	"authority": "world_transvoxel_native_runtime",
+	"evidence": "res://labs/terrain_lab/results/dynamic_lod_publication_reference_windows.json",
+	"motion_evidence": "res://labs/terrain_lab/results/dynamic_lod_publication_motion_windows.json",
+	"observatory_scene": "res://labs/terrain_lab/scenes/dynamic_lod_publication_observatory.tscn",
+	"runtime_profile": {
+		"platform": "Windows",
+		"build": "debug_reference",
+		"worker_count": 2,
+		"preset": "rolling_hills_cave",
+		"seed": 350035,
+		"source_revision": 935001,
+		"volume_chunks": [24, 8, 24],
+		"vertical_chunk_origin": -2,
+		"viewer_radius_chunks": 1,
+		"maximum_lod": 1,
+		"lod_refinement_radius_chunks": 1,
+		"render_transition_frames": 0,
+		"shader_fade_parameter_enabled": false,
+		"global_coarse_lod_coverage": false,
+		"active_chunk_capacity": 512,
+		"demand_capacity_per_viewer": 1024
+	},
+	"workload": {
+		"viewer_id": 35,
+		"initial_position": [127.0, 30.0, 72.0],
+		"split_position": [80.0, 30.0, 72.0],
+		"merge_position": [127.0, 30.0, 72.0],
+		"supersession_positions": [
+			[112.0, 30.0, 88.0],
+			[136.0, 30.0, 104.0],
+			[160.0, 30.0, 120.0],
+			[184.0, 30.0, 136.0],
+			[208.0, 30.0, 152.0]
+		],
+		"teleport_position": [312.0, 30.0, 312.0],
+		"presentation_rebase": [-4096.0, 0.0, 4096.0],
+		"required_actions": [
+			"initial_load",
+			"split_approach",
+			"merge_retreat",
+			"rapid_supersession",
+			"stale_revision_control",
+			"presentation_origin_rebase",
+			"teleport",
+			"viewer_unload",
+			"world_reload"
+		]
+	},
+	"invariants": {
+		"requires_parent_child_split": true,
+		"requires_parent_child_merge": true,
+		"requires_staged_replacement": true,
+		"requires_viewer_event_coalescing": true,
+		"requires_stale_application_rejection": true,
+		"requires_stale_viewer_revision_rejection": true,
+		"requires_transition_mesh_completion": true,
+		"requires_zero_visible_hole_frames": true,
+		"requires_zero_render_overlap_frames": true,
+		"requires_zero_double_collision_frames": true,
+		"requires_zero_generation_incoherence": true,
+		"requires_zero_material_mutation": true,
+		"requires_clean_unload_and_restart": true,
+		"requires_reload_signature_agreement": true
+	},
+	"budgets": {
+		"maximum_settlement_frames": 1800,
+		"maximum_trace_rows": 4096,
+		"maximum_frame_p99_usec": 300000.0,
+		"maximum_frame_usec": 2000000.0,
+		"maximum_action_settlement_p95_usec": 8000000.0,
+		"maximum_render_latency_frames": 512,
+		"maximum_collision_latency_frames": 512,
+		"maximum_active_chunk_records": 512,
+		"maximum_render_resources": 512,
+		"maximum_collision_resources": 512,
+		"maximum_render_queue": 512,
+		"maximum_collision_queue": 512
+	},
+	"stable_expected": {
+		"checkpoint_matrix_signature": "2684738c9ee495c52c181cf0adf9eebc43eb9d5c8140433d51eb4b9d5963300a",
+		"reload_state_signature": "15e4728b4bcc3866c27ece3e679d83ee342119eb4c8cb48a6a221ef1a82ca332"
+	},
+	"qualified_scope": [
+		"actual concurrent native world-transvoxel procedural generation and LOD1/LOD0 adaptive publication on the retained Windows debug profile",
+		"bounded split, merge, staged replacement, rapid viewer supersession, stale viewer rejection, teleport, viewer unload, and deterministic world reload",
+		"frame-by-frame native ownership checks for visible holes, logical render overlap, double collision, generation coherence, and same-generation material stability",
+		"Godot parent-transform presentation rebasing without mutation of native local publication state",
+		"retained machine frame trace, settled state signatures, performance distributions, provenance, and motion evidence"
+	],
+	"explicitly_unqualified_scope": [
+		"native large-coordinate or floating-origin remapping beyond presentation-parent rebasing and the qualified TQP-30 selector contract",
+		"dynamic maximum LOD2 and deeper publication beyond the retained LOD1/LOD0 hierarchy",
+		"cross-LOD edit invalidation, digging, construction, materials, persistence, or multi-layer streaming owned by TQP-36 through TQP-41",
+		"arbitrary worker fault injection, exhaustive cancellation timing, and schedule-order determinism owned by TQP-42",
+		"crossfade quality because the retained atomic-publication profile fixes render transition frames to zero",
+		"production frame-time, GPU performance, other hardware, or non-Windows builds"
+	]
+}
