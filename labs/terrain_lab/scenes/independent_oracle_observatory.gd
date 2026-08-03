@@ -225,6 +225,8 @@ func _array_mesh(mesh_data: Dictionary) -> ArrayMesh:
 	var mesh := ArrayMesh.new()
 	if vertices.is_empty() or indices.is_empty():
 		return mesh
+	if normals.size() != vertices.size():
+		normals.resize(vertices.size())
 	var arrays := []
 	arrays.resize(Mesh.ARRAY_MAX)
 	arrays[Mesh.ARRAY_VERTEX] = vertices

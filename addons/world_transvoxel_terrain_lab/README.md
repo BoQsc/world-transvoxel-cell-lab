@@ -4,12 +4,13 @@ The Terrain Lab addon owns controlled experiments for the Terrain Qualification
 Program. It is separate from `world_transvoxel_cell_lab` even though both addons
 share this repository and the pinned `world_transvoxel` dependency.
 
-Current status: fail-closed program revision 23. All 64 milestones have a
-machine-readable evidence state. TQP-01 through TQP-33 retain their bounded
-qualified scopes; TQP-28 through TQP-33 establish the deterministic native
+Current status: fail-closed program revision 24. All 64 milestones have a
+machine-readable evidence state. TQP-01 through TQP-34 retain their bounded
+qualified scopes; TQP-28 through TQP-34 establish the deterministic native
 field contract, LOD0 complex-field corpus, bounded adaptive selector, and
 native transition-assembly matrix, boundary/enclosure policy, and independent
-geometry/topology oracles. TQP-34 through TQP-45 remain `proposed`.
+geometry/topology oracles plus the seeded adversarial/minimized corpus.
+TQP-35 through TQP-45 remain `proposed`.
 Destruction, GPU, and production promotion remain closed behind Gate E.
 
 Gate B edit qualification is retained in
@@ -105,6 +106,19 @@ the clean native closed assembly or representative injected defects and reports
 the independent checks that reject each defect. The oracle consumes normalized
 native triangle data and does not call the existing native evidence validator.
 
+TQP-34 Adversarial Corpus Observatory:
+
+```text
+res://labs/terrain_lab/scenes/adversarial_corpus_observatory.tscn
+```
+
+Open it from **Project > Tools > Open TQP-34 Adversarial Corpus**. Its `@tool`
+root switches among four seeded generated cases and three fixed corrected-
+regression cases,
+four completion-order replays, and optional seed overrides. It renders only
+native geometry and reports the independent TQP-33 verdict, case seed, replay
+order, chunk/triangle counts, components, Euler characteristic, and materials.
+
 TQP-23 guided surface review:
 
 ```text
@@ -140,4 +154,10 @@ Focused Wave 02 second-batch report:
 
 ```text
 res://labs/terrain_lab/tools/run_wave_02_second_batch_validation.gd
+```
+
+Focused TQP-34 adversarial corpus report:
+
+```text
+res://labs/terrain_lab/tools/run_adversarial_corpus_validation.gd
 ```

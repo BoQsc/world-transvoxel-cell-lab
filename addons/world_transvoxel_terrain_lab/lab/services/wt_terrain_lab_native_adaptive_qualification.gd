@@ -17,6 +17,9 @@ const BoundaryEnclosureEvidence := preload(
 const IndependentOracleEvidence := preload(
 	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_independent_oracle_evidence.gd"
 )
+const AdversarialCorpusEvidence := preload(
+	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_adversarial_corpus_evidence.gd"
+)
 
 
 static func run() -> Dictionary:
@@ -25,6 +28,7 @@ static func run() -> Dictionary:
 	var transition_validation := TransitionAssemblyEvidence.validate_retained()
 	var boundary_validation := BoundaryEnclosureEvidence.validate_retained()
 	var oracle_validation := IndependentOracleEvidence.validate_retained()
+	var adversarial_validation := AdversarialCorpusEvidence.validate_retained()
 	var failures: Array = []
 	for validation in [
 		field_validation,
@@ -32,6 +36,7 @@ static func run() -> Dictionary:
 		transition_validation,
 		boundary_validation,
 		oracle_validation,
+		adversarial_validation,
 	]:
 		failures.append_array(validation.get("failures", []))
 	var field_passed := str(field_validation.get("status", "")) == "PASS"
@@ -39,8 +44,9 @@ static func run() -> Dictionary:
 	var transition_passed := str(transition_validation.get("status", "")) == "PASS"
 	var boundary_passed := str(boundary_validation.get("status", "")) == "PASS"
 	var oracle_passed := str(oracle_validation.get("status", "")) == "PASS"
+	var adversarial_passed := str(adversarial_validation.get("status", "")) == "PASS"
 	var passed := field_passed and adaptive_lod_passed and transition_passed \
-		and boundary_passed and oracle_passed
+		and boundary_passed and oracle_passed and adversarial_passed
 	return {
 		"schema": "world_transvoxel.terrain_lab.native_adaptive_terrain_qualification.v1",
 		"status": "PASS" if passed else "FAIL",
@@ -57,7 +63,8 @@ static func run() -> Dictionary:
 				if boundary_passed else "failed_boundary_enclosure_policy",
 			"TQP-33": "qualified_independent_geometry_topology_oracles_v1"
 				if oracle_passed else "failed_independent_oracles",
-			"TQP-34": "proposed_pending_adversarial_randomized_corpus",
+			"TQP-34": "qualified_seeded_adversarial_minimized_corpus_v1"
+				if adversarial_passed else "failed_adversarial_corpus",
 			"TQP-35": "proposed_pending_dynamic_lod_publication",
 			"TQP-36": "proposed_pending_edit_invalidation_contract",
 			"TQP-37": "proposed_pending_cross_lod_edit_corpus",
@@ -76,6 +83,7 @@ static func run() -> Dictionary:
 		"transition_assembly_evidence": transition_validation,
 		"boundary_enclosure_evidence": boundary_validation,
 		"independent_oracle_evidence": oracle_validation,
+		"adversarial_corpus_evidence": adversarial_validation,
 		"preserved_qualified_scope": [
 			"TQP-01 through TQP-27 declared bounded scopes",
 			"TQP-28 deterministic native field-generation and sampling contract",
@@ -84,6 +92,7 @@ static func run() -> Dictionary:
 			"TQP-31 bounded Windows native regular/transition assembly matrix",
 			"TQP-32 bounded Windows native chunk/world boundary and enclosure policy",
 			"TQP-33 bounded Windows independent native geometry and topology oracles",
+			"TQP-34 bounded Windows seeded adversarial, replay, minimization, and corrected-regression corpus",
 		],
 		"explicitly_unqualified_scope": [
 			"arbitrary, dynamic, or production adaptive hierarchy arrangements beyond the retained static contracts",

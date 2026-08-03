@@ -18,6 +18,9 @@ const BoundaryEnclosureObservatoryScene := preload(
 const IndependentOracleObservatoryScene := preload(
 	"res://labs/terrain_lab/scenes/independent_oracle_observatory.tscn"
 )
+const AdversarialCorpusObservatoryScene := preload(
+	"res://labs/terrain_lab/scenes/adversarial_corpus_observatory.tscn"
+)
 const NativeEvidence := preload(
 	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_edit_native_evidence.gd"
 )
@@ -122,6 +125,36 @@ func _run() -> void:
 			_fail("TQP-33 Independent Oracle Observatory designated check did not fail")
 			return
 	oracle_observatory.free()
+	var corpus_script := load(
+		"res://labs/terrain_lab/scenes/adversarial_corpus_observatory.gd"
+	) as Script
+	if corpus_script == null or not corpus_script.is_tool():
+		_fail("TQP-34 Adversarial Corpus Observatory must execute as an editor tool")
+		return
+	var corpus_observatory := AdversarialCorpusObservatoryScene.instantiate()
+	root.add_child(corpus_observatory)
+	var corpus_canonical: Dictionary = corpus_observatory.get_validation_snapshot()
+	if str(corpus_canonical.get("status", "")) != "PASS" \
+			or int(corpus_canonical.get("native_chunk_call_count", 0)) != 8 \
+			or not (corpus_canonical.get("failed_checks", []) as Array).is_empty():
+		_fail("TQP-34 Adversarial Corpus Observatory default case failed")
+		return
+	var canonical_corpus_signature := str(corpus_canonical.get("geometry_signature", ""))
+	corpus_observatory.editor_replay_mode = 2
+	corpus_observatory.call("_rebuild")
+	var corpus_reverse: Dictionary = corpus_observatory.get_validation_snapshot()
+	if str(corpus_reverse.get("status", "")) != "PASS" \
+			or str(corpus_reverse.get("geometry_signature", "")) != canonical_corpus_signature:
+		_fail("TQP-34 completion-order observatory replay differs")
+		return
+	corpus_observatory.editor_case_index = 2
+	corpus_observatory.call("_rebuild")
+	var corpus_exact: Dictionary = corpus_observatory.get_validation_snapshot()
+	if str(corpus_exact.get("status", "")) != "PASS" \
+			or str(corpus_exact.get("case_id", "")) != "seeded_exact_isovalue_lod0":
+		_fail("TQP-34 exact-isovalue observatory case failed")
+		return
+	corpus_observatory.free()
 	var observatory_property_names := PackedStringArray()
 	for property in observatory_script.get_script_property_list():
 		observatory_property_names.append(str(property.get("name", "")))
@@ -290,13 +323,13 @@ func _run() -> void:
 	if int(validation.get("milestone_count", 0)) != 64:
 		_fail("terrain program milestone count changed")
 		return
-	if int(validation.get("qualified_milestone_count", 0)) != 33:
+	if int(validation.get("qualified_milestone_count", 0)) != 34:
 		_fail("qualified reference milestone count changed")
 		return
 	if int(validation.get("specified_milestone_count", 0)) != 1:
 		_fail("open specification count changed")
 		return
-	if int(validation.get("proposed_milestone_count", -1)) != 12:
+	if int(validation.get("proposed_milestone_count", -1)) != 11:
 		_fail("native adaptive-terrain proposal count changed")
 		return
 	var status_counts: Dictionary = validation.get("status_counts", {})

@@ -42,6 +42,13 @@ closed assembly and representative missing, duplicate, flipped, and disconnected
 defects while reporting the independent detector results. It is an oracle
 inspection surface, not a fallback mesher or production terrain scene.
 
+The TQP-34 Adversarial Corpus Observatory is a separate `@tool` scene at
+`scenes/adversarial_corpus_observatory.tscn`. It exposes four retained seeded
+generated cases, three fixed corrected regressions, all four completion-order
+replays, and optional seed overrides while reporting the TQP-33 independent
+oracle verdict. It does not simulate actual concurrent publication or widen
+the retained corpus into a production terrain claim.
+
 `tools/run_edit_gate_b_validation.gd` executes the focused `TQP-09` through
 `TQP-14` qualification. `tools/capture_edit_qualification_visual.gd`
 regenerates the deterministic brush and temporal-edit cross-section reference.

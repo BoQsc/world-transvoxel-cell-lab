@@ -1,0 +1,45 @@
+{
+	"schema": "world_transvoxel.terrain_lab.decision.v1",
+	"id": "TQP-D022",
+	"date": "2026-08-03",
+	"decision": "Qualify TQP-34 for the retained bounded Windows seeded adversarial, cross-order replay, deterministic minimization, and corrected-regression corpus without widening the claim to unbounded fuzzing or concurrent dynamic terrain publication.",
+	"affected_milestones": ["TQP-34"],
+	"repositories": ["world-transvoxel-cell-lab", "world-transvoxel"],
+	"alternatives_considered": [
+		"accept only the five hand-authored TQP-33 oracle fixtures",
+		"call nondeterministic random generation without retaining exact seeds or signatures",
+		"treat request traversal order as equivalent to normalized completion publication order without replaying it",
+		"defer all failure shrinking and corrected-defect retention to production testing",
+		"claim actual worker concurrency from serialized completion-order permutations"
+	],
+	"evidence": [
+		"adversarial_corpus_standard.json and adversarial_corpus_reference_windows.json",
+		"four effective retained generated-field seeds plus three fixed corrected regressions spanning seven case profiles, LOD levels zero through three, two transition faces, signed and million-grid coordinates, nine material IDs, and 4,832 exact-isovalue sample hits",
+		"twenty-eight cold, warm, reverse-completion, and seeded-completion replays with exact normalized geometry equality and TQP-33 independent-oracle PASS",
+		"240 direct WorldTransvoxelCellProbe native chunk calls with no fallback geometry",
+		"deterministic triangle delta debugging shrinking an injected 25-triangle duplicate control to a stable two-triangle, three-vertex retained fixture",
+		"direct retained TQP-D011 tangent-edit, TQP-D018 million-grid oracle-frame, and TQP-D019 LOD3 positive-X winding-judgment regressions",
+		"debug timing distributions, retained and peak memory, provenance, focused repro runners, and @tool adversarial corpus observatory capture"
+	],
+	"qualified_scope": [
+		"the four retained seeded generated-field definitions, three fixed corrected-regression definitions, and their exact normalized geometry signatures",
+		"serialized chunk-completion publication permutations over canonical, warm, reverse, and deterministic seeded orders",
+		"independent geometry and topology judgment through the qualified TQP-33 oracle on every replay",
+		"deterministic triangle-level failure minimization and serialized minimized-fixture replay",
+		"retention of corrected geometry behavior and corrected laboratory judgments named by TQP-D011, TQP-D018, and TQP-D019",
+		"bounded Windows debug performance and provenance evidence"
+	],
+	"unqualified_scope": [
+		"statistical proof over arbitrary or unbounded seeds, fields, materials, LOD arrangements, or coordinates",
+		"actual concurrent worker execution, cancellation, stale-result rejection, origin shifting, or dynamic publication reserved for TQP-35 and TQP-42",
+		"dynamic digging, construction, streaming, collision, navigation, persistence, rendering, or production performance",
+		"other platforms and native build profiles"
+	],
+	"standards_changed": [
+		"Terrain Qualification Program revision 24",
+		"execution-plan revision 16",
+		"adversarial corpus standard TQP-ADVERSARIAL-CORPUS-WINDOWS-V1"
+	],
+	"review": "Focused case isolation, exact replay signatures, independent-oracle results, corrected-regression retention, deterministic minimizer replay, performance telemetry, editor observatory capture, program validation, and preservation smoke tests are required before retention. The generated fields keep the qualified TQP-33 residual ceiling unchanged and normalize only positive density magnitude, which preserves the zero set.",
+	"downstream_impact": "TQP-35 becomes the next dependency-ordered milestone. Gate E remains closed. No world-transvoxel source or binary change was required."
+}

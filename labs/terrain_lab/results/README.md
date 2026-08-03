@@ -74,6 +74,24 @@ retains 74 direct native calls, thirteen designated injected defects, timing
 distributions, memory, provenance, and exact cold/warm signatures. The adjacent
 PNG is a diagnostic editor capture, not visual-quality acceptance.
 
+`adversarial_corpus_reference_windows.json` retains the focused TQP-34 seeded
+native corpus and deterministic failure minimizer:
+
+```text
+godot --headless --path . \
+  --script labs/terrain_lab/tools/run_adversarial_corpus_validation.gd -- \
+  --output res://labs/terrain_lab/results/adversarial_corpus_reference_windows.json
+```
+
+Use `--case <case_id>` for one retained seed or corrected regression and
+`--replay-minimized` for the serialized two-triangle duplicate fixture. The
+full report executes 28 cold/warm and completion-order replays, 240 direct
+native chunk calls, and the TQP-33 independent oracle on every replay. The
+first canonical replay for each case uses a fresh native probe and the warm
+lane immediately repeats it; neither lane claims hardware-cache isolation. The
+adjacent PNG is an editor diagnostic, not visual-quality acceptance; actual
+concurrent publication remains outside this milestone.
+
 `terrain_observatory_diagnostics_reference_windows.json` retains the focused
 TQP-26 chunk, job, resource, collision, rejection, event-retention, and signed
 repro-export contract:

@@ -1,6 +1,6 @@
 {
 	"schema": "world_transvoxel.terrain_lab.program.v2",
-	"program_revision": 23,
+	"program_revision": 24,
 	"lab_scope": "experimental_terrain_qualification",
 	"authority": "EVIDENCE_PROGRAM_ONLY",
 	"production_status": "NOT_PRODUCTION",
@@ -43,6 +43,8 @@
 	"boundary_enclosure_evidence": "res://labs/terrain_lab/results/boundary_enclosure_reference_windows.json",
 	"independent_oracle_standard": "res://addons/world_transvoxel_terrain_lab/standards/independent_oracle_standard.json",
 	"independent_oracle_evidence": "res://labs/terrain_lab/results/independent_oracle_reference_windows.json",
+	"adversarial_corpus_standard": "res://addons/world_transvoxel_terrain_lab/standards/adversarial_corpus_standard.json",
+	"adversarial_corpus_evidence": "res://labs/terrain_lab/results/adversarial_corpus_reference_windows.json",
 	"wave_02_first_batch_evidence": "res://labs/terrain_lab/results/wave_02_first_batch_reference_windows.json",
 	"wave_02_second_batch_evidence": "res://labs/terrain_lab/results/wave_02_second_batch_reference_windows.json",
 	"execution_plan": "res://addons/world_transvoxel_terrain_lab/standards/execution_plan.json",
@@ -160,7 +162,8 @@
 		"res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D018.json",
 		"res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D019.json",
 		"res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D020.json",
-		"res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D021.json"
+		"res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D021.json",
+		"res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D022.json"
 	],
 	"milestones": [
 		{"id": "TQP-01", "title": "Operating Envelope", "status": "qualified", "domain": "foundation", "owner": "Terrain Qualification Program", "depends_on": [], "evidence_profile": "foundation", "contract_ref": "#tqp-01-operating-envelope", "claim_scope": "reference_envelope_v1"},
@@ -196,7 +199,7 @@
 		{"id": "TQP-31", "title": "Regular And Transition Assembly Matrix", "status": "qualified", "domain": "native_adaptive_terrain", "owner": "Terrain Systems Lab and Cell Lab", "depends_on": ["TQP-29", "TQP-30"], "evidence_profile": "systems", "contract_ref": "#tqp-31-regular-and-transition-assembly-matrix", "claim_scope": "qualified_native_regular_transition_assembly_windows_v1"},
 		{"id": "TQP-32", "title": "Chunk, World Boundary, And Enclosure Policy", "status": "qualified", "domain": "native_adaptive_terrain", "owner": "Terrain Systems Lab", "depends_on": ["TQP-02", "TQP-03", "TQP-05", "TQP-29", "TQP-30", "TQP-31"], "evidence_profile": "systems", "contract_ref": "#tqp-32-chunk-world-boundary-and-enclosure-policy", "claim_scope": "qualified_native_boundary_enclosure_policy_windows_v1"},
 		{"id": "TQP-33", "title": "Independent Geometry And Topology Oracles", "status": "qualified", "domain": "native_adaptive_terrain", "owner": "Cell Lab and Terrain Systems Lab", "depends_on": ["TQP-04", "TQP-29", "TQP-31", "TQP-32"], "evidence_profile": "systems", "contract_ref": "#tqp-33-independent-geometry-and-topology-oracles", "claim_scope": "qualified_independent_geometry_topology_oracles_windows_v1"},
-		{"id": "TQP-34", "title": "Adversarial, Randomized, And Minimized Repro Corpus", "status": "proposed", "domain": "native_adaptive_terrain", "owner": "Terrain Systems Lab and Cell Lab", "depends_on": ["TQP-04", "TQP-29", "TQP-31", "TQP-33"], "evidence_profile": "systems", "contract_ref": "#tqp-34-adversarial-randomized-and-minimized-repro-corpus", "claim_scope": "no_claim_proposed_corpus"},
+		{"id": "TQP-34", "title": "Adversarial, Randomized, And Minimized Repro Corpus", "status": "qualified", "domain": "native_adaptive_terrain", "owner": "Terrain Systems Lab and Cell Lab", "depends_on": ["TQP-04", "TQP-29", "TQP-31", "TQP-33"], "evidence_profile": "systems", "contract_ref": "#tqp-34-adversarial-randomized-and-minimized-repro-corpus", "claim_scope": "qualified_seeded_adversarial_minimized_corpus_windows_v1"},
 		{"id": "TQP-35", "title": "Dynamic LOD Publication And Temporal Stability", "status": "proposed", "domain": "native_adaptive_terrain", "owner": "Terrain Systems Lab", "depends_on": ["TQP-15", "TQP-17", "TQP-19", "TQP-22", "TQP-30", "TQP-31", "TQP-33", "TQP-34"], "evidence_profile": "systems", "contract_ref": "#tqp-35-dynamic-lod-publication-and-temporal-stability", "claim_scope": "no_claim_proposed_temporal_contract"},
 		{"id": "TQP-36", "title": "Edit Invalidation And Incremental Remeshing", "status": "proposed", "domain": "native_adaptive_terrain", "owner": "Edit Semantics Lab and Terrain Systems Lab", "depends_on": ["TQP-06", "TQP-12", "TQP-15", "TQP-17", "TQP-29", "TQP-30", "TQP-31", "TQP-35"], "evidence_profile": "systems", "contract_ref": "#tqp-36-edit-invalidation-and-incremental-remeshing", "claim_scope": "no_claim_proposed_invalidation_contract"},
 		{"id": "TQP-37", "title": "Digging And Construction Across Adaptive LOD", "status": "proposed", "domain": "native_adaptive_terrain", "owner": "Edit Semantics Lab and Terrain Systems Lab", "depends_on": ["TQP-10", "TQP-11", "TQP-13", "TQP-14", "TQP-29", "TQP-31", "TQP-36"], "evidence_profile": "systems", "contract_ref": "#tqp-37-digging-and-construction-across-adaptive-lod", "claim_scope": "no_claim_proposed_adaptive_edit_corpus"},
@@ -252,7 +255,8 @@
 		"TQP-30 bounded deterministic adaptive LOD selector and neighbor contract",
 		"TQP-31 bounded Windows native regular/transition assembly matrix",
 		"TQP-32 bounded Windows native chunk/world boundary and enclosure policy",
-		"TQP-33 bounded Windows independent native geometry and topology oracles"
+		"TQP-33 bounded Windows independent native geometry and topology oracles",
+		"TQP-34 bounded Windows seeded adversarial, replay, minimization, and corrected-regression corpus"
 	],
 	"explicitly_unqualified_scope": [
 		"production terrain runtime",

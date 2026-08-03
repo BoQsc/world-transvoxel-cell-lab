@@ -28,6 +28,12 @@ const INDEPENDENT_ORACLE_OBSERVATORY_SCENE := (
 const INDEPENDENT_ORACLE_OBSERVATORY_MENU_LABEL := (
 	"Open TQP-33 Independent Oracle"
 )
+const ADVERSARIAL_CORPUS_OBSERVATORY_SCENE := (
+	"res://labs/terrain_lab/scenes/adversarial_corpus_observatory.tscn"
+)
+const ADVERSARIAL_CORPUS_OBSERVATORY_MENU_LABEL := (
+	"Open TQP-34 Adversarial Corpus"
+)
 
 
 func _enter_tree() -> void:
@@ -51,6 +57,10 @@ func _enter_tree() -> void:
 		INDEPENDENT_ORACLE_OBSERVATORY_MENU_LABEL,
 		_open_independent_oracle_observatory
 	)
+	add_tool_menu_item(
+		ADVERSARIAL_CORPUS_OBSERVATORY_MENU_LABEL,
+		_open_adversarial_corpus_observatory
+	)
 	set_process(true)
 
 
@@ -60,6 +70,7 @@ func _exit_tree() -> void:
 	remove_tool_menu_item(SURFACE_REVIEW_MENU_LABEL)
 	remove_tool_menu_item(BOUNDARY_ENCLOSURE_OBSERVATORY_MENU_LABEL)
 	remove_tool_menu_item(INDEPENDENT_ORACLE_OBSERVATORY_MENU_LABEL)
+	remove_tool_menu_item(ADVERSARIAL_CORPUS_OBSERVATORY_MENU_LABEL)
 	remove_custom_type("WtTransvoxelTerrainLab")
 
 
@@ -84,6 +95,12 @@ func _open_boundary_enclosure_observatory() -> void:
 func _open_independent_oracle_observatory() -> void:
 	get_editor_interface().open_scene_from_path(
 		INDEPENDENT_ORACLE_OBSERVATORY_SCENE
+	)
+
+
+func _open_adversarial_corpus_observatory() -> void:
+	get_editor_interface().open_scene_from_path(
+		ADVERSARIAL_CORPUS_OBSERVATORY_SCENE
 	)
 
 

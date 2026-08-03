@@ -1,0 +1,260 @@
+{
+	"schema": "world_transvoxel.terrain_lab.adversarial_corpus_standard.v1",
+	"standard_id": "TQP-ADVERSARIAL-CORPUS-WINDOWS-V1",
+	"authority": "SEEDED_NATIVE_WORLD_TRANSVOXEL_CORPUS_JUDGED_BY_TQP33_INDEPENDENT_ORACLE",
+	"milestone": "TQP-34",
+	"evidence": "res://labs/terrain_lab/results/adversarial_corpus_reference_windows.json",
+	"contract": {
+		"native_dependency": "WorldTransvoxelCellProbe",
+		"fallback_geometry": "forbidden",
+		"oracle": "TQP-33 independent triangle-soup oracle",
+		"seed_policy": "four explicit effective generated-field seeds plus explicit deterministic traversal seeds for all generated and fixed regression cases",
+		"isovalue_policy": "zero with a retained exact-grid coincidence profile",
+		"replay_orders": ["cold_canonical", "warm_canonical", "worker_reverse", "worker_seeded"],
+		"cold_warm_scope": "first and immediate repeated canonical replay on a fresh per-case probe; correctness lanes rather than hardware-cache isolation",
+		"worker_order_scope": "serialized_completion_publication_permutations_not_concurrent_execution",
+		"assembly_policy": "native chunks are acquired in replay order and normalized by deterministic coordinate-lod ownership before comparison",
+		"replay_equality": "exact normalized vertices indices materials and geometry signature",
+		"failure_policy": "every failing case retains its seed and runner arguments; triangle-level oracle failures invoke deterministic delta debugging",
+		"minimizer_control": "an injected exact duplicate must shrink from a bounded native triangle subset to two stable coincident triangles",
+		"regression_policy": "retain every corrected native geometry defect and every corrected lab geometry judgment that can otherwise create a false terrain verdict",
+		"performance_policy": "retain p50 p95 p99 worst timing memory provenance case replay oracle and native-call counts"
+	},
+	"regression_registry": [
+		{
+			"decision_id": "TQP-D011",
+			"decision": "res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D011.json",
+			"case_id": "regression_tqp_d011_tangent_edit",
+			"rule": "canonical smoothed crater tangent to z=0 retains matching native endpoints and no interior opening"
+		},
+		{
+			"decision_id": "TQP-D018",
+			"decision": "res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D018.json",
+			"case_id": "regression_tqp_d018_large_coordinate",
+			"rule": "million-grid topology is judged in a window-relative coordinate frame"
+		},
+		{
+			"decision_id": "TQP-D019",
+			"decision": "res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D019.json",
+			"case_id": "regression_tqp_d019_lod3_positive_x",
+			"rule": "mixed-LOD winding uses connected-component consistency while skinny local normal disagreements remain diagnostic"
+		}
+	],
+	"cases": [
+		{
+			"id": "seeded_closed_wave_lod0",
+			"source": "adversarial_uniform",
+			"field_profile": "closed_wave",
+			"seed": 104729,
+			"chunk_base": [0, 0, 0],
+			"window_chunks": [2, 2, 2],
+			"lod": 0,
+			"material_palette": [1, 2, 3],
+			"oracle": {
+				"bounds_min": [0.0, 0.0, 0.0],
+				"bounds_max": [32.0, 32.0, 32.0],
+				"closed": true,
+				"allowed_open_faces": [],
+				"expected_component_count": 1,
+				"expected_euler_characteristic": 2,
+				"expected_signed_volume_sign": -1,
+				"minimum_abs_signed_volume": 1000.0,
+				"field_tolerance": 0.0313,
+				"ray_tests": []
+			}
+		},
+		{
+			"id": "seeded_closed_blob_lod2",
+			"source": "adversarial_uniform",
+			"field_profile": "closed_blob",
+			"seed": 130363,
+			"chunk_base": [-1, -1, -1],
+			"window_chunks": [2, 2, 2],
+			"lod": 2,
+			"material_palette": [2, 4, 6, 8],
+			"oracle": {
+				"bounds_min": [0.0, 0.0, 0.0],
+				"bounds_max": [128.0, 128.0, 128.0],
+				"closed": true,
+				"allowed_open_faces": [],
+				"expected_component_count": 1,
+				"expected_euler_characteristic": 2,
+				"expected_signed_volume_sign": -1,
+				"minimum_abs_signed_volume": 20000.0,
+				"field_tolerance": 0.0313,
+				"ray_tests": []
+			}
+		},
+		{
+			"id": "seeded_exact_isovalue_lod0",
+			"source": "adversarial_uniform",
+			"field_profile": "exact_isovalue",
+			"seed": 155921,
+			"exact_offset": 0,
+			"chunk_base": [-4, 2, 1],
+			"window_chunks": [2, 2, 2],
+			"lod": 0,
+			"material_palette": [1, 5],
+			"oracle": {
+				"bounds_min": [0.0, 0.0, 0.0],
+				"bounds_max": [32.0, 32.0, 32.0],
+				"closed": false,
+				"allowed_open_faces": ["negative_x", "positive_x", "negative_y", "positive_y", "negative_z", "positive_z"],
+				"expected_component_count": 1,
+				"expected_euler_characteristic": null,
+				"expected_signed_volume_sign": 0,
+				"minimum_abs_signed_volume": 0.0,
+				"field_tolerance": 0.0313,
+				"ray_tests": []
+			}
+		},
+		{
+			"id": "seeded_transition_positive_z",
+			"source": "adversarial_transition",
+			"field_profile": "transition_surface",
+			"seed": 196613,
+			"coarse_coordinate": [1, -2, 2],
+			"coarse_lod": 2,
+			"face": 5,
+			"material_palette": [1, 3, 7, 9],
+			"oracle": {
+				"bounds_min": [0.0, 0.0, 0.0],
+				"bounds_max": [64.0, 64.0, 96.0],
+				"closed": false,
+				"allowed_open_faces": ["negative_x", "positive_x", "negative_y", "positive_y", "negative_z", "positive_z"],
+				"expected_component_count": 1,
+				"expected_euler_characteristic": null,
+				"expected_signed_volume_sign": 0,
+				"minimum_abs_signed_volume": 0.0,
+				"field_tolerance": 0.0313,
+				"ray_tests": []
+			}
+		},
+		{
+			"id": "regression_tqp_d011_tangent_edit",
+			"source": "canonical_tangent_edit",
+			"field_profile": "canonical_tangent_edit",
+			"traversal_seed": 229939,
+			"regression_decision": "TQP-D011",
+			"sample_scale_m": 0.5,
+			"chunk_base": [-1, 0, -1],
+			"window_chunks": [3, 2, 3],
+			"lod": 0,
+			"operations": [
+				{"id": "initial-crater", "mode": "dig", "shape": "sphere", "center": [-1.0, 9.5, 4.0], "radius_m": 4.0, "smoothing_m": 0.75},
+				{"id": "initial-tunnel", "mode": "dig", "shape": "capsule", "segment_a": [7.0, 9.0, -5.0], "segment_b": [7.0, 9.0, 13.0], "radius_m": 2.25, "smoothing_m": 0.35},
+				{"id": "initial-construct", "mode": "construct", "shape": "rounded_box", "center": [11.0, 12.5, 5.0], "half_extents": [3.5, 1.4, 2.25], "rounding_m": 0.6, "material": 7}
+			],
+			"oracle": {
+				"bounds_min": [0.0, 0.0, 0.0],
+				"bounds_max": [48.0, 32.0, 48.0],
+				"closed": false,
+				"allowed_open_faces": ["negative_x", "positive_x", "negative_y", "positive_y", "negative_z", "positive_z"],
+				"expected_component_count": 1,
+				"expected_euler_characteristic": -1,
+				"expected_signed_volume_sign": 0,
+				"minimum_abs_signed_volume": 0.0,
+				"field_tolerance": 0.0313,
+				"ray_tests": []
+			}
+		},
+		{
+			"id": "regression_tqp_d018_large_coordinate",
+			"source": "native_field",
+			"field_profile": "large_coordinate",
+			"kind": "large_coordinate",
+			"traversal_seed": 262147,
+			"regression_decision": "TQP-D018",
+			"chunk_base": [62500, -62501, 62502],
+			"window_chunks": [2, 2, 2],
+			"lod": 0,
+			"oracle": {
+				"bounds_min": [0.0, 0.0, 0.0],
+				"bounds_max": [32.0, 32.0, 32.0],
+				"closed": false,
+				"allowed_open_faces": ["negative_x", "positive_x", "negative_y", "positive_y", "negative_z", "positive_z"],
+				"expected_component_count": 1,
+				"expected_euler_characteristic": null,
+				"expected_signed_volume_sign": 0,
+				"minimum_abs_signed_volume": 0.0,
+				"field_tolerance": 0.0313,
+				"ray_tests": []
+			}
+		},
+		{
+			"id": "regression_tqp_d019_lod3_positive_x",
+			"source": "transition_field",
+			"field_profile": "lod3_positive_x",
+			"traversal_seed": 294313,
+			"regression_decision": "TQP-D019",
+			"coarse_coordinate": [4, -3, 3],
+			"coarse_lod": 3,
+			"face": 1,
+			"mode": "surface",
+			"oracle": {
+				"bounds_min": [0.0, 0.0, 0.0],
+				"bounds_max": [192.0, 128.0, 128.0],
+				"closed": false,
+				"allowed_open_faces": ["negative_x", "positive_x", "negative_y", "positive_y", "negative_z", "positive_z"],
+				"expected_component_count": 1,
+				"expected_euler_characteristic": null,
+				"expected_signed_volume_sign": 0,
+				"minimum_abs_signed_volume": 0.0,
+				"field_tolerance": 0.0313,
+				"ray_tests": []
+			}
+		}
+	],
+	"budgets": {
+		"minimum_case_count": 7,
+		"minimum_seeded_case_count": 4,
+		"minimum_unique_seed_count": 4,
+		"minimum_generated_field_profile_count": 4,
+		"minimum_case_profile_count": 7,
+		"minimum_lod_level_count": 4,
+		"minimum_transition_face_count": 2,
+		"minimum_material_id_count": 4,
+		"minimum_native_chunk_call_count": 240,
+		"maximum_case_p95_usec": 30000000,
+		"maximum_oracle_p95_usec": 10000000,
+		"maximum_total_usec": 180000000
+	},
+	"stable_expected": {
+		"matrix_signature": "63ba590f1702ec7f6efbc2d2ea5d43f5aedabea4638350b7e8d97d28543310c4",
+		"minimized_fixture_signature": "8ab246f40b612724e1f02f354e8f9ad5a8095bfab458a32c43ec0b9a0b7a6276",
+		"cases": {
+			"seeded_closed_wave_lod0": "700b943b1b65336b6b968a3e35370ca0e2056c18bd17128773ca62408e1cb3e3",
+			"seeded_closed_blob_lod2": "6d9f4177549843f365a4ff135fd9df70c432d020176e9860357c39884eddfde3",
+			"seeded_exact_isovalue_lod0": "861c969a7925b80bf0fd147d46bb01962d47815fb7165d0bd86ba10642a4cef9",
+			"seeded_transition_positive_z": "d83e85e6a8a23effa8aef68b8820464bb8d25abc7b72f5887205e28ba88df516",
+			"regression_tqp_d011_tangent_edit": "11fc1ef388e46cb63a5e9c25f4a794b5bb1302bf0a13a1c96c2ba8cfdc8af239",
+			"regression_tqp_d018_large_coordinate": "2eed86e7a834a4b2413aa2da8673388babb02289d57868d88fb83c65fc4bc261",
+			"regression_tqp_d019_lod3_positive_x": "26435d0e73a3e38968525a1970b0fdcd5cdb8c37a6eb86aac40714611bc6dae3"
+		}
+	},
+	"editor_inspection": {
+		"scene": "res://labs/terrain_lab/scenes/adversarial_corpus_observatory.tscn",
+		"capture": "res://labs/terrain_lab/results/adversarial_corpus_observatory_reference_windows.png",
+		"capture_sha256": "5ba712959a75cc52633c333b97997f06a84816bb199eb70b875334cfa60c8739",
+		"width": 1280,
+		"height": 720,
+		"default_case": "seeded_closed_wave_lod0",
+		"automation_status": "PASS",
+		"review_scope": "diagnostic_seed_case_and_replay_inspection_not_a_visual_quality_gate"
+	},
+	"qualified_scope": [
+		"four retained deterministic generated-field seeds plus three fixed corrected-regression cases spanning closed, open, exact-isovalue, same-LOD, mixed-LOD, signed, and million-grid coordinates",
+		"exact normalized geometry agreement across cold, warm, reverse-completion, and seeded-completion publication orders",
+		"TQP-33 independent geometry and topology oracle execution on every replay",
+		"deterministic triangle-level delta debugging proven by a stable two-triangle duplicate-overlap fixture",
+		"retained TQP-D011 native tangent correction and TQP-D018/TQP-D019 corrected geometry-judgment regressions",
+		"bounded Windows debug timing memory provenance material seed replay and native-call telemetry"
+	],
+	"explicitly_unqualified_scope": [
+		"statistical proof over unbounded random seeds or arbitrary fields",
+		"actual concurrent worker execution, cancellation, stale-result rejection, or dynamic publication reserved for TQP-35 and TQP-42",
+		"partial coplanar overlap beyond the TQP-33 exact duplicate detector",
+		"dynamic digging construction streaming collision navigation persistence rendering or production performance",
+		"platforms and native builds outside the retained Windows debug profile"
+	]
+}

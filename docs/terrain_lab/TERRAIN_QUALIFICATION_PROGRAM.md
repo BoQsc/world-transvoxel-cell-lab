@@ -654,13 +654,30 @@ remain unqualified.
 
 ### TQP-34: Adversarial, Randomized, And Minimized Repro Corpus
 
-Status: `proposed`. Owner: Terrain Systems Lab and Cell Lab. Depends on:
+Status: `qualified`. Owner: Terrain Systems Lab and Cell Lab. Depends on:
 TQP-04, TQP-29, TQP-31, TQP-33.
 
 Complete when seeded fuzzing varies field parameters, isovalue coincidences,
 LOD arrangements, coordinates, materials, and traversal order; failures shrink
 to stable fixtures; cold/warm and worker-order replays agree; and the retained
 corpus includes every previously corrected terrain defect.
+
+The retained Windows corpus fixes four effective generated-field seeds across
+closed-wave, closed-blob, exact-isovalue, and mixed-LOD profiles, plus three
+fixed canonical tangent-edit, million-grid, and LOD3 positive-X corrected
+regressions. Twenty-eight cold, warm, reverse-
+completion, and seeded-completion replays make 240 direct native chunk calls;
+all normalized geometry signatures agree and every replay passes the TQP-33
+independent oracle. The corpus covers LOD levels zero through three, two
+transition faces, signed and million-grid coordinates, nine material IDs, and
+4,832 exact-isovalue sample hits. A deterministic triangle delta debugger
+shrinks an injected 25-triangle duplicate control to a stable two-triangle,
+three-vertex fixture. `TQP-D011`, `TQP-D018`, and `TQP-D019` are retained as
+direct corrected-behavior or corrected-judgment regressions. Serialized
+completion-order permutations are qualified here; actual concurrent execution
+and dynamic publication remain reserved for TQP-35 and TQP-42. `cold` means
+the first canonical replay on a fresh per-case probe and `warm` its immediate
+repeat; these are correctness lanes, not hardware-cache isolation claims.
 
 ### TQP-35: Dynamic LOD Publication And Temporal Stability
 
@@ -978,14 +995,15 @@ a standard, not an assertion that future terrain work is finished.
 
 The program records every milestone at a truthful evidence state:
 
-- `TQP-01` through `TQP-33` are qualified
+- `TQP-01` through `TQP-34` are qualified
   for their narrow contract, native Windows reference, or reference-model
   scopes. Gate B is qualified; its native chunk rebuild benchmark remains a
   background/debug reference and is not a production frame-time claim.
-- `TQP-28` through `TQP-33` qualify the deterministic field contract, bounded
+- `TQP-28` through `TQP-34` qualify the deterministic field contract, bounded
   LOD0 complex native corpus, finite adaptive selector, and static native
   transition-assembly matrix, bounded boundary/enclosure policy, and independent
-  geometry/topology oracles. `TQP-34` through `TQP-45` remain proposed, so
+  geometry/topology oracles, and seeded adversarial/minimized repro corpus.
+  `TQP-35` through `TQP-45` remain proposed, so
   the program makes no Gate E adaptive-terrain authority claim.
 - `TQP-46` through `TQP-51` retain the previously implemented destruction and
   structural reference behavior under their revision-19 identifiers.
@@ -993,8 +1011,8 @@ The program records every milestone at a truthful evidence state:
 - `TQP-53` through `TQP-64` are blocked by named external targets and exit
   conditions in `program_blockers.json`.
 
-The next dependency-ordered milestone is TQP-34, the adversarial, randomized,
-and minimized repro corpus. TQP-27 remains qualified through `TQP-D016` only for its
+The next dependency-ordered milestone is TQP-35, dynamic LOD publication and
+temporal stability. TQP-27 remains qualified through `TQP-D016` only for its
 bounded native Windows 2K-world soak and durable edit-journal restart.
 `TQP-F002` retains large-volume snapshot compaction as an open upstream
 capacity issue. Gate D is qualified only for that bounded reference claim;
@@ -1008,13 +1026,12 @@ authoritative outside-field halo samples, density-owned caps, declared open
 contours, residency-independent chunk geometry, exact catalog limits, and no
 skirts or hidden overlap.
 
-TQP-33 now provides independent geometry/topology oracles and one injected
-defect per check without calling the implementation validator. The immediate
-task is TQP-34: adversarial and randomized cases with minimized repros. This is
-where the lab must prove that complex mixed-resolution fields remain connected
-and explain failures using those independent checks. TQP-30 and
-TQP-31 already establish the bounded selector and static native assembly inputs
-for that work; they do not pre-qualify these broader arrangements.
+TQP-33 provides independent geometry/topology oracles and one injected defect
+per check without calling the implementation validator. TQP-34 now applies
+those oracles to retained seeded fields, exact-isovalue coincidences, mixed LOD,
+large coordinates, corrected regressions, traversal permutations, and a
+deterministic minimized-failure control. It does not claim arbitrary fuzzing or
+actual concurrent publication.
 
 TQP-35 through TQP-42 move from static geometry to a changing terrain system.
 They qualify dynamic LOD publication, temporal stability, edit invalidation,
@@ -1126,3 +1143,9 @@ Retained decisions:
   suite over five native assemblies, with one detected injected defect per
   check, exact signatures, field-residual bounds, performance telemetry, and
   arbitrary/randomized/dynamic terrain claims retained as unqualified.
+- `TQP-D022`: qualify TQP-34 for the bounded four-seed plus three fixed-
+  regression Windows adversarial corpus, exact cold/warm and completion-order
+  replay, deterministic
+  two-triangle failure minimization, and retained TQP-D011/TQP-D018/TQP-D019
+  corrected regressions while leaving actual concurrency and dynamic terrain
+  publication to later milestones.

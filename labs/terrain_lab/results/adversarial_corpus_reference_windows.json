@@ -1,0 +1,3876 @@
+{
+	"schema": "world_transvoxel.terrain_lab.adversarial_corpus_qualification.v1",
+	"standard_id": "TQP-ADVERSARIAL-CORPUS-WINDOWS-V1",
+	"authority": "SEEDED_NATIVE_WORLD_TRANSVOXEL_CORPUS_JUDGED_BY_TQP33_INDEPENDENT_ORACLE",
+	"milestone": "TQP-34",
+	"status": "PASS",
+	"retained_complete": true,
+	"contract": {
+		"status": "PASS",
+		"checks": [
+			{
+				"id": "standard_schema",
+				"status": "PASS"
+			},
+			{
+				"id": "native_authority",
+				"status": "PASS"
+			},
+			{
+				"id": "no_fallback",
+				"status": "PASS"
+			},
+			{
+				"id": "replay_inventory",
+				"status": "PASS"
+			},
+			{
+				"id": "cold_warm_scope",
+				"status": "PASS"
+			},
+			{
+				"id": "independent_oracle",
+				"status": "PASS"
+			},
+			{
+				"id": "worker_order_scope",
+				"status": "PASS"
+			},
+			{
+				"id": "regression_registry",
+				"status": "PASS"
+			}
+		],
+		"failures": []
+	},
+	"cases": [
+		{
+			"case_id": "seeded_closed_wave_lod0",
+			"source": "adversarial_uniform",
+			"seed": 104729.0,
+			"traversal_seed": 104729.0,
+			"field_profile": "closed_wave",
+			"regression_decision": "",
+			"status": "PASS",
+			"geometry_signature": "700b943b1b65336b6b968a3e35370ca0e2056c18bd17128773ca62408e1cb3e3",
+			"definition_signature": "ab13ff28852395905e55df971e7110a2594ba027e681012370eb67099847bbd8",
+			"case_definition_signature": "ab71125b47717051df585cfe2899c014e621dac51d136172b755859af27afbbb",
+			"replay_signatures": {
+				"cold_canonical": "700b943b1b65336b6b968a3e35370ca0e2056c18bd17128773ca62408e1cb3e3",
+				"warm_canonical": "700b943b1b65336b6b968a3e35370ca0e2056c18bd17128773ca62408e1cb3e3",
+				"worker_reverse": "700b943b1b65336b6b968a3e35370ca0e2056c18bd17128773ca62408e1cb3e3",
+				"worker_seeded": "700b943b1b65336b6b968a3e35370ca0e2056c18bd17128773ca62408e1cb3e3"
+			},
+			"replays": [
+				{
+					"status": "PASS",
+					"replay_order": "cold_canonical",
+					"geometry_signature": "700b943b1b65336b6b968a3e35370ca0e2056c18bd17128773ca62408e1cb3e3",
+					"definition_signature": "ab13ff28852395905e55df971e7110a2594ba027e681012370eb67099847bbd8",
+					"native_chunk_call_count": 8,
+					"oracle": {
+						"schema": "world_transvoxel.terrain_lab.independent_mesh_oracle.v1",
+						"status": "PASS",
+						"checks": {
+							"index_integrity": {
+								"invalid_index_count": 0,
+								"incomplete_index_count": 0,
+								"status": "PASS"
+							},
+							"finite_value": {
+								"nonfinite_vertex_count": 0,
+								"status": "PASS"
+							},
+							"bounds": {
+								"bounds_violation_count": 0,
+								"status": "PASS"
+							},
+							"degenerate_triangle": {
+								"degenerate_triangle_count": 0,
+								"status": "PASS"
+							},
+							"edge_multiplicity": {
+								"boundary_edge_count": 0,
+								"forbidden_open_edge_count": 0,
+								"unclassified_open_edge_count": 0,
+								"open_face_counts": {
+									"negative_x": 0,
+									"positive_x": 0,
+									"negative_y": 0,
+									"positive_y": 0,
+									"negative_z": 0,
+									"positive_z": 0
+								},
+								"status": "PASS"
+							},
+							"non_manifold": {
+								"nonmanifold_edge_count": 0,
+								"status": "PASS"
+							},
+							"duplicate_overlap": {
+								"exact_duplicate_triangle_count": 0,
+								"status": "PASS"
+							},
+							"orientation": {
+								"orientation_conflict_edge_count": 0,
+								"status": "PASS"
+							},
+							"component": {
+								"component_count": 1,
+								"expected_component_count": 1,
+								"status": "PASS"
+							},
+							"euler_characteristic": {
+								"euler_characteristic": 2,
+								"expected_euler_characteristic": 2.0,
+								"status": "PASS"
+							},
+							"ray_parity": {
+								"ray_results": [],
+								"failure_count": 0,
+								"status": "NOT_APPLICABLE"
+							},
+							"signed_volume": {
+								"signed_volume": -11570.7082334755,
+								"observed_sign": -1,
+								"expected_sign": -1,
+								"status": "PASS"
+							},
+							"field_resampling": {
+								"applicable": true,
+								"status": "PASS",
+								"sampled_vertex_count": 3938,
+								"unique_grid_sample_count": 7020,
+								"maximum_abs_density_residual": 0.00777039868975632,
+								"tolerance": 0.0313,
+								"failure_count": 0
+							}
+						},
+						"metrics": {
+							"input_vertex_count": 3938,
+							"input_triangle_count": 7268,
+							"valid_triangle_count": 7268,
+							"unique_vertex_count": 3636,
+							"unique_edge_count": 10902,
+							"component_count": 1,
+							"euler_characteristic": 2,
+							"signed_volume": -11570.7082334755
+						},
+						"elapsed_usec": 581641,
+						"failures": []
+					},
+					"oracle_elapsed_usec": 605221,
+					"material_ids": [
+						1,
+						2,
+						3
+					],
+					"field_audit": {
+						"sample_call_count": 60196,
+						"exact_isovalue_hit_count": 0,
+						"observed_material_ids": [
+							1,
+							2,
+							3
+						],
+						"derived_parameters": {
+							"phase_x": 3.12510076406872,
+							"phase_z": 1.49389037003729,
+							"amplitude_x": 0.964850033873157,
+							"amplitude_z": 2.07158112869206,
+							"frequency_x": 0.131035650556924,
+							"frequency_z": 0.204362727270631,
+							"blob_radii": [
+								8.35433864593506,
+								7.80209016799927,
+								9.38357448577881
+							],
+							"exact_offset": 2
+						}
+					},
+					"elapsed_usec": 1273273,
+					"failures": []
+				},
+				{
+					"status": "PASS",
+					"replay_order": "warm_canonical",
+					"geometry_signature": "700b943b1b65336b6b968a3e35370ca0e2056c18bd17128773ca62408e1cb3e3",
+					"definition_signature": "ab13ff28852395905e55df971e7110a2594ba027e681012370eb67099847bbd8",
+					"native_chunk_call_count": 8,
+					"oracle": {
+						"schema": "world_transvoxel.terrain_lab.independent_mesh_oracle.v1",
+						"status": "PASS",
+						"checks": {
+							"index_integrity": {
+								"invalid_index_count": 0,
+								"incomplete_index_count": 0,
+								"status": "PASS"
+							},
+							"finite_value": {
+								"nonfinite_vertex_count": 0,
+								"status": "PASS"
+							},
+							"bounds": {
+								"bounds_violation_count": 0,
+								"status": "PASS"
+							},
+							"degenerate_triangle": {
+								"degenerate_triangle_count": 0,
+								"status": "PASS"
+							},
+							"edge_multiplicity": {
+								"boundary_edge_count": 0,
+								"forbidden_open_edge_count": 0,
+								"unclassified_open_edge_count": 0,
+								"open_face_counts": {
+									"negative_x": 0,
+									"positive_x": 0,
+									"negative_y": 0,
+									"positive_y": 0,
+									"negative_z": 0,
+									"positive_z": 0
+								},
+								"status": "PASS"
+							},
+							"non_manifold": {
+								"nonmanifold_edge_count": 0,
+								"status": "PASS"
+							},
+							"duplicate_overlap": {
+								"exact_duplicate_triangle_count": 0,
+								"status": "PASS"
+							},
+							"orientation": {
+								"orientation_conflict_edge_count": 0,
+								"status": "PASS"
+							},
+							"component": {
+								"component_count": 1,
+								"expected_component_count": 1,
+								"status": "PASS"
+							},
+							"euler_characteristic": {
+								"euler_characteristic": 2,
+								"expected_euler_characteristic": 2.0,
+								"status": "PASS"
+							},
+							"ray_parity": {
+								"ray_results": [],
+								"failure_count": 0,
+								"status": "NOT_APPLICABLE"
+							},
+							"signed_volume": {
+								"signed_volume": -11570.7082334755,
+								"observed_sign": -1,
+								"expected_sign": -1,
+								"status": "PASS"
+							},
+							"field_resampling": {
+								"applicable": true,
+								"status": "PASS",
+								"sampled_vertex_count": 3938,
+								"unique_grid_sample_count": 7020,
+								"maximum_abs_density_residual": 0.00777039868975632,
+								"tolerance": 0.0313,
+								"failure_count": 0
+							}
+						},
+						"metrics": {
+							"input_vertex_count": 3938,
+							"input_triangle_count": 7268,
+							"valid_triangle_count": 7268,
+							"unique_vertex_count": 3636,
+							"unique_edge_count": 10902,
+							"component_count": 1,
+							"euler_characteristic": 2,
+							"signed_volume": -11570.7082334755
+						},
+						"elapsed_usec": 589013,
+						"failures": []
+					},
+					"oracle_elapsed_usec": 615110,
+					"material_ids": [
+						1,
+						2,
+						3
+					],
+					"field_audit": {
+						"sample_call_count": 60196,
+						"exact_isovalue_hit_count": 0,
+						"observed_material_ids": [
+							1,
+							2,
+							3
+						],
+						"derived_parameters": {
+							"phase_x": 3.12510076406872,
+							"phase_z": 1.49389037003729,
+							"amplitude_x": 0.964850033873157,
+							"amplitude_z": 2.07158112869206,
+							"frequency_x": 0.131035650556924,
+							"frequency_z": 0.204362727270631,
+							"blob_radii": [
+								8.35433864593506,
+								7.80209016799927,
+								9.38357448577881
+							],
+							"exact_offset": 2
+						}
+					},
+					"elapsed_usec": 1176379,
+					"failures": []
+				},
+				{
+					"status": "PASS",
+					"replay_order": "worker_reverse",
+					"geometry_signature": "700b943b1b65336b6b968a3e35370ca0e2056c18bd17128773ca62408e1cb3e3",
+					"definition_signature": "ab13ff28852395905e55df971e7110a2594ba027e681012370eb67099847bbd8",
+					"native_chunk_call_count": 8,
+					"oracle": {
+						"schema": "world_transvoxel.terrain_lab.independent_mesh_oracle.v1",
+						"status": "PASS",
+						"checks": {
+							"index_integrity": {
+								"invalid_index_count": 0,
+								"incomplete_index_count": 0,
+								"status": "PASS"
+							},
+							"finite_value": {
+								"nonfinite_vertex_count": 0,
+								"status": "PASS"
+							},
+							"bounds": {
+								"bounds_violation_count": 0,
+								"status": "PASS"
+							},
+							"degenerate_triangle": {
+								"degenerate_triangle_count": 0,
+								"status": "PASS"
+							},
+							"edge_multiplicity": {
+								"boundary_edge_count": 0,
+								"forbidden_open_edge_count": 0,
+								"unclassified_open_edge_count": 0,
+								"open_face_counts": {
+									"negative_x": 0,
+									"positive_x": 0,
+									"negative_y": 0,
+									"positive_y": 0,
+									"negative_z": 0,
+									"positive_z": 0
+								},
+								"status": "PASS"
+							},
+							"non_manifold": {
+								"nonmanifold_edge_count": 0,
+								"status": "PASS"
+							},
+							"duplicate_overlap": {
+								"exact_duplicate_triangle_count": 0,
+								"status": "PASS"
+							},
+							"orientation": {
+								"orientation_conflict_edge_count": 0,
+								"status": "PASS"
+							},
+							"component": {
+								"component_count": 1,
+								"expected_component_count": 1,
+								"status": "PASS"
+							},
+							"euler_characteristic": {
+								"euler_characteristic": 2,
+								"expected_euler_characteristic": 2.0,
+								"status": "PASS"
+							},
+							"ray_parity": {
+								"ray_results": [],
+								"failure_count": 0,
+								"status": "NOT_APPLICABLE"
+							},
+							"signed_volume": {
+								"signed_volume": -11570.7082334755,
+								"observed_sign": -1,
+								"expected_sign": -1,
+								"status": "PASS"
+							},
+							"field_resampling": {
+								"applicable": true,
+								"status": "PASS",
+								"sampled_vertex_count": 3938,
+								"unique_grid_sample_count": 7020,
+								"maximum_abs_density_residual": 0.00777039868975632,
+								"tolerance": 0.0313,
+								"failure_count": 0
+							}
+						},
+						"metrics": {
+							"input_vertex_count": 3938,
+							"input_triangle_count": 7268,
+							"valid_triangle_count": 7268,
+							"unique_vertex_count": 3636,
+							"unique_edge_count": 10902,
+							"component_count": 1,
+							"euler_characteristic": 2,
+							"signed_volume": -11570.7082334755
+						},
+						"elapsed_usec": 456535,
+						"failures": []
+					},
+					"oracle_elapsed_usec": 480108,
+					"material_ids": [
+						1,
+						2,
+						3
+					],
+					"field_audit": {
+						"sample_call_count": 60196,
+						"exact_isovalue_hit_count": 0,
+						"observed_material_ids": [
+							1,
+							2,
+							3
+						],
+						"derived_parameters": {
+							"phase_x": 3.12510076406872,
+							"phase_z": 1.49389037003729,
+							"amplitude_x": 0.964850033873157,
+							"amplitude_z": 2.07158112869206,
+							"frequency_x": 0.131035650556924,
+							"frequency_z": 0.204362727270631,
+							"blob_radii": [
+								8.35433864593506,
+								7.80209016799927,
+								9.38357448577881
+							],
+							"exact_offset": 2
+						}
+					},
+					"elapsed_usec": 1141166,
+					"failures": []
+				},
+				{
+					"status": "PASS",
+					"replay_order": "worker_seeded",
+					"geometry_signature": "700b943b1b65336b6b968a3e35370ca0e2056c18bd17128773ca62408e1cb3e3",
+					"definition_signature": "ab13ff28852395905e55df971e7110a2594ba027e681012370eb67099847bbd8",
+					"native_chunk_call_count": 8,
+					"oracle": {
+						"schema": "world_transvoxel.terrain_lab.independent_mesh_oracle.v1",
+						"status": "PASS",
+						"checks": {
+							"index_integrity": {
+								"invalid_index_count": 0,
+								"incomplete_index_count": 0,
+								"status": "PASS"
+							},
+							"finite_value": {
+								"nonfinite_vertex_count": 0,
+								"status": "PASS"
+							},
+							"bounds": {
+								"bounds_violation_count": 0,
+								"status": "PASS"
+							},
+							"degenerate_triangle": {
+								"degenerate_triangle_count": 0,
+								"status": "PASS"
+							},
+							"edge_multiplicity": {
+								"boundary_edge_count": 0,
+								"forbidden_open_edge_count": 0,
+								"unclassified_open_edge_count": 0,
+								"open_face_counts": {
+									"negative_x": 0,
+									"positive_x": 0,
+									"negative_y": 0,
+									"positive_y": 0,
+									"negative_z": 0,
+									"positive_z": 0
+								},
+								"status": "PASS"
+							},
+							"non_manifold": {
+								"nonmanifold_edge_count": 0,
+								"status": "PASS"
+							},
+							"duplicate_overlap": {
+								"exact_duplicate_triangle_count": 0,
+								"status": "PASS"
+							},
+							"orientation": {
+								"orientation_conflict_edge_count": 0,
+								"status": "PASS"
+							},
+							"component": {
+								"component_count": 1,
+								"expected_component_count": 1,
+								"status": "PASS"
+							},
+							"euler_characteristic": {
+								"euler_characteristic": 2,
+								"expected_euler_characteristic": 2.0,
+								"status": "PASS"
+							},
+							"ray_parity": {
+								"ray_results": [],
+								"failure_count": 0,
+								"status": "NOT_APPLICABLE"
+							},
+							"signed_volume": {
+								"signed_volume": -11570.7082334755,
+								"observed_sign": -1,
+								"expected_sign": -1,
+								"status": "PASS"
+							},
+							"field_resampling": {
+								"applicable": true,
+								"status": "PASS",
+								"sampled_vertex_count": 3938,
+								"unique_grid_sample_count": 7020,
+								"maximum_abs_density_residual": 0.00777039868975632,
+								"tolerance": 0.0313,
+								"failure_count": 0
+							}
+						},
+						"metrics": {
+							"input_vertex_count": 3938,
+							"input_triangle_count": 7268,
+							"valid_triangle_count": 7268,
+							"unique_vertex_count": 3636,
+							"unique_edge_count": 10902,
+							"component_count": 1,
+							"euler_characteristic": 2,
+							"signed_volume": -11570.7082334755
+						},
+						"elapsed_usec": 1326091,
+						"failures": []
+					},
+					"oracle_elapsed_usec": 1354589,
+					"material_ids": [
+						1,
+						2,
+						3
+					],
+					"field_audit": {
+						"sample_call_count": 60196,
+						"exact_isovalue_hit_count": 0,
+						"observed_material_ids": [
+							1,
+							2,
+							3
+						],
+						"derived_parameters": {
+							"phase_x": 3.12510076406872,
+							"phase_z": 1.49389037003729,
+							"amplitude_x": 0.964850033873157,
+							"amplitude_z": 2.07158112869206,
+							"frequency_x": 0.131035650556924,
+							"frequency_z": 0.204362727270631,
+							"blob_radii": [
+								8.35433864593506,
+								7.80209016799927,
+								9.38357448577881
+							],
+							"exact_offset": 2
+						}
+					},
+					"elapsed_usec": 2096218,
+					"failures": []
+				}
+			],
+			"native_chunk_call_count": 32,
+			"exact_isovalue_hit_count": 0,
+			"material_ids": [
+				1,
+				2,
+				3
+			],
+			"minimized_repro": {
+				"runner": "res://labs/terrain_lab/tools/run_adversarial_corpus_validation.gd",
+				"arguments": [
+					"--case",
+					"seeded_closed_wave_lod0"
+				],
+				"seed": 104729.0,
+				"traversal_seed": 104729.0
+			},
+			"elapsed_usec": 5707665,
+			"failures": []
+		},
+		{
+			"case_id": "seeded_closed_blob_lod2",
+			"source": "adversarial_uniform",
+			"seed": 130363.0,
+			"traversal_seed": 130363.0,
+			"field_profile": "closed_blob",
+			"regression_decision": "",
+			"status": "PASS",
+			"geometry_signature": "6d9f4177549843f365a4ff135fd9df70c432d020176e9860357c39884eddfde3",
+			"definition_signature": "cf756731b087086558b05b29fde6af7e1b6bd7025542557ec2798eb88987e205",
+			"case_definition_signature": "6abe2a4b284d73535c8c7a787a23fb23a4aff0e03938a693ecdfcc5d881aeda6",
+			"replay_signatures": {
+				"cold_canonical": "6d9f4177549843f365a4ff135fd9df70c432d020176e9860357c39884eddfde3",
+				"warm_canonical": "6d9f4177549843f365a4ff135fd9df70c432d020176e9860357c39884eddfde3",
+				"worker_reverse": "6d9f4177549843f365a4ff135fd9df70c432d020176e9860357c39884eddfde3",
+				"worker_seeded": "6d9f4177549843f365a4ff135fd9df70c432d020176e9860357c39884eddfde3"
+			},
+			"replays": [
+				{
+					"status": "PASS",
+					"replay_order": "cold_canonical",
+					"geometry_signature": "6d9f4177549843f365a4ff135fd9df70c432d020176e9860357c39884eddfde3",
+					"definition_signature": "cf756731b087086558b05b29fde6af7e1b6bd7025542557ec2798eb88987e205",
+					"native_chunk_call_count": 8,
+					"oracle": {
+						"schema": "world_transvoxel.terrain_lab.independent_mesh_oracle.v1",
+						"status": "PASS",
+						"checks": {
+							"index_integrity": {
+								"invalid_index_count": 0,
+								"incomplete_index_count": 0,
+								"status": "PASS"
+							},
+							"finite_value": {
+								"nonfinite_vertex_count": 0,
+								"status": "PASS"
+							},
+							"bounds": {
+								"bounds_violation_count": 0,
+								"status": "PASS"
+							},
+							"degenerate_triangle": {
+								"degenerate_triangle_count": 0,
+								"status": "PASS"
+							},
+							"edge_multiplicity": {
+								"boundary_edge_count": 0,
+								"forbidden_open_edge_count": 0,
+								"unclassified_open_edge_count": 0,
+								"open_face_counts": {
+									"negative_x": 0,
+									"positive_x": 0,
+									"negative_y": 0,
+									"positive_y": 0,
+									"negative_z": 0,
+									"positive_z": 0
+								},
+								"status": "PASS"
+							},
+							"non_manifold": {
+								"nonmanifold_edge_count": 0,
+								"status": "PASS"
+							},
+							"duplicate_overlap": {
+								"exact_duplicate_triangle_count": 0,
+								"status": "PASS"
+							},
+							"orientation": {
+								"orientation_conflict_edge_count": 0,
+								"status": "PASS"
+							},
+							"component": {
+								"component_count": 1,
+								"expected_component_count": 1,
+								"status": "PASS"
+							},
+							"euler_characteristic": {
+								"euler_characteristic": 2,
+								"expected_euler_characteristic": 2.0,
+								"status": "PASS"
+							},
+							"ray_parity": {
+								"ray_results": [],
+								"failure_count": 0,
+								"status": "NOT_APPLICABLE"
+							},
+							"signed_volume": {
+								"signed_volume": -163174.656425953,
+								"observed_sign": -1,
+								"expected_sign": -1,
+								"status": "PASS"
+							},
+							"field_resampling": {
+								"applicable": true,
+								"status": "PASS",
+								"sampled_vertex_count": 1650,
+								"unique_grid_sample_count": 9623,
+								"maximum_abs_density_residual": 0.00954390509632029,
+								"tolerance": 0.0313,
+								"failure_count": 0
+							}
+						},
+						"metrics": {
+							"input_vertex_count": 1650,
+							"input_triangle_count": 2852,
+							"valid_triangle_count": 2852,
+							"unique_vertex_count": 1428,
+							"unique_edge_count": 4278,
+							"component_count": 1,
+							"euler_characteristic": 2,
+							"signed_volume": -163174.656425953
+						},
+						"elapsed_usec": 466668,
+						"failures": []
+					},
+					"oracle_elapsed_usec": 481121,
+					"material_ids": [
+						2,
+						4,
+						6,
+						8
+					],
+					"field_audit": {
+						"sample_call_count": 79737,
+						"exact_isovalue_hit_count": 0,
+						"observed_material_ids": [
+							2,
+							4,
+							6,
+							8
+						],
+						"derived_parameters": {
+							"phase_x": 5.62721403679772,
+							"phase_z": 6.10379471430066,
+							"amplitude_x": 1.63566505763944,
+							"amplitude_z": 0.917845851144682,
+							"frequency_x": 0.0655836108376196,
+							"frequency_z": 0.117208870540936,
+							"blob_radii": [
+								31.8236351013184,
+								40.0367431640625,
+								31.6796646118164
+							],
+							"exact_offset": 1
+						}
+					},
+					"elapsed_usec": 1498580,
+					"failures": []
+				},
+				{
+					"status": "PASS",
+					"replay_order": "warm_canonical",
+					"geometry_signature": "6d9f4177549843f365a4ff135fd9df70c432d020176e9860357c39884eddfde3",
+					"definition_signature": "cf756731b087086558b05b29fde6af7e1b6bd7025542557ec2798eb88987e205",
+					"native_chunk_call_count": 8,
+					"oracle": {
+						"schema": "world_transvoxel.terrain_lab.independent_mesh_oracle.v1",
+						"status": "PASS",
+						"checks": {
+							"index_integrity": {
+								"invalid_index_count": 0,
+								"incomplete_index_count": 0,
+								"status": "PASS"
+							},
+							"finite_value": {
+								"nonfinite_vertex_count": 0,
+								"status": "PASS"
+							},
+							"bounds": {
+								"bounds_violation_count": 0,
+								"status": "PASS"
+							},
+							"degenerate_triangle": {
+								"degenerate_triangle_count": 0,
+								"status": "PASS"
+							},
+							"edge_multiplicity": {
+								"boundary_edge_count": 0,
+								"forbidden_open_edge_count": 0,
+								"unclassified_open_edge_count": 0,
+								"open_face_counts": {
+									"negative_x": 0,
+									"positive_x": 0,
+									"negative_y": 0,
+									"positive_y": 0,
+									"negative_z": 0,
+									"positive_z": 0
+								},
+								"status": "PASS"
+							},
+							"non_manifold": {
+								"nonmanifold_edge_count": 0,
+								"status": "PASS"
+							},
+							"duplicate_overlap": {
+								"exact_duplicate_triangle_count": 0,
+								"status": "PASS"
+							},
+							"orientation": {
+								"orientation_conflict_edge_count": 0,
+								"status": "PASS"
+							},
+							"component": {
+								"component_count": 1,
+								"expected_component_count": 1,
+								"status": "PASS"
+							},
+							"euler_characteristic": {
+								"euler_characteristic": 2,
+								"expected_euler_characteristic": 2.0,
+								"status": "PASS"
+							},
+							"ray_parity": {
+								"ray_results": [],
+								"failure_count": 0,
+								"status": "NOT_APPLICABLE"
+							},
+							"signed_volume": {
+								"signed_volume": -163174.656425953,
+								"observed_sign": -1,
+								"expected_sign": -1,
+								"status": "PASS"
+							},
+							"field_resampling": {
+								"applicable": true,
+								"status": "PASS",
+								"sampled_vertex_count": 1650,
+								"unique_grid_sample_count": 9623,
+								"maximum_abs_density_residual": 0.00954390509632029,
+								"tolerance": 0.0313,
+								"failure_count": 0
+							}
+						},
+						"metrics": {
+							"input_vertex_count": 1650,
+							"input_triangle_count": 2852,
+							"valid_triangle_count": 2852,
+							"unique_vertex_count": 1428,
+							"unique_edge_count": 4278,
+							"component_count": 1,
+							"euler_characteristic": 2,
+							"signed_volume": -163174.656425953
+						},
+						"elapsed_usec": 300995,
+						"failures": []
+					},
+					"oracle_elapsed_usec": 312192,
+					"material_ids": [
+						2,
+						4,
+						6,
+						8
+					],
+					"field_audit": {
+						"sample_call_count": 79737,
+						"exact_isovalue_hit_count": 0,
+						"observed_material_ids": [
+							2,
+							4,
+							6,
+							8
+						],
+						"derived_parameters": {
+							"phase_x": 5.62721403679772,
+							"phase_z": 6.10379471430066,
+							"amplitude_x": 1.63566505763944,
+							"amplitude_z": 0.917845851144682,
+							"frequency_x": 0.0655836108376196,
+							"frequency_z": 0.117208870540936,
+							"blob_radii": [
+								31.8236351013184,
+								40.0367431640625,
+								31.6796646118164
+							],
+							"exact_offset": 1
+						}
+					},
+					"elapsed_usec": 1199500,
+					"failures": []
+				},
+				{
+					"status": "PASS",
+					"replay_order": "worker_reverse",
+					"geometry_signature": "6d9f4177549843f365a4ff135fd9df70c432d020176e9860357c39884eddfde3",
+					"definition_signature": "cf756731b087086558b05b29fde6af7e1b6bd7025542557ec2798eb88987e205",
+					"native_chunk_call_count": 8,
+					"oracle": {
+						"schema": "world_transvoxel.terrain_lab.independent_mesh_oracle.v1",
+						"status": "PASS",
+						"checks": {
+							"index_integrity": {
+								"invalid_index_count": 0,
+								"incomplete_index_count": 0,
+								"status": "PASS"
+							},
+							"finite_value": {
+								"nonfinite_vertex_count": 0,
+								"status": "PASS"
+							},
+							"bounds": {
+								"bounds_violation_count": 0,
+								"status": "PASS"
+							},
+							"degenerate_triangle": {
+								"degenerate_triangle_count": 0,
+								"status": "PASS"
+							},
+							"edge_multiplicity": {
+								"boundary_edge_count": 0,
+								"forbidden_open_edge_count": 0,
+								"unclassified_open_edge_count": 0,
+								"open_face_counts": {
+									"negative_x": 0,
+									"positive_x": 0,
+									"negative_y": 0,
+									"positive_y": 0,
+									"negative_z": 0,
+									"positive_z": 0
+								},
+								"status": "PASS"
+							},
+							"non_manifold": {
+								"nonmanifold_edge_count": 0,
+								"status": "PASS"
+							},
+							"duplicate_overlap": {
+								"exact_duplicate_triangle_count": 0,
+								"status": "PASS"
+							},
+							"orientation": {
+								"orientation_conflict_edge_count": 0,
+								"status": "PASS"
+							},
+							"component": {
+								"component_count": 1,
+								"expected_component_count": 1,
+								"status": "PASS"
+							},
+							"euler_characteristic": {
+								"euler_characteristic": 2,
+								"expected_euler_characteristic": 2.0,
+								"status": "PASS"
+							},
+							"ray_parity": {
+								"ray_results": [],
+								"failure_count": 0,
+								"status": "NOT_APPLICABLE"
+							},
+							"signed_volume": {
+								"signed_volume": -163174.656425953,
+								"observed_sign": -1,
+								"expected_sign": -1,
+								"status": "PASS"
+							},
+							"field_resampling": {
+								"applicable": true,
+								"status": "PASS",
+								"sampled_vertex_count": 1650,
+								"unique_grid_sample_count": 9623,
+								"maximum_abs_density_residual": 0.00954390509632029,
+								"tolerance": 0.0313,
+								"failure_count": 0
+							}
+						},
+						"metrics": {
+							"input_vertex_count": 1650,
+							"input_triangle_count": 2852,
+							"valid_triangle_count": 2852,
+							"unique_vertex_count": 1428,
+							"unique_edge_count": 4278,
+							"component_count": 1,
+							"euler_characteristic": 2,
+							"signed_volume": -163174.656425953
+						},
+						"elapsed_usec": 401690,
+						"failures": []
+					},
+					"oracle_elapsed_usec": 410398,
+					"material_ids": [
+						2,
+						4,
+						6,
+						8
+					],
+					"field_audit": {
+						"sample_call_count": 79737,
+						"exact_isovalue_hit_count": 0,
+						"observed_material_ids": [
+							2,
+							4,
+							6,
+							8
+						],
+						"derived_parameters": {
+							"phase_x": 5.62721403679772,
+							"phase_z": 6.10379471430066,
+							"amplitude_x": 1.63566505763944,
+							"amplitude_z": 0.917845851144682,
+							"frequency_x": 0.0655836108376196,
+							"frequency_z": 0.117208870540936,
+							"blob_radii": [
+								31.8236351013184,
+								40.0367431640625,
+								31.6796646118164
+							],
+							"exact_offset": 1
+						}
+					},
+					"elapsed_usec": 1206582,
+					"failures": []
+				},
+				{
+					"status": "PASS",
+					"replay_order": "worker_seeded",
+					"geometry_signature": "6d9f4177549843f365a4ff135fd9df70c432d020176e9860357c39884eddfde3",
+					"definition_signature": "cf756731b087086558b05b29fde6af7e1b6bd7025542557ec2798eb88987e205",
+					"native_chunk_call_count": 8,
+					"oracle": {
+						"schema": "world_transvoxel.terrain_lab.independent_mesh_oracle.v1",
+						"status": "PASS",
+						"checks": {
+							"index_integrity": {
+								"invalid_index_count": 0,
+								"incomplete_index_count": 0,
+								"status": "PASS"
+							},
+							"finite_value": {
+								"nonfinite_vertex_count": 0,
+								"status": "PASS"
+							},
+							"bounds": {
+								"bounds_violation_count": 0,
+								"status": "PASS"
+							},
+							"degenerate_triangle": {
+								"degenerate_triangle_count": 0,
+								"status": "PASS"
+							},
+							"edge_multiplicity": {
+								"boundary_edge_count": 0,
+								"forbidden_open_edge_count": 0,
+								"unclassified_open_edge_count": 0,
+								"open_face_counts": {
+									"negative_x": 0,
+									"positive_x": 0,
+									"negative_y": 0,
+									"positive_y": 0,
+									"negative_z": 0,
+									"positive_z": 0
+								},
+								"status": "PASS"
+							},
+							"non_manifold": {
+								"nonmanifold_edge_count": 0,
+								"status": "PASS"
+							},
+							"duplicate_overlap": {
+								"exact_duplicate_triangle_count": 0,
+								"status": "PASS"
+							},
+							"orientation": {
+								"orientation_conflict_edge_count": 0,
+								"status": "PASS"
+							},
+							"component": {
+								"component_count": 1,
+								"expected_component_count": 1,
+								"status": "PASS"
+							},
+							"euler_characteristic": {
+								"euler_characteristic": 2,
+								"expected_euler_characteristic": 2.0,
+								"status": "PASS"
+							},
+							"ray_parity": {
+								"ray_results": [],
+								"failure_count": 0,
+								"status": "NOT_APPLICABLE"
+							},
+							"signed_volume": {
+								"signed_volume": -163174.656425953,
+								"observed_sign": -1,
+								"expected_sign": -1,
+								"status": "PASS"
+							},
+							"field_resampling": {
+								"applicable": true,
+								"status": "PASS",
+								"sampled_vertex_count": 1650,
+								"unique_grid_sample_count": 9623,
+								"maximum_abs_density_residual": 0.00954390509632029,
+								"tolerance": 0.0313,
+								"failure_count": 0
+							}
+						},
+						"metrics": {
+							"input_vertex_count": 1650,
+							"input_triangle_count": 2852,
+							"valid_triangle_count": 2852,
+							"unique_vertex_count": 1428,
+							"unique_edge_count": 4278,
+							"component_count": 1,
+							"euler_characteristic": 2,
+							"signed_volume": -163174.656425953
+						},
+						"elapsed_usec": 225784,
+						"failures": []
+					},
+					"oracle_elapsed_usec": 233794,
+					"material_ids": [
+						2,
+						4,
+						6,
+						8
+					],
+					"field_audit": {
+						"sample_call_count": 79737,
+						"exact_isovalue_hit_count": 0,
+						"observed_material_ids": [
+							2,
+							4,
+							6,
+							8
+						],
+						"derived_parameters": {
+							"phase_x": 5.62721403679772,
+							"phase_z": 6.10379471430066,
+							"amplitude_x": 1.63566505763944,
+							"amplitude_z": 0.917845851144682,
+							"frequency_x": 0.0655836108376196,
+							"frequency_z": 0.117208870540936,
+							"blob_radii": [
+								31.8236351013184,
+								40.0367431640625,
+								31.6796646118164
+							],
+							"exact_offset": 1
+						}
+					},
+					"elapsed_usec": 863192,
+					"failures": []
+				}
+			],
+			"native_chunk_call_count": 32,
+			"exact_isovalue_hit_count": 0,
+			"material_ids": [
+				2,
+				4,
+				6,
+				8
+			],
+			"minimized_repro": {
+				"runner": "res://labs/terrain_lab/tools/run_adversarial_corpus_validation.gd",
+				"arguments": [
+					"--case",
+					"seeded_closed_blob_lod2"
+				],
+				"seed": 130363.0,
+				"traversal_seed": 130363.0
+			},
+			"elapsed_usec": 4778070,
+			"failures": []
+		},
+		{
+			"case_id": "seeded_exact_isovalue_lod0",
+			"source": "adversarial_uniform",
+			"seed": 155921.0,
+			"traversal_seed": 155921.0,
+			"field_profile": "exact_isovalue",
+			"regression_decision": "",
+			"status": "PASS",
+			"geometry_signature": "861c969a7925b80bf0fd147d46bb01962d47815fb7165d0bd86ba10642a4cef9",
+			"definition_signature": "b0598e74504fa32419d129855bea73e43c0ac4c97e39bbdd5691ff1bcfd457d1",
+			"case_definition_signature": "1bcc3be450e8fdbc988d755467ded6cc8be2362cff2355f99f8619638c540e0a",
+			"replay_signatures": {
+				"cold_canonical": "861c969a7925b80bf0fd147d46bb01962d47815fb7165d0bd86ba10642a4cef9",
+				"warm_canonical": "861c969a7925b80bf0fd147d46bb01962d47815fb7165d0bd86ba10642a4cef9",
+				"worker_reverse": "861c969a7925b80bf0fd147d46bb01962d47815fb7165d0bd86ba10642a4cef9",
+				"worker_seeded": "861c969a7925b80bf0fd147d46bb01962d47815fb7165d0bd86ba10642a4cef9"
+			},
+			"replays": [
+				{
+					"status": "PASS",
+					"replay_order": "cold_canonical",
+					"geometry_signature": "861c969a7925b80bf0fd147d46bb01962d47815fb7165d0bd86ba10642a4cef9",
+					"definition_signature": "b0598e74504fa32419d129855bea73e43c0ac4c97e39bbdd5691ff1bcfd457d1",
+					"native_chunk_call_count": 8,
+					"oracle": {
+						"schema": "world_transvoxel.terrain_lab.independent_mesh_oracle.v1",
+						"status": "PASS",
+						"checks": {
+							"index_integrity": {
+								"invalid_index_count": 0,
+								"incomplete_index_count": 0,
+								"status": "PASS"
+							},
+							"finite_value": {
+								"nonfinite_vertex_count": 0,
+								"status": "PASS"
+							},
+							"bounds": {
+								"bounds_violation_count": 0,
+								"status": "PASS"
+							},
+							"degenerate_triangle": {
+								"degenerate_triangle_count": 0,
+								"status": "PASS"
+							},
+							"edge_multiplicity": {
+								"boundary_edge_count": 175,
+								"forbidden_open_edge_count": 0,
+								"unclassified_open_edge_count": 0,
+								"open_face_counts": {
+									"negative_x": 48,
+									"positive_x": 23,
+									"negative_y": 33,
+									"positive_y": 0,
+									"negative_z": 23,
+									"positive_z": 48
+								},
+								"status": "PASS"
+							},
+							"non_manifold": {
+								"nonmanifold_edge_count": 0,
+								"status": "PASS"
+							},
+							"duplicate_overlap": {
+								"exact_duplicate_triangle_count": 0,
+								"status": "PASS"
+							},
+							"orientation": {
+								"orientation_conflict_edge_count": 0,
+								"status": "PASS"
+							},
+							"component": {
+								"component_count": 1,
+								"expected_component_count": 1,
+								"status": "PASS"
+							},
+							"euler_characteristic": {
+								"euler_characteristic": 1,
+								"expected_euler_characteristic": null,
+								"status": "NOT_APPLICABLE"
+							},
+							"ray_parity": {
+								"ray_results": [],
+								"failure_count": 0,
+								"status": "NOT_APPLICABLE"
+							},
+							"signed_volume": {
+								"signed_volume": -2384.78047688802,
+								"observed_sign": -1,
+								"expected_sign": 0,
+								"status": "NOT_APPLICABLE"
+							},
+							"field_resampling": {
+								"applicable": true,
+								"status": "PASS",
+								"sampled_vertex_count": 1993,
+								"unique_grid_sample_count": 3420,
+								"maximum_abs_density_residual": 0.015625,
+								"tolerance": 0.0313,
+								"failure_count": 0
+							}
+						},
+						"metrics": {
+							"input_vertex_count": 1993,
+							"input_triangle_count": 3551,
+							"valid_triangle_count": 3551,
+							"unique_vertex_count": 1864,
+							"unique_edge_count": 5414,
+							"component_count": 1,
+							"euler_characteristic": 1,
+							"signed_volume": -2384.78047688802
+						},
+						"elapsed_usec": 216808,
+						"failures": []
+					},
+					"oracle_elapsed_usec": 226944,
+					"material_ids": [
+						1,
+						5
+					],
+					"field_audit": {
+						"sample_call_count": 56596,
+						"exact_isovalue_hit_count": 1208,
+						"observed_material_ids": [
+							1,
+							5
+						],
+						"derived_parameters": {
+							"phase_x": 1.50880377533886,
+							"phase_z": 0.8828302604636,
+							"amplitude_x": 1.76697075987094,
+							"amplitude_z": 0.873624652332452,
+							"frequency_x": 0.175280761923772,
+							"frequency_z": 0.0612098742887424,
+							"blob_radii": [
+								10.5321359634399,
+								10.532901763916,
+								8.34696674346924
+							],
+							"exact_offset": 0
+						}
+					},
+					"elapsed_usec": 717261,
+					"failures": []
+				},
+				{
+					"status": "PASS",
+					"replay_order": "warm_canonical",
+					"geometry_signature": "861c969a7925b80bf0fd147d46bb01962d47815fb7165d0bd86ba10642a4cef9",
+					"definition_signature": "b0598e74504fa32419d129855bea73e43c0ac4c97e39bbdd5691ff1bcfd457d1",
+					"native_chunk_call_count": 8,
+					"oracle": {
+						"schema": "world_transvoxel.terrain_lab.independent_mesh_oracle.v1",
+						"status": "PASS",
+						"checks": {
+							"index_integrity": {
+								"invalid_index_count": 0,
+								"incomplete_index_count": 0,
+								"status": "PASS"
+							},
+							"finite_value": {
+								"nonfinite_vertex_count": 0,
+								"status": "PASS"
+							},
+							"bounds": {
+								"bounds_violation_count": 0,
+								"status": "PASS"
+							},
+							"degenerate_triangle": {
+								"degenerate_triangle_count": 0,
+								"status": "PASS"
+							},
+							"edge_multiplicity": {
+								"boundary_edge_count": 175,
+								"forbidden_open_edge_count": 0,
+								"unclassified_open_edge_count": 0,
+								"open_face_counts": {
+									"negative_x": 48,
+									"positive_x": 23,
+									"negative_y": 33,
+									"positive_y": 0,
+									"negative_z": 23,
+									"positive_z": 48
+								},
+								"status": "PASS"
+							},
+							"non_manifold": {
+								"nonmanifold_edge_count": 0,
+								"status": "PASS"
+							},
+							"duplicate_overlap": {
+								"exact_duplicate_triangle_count": 0,
+								"status": "PASS"
+							},
+							"orientation": {
+								"orientation_conflict_edge_count": 0,
+								"status": "PASS"
+							},
+							"component": {
+								"component_count": 1,
+								"expected_component_count": 1,
+								"status": "PASS"
+							},
+							"euler_characteristic": {
+								"euler_characteristic": 1,
+								"expected_euler_characteristic": null,
+								"status": "NOT_APPLICABLE"
+							},
+							"ray_parity": {
+								"ray_results": [],
+								"failure_count": 0,
+								"status": "NOT_APPLICABLE"
+							},
+							"signed_volume": {
+								"signed_volume": -2384.78047688802,
+								"observed_sign": -1,
+								"expected_sign": 0,
+								"status": "NOT_APPLICABLE"
+							},
+							"field_resampling": {
+								"applicable": true,
+								"status": "PASS",
+								"sampled_vertex_count": 1993,
+								"unique_grid_sample_count": 3420,
+								"maximum_abs_density_residual": 0.015625,
+								"tolerance": 0.0313,
+								"failure_count": 0
+							}
+						},
+						"metrics": {
+							"input_vertex_count": 1993,
+							"input_triangle_count": 3551,
+							"valid_triangle_count": 3551,
+							"unique_vertex_count": 1864,
+							"unique_edge_count": 5414,
+							"component_count": 1,
+							"euler_characteristic": 1,
+							"signed_volume": -2384.78047688802
+						},
+						"elapsed_usec": 749686,
+						"failures": []
+					},
+					"oracle_elapsed_usec": 775376,
+					"material_ids": [
+						1,
+						5
+					],
+					"field_audit": {
+						"sample_call_count": 56596,
+						"exact_isovalue_hit_count": 1208,
+						"observed_material_ids": [
+							1,
+							5
+						],
+						"derived_parameters": {
+							"phase_x": 1.50880377533886,
+							"phase_z": 0.8828302604636,
+							"amplitude_x": 1.76697075987094,
+							"amplitude_z": 0.873624652332452,
+							"frequency_x": 0.175280761923772,
+							"frequency_z": 0.0612098742887424,
+							"blob_radii": [
+								10.5321359634399,
+								10.532901763916,
+								8.34696674346924
+							],
+							"exact_offset": 0
+						}
+					},
+					"elapsed_usec": 1272166,
+					"failures": []
+				},
+				{
+					"status": "PASS",
+					"replay_order": "worker_reverse",
+					"geometry_signature": "861c969a7925b80bf0fd147d46bb01962d47815fb7165d0bd86ba10642a4cef9",
+					"definition_signature": "b0598e74504fa32419d129855bea73e43c0ac4c97e39bbdd5691ff1bcfd457d1",
+					"native_chunk_call_count": 8,
+					"oracle": {
+						"schema": "world_transvoxel.terrain_lab.independent_mesh_oracle.v1",
+						"status": "PASS",
+						"checks": {
+							"index_integrity": {
+								"invalid_index_count": 0,
+								"incomplete_index_count": 0,
+								"status": "PASS"
+							},
+							"finite_value": {
+								"nonfinite_vertex_count": 0,
+								"status": "PASS"
+							},
+							"bounds": {
+								"bounds_violation_count": 0,
+								"status": "PASS"
+							},
+							"degenerate_triangle": {
+								"degenerate_triangle_count": 0,
+								"status": "PASS"
+							},
+							"edge_multiplicity": {
+								"boundary_edge_count": 175,
+								"forbidden_open_edge_count": 0,
+								"unclassified_open_edge_count": 0,
+								"open_face_counts": {
+									"negative_x": 48,
+									"positive_x": 23,
+									"negative_y": 33,
+									"positive_y": 0,
+									"negative_z": 23,
+									"positive_z": 48
+								},
+								"status": "PASS"
+							},
+							"non_manifold": {
+								"nonmanifold_edge_count": 0,
+								"status": "PASS"
+							},
+							"duplicate_overlap": {
+								"exact_duplicate_triangle_count": 0,
+								"status": "PASS"
+							},
+							"orientation": {
+								"orientation_conflict_edge_count": 0,
+								"status": "PASS"
+							},
+							"component": {
+								"component_count": 1,
+								"expected_component_count": 1,
+								"status": "PASS"
+							},
+							"euler_characteristic": {
+								"euler_characteristic": 1,
+								"expected_euler_characteristic": null,
+								"status": "NOT_APPLICABLE"
+							},
+							"ray_parity": {
+								"ray_results": [],
+								"failure_count": 0,
+								"status": "NOT_APPLICABLE"
+							},
+							"signed_volume": {
+								"signed_volume": -2384.78047688802,
+								"observed_sign": -1,
+								"expected_sign": 0,
+								"status": "NOT_APPLICABLE"
+							},
+							"field_resampling": {
+								"applicable": true,
+								"status": "PASS",
+								"sampled_vertex_count": 1993,
+								"unique_grid_sample_count": 3420,
+								"maximum_abs_density_residual": 0.015625,
+								"tolerance": 0.0313,
+								"failure_count": 0
+							}
+						},
+						"metrics": {
+							"input_vertex_count": 1993,
+							"input_triangle_count": 3551,
+							"valid_triangle_count": 3551,
+							"unique_vertex_count": 1864,
+							"unique_edge_count": 5414,
+							"component_count": 1,
+							"euler_characteristic": 1,
+							"signed_volume": -2384.78047688802
+						},
+						"elapsed_usec": 366077,
+						"failures": []
+					},
+					"oracle_elapsed_usec": 375816,
+					"material_ids": [
+						1,
+						5
+					],
+					"field_audit": {
+						"sample_call_count": 56596,
+						"exact_isovalue_hit_count": 1208,
+						"observed_material_ids": [
+							1,
+							5
+						],
+						"derived_parameters": {
+							"phase_x": 1.50880377533886,
+							"phase_z": 0.8828302604636,
+							"amplitude_x": 1.76697075987094,
+							"amplitude_z": 0.873624652332452,
+							"frequency_x": 0.175280761923772,
+							"frequency_z": 0.0612098742887424,
+							"blob_radii": [
+								10.5321359634399,
+								10.532901763916,
+								8.34696674346924
+							],
+							"exact_offset": 0
+						}
+					},
+					"elapsed_usec": 1383724,
+					"failures": []
+				},
+				{
+					"status": "PASS",
+					"replay_order": "worker_seeded",
+					"geometry_signature": "861c969a7925b80bf0fd147d46bb01962d47815fb7165d0bd86ba10642a4cef9",
+					"definition_signature": "b0598e74504fa32419d129855bea73e43c0ac4c97e39bbdd5691ff1bcfd457d1",
+					"native_chunk_call_count": 8,
+					"oracle": {
+						"schema": "world_transvoxel.terrain_lab.independent_mesh_oracle.v1",
+						"status": "PASS",
+						"checks": {
+							"index_integrity": {
+								"invalid_index_count": 0,
+								"incomplete_index_count": 0,
+								"status": "PASS"
+							},
+							"finite_value": {
+								"nonfinite_vertex_count": 0,
+								"status": "PASS"
+							},
+							"bounds": {
+								"bounds_violation_count": 0,
+								"status": "PASS"
+							},
+							"degenerate_triangle": {
+								"degenerate_triangle_count": 0,
+								"status": "PASS"
+							},
+							"edge_multiplicity": {
+								"boundary_edge_count": 175,
+								"forbidden_open_edge_count": 0,
+								"unclassified_open_edge_count": 0,
+								"open_face_counts": {
+									"negative_x": 48,
+									"positive_x": 23,
+									"negative_y": 33,
+									"positive_y": 0,
+									"negative_z": 23,
+									"positive_z": 48
+								},
+								"status": "PASS"
+							},
+							"non_manifold": {
+								"nonmanifold_edge_count": 0,
+								"status": "PASS"
+							},
+							"duplicate_overlap": {
+								"exact_duplicate_triangle_count": 0,
+								"status": "PASS"
+							},
+							"orientation": {
+								"orientation_conflict_edge_count": 0,
+								"status": "PASS"
+							},
+							"component": {
+								"component_count": 1,
+								"expected_component_count": 1,
+								"status": "PASS"
+							},
+							"euler_characteristic": {
+								"euler_characteristic": 1,
+								"expected_euler_characteristic": null,
+								"status": "NOT_APPLICABLE"
+							},
+							"ray_parity": {
+								"ray_results": [],
+								"failure_count": 0,
+								"status": "NOT_APPLICABLE"
+							},
+							"signed_volume": {
+								"signed_volume": -2384.78047688802,
+								"observed_sign": -1,
+								"expected_sign": 0,
+								"status": "NOT_APPLICABLE"
+							},
+							"field_resampling": {
+								"applicable": true,
+								"status": "PASS",
+								"sampled_vertex_count": 1993,
+								"unique_grid_sample_count": 3420,
+								"maximum_abs_density_residual": 0.015625,
+								"tolerance": 0.0313,
+								"failure_count": 0
+							}
+						},
+						"metrics": {
+							"input_vertex_count": 1993,
+							"input_triangle_count": 3551,
+							"valid_triangle_count": 3551,
+							"unique_vertex_count": 1864,
+							"unique_edge_count": 5414,
+							"component_count": 1,
+							"euler_characteristic": 1,
+							"signed_volume": -2384.78047688802
+						},
+						"elapsed_usec": 322934,
+						"failures": []
+					},
+					"oracle_elapsed_usec": 339519,
+					"material_ids": [
+						1,
+						5
+					],
+					"field_audit": {
+						"sample_call_count": 56596,
+						"exact_isovalue_hit_count": 1208,
+						"observed_material_ids": [
+							1,
+							5
+						],
+						"derived_parameters": {
+							"phase_x": 1.50880377533886,
+							"phase_z": 0.8828302604636,
+							"amplitude_x": 1.76697075987094,
+							"amplitude_z": 0.873624652332452,
+							"frequency_x": 0.175280761923772,
+							"frequency_z": 0.0612098742887424,
+							"blob_radii": [
+								10.5321359634399,
+								10.532901763916,
+								8.34696674346924
+							],
+							"exact_offset": 0
+						}
+					},
+					"elapsed_usec": 975329,
+					"failures": []
+				}
+			],
+			"native_chunk_call_count": 32,
+			"exact_isovalue_hit_count": 4832,
+			"material_ids": [
+				1,
+				5
+			],
+			"minimized_repro": {
+				"runner": "res://labs/terrain_lab/tools/run_adversarial_corpus_validation.gd",
+				"arguments": [
+					"--case",
+					"seeded_exact_isovalue_lod0"
+				],
+				"seed": 155921.0,
+				"traversal_seed": 155921.0
+			},
+			"elapsed_usec": 4361190,
+			"failures": []
+		},
+		{
+			"case_id": "seeded_transition_positive_z",
+			"source": "adversarial_transition",
+			"seed": 196613.0,
+			"traversal_seed": 196613.0,
+			"field_profile": "transition_surface",
+			"regression_decision": "",
+			"status": "PASS",
+			"geometry_signature": "d83e85e6a8a23effa8aef68b8820464bb8d25abc7b72f5887205e28ba88df516",
+			"definition_signature": "7a4ff20e40dda4ca878de23c7aa1835d60f66d959f3b92d2dfcaa85c0617e795",
+			"case_definition_signature": "bc42558d68643157ddf5951cf124ad484214d0626d729e4d3b974b69bd7a608c",
+			"replay_signatures": {
+				"cold_canonical": "d83e85e6a8a23effa8aef68b8820464bb8d25abc7b72f5887205e28ba88df516",
+				"warm_canonical": "d83e85e6a8a23effa8aef68b8820464bb8d25abc7b72f5887205e28ba88df516",
+				"worker_reverse": "d83e85e6a8a23effa8aef68b8820464bb8d25abc7b72f5887205e28ba88df516",
+				"worker_seeded": "d83e85e6a8a23effa8aef68b8820464bb8d25abc7b72f5887205e28ba88df516"
+			},
+			"replays": [
+				{
+					"status": "PASS",
+					"replay_order": "cold_canonical",
+					"geometry_signature": "d83e85e6a8a23effa8aef68b8820464bb8d25abc7b72f5887205e28ba88df516",
+					"definition_signature": "7a4ff20e40dda4ca878de23c7aa1835d60f66d959f3b92d2dfcaa85c0617e795",
+					"native_chunk_call_count": 5,
+					"oracle": {
+						"schema": "world_transvoxel.terrain_lab.independent_mesh_oracle.v1",
+						"status": "PASS",
+						"checks": {
+							"index_integrity": {
+								"invalid_index_count": 0,
+								"incomplete_index_count": 0,
+								"status": "PASS"
+							},
+							"finite_value": {
+								"nonfinite_vertex_count": 0,
+								"status": "PASS"
+							},
+							"bounds": {
+								"bounds_violation_count": 0,
+								"status": "PASS"
+							},
+							"degenerate_triangle": {
+								"degenerate_triangle_count": 0,
+								"status": "PASS"
+							},
+							"edge_multiplicity": {
+								"boundary_edge_count": 154,
+								"forbidden_open_edge_count": 0,
+								"unclassified_open_edge_count": 0,
+								"open_face_counts": {
+									"negative_x": 2,
+									"positive_x": 32,
+									"negative_y": 17,
+									"positive_y": 42,
+									"negative_z": 25,
+									"positive_z": 36
+								},
+								"status": "PASS"
+							},
+							"non_manifold": {
+								"nonmanifold_edge_count": 0,
+								"status": "PASS"
+							},
+							"duplicate_overlap": {
+								"exact_duplicate_triangle_count": 0,
+								"status": "PASS"
+							},
+							"orientation": {
+								"orientation_conflict_edge_count": 0,
+								"status": "PASS"
+							},
+							"component": {
+								"component_count": 1,
+								"expected_component_count": 1,
+								"status": "PASS"
+							},
+							"euler_characteristic": {
+								"euler_characteristic": 1,
+								"expected_euler_characteristic": null,
+								"status": "NOT_APPLICABLE"
+							},
+							"ray_parity": {
+								"ray_results": [],
+								"failure_count": 0,
+								"status": "NOT_APPLICABLE"
+							},
+							"signed_volume": {
+								"signed_volume": -81239.7392861049,
+								"observed_sign": -1,
+								"expected_sign": 0,
+								"status": "NOT_APPLICABLE"
+							},
+							"field_resampling": {
+								"applicable": true,
+								"status": "PASS",
+								"sampled_vertex_count": 1602,
+								"unique_grid_sample_count": 8202,
+								"maximum_abs_density_residual": 0.0085352048612137,
+								"tolerance": 0.0313,
+								"failure_count": 0
+							}
+						},
+						"metrics": {
+							"input_vertex_count": 1602,
+							"input_triangle_count": 2808,
+							"valid_triangle_count": 2808,
+							"unique_vertex_count": 1482,
+							"unique_edge_count": 4289,
+							"component_count": 1,
+							"euler_characteristic": 1,
+							"signed_volume": -81239.7392861049
+						},
+						"elapsed_usec": 327527,
+						"failures": []
+					},
+					"oracle_elapsed_usec": 335975,
+					"material_ids": [
+						1,
+						3,
+						7,
+						9
+					],
+					"field_audit": {
+						"sample_call_count": 55817,
+						"exact_isovalue_hit_count": 0,
+						"observed_material_ids": [
+							1,
+							3,
+							7,
+							9
+						],
+						"derived_parameters": {
+							"phase_x": 2.55996852288791,
+							"phase_z": 5.51084586410205,
+							"amplitude_x": 2.03161946618074,
+							"amplitude_z": 2.1190605625599,
+							"frequency_x": 0.0556640653315299,
+							"frequency_z": 0.188136427504074,
+							"blob_radii": [
+								18.8677558898926,
+								22.0147876739502,
+								17.5924549102783
+							],
+							"exact_offset": 1
+						}
+					},
+					"elapsed_usec": 852200,
+					"failures": []
+				},
+				{
+					"status": "PASS",
+					"replay_order": "warm_canonical",
+					"geometry_signature": "d83e85e6a8a23effa8aef68b8820464bb8d25abc7b72f5887205e28ba88df516",
+					"definition_signature": "7a4ff20e40dda4ca878de23c7aa1835d60f66d959f3b92d2dfcaa85c0617e795",
+					"native_chunk_call_count": 5,
+					"oracle": {
+						"schema": "world_transvoxel.terrain_lab.independent_mesh_oracle.v1",
+						"status": "PASS",
+						"checks": {
+							"index_integrity": {
+								"invalid_index_count": 0,
+								"incomplete_index_count": 0,
+								"status": "PASS"
+							},
+							"finite_value": {
+								"nonfinite_vertex_count": 0,
+								"status": "PASS"
+							},
+							"bounds": {
+								"bounds_violation_count": 0,
+								"status": "PASS"
+							},
+							"degenerate_triangle": {
+								"degenerate_triangle_count": 0,
+								"status": "PASS"
+							},
+							"edge_multiplicity": {
+								"boundary_edge_count": 154,
+								"forbidden_open_edge_count": 0,
+								"unclassified_open_edge_count": 0,
+								"open_face_counts": {
+									"negative_x": 2,
+									"positive_x": 32,
+									"negative_y": 17,
+									"positive_y": 42,
+									"negative_z": 25,
+									"positive_z": 36
+								},
+								"status": "PASS"
+							},
+							"non_manifold": {
+								"nonmanifold_edge_count": 0,
+								"status": "PASS"
+							},
+							"duplicate_overlap": {
+								"exact_duplicate_triangle_count": 0,
+								"status": "PASS"
+							},
+							"orientation": {
+								"orientation_conflict_edge_count": 0,
+								"status": "PASS"
+							},
+							"component": {
+								"component_count": 1,
+								"expected_component_count": 1,
+								"status": "PASS"
+							},
+							"euler_characteristic": {
+								"euler_characteristic": 1,
+								"expected_euler_characteristic": null,
+								"status": "NOT_APPLICABLE"
+							},
+							"ray_parity": {
+								"ray_results": [],
+								"failure_count": 0,
+								"status": "NOT_APPLICABLE"
+							},
+							"signed_volume": {
+								"signed_volume": -81239.7392861049,
+								"observed_sign": -1,
+								"expected_sign": 0,
+								"status": "NOT_APPLICABLE"
+							},
+							"field_resampling": {
+								"applicable": true,
+								"status": "PASS",
+								"sampled_vertex_count": 1602,
+								"unique_grid_sample_count": 8202,
+								"maximum_abs_density_residual": 0.0085352048612137,
+								"tolerance": 0.0313,
+								"failure_count": 0
+							}
+						},
+						"metrics": {
+							"input_vertex_count": 1602,
+							"input_triangle_count": 2808,
+							"valid_triangle_count": 2808,
+							"unique_vertex_count": 1482,
+							"unique_edge_count": 4289,
+							"component_count": 1,
+							"euler_characteristic": 1,
+							"signed_volume": -81239.7392861049
+						},
+						"elapsed_usec": 202955,
+						"failures": []
+					},
+					"oracle_elapsed_usec": 213683,
+					"material_ids": [
+						1,
+						3,
+						7,
+						9
+					],
+					"field_audit": {
+						"sample_call_count": 55817,
+						"exact_isovalue_hit_count": 0,
+						"observed_material_ids": [
+							1,
+							3,
+							7,
+							9
+						],
+						"derived_parameters": {
+							"phase_x": 2.55996852288791,
+							"phase_z": 5.51084586410205,
+							"amplitude_x": 2.03161946618074,
+							"amplitude_z": 2.1190605625599,
+							"frequency_x": 0.0556640653315299,
+							"frequency_z": 0.188136427504074,
+							"blob_radii": [
+								18.8677558898926,
+								22.0147876739502,
+								17.5924549102783
+							],
+							"exact_offset": 1
+						}
+					},
+					"elapsed_usec": 963268,
+					"failures": []
+				},
+				{
+					"status": "PASS",
+					"replay_order": "worker_reverse",
+					"geometry_signature": "d83e85e6a8a23effa8aef68b8820464bb8d25abc7b72f5887205e28ba88df516",
+					"definition_signature": "7a4ff20e40dda4ca878de23c7aa1835d60f66d959f3b92d2dfcaa85c0617e795",
+					"native_chunk_call_count": 5,
+					"oracle": {
+						"schema": "world_transvoxel.terrain_lab.independent_mesh_oracle.v1",
+						"status": "PASS",
+						"checks": {
+							"index_integrity": {
+								"invalid_index_count": 0,
+								"incomplete_index_count": 0,
+								"status": "PASS"
+							},
+							"finite_value": {
+								"nonfinite_vertex_count": 0,
+								"status": "PASS"
+							},
+							"bounds": {
+								"bounds_violation_count": 0,
+								"status": "PASS"
+							},
+							"degenerate_triangle": {
+								"degenerate_triangle_count": 0,
+								"status": "PASS"
+							},
+							"edge_multiplicity": {
+								"boundary_edge_count": 154,
+								"forbidden_open_edge_count": 0,
+								"unclassified_open_edge_count": 0,
+								"open_face_counts": {
+									"negative_x": 2,
+									"positive_x": 32,
+									"negative_y": 17,
+									"positive_y": 42,
+									"negative_z": 25,
+									"positive_z": 36
+								},
+								"status": "PASS"
+							},
+							"non_manifold": {
+								"nonmanifold_edge_count": 0,
+								"status": "PASS"
+							},
+							"duplicate_overlap": {
+								"exact_duplicate_triangle_count": 0,
+								"status": "PASS"
+							},
+							"orientation": {
+								"orientation_conflict_edge_count": 0,
+								"status": "PASS"
+							},
+							"component": {
+								"component_count": 1,
+								"expected_component_count": 1,
+								"status": "PASS"
+							},
+							"euler_characteristic": {
+								"euler_characteristic": 1,
+								"expected_euler_characteristic": null,
+								"status": "NOT_APPLICABLE"
+							},
+							"ray_parity": {
+								"ray_results": [],
+								"failure_count": 0,
+								"status": "NOT_APPLICABLE"
+							},
+							"signed_volume": {
+								"signed_volume": -81239.7392861049,
+								"observed_sign": -1,
+								"expected_sign": 0,
+								"status": "NOT_APPLICABLE"
+							},
+							"field_resampling": {
+								"applicable": true,
+								"status": "PASS",
+								"sampled_vertex_count": 1602,
+								"unique_grid_sample_count": 8202,
+								"maximum_abs_density_residual": 0.0085352048612137,
+								"tolerance": 0.0313,
+								"failure_count": 0
+							}
+						},
+						"metrics": {
+							"input_vertex_count": 1602,
+							"input_triangle_count": 2808,
+							"valid_triangle_count": 2808,
+							"unique_vertex_count": 1482,
+							"unique_edge_count": 4289,
+							"component_count": 1,
+							"euler_characteristic": 1,
+							"signed_volume": -81239.7392861049
+						},
+						"elapsed_usec": 221470,
+						"failures": []
+					},
+					"oracle_elapsed_usec": 230697,
+					"material_ids": [
+						1,
+						3,
+						7,
+						9
+					],
+					"field_audit": {
+						"sample_call_count": 55817,
+						"exact_isovalue_hit_count": 0,
+						"observed_material_ids": [
+							1,
+							3,
+							7,
+							9
+						],
+						"derived_parameters": {
+							"phase_x": 2.55996852288791,
+							"phase_z": 5.51084586410205,
+							"amplitude_x": 2.03161946618074,
+							"amplitude_z": 2.1190605625599,
+							"frequency_x": 0.0556640653315299,
+							"frequency_z": 0.188136427504074,
+							"blob_radii": [
+								18.8677558898926,
+								22.0147876739502,
+								17.5924549102783
+							],
+							"exact_offset": 1
+						}
+					},
+					"elapsed_usec": 702809,
+					"failures": []
+				},
+				{
+					"status": "PASS",
+					"replay_order": "worker_seeded",
+					"geometry_signature": "d83e85e6a8a23effa8aef68b8820464bb8d25abc7b72f5887205e28ba88df516",
+					"definition_signature": "7a4ff20e40dda4ca878de23c7aa1835d60f66d959f3b92d2dfcaa85c0617e795",
+					"native_chunk_call_count": 5,
+					"oracle": {
+						"schema": "world_transvoxel.terrain_lab.independent_mesh_oracle.v1",
+						"status": "PASS",
+						"checks": {
+							"index_integrity": {
+								"invalid_index_count": 0,
+								"incomplete_index_count": 0,
+								"status": "PASS"
+							},
+							"finite_value": {
+								"nonfinite_vertex_count": 0,
+								"status": "PASS"
+							},
+							"bounds": {
+								"bounds_violation_count": 0,
+								"status": "PASS"
+							},
+							"degenerate_triangle": {
+								"degenerate_triangle_count": 0,
+								"status": "PASS"
+							},
+							"edge_multiplicity": {
+								"boundary_edge_count": 154,
+								"forbidden_open_edge_count": 0,
+								"unclassified_open_edge_count": 0,
+								"open_face_counts": {
+									"negative_x": 2,
+									"positive_x": 32,
+									"negative_y": 17,
+									"positive_y": 42,
+									"negative_z": 25,
+									"positive_z": 36
+								},
+								"status": "PASS"
+							},
+							"non_manifold": {
+								"nonmanifold_edge_count": 0,
+								"status": "PASS"
+							},
+							"duplicate_overlap": {
+								"exact_duplicate_triangle_count": 0,
+								"status": "PASS"
+							},
+							"orientation": {
+								"orientation_conflict_edge_count": 0,
+								"status": "PASS"
+							},
+							"component": {
+								"component_count": 1,
+								"expected_component_count": 1,
+								"status": "PASS"
+							},
+							"euler_characteristic": {
+								"euler_characteristic": 1,
+								"expected_euler_characteristic": null,
+								"status": "NOT_APPLICABLE"
+							},
+							"ray_parity": {
+								"ray_results": [],
+								"failure_count": 0,
+								"status": "NOT_APPLICABLE"
+							},
+							"signed_volume": {
+								"signed_volume": -81239.7392861049,
+								"observed_sign": -1,
+								"expected_sign": 0,
+								"status": "NOT_APPLICABLE"
+							},
+							"field_resampling": {
+								"applicable": true,
+								"status": "PASS",
+								"sampled_vertex_count": 1602,
+								"unique_grid_sample_count": 8202,
+								"maximum_abs_density_residual": 0.0085352048612137,
+								"tolerance": 0.0313,
+								"failure_count": 0
+							}
+						},
+						"metrics": {
+							"input_vertex_count": 1602,
+							"input_triangle_count": 2808,
+							"valid_triangle_count": 2808,
+							"unique_vertex_count": 1482,
+							"unique_edge_count": 4289,
+							"component_count": 1,
+							"euler_characteristic": 1,
+							"signed_volume": -81239.7392861049
+						},
+						"elapsed_usec": 253784,
+						"failures": []
+					},
+					"oracle_elapsed_usec": 262111,
+					"material_ids": [
+						1,
+						3,
+						7,
+						9
+					],
+					"field_audit": {
+						"sample_call_count": 55817,
+						"exact_isovalue_hit_count": 0,
+						"observed_material_ids": [
+							1,
+							3,
+							7,
+							9
+						],
+						"derived_parameters": {
+							"phase_x": 2.55996852288791,
+							"phase_z": 5.51084586410205,
+							"amplitude_x": 2.03161946618074,
+							"amplitude_z": 2.1190605625599,
+							"frequency_x": 0.0556640653315299,
+							"frequency_z": 0.188136427504074,
+							"blob_radii": [
+								18.8677558898926,
+								22.0147876739502,
+								17.5924549102783
+							],
+							"exact_offset": 1
+						}
+					},
+					"elapsed_usec": 665850,
+					"failures": []
+				}
+			],
+			"native_chunk_call_count": 20,
+			"exact_isovalue_hit_count": 0,
+			"material_ids": [
+				1,
+				3,
+				7,
+				9
+			],
+			"minimized_repro": {
+				"runner": "res://labs/terrain_lab/tools/run_adversarial_corpus_validation.gd",
+				"arguments": [
+					"--case",
+					"seeded_transition_positive_z"
+				],
+				"seed": 196613.0,
+				"traversal_seed": 196613.0
+			},
+			"elapsed_usec": 3190518,
+			"failures": []
+		},
+		{
+			"case_id": "regression_tqp_d011_tangent_edit",
+			"source": "canonical_tangent_edit",
+			"seed": 0,
+			"traversal_seed": 229939.0,
+			"field_profile": "canonical_tangent_edit",
+			"regression_decision": "TQP-D011",
+			"status": "PASS",
+			"geometry_signature": "11fc1ef388e46cb63a5e9c25f4a794b5bb1302bf0a13a1c96c2ba8cfdc8af239",
+			"definition_signature": "348858aaafa3673ef18d1d3e5ef67530f9f3a9e53bf5ccc4a4e29698252f419a",
+			"case_definition_signature": "919248d3c6b4c91a99219993b851904189b308e084d6e86edc8cb48dd8b2a742",
+			"replay_signatures": {
+				"cold_canonical": "11fc1ef388e46cb63a5e9c25f4a794b5bb1302bf0a13a1c96c2ba8cfdc8af239",
+				"warm_canonical": "11fc1ef388e46cb63a5e9c25f4a794b5bb1302bf0a13a1c96c2ba8cfdc8af239",
+				"worker_reverse": "11fc1ef388e46cb63a5e9c25f4a794b5bb1302bf0a13a1c96c2ba8cfdc8af239",
+				"worker_seeded": "11fc1ef388e46cb63a5e9c25f4a794b5bb1302bf0a13a1c96c2ba8cfdc8af239"
+			},
+			"replays": [
+				{
+					"status": "PASS",
+					"replay_order": "cold_canonical",
+					"geometry_signature": "11fc1ef388e46cb63a5e9c25f4a794b5bb1302bf0a13a1c96c2ba8cfdc8af239",
+					"definition_signature": "348858aaafa3673ef18d1d3e5ef67530f9f3a9e53bf5ccc4a4e29698252f419a",
+					"native_chunk_call_count": 18,
+					"oracle": {
+						"schema": "world_transvoxel.terrain_lab.independent_mesh_oracle.v1",
+						"status": "PASS",
+						"checks": {
+							"index_integrity": {
+								"invalid_index_count": 0,
+								"incomplete_index_count": 0,
+								"status": "PASS"
+							},
+							"finite_value": {
+								"nonfinite_vertex_count": 0,
+								"status": "PASS"
+							},
+							"bounds": {
+								"bounds_violation_count": 0,
+								"status": "PASS"
+							},
+							"degenerate_triangle": {
+								"degenerate_triangle_count": 0,
+								"status": "PASS"
+							},
+							"edge_multiplicity": {
+								"boundary_edge_count": 216,
+								"forbidden_open_edge_count": 0,
+								"unclassified_open_edge_count": 0,
+								"open_face_counts": {
+									"negative_x": 51,
+									"positive_x": 54,
+									"negative_y": 0,
+									"positive_y": 0,
+									"negative_z": 58,
+									"positive_z": 53
+								},
+								"status": "PASS"
+							},
+							"non_manifold": {
+								"nonmanifold_edge_count": 0,
+								"status": "PASS"
+							},
+							"duplicate_overlap": {
+								"exact_duplicate_triangle_count": 0,
+								"status": "PASS"
+							},
+							"orientation": {
+								"orientation_conflict_edge_count": 0,
+								"status": "PASS"
+							},
+							"component": {
+								"component_count": 1,
+								"expected_component_count": 1,
+								"status": "PASS"
+							},
+							"euler_characteristic": {
+								"euler_characteristic": -1,
+								"expected_euler_characteristic": -1.0,
+								"status": "PASS"
+							},
+							"ray_parity": {
+								"ray_results": [],
+								"failure_count": 0,
+								"status": "NOT_APPLICABLE"
+							},
+							"signed_volume": {
+								"signed_volume": -11615.7895437926,
+								"observed_sign": -1,
+								"expected_sign": 0,
+								"status": "NOT_APPLICABLE"
+							},
+							"field_resampling": {
+								"applicable": true,
+								"status": "PASS",
+								"sampled_vertex_count": 5856,
+								"unique_grid_sample_count": 9736,
+								"maximum_abs_density_residual": 0.015625,
+								"tolerance": 0.0313,
+								"failure_count": 0
+							}
+						},
+						"metrics": {
+							"input_vertex_count": 5856,
+							"input_triangle_count": 10264,
+							"valid_triangle_count": 10264,
+							"unique_vertex_count": 5239,
+							"unique_edge_count": 15504,
+							"component_count": 1,
+							"euler_characteristic": -1,
+							"signed_volume": -11615.7895437926
+						},
+						"elapsed_usec": 831068,
+						"failures": []
+					},
+					"oracle_elapsed_usec": 866149,
+					"material_ids": [
+						1,
+						7
+					],
+					"field_audit": {},
+					"elapsed_usec": 3560766,
+					"failures": []
+				},
+				{
+					"status": "PASS",
+					"replay_order": "warm_canonical",
+					"geometry_signature": "11fc1ef388e46cb63a5e9c25f4a794b5bb1302bf0a13a1c96c2ba8cfdc8af239",
+					"definition_signature": "348858aaafa3673ef18d1d3e5ef67530f9f3a9e53bf5ccc4a4e29698252f419a",
+					"native_chunk_call_count": 18,
+					"oracle": {
+						"schema": "world_transvoxel.terrain_lab.independent_mesh_oracle.v1",
+						"status": "PASS",
+						"checks": {
+							"index_integrity": {
+								"invalid_index_count": 0,
+								"incomplete_index_count": 0,
+								"status": "PASS"
+							},
+							"finite_value": {
+								"nonfinite_vertex_count": 0,
+								"status": "PASS"
+							},
+							"bounds": {
+								"bounds_violation_count": 0,
+								"status": "PASS"
+							},
+							"degenerate_triangle": {
+								"degenerate_triangle_count": 0,
+								"status": "PASS"
+							},
+							"edge_multiplicity": {
+								"boundary_edge_count": 216,
+								"forbidden_open_edge_count": 0,
+								"unclassified_open_edge_count": 0,
+								"open_face_counts": {
+									"negative_x": 51,
+									"positive_x": 54,
+									"negative_y": 0,
+									"positive_y": 0,
+									"negative_z": 58,
+									"positive_z": 53
+								},
+								"status": "PASS"
+							},
+							"non_manifold": {
+								"nonmanifold_edge_count": 0,
+								"status": "PASS"
+							},
+							"duplicate_overlap": {
+								"exact_duplicate_triangle_count": 0,
+								"status": "PASS"
+							},
+							"orientation": {
+								"orientation_conflict_edge_count": 0,
+								"status": "PASS"
+							},
+							"component": {
+								"component_count": 1,
+								"expected_component_count": 1,
+								"status": "PASS"
+							},
+							"euler_characteristic": {
+								"euler_characteristic": -1,
+								"expected_euler_characteristic": -1.0,
+								"status": "PASS"
+							},
+							"ray_parity": {
+								"ray_results": [],
+								"failure_count": 0,
+								"status": "NOT_APPLICABLE"
+							},
+							"signed_volume": {
+								"signed_volume": -11615.7895437926,
+								"observed_sign": -1,
+								"expected_sign": 0,
+								"status": "NOT_APPLICABLE"
+							},
+							"field_resampling": {
+								"applicable": true,
+								"status": "PASS",
+								"sampled_vertex_count": 5856,
+								"unique_grid_sample_count": 9736,
+								"maximum_abs_density_residual": 0.015625,
+								"tolerance": 0.0313,
+								"failure_count": 0
+							}
+						},
+						"metrics": {
+							"input_vertex_count": 5856,
+							"input_triangle_count": 10264,
+							"valid_triangle_count": 10264,
+							"unique_vertex_count": 5239,
+							"unique_edge_count": 15504,
+							"component_count": 1,
+							"euler_characteristic": -1,
+							"signed_volume": -11615.7895437926
+						},
+						"elapsed_usec": 1262487,
+						"failures": []
+					},
+					"oracle_elapsed_usec": 1295621,
+					"material_ids": [
+						1,
+						7
+					],
+					"field_audit": {},
+					"elapsed_usec": 4988869,
+					"failures": []
+				},
+				{
+					"status": "PASS",
+					"replay_order": "worker_reverse",
+					"geometry_signature": "11fc1ef388e46cb63a5e9c25f4a794b5bb1302bf0a13a1c96c2ba8cfdc8af239",
+					"definition_signature": "348858aaafa3673ef18d1d3e5ef67530f9f3a9e53bf5ccc4a4e29698252f419a",
+					"native_chunk_call_count": 18,
+					"oracle": {
+						"schema": "world_transvoxel.terrain_lab.independent_mesh_oracle.v1",
+						"status": "PASS",
+						"checks": {
+							"index_integrity": {
+								"invalid_index_count": 0,
+								"incomplete_index_count": 0,
+								"status": "PASS"
+							},
+							"finite_value": {
+								"nonfinite_vertex_count": 0,
+								"status": "PASS"
+							},
+							"bounds": {
+								"bounds_violation_count": 0,
+								"status": "PASS"
+							},
+							"degenerate_triangle": {
+								"degenerate_triangle_count": 0,
+								"status": "PASS"
+							},
+							"edge_multiplicity": {
+								"boundary_edge_count": 216,
+								"forbidden_open_edge_count": 0,
+								"unclassified_open_edge_count": 0,
+								"open_face_counts": {
+									"negative_x": 51,
+									"positive_x": 54,
+									"negative_y": 0,
+									"positive_y": 0,
+									"negative_z": 58,
+									"positive_z": 53
+								},
+								"status": "PASS"
+							},
+							"non_manifold": {
+								"nonmanifold_edge_count": 0,
+								"status": "PASS"
+							},
+							"duplicate_overlap": {
+								"exact_duplicate_triangle_count": 0,
+								"status": "PASS"
+							},
+							"orientation": {
+								"orientation_conflict_edge_count": 0,
+								"status": "PASS"
+							},
+							"component": {
+								"component_count": 1,
+								"expected_component_count": 1,
+								"status": "PASS"
+							},
+							"euler_characteristic": {
+								"euler_characteristic": -1,
+								"expected_euler_characteristic": -1.0,
+								"status": "PASS"
+							},
+							"ray_parity": {
+								"ray_results": [],
+								"failure_count": 0,
+								"status": "NOT_APPLICABLE"
+							},
+							"signed_volume": {
+								"signed_volume": -11615.7895437926,
+								"observed_sign": -1,
+								"expected_sign": 0,
+								"status": "NOT_APPLICABLE"
+							},
+							"field_resampling": {
+								"applicable": true,
+								"status": "PASS",
+								"sampled_vertex_count": 5856,
+								"unique_grid_sample_count": 9736,
+								"maximum_abs_density_residual": 0.015625,
+								"tolerance": 0.0313,
+								"failure_count": 0
+							}
+						},
+						"metrics": {
+							"input_vertex_count": 5856,
+							"input_triangle_count": 10264,
+							"valid_triangle_count": 10264,
+							"unique_vertex_count": 5239,
+							"unique_edge_count": 15504,
+							"component_count": 1,
+							"euler_characteristic": -1,
+							"signed_volume": -11615.7895437926
+						},
+						"elapsed_usec": 880971,
+						"failures": []
+					},
+					"oracle_elapsed_usec": 912504,
+					"material_ids": [
+						1,
+						7
+					],
+					"field_audit": {},
+					"elapsed_usec": 3445217,
+					"failures": []
+				},
+				{
+					"status": "PASS",
+					"replay_order": "worker_seeded",
+					"geometry_signature": "11fc1ef388e46cb63a5e9c25f4a794b5bb1302bf0a13a1c96c2ba8cfdc8af239",
+					"definition_signature": "348858aaafa3673ef18d1d3e5ef67530f9f3a9e53bf5ccc4a4e29698252f419a",
+					"native_chunk_call_count": 18,
+					"oracle": {
+						"schema": "world_transvoxel.terrain_lab.independent_mesh_oracle.v1",
+						"status": "PASS",
+						"checks": {
+							"index_integrity": {
+								"invalid_index_count": 0,
+								"incomplete_index_count": 0,
+								"status": "PASS"
+							},
+							"finite_value": {
+								"nonfinite_vertex_count": 0,
+								"status": "PASS"
+							},
+							"bounds": {
+								"bounds_violation_count": 0,
+								"status": "PASS"
+							},
+							"degenerate_triangle": {
+								"degenerate_triangle_count": 0,
+								"status": "PASS"
+							},
+							"edge_multiplicity": {
+								"boundary_edge_count": 216,
+								"forbidden_open_edge_count": 0,
+								"unclassified_open_edge_count": 0,
+								"open_face_counts": {
+									"negative_x": 51,
+									"positive_x": 54,
+									"negative_y": 0,
+									"positive_y": 0,
+									"negative_z": 58,
+									"positive_z": 53
+								},
+								"status": "PASS"
+							},
+							"non_manifold": {
+								"nonmanifold_edge_count": 0,
+								"status": "PASS"
+							},
+							"duplicate_overlap": {
+								"exact_duplicate_triangle_count": 0,
+								"status": "PASS"
+							},
+							"orientation": {
+								"orientation_conflict_edge_count": 0,
+								"status": "PASS"
+							},
+							"component": {
+								"component_count": 1,
+								"expected_component_count": 1,
+								"status": "PASS"
+							},
+							"euler_characteristic": {
+								"euler_characteristic": -1,
+								"expected_euler_characteristic": -1.0,
+								"status": "PASS"
+							},
+							"ray_parity": {
+								"ray_results": [],
+								"failure_count": 0,
+								"status": "NOT_APPLICABLE"
+							},
+							"signed_volume": {
+								"signed_volume": -11615.7895437926,
+								"observed_sign": -1,
+								"expected_sign": 0,
+								"status": "NOT_APPLICABLE"
+							},
+							"field_resampling": {
+								"applicable": true,
+								"status": "PASS",
+								"sampled_vertex_count": 5856,
+								"unique_grid_sample_count": 9736,
+								"maximum_abs_density_residual": 0.015625,
+								"tolerance": 0.0313,
+								"failure_count": 0
+							}
+						},
+						"metrics": {
+							"input_vertex_count": 5856,
+							"input_triangle_count": 10264,
+							"valid_triangle_count": 10264,
+							"unique_vertex_count": 5239,
+							"unique_edge_count": 15504,
+							"component_count": 1,
+							"euler_characteristic": -1,
+							"signed_volume": -11615.7895437926
+						},
+						"elapsed_usec": 1710811,
+						"failures": []
+					},
+					"oracle_elapsed_usec": 1788288,
+					"material_ids": [
+						1,
+						7
+					],
+					"field_audit": {},
+					"elapsed_usec": 4315576,
+					"failures": []
+				}
+			],
+			"native_chunk_call_count": 72,
+			"exact_isovalue_hit_count": 0,
+			"material_ids": [
+				1,
+				7
+			],
+			"minimized_repro": {
+				"runner": "res://labs/terrain_lab/tools/run_adversarial_corpus_validation.gd",
+				"arguments": [
+					"--case",
+					"regression_tqp_d011_tangent_edit"
+				],
+				"seed": 0,
+				"traversal_seed": 229939.0
+			},
+			"elapsed_usec": 16389593,
+			"failures": []
+		},
+		{
+			"case_id": "regression_tqp_d018_large_coordinate",
+			"source": "native_field",
+			"seed": 0,
+			"traversal_seed": 262147.0,
+			"field_profile": "large_coordinate",
+			"regression_decision": "TQP-D018",
+			"status": "PASS",
+			"geometry_signature": "2eed86e7a834a4b2413aa2da8673388babb02289d57868d88fb83c65fc4bc261",
+			"definition_signature": "1e9ff3f1e5c5400de42ad47538113a3d8c39d5a4c32beeaf8bc502a1a18744e8",
+			"case_definition_signature": "c4d95ce0e4cfe389bf6e8c7787ad97caa793139ceaa712333c5bce897643dfbe",
+			"replay_signatures": {
+				"cold_canonical": "2eed86e7a834a4b2413aa2da8673388babb02289d57868d88fb83c65fc4bc261",
+				"warm_canonical": "2eed86e7a834a4b2413aa2da8673388babb02289d57868d88fb83c65fc4bc261",
+				"worker_reverse": "2eed86e7a834a4b2413aa2da8673388babb02289d57868d88fb83c65fc4bc261",
+				"worker_seeded": "2eed86e7a834a4b2413aa2da8673388babb02289d57868d88fb83c65fc4bc261"
+			},
+			"replays": [
+				{
+					"status": "PASS",
+					"replay_order": "cold_canonical",
+					"geometry_signature": "2eed86e7a834a4b2413aa2da8673388babb02289d57868d88fb83c65fc4bc261",
+					"definition_signature": "1e9ff3f1e5c5400de42ad47538113a3d8c39d5a4c32beeaf8bc502a1a18744e8",
+					"native_chunk_call_count": 8,
+					"oracle": {
+						"schema": "world_transvoxel.terrain_lab.independent_mesh_oracle.v1",
+						"status": "PASS",
+						"checks": {
+							"index_integrity": {
+								"invalid_index_count": 0,
+								"incomplete_index_count": 0,
+								"status": "PASS"
+							},
+							"finite_value": {
+								"nonfinite_vertex_count": 0,
+								"status": "PASS"
+							},
+							"bounds": {
+								"bounds_violation_count": 0,
+								"status": "PASS"
+							},
+							"degenerate_triangle": {
+								"degenerate_triangle_count": 0,
+								"status": "PASS"
+							},
+							"edge_multiplicity": {
+								"boundary_edge_count": 152,
+								"forbidden_open_edge_count": 0,
+								"unclassified_open_edge_count": 0,
+								"open_face_counts": {
+									"negative_x": 36,
+									"positive_x": 36,
+									"negative_y": 0,
+									"positive_y": 0,
+									"negative_z": 40,
+									"positive_z": 40
+								},
+								"status": "PASS"
+							},
+							"non_manifold": {
+								"nonmanifold_edge_count": 0,
+								"status": "PASS"
+							},
+							"duplicate_overlap": {
+								"exact_duplicate_triangle_count": 0,
+								"status": "PASS"
+							},
+							"orientation": {
+								"orientation_conflict_edge_count": 0,
+								"status": "PASS"
+							},
+							"component": {
+								"component_count": 1,
+								"expected_component_count": 1,
+								"status": "PASS"
+							},
+							"euler_characteristic": {
+								"euler_characteristic": 1,
+								"expected_euler_characteristic": null,
+								"status": "NOT_APPLICABLE"
+							},
+							"ray_parity": {
+								"ray_results": [],
+								"failure_count": 0,
+								"status": "NOT_APPLICABLE"
+							},
+							"signed_volume": {
+								"signed_volume": -4778.43164062501,
+								"observed_sign": -1,
+								"expected_sign": 0,
+								"status": "NOT_APPLICABLE"
+							},
+							"field_resampling": {
+								"applicable": true,
+								"status": "PASS",
+								"sampled_vertex_count": 1615,
+								"unique_grid_sample_count": 2848,
+								"maximum_abs_density_residual": 0.0,
+								"tolerance": 0.0313,
+								"failure_count": 0
+							}
+						},
+						"metrics": {
+							"input_vertex_count": 1615,
+							"input_triangle_count": 2816,
+							"valid_triangle_count": 2816,
+							"unique_vertex_count": 1485,
+							"unique_edge_count": 4300,
+							"component_count": 1,
+							"euler_characteristic": 1,
+							"signed_volume": -4778.43164062501
+						},
+						"elapsed_usec": 374081,
+						"failures": []
+					},
+					"oracle_elapsed_usec": 394741,
+					"material_ids": [
+						1
+					],
+					"field_audit": {},
+					"elapsed_usec": 1206852,
+					"failures": []
+				},
+				{
+					"status": "PASS",
+					"replay_order": "warm_canonical",
+					"geometry_signature": "2eed86e7a834a4b2413aa2da8673388babb02289d57868d88fb83c65fc4bc261",
+					"definition_signature": "1e9ff3f1e5c5400de42ad47538113a3d8c39d5a4c32beeaf8bc502a1a18744e8",
+					"native_chunk_call_count": 8,
+					"oracle": {
+						"schema": "world_transvoxel.terrain_lab.independent_mesh_oracle.v1",
+						"status": "PASS",
+						"checks": {
+							"index_integrity": {
+								"invalid_index_count": 0,
+								"incomplete_index_count": 0,
+								"status": "PASS"
+							},
+							"finite_value": {
+								"nonfinite_vertex_count": 0,
+								"status": "PASS"
+							},
+							"bounds": {
+								"bounds_violation_count": 0,
+								"status": "PASS"
+							},
+							"degenerate_triangle": {
+								"degenerate_triangle_count": 0,
+								"status": "PASS"
+							},
+							"edge_multiplicity": {
+								"boundary_edge_count": 152,
+								"forbidden_open_edge_count": 0,
+								"unclassified_open_edge_count": 0,
+								"open_face_counts": {
+									"negative_x": 36,
+									"positive_x": 36,
+									"negative_y": 0,
+									"positive_y": 0,
+									"negative_z": 40,
+									"positive_z": 40
+								},
+								"status": "PASS"
+							},
+							"non_manifold": {
+								"nonmanifold_edge_count": 0,
+								"status": "PASS"
+							},
+							"duplicate_overlap": {
+								"exact_duplicate_triangle_count": 0,
+								"status": "PASS"
+							},
+							"orientation": {
+								"orientation_conflict_edge_count": 0,
+								"status": "PASS"
+							},
+							"component": {
+								"component_count": 1,
+								"expected_component_count": 1,
+								"status": "PASS"
+							},
+							"euler_characteristic": {
+								"euler_characteristic": 1,
+								"expected_euler_characteristic": null,
+								"status": "NOT_APPLICABLE"
+							},
+							"ray_parity": {
+								"ray_results": [],
+								"failure_count": 0,
+								"status": "NOT_APPLICABLE"
+							},
+							"signed_volume": {
+								"signed_volume": -4778.43164062501,
+								"observed_sign": -1,
+								"expected_sign": 0,
+								"status": "NOT_APPLICABLE"
+							},
+							"field_resampling": {
+								"applicable": true,
+								"status": "PASS",
+								"sampled_vertex_count": 1615,
+								"unique_grid_sample_count": 2848,
+								"maximum_abs_density_residual": 0.0,
+								"tolerance": 0.0313,
+								"failure_count": 0
+							}
+						},
+						"metrics": {
+							"input_vertex_count": 1615,
+							"input_triangle_count": 2816,
+							"valid_triangle_count": 2816,
+							"unique_vertex_count": 1485,
+							"unique_edge_count": 4300,
+							"component_count": 1,
+							"euler_characteristic": 1,
+							"signed_volume": -4778.43164062501
+						},
+						"elapsed_usec": 361760,
+						"failures": []
+					},
+					"oracle_elapsed_usec": 373498,
+					"material_ids": [
+						1
+					],
+					"field_audit": {},
+					"elapsed_usec": 1268618,
+					"failures": []
+				},
+				{
+					"status": "PASS",
+					"replay_order": "worker_reverse",
+					"geometry_signature": "2eed86e7a834a4b2413aa2da8673388babb02289d57868d88fb83c65fc4bc261",
+					"definition_signature": "1e9ff3f1e5c5400de42ad47538113a3d8c39d5a4c32beeaf8bc502a1a18744e8",
+					"native_chunk_call_count": 8,
+					"oracle": {
+						"schema": "world_transvoxel.terrain_lab.independent_mesh_oracle.v1",
+						"status": "PASS",
+						"checks": {
+							"index_integrity": {
+								"invalid_index_count": 0,
+								"incomplete_index_count": 0,
+								"status": "PASS"
+							},
+							"finite_value": {
+								"nonfinite_vertex_count": 0,
+								"status": "PASS"
+							},
+							"bounds": {
+								"bounds_violation_count": 0,
+								"status": "PASS"
+							},
+							"degenerate_triangle": {
+								"degenerate_triangle_count": 0,
+								"status": "PASS"
+							},
+							"edge_multiplicity": {
+								"boundary_edge_count": 152,
+								"forbidden_open_edge_count": 0,
+								"unclassified_open_edge_count": 0,
+								"open_face_counts": {
+									"negative_x": 36,
+									"positive_x": 36,
+									"negative_y": 0,
+									"positive_y": 0,
+									"negative_z": 40,
+									"positive_z": 40
+								},
+								"status": "PASS"
+							},
+							"non_manifold": {
+								"nonmanifold_edge_count": 0,
+								"status": "PASS"
+							},
+							"duplicate_overlap": {
+								"exact_duplicate_triangle_count": 0,
+								"status": "PASS"
+							},
+							"orientation": {
+								"orientation_conflict_edge_count": 0,
+								"status": "PASS"
+							},
+							"component": {
+								"component_count": 1,
+								"expected_component_count": 1,
+								"status": "PASS"
+							},
+							"euler_characteristic": {
+								"euler_characteristic": 1,
+								"expected_euler_characteristic": null,
+								"status": "NOT_APPLICABLE"
+							},
+							"ray_parity": {
+								"ray_results": [],
+								"failure_count": 0,
+								"status": "NOT_APPLICABLE"
+							},
+							"signed_volume": {
+								"signed_volume": -4778.43164062501,
+								"observed_sign": -1,
+								"expected_sign": 0,
+								"status": "NOT_APPLICABLE"
+							},
+							"field_resampling": {
+								"applicable": true,
+								"status": "PASS",
+								"sampled_vertex_count": 1615,
+								"unique_grid_sample_count": 2848,
+								"maximum_abs_density_residual": 0.0,
+								"tolerance": 0.0313,
+								"failure_count": 0
+							}
+						},
+						"metrics": {
+							"input_vertex_count": 1615,
+							"input_triangle_count": 2816,
+							"valid_triangle_count": 2816,
+							"unique_vertex_count": 1485,
+							"unique_edge_count": 4300,
+							"component_count": 1,
+							"euler_characteristic": 1,
+							"signed_volume": -4778.43164062501
+						},
+						"elapsed_usec": 744096,
+						"failures": []
+					},
+					"oracle_elapsed_usec": 778512,
+					"material_ids": [
+						1
+					],
+					"field_audit": {},
+					"elapsed_usec": 2563501,
+					"failures": []
+				},
+				{
+					"status": "PASS",
+					"replay_order": "worker_seeded",
+					"geometry_signature": "2eed86e7a834a4b2413aa2da8673388babb02289d57868d88fb83c65fc4bc261",
+					"definition_signature": "1e9ff3f1e5c5400de42ad47538113a3d8c39d5a4c32beeaf8bc502a1a18744e8",
+					"native_chunk_call_count": 8,
+					"oracle": {
+						"schema": "world_transvoxel.terrain_lab.independent_mesh_oracle.v1",
+						"status": "PASS",
+						"checks": {
+							"index_integrity": {
+								"invalid_index_count": 0,
+								"incomplete_index_count": 0,
+								"status": "PASS"
+							},
+							"finite_value": {
+								"nonfinite_vertex_count": 0,
+								"status": "PASS"
+							},
+							"bounds": {
+								"bounds_violation_count": 0,
+								"status": "PASS"
+							},
+							"degenerate_triangle": {
+								"degenerate_triangle_count": 0,
+								"status": "PASS"
+							},
+							"edge_multiplicity": {
+								"boundary_edge_count": 152,
+								"forbidden_open_edge_count": 0,
+								"unclassified_open_edge_count": 0,
+								"open_face_counts": {
+									"negative_x": 36,
+									"positive_x": 36,
+									"negative_y": 0,
+									"positive_y": 0,
+									"negative_z": 40,
+									"positive_z": 40
+								},
+								"status": "PASS"
+							},
+							"non_manifold": {
+								"nonmanifold_edge_count": 0,
+								"status": "PASS"
+							},
+							"duplicate_overlap": {
+								"exact_duplicate_triangle_count": 0,
+								"status": "PASS"
+							},
+							"orientation": {
+								"orientation_conflict_edge_count": 0,
+								"status": "PASS"
+							},
+							"component": {
+								"component_count": 1,
+								"expected_component_count": 1,
+								"status": "PASS"
+							},
+							"euler_characteristic": {
+								"euler_characteristic": 1,
+								"expected_euler_characteristic": null,
+								"status": "NOT_APPLICABLE"
+							},
+							"ray_parity": {
+								"ray_results": [],
+								"failure_count": 0,
+								"status": "NOT_APPLICABLE"
+							},
+							"signed_volume": {
+								"signed_volume": -4778.43164062501,
+								"observed_sign": -1,
+								"expected_sign": 0,
+								"status": "NOT_APPLICABLE"
+							},
+							"field_resampling": {
+								"applicable": true,
+								"status": "PASS",
+								"sampled_vertex_count": 1615,
+								"unique_grid_sample_count": 2848,
+								"maximum_abs_density_residual": 0.0,
+								"tolerance": 0.0313,
+								"failure_count": 0
+							}
+						},
+						"metrics": {
+							"input_vertex_count": 1615,
+							"input_triangle_count": 2816,
+							"valid_triangle_count": 2816,
+							"unique_vertex_count": 1485,
+							"unique_edge_count": 4300,
+							"component_count": 1,
+							"euler_characteristic": 1,
+							"signed_volume": -4778.43164062501
+						},
+						"elapsed_usec": 352851,
+						"failures": []
+					},
+					"oracle_elapsed_usec": 366493,
+					"material_ids": [
+						1
+					],
+					"field_audit": {},
+					"elapsed_usec": 1386128,
+					"failures": []
+				}
+			],
+			"native_chunk_call_count": 32,
+			"exact_isovalue_hit_count": 0,
+			"material_ids": [
+				1
+			],
+			"minimized_repro": {
+				"runner": "res://labs/terrain_lab/tools/run_adversarial_corpus_validation.gd",
+				"arguments": [
+					"--case",
+					"regression_tqp_d018_large_coordinate"
+				],
+				"seed": 0,
+				"traversal_seed": 262147.0
+			},
+			"elapsed_usec": 6434793,
+			"failures": []
+		},
+		{
+			"case_id": "regression_tqp_d019_lod3_positive_x",
+			"source": "transition_field",
+			"seed": 0,
+			"traversal_seed": 294313.0,
+			"field_profile": "lod3_positive_x",
+			"regression_decision": "TQP-D019",
+			"status": "PASS",
+			"geometry_signature": "26435d0e73a3e38968525a1970b0fdcd5cdb8c37a6eb86aac40714611bc6dae3",
+			"definition_signature": "0f9a89cf1adf05a9fa9282b52bc72d9ab8266808dd6d0ed909997f87c347542c",
+			"case_definition_signature": "0a26f32a5c0b8d410cbfd117dac9e6fb31f1439e134078a5300b3118104006e8",
+			"replay_signatures": {
+				"cold_canonical": "26435d0e73a3e38968525a1970b0fdcd5cdb8c37a6eb86aac40714611bc6dae3",
+				"warm_canonical": "26435d0e73a3e38968525a1970b0fdcd5cdb8c37a6eb86aac40714611bc6dae3",
+				"worker_reverse": "26435d0e73a3e38968525a1970b0fdcd5cdb8c37a6eb86aac40714611bc6dae3",
+				"worker_seeded": "26435d0e73a3e38968525a1970b0fdcd5cdb8c37a6eb86aac40714611bc6dae3"
+			},
+			"replays": [
+				{
+					"status": "PASS",
+					"replay_order": "cold_canonical",
+					"geometry_signature": "26435d0e73a3e38968525a1970b0fdcd5cdb8c37a6eb86aac40714611bc6dae3",
+					"definition_signature": "0f9a89cf1adf05a9fa9282b52bc72d9ab8266808dd6d0ed909997f87c347542c",
+					"native_chunk_call_count": 5,
+					"oracle": {
+						"schema": "world_transvoxel.terrain_lab.independent_mesh_oracle.v1",
+						"status": "PASS",
+						"checks": {
+							"index_integrity": {
+								"invalid_index_count": 0,
+								"incomplete_index_count": 0,
+								"status": "PASS"
+							},
+							"finite_value": {
+								"nonfinite_vertex_count": 0,
+								"status": "PASS"
+							},
+							"bounds": {
+								"bounds_violation_count": 0,
+								"status": "PASS"
+							},
+							"degenerate_triangle": {
+								"degenerate_triangle_count": 0,
+								"status": "PASS"
+							},
+							"edge_multiplicity": {
+								"boundary_edge_count": 143,
+								"forbidden_open_edge_count": 0,
+								"unclassified_open_edge_count": 0,
+								"open_face_counts": {
+									"negative_x": 16,
+									"positive_x": 0,
+									"negative_y": 48,
+									"positive_y": 17,
+									"negative_z": 47,
+									"positive_z": 15
+								},
+								"status": "PASS"
+							},
+							"non_manifold": {
+								"nonmanifold_edge_count": 0,
+								"status": "PASS"
+							},
+							"duplicate_overlap": {
+								"exact_duplicate_triangle_count": 0,
+								"status": "PASS"
+							},
+							"orientation": {
+								"orientation_conflict_edge_count": 0,
+								"status": "PASS"
+							},
+							"component": {
+								"component_count": 1,
+								"expected_component_count": 1,
+								"status": "PASS"
+							},
+							"euler_characteristic": {
+								"euler_characteristic": 1,
+								"expected_euler_characteristic": null,
+								"status": "NOT_APPLICABLE"
+							},
+							"ray_parity": {
+								"ray_results": [],
+								"failure_count": 0,
+								"status": "NOT_APPLICABLE"
+							},
+							"signed_volume": {
+								"signed_volume": -917177.13166213,
+								"observed_sign": -1,
+								"expected_sign": 0,
+								"status": "NOT_APPLICABLE"
+							},
+							"field_resampling": {
+								"applicable": true,
+								"status": "PASS",
+								"sampled_vertex_count": 1095,
+								"unique_grid_sample_count": 4538,
+								"maximum_abs_density_residual": 0.0147169908485474,
+								"tolerance": 0.0313,
+								"failure_count": 0
+							}
+						},
+						"metrics": {
+							"input_vertex_count": 1095,
+							"input_triangle_count": 1949,
+							"valid_triangle_count": 1949,
+							"unique_vertex_count": 1047,
+							"unique_edge_count": 2995,
+							"component_count": 1,
+							"euler_characteristic": 1,
+							"signed_volume": -917177.13166213
+						},
+						"elapsed_usec": 251550,
+						"failures": []
+					},
+					"oracle_elapsed_usec": 257276,
+					"material_ids": [
+						1,
+						2,
+						4
+					],
+					"field_audit": {},
+					"elapsed_usec": 735958,
+					"failures": []
+				},
+				{
+					"status": "PASS",
+					"replay_order": "warm_canonical",
+					"geometry_signature": "26435d0e73a3e38968525a1970b0fdcd5cdb8c37a6eb86aac40714611bc6dae3",
+					"definition_signature": "0f9a89cf1adf05a9fa9282b52bc72d9ab8266808dd6d0ed909997f87c347542c",
+					"native_chunk_call_count": 5,
+					"oracle": {
+						"schema": "world_transvoxel.terrain_lab.independent_mesh_oracle.v1",
+						"status": "PASS",
+						"checks": {
+							"index_integrity": {
+								"invalid_index_count": 0,
+								"incomplete_index_count": 0,
+								"status": "PASS"
+							},
+							"finite_value": {
+								"nonfinite_vertex_count": 0,
+								"status": "PASS"
+							},
+							"bounds": {
+								"bounds_violation_count": 0,
+								"status": "PASS"
+							},
+							"degenerate_triangle": {
+								"degenerate_triangle_count": 0,
+								"status": "PASS"
+							},
+							"edge_multiplicity": {
+								"boundary_edge_count": 143,
+								"forbidden_open_edge_count": 0,
+								"unclassified_open_edge_count": 0,
+								"open_face_counts": {
+									"negative_x": 16,
+									"positive_x": 0,
+									"negative_y": 48,
+									"positive_y": 17,
+									"negative_z": 47,
+									"positive_z": 15
+								},
+								"status": "PASS"
+							},
+							"non_manifold": {
+								"nonmanifold_edge_count": 0,
+								"status": "PASS"
+							},
+							"duplicate_overlap": {
+								"exact_duplicate_triangle_count": 0,
+								"status": "PASS"
+							},
+							"orientation": {
+								"orientation_conflict_edge_count": 0,
+								"status": "PASS"
+							},
+							"component": {
+								"component_count": 1,
+								"expected_component_count": 1,
+								"status": "PASS"
+							},
+							"euler_characteristic": {
+								"euler_characteristic": 1,
+								"expected_euler_characteristic": null,
+								"status": "NOT_APPLICABLE"
+							},
+							"ray_parity": {
+								"ray_results": [],
+								"failure_count": 0,
+								"status": "NOT_APPLICABLE"
+							},
+							"signed_volume": {
+								"signed_volume": -917177.13166213,
+								"observed_sign": -1,
+								"expected_sign": 0,
+								"status": "NOT_APPLICABLE"
+							},
+							"field_resampling": {
+								"applicable": true,
+								"status": "PASS",
+								"sampled_vertex_count": 1095,
+								"unique_grid_sample_count": 4538,
+								"maximum_abs_density_residual": 0.0147169908485474,
+								"tolerance": 0.0313,
+								"failure_count": 0
+							}
+						},
+						"metrics": {
+							"input_vertex_count": 1095,
+							"input_triangle_count": 1949,
+							"valid_triangle_count": 1949,
+							"unique_vertex_count": 1047,
+							"unique_edge_count": 2995,
+							"component_count": 1,
+							"euler_characteristic": 1,
+							"signed_volume": -917177.13166213
+						},
+						"elapsed_usec": 288990,
+						"failures": []
+					},
+					"oracle_elapsed_usec": 297788,
+					"material_ids": [
+						1,
+						2,
+						4
+					],
+					"field_audit": {},
+					"elapsed_usec": 827002,
+					"failures": []
+				},
+				{
+					"status": "PASS",
+					"replay_order": "worker_reverse",
+					"geometry_signature": "26435d0e73a3e38968525a1970b0fdcd5cdb8c37a6eb86aac40714611bc6dae3",
+					"definition_signature": "0f9a89cf1adf05a9fa9282b52bc72d9ab8266808dd6d0ed909997f87c347542c",
+					"native_chunk_call_count": 5,
+					"oracle": {
+						"schema": "world_transvoxel.terrain_lab.independent_mesh_oracle.v1",
+						"status": "PASS",
+						"checks": {
+							"index_integrity": {
+								"invalid_index_count": 0,
+								"incomplete_index_count": 0,
+								"status": "PASS"
+							},
+							"finite_value": {
+								"nonfinite_vertex_count": 0,
+								"status": "PASS"
+							},
+							"bounds": {
+								"bounds_violation_count": 0,
+								"status": "PASS"
+							},
+							"degenerate_triangle": {
+								"degenerate_triangle_count": 0,
+								"status": "PASS"
+							},
+							"edge_multiplicity": {
+								"boundary_edge_count": 143,
+								"forbidden_open_edge_count": 0,
+								"unclassified_open_edge_count": 0,
+								"open_face_counts": {
+									"negative_x": 16,
+									"positive_x": 0,
+									"negative_y": 48,
+									"positive_y": 17,
+									"negative_z": 47,
+									"positive_z": 15
+								},
+								"status": "PASS"
+							},
+							"non_manifold": {
+								"nonmanifold_edge_count": 0,
+								"status": "PASS"
+							},
+							"duplicate_overlap": {
+								"exact_duplicate_triangle_count": 0,
+								"status": "PASS"
+							},
+							"orientation": {
+								"orientation_conflict_edge_count": 0,
+								"status": "PASS"
+							},
+							"component": {
+								"component_count": 1,
+								"expected_component_count": 1,
+								"status": "PASS"
+							},
+							"euler_characteristic": {
+								"euler_characteristic": 1,
+								"expected_euler_characteristic": null,
+								"status": "NOT_APPLICABLE"
+							},
+							"ray_parity": {
+								"ray_results": [],
+								"failure_count": 0,
+								"status": "NOT_APPLICABLE"
+							},
+							"signed_volume": {
+								"signed_volume": -917177.13166213,
+								"observed_sign": -1,
+								"expected_sign": 0,
+								"status": "NOT_APPLICABLE"
+							},
+							"field_resampling": {
+								"applicable": true,
+								"status": "PASS",
+								"sampled_vertex_count": 1095,
+								"unique_grid_sample_count": 4538,
+								"maximum_abs_density_residual": 0.0147169908485474,
+								"tolerance": 0.0313,
+								"failure_count": 0
+							}
+						},
+						"metrics": {
+							"input_vertex_count": 1095,
+							"input_triangle_count": 1949,
+							"valid_triangle_count": 1949,
+							"unique_vertex_count": 1047,
+							"unique_edge_count": 2995,
+							"component_count": 1,
+							"euler_characteristic": 1,
+							"signed_volume": -917177.13166213
+						},
+						"elapsed_usec": 203542,
+						"failures": []
+					},
+					"oracle_elapsed_usec": 208642,
+					"material_ids": [
+						1,
+						2,
+						4
+					],
+					"field_audit": {},
+					"elapsed_usec": 822392,
+					"failures": []
+				},
+				{
+					"status": "PASS",
+					"replay_order": "worker_seeded",
+					"geometry_signature": "26435d0e73a3e38968525a1970b0fdcd5cdb8c37a6eb86aac40714611bc6dae3",
+					"definition_signature": "0f9a89cf1adf05a9fa9282b52bc72d9ab8266808dd6d0ed909997f87c347542c",
+					"native_chunk_call_count": 5,
+					"oracle": {
+						"schema": "world_transvoxel.terrain_lab.independent_mesh_oracle.v1",
+						"status": "PASS",
+						"checks": {
+							"index_integrity": {
+								"invalid_index_count": 0,
+								"incomplete_index_count": 0,
+								"status": "PASS"
+							},
+							"finite_value": {
+								"nonfinite_vertex_count": 0,
+								"status": "PASS"
+							},
+							"bounds": {
+								"bounds_violation_count": 0,
+								"status": "PASS"
+							},
+							"degenerate_triangle": {
+								"degenerate_triangle_count": 0,
+								"status": "PASS"
+							},
+							"edge_multiplicity": {
+								"boundary_edge_count": 143,
+								"forbidden_open_edge_count": 0,
+								"unclassified_open_edge_count": 0,
+								"open_face_counts": {
+									"negative_x": 16,
+									"positive_x": 0,
+									"negative_y": 48,
+									"positive_y": 17,
+									"negative_z": 47,
+									"positive_z": 15
+								},
+								"status": "PASS"
+							},
+							"non_manifold": {
+								"nonmanifold_edge_count": 0,
+								"status": "PASS"
+							},
+							"duplicate_overlap": {
+								"exact_duplicate_triangle_count": 0,
+								"status": "PASS"
+							},
+							"orientation": {
+								"orientation_conflict_edge_count": 0,
+								"status": "PASS"
+							},
+							"component": {
+								"component_count": 1,
+								"expected_component_count": 1,
+								"status": "PASS"
+							},
+							"euler_characteristic": {
+								"euler_characteristic": 1,
+								"expected_euler_characteristic": null,
+								"status": "NOT_APPLICABLE"
+							},
+							"ray_parity": {
+								"ray_results": [],
+								"failure_count": 0,
+								"status": "NOT_APPLICABLE"
+							},
+							"signed_volume": {
+								"signed_volume": -917177.13166213,
+								"observed_sign": -1,
+								"expected_sign": 0,
+								"status": "NOT_APPLICABLE"
+							},
+							"field_resampling": {
+								"applicable": true,
+								"status": "PASS",
+								"sampled_vertex_count": 1095,
+								"unique_grid_sample_count": 4538,
+								"maximum_abs_density_residual": 0.0147169908485474,
+								"tolerance": 0.0313,
+								"failure_count": 0
+							}
+						},
+						"metrics": {
+							"input_vertex_count": 1095,
+							"input_triangle_count": 1949,
+							"valid_triangle_count": 1949,
+							"unique_vertex_count": 1047,
+							"unique_edge_count": 2995,
+							"component_count": 1,
+							"euler_characteristic": 1,
+							"signed_volume": -917177.13166213
+						},
+						"elapsed_usec": 231346,
+						"failures": []
+					},
+					"oracle_elapsed_usec": 236522,
+					"material_ids": [
+						1,
+						2,
+						4
+					],
+					"field_audit": {},
+					"elapsed_usec": 1128156,
+					"failures": []
+				}
+			],
+			"native_chunk_call_count": 20,
+			"exact_isovalue_hit_count": 0,
+			"material_ids": [
+				1,
+				2,
+				4
+			],
+			"minimized_repro": {
+				"runner": "res://labs/terrain_lab/tools/run_adversarial_corpus_validation.gd",
+				"arguments": [
+					"--case",
+					"regression_tqp_d019_lod3_positive_x"
+				],
+				"seed": 0,
+				"traversal_seed": 294313.0
+			},
+			"elapsed_usec": 3517515,
+			"failures": []
+		}
+	],
+	"coverage": {
+		"case_count": 7,
+		"seeded_case_count": 4,
+		"unique_seeds": [
+			104729,
+			130363,
+			155921,
+			196613
+		],
+		"generated_field_profiles": [
+			"closed_blob",
+			"closed_wave",
+			"exact_isovalue",
+			"transition_surface"
+		],
+		"case_profiles": [
+			"canonical_tangent_edit",
+			"closed_blob",
+			"closed_wave",
+			"exact_isovalue",
+			"large_coordinate",
+			"lod3_positive_x",
+			"transition_surface"
+		],
+		"lod_levels": [
+			0,
+			1,
+			2,
+			3
+		],
+		"transition_faces": [
+			1,
+			5
+		],
+		"coordinate_classes": [
+			"million_grid",
+			"nonnegative",
+			"signed"
+		],
+		"material_ids": [
+			1,
+			2,
+			3,
+			4,
+			5,
+			6,
+			7,
+			8,
+			9
+		],
+		"replay_orders": [
+			"cold_canonical",
+			"warm_canonical",
+			"worker_reverse",
+			"worker_seeded"
+		],
+		"replay_count": 28,
+		"native_chunk_call_count": 240,
+		"oracle_run_count": 28,
+		"exact_isovalue_hit_count": 4832,
+		"regression_decisions": [
+			"TQP-D011",
+			"TQP-D018",
+			"TQP-D019"
+		]
+	},
+	"minimizer_control": {
+		"status": "PASS",
+		"designated_check": "duplicate_overlap",
+		"injected_failure_detected": true,
+		"original_triangle_count": 25,
+		"minimized_triangle_count": 2,
+		"minimized_vertex_count": 3,
+		"fixture_signature": "8ab246f40b612724e1f02f354e8f9ad5a8095bfab458a32c43ec0b9a0b7a6276",
+		"replay_signature": "8ab246f40b612724e1f02f354e8f9ad5a8095bfab458a32c43ec0b9a0b7a6276",
+		"fixture": {
+			"schema": "world_transvoxel.terrain_lab.minimized_mesh_failure.v1",
+			"designated_check": "duplicate_overlap",
+			"vertices": [
+				[
+					2.0,
+					2.0,
+					1.75
+				],
+				[
+					1.75,
+					2.0,
+					2.0
+				],
+				[
+					2.0,
+					1.75,
+					2.0
+				]
+			],
+			"indices": [
+				0,
+				1,
+				2,
+				0,
+				1,
+				2
+			],
+			"oracle_contract": {
+				"bounds_min": [
+					0.0,
+					0.0,
+					0.0
+				],
+				"bounds_max": [
+					32.0,
+					32.0,
+					32.0
+				],
+				"closed": false,
+				"allowed_open_faces": [
+					"negative_x",
+					"positive_x",
+					"negative_y",
+					"positive_y",
+					"negative_z",
+					"positive_z"
+				],
+				"expected_euler_characteristic": null,
+				"expected_signed_volume_sign": 0,
+				"field_tolerance": 0.0313,
+				"ray_tests": []
+			}
+		},
+		"minimized_repro": {
+			"runner": "res://labs/terrain_lab/tools/run_adversarial_corpus_validation.gd",
+			"arguments": [
+				"--replay-minimized"
+			]
+		},
+		"elapsed_usec": 848859,
+		"failures": []
+	},
+	"matrix_signature": "63ba590f1702ec7f6efbc2d2ea5d43f5aedabea4638350b7e8d97d28543310c4",
+	"performance": {
+		"profile": "debug_regression_reference_not_production_budget",
+		"case_distribution": {
+			"sample_count": 7,
+			"p50_usec": 4778070.0,
+			"p95_usec": 16389593.0,
+			"p99_usec": 16389593.0,
+			"worst_usec": 16389593.0
+		},
+		"replay_distribution": {
+			"sample_count": 28,
+			"p50_usec": 1199500.0,
+			"p95_usec": 4315576.0,
+			"p99_usec": 4988869.0,
+			"worst_usec": 4988869.0
+		},
+		"oracle_distribution": {
+			"sample_count": 28,
+			"p50_usec": 373498.0,
+			"p95_usec": 1354589.0,
+			"p99_usec": 1788288.0,
+			"worst_usec": 1788288.0
+		},
+		"minimizer_elapsed_usec": 848859,
+		"elapsed_usec": 45263529,
+		"memory": {
+			"retained_bytes": 32620003,
+			"peak_bytes": 103872815
+		}
+	},
+	"provenance": {
+		"workload_signature": "63ba590f1702ec7f6efbc2d2ea5d43f5aedabea4638350b7e8d97d28543310c4",
+		"build_type": "debug",
+		"os": "Windows",
+		"architecture": "x86_64",
+		"cpu": "Intel(R) Core(TM) i5-7300HQ CPU @ 2.50GHz",
+		"gpu": "",
+		"driver": "opengl3",
+		"godot_version": "4.7.1-stable (steam)",
+		"backend_revision": "7745271430da87604095038288ca0f668dff74e7c01b9b62361207c2530e7cc5"
+	},
+	"qualified_scope": [
+		"four retained deterministic generated-field seeds plus three fixed corrected-regression cases spanning closed, open, exact-isovalue, same-LOD, mixed-LOD, signed, and million-grid coordinates",
+		"exact normalized geometry agreement across cold, warm, reverse-completion, and seeded-completion publication orders",
+		"TQP-33 independent geometry and topology oracle execution on every replay",
+		"deterministic triangle-level delta debugging proven by a stable two-triangle duplicate-overlap fixture",
+		"retained TQP-D011 native tangent correction and TQP-D018/TQP-D019 corrected geometry-judgment regressions",
+		"bounded Windows debug timing memory provenance material seed replay and native-call telemetry"
+	],
+	"explicitly_unqualified_scope": [
+		"statistical proof over unbounded random seeds or arbitrary fields",
+		"actual concurrent worker execution, cancellation, stale-result rejection, or dynamic publication reserved for TQP-35 and TQP-42",
+		"partial coplanar overlap beyond the TQP-33 exact duplicate detector",
+		"dynamic digging construction streaming collision navigation persistence rendering or production performance",
+		"platforms and native builds outside the retained Windows debug profile"
+	],
+	"failures": [],
+	"standard_validation": {
+		"schema": "world_transvoxel.terrain_lab.adversarial_corpus_evidence_validation.v1",
+		"status": "PASS",
+		"qualification_status": "QUALIFIED_SEEDED_ADVERSARIAL_NATIVE_CORPUS_V1",
+		"scope_status": {
+			"TQP-34": "qualified_seeded_adversarial_minimized_corpus_v1"
+		},
+		"qualified_scope": [
+			"four retained deterministic generated-field seeds plus three fixed corrected-regression cases spanning closed, open, exact-isovalue, same-LOD, mixed-LOD, signed, and million-grid coordinates",
+			"exact normalized geometry agreement across cold, warm, reverse-completion, and seeded-completion publication orders",
+			"TQP-33 independent geometry and topology oracle execution on every replay",
+			"deterministic triangle-level delta debugging proven by a stable two-triangle duplicate-overlap fixture",
+			"retained TQP-D011 native tangent correction and TQP-D018/TQP-D019 corrected geometry-judgment regressions",
+			"bounded Windows debug timing memory provenance material seed replay and native-call telemetry"
+		],
+		"explicitly_unqualified_scope": [
+			"statistical proof over unbounded random seeds or arbitrary fields",
+			"actual concurrent worker execution, cancellation, stale-result rejection, or dynamic publication reserved for TQP-35 and TQP-42",
+			"partial coplanar overlap beyond the TQP-33 exact duplicate detector",
+			"dynamic digging construction streaming collision navigation persistence rendering or production performance",
+			"platforms and native builds outside the retained Windows debug profile"
+		],
+		"failures": []
+	}
+}
