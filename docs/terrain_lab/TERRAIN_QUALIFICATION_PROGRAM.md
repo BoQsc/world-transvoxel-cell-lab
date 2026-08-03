@@ -156,7 +156,7 @@ residency shape, edit history, or runtime scale. In particular:
 
 The 2026-08-02 terrain-core completeness audit found the former roadmap moved
 from bounded TQP-27 evidence directly to destruction. Phase 4 closes that gap.
-Until Gate E passes, this program may claim the qualified TQP-01 through TQP-32
+Until Gate E passes, this program may claim the qualified TQP-01 through TQP-33
 scopes, but it must not claim authoritative dynamic adaptive Transvoxel terrain.
 
 ## Phase 1: Qualified Foundations And Reference Semantics
@@ -625,18 +625,32 @@ native gradient-halo samples outside its finite domain across all six faces.
 Twelve injected controls prove that invalid catalogs, resident-dependent density,
 skirts, and overlap are rejected. The exact eight-chunk catalog, partial
 residency, signatures, minimized repros, and `@tool` Boundary Observatory are
-retained. TQP-33 general topology oracles, dynamic terrain, larger catalogs,
-production performance, and other platforms remain unqualified.
+retained. General topology beyond the retained TQP-33 oracle fixtures, dynamic
+terrain, larger catalogs, production performance, and other platforms remain
+unqualified.
 
 ### TQP-33: Independent Geometry And Topology Oracles
 
-Status: `proposed`. Owner: Cell Lab and Terrain Systems Lab. Depends on:
+Status: `qualified`. Owner: Cell Lab and Terrain Systems Lab. Depends on:
 TQP-04, TQP-29, TQP-31, TQP-32.
 
 Complete when assembled surfaces pass independent edge multiplicity,
 non-manifold, duplicate/overlap, orientation, bounds, finite-value, component,
 Euler-characteristic where applicable, ray parity, signed-volume, and field
 resampling checks. Every oracle requires an injected-defect negative control.
+
+The retained Windows reference normalizes five native assemblies without using
+the existing native evidence validator: closed LOD0 and LOD2 volumes, capped
+terrain, intentional open terrain, and one coarse/fine transition assembly.
+Seventy-four cold/warm native calls pass thirteen independent checks. Thirteen
+injected defects prove every detector, including index and degenerate-triangle
+integrity in addition to the roadmap checks. The report retains exact geometry
+signatures, minimized fixture arguments, p50/p95/p99/worst timing distributions,
+retained and peak memory, provenance, and a separate `@tool` observatory. The
+maximum measured fixed-point field-resampling residual is 0.03125 density units
+under a retained 0.0313 ceiling. Partial coplanar overlap, arbitrary terrain,
+randomized fields, dynamic systems, production performance, and other platforms
+remain unqualified.
 
 ### TQP-34: Adversarial, Randomized, And Minimized Repro Corpus
 
@@ -964,14 +978,14 @@ a standard, not an assertion that future terrain work is finished.
 
 The program records every milestone at a truthful evidence state:
 
-- `TQP-01` through `TQP-32` are qualified
+- `TQP-01` through `TQP-33` are qualified
   for their narrow contract, native Windows reference, or reference-model
   scopes. Gate B is qualified; its native chunk rebuild benchmark remains a
   background/debug reference and is not a production frame-time claim.
-- `TQP-28` through `TQP-32` qualify the deterministic field contract, bounded
+- `TQP-28` through `TQP-33` qualify the deterministic field contract, bounded
   LOD0 complex native corpus, finite adaptive selector, and static native
-  transition-assembly matrix, plus bounded boundary/enclosure policy.
-  `TQP-33` through `TQP-45` remain proposed, so
+  transition-assembly matrix, bounded boundary/enclosure policy, and independent
+  geometry/topology oracles. `TQP-34` through `TQP-45` remain proposed, so
   the program makes no Gate E adaptive-terrain authority claim.
 - `TQP-46` through `TQP-51` retain the previously implemented destruction and
   structural reference behavior under their revision-19 identifiers.
@@ -979,8 +993,8 @@ The program records every milestone at a truthful evidence state:
 - `TQP-53` through `TQP-64` are blocked by named external targets and exit
   conditions in `program_blockers.json`.
 
-The next dependency-ordered milestone is TQP-33, independent geometry and
-topology oracles. TQP-27 remains qualified through `TQP-D016` only for its
+The next dependency-ordered milestone is TQP-34, the adversarial, randomized,
+and minimized repro corpus. TQP-27 remains qualified through `TQP-D016` only for its
 bounded native Windows 2K-world soak and durable edit-journal restart.
 `TQP-F002` retains large-volume snapshot compaction as an open upstream
 capacity issue. Gate D is qualified only for that bounded reference claim;
@@ -994,11 +1008,11 @@ authoritative outside-field halo samples, density-owned caps, declared open
 contours, residency-independent chunk geometry, exact catalog limits, and no
 skirts or hidden overlap.
 
-The immediate task is TQP-33. TQP-33 and TQP-34 add independent
-geometry/topology oracles and
-adversarial or randomized cases with minimized repros. This is where the lab
-must prove that complex mixed-resolution fields remain connected and explain
-failures without relying only on the implementation being tested. TQP-30 and
+TQP-33 now provides independent geometry/topology oracles and one injected
+defect per check without calling the implementation validator. The immediate
+task is TQP-34: adversarial and randomized cases with minimized repros. This is
+where the lab must prove that complex mixed-resolution fields remain connected
+and explain failures using those independent checks. TQP-30 and
 TQP-31 already establish the bounded selector and static native assembly inputs
 for that work; they do not pre-qualify these broader arrangements.
 
@@ -1108,3 +1122,7 @@ Retained decisions:
   reject skirts, overlap, and resident-dependent density while retaining
   general topology, dynamic terrain, larger catalogs, and production claims as
   unqualified.
+- `TQP-D021`: qualify TQP-33 for the bounded independent triangle-soup oracle
+  suite over five native assemblies, with one detected injected defect per
+  check, exact signatures, field-residual bounds, performance telemetry, and
+  arbitrary/randomized/dynamic terrain claims retained as unqualified.

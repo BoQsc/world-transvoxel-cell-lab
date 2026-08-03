@@ -60,6 +60,20 @@ times, records exact cold/warm signatures and all-six-face halo sampling, and
 requires twelve invalid-policy controls. The adjacent PNG is the automated
 1280x720 editor diagnostic; it is not a visual-quality acceptance gate.
 
+`independent_oracle_reference_windows.json` retains TQP-33 over five native
+assemblies and thirteen independently implemented geometry/topology checks:
+
+```text
+godot --headless --path . \
+  --script labs/terrain_lab/tools/run_independent_oracle_validation.gd -- \
+  --output res://labs/terrain_lab/results/independent_oracle_reference_windows.json
+```
+
+Use `--fixture <fixture_id>` for a minimized native fixture. The full report
+retains 74 direct native calls, thirteen designated injected defects, timing
+distributions, memory, provenance, and exact cold/warm signatures. The adjacent
+PNG is a diagnostic editor capture, not visual-quality acceptance.
+
 `terrain_observatory_diagnostics_reference_windows.json` retains the focused
 TQP-26 chunk, job, resource, collision, rejection, event-retention, and signed
 repro-export contract:

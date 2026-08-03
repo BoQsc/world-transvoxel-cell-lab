@@ -36,6 +36,12 @@ chunk probe and exposes their chunk bounds and topology classifications. It is
 an inspection surface for the boundary policy, not a production terrain scene
 or a substitute for machine evidence.
 
+The TQP-33 Independent Oracle Observatory is a separate `@tool` scene at
+`scenes/independent_oracle_observatory.tscn`. It presents the clean native
+closed assembly and representative missing, duplicate, flipped, and disconnected
+defects while reporting the independent detector results. It is an oracle
+inspection surface, not a fallback mesher or production terrain scene.
+
 `tools/run_edit_gate_b_validation.gd` executes the focused `TQP-09` through
 `TQP-14` qualification. `tools/capture_edit_qualification_visual.gd`
 regenerates the deterministic brush and temporal-edit cross-section reference.

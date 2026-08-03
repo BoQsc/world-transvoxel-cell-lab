@@ -1,0 +1,933 @@
+{
+	"schema": "world_transvoxel.terrain_lab.independent_oracle_qualification.v1",
+	"standard_id": "TQP-INDEPENDENT-ORACLE-WINDOWS-V1",
+	"authority": "INDEPENDENT_TRIANGLE_SOUP_ORACLE_OVER_NATIVE_WORLD_TRANSVOXEL_OUTPUT",
+	"milestone": "TQP-33",
+	"status": "PASS",
+	"retained_complete": true,
+	"contract": {
+		"status": "PASS",
+		"checks": [
+			{
+				"id": "standard_schema",
+				"status": "PASS"
+			},
+			{
+				"id": "native_authority",
+				"status": "PASS"
+			},
+			{
+				"id": "no_fallback",
+				"status": "PASS"
+			},
+			{
+				"id": "required_check_inventory",
+				"status": "PASS"
+			},
+			{
+				"id": "source_independence",
+				"status": "PASS"
+			},
+			{
+				"id": "adapter_separation",
+				"status": "PASS"
+			}
+		],
+		"failures": []
+	},
+	"fixtures": [
+		{
+			"fixture_id": "closed_volume_lod0",
+			"source": "boundary_field",
+			"status": "PASS",
+			"geometry_signature": "f5e44a8052753b9fa9024773e9a798991f1b4d7ec2a4d6da46d3de480a952eaf",
+			"warm_geometry_signature": "f5e44a8052753b9fa9024773e9a798991f1b4d7ec2a4d6da46d3de480a952eaf",
+			"native_chunk_call_count": 16,
+			"oracle": {
+				"schema": "world_transvoxel.terrain_lab.independent_mesh_oracle.v1",
+				"status": "PASS",
+				"checks": {
+					"index_integrity": {
+						"invalid_index_count": 0,
+						"incomplete_index_count": 0,
+						"status": "PASS"
+					},
+					"finite_value": {
+						"nonfinite_vertex_count": 0,
+						"status": "PASS"
+					},
+					"bounds": {
+						"bounds_violation_count": 0,
+						"status": "PASS"
+					},
+					"degenerate_triangle": {
+						"degenerate_triangle_count": 0,
+						"status": "PASS"
+					},
+					"edge_multiplicity": {
+						"boundary_edge_count": 0,
+						"forbidden_open_edge_count": 0,
+						"unclassified_open_edge_count": 0,
+						"open_face_counts": {
+							"negative_x": 0,
+							"positive_x": 0,
+							"negative_y": 0,
+							"positive_y": 0,
+							"negative_z": 0,
+							"positive_z": 0
+						},
+						"status": "PASS"
+					},
+					"non_manifold": {
+						"nonmanifold_edge_count": 0,
+						"status": "PASS"
+					},
+					"duplicate_overlap": {
+						"exact_duplicate_triangle_count": 0,
+						"status": "PASS"
+					},
+					"orientation": {
+						"orientation_conflict_edge_count": 0,
+						"status": "PASS"
+					},
+					"component": {
+						"component_count": 1,
+						"expected_component_count": 1,
+						"status": "PASS"
+					},
+					"euler_characteristic": {
+						"euler_characteristic": 2,
+						"expected_euler_characteristic": 2.0,
+						"status": "PASS"
+					},
+					"ray_parity": {
+						"ray_results": [
+							{
+								"id": "outside_crossing",
+								"status": "PASS",
+								"unique_hit_count": 2,
+								"expected_parity": 0,
+								"minimum_hit_count": 2,
+								"hit_distances": [
+									5.75,
+									34.25
+								]
+							},
+							{
+								"id": "inside_exit",
+								"status": "PASS",
+								"unique_hit_count": 1,
+								"expected_parity": 1,
+								"minimum_hit_count": 1,
+								"hit_distances": [
+									14.25
+								]
+							}
+						],
+						"failure_count": 0,
+						"status": "PASS"
+					},
+					"signed_volume": {
+						"signed_volume": -23138.5208333346,
+						"observed_sign": -1,
+						"expected_sign": -1,
+						"status": "PASS"
+					},
+					"field_resampling": {
+						"applicable": true,
+						"status": "PASS",
+						"sampled_vertex_count": 5400,
+						"unique_grid_sample_count": 10017,
+						"maximum_abs_density_residual": 0.0,
+						"tolerance": 0.0313,
+						"failure_count": 0
+					}
+				},
+				"metrics": {
+					"input_vertex_count": 5400,
+					"input_triangle_count": 10088,
+					"valid_triangle_count": 10088,
+					"unique_vertex_count": 5046,
+					"unique_edge_count": 15132,
+					"component_count": 1,
+					"euler_characteristic": 2,
+					"signed_volume": -23138.5208333346
+				},
+				"elapsed_usec": 542261,
+				"failures": []
+			},
+			"oracle_elapsed_usec": 542261,
+			"elapsed_usec": 1546674,
+			"minimized_repro": {
+				"runner": "res://labs/terrain_lab/tools/run_independent_oracle_validation.gd",
+				"arguments": [
+					"--fixture",
+					"closed_volume_lod0"
+				]
+			},
+			"failures": []
+		},
+		{
+			"fixture_id": "closed_volume_lod2",
+			"source": "boundary_field",
+			"status": "PASS",
+			"geometry_signature": "de3480998e154ee5470c3bdadeca4b4aa3afe6d9afce5437d5c2b5412599d343",
+			"warm_geometry_signature": "de3480998e154ee5470c3bdadeca4b4aa3afe6d9afce5437d5c2b5412599d343",
+			"native_chunk_call_count": 16,
+			"oracle": {
+				"schema": "world_transvoxel.terrain_lab.independent_mesh_oracle.v1",
+				"status": "PASS",
+				"checks": {
+					"index_integrity": {
+						"invalid_index_count": 0,
+						"incomplete_index_count": 0,
+						"status": "PASS"
+					},
+					"finite_value": {
+						"nonfinite_vertex_count": 0,
+						"status": "PASS"
+					},
+					"bounds": {
+						"bounds_violation_count": 0,
+						"status": "PASS"
+					},
+					"degenerate_triangle": {
+						"degenerate_triangle_count": 0,
+						"status": "PASS"
+					},
+					"edge_multiplicity": {
+						"boundary_edge_count": 0,
+						"forbidden_open_edge_count": 0,
+						"unclassified_open_edge_count": 0,
+						"open_face_counts": {
+							"negative_x": 0,
+							"positive_x": 0,
+							"negative_y": 0,
+							"positive_y": 0,
+							"negative_z": 0,
+							"positive_z": 0
+						},
+						"status": "PASS"
+					},
+					"non_manifold": {
+						"nonmanifold_edge_count": 0,
+						"status": "PASS"
+					},
+					"duplicate_overlap": {
+						"exact_duplicate_triangle_count": 0,
+						"status": "PASS"
+					},
+					"orientation": {
+						"orientation_conflict_edge_count": 0,
+						"status": "PASS"
+					},
+					"component": {
+						"component_count": 1,
+						"expected_component_count": 1,
+						"status": "PASS"
+					},
+					"euler_characteristic": {
+						"euler_characteristic": 2,
+						"expected_euler_characteristic": 2.0,
+						"status": "PASS"
+					},
+					"ray_parity": {
+						"ray_results": [
+							{
+								"id": "outside_crossing",
+								"status": "PASS",
+								"unique_hit_count": 2,
+								"expected_parity": 0,
+								"minimum_hit_count": 2,
+								"hit_distances": [
+									23.03125,
+									136.96875
+								]
+							},
+							{
+								"id": "inside_exit",
+								"status": "PASS",
+								"unique_hit_count": 1,
+								"expected_parity": 1,
+								"minimum_hit_count": 1,
+								"hit_distances": [
+									56.96875
+								]
+							}
+						],
+						"failure_count": 0,
+						"status": "PASS"
+					},
+					"signed_volume": {
+						"signed_volume": -1478471.86832169,
+						"observed_sign": -1,
+						"expected_sign": -1,
+						"status": "PASS"
+					},
+					"field_resampling": {
+						"applicable": true,
+						"status": "PASS",
+						"sampled_vertex_count": 5400,
+						"unique_grid_sample_count": 38829,
+						"maximum_abs_density_residual": 0.03125,
+						"tolerance": 0.0313,
+						"failure_count": 0
+					}
+				},
+				"metrics": {
+					"input_vertex_count": 5400,
+					"input_triangle_count": 10088,
+					"valid_triangle_count": 10088,
+					"unique_vertex_count": 5046,
+					"unique_edge_count": 15132,
+					"component_count": 1,
+					"euler_characteristic": 2,
+					"signed_volume": -1478471.86832169
+				},
+				"elapsed_usec": 785002,
+				"failures": []
+			},
+			"oracle_elapsed_usec": 785002,
+			"elapsed_usec": 2660232,
+			"minimized_repro": {
+				"runner": "res://labs/terrain_lab/tools/run_independent_oracle_validation.gd",
+				"arguments": [
+					"--fixture",
+					"closed_volume_lod2"
+				]
+			},
+			"failures": []
+		},
+		{
+			"fixture_id": "closed_terrain_lod0",
+			"source": "boundary_field",
+			"status": "PASS",
+			"geometry_signature": "ada0ef2ac9e75a9f24e56be1dd2585cf004ddee248e5f85445e52fbdc7072afc",
+			"warm_geometry_signature": "ada0ef2ac9e75a9f24e56be1dd2585cf004ddee248e5f85445e52fbdc7072afc",
+			"native_chunk_call_count": 16,
+			"oracle": {
+				"schema": "world_transvoxel.terrain_lab.independent_mesh_oracle.v1",
+				"status": "PASS",
+				"checks": {
+					"index_integrity": {
+						"invalid_index_count": 0,
+						"incomplete_index_count": 0,
+						"status": "PASS"
+					},
+					"finite_value": {
+						"nonfinite_vertex_count": 0,
+						"status": "PASS"
+					},
+					"bounds": {
+						"bounds_violation_count": 0,
+						"status": "PASS"
+					},
+					"degenerate_triangle": {
+						"degenerate_triangle_count": 0,
+						"status": "PASS"
+					},
+					"edge_multiplicity": {
+						"boundary_edge_count": 0,
+						"forbidden_open_edge_count": 0,
+						"unclassified_open_edge_count": 0,
+						"open_face_counts": {
+							"negative_x": 0,
+							"positive_x": 0,
+							"negative_y": 0,
+							"positive_y": 0,
+							"negative_z": 0,
+							"positive_z": 0
+						},
+						"status": "PASS"
+					},
+					"non_manifold": {
+						"nonmanifold_edge_count": 0,
+						"status": "PASS"
+					},
+					"duplicate_overlap": {
+						"exact_duplicate_triangle_count": 0,
+						"status": "PASS"
+					},
+					"orientation": {
+						"orientation_conflict_edge_count": 0,
+						"status": "PASS"
+					},
+					"component": {
+						"component_count": 1,
+						"expected_component_count": 1,
+						"status": "PASS"
+					},
+					"euler_characteristic": {
+						"euler_characteristic": 2,
+						"expected_euler_characteristic": 2.0,
+						"status": "PASS"
+					},
+					"ray_parity": {
+						"ray_results": [
+							{
+								"id": "outside_crossing",
+								"status": "PASS",
+								"unique_hit_count": 2,
+								"expected_parity": 0,
+								"minimum_hit_count": 2,
+								"hit_distances": [
+									5.75,
+									34.25
+								]
+							},
+							{
+								"id": "inside_exit",
+								"status": "PASS",
+								"unique_hit_count": 1,
+								"expected_parity": 1,
+								"minimum_hit_count": 1,
+								"hit_distances": [
+									14.25
+								]
+							}
+						],
+						"failure_count": 0,
+						"status": "PASS"
+					},
+					"signed_volume": {
+						"signed_volume": -13964.4638849855,
+						"observed_sign": -1,
+						"expected_sign": -1,
+						"status": "PASS"
+					},
+					"field_resampling": {
+						"applicable": true,
+						"status": "PASS",
+						"sampled_vertex_count": 4152,
+						"unique_grid_sample_count": 7524,
+						"maximum_abs_density_residual": 0.0298202411360649,
+						"tolerance": 0.0313,
+						"failure_count": 0
+					}
+				},
+				"metrics": {
+					"input_vertex_count": 4152,
+					"input_triangle_count": 7672,
+					"valid_triangle_count": 7672,
+					"unique_vertex_count": 3838,
+					"unique_edge_count": 11508,
+					"component_count": 1,
+					"euler_characteristic": 2,
+					"signed_volume": -13964.4638849855
+				},
+				"elapsed_usec": 463523,
+				"failures": []
+			},
+			"oracle_elapsed_usec": 463523,
+			"elapsed_usec": 1682661,
+			"minimized_repro": {
+				"runner": "res://labs/terrain_lab/tools/run_independent_oracle_validation.gd",
+				"arguments": [
+					"--fixture",
+					"closed_terrain_lod0"
+				]
+			},
+			"failures": []
+		},
+		{
+			"fixture_id": "intentional_open_terrain_lod0",
+			"source": "boundary_field",
+			"status": "PASS",
+			"geometry_signature": "899ccc1a9323c069833045bc638590e081e40f60b11c77e7969e489cd75ef8e1",
+			"warm_geometry_signature": "899ccc1a9323c069833045bc638590e081e40f60b11c77e7969e489cd75ef8e1",
+			"native_chunk_call_count": 16,
+			"oracle": {
+				"schema": "world_transvoxel.terrain_lab.independent_mesh_oracle.v1",
+				"status": "PASS",
+				"checks": {
+					"index_integrity": {
+						"invalid_index_count": 0,
+						"incomplete_index_count": 0,
+						"status": "PASS"
+					},
+					"finite_value": {
+						"nonfinite_vertex_count": 0,
+						"status": "PASS"
+					},
+					"bounds": {
+						"bounds_violation_count": 0,
+						"status": "PASS"
+					},
+					"degenerate_triangle": {
+						"degenerate_triangle_count": 0,
+						"status": "PASS"
+					},
+					"edge_multiplicity": {
+						"boundary_edge_count": 142,
+						"forbidden_open_edge_count": 0,
+						"unclassified_open_edge_count": 0,
+						"open_face_counts": {
+							"negative_x": 36,
+							"positive_x": 36,
+							"negative_y": 0,
+							"positive_y": 0,
+							"negative_z": 35,
+							"positive_z": 35
+						},
+						"status": "PASS"
+					},
+					"non_manifold": {
+						"nonmanifold_edge_count": 0,
+						"status": "PASS"
+					},
+					"duplicate_overlap": {
+						"exact_duplicate_triangle_count": 0,
+						"status": "PASS"
+					},
+					"orientation": {
+						"orientation_conflict_edge_count": 0,
+						"status": "PASS"
+					},
+					"component": {
+						"component_count": 1,
+						"expected_component_count": 1,
+						"status": "PASS"
+					},
+					"euler_characteristic": {
+						"euler_characteristic": 1,
+						"expected_euler_characteristic": null,
+						"status": "NOT_APPLICABLE"
+					},
+					"ray_parity": {
+						"ray_results": [],
+						"failure_count": 0,
+						"status": "NOT_APPLICABLE"
+					},
+					"signed_volume": {
+						"signed_volume": -5503.23710423709,
+						"observed_sign": -1,
+						"expected_sign": 0,
+						"status": "NOT_APPLICABLE"
+					},
+					"field_resampling": {
+						"applicable": true,
+						"status": "PASS",
+						"sampled_vertex_count": 1430,
+						"unique_grid_sample_count": 2613,
+						"maximum_abs_density_residual": 0.0307424692212841,
+						"tolerance": 0.0313,
+						"failure_count": 0
+					}
+				},
+				"metrics": {
+					"input_vertex_count": 1430,
+					"input_triangle_count": 2420,
+					"valid_triangle_count": 2420,
+					"unique_vertex_count": 1282,
+					"unique_edge_count": 3701,
+					"component_count": 1,
+					"euler_characteristic": 1,
+					"signed_volume": -5503.23710423709
+				},
+				"elapsed_usec": 134354,
+				"failures": []
+			},
+			"oracle_elapsed_usec": 134354,
+			"elapsed_usec": 1025177,
+			"minimized_repro": {
+				"runner": "res://labs/terrain_lab/tools/run_independent_oracle_validation.gd",
+				"arguments": [
+					"--fixture",
+					"intentional_open_terrain_lod0"
+				]
+			},
+			"failures": []
+		},
+		{
+			"fixture_id": "mixed_lod_positive_x",
+			"source": "transition_field",
+			"status": "PASS",
+			"geometry_signature": "87ceebfebbd7af04cf199b56bd0c6b1e38f22ee44ea6f6b0567755c69a2f4052",
+			"warm_geometry_signature": "87ceebfebbd7af04cf199b56bd0c6b1e38f22ee44ea6f6b0567755c69a2f4052",
+			"native_chunk_call_count": 10,
+			"oracle": {
+				"schema": "world_transvoxel.terrain_lab.independent_mesh_oracle.v1",
+				"status": "PASS",
+				"checks": {
+					"index_integrity": {
+						"invalid_index_count": 0,
+						"incomplete_index_count": 0,
+						"status": "PASS"
+					},
+					"finite_value": {
+						"nonfinite_vertex_count": 0,
+						"status": "PASS"
+					},
+					"bounds": {
+						"bounds_violation_count": 0,
+						"status": "PASS"
+					},
+					"degenerate_triangle": {
+						"degenerate_triangle_count": 0,
+						"status": "PASS"
+					},
+					"edge_multiplicity": {
+						"boundary_edge_count": 143,
+						"forbidden_open_edge_count": 0,
+						"unclassified_open_edge_count": 0,
+						"open_face_counts": {
+							"negative_x": 16,
+							"positive_x": 0,
+							"negative_y": 48,
+							"positive_y": 17,
+							"negative_z": 47,
+							"positive_z": 15
+						},
+						"status": "PASS"
+					},
+					"non_manifold": {
+						"nonmanifold_edge_count": 0,
+						"status": "PASS"
+					},
+					"duplicate_overlap": {
+						"exact_duplicate_triangle_count": 0,
+						"status": "PASS"
+					},
+					"orientation": {
+						"orientation_conflict_edge_count": 0,
+						"status": "PASS"
+					},
+					"component": {
+						"component_count": 1,
+						"expected_component_count": 1,
+						"status": "PASS"
+					},
+					"euler_characteristic": {
+						"euler_characteristic": 1,
+						"expected_euler_characteristic": null,
+						"status": "NOT_APPLICABLE"
+					},
+					"ray_parity": {
+						"ray_results": [],
+						"failure_count": 0,
+						"status": "NOT_APPLICABLE"
+					},
+					"signed_volume": {
+						"signed_volume": -14155.8414285059,
+						"observed_sign": -1,
+						"expected_sign": 0,
+						"status": "NOT_APPLICABLE"
+					},
+					"field_resampling": {
+						"applicable": true,
+						"status": "PASS",
+						"sampled_vertex_count": 1083,
+						"unique_grid_sample_count": 3111,
+						"maximum_abs_density_residual": 0.0155882591841389,
+						"tolerance": 0.0313,
+						"failure_count": 0
+					}
+				},
+				"metrics": {
+					"input_vertex_count": 1083,
+					"input_triangle_count": 1925,
+					"valid_triangle_count": 1925,
+					"unique_vertex_count": 1035,
+					"unique_edge_count": 2959,
+					"component_count": 1,
+					"euler_characteristic": 1,
+					"signed_volume": -14155.8414285059
+				},
+				"elapsed_usec": 107148,
+				"failures": []
+			},
+			"oracle_elapsed_usec": 107148,
+			"elapsed_usec": 568365,
+			"minimized_repro": {
+				"runner": "res://labs/terrain_lab/tools/run_independent_oracle_validation.gd",
+				"arguments": [
+					"--fixture",
+					"mixed_lod_positive_x"
+				]
+			},
+			"failures": []
+		}
+	],
+	"negative_controls": {
+		"status": "PASS",
+		"control_count": 13,
+		"controls": [
+			{
+				"id": "invalid_index",
+				"designated_check": "index_integrity",
+				"status": "PASS",
+				"injected_failure_detected": true,
+				"oracle_status": "FAIL",
+				"designated_check_result": {
+					"invalid_index_count": 1,
+					"incomplete_index_count": 0,
+					"status": "FAIL"
+				}
+			},
+			{
+				"id": "nonfinite_vertex",
+				"designated_check": "finite_value",
+				"status": "PASS",
+				"injected_failure_detected": true,
+				"oracle_status": "FAIL",
+				"designated_check_result": {
+					"nonfinite_vertex_count": 1,
+					"status": "FAIL"
+				}
+			},
+			{
+				"id": "out_of_bounds_vertex",
+				"designated_check": "bounds",
+				"status": "PASS",
+				"injected_failure_detected": true,
+				"oracle_status": "FAIL",
+				"designated_check_result": {
+					"bounds_violation_count": 1,
+					"status": "FAIL"
+				}
+			},
+			{
+				"id": "degenerate_triangle",
+				"designated_check": "degenerate_triangle",
+				"status": "PASS",
+				"injected_failure_detected": true,
+				"oracle_status": "FAIL",
+				"designated_check_result": {
+					"degenerate_triangle_count": 1,
+					"status": "FAIL"
+				}
+			},
+			{
+				"id": "missing_triangle",
+				"designated_check": "edge_multiplicity",
+				"status": "PASS",
+				"injected_failure_detected": true,
+				"oracle_status": "FAIL",
+				"designated_check_result": {
+					"boundary_edge_count": 3,
+					"forbidden_open_edge_count": 3,
+					"unclassified_open_edge_count": 3,
+					"open_face_counts": {
+						"negative_x": 0,
+						"positive_x": 0,
+						"negative_y": 0,
+						"positive_y": 0,
+						"negative_z": 0,
+						"positive_z": 0
+					},
+					"status": "FAIL"
+				}
+			},
+			{
+				"id": "third_edge_incident",
+				"designated_check": "non_manifold",
+				"status": "PASS",
+				"injected_failure_detected": true,
+				"oracle_status": "FAIL",
+				"designated_check_result": {
+					"nonmanifold_edge_count": 1,
+					"status": "FAIL"
+				}
+			},
+			{
+				"id": "duplicate_triangle",
+				"designated_check": "duplicate_overlap",
+				"status": "PASS",
+				"injected_failure_detected": true,
+				"oracle_status": "FAIL",
+				"designated_check_result": {
+					"exact_duplicate_triangle_count": 1,
+					"status": "FAIL"
+				}
+			},
+			{
+				"id": "flipped_triangle",
+				"designated_check": "orientation",
+				"status": "PASS",
+				"injected_failure_detected": true,
+				"oracle_status": "FAIL",
+				"designated_check_result": {
+					"orientation_conflict_edge_count": 3,
+					"status": "FAIL"
+				}
+			},
+			{
+				"id": "disconnected_tetrahedron",
+				"designated_check": "component",
+				"status": "PASS",
+				"injected_failure_detected": true,
+				"oracle_status": "FAIL",
+				"designated_check_result": {
+					"component_count": 2,
+					"expected_component_count": 1,
+					"status": "FAIL"
+				}
+			},
+			{
+				"id": "punctured_euler_surface",
+				"designated_check": "euler_characteristic",
+				"status": "PASS",
+				"injected_failure_detected": true,
+				"oracle_status": "FAIL",
+				"designated_check_result": {
+					"euler_characteristic": 1,
+					"expected_euler_characteristic": 2.0,
+					"status": "FAIL"
+				}
+			},
+			{
+				"id": "removed_ray_entry",
+				"designated_check": "ray_parity",
+				"status": "PASS",
+				"injected_failure_detected": true,
+				"oracle_status": "FAIL",
+				"designated_check_result": {
+					"ray_results": [
+						{
+							"id": "outside_crossing",
+							"status": "FAIL",
+							"unique_hit_count": 1,
+							"expected_parity": 0,
+							"minimum_hit_count": 2,
+							"hit_distances": [
+								34.25
+							]
+						},
+						{
+							"id": "inside_exit",
+							"status": "PASS",
+							"unique_hit_count": 1,
+							"expected_parity": 1,
+							"minimum_hit_count": 1,
+							"hit_distances": [
+								14.25
+							]
+						}
+					],
+					"failure_count": 1,
+					"status": "FAIL"
+				}
+			},
+			{
+				"id": "reversed_closed_surface",
+				"designated_check": "signed_volume",
+				"status": "PASS",
+				"injected_failure_detected": true,
+				"oracle_status": "FAIL",
+				"designated_check_result": {
+					"signed_volume": 23138.5208333346,
+					"observed_sign": 1,
+					"expected_sign": -1,
+					"status": "FAIL"
+				}
+			},
+			{
+				"id": "off_isosurface_vertex",
+				"designated_check": "field_resampling",
+				"status": "PASS",
+				"injected_failure_detected": true,
+				"oracle_status": "FAIL",
+				"designated_check_result": {
+					"applicable": true,
+					"status": "FAIL",
+					"sampled_vertex_count": 5400,
+					"unique_grid_sample_count": 10024,
+					"maximum_abs_density_residual": 14.25,
+					"tolerance": 0.0313,
+					"failure_count": 1
+				}
+			}
+		],
+		"performance": {
+			"sample_count": 13,
+			"p50_usec": 623452.0,
+			"p95_usec": 1182110.0,
+			"p99_usec": 1182110.0,
+			"worst_usec": 1182110.0
+		},
+		"failures": []
+	},
+	"matrix": {
+		"fixture_count": 5,
+		"native_chunk_call_count": 74,
+		"geometry_signature": "6ba6e158191c3002c915d8cebb770c68073728850442aedb56c6854d4498bbca"
+	},
+	"performance": {
+		"profile": "debug_regression_reference_not_production_budget",
+		"fixture_distribution": {
+			"sample_count": 5,
+			"p50_usec": 1546674.0,
+			"p95_usec": 2660232.0,
+			"p99_usec": 2660232.0,
+			"worst_usec": 2660232.0
+		},
+		"oracle_distribution": {
+			"sample_count": 5,
+			"p50_usec": 463523.0,
+			"p95_usec": 785002.0,
+			"p99_usec": 785002.0,
+			"worst_usec": 785002.0
+		},
+		"negative_control_distribution": {
+			"sample_count": 13,
+			"p50_usec": 623452.0,
+			"p95_usec": 1182110.0,
+			"p99_usec": 1182110.0,
+			"worst_usec": 1182110.0
+		},
+		"elapsed_usec": 17340252,
+		"memory": {
+			"retained_bytes": 33638523,
+			"peak_bytes": 89856623
+		}
+	},
+	"provenance": {
+		"workload_signature": "6ba6e158191c3002c915d8cebb770c68073728850442aedb56c6854d4498bbca",
+		"build_type": "debug",
+		"os": "Windows",
+		"architecture": "x86_64",
+		"cpu": "Intel(R) Core(TM) i5-7300HQ CPU @ 2.50GHz",
+		"gpu": "",
+		"driver": "vulkan",
+		"godot_version": "4.7.1-stable (steam)",
+		"backend_revision": "7745271430da87604095038288ca0f668dff74e7c01b9b62361207c2530e7cc5"
+	},
+	"qualified_scope": [
+		"independent triangle-soup geometry and topology checks over five retained native LOD0, LOD2, boundary, and mixed-LOD assemblies",
+		"window-relative exact-edge multiplicity, nonmanifold, coincident duplicate, orientation, component, bounds, finite-value, index, and degenerate-triangle checks",
+		"closed genus-zero Euler characteristic, deterministic ray parity, signed-volume polarity, and authoritative field-resampling checks where applicable",
+		"one detected injected defect for every required independent check",
+		"debug Windows performance telemetry and reproducible minimized fixture arguments"
+	],
+	"explicitly_unqualified_scope": [
+		"general coplanar partial-overlap detection beyond exact coincident triangles",
+		"proof over arbitrary fields, topology, LOD arrangements, or coordinates beyond the retained fixtures",
+		"randomized and adversarial corpus behavior reserved for TQP-34",
+		"dynamic publication, edits, streaming, rendering, collision, navigation, persistence, or production performance",
+		"platforms and native builds outside the retained Windows debug profile"
+	],
+	"failures": [],
+	"standard_validation": {
+		"schema": "world_transvoxel.terrain_lab.independent_oracle_evidence_validation.v1",
+		"status": "PASS",
+		"qualification_status": "QUALIFIED_INDEPENDENT_NATIVE_GEOMETRY_ORACLES_V1",
+		"scope_status": {
+			"TQP-33": "qualified_independent_geometry_topology_oracles_v1"
+		},
+		"qualified_scope": [
+			"independent triangle-soup geometry and topology checks over five retained native LOD0, LOD2, boundary, and mixed-LOD assemblies",
+			"window-relative exact-edge multiplicity, nonmanifold, coincident duplicate, orientation, component, bounds, finite-value, index, and degenerate-triangle checks",
+			"closed genus-zero Euler characteristic, deterministic ray parity, signed-volume polarity, and authoritative field-resampling checks where applicable",
+			"one detected injected defect for every required independent check",
+			"debug Windows performance telemetry and reproducible minimized fixture arguments"
+		],
+		"explicitly_unqualified_scope": [
+			"general coplanar partial-overlap detection beyond exact coincident triangles",
+			"proof over arbitrary fields, topology, LOD arrangements, or coordinates beyond the retained fixtures",
+			"randomized and adversarial corpus behavior reserved for TQP-34",
+			"dynamic publication, edits, streaming, rendering, collision, navigation, persistence, or production performance",
+			"platforms and native builds outside the retained Windows debug profile"
+		],
+		"failures": []
+	}
+}

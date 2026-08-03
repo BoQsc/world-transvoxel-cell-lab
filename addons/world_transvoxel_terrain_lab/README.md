@@ -4,12 +4,12 @@ The Terrain Lab addon owns controlled experiments for the Terrain Qualification
 Program. It is separate from `world_transvoxel_cell_lab` even though both addons
 share this repository and the pinned `world_transvoxel` dependency.
 
-Current status: fail-closed program revision 22. All 64 milestones have a
-machine-readable evidence state. TQP-01 through TQP-32 retain their bounded
-qualified scopes; TQP-28 through TQP-32 establish the deterministic native
+Current status: fail-closed program revision 23. All 64 milestones have a
+machine-readable evidence state. TQP-01 through TQP-33 retain their bounded
+qualified scopes; TQP-28 through TQP-33 establish the deterministic native
 field contract, LOD0 complex-field corpus, bounded adaptive selector, and
-native transition-assembly matrix plus boundary/enclosure policy. TQP-33
-through TQP-45 remain `proposed`.
+native transition-assembly matrix, boundary/enclosure policy, and independent
+geometry/topology oracles. TQP-34 through TQP-45 remain `proposed`.
 Destruction, GPU, and production promotion remain closed behind Gate E.
 
 Gate B edit qualification is retained in
@@ -93,6 +93,17 @@ intentionally-open native fixtures. The panel reports contour classification,
 interior openings, nonmanifold edges, and outside-field gradient-halo samples;
 it never generates caps, skirts, or fallback geometry outside
 `WorldTransvoxelCellProbe`.
+
+TQP-33 Independent Oracle Observatory:
+
+```text
+res://labs/terrain_lab/scenes/independent_oracle_observatory.tscn
+```
+
+Open it from **Project > Tools > Open TQP-33 Independent Oracle**. It displays
+the clean native closed assembly or representative injected defects and reports
+the independent checks that reject each defect. The oracle consumes normalized
+native triangle data and does not call the existing native evidence validator.
 
 TQP-23 guided surface review:
 

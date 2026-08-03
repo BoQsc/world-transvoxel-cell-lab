@@ -22,6 +22,12 @@ const BOUNDARY_ENCLOSURE_OBSERVATORY_SCENE := (
 const BOUNDARY_ENCLOSURE_OBSERVATORY_MENU_LABEL := (
 	"Open TQP-32 Boundary Observatory"
 )
+const INDEPENDENT_ORACLE_OBSERVATORY_SCENE := (
+	"res://labs/terrain_lab/scenes/independent_oracle_observatory.tscn"
+)
+const INDEPENDENT_ORACLE_OBSERVATORY_MENU_LABEL := (
+	"Open TQP-33 Independent Oracle"
+)
 
 
 func _enter_tree() -> void:
@@ -41,6 +47,10 @@ func _enter_tree() -> void:
 		BOUNDARY_ENCLOSURE_OBSERVATORY_MENU_LABEL,
 		_open_boundary_enclosure_observatory
 	)
+	add_tool_menu_item(
+		INDEPENDENT_ORACLE_OBSERVATORY_MENU_LABEL,
+		_open_independent_oracle_observatory
+	)
 	set_process(true)
 
 
@@ -49,6 +59,7 @@ func _exit_tree() -> void:
 	remove_tool_menu_item(LARGE_TERRAIN_OBSERVATORY_MENU_LABEL)
 	remove_tool_menu_item(SURFACE_REVIEW_MENU_LABEL)
 	remove_tool_menu_item(BOUNDARY_ENCLOSURE_OBSERVATORY_MENU_LABEL)
+	remove_tool_menu_item(INDEPENDENT_ORACLE_OBSERVATORY_MENU_LABEL)
 	remove_custom_type("WtTransvoxelTerrainLab")
 
 
@@ -67,6 +78,12 @@ func _open_surface_review() -> void:
 func _open_boundary_enclosure_observatory() -> void:
 	get_editor_interface().open_scene_from_path(
 		BOUNDARY_ENCLOSURE_OBSERVATORY_SCENE
+	)
+
+
+func _open_independent_oracle_observatory() -> void:
+	get_editor_interface().open_scene_from_path(
+		INDEPENDENT_ORACLE_OBSERVATORY_SCENE
 	)
 
 

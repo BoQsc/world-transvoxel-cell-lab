@@ -1,0 +1,43 @@
+{
+	"schema": "world_transvoxel.terrain_lab.decision.v1",
+	"id": "TQP-D021",
+	"date": "2026-08-03",
+	"decision": "Qualify TQP-33 for the retained bounded Windows independent geometry and topology oracle suite over native world-transvoxel assemblies without widening the claim to arbitrary overlap, randomized fields, or dynamic terrain.",
+	"affected_milestones": ["TQP-33"],
+	"repositories": ["world-transvoxel-cell-lab", "world-transvoxel"],
+	"alternatives_considered": [
+		"continue treating the implementation's existing seam and topology helpers as sufficient independent evidence",
+		"defer independent checks until randomized terrain generation",
+		"accept screenshots as geometry correctness evidence",
+		"separate native buffer acquisition from a pure triangle-soup oracle and prove every detector with an injected defect"
+	],
+	"evidence": [
+		"independent_oracle_standard.json and independent_oracle_reference_windows.json",
+		"five retained LOD0, LOD2, closed, open, and mixed-LOD native assemblies with 74 cold/warm direct chunk calls",
+		"thirteen independent checks for indices, finite values, bounds, degeneracy, edge multiplicity, nonmanifold edges, exact duplicate overlap, orientation, components, Euler characteristic, ray parity, signed volume, and field resampling",
+		"thirteen injected controls, one designated defect detected by every required check",
+		"window-relative millionth-sample-unit topology keys and measured maximum native fixed-point field residual of 0.03125 density units under a 0.0313 ceiling",
+		"debug performance distributions, retained and peak memory, workload provenance, minimized fixture runners, and exact cold/warm signatures",
+		"@tool independent_oracle_observatory.tscn and retained 1280x720 diagnostic capture"
+	],
+	"qualified_scope": [
+		"independent triangle-soup checks over the five retained native assemblies",
+		"closed genus-zero Euler, ray-parity, signed-volume, and authoritative field-resampling checks where declared applicable",
+		"declared exterior-plane classification for retained open assemblies",
+		"source-level separation from the existing native evidence validator and native mesher",
+		"one detected injected negative control per independent check"
+	],
+	"unqualified_scope": [
+		"partial coplanar overlap beyond exact coincident triangles",
+		"arbitrary fields, topology, LOD arrangements, coordinates, platforms, or native build profiles",
+		"adversarial randomized and minimized failing native corpora reserved for TQP-34",
+		"dynamic publication, edits, streaming, rendering, collision, navigation, persistence, and production performance"
+	],
+	"standards_changed": [
+		"program revision 23",
+		"execution-plan revision 15",
+		"independent-oracle standard TQP-INDEPENDENT-ORACLE-WINDOWS-V1"
+	],
+	"review": "Focused fixtures, source independence, exact retained signatures, every positive check, every designated injected negative, field residual bounds, performance telemetry, full program regression, smoke tests, and editor capture inspection passed.",
+	"downstream_impact": "TQP-34 becomes the next dependency-ordered milestone. Gate E remains closed. No world-transvoxel source or binary change was required."
+}

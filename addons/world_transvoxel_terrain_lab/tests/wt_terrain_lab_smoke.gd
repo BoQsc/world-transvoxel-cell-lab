@@ -15,6 +15,9 @@ const LargeTerrainObservatoryScene := preload(
 const BoundaryEnclosureObservatoryScene := preload(
 	"res://labs/terrain_lab/scenes/boundary_enclosure_observatory.tscn"
 )
+const IndependentOracleObservatoryScene := preload(
+	"res://labs/terrain_lab/scenes/independent_oracle_observatory.tscn"
+)
 const NativeEvidence := preload(
 	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_edit_native_evidence.gd"
 )
@@ -90,6 +93,35 @@ func _run() -> void:
 			_fail("TQP-32 Boundary Observatory lacks outside-field halo samples")
 			return
 	boundary.free()
+	var oracle_script := load(
+		"res://labs/terrain_lab/scenes/independent_oracle_observatory.gd"
+	) as Script
+	if oracle_script == null or not oracle_script.is_tool():
+		_fail("TQP-33 Independent Oracle Observatory must execute as an editor tool")
+		return
+	var oracle_observatory := IndependentOracleObservatoryScene.instantiate()
+	root.add_child(oracle_observatory)
+	var expected_failed_checks := {
+		1: "edge_multiplicity",
+		2: "duplicate_overlap",
+		3: "orientation",
+		4: "component",
+	}
+	for mode in range(5):
+		oracle_observatory.editor_defect_mode = mode
+		oracle_observatory.call("_rebuild")
+		var oracle_snapshot: Dictionary = oracle_observatory.get_validation_snapshot()
+		if str(oracle_snapshot.get("status", "")) != "PASS":
+			_fail("TQP-33 Independent Oracle Observatory mode failed")
+			return
+		var oracle_status := str(oracle_snapshot.get("oracle_status", ""))
+		if (mode == 0 and oracle_status != "PASS") or (mode != 0 and oracle_status != "FAIL"):
+			_fail("TQP-33 Independent Oracle Observatory detection changed")
+			return
+		if mode != 0 and str(expected_failed_checks.get(mode, "")) not in oracle_snapshot.get("failed_checks", []):
+			_fail("TQP-33 Independent Oracle Observatory designated check did not fail")
+			return
+	oracle_observatory.free()
 	var observatory_property_names := PackedStringArray()
 	for property in observatory_script.get_script_property_list():
 		observatory_property_names.append(str(property.get("name", "")))
@@ -258,13 +290,13 @@ func _run() -> void:
 	if int(validation.get("milestone_count", 0)) != 64:
 		_fail("terrain program milestone count changed")
 		return
-	if int(validation.get("qualified_milestone_count", 0)) != 32:
+	if int(validation.get("qualified_milestone_count", 0)) != 33:
 		_fail("qualified reference milestone count changed")
 		return
 	if int(validation.get("specified_milestone_count", 0)) != 1:
 		_fail("open specification count changed")
 		return
-	if int(validation.get("proposed_milestone_count", -1)) != 13:
+	if int(validation.get("proposed_milestone_count", -1)) != 12:
 		_fail("native adaptive-terrain proposal count changed")
 		return
 	var status_counts: Dictionary = validation.get("status_counts", {})

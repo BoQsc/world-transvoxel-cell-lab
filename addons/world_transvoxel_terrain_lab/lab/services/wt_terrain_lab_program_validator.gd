@@ -35,6 +35,9 @@ const TransitionAssemblyEvidence := preload(
 const BoundaryEnclosureEvidence := preload(
 	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_boundary_enclosure_evidence.gd"
 )
+const IndependentOracleEvidence := preload(
+	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_independent_oracle_evidence.gd"
+)
 
 const PROGRAM_SCHEMA := "world_transvoxel.terrain_lab.program.v2"
 const LAB_SCOPE := "experimental_terrain_qualification"
@@ -124,6 +127,7 @@ static func validate(program: Dictionary, dependencies: Dictionary) -> Dictionar
 	_validate_adaptive_lod_evidence(program, milestone_by_id, failures)
 	_validate_transition_assembly_evidence(program, milestone_by_id, failures)
 	_validate_boundary_enclosure_evidence(program, milestone_by_id, failures)
+	_validate_independent_oracle_evidence(program, milestone_by_id, failures)
 	_validate_visual_evidence(program, milestone_by_id, failures)
 	_validate_dependency_boundary(program, dependencies, failures)
 	_validate_source_boundary(failures)
@@ -252,6 +256,7 @@ static func _validate_evidence_files(program: Dictionary, failures: Array[String
 		"TQP-D006", "TQP-D007", "TQP-D008", "TQP-D009", "TQP-D010",
 		"TQP-D011", "TQP-D012", "TQP-D013", "TQP-D014", "TQP-D015",
 		"TQP-D016", "TQP-D017", "TQP-D018", "TQP-D019", "TQP-D020",
+		"TQP-D021",
 	]:
 		_expect(decision_ids.has(required), "missing retained decision: " + required, failures)
 	for key in [
@@ -290,6 +295,8 @@ static func _validate_evidence_files(program: Dictionary, failures: Array[String
 		"transition_assembly_evidence",
 		"boundary_enclosure_standard",
 		"boundary_enclosure_evidence",
+		"independent_oracle_standard",
+		"independent_oracle_evidence",
 		"wave_02_first_batch_evidence",
 		"wave_02_second_batch_evidence",
 		"execution_plan",
@@ -989,6 +996,32 @@ static func _validate_boundary_enclosure_evidence(
 		str((milestone_by_id.get("TQP-32", {}) as Dictionary).get("status", ""))
 			== "qualified",
 		"TQP-32 must match retained boundary/enclosure evidence",
+		failures
+	)
+
+
+static func _validate_independent_oracle_evidence(
+	program: Dictionary,
+	milestone_by_id: Dictionary,
+	failures: Array[String]
+) -> void:
+	var standard := JsonLoader.load_dictionary(
+		str(program.get("independent_oracle_standard", ""))
+	)
+	_expect(
+		str(standard.get("schema", ""))
+			== "world_transvoxel.terrain_lab.independent_oracle_standard.v1",
+		"TQP-33 independent-oracle standard schema mismatch",
+		failures
+	)
+	var validation := IndependentOracleEvidence.validate_retained()
+	if str(validation.get("status", "")) != "PASS":
+		for failure_value in validation.get("failures", []):
+			failures.append("TQP-33 independent oracle: " + str(failure_value))
+	_expect(
+		str((milestone_by_id.get("TQP-33", {}) as Dictionary).get("status", ""))
+			== "qualified",
+		"TQP-33 must match retained independent-oracle evidence",
 		failures
 	)
 

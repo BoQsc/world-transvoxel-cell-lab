@@ -1,0 +1,183 @@
+{
+	"schema": "world_transvoxel.terrain_lab.independent_oracle_standard.v1",
+	"standard_id": "TQP-INDEPENDENT-ORACLE-WINDOWS-V1",
+	"authority": "INDEPENDENT_TRIANGLE_SOUP_ORACLE_OVER_NATIVE_WORLD_TRANSVOXEL_OUTPUT",
+	"milestone": "TQP-33",
+	"evidence": "res://labs/terrain_lab/results/independent_oracle_reference_windows.json",
+	"contract": {
+		"native_dependency": "WorldTransvoxelCellProbe",
+		"fallback_geometry": "forbidden",
+		"oracle_source": "res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_independent_oracle.gd",
+		"adapter_source": "res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_native_mesh_adapter.gd",
+		"independence_policy": "oracle_source_must_not_import_or_call_native_evidence_validation_or_native_mesher",
+		"position_frame": "window_relative_quantized_millionth_sample_unit",
+		"duplicate_policy": "exact_geometric_coincident_triangle_rejection",
+		"open_edge_policy": "multiplicity_one_edges_only_on_fixture_declared_exterior_planes",
+		"signed_volume_policy": "closed_fixture_winding_polarity_must_match_authoritative_negative_inside_field",
+		"field_resampling_policy": "trilinear_reconstruction_of_authoritative_integer_samples_at_every_native_vertex_with_maximum_0.0313_density_unit_fixed_point_residual",
+		"ray_policy": "deduplicated_moller_trumbore_intersections_with_declared_inside_and_outside_parity",
+		"required_checks": [
+			"index_integrity",
+			"finite_value",
+			"bounds",
+			"degenerate_triangle",
+			"edge_multiplicity",
+			"non_manifold",
+			"duplicate_overlap",
+			"orientation",
+			"component",
+			"euler_characteristic",
+			"ray_parity",
+			"signed_volume",
+			"field_resampling"
+		],
+		"negative_control_policy": "one_designated_injected_defect_per_required_check"
+	},
+	"fixtures": [
+		{
+			"id": "closed_volume_lod0",
+			"source": "boundary_field",
+			"kind": "closed_volume",
+			"chunk_base": [0, 0, 0],
+			"window_chunks": [2, 2, 2],
+			"lod": 0,
+			"enclosure_inset_samples": 1.75,
+			"bounds_min": [0.0, 0.0, 0.0],
+			"bounds_max": [32.0, 32.0, 32.0],
+			"closed": true,
+			"allowed_open_faces": [],
+			"expected_component_count": 1,
+			"expected_euler_characteristic": 2,
+			"expected_signed_volume_sign": -1,
+			"minimum_abs_signed_volume": 1000.0,
+			"field_tolerance": 0.0313,
+			"ray_tests": [
+				{"id": "outside_crossing", "origin": [-4.0, 15.31, 15.53], "direction": [1.0, 0.0, 0.0], "expected_parity": 0, "minimum_hit_count": 2},
+				{"id": "inside_exit", "origin": [16.0, 15.31, 15.53], "direction": [1.0, 0.0, 0.0], "expected_parity": 1, "minimum_hit_count": 1}
+			]
+		},
+		{
+			"id": "closed_volume_lod2",
+			"source": "boundary_field",
+			"kind": "closed_volume",
+			"chunk_base": [-1, -1, -1],
+			"window_chunks": [2, 2, 2],
+			"lod": 2,
+			"enclosure_inset_samples": 7.0,
+			"bounds_min": [0.0, 0.0, 0.0],
+			"bounds_max": [128.0, 128.0, 128.0],
+			"closed": true,
+			"allowed_open_faces": [],
+			"expected_component_count": 1,
+			"expected_euler_characteristic": 2,
+			"expected_signed_volume_sign": -1,
+			"minimum_abs_signed_volume": 64000.0,
+			"field_tolerance": 0.0313,
+			"ray_tests": [
+				{"id": "outside_crossing", "origin": [-16.0, 61.37, 62.11], "direction": [1.0, 0.0, 0.0], "expected_parity": 0, "minimum_hit_count": 2},
+				{"id": "inside_exit", "origin": [64.0, 61.37, 62.11], "direction": [1.0, 0.0, 0.0], "expected_parity": 1, "minimum_hit_count": 1}
+			]
+		},
+		{
+			"id": "closed_terrain_lod0",
+			"source": "boundary_field",
+			"kind": "closed_terrain",
+			"chunk_base": [-2, 1, -1],
+			"window_chunks": [2, 2, 2],
+			"lod": 0,
+			"enclosure_inset_samples": 1.75,
+			"bounds_min": [0.0, 0.0, 0.0],
+			"bounds_max": [32.0, 32.0, 32.0],
+			"closed": true,
+			"allowed_open_faces": [],
+			"expected_component_count": 1,
+			"expected_euler_characteristic": 2,
+			"expected_signed_volume_sign": -1,
+			"minimum_abs_signed_volume": 1000.0,
+			"field_tolerance": 0.0313,
+			"ray_tests": [
+				{"id": "outside_crossing", "origin": [-4.0, 15.37, 15.71], "direction": [1.0, 0.0, 0.0], "expected_parity": 0, "minimum_hit_count": 2},
+				{"id": "inside_exit", "origin": [16.0, 15.37, 15.71], "direction": [1.0, 0.0, 0.0], "expected_parity": 1, "minimum_hit_count": 1}
+			]
+		},
+		{
+			"id": "intentional_open_terrain_lod0",
+			"source": "boundary_field",
+			"kind": "open_terrain",
+			"chunk_base": [3, -2, 2],
+			"window_chunks": [2, 2, 2],
+			"lod": 0,
+			"enclosure_inset_samples": 1.75,
+			"bounds_min": [0.0, 0.0, 0.0],
+			"bounds_max": [32.0, 32.0, 32.0],
+			"closed": false,
+			"allowed_open_faces": ["negative_x", "positive_x", "negative_z", "positive_z"],
+			"expected_component_count": 1,
+			"expected_euler_characteristic": null,
+			"expected_signed_volume_sign": 0,
+			"minimum_abs_signed_volume": 0.0,
+			"field_tolerance": 0.0313,
+			"ray_tests": []
+		},
+		{
+			"id": "mixed_lod_positive_x",
+			"source": "transition_field",
+			"coarse_coordinate": [0, 0, 0],
+			"coarse_lod": 1,
+			"face": 1,
+			"bounds_min": [0.0, 0.0, 0.0],
+			"bounds_max": [48.0, 32.0, 32.0],
+			"closed": false,
+			"allowed_open_faces": ["negative_x", "positive_x", "negative_y", "positive_y", "negative_z", "positive_z"],
+			"expected_component_count": 1,
+			"expected_euler_characteristic": null,
+			"expected_signed_volume_sign": 0,
+			"minimum_abs_signed_volume": 0.0,
+			"field_tolerance": 0.0313,
+			"ray_tests": []
+		}
+	],
+	"budgets": {
+		"minimum_fixture_count": 5,
+		"minimum_native_chunk_call_count": 74,
+		"minimum_negative_control_count": 13,
+		"maximum_fixture_p95_usec": 20000000,
+		"maximum_oracle_p95_usec": 5000000,
+		"maximum_total_usec": 120000000
+	},
+	"stable_expected": {
+		"matrix_geometry_signature": "6ba6e158191c3002c915d8cebb770c68073728850442aedb56c6854d4498bbca",
+		"fixtures": {
+			"closed_volume_lod0": "f5e44a8052753b9fa9024773e9a798991f1b4d7ec2a4d6da46d3de480a952eaf",
+			"closed_volume_lod2": "de3480998e154ee5470c3bdadeca4b4aa3afe6d9afce5437d5c2b5412599d343",
+			"closed_terrain_lod0": "ada0ef2ac9e75a9f24e56be1dd2585cf004ddee248e5f85445e52fbdc7072afc",
+			"intentional_open_terrain_lod0": "899ccc1a9323c069833045bc638590e081e40f60b11c77e7969e489cd75ef8e1",
+			"mixed_lod_positive_x": "87ceebfebbd7af04cf199b56bd0c6b1e38f22ee44ea6f6b0567755c69a2f4052"
+		}
+	},
+	"editor_inspection": {
+		"scene": "res://labs/terrain_lab/scenes/independent_oracle_observatory.tscn",
+		"capture": "res://labs/terrain_lab/results/independent_oracle_observatory_reference_windows.png",
+		"capture_sha256": "37e6e0d632a5f213e9b812f4693c6755d5addb27a61210df68d770eea321d7ac",
+		"width": 1280,
+		"height": 720,
+		"default_mode": "clean_native_assembly",
+		"defect_modes": ["missing_triangle", "duplicate_triangle", "flipped_triangle", "disconnected_component"],
+		"automation_status": "PASS",
+		"review_scope": "diagnostic_editor_inspection_not_a_visual_quality_gate"
+	},
+	"qualified_scope": [
+		"independent triangle-soup geometry and topology checks over five retained native LOD0, LOD2, boundary, and mixed-LOD assemblies",
+		"window-relative exact-edge multiplicity, nonmanifold, coincident duplicate, orientation, component, bounds, finite-value, index, and degenerate-triangle checks",
+		"closed genus-zero Euler characteristic, deterministic ray parity, signed-volume polarity, and authoritative field-resampling checks where applicable",
+		"one detected injected defect for every required independent check",
+		"debug Windows performance telemetry and reproducible minimized fixture arguments"
+	],
+	"explicitly_unqualified_scope": [
+		"general coplanar partial-overlap detection beyond exact coincident triangles",
+		"proof over arbitrary fields, topology, LOD arrangements, or coordinates beyond the retained fixtures",
+		"randomized and adversarial corpus behavior reserved for TQP-34",
+		"dynamic publication, edits, streaming, rendering, collision, navigation, persistence, or production performance",
+		"platforms and native builds outside the retained Windows debug profile"
+	]
+}
