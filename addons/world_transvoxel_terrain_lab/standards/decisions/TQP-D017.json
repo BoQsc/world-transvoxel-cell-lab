@@ -1,0 +1,61 @@
+{
+	"schema": "world_transvoxel.terrain_lab.decision.v1",
+	"id": "TQP-D017",
+	"date": "2026-08-02",
+	"decision": "Preserve accepted TQP-01 through TQP-27 evidence, insert a fail-closed native adaptive-terrain qualification phase before destruction, and shift only milestones that had not been qualified.",
+	"affected_milestones": ["TQP-28", "TQP-45", "TQP-46", "TQP-64"],
+	"repositories": ["world-transvoxel-cell-lab", "world-transvoxel"],
+	"alternatives": [
+		"continue directly from the bounded TQP-27 soak to destruction",
+		"append higher-numbered adaptive prerequisites after production milestones",
+		"expand TQP-27 until it implicitly claims all adaptive terrain behavior",
+		"renumber already accepted TQP-01 through TQP-27 evidence"
+	],
+	"evidence": [
+		"2026-08-02 terrain-core completeness audit in TERRAIN_QUALIFICATION_PROGRAM.md",
+		"TQP-19 and TQP-22 explicit horizontal single-layer non-claims",
+		"TQP-25 explicit large-terrain LOD and streaming non-claims",
+		"TQP-27 bounded small-resident-window 2K catalog claim",
+		"absence of assembled complex adaptive-terrain evidence"
+	],
+	"qualified_scope": [
+		"identifier and evidence preservation for TQP-01 through TQP-27",
+		"dependency-ordered roadmap structure only"
+	],
+	"unqualified_scope": [
+		"TQP-28 through TQP-45 native adaptive terrain",
+		"Gate E",
+		"destruction and structural systems",
+		"GPU authority",
+		"production terrain"
+	],
+	"baseline_changes": [
+		"Terrain Qualification Program revision 19",
+		"program manifest revision 19",
+		"execution plan revision 11",
+		"qualification state revision 19"
+	],
+	"preserved_identifiers": "TQP-01 through TQP-27",
+	"revision_18_to_19": {
+		"TQP-28": "TQP-46",
+		"TQP-29": "TQP-47",
+		"TQP-30": "TQP-48",
+		"TQP-31": "TQP-49",
+		"TQP-32": "TQP-50",
+		"TQP-33": "TQP-51",
+		"TQP-34": "TQP-52",
+		"TQP-35": "TQP-53",
+		"TQP-36": "TQP-54",
+		"TQP-37": "TQP-55",
+		"TQP-38": "TQP-56",
+		"TQP-39": "TQP-57",
+		"TQP-40": "TQP-58",
+		"TQP-41": "TQP-59",
+		"TQP-42": "TQP-60",
+		"TQP-43": "TQP-61",
+		"TQP-44": "TQP-62",
+		"TQP-45": "TQP-63",
+		"TQP-46": "TQP-64"
+	},
+	"downstream_impact": "Destruction, GPU, and production promotion remain frozen until the new native adaptive-terrain Gate E is qualified; existing narrow TQP-01 through TQP-27 claims remain unchanged."
+}

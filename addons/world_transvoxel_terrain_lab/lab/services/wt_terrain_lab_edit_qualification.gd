@@ -48,7 +48,7 @@ static func run() -> Dictionary:
 			"TQP-13": "qualified",
 			"TQP-14": "qualified",
 			"TQP-17": "qualified",
-			"TQP-28": "implemented_pending_fragmentation_collision_and_cost",
+			"TQP-46": "implemented_pending_fragmentation_collision_and_cost",
 		},
 		"qualified_scope": [
 			"deterministic CPU reference field and edit journal",
@@ -60,7 +60,7 @@ static func run() -> Dictionary:
 			"networked edit ordering",
 			"production-scale explosion fragmentation",
 			"GPU field evaluation",
-			"TQP-28 fragmentation, collision, and production cost",
+			"TQP-46 fragmentation, collision, and production cost",
 		],
 		"elapsed_ms": float(Time.get_ticks_usec() - started_usec) / 1000.0,
 		"provenance": Statistics.provenance("edit_semantics_reference_v1"),
@@ -141,7 +141,7 @@ static func _specify_explosions() -> Dictionary:
 			"blast replay diverged",
 			failures
 		)
-	var result := _result("TQP-28", _probe_points().size() + 3, failures)
+	var result := _result("TQP-46", _probe_points().size() + 3, failures)
 	result["qualification_status"] = "QUALIFIED_REFERENCE_EXPLOSION_INPUT"
 	result["blast_signature"] = field.journal_signature()
 	return result

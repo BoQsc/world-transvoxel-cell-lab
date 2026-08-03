@@ -4,9 +4,11 @@ The Terrain Lab addon owns controlled experiments for the Terrain Qualification
 Program. It is separate from `world_transvoxel_cell_lab` even though both addons
 share this repository and the pinned `world_transvoxel` dependency.
 
-Current status: complete fail-closed program execution. All 46 milestones have
-machine-readable contracts, evidence states, executable coverage, or explicit
-external blockers. No milestone is left `proposed`.
+Current status: fail-closed program revision 19. All 64 milestones have a
+machine-readable evidence state. TQP-01 through TQP-27 retain their bounded
+qualified scopes; TQP-28 through TQP-45 are deliberately `proposed` because
+the native adaptive-terrain layer is not yet qualified. Destruction, GPU, and
+production promotion remain closed behind Gate E.
 
 Gate B edit qualification is retained in
 `standards/edit_gate_b_standard.json`. It qualifies `TQP-09` through `TQP-14`
@@ -28,9 +30,10 @@ production frame-time performance explicitly unqualified.
 
 The addon provides deterministic reference implementations and qualification
 fixtures for edit semantics, material semantics, terrain-system policy,
-structural policy, observability, and backend decisions. These reference
-models are not a production terrain runtime. GPU and production milestones
-remain blocked and no fallback mesher exists.
+structural policy, observability, and backend decisions. It also records the
+new native adaptive-terrain qualification gaps without claiming they pass.
+These reference models are not a production terrain runtime. GPU and
+production milestones remain blocked and no fallback mesher exists.
 
 Program document:
 

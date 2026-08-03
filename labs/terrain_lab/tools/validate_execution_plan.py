@@ -23,12 +23,16 @@ def main() -> int:
 
     if plan.get("schema") != "world_transvoxel.terrain_lab.execution_plan.v1":
         failures.append("execution plan schema mismatch")
+    if plan.get("program_revision") != manifest.get("program_revision"):
+        failures.append("execution plan program revision mismatch")
+    if plan.get("human_authority") != manifest.get("contract_document"):
+        failures.append("execution plan human authority differs from the TQP")
 
     milestones = {item["id"]: item for item in manifest["milestones"]}
-    expected_ids = [f"TQP-{number:02d}" for number in range(1, 47)]
+    expected_ids = [f"TQP-{number:02d}" for number in range(1, 65)]
     manifest_order = [item["id"] for item in manifest["milestones"]]
     if manifest_order != expected_ids:
-        failures.append("program manifest is not in TQP-01 through TQP-46 order")
+        failures.append("program manifest is not in TQP-01 through TQP-64 order")
     gates = manifest["gates"]
     positions: dict[str, tuple[int, int]] = {}
     execution_order: list[str] = []
@@ -52,17 +56,30 @@ def main() -> int:
     if unknown:
         failures.append("execution plan has unknown IDs: " + ",".join(unknown))
     if execution_order != expected_ids:
-        failures.append("execution plan is not in TQP-01 through TQP-46 order")
+        failures.append("execution plan is not in TQP-01 through TQP-64 order")
 
     contract_path = ROOT / manifest["contract_document"].removeprefix("res://")
     contract_source = contract_path.read_text(encoding="utf-8")
-    contract_order = re.findall(
-        r"^### (TQP-[0-9]{2}):",
+    contract_headings = re.findall(
+        r"^### (TQP-[0-9]{2}): (.+)$",
         contract_source,
         re.MULTILINE,
     )
+    contract_order = [milestone_id for milestone_id, _title in contract_headings]
     if contract_order != expected_ids:
-        failures.append("TQP document is not in TQP-01 through TQP-46 order")
+        failures.append("TQP document is not in TQP-01 through TQP-64 order")
+    for milestone, heading in zip(manifest["milestones"], contract_headings):
+        milestone_id, heading_title = heading
+        if milestone["id"] != milestone_id or milestone["title"] != heading_title:
+            failures.append(f"TQP heading differs from manifest: {milestone['id']}")
+        anchor_text = re.sub(
+            r"[^a-z0-9 _-]",
+            "",
+            f"{milestone_id} {heading_title}".lower(),
+        )
+        expected_anchor = "#" + re.sub(r" +", "-", anchor_text)
+        if milestone.get("contract_ref") != expected_anchor:
+            failures.append(f"TQP anchor differs from manifest: {milestone_id}")
 
     for milestone_id, milestone in milestones.items():
         if milestone_id not in positions:

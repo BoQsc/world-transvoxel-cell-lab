@@ -17,12 +17,14 @@ func _run() -> void:
 	var edit_semantics: Dictionary = terrain_lab.qualify_edit_semantics()
 	var material_surface: Dictionary = terrain_lab.qualify_material_surface()
 	var terrain_systems: Dictionary = terrain_lab.qualify_terrain_systems()
+	var native_adaptive: Dictionary = terrain_lab.qualify_native_adaptive_terrain()
 	var structural_world: Dictionary = terrain_lab.qualify_structural_world()
 	var completion: Dictionary = terrain_lab.qualify_program_completion()
 	var suites := {
 		"edit_semantics": edit_semantics,
 		"material_surface": material_surface,
 		"terrain_systems": terrain_systems,
+		"native_adaptive_terrain": native_adaptive,
 		"structural_world": structural_world,
 		"completion": completion,
 	}
@@ -31,6 +33,7 @@ func _run() -> void:
 		edit_semantics,
 		material_surface,
 		terrain_systems,
+		native_adaptive,
 		structural_world,
 		completion,
 	]:

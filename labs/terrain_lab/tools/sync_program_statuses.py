@@ -15,6 +15,7 @@ MANIFEST_PATH = (
 )
 STATE_PATH = MANIFEST_PATH.with_name("qualification_state.json")
 PROGRAM_PATH = ROOT / "docs" / "terrain_lab" / "TERRAIN_QUALIFICATION_PROGRAM.md"
+EXPECTED_MILESTONE_COUNT = 64
 
 
 def main() -> int:
@@ -25,8 +26,11 @@ def main() -> int:
             if milestone_id in statuses:
                 raise RuntimeError(f"duplicate state for {milestone_id}")
             statuses[milestone_id] = status
-    if len(statuses) != 46:
-        raise RuntimeError("qualification state must classify 46 unique milestones")
+    if len(statuses) != EXPECTED_MILESTONE_COUNT:
+        raise RuntimeError(
+            "qualification state must classify "
+            f"{EXPECTED_MILESTONE_COUNT} unique milestones"
+        )
 
     manifest_source = MANIFEST_PATH.read_text(encoding="utf-8")
     manifest_pattern = re.compile(
@@ -36,9 +40,10 @@ def main() -> int:
         lambda match: f"{match.group(1)}{statuses[match.group(2)]}",
         manifest_source,
     )
-    if manifest_count != 46:
+    if manifest_count != EXPECTED_MILESTONE_COUNT:
         raise RuntimeError(
-            f"expected 46 manifest statuses, updated {manifest_count}"
+            f"expected {EXPECTED_MILESTONE_COUNT} manifest statuses, "
+            f"updated {manifest_count}"
         )
     MANIFEST_PATH.write_text(
         manifest_source,
@@ -57,8 +62,10 @@ def main() -> int:
         ),
         program,
     )
-    if count != 46:
-        raise RuntimeError(f"expected 46 Markdown statuses, updated {count}")
+    if count != EXPECTED_MILESTONE_COUNT:
+        raise RuntimeError(
+            f"expected {EXPECTED_MILESTONE_COUNT} Markdown statuses, updated {count}"
+        )
     PROGRAM_PATH.write_text(updated, encoding="utf-8", newline="\n")
     print(
         "TQP_STATUS_SYNC_PASS "

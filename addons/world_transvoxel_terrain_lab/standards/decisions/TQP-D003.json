@@ -3,7 +3,7 @@
 	"id": "TQP-D003",
 	"date": "2026-07-30",
 	"decision": "Retain world-transvoxel CPU meshing as the sole authority and evaluate GPU field, meshing, residency, and collision readback as separate candidate promotions.",
-	"affected_milestones": ["TQP-34", "TQP-35", "TQP-36", "TQP-37", "TQP-38", "TQP-39"],
+	"affected_milestones": ["TQP-52", "TQP-53", "TQP-54", "TQP-55", "TQP-56", "TQP-57"],
 	"repositories": ["world-transvoxel-cell-lab", "world-transvoxel"],
 	"alternatives": ["replace CPU authority with an unqualified GPU path", "treat all GPU work as one inseparable rewrite", "omit GPU investigation"],
 	"evidence": ["backend_architecture_decision.json", "Gate A operating and qualification standards", "absence of a candidate GPU backend"],

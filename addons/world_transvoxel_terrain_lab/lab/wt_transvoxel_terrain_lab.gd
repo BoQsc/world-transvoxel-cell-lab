@@ -20,6 +20,9 @@ const MaterialQualification := preload(
 const SystemQualification := preload(
 	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_system_qualification.gd"
 )
+const NativeAdaptiveQualification := preload(
+	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_native_adaptive_qualification.gd"
+)
 const StructuralQualification := preload(
 	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_structural_qualification.gd"
 )
@@ -75,6 +78,10 @@ func qualify_material_surface() -> Dictionary:
 
 func qualify_terrain_systems() -> Dictionary:
 	return SystemQualification.run()
+
+
+func qualify_native_adaptive_terrain() -> Dictionary:
+	return NativeAdaptiveQualification.run()
 
 
 func qualify_structural_world() -> Dictionary:

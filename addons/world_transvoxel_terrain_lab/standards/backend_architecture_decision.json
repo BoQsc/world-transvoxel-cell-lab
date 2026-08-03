@@ -7,17 +7,17 @@
 		"field_evaluation": {
 			"current": "cpu",
 			"gpu_candidate": "BLOCKED_NO_IMPLEMENTATION",
-			"promotion_requirement": "TQP-35 analytical and CPU differential evidence"
+			"promotion_requirement": "TQP-53 analytical and CPU differential evidence against the Gate E field corpus"
 		},
 		"meshing": {
 			"current_authority": "world_transvoxel_cpu",
 			"gpu_candidate": "BLOCKED_NO_IMPLEMENTATION",
-			"promotion_requirement": "TQP-36 and TQP-37 primitive plus terrain differential evidence"
+			"promotion_requirement": "TQP-54 and TQP-55 primitive plus Gate E terrain differential evidence"
 		},
 		"buffer_residency": {
 			"current": "cpu_generation_then_render_upload",
 			"gpu_candidate": "BLOCKED_NO_IMPLEMENTATION",
-			"promotion_requirement": "TQP-38 synchronization, reuse, stale rejection, and recovery evidence"
+			"promotion_requirement": "TQP-56 synchronization, reuse, stale rejection, and recovery evidence"
 		},
 		"collision": {
 			"current": "cpu_authoritative_publication",
