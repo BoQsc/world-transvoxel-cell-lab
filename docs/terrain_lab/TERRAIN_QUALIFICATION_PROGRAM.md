@@ -951,6 +951,52 @@ capacity issue. Gate D is qualified only for that bounded reference claim;
 Gate E is open, and destruction, GPU, and production promotion are frozen
 behind it. A milestone may advance only when its declared evidence passes.
 
+## What Comes Next
+
+The immediate task is TQP-30. It will define the adaptive spatial hierarchy
+before more terrain behavior is built on top of it. This means fixing node and
+chunk identity, parent/child coverage, viewer-distance error metrics,
+split/merge thresholds, hysteresis, maximum neighbor LOD difference, and the
+rules that prevent holes, duplicate coverage, or unstable LOD oscillation. The
+result must be deterministic and inspectable from analytical fixtures and
+recorded decision traces; it is not yet a production streamer.
+
+TQP-31 through TQP-34 then establish mixed-resolution geometry confidence.
+They cover regular and transition-cell assembly, every face orientation and
+neighbor arrangement, finite-world boundaries and enclosure, independent
+geometry/topology oracles, and adversarial or randomized cases with minimized
+repros. This is where the lab must prove that complex fields remain connected
+and explain failures without relying only on the implementation being tested.
+
+TQP-35 through TQP-42 move from static geometry to a changing terrain system.
+They qualify dynamic LOD publication, temporal stability, edit invalidation,
+incremental remeshing, digging and construction across LOD boundaries,
+material continuity, render/collision/query/navigation agreement, streaming,
+persistence, replay, failure recovery, and determinism under different work
+orders. These milestones determine whether the correct static primitive stays
+correct while a viewer moves and terrain changes over time.
+
+TQP-43 and TQP-44 provide the final adaptive-terrain review layer. TQP-43
+requires broad visual and temporal inspection of complex terrain, while TQP-44
+measures sustained performance, memory, residency, queues, and long-running
+stability under the complete qualified workload. Spatial or temporal
+milestones should expose focused `@tool` observatories and reproducible
+captures for human inspection, but screenshots remain supporting evidence and
+cannot replace machine invariants or retained reports.
+
+TQP-45 is Gate E. It can qualify only a coherent envelope in which all earlier
+Phase 4 contracts agree. Passing it would mean that the lab has an
+authoritative bounded reference for native adaptive edited Transvoxel terrain;
+it would not by itself mean that a production game terrain is finished.
+
+Only after Gate E should the program reassess the existing destruction and
+structural work in TQP-46 through TQP-51. GPU work in TQP-52 through TQP-57 is
+a candidate backend measured against the qualified CPU reference, not a
+replacement chosen in advance. TQP-58 through TQP-64 then address production
+integration, networking, tooling, compatibility, release evidence, and the
+final Production Terrain Standard. Those later phases remain separate so they
+cannot weaken or obscure the terrain-core evidence now being built.
+
 ## Decision Log
 
 Program decisions must record:

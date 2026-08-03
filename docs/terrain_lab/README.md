@@ -21,5 +21,11 @@ The next milestone is TQP-30, Adaptive LOD Selection And Neighbor Contract. Gate
 remains open, so the lab does not claim that complex adaptive Transvoxel terrain
 is qualified yet.
 
+The [What Comes Next](TERRAIN_QUALIFICATION_PROGRAM.md#what-comes-next)
+section explains the broader path: define the adaptive hierarchy, prove
+mixed-resolution geometry independently, qualify dynamic edits and streaming,
+perform visual and performance review, and only then consider Gate E. Later
+destruction, GPU, and production phases remain deliberately separate.
+
 `qualification_state.json`, `program_blockers.json`, and retained reports are
 machine evidence mirrors. They cannot widen the TQP claim.
