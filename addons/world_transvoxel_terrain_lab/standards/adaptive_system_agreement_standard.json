@@ -1,0 +1,106 @@
+{
+	"schema": "world_transvoxel.terrain_lab.adaptive_system_agreement_standard.v1",
+	"milestone": "TQP-39",
+	"standard_id": "native_adaptive_system_agreement_windows_v1",
+	"authority": "world_transvoxel_native_runtime_plus_godot_physics_and_derived_navigation",
+	"evidence": "res://labs/terrain_lab/results/adaptive_system_agreement_reference_windows.json",
+	"motion_evidence": "res://labs/terrain_lab/results/adaptive_system_agreement_motion_windows.json",
+	"observatory_scene": "res://labs/terrain_lab/scenes/adaptive_system_observatory.tscn",
+	"runtime_profile": {
+		"platform": "Windows",
+		"build": "debug_reference",
+		"worker_count": 2,
+		"source_revision": 939001,
+		"volume_chunks": [16, 8, 16],
+		"vertical_chunk_origin": -2,
+		"viewer_id": 39,
+		"collision_viewer_id": 390,
+		"viewer_radius_chunks": 1,
+		"collision_radius_chunks": 2,
+		"maximum_lod": 1,
+		"lod_refinement_radius_chunks": 1,
+		"active_chunk_capacity": 512,
+		"pipeline_capacity": 2048,
+		"collision_activation_distance": 0.0,
+		"collision_deactivation_distance": 0.0
+	},
+	"workload": {
+		"initial_position": [96.0, 12.0, 64.0],
+		"teleport_position": [216.0, 12.0, 216.0],
+		"feature_edits": [
+			{"id": "cave", "operation": "carve_smooth_sdf_sphere", "center": [84.0, 4.0, 68.0], "radius": 4.0, "strength": 1.0, "smooth_radius": 0.75},
+			{"id": "overhang", "operation": "carve_smooth_sdf_sphere", "center": [96.0, 7.0, 64.0], "radius": 5.0, "strength": 1.0, "smooth_radius": 0.75},
+			{"id": "thin_feature", "operation": "set_density_box", "minimum": [109.0, 12.0, 60.0], "maximum": [116.0, 13.0, 68.0], "value": -1.0, "material": 7}
+		],
+		"staged_edit": {"operation": "carve_smooth_sdf_sphere", "center": [68.0, 8.0, 68.0], "radius": 3.0, "strength": 1.0, "smooth_radius": 0.5},
+		"ray_fixtures": [
+			{"id": "surface", "from": [68, 24, 68], "to": [68, -8, 68]},
+			{"id": "cave_wall", "from": [84, 4, 68], "to": [92, 4, 68]},
+			{"id": "overhang_wall", "from": [96, 7, 64], "to": [104, 7, 64]},
+			{"id": "thin_feature", "from": [112, 20, 64], "to": [112, 10, 64]}
+		],
+		"required_actions": [
+			"targeted_collision_demand",
+			"pre_edit_teleport_retirement",
+			"stale_viewer_revision_control",
+			"feature_edit_publication",
+			"render_collision_triangle_agreement",
+			"authoritative_query_ray_agreement",
+			"terrain_derived_navigation_agreement",
+			"staged_edit_publication_control",
+			"post_edit_generation_replacement"
+		]
+	},
+	"agreement_contract": {
+		"render_authority": "native_ArrayMesh_publication",
+		"collision_derivation": "native_ConcavePolygonShape3D_complete_valid_regular_cell_triangles_with_declared_numerical_degenerate_filtering_and_render_only_transitions",
+		"query_authority": "native_authoritative_scalar_samples",
+		"ray_observer": "Godot_PhysicsDirectSpaceState3D",
+		"navigation_derivation": "Godot_NavigationMesh_from_upward_same_generation_native_collision_triangles",
+		"navigation_authority": "consumer_derived_and_keyed_to_native_active_state_signature",
+		"staged_rule": "old_render_and_collision_generation_remain_jointly_published_until_the_new_pair_is_ready",
+		"query_during_stage": "authoritative_world_revision_may_lead_derived_publication_and_is_reported_as_pending_not_equal_generation",
+		"retirement_rule": "consumer_collision_and_navigation_resources_retire_when_their source native publication retires"
+	},
+	"invariants": {
+		"requires_native_runtime_only": true,
+		"requires_targeted_collision_subset": true,
+		"requires_collision_render_agreement_with_bounded_transition_deformation": true,
+		"requires_render_collision_generation_identity": true,
+		"requires_query_ray_sign_crossing_agreement": true,
+		"requires_navigation_source_generation_signature": true,
+		"requires_transition_cave_overhang_thin_feature_corpus": true,
+		"requires_pre_edit_teleport_retirement": true,
+		"requires_stale_revision_rejection": true,
+		"requires_staged_old_pair_stability": true,
+		"requires_post_edit_joint_replacement": true
+	},
+	"budgets": {
+		"maximum_settlement_frames": 1800,
+		"maximum_nonexact_collision_vertex_displacement_m": 0.0,
+		"maximum_generation_mismatches": 0,
+		"maximum_ray_crossing_error_m": 1.25,
+		"maximum_active_chunk_records": 512,
+		"maximum_collision_resources": 128,
+		"navigation_cell_size_m": 0.05,
+		"minimum_navigation_polygon_count": 1
+	},
+	"stable_expected": {
+		"semantic_signature": "e8b2bc05368600427f2d4ca22c7cffaa323f858e074e743c61fecc462fac5579",
+		"edited_pair_signature": "40018b8c6cbd32eee5050d7498abd10ed74f073eeeb407d657cc40fb6d50ed66",
+		"post_stage_pair_signature": "a7a060ae21d403d4552785cdbd834899391c0a1ede609448031de1a6b81c9b75"
+	},
+	"qualified_scope": [
+		"bounded Windows debug native LOD1/LOD0 flat-world fixture with edited cave, surface-connected overhang, and resolvable thin constructed feature",
+		"exact proof that every native concave-collision triangle uses same-generation render vertices for every demanded nonempty collision chunk; all valid regular-cell triangles are preserved, numerical degenerates are rejected, and transition triangles remain render-only",
+		"authoritative scalar sign crossings against Godot direct-space terrain ray hits for surface, cave wall, overhang wall, and thin-feature fixtures",
+		"terrain-derived Godot navigation publication keyed to an exact native active-state signature",
+		"independent bounded collision-viewer demand, pre-edit teleport retirement, asynchronous stale-viewer rejection, staged old-pair stability, and post-edit joint replacement"
+	],
+	"explicitly_unqualified_scope": [
+		"production navigation baking, incremental tile ownership, agents, avoidance, off-mesh links, or gameplay path policy",
+		"production collision residency radius, broadphase cost, navigation cost, frame-time budget, or low-power operation",
+		"arbitrary feature geometry, LOD2 and deeper hierarchies, post-edit teleport behavior beyond declared edit-retention policy, or fault injection",
+		"non-Windows physics/navigation servers, GPU terrain authority, or production terrain authority"
+	]
+}

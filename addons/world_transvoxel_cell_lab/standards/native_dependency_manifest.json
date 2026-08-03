@@ -2,8 +2,8 @@
 	"schema": "world_transvoxel.cell_lab.native_dependency_manifest.v1",
 	"source": {
 		"repository": "https://github.com/BoQsc/world-transvoxel.git",
-		"commit": "503edb662c589f43b30b4cb6aaa4f3d617dc154e",
-		"addon_source_tree": "2d098fd71559d8a2ad70e4ed735b3ffe2b13f38d",
+		"commit": "7ef78964c938473c467785986395622061d2e04b",
+		"addon_source_tree": "b895db086eb2aaa9d23e421901b2620bd1dd9133",
 		"addon_thirdparty_tree": "79b8d403a73dad32312c3b2e5f15f56412e288a5",
 		"godot_cpp_revision": "e83fd0904c13356ed1d4c3d09f8bb9132bdc6b77"
 	},
@@ -29,16 +29,16 @@
 			"platform": "windows",
 			"architecture": "x86_64",
 			"path": "addons/world_transvoxel/bin/world_transvoxel.windows.template_debug.x86_64.dll",
-			"bytes": 2331136,
-			"sha256": "dfcd7ac645817c05ba59b3e6f797dfa1122ab45e3e6ab6ff0999df3cc4209646"
+			"bytes": 2095104,
+			"sha256": "af9e5f78fb29635c9bba8c69626cb40bf9b0a02ef3d3f07df9760e57c48fbc7d"
 		},
 		{
 			"configuration": "template_release",
 			"platform": "windows",
 			"architecture": "x86_64",
 			"path": "addons/world_transvoxel/bin/world_transvoxel.windows.template_release.x86_64.dll",
-			"bytes": 2217984,
-			"sha256": "d97b809b98745f980604d769cfcc73d73c2432f86a45496dca220d8ba1de4382"
+			"bytes": 2021888,
+			"sha256": "0f43902af07aa19b4b31c83b09758748719616ac90c59f6aae7a606bf1a29703"
 		}
 	]
 }

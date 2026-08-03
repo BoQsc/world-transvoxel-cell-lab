@@ -4,15 +4,16 @@ The Terrain Lab addon owns controlled experiments for the Terrain Qualification
 Program. It is separate from `world_transvoxel_cell_lab` even though both addons
 share this repository and the pinned `world_transvoxel` dependency.
 
-Current status: fail-closed program revision 27. All 64 milestones have a
-machine-readable evidence state. TQP-01 through TQP-37 retain their bounded
-qualified scopes; TQP-28 through TQP-37 establish the deterministic native
+Current status: fail-closed program revision 28. All 64 milestones have a
+machine-readable evidence state. TQP-01 through TQP-39 retain their bounded
+qualified scopes; TQP-28 through TQP-39 establish the deterministic native
 field contract, LOD0 complex-field corpus, bounded adaptive selector, and
 native transition-assembly matrix, boundary/enclosure policy, and independent
 geometry/topology oracles plus the seeded adversarial/minimized corpus, dynamic
 LOD publication, exact edit invalidation, and bounded adaptive digging and
-construction with lifecycle/refinement identity. TQP-38 through TQP-45 remain
-`proposed`.
+construction with lifecycle/refinement identity, adaptive material continuity,
+and bounded render/collision/query/physics plus consumer-derived navigation
+agreement. TQP-40 through TQP-45 remain `proposed`.
 Destruction, GPU, and production promotion remain closed behind Gate E.
 
 Gate B edit qualification is retained in
@@ -135,6 +136,31 @@ local triangle, edit-retention, render, and collision state. Its bounded 48/64
 collision profile is a correctness fixture, not a production collision-policy
 or low-power performance qualification.
 
+TQP-38 Adaptive Surface Observatory:
+
+```text
+res://labs/terrain_lab/scenes/adaptive_surface_observatory.tscn
+```
+
+Open it from **Project > Tools > Open TQP-38 Adaptive Surface**. Its `@tool`
+root exposes lit, material-ID, and native generated/authored provenance views,
+plus a deterministic LOD cycle and fixture reset. Native payload and
+authoritative samples remain the evidence authority; shader presentation and
+captures are diagnostic.
+
+TQP-39 Adaptive System Observatory:
+
+```text
+res://labs/terrain_lab/scenes/adaptive_system_observatory.tscn
+```
+
+Open it from **Project > Tools > Open TQP-39 Adaptive System**. Its `@tool`
+root overlays complete demanded native collision triangles, consumer-derived
+walkable triangles, and authoritative-query ray fixtures over the cave,
+overhang, thin construction, and staged-crater fixture. It exposes teleport
+retirement, staged replacement, and reset controls. Navigation is explicitly a
+Godot consumer derivative, not world-transvoxel authority.
+
 TQP-23 guided surface review:
 
 ```text
@@ -176,4 +202,16 @@ Focused TQP-34 adversarial corpus report:
 
 ```text
 res://labs/terrain_lab/tools/run_adversarial_corpus_validation.gd
+```
+
+Focused TQP-38 adaptive surface report:
+
+```text
+res://labs/terrain_lab/tools/run_adaptive_surface_validation.gd
+```
+
+Focused TQP-39 adaptive system report:
+
+```text
+res://labs/terrain_lab/tools/run_adaptive_system_validation.gd
 ```

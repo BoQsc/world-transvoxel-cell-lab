@@ -764,24 +764,39 @@ not a production collision-residency or 60 FPS/16 W claim.
 
 ### TQP-38: Adaptive Material And Texture Continuity
 
-Status: `proposed`. Owner: Material and Surface Lab. Depends on: TQP-18,
+Status: `qualified`. Owner: Material and Surface Lab. Depends on: TQP-18,
 TQP-21, TQP-23, TQP-25, TQP-31, TQP-35, TQP-37.
 
-Complete when material identity, blend reduction, triplanar anchoring, normals,
-tangents, mip choice, decals, edited surfaces, and categorical boundaries stay
-coherent across regular/transition geometry, dynamic LOD replacement, origin
-shifts, and large coordinates with retained diagnostic and lit evidence.
+The retained Windows debug fixture qualifies native material IDs, authored
+provenance, eight-channel generated/authored weights, normal/tangent validity,
+and authoritative paint/construction queries across regular and transition
+surfaces. A deterministic LOD cycle shares 6,051 of 6,105 original unique
+positions and changes zero shared-position payloads while explicitly retaining
+the native topology replacements and extra edit-retention chunks. The reference
+shader qualifies eight texture layers, seven mip levels, world-space triplanar
+diagnostics, and exact presentation-origin compensation with inspected lit,
+material, and provenance captures. Production art quality, arbitrary blends,
+decals, texture streaming, release performance, deeper LOD, and other platforms
+remain unqualified.
 
 ### TQP-39: Adaptive Render, Collision, Query, And Navigation Agreement
 
-Status: `proposed`. Owner: Terrain Systems Lab. Depends on: TQP-24, TQP-31,
+Status: `qualified`. Owner: Terrain Systems Lab. Depends on: TQP-24, TQP-31,
 TQP-35, TQP-37.
 
-Complete when render mesh, collision, authoritative field queries, ray hits,
-and terrain-derived navigation agree on generation, bounds, occupancy, and
-retirement through LOD changes and edits. The corpus must include transition
-regions, caves, overhangs, thin features, teleports, and stale-publication
-negative controls.
+The retained Windows debug fixture qualifies same-generation native render and
+regular-cell collision publication, authoritative scalar crossings against
+Godot physics rays, bounded independent collision demand, teleport retirement,
+stale-revision rejection, staged old-pair stability, and joint post-edit
+replacement for a cave, surface-connected overhang, thin construction, and
+staged crater. It exposed and required correction of the upstream default
+512-largest-triangle collision cap, which had removed valid cave walls and
+crater floors while render/query authority remained present. Consumer-derived
+Godot navigation uses only upward native collision triangles at a declared
+0.05-meter cell size and is keyed to the native active-state signature; it is
+not world-transvoxel authority. Production collision residency, navigation
+tiling/agents, performance, deeper LOD, other platforms, and GPU authority
+remain unqualified.
 
 ### TQP-40: Multi-Layer Adaptive Streaming And Residency
 
@@ -1055,18 +1070,20 @@ a standard, not an assertion that future terrain work is finished.
 
 The program records every milestone at a truthful evidence state:
 
-- `TQP-01` through `TQP-37` are qualified
+- `TQP-01` through `TQP-39` are qualified
   for their narrow contract, native Windows reference, or reference-model
   scopes. Gate B is qualified; its native chunk rebuild benchmark remains a
   background/debug reference and is not a production frame-time claim.
-- `TQP-28` through `TQP-37` qualify the deterministic field contract, bounded
+- `TQP-28` through `TQP-39` qualify the deterministic field contract, bounded
   LOD0 complex native corpus, finite adaptive selector, and static native
   transition-assembly matrix, bounded boundary/enclosure policy, and independent
   geometry/topology oracles, seeded adversarial/minimized repro corpus, and
   bounded native dynamic LOD publication with temporal ownership checks, and
   exact native edit invalidation with incremental remeshing, and bounded native
   adaptive digging/construction semantics with lifecycle and refinement
-  identity. `TQP-38` through `TQP-45` remain proposed, so
+  identity, adaptive material payload continuity, and bounded native
+  render/collision/query/physics agreement with consumer-derived navigation.
+  `TQP-40` through `TQP-45` remain proposed, so
   the program makes no Gate E adaptive-terrain authority claim.
 - `TQP-46` through `TQP-51` retain the previously implemented destruction and
   structural reference behavior under their revision-19 identifiers.
@@ -1074,8 +1091,8 @@ The program records every milestone at a truthful evidence state:
 - `TQP-53` through `TQP-64` are blocked by named external targets and exit
   conditions in `program_blockers.json`.
 
-The next dependency-ordered milestone is TQP-38, adaptive material and texture
-continuity. TQP-27 remains qualified through `TQP-D016` only for its
+The next dependency-ordered milestone is TQP-40, multi-layer adaptive streaming
+and residency. TQP-27 remains qualified through `TQP-D016` only for its
 bounded native Windows 2K-world soak and durable edit-journal restart.
 `TQP-F002` retains large-volume snapshot compaction as an open upstream
 capacity issue. Gate D is qualified only for that bounded reference claim;
@@ -1229,3 +1246,14 @@ Retained decisions:
   retain generic in-place undo, adaptive materials, production collision
   residency, low-power performance, deeper LOD, GPU, and production authority
   as unqualified.
+- `TQP-D026`: qualify TQP-38 for bounded Windows native adaptive material
+  payload continuity, authoritative paint/construction samples, shared-position
+  identity through topology-changing LOD replacement, and the retained
+  diagnostic shader/capture contract while leaving production materials,
+  texture streaming, performance, deeper LOD, and other platforms unqualified.
+- `TQP-D027`: qualify TQP-39 after the lab proved that the upstream default
+  collision cap removed valid cave/crater triangles and world-transvoxel commit
+  `7ef7896` corrected it; retain bounded same-generation render/collision/query,
+  physics-ray, targeted-demand, staged replacement, and consumer-derived
+  navigation evidence while leaving production collision, navigation,
+  performance, deeper LOD, GPU, and production authority unqualified.

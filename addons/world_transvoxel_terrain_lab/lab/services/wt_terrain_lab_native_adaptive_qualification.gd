@@ -29,6 +29,12 @@ const EditInvalidationEvidence := preload(
 const AdaptiveEditEvidence := preload(
 	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_adaptive_edit_evidence.gd"
 )
+const AdaptiveSurfaceEvidence := preload(
+	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_adaptive_surface_evidence.gd"
+)
+const AdaptiveSystemEvidence := preload(
+	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_adaptive_system_evidence.gd"
+)
 
 
 static func run() -> Dictionary:
@@ -41,6 +47,8 @@ static func run() -> Dictionary:
 	var dynamic_publication_validation := DynamicLodPublicationEvidence.validate_retained()
 	var edit_invalidation_validation := EditInvalidationEvidence.validate_retained()
 	var adaptive_edit_validation := AdaptiveEditEvidence.validate_retained()
+	var adaptive_surface_validation := AdaptiveSurfaceEvidence.validate_retained()
+	var adaptive_system_validation := AdaptiveSystemEvidence.validate_retained()
 	var failures: Array = []
 	for validation in [
 		field_validation,
@@ -52,6 +60,8 @@ static func run() -> Dictionary:
 		dynamic_publication_validation,
 		edit_invalidation_validation,
 		adaptive_edit_validation,
+		adaptive_surface_validation,
+		adaptive_system_validation,
 	]:
 		failures.append_array(validation.get("failures", []))
 	var field_passed := str(field_validation.get("status", "")) == "PASS"
@@ -63,10 +73,13 @@ static func run() -> Dictionary:
 	var dynamic_publication_passed := str(dynamic_publication_validation.get("status", "")) == "PASS"
 	var edit_invalidation_passed := str(edit_invalidation_validation.get("status", "")) == "PASS"
 	var adaptive_edit_passed := str(adaptive_edit_validation.get("status", "")) == "PASS"
+	var adaptive_surface_passed := str(adaptive_surface_validation.get("status", "")) == "PASS"
+	var adaptive_system_passed := str(adaptive_system_validation.get("status", "")) == "PASS"
 	var passed := field_passed and adaptive_lod_passed and transition_passed \
 		and boundary_passed and oracle_passed and adversarial_passed \
 		and dynamic_publication_passed and edit_invalidation_passed \
-		and adaptive_edit_passed
+		and adaptive_edit_passed and adaptive_surface_passed \
+		and adaptive_system_passed
 	return {
 		"schema": "world_transvoxel.terrain_lab.native_adaptive_terrain_qualification.v1",
 		"status": "PASS" if passed else "FAIL",
@@ -91,8 +104,10 @@ static func run() -> Dictionary:
 				if edit_invalidation_passed else "failed_edit_invalidation",
 			"TQP-37": "qualified_native_adaptive_editing_v1"
 				if adaptive_edit_passed else "failed_adaptive_editing",
-			"TQP-38": "proposed_pending_adaptive_surface_continuity",
-			"TQP-39": "proposed_pending_adaptive_system_agreement",
+			"TQP-38": "qualified_native_adaptive_surface_continuity_v1"
+				if adaptive_surface_passed else "failed_adaptive_surface_continuity",
+			"TQP-39": "qualified_native_adaptive_system_agreement_v1"
+				if adaptive_system_passed else "failed_adaptive_system_agreement",
 			"TQP-40": "proposed_pending_multilayer_adaptive_streaming",
 			"TQP-41": "proposed_pending_adaptive_persistence_replay",
 			"TQP-42": "proposed_pending_fault_and_order_determinism",
@@ -100,7 +115,7 @@ static func run() -> Dictionary:
 			"TQP-44": "proposed_pending_complex_adaptive_soak",
 			"TQP-45": "proposed_gate_open",
 		},
-		"audit_status": "ADAPTIVE_EDITING_QUALIFIED_ADAPTIVE_SURFACE_CONTINUITY_STILL_OPEN",
+		"audit_status": "ADAPTIVE_SYSTEM_AGREEMENT_QUALIFIED_MULTILAYER_STREAMING_STILL_OPEN",
 		"native_field_evidence": field_validation,
 		"adaptive_lod_evidence": adaptive_lod_validation,
 		"transition_assembly_evidence": transition_validation,
@@ -110,6 +125,8 @@ static func run() -> Dictionary:
 		"dynamic_lod_publication_evidence": dynamic_publication_validation,
 		"edit_invalidation_evidence": edit_invalidation_validation,
 		"adaptive_edit_evidence": adaptive_edit_validation,
+		"adaptive_surface_evidence": adaptive_surface_validation,
+		"adaptive_system_evidence": adaptive_system_validation,
 		"preserved_qualified_scope": [
 			"TQP-01 through TQP-27 declared bounded scopes",
 			"TQP-28 deterministic native field-generation and sampling contract",
@@ -122,10 +139,12 @@ static func run() -> Dictionary:
 			"TQP-35 bounded Windows native dynamic LOD publication and temporal ownership contract",
 			"TQP-36 bounded Windows native exact edit invalidation and incremental remeshing contract",
 			"TQP-37 bounded Windows native adaptive digging, construction, lifecycle, refinement, retention, and reconstructive-history contract",
+			"TQP-38 bounded Windows native adaptive material payload, shared-position continuity, and diagnostic shader contract",
+			"TQP-39 bounded Windows native render/collision/query/physics agreement and consumer-derived navigation contract",
 		],
 		"explicitly_unqualified_scope": [
 			"arbitrary, deeper than LOD1/LOD0, fault-injected, or production adaptive hierarchy arrangements beyond the retained dynamic contract",
-			"adaptive digging and construction beyond the retained TQP-37 Windows LOD1/LOD0 fixture, including generic in-place CSG undo and production edit performance",
+			"adaptive digging, construction, materials, and system agreement beyond the retained TQP-37 through TQP-39 Windows LOD1/LOD0 fixtures",
 			"multi-layer adaptive streaming and persistence",
 			"complex adaptive visual quality and performance",
 			"Gate E native adaptive terrain authority",

@@ -1,0 +1,170 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://labs/terrain_lab/scenes/adaptive_system_observatory.gd" id="1_script"]
+
+[sub_resource type="ProceduralSkyMaterial" id="SkyMaterial"]
+sky_top_color = Color(0.025, 0.045, 0.065, 1)
+sky_horizon_color = Color(0.37, 0.50, 0.53, 1)
+ground_bottom_color = Color(0.012, 0.018, 0.022, 1)
+ground_horizon_color = Color(0.13, 0.19, 0.18, 1)
+
+[sub_resource type="Sky" id="Sky"]
+sky_material = SubResource("SkyMaterial")
+
+[sub_resource type="Environment" id="Environment"]
+background_mode = 2
+sky = SubResource("Sky")
+ambient_light_source = 3
+ambient_light_color = Color(0.63, 0.72, 0.69, 1)
+ambient_light_energy = 0.48
+reflected_light_source = 2
+tonemap_mode = 2
+ssao_enabled = true
+ssao_radius = 1.6
+ssao_intensity = 2.0
+
+[sub_resource type="StyleBoxFlat" id="DockStyle"]
+bg_color = Color(0.022, 0.032, 0.039, 0.97)
+border_width_right = 1
+border_color = Color(0.15, 0.35, 0.36, 1)
+content_margin_left = 16.0
+content_margin_top = 16.0
+content_margin_right = 16.0
+content_margin_bottom = 16.0
+
+[node name="AdaptiveSystemObservatory" type="Node3D"]
+script = ExtResource("1_script")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment")
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+rotation_degrees = Vector3(-54, -37, 0)
+light_color = Color(1, 0.93, 0.79, 1)
+light_energy = 1.35
+shadow_enabled = true
+directional_shadow_max_distance = 320.0
+
+[node name="Fill" type="DirectionalLight3D" parent="."]
+rotation_degrees = Vector3(-23, 143, 0)
+light_color = Color(0.34, 0.61, 0.75, 1)
+light_energy = 0.34
+
+[node name="Camera3D" type="Camera3D" parent="."]
+unique_name_in_owner = true
+position = Vector3(157, 67, 139)
+current = true
+fov = 50.0
+near = 0.08
+far = 700.0
+
+[node name="CollisionOverlay" type="MeshInstance3D" parent="."]
+unique_name_in_owner = true
+cast_shadow = 0
+
+[node name="NavigationOverlay" type="MeshInstance3D" parent="."]
+unique_name_in_owner = true
+cast_shadow = 0
+
+[node name="RayOverlay" type="MeshInstance3D" parent="."]
+unique_name_in_owner = true
+cast_shadow = 0
+
+[node name="Interface" type="CanvasLayer" parent="."]
+
+[node name="Dock" type="PanelContainer" parent="Interface"]
+offset_right = 360.0
+anchor_bottom = 1.0
+grow_vertical = 1
+theme_override_styles/panel = SubResource("DockStyle")
+
+[node name="Content" type="VBoxContainer" parent="Interface/Dock"]
+theme_override_constants/separation = 9
+
+[node name="Title" type="Label" parent="Interface/Dock/Content"]
+theme_override_font_sizes/font_size = 21
+text = "Adaptive System Observatory"
+
+[node name="Subtitle" type="Label" parent="Interface/Dock/Content"]
+theme_override_colors/font_color = Color(0.47, 0.76, 0.74, 1)
+text = "TQP-39 / render, collision, query, navigation"
+
+[node name="StatusLabel" type="Label" parent="Interface/Dock/Content"]
+unique_name_in_owner = true
+theme_override_colors/font_color = Color(0.34, 0.91, 0.63, 1)
+theme_override_font_sizes/font_size = 17
+text = "STARTING"
+
+[node name="FocusLabel" type="Label" parent="Interface/Dock/Content"]
+unique_name_in_owner = true
+text = "FOCUS  OVERVIEW"
+
+[node name="ResourceLabel" type="Label" parent="Interface/Dock/Content"]
+unique_name_in_owner = true
+text = "Active 0   render 0\nCollision 0 / required 0"
+
+[node name="AgreementLabel" type="Label" parent="Interface/Dock/Content"]
+unique_name_in_owner = true
+theme_override_colors/font_color = Color(0.67, 0.73, 0.71, 1)
+text = "Collision bodies 0   triangles 0\nWorld revision 0   staged pending"
+
+[node name="Separator1" type="HSeparator" parent="Interface/Dock/Content"]
+
+[node name="FocusHeading" type="Label" parent="Interface/Dock/Content"]
+theme_override_colors/font_color = Color(0.56, 0.78, 0.75, 1)
+text = "INSPECTION FOCUS"
+
+[node name="FocusRow" type="HBoxContainer" parent="Interface/Dock/Content"]
+theme_override_constants/separation = 6
+
+[node name="OverviewButton" type="Button" parent="Interface/Dock/Content/FocusRow"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+text = "Overview"
+
+[node name="CaveButton" type="Button" parent="Interface/Dock/Content/FocusRow"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+text = "Cave"
+
+[node name="ThinButton" type="Button" parent="Interface/Dock/Content/FocusRow"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+text = "Thin"
+
+[node name="TeleportButton" type="Button" parent="Interface/Dock/Content"]
+unique_name_in_owner = true
+text = "Teleport demand and return"
+
+[node name="StagedButton" type="Button" parent="Interface/Dock/Content"]
+unique_name_in_owner = true
+text = "Apply staged crater replacement"
+
+[node name="RestartButton" type="Button" parent="Interface/Dock/Content"]
+unique_name_in_owner = true
+text = "Reset native fixture"
+
+[node name="Separator2" type="HSeparator" parent="Interface/Dock/Content"]
+
+[node name="Legend" type="Label" parent="Interface/Dock/Content"]
+theme_override_colors/font_color = Color(0.68, 0.75, 0.73, 1)
+text = "CYAN  native collision triangles\nAMBER  derived walkable triangles\nRED  authoritative-query ray fixtures"
+
+[node name="Scope" type="Label" parent="Interface/Dock/Content"]
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.49, 0.56, 0.55, 1)
+text = "WORLD-TRANSVOXEL OWNS FIELD AND PUBLICATION\nGODOT PHYSICS OBSERVES COLLISION\nNAVIGATION IS CONSUMER-DERIVED"
+vertical_alignment = 2
+
+[node name="Badge" type="Label" parent="Interface"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -330.0
+offset_top = 20.0
+offset_right = -22.0
+offset_bottom = 64.0
+grow_horizontal = 0
+theme_override_colors/font_color = Color(0.91, 0.95, 0.93, 0.92)
+text = "TQP-39  ADAPTIVE SYSTEM AGREEMENT"
+horizontal_alignment = 2

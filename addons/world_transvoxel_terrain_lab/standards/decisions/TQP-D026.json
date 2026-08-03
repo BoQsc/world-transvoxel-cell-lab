@@ -1,0 +1,41 @@
+{
+	"schema": "world_transvoxel.terrain_lab.decision.v1",
+	"id": "TQP-D026",
+	"date": "2026-08-03",
+	"decision": "Qualify TQP-38 for the retained bounded Windows native adaptive material and texture continuity profile.",
+	"affected_milestones": ["TQP-38"],
+	"repositories": ["world-transvoxel-cell-lab", "world-transvoxel"],
+	"alternatives_considered": [
+		"judge material continuity only from lit screenshots",
+		"treat whole-window mesh identity as invariant while native edit-retention legitimately changes the active LOD topology",
+		"let shader channels or duplicated lab data replace authoritative native material samples",
+		"claim production texture quality, decals, arbitrary material blending, or cross-platform rendering from a bounded diagnostic fixture"
+	],
+	"evidence": [
+		"adaptive_surface_continuity_standard.json, adaptive_surface_continuity_reference_windows.json, and adaptive_surface_continuity_motion_windows.json",
+		"two consecutive qualification passes with identical semantic and shader-contract signatures",
+		"6,352 baseline and 6,800 edited native vertices with zero payload, shared-position, normal, or tangent errors",
+		"550 authored vertices, including native materials 7 and 8, with authoritative query agreement",
+		"6,051 of 6,105 original unique positions shared after the LOD cycle, 99.12 percent coverage, with zero material-payload changes",
+		"exact presentation-origin compensation, large-coordinate texture anchoring, eight texture layers, seven mip levels, and retained lit/material/provenance captures"
+	],
+	"qualified_scope": [
+		"bounded Windows debug native LOD1/LOD0 material IDs, authored provenance, and generated/authored weight payloads",
+		"shared-position material continuity across regular and transition surfaces and dynamic LOD topology replacement",
+		"native paint and construction material publication with authoritative sample agreement",
+		"normal/tangent validity, deterministic shader contract, mipmapped world-space triplanar diagnostics, and presentation-origin compensation",
+		"focused runner, retained signatures, editor observatory, and inspected graphical evidence"
+	],
+	"unqualified_scope": [
+		"production art direction, arbitrary material blends, biome authoring, decals, texture streaming, virtual texturing, or release frame-time budgets",
+		"LOD2 and deeper hierarchies, arbitrary terrain fields, non-Windows renderers, other GPUs, low-power operation, or GPU terrain authority",
+		"render/collision/query/navigation agreement owned by TQP-39 and Gate E or production terrain authority"
+	],
+	"standards_changed": [
+		"Terrain Qualification Program revision 28",
+		"execution-plan revision 20",
+		"adaptive surface continuity standard native_adaptive_surface_continuity_windows_v1"
+	],
+	"review": "Qualification fails closed if native payload channels, shared-position identity, authoritative sample relations, LOD-cycle overlap, normal/tangent budgets, shader contract, origin compensation, stable signatures, provenance, capture hashes, focused runner, or preservation suites differ.",
+	"downstream_impact": "TQP-38 authorizes only its bounded native material/presentation contract. It does not authorize production materials, performance, adaptive system agreement, Gate E, GPU authority, or production terrain."
+}

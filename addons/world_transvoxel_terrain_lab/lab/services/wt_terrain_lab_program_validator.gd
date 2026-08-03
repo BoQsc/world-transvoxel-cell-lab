@@ -50,6 +50,12 @@ const EditInvalidationEvidence := preload(
 const AdaptiveEditEvidence := preload(
 	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_adaptive_edit_evidence.gd"
 )
+const AdaptiveSurfaceEvidence := preload(
+	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_adaptive_surface_evidence.gd"
+)
+const AdaptiveSystemEvidence := preload(
+	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_adaptive_system_evidence.gd"
+)
 
 const PROGRAM_SCHEMA := "world_transvoxel.terrain_lab.program.v2"
 const LAB_SCOPE := "experimental_terrain_qualification"
@@ -144,6 +150,8 @@ static func validate(program: Dictionary, dependencies: Dictionary) -> Dictionar
 	_validate_dynamic_lod_publication_evidence(program, milestone_by_id, failures)
 	_validate_edit_invalidation_evidence(program, milestone_by_id, failures)
 	_validate_adaptive_edit_evidence(program, milestone_by_id, failures)
+	_validate_adaptive_surface_evidence(program, milestone_by_id, failures)
+	_validate_adaptive_system_evidence(program, milestone_by_id, failures)
 	_validate_low_power_performance_profile(program, failures)
 	_validate_visual_evidence(program, milestone_by_id, failures)
 	_validate_dependency_boundary(program, dependencies, failures)
@@ -1156,6 +1164,54 @@ static func _validate_adaptive_edit_evidence(
 			== "qualified",
 		"TQP-37 must match retained adaptive edit evidence",
 		failures
+	)
+
+
+static func _validate_adaptive_surface_evidence(
+	program: Dictionary,
+	milestone_by_id: Dictionary,
+	failures: Array[String]
+) -> void:
+	var standard := JsonLoader.load_dictionary(
+		str(program.get("adaptive_surface_continuity_standard", ""))
+	)
+	_expect(
+		str(standard.get("schema", ""))
+			== "world_transvoxel.terrain_lab.adaptive_surface_continuity_standard.v1",
+		"TQP-38 adaptive surface standard schema mismatch", failures
+	)
+	var validation := AdaptiveSurfaceEvidence.validate_retained()
+	if str(validation.get("status", "")) != "PASS":
+		for failure_value in validation.get("failures", []):
+			failures.append("TQP-38 adaptive surface: " + str(failure_value))
+	_expect(
+		str((milestone_by_id.get("TQP-38", {}) as Dictionary).get("status", ""))
+			== "qualified",
+		"TQP-38 must match retained adaptive surface evidence", failures
+	)
+
+
+static func _validate_adaptive_system_evidence(
+	program: Dictionary,
+	milestone_by_id: Dictionary,
+	failures: Array[String]
+) -> void:
+	var standard := JsonLoader.load_dictionary(
+		str(program.get("adaptive_system_agreement_standard", ""))
+	)
+	_expect(
+		str(standard.get("schema", ""))
+			== "world_transvoxel.terrain_lab.adaptive_system_agreement_standard.v1",
+		"TQP-39 adaptive system standard schema mismatch", failures
+	)
+	var validation := AdaptiveSystemEvidence.validate_retained()
+	if str(validation.get("status", "")) != "PASS":
+		for failure_value in validation.get("failures", []):
+			failures.append("TQP-39 adaptive system: " + str(failure_value))
+	_expect(
+		str((milestone_by_id.get("TQP-39", {}) as Dictionary).get("status", ""))
+			== "qualified",
+		"TQP-39 must match retained adaptive system evidence", failures
 	)
 
 

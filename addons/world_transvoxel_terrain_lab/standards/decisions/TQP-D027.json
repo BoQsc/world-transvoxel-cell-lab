@@ -1,0 +1,46 @@
+{
+	"schema": "world_transvoxel.terrain_lab.decision.v1",
+	"id": "TQP-D027",
+	"date": "2026-08-03",
+	"decision": "Qualify TQP-39 for the retained bounded Windows native adaptive render, collision, authoritative-query, physics-ray, and consumer-derived navigation agreement profile after correcting the upstream default collision truncation defect.",
+	"affected_milestones": ["TQP-39"],
+	"repositories": ["world-transvoxel-cell-lab", "world-transvoxel"],
+	"alternatives_considered": [
+		"accept missing cave and crater physics hits as an expected collision simplification",
+		"relax ray agreement or add lab fallback collision geometry",
+		"treat transition render triangles as required collision despite the declared regular-cell collision policy",
+		"overclaim Godot-derived navigation as world-transvoxel authority",
+		"publish cave ceilings as walkable navigation or accept a map before polygon ownership is queryable"
+	],
+	"evidence": [
+		"adaptive_system_agreement_standard.json, adaptive_system_agreement_reference_windows.json, and adaptive_system_agreement_motion_windows.json",
+		"two consecutive qualification passes with identical semantic, edited-pair, and post-stage-pair signatures",
+		"proof that the former 512-largest-triangle default removed valid cave-wall and crater-floor collision while native render geometry and authoritative crossings remained present",
+		"world-transvoxel commit 7ef78964c938473c467785986395622061d2e04b preserving every valid regular-cell collision triangle by default, with a 513-triangle native regression",
+		"all 29 release native test executables passing, including bounded pipeline and soak harnesses; M3 debug and release collision tests passing",
+		"same-generation audits over 12 nonempty collision/render pairs before and after staged replacement, with zero generation mismatches and zero nonexact vertex displacement",
+		"surface, cave wall, overhang wall, and thin-feature Godot physics hits agreeing with authoritative scalar crossings within 0.022 meters",
+		"bounded independent collision-viewer demand, teleport retirement, stale-revision rejection, staged old-pair stability, joint replacement, and consumer-derived navigation keyed to native state signatures",
+		"inspected overview, cave, and thin-feature editor captures with native collision, walkable navigation, and ray overlays"
+	],
+	"qualified_scope": [
+		"bounded Windows debug native LOD1/LOD0 flat-world cave, surface-connected overhang, thin construction, and staged crater fixture",
+		"complete regular-cell native collision publication for demanded nonempty chunks, excluding declared render-only transitions and rejected degenerate triangles",
+		"same-generation render/collision vertex agreement, authoritative scalar versus Godot physics-ray agreement, and targeted collision residency",
+		"consumer-derived Godot navigation from upward native collision triangles at 0.05 meter map cells, keyed to exact native active-state signatures",
+		"teleport retirement, stale viewer rejection, staged old-pair preservation, post-edit joint replacement, deterministic signatures, and editor evidence"
+	],
+	"unqualified_scope": [
+		"production navigation baking, tiled ownership, agents, avoidance, links, gameplay path policy, or world-transvoxel navigation authority",
+		"production collision radius, broadphase cost, navigation cost, release frame pacing, sustained 60 FPS, 16 W operation, or arbitrary feature geometry",
+		"LOD2 and deeper hierarchies, non-Windows servers, GPU terrain authority, Gate E, or production terrain authority"
+	],
+	"standards_changed": [
+		"Terrain Qualification Program revision 28",
+		"execution-plan revision 20",
+		"adaptive system agreement standard native_adaptive_system_agreement_windows_v1",
+		"world-transvoxel default collision triangle budget and native 513-triangle regression"
+	],
+	"review": "Qualification fails closed if collision completeness, same-generation pair identity, authoritative ray agreement, navigation source signature, targeted demand, retirement, stale rejection, staged replacement, stable signatures, provenance, captures, focused runner, upstream source pin, or preservation suites differ. The upstream source-size policy violation remains separately visible and is not caused or waived by this decision.",
+	"downstream_impact": "TQP-40 becomes the next dependency-ordered milestone. TQP-39 authorizes only the retained bounded system-agreement contract and the corrected complete regular-cell collision default; it does not authorize production collision/navigation/performance, Gate E, GPU authority, or production terrain."
+}

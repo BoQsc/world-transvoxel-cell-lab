@@ -1,0 +1,151 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://labs/terrain_lab/scenes/adaptive_surface_observatory.gd" id="1_script"]
+
+[sub_resource type="ProceduralSkyMaterial" id="SkyMaterial"]
+sky_top_color = Color(0.035, 0.065, 0.08, 1)
+sky_horizon_color = Color(0.48, 0.57, 0.57, 1)
+ground_bottom_color = Color(0.02, 0.03, 0.028, 1)
+ground_horizon_color = Color(0.21, 0.26, 0.23, 1)
+
+[sub_resource type="Sky" id="Sky"]
+sky_material = SubResource("SkyMaterial")
+
+[sub_resource type="Environment" id="Environment"]
+background_mode = 2
+sky = SubResource("Sky")
+ambient_light_source = 3
+ambient_light_color = Color(0.69, 0.75, 0.70, 1)
+ambient_light_energy = 0.58
+reflected_light_source = 2
+tonemap_mode = 2
+
+[sub_resource type="StyleBoxFlat" id="DockStyle"]
+bg_color = Color(0.025, 0.038, 0.042, 0.97)
+border_width_right = 1
+border_color = Color(0.15, 0.31, 0.3, 1)
+content_margin_left = 16.0
+content_margin_top = 16.0
+content_margin_right = 16.0
+content_margin_bottom = 16.0
+
+[node name="AdaptiveSurfaceObservatory" type="Node3D"]
+script = ExtResource("1_script")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment")
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+rotation_degrees = Vector3(-52, -34, 0)
+light_color = Color(1, 0.94, 0.82, 1)
+light_energy = 1.22
+shadow_enabled = true
+directional_shadow_max_distance = 360.0
+
+[node name="Fill" type="DirectionalLight3D" parent="."]
+rotation_degrees = Vector3(-24, 146, 0)
+light_color = Color(0.38, 0.64, 0.75, 1)
+light_energy = 0.28
+
+[node name="Camera3D" type="Camera3D" parent="."]
+unique_name_in_owner = true
+position = Vector3(173, 82, 142)
+current = true
+fov = 52.0
+near = 0.15
+far = 900.0
+
+[node name="Interface" type="CanvasLayer" parent="."]
+
+[node name="Dock" type="PanelContainer" parent="Interface"]
+offset_right = 370.0
+anchor_bottom = 1.0
+grow_vertical = 1
+theme_override_styles/panel = SubResource("DockStyle")
+
+[node name="Content" type="VBoxContainer" parent="Interface/Dock"]
+theme_override_constants/separation = 9
+
+[node name="Title" type="Label" parent="Interface/Dock/Content"]
+theme_override_font_sizes/font_size = 21
+text = "Adaptive Surface Observatory"
+
+[node name="Subtitle" type="Label" parent="Interface/Dock/Content"]
+theme_override_colors/font_color = Color(0.48, 0.73, 0.7, 1)
+text = "TQP-38 / native materials and textures"
+
+[node name="StatusLabel" type="Label" parent="Interface/Dock/Content"]
+unique_name_in_owner = true
+theme_override_colors/font_color = Color(0.35, 0.9, 0.65, 1)
+theme_override_font_sizes/font_size = 18
+text = "STARTING"
+
+[node name="ModeLabel" type="Label" parent="Interface/Dock/Content"]
+unique_name_in_owner = true
+text = "MODE  LIT"
+
+[node name="PayloadLabel" type="Label" parent="Interface/Dock/Content"]
+unique_name_in_owner = true
+text = "Vertices 0   authored 0\nMaterial 7 0   material 8 0"
+
+[node name="PipelineLabel" type="Label" parent="Interface/Dock/Content"]
+unique_name_in_owner = true
+theme_override_colors/font_color = Color(0.66, 0.72, 0.7, 1)
+text = "Active 0   render 0\nTransition completions 0   queued 0"
+
+[node name="Separator1" type="HSeparator" parent="Interface/Dock/Content"]
+
+[node name="DiagnosticHeading" type="Label" parent="Interface/Dock/Content"]
+theme_override_colors/font_color = Color(0.55, 0.76, 0.74, 1)
+text = "SURFACE MODE"
+
+[node name="ModeRow" type="HBoxContainer" parent="Interface/Dock/Content"]
+theme_override_constants/separation = 6
+
+[node name="LitButton" type="Button" parent="Interface/Dock/Content/ModeRow"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+text = "Lit"
+
+[node name="MaterialButton" type="Button" parent="Interface/Dock/Content/ModeRow"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+text = "Material"
+
+[node name="ProvenanceButton" type="Button" parent="Interface/Dock/Content/ModeRow"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+text = "Provenance"
+
+[node name="LodButton" type="Button" parent="Interface/Dock/Content"]
+unique_name_in_owner = true
+text = "Cycle LOD and return"
+
+[node name="RestartButton" type="Button" parent="Interface/Dock/Content"]
+unique_name_in_owner = true
+text = "Reset native fixture"
+
+[node name="Separator2" type="HSeparator" parent="Interface/Dock/Content"]
+
+[node name="Legend" type="Label" parent="Interface/Dock/Content"]
+theme_override_colors/font_color = Color(0.66, 0.74, 0.72, 1)
+text = "MATERIAL  native generated/authored weights\nPROVENANCE  blue generated / amber authored\nLIT  mipmapped world-space triplanar"
+
+[node name="Scope" type="Label" parent="Interface/Dock/Content"]
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.5, 0.56, 0.55, 1)
+text = "WORLD-TRANSVOXEL NATIVE PAYLOAD\nSHADER PRESENTATION IS DERIVED\nVISUALS ARE DIAGNOSTIC"
+vertical_alignment = 2
+
+[node name="Badge" type="Label" parent="Interface"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -300.0
+offset_top = 20.0
+offset_right = -22.0
+offset_bottom = 64.0
+grow_horizontal = 0
+theme_override_colors/font_color = Color(0.91, 0.95, 0.93, 0.92)
+text = "TQP-38  ADAPTIVE SURFACE"
+horizontal_alignment = 2

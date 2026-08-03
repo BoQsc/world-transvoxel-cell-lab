@@ -30,6 +30,12 @@ const EditInvalidationObservatoryScene := preload(
 const AdaptiveEditObservatoryScene := preload(
 	"res://labs/terrain_lab/scenes/adaptive_edit_observatory.tscn"
 )
+const AdaptiveSurfaceObservatoryScene := preload(
+	"res://labs/terrain_lab/scenes/adaptive_surface_observatory.tscn"
+)
+const AdaptiveSystemObservatoryScene := preload(
+	"res://labs/terrain_lab/scenes/adaptive_system_observatory.tscn"
+)
 const NativeEvidence := preload(
 	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_edit_native_evidence.gd"
 )
@@ -317,6 +323,70 @@ func _run() -> void:
 		_fail("TQP-37 Adaptive Edit Observatory did not shut down cleanly")
 		return
 	adaptive_edit_observatory.free()
+	var adaptive_surface_script := load(
+		"res://labs/terrain_lab/scenes/adaptive_surface_observatory.gd"
+	) as Script
+	if adaptive_surface_script == null or not adaptive_surface_script.is_tool():
+		_fail("TQP-38 Adaptive Surface Observatory must execute as an editor tool")
+		return
+	var adaptive_surface_method_names := PackedStringArray()
+	for method in adaptive_surface_script.get_script_method_list():
+		adaptive_surface_method_names.append(str(method.get("name", "")))
+	for required_method in [
+		"wait_until_ready", "set_diagnostic_mode", "cycle_lod_and_wait",
+		"get_validation_snapshot", "restart_and_wait", "shutdown_for_validation",
+	]:
+		if required_method not in adaptive_surface_method_names:
+			_fail("TQP-38 Adaptive Surface Observatory lacks " + required_method)
+			return
+	var adaptive_surface_observatory := AdaptiveSurfaceObservatoryScene.instantiate()
+	root.add_child(adaptive_surface_observatory)
+	var surface_ready: Dictionary = await adaptive_surface_observatory.wait_until_ready()
+	var surface_snapshot: Dictionary = adaptive_surface_observatory.get_validation_snapshot()
+	var surface_payload: Dictionary = surface_snapshot.get("payload", {})
+	if str(surface_ready.get("status", "")) != "PASS" \
+			or str(surface_snapshot.get("status", "")) != "PASS" \
+			or int(surface_payload.get("authored", 0)) <= 0:
+		_fail("TQP-38 Adaptive Surface Observatory payload failed")
+		return
+	if str((await adaptive_surface_observatory.shutdown_for_validation()).get("status", "")) != "PASS":
+		_fail("TQP-38 Adaptive Surface Observatory did not shut down cleanly")
+		return
+	adaptive_surface_observatory.free()
+	var adaptive_system_script := load(
+		"res://labs/terrain_lab/scenes/adaptive_system_observatory.gd"
+	) as Script
+	if adaptive_system_script == null or not adaptive_system_script.is_tool():
+		_fail("TQP-39 Adaptive System Observatory must execute as an editor tool")
+		return
+	var adaptive_system_method_names := PackedStringArray()
+	for method in adaptive_system_script.get_script_method_list():
+		adaptive_system_method_names.append(str(method.get("name", "")))
+	for required_method in [
+		"wait_until_ready", "set_focus_mode", "teleport_and_return",
+		"apply_staged_edit_and_wait", "get_validation_snapshot",
+		"restart_and_wait", "shutdown_for_validation",
+	]:
+		if required_method not in adaptive_system_method_names:
+			_fail("TQP-39 Adaptive System Observatory lacks " + required_method)
+			return
+	var adaptive_system_observatory := AdaptiveSystemObservatoryScene.instantiate()
+	root.add_child(adaptive_system_observatory)
+	var system_ready: Dictionary = await adaptive_system_observatory.wait_until_ready()
+	var system_snapshot: Dictionary = adaptive_system_observatory.get_validation_snapshot()
+	var system_collision: Dictionary = system_snapshot.get("collision", {})
+	var system_metrics: Dictionary = system_snapshot.get("metrics", {})
+	if str(system_ready.get("status", "")) != "PASS" \
+			or str(system_snapshot.get("status", "")) != "PASS" \
+			or int(system_collision.get("triangles", 0)) <= 0 \
+			or int(system_metrics.get("collision_required_chunk_records", 0)) \
+				>= int(system_metrics.get("active_chunk_records", 0)):
+		_fail("TQP-39 Adaptive System Observatory agreement failed")
+		return
+	if str((await adaptive_system_observatory.shutdown_for_validation()).get("status", "")) != "PASS":
+		_fail("TQP-39 Adaptive System Observatory did not shut down cleanly")
+		return
+	adaptive_system_observatory.free()
 	var observatory_property_names := PackedStringArray()
 	for property in observatory_script.get_script_property_list():
 		observatory_property_names.append(str(property.get("name", "")))
@@ -485,13 +555,13 @@ func _run() -> void:
 	if int(validation.get("milestone_count", 0)) != 64:
 		_fail("terrain program milestone count changed")
 		return
-	if int(validation.get("qualified_milestone_count", 0)) != 37:
+	if int(validation.get("qualified_milestone_count", 0)) != 39:
 		_fail("qualified reference milestone count changed")
 		return
 	if int(validation.get("specified_milestone_count", 0)) != 1:
 		_fail("open specification count changed")
 		return
-	if int(validation.get("proposed_milestone_count", -1)) != 8:
+	if int(validation.get("proposed_milestone_count", -1)) != 6:
 		_fail("native adaptive-terrain proposal count changed")
 		return
 	var status_counts: Dictionary = validation.get("status_counts", {})

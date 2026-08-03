@@ -1,11 +1,11 @@
 {
 	"schema": "world_transvoxel.terrain_lab.execution_plan.v1",
-	"plan_revision": 19,
-	"program_revision": 27,
+	"plan_revision": 20,
+	"program_revision": 28,
 	"policy": "single_human_tqp_dependency_order_fail_closed",
 	"human_authority": "res://docs/terrain_lab/TERRAIN_QUALIFICATION_PROGRAM.md",
 	"current_wave": "TQP-WAVE-03",
-	"recommended_next": ["TQP-38"],
+	"recommended_next": ["TQP-40"],
 	"waves": [
 		{
 			"id": "TQP-WAVE-00",
