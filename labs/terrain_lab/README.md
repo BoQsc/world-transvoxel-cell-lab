@@ -57,6 +57,13 @@ replacement, stale-result, coalescing, and transition-completion metrics.
 Resident ownership bounds are diagnostic; the retained full frame trace, not
 the settled screenshots, is authoritative for holes and overlap.
 
+The TQP-36 Edit Invalidation Observatory is a separate `@tool` scene at
+`scenes/edit_invalidation_observatory.tscn`. It applies the retained coarse,
+fine, boundary, mixed-LOD, disjoint batch, no-op, and rapid-supersession native
+transactions. Red lines show conservative edit bounds, yellow lines show the
+independently expected padded dependents, and green lines show exactly changed
+generations. Empty active payloads participate even when no render node exists.
+
 `tools/run_edit_gate_b_validation.gd` executes the focused `TQP-09` through
 `TQP-14` qualification. `tools/capture_edit_qualification_visual.gd`
 regenerates the deterministic brush and temporal-edit cross-section reference.

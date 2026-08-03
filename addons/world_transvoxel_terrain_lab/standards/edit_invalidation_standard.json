@@ -1,0 +1,126 @@
+{
+	"schema": "world_transvoxel.terrain_lab.edit_invalidation_standard.v1",
+	"milestone": "TQP-36",
+	"standard_id": "native_edit_invalidation_windows_v1",
+	"authority": "world_transvoxel_native_runtime",
+	"evidence": "res://labs/terrain_lab/results/edit_invalidation_reference_windows.json",
+	"motion_evidence": "res://labs/terrain_lab/results/edit_invalidation_motion_windows.json",
+	"observatory_scene": "res://labs/terrain_lab/scenes/edit_invalidation_observatory.tscn",
+	"runtime_profile": {
+		"platform": "Windows",
+		"build": "debug_reference",
+		"worker_count": 2,
+		"preset": "rolling_hills_cave",
+		"seed": 360036,
+		"source_revision": 936001,
+		"volume_chunks": [24, 8, 24],
+		"vertical_chunk_origin": -2,
+		"viewer_id": 36,
+		"viewer_position": [127.0, 30.0, 72.0],
+		"viewer_radius_chunks": 1,
+		"maximum_lod": 1,
+		"lod_refinement_radius_chunks": 1,
+		"render_transition_frames": 0,
+		"active_chunk_capacity": 512,
+		"pipeline_capacity": 2048
+	},
+	"workload": {
+		"oracle_benchmark_samples": 100,
+		"scenarios": [
+			{
+				"id": "coarse_parent_interior",
+				"commands": [
+					{"shape": "sphere", "center": [80.0, 40.0, 40.0], "radius": 0.25, "density_delta": 0.125}
+				]
+			},
+			{
+				"id": "fine_child_interior",
+				"commands": [
+					{"shape": "sphere", "center": [120.0, 40.0, 40.0], "radius": 0.25, "density_delta": 0.125}
+				]
+			},
+			{
+				"id": "same_lod_boundary_halo",
+				"commands": [
+					{"shape": "sphere", "center": [128.0, 40.0, 40.0], "radius": 0.25, "density_delta": 0.125}
+				]
+			},
+			{
+				"id": "mixed_lod_transition_dependency",
+				"commands": [
+					{"shape": "sphere", "center": [96.0, 40.0, 40.0], "radius": 0.25, "density_delta": 0.125}
+				]
+			},
+			{
+				"id": "disjoint_batch_union",
+				"commands": [
+					{"shape": "sphere", "center": [112.0, 40.0, 56.0], "radius": 0.25, "density_delta": 0.125},
+					{"shape": "box", "minimum": [143.75, 39.75, 71.75], "maximum": [144.25, 40.25, 72.25], "density_delta": 0.125}
+				]
+			},
+			{
+				"id": "unloaded_noop",
+				"commands": [
+					{"shape": "sphere", "center": [4096.0, 4096.0, 4096.0], "radius": 0.25, "density_delta": 0.125}
+				]
+			}
+		],
+		"rapid_supersession": {
+			"id": "rapid_supersession",
+			"commands": [
+				{"shape": "sphere", "center": [96.0, 40.0, 40.0], "radius": 0.25, "density_delta": 0.0625}
+			]
+		},
+		"required_actions": [
+			"coarse_parent_interior",
+			"fine_child_interior",
+			"same_lod_boundary_halo",
+			"mixed_lod_transition_dependency",
+			"disjoint_batch_union",
+			"unloaded_noop",
+			"rapid_supersession"
+		]
+	},
+	"invariants": {
+		"requires_exact_padded_sample_oracle": true,
+		"requires_unchanged_generation_stability": true,
+		"requires_coarse_and_fine_dependents": true,
+		"requires_regular_and_transition_dependents": true,
+		"requires_disjoint_batch_union_without_bridge": true,
+		"requires_empty_loaded_intersection": true,
+		"requires_page_meshing_cancellation": true,
+		"requires_stale_result_rejection": true,
+		"requires_dirty_resource_retirement": true,
+		"requires_zero_visible_hole_frames": true,
+		"requires_zero_render_overlap_frames": true,
+		"requires_zero_double_collision_frames": true
+	},
+	"budgets": {
+		"maximum_settlement_frames": 2400,
+		"maximum_trace_rows": 4096,
+		"maximum_frame_p99_usec": 300000.0,
+		"maximum_frame_usec": 2000000.0,
+		"maximum_edit_settlement_p95_usec": 12000000.0,
+		"maximum_oracle_p99_usec": 10000.0,
+		"maximum_active_chunk_records": 512,
+		"maximum_render_resources": 512,
+		"maximum_collision_resources": 512
+	},
+	"stable_expected": {
+		"scenario_matrix_signature": "840de9421d6e374ec7993e0c18c15053a3a1ee78f0eb85d35cc06fe5551ef484",
+		"final_active_key_signature": "898cb7e6320ee67bd570eef0dee08816b56b173ab083bc136056b1d641313a89"
+	},
+	"qualified_scope": [
+		"exact padded sample-footprint invalidation over every active native application record, including empty render payloads",
+		"bounded coarse-parent, fine-child, same-LOD neighbor, and mixed-LOD transition-dependent generation replacement",
+		"disjoint sphere and box transaction batching without bridge-volume invalidation",
+		"unloaded no-op transactions, page-meshing cancellation, rapid supersession, stale-result rejection, and final resource-generation coherence",
+		"retained Windows debug frame trace, deterministic affected-set signatures, settlement distributions, provenance, and editor observatory evidence"
+	],
+	"explicitly_unqualified_scope": [
+		"digging, construction, brush pleasantness, stability, destruction, explosions, or edit semantics owned by TQP-37 and later milestones",
+		"material or texture edit continuity owned by TQP-38",
+		"navigation agreement, persistence replay, multi-layer streaming, and fault-order exhaustiveness owned by TQP-39 through TQP-42",
+		"production-scale performance, GPU acceleration, deeper than LOD1/LOD0 hierarchy, non-Windows builds, or production authority"
+	]
+}

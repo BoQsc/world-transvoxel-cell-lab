@@ -40,6 +40,12 @@ const DYNAMIC_LOD_PUBLICATION_OBSERVATORY_SCENE := (
 const DYNAMIC_LOD_PUBLICATION_OBSERVATORY_MENU_LABEL := (
 	"Open TQP-35 Dynamic Publication"
 )
+const EDIT_INVALIDATION_OBSERVATORY_SCENE := (
+	"res://labs/terrain_lab/scenes/edit_invalidation_observatory.tscn"
+)
+const EDIT_INVALIDATION_OBSERVATORY_MENU_LABEL := (
+	"Open TQP-36 Edit Invalidation"
+)
 
 
 func _enter_tree() -> void:
@@ -71,6 +77,10 @@ func _enter_tree() -> void:
 		DYNAMIC_LOD_PUBLICATION_OBSERVATORY_MENU_LABEL,
 		_open_dynamic_lod_publication_observatory
 	)
+	add_tool_menu_item(
+		EDIT_INVALIDATION_OBSERVATORY_MENU_LABEL,
+		_open_edit_invalidation_observatory
+	)
 	set_process(true)
 
 
@@ -82,6 +92,7 @@ func _exit_tree() -> void:
 	remove_tool_menu_item(INDEPENDENT_ORACLE_OBSERVATORY_MENU_LABEL)
 	remove_tool_menu_item(ADVERSARIAL_CORPUS_OBSERVATORY_MENU_LABEL)
 	remove_tool_menu_item(DYNAMIC_LOD_PUBLICATION_OBSERVATORY_MENU_LABEL)
+	remove_tool_menu_item(EDIT_INVALIDATION_OBSERVATORY_MENU_LABEL)
 	remove_custom_type("WtTransvoxelTerrainLab")
 
 
@@ -118,6 +129,12 @@ func _open_adversarial_corpus_observatory() -> void:
 func _open_dynamic_lod_publication_observatory() -> void:
 	get_editor_interface().open_scene_from_path(
 		DYNAMIC_LOD_PUBLICATION_OBSERVATORY_SCENE
+	)
+
+
+func _open_edit_invalidation_observatory() -> void:
+	get_editor_interface().open_scene_from_path(
+		EDIT_INVALIDATION_OBSERVATORY_SCENE
 	)
 
 

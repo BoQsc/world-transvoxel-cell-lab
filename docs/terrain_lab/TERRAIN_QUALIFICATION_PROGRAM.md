@@ -705,13 +705,26 @@ other platforms remain explicitly unqualified.
 
 ### TQP-36: Edit Invalidation And Incremental Remeshing
 
-Status: `proposed`. Owner: Edit Semantics Lab and Terrain Systems Lab. Depends
+Status: `qualified`. Owner: Edit Semantics Lab and Terrain Systems Lab. Depends
 on: TQP-06, TQP-12, TQP-15, TQP-17, TQP-29, TQP-30, TQP-31, TQP-35.
 
 Complete when edit bounds, sample halos, regular and transition dependents,
 parent/child invalidation, job cancellation, batching, no-op edits, and dirty
 resource retirement rebuild exactly the required set and never leave stale or
 unnecessarily rebuilt terrain.
+
+`TQP-D024` qualifies the bounded Windows debug LOD1/LOD0 profile using an
+independent padded-sample-footprint oracle over all 83 active native
+application records, including empty render payloads. Seven retained scenarios
+cover coarse-parent and fine-child interiors, a same-LOD boundary halo, a
+mixed regular/transition dependency, disjoint sphere-plus-box batching, an
+unloaded no-op, and rapid supersession. Every observed generation change
+equals the independently expected set; all unrelated generations remain
+stable. The run records 14 replacements, 14 page-meshing cancellations, one
+empty transaction, four stale superseded-resource rejections, and zero visible
+holes, render overlaps, double collisions, or frame failures. Digging,
+construction, brush semantics and quality, materials, persistence, deeper LOD,
+production performance, and other platforms remain explicitly unqualified.
 
 ### TQP-37: Digging And Construction Across Adaptive LOD
 
@@ -1008,16 +1021,17 @@ a standard, not an assertion that future terrain work is finished.
 
 The program records every milestone at a truthful evidence state:
 
-- `TQP-01` through `TQP-35` are qualified
+- `TQP-01` through `TQP-36` are qualified
   for their narrow contract, native Windows reference, or reference-model
   scopes. Gate B is qualified; its native chunk rebuild benchmark remains a
   background/debug reference and is not a production frame-time claim.
-- `TQP-28` through `TQP-35` qualify the deterministic field contract, bounded
+- `TQP-28` through `TQP-36` qualify the deterministic field contract, bounded
   LOD0 complex native corpus, finite adaptive selector, and static native
   transition-assembly matrix, bounded boundary/enclosure policy, and independent
   geometry/topology oracles, seeded adversarial/minimized repro corpus, and
-  bounded native dynamic LOD publication with temporal ownership checks.
-  `TQP-36` through `TQP-45` remain proposed, so
+  bounded native dynamic LOD publication with temporal ownership checks, and
+  exact native edit invalidation with incremental remeshing.
+  `TQP-37` through `TQP-45` remain proposed, so
   the program makes no Gate E adaptive-terrain authority claim.
 - `TQP-46` through `TQP-51` retain the previously implemented destruction and
   structural reference behavior under their revision-19 identifiers.
@@ -1025,8 +1039,8 @@ The program records every milestone at a truthful evidence state:
 - `TQP-53` through `TQP-64` are blocked by named external targets and exit
   conditions in `program_blockers.json`.
 
-The next dependency-ordered milestone is TQP-36, edit invalidation and
-incremental remeshing. TQP-27 remains qualified through `TQP-D016` only for its
+The next dependency-ordered milestone is TQP-37, digging and construction
+across adaptive LOD. TQP-27 remains qualified through `TQP-D016` only for its
 bounded native Windows 2K-world soak and durable edit-journal restart.
 `TQP-F002` retains large-volume snapshot compaction as an open upstream
 capacity issue. Gate D is qualified only for that bounded reference claim;
@@ -1047,9 +1061,10 @@ large coordinates, corrected regressions, traversal permutations, and a
 deterministic minimized-failure control. It does not claim arbitrary fuzzing or
 actual concurrent publication.
 
-TQP-35 begins the changing-terrain system and now qualifies the bounded native
-LOD1/LOD0 publication timeline. TQP-36 through TQP-42 qualify edit invalidation,
-incremental remeshing, digging and construction across LOD boundaries,
+TQP-35 begins the changing-terrain system and qualifies the bounded native
+LOD1/LOD0 publication timeline. TQP-36 now qualifies exact bounded edit
+invalidation and incremental remeshing mechanics. TQP-37 through TQP-42 qualify
+digging and construction across LOD boundaries,
 material continuity, render/collision/query/navigation agreement, streaming,
 persistence, replay, failure recovery, and determinism under different work
 orders. These milestones determine whether the correct static primitive stays
@@ -1167,3 +1182,8 @@ Retained decisions:
   after rejecting the original double-collision result and correcting upstream
   replacement collision staging; retain deeper LOD, edits, crossfade, fault
   injection, production performance, and other platforms as unqualified.
+- `TQP-D024`: qualify TQP-36 for bounded native exact edit invalidation over
+  all active application records, including empty payloads, with independent
+  padded-footprint set equality, batching, no-op, cancellation, stale-result,
+  resource-retirement, performance, trace, and editor evidence; retain adaptive
+  digging/construction semantics and all later terrain claims as unqualified.

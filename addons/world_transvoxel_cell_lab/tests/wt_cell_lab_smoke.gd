@@ -134,7 +134,7 @@ func _run() -> void:
 		_fail("native dependency provenance did not pass")
 		return
 	if str(dependency.get("source", {}).get("commit", "")) \
-			!= "a64b4c04582892abdeb77d7812a1fe31eee22887":
+			!= "503edb662c589f43b30b4cb6aaa4f3d617dc154e":
 		_fail("native dependency source commit changed")
 		return
 	var authority_stress: Dictionary = lab.validate_authority_stress()

@@ -1,0 +1,46 @@
+{
+	"schema": "world_transvoxel.terrain_lab.decision.v1",
+	"id": "TQP-D024",
+	"date": "2026-08-03",
+	"decision": "Qualify TQP-36 for the retained bounded Windows native edit-invalidation profile using an independent padded-sample-footprint oracle over every active application record, including empty payloads.",
+	"affected_milestones": ["TQP-36"],
+	"repositories": ["world-transvoxel-cell-lab", "world-transvoxel"],
+	"alternatives_considered": [
+		"infer affected chunks only from visible MeshInstance3D nodes and omit empty authoritative records",
+		"treat an empty queue snapshot as settled while native storage work remains in flight",
+		"invalidate the bounding envelope between disjoint transaction commands",
+		"accept visual terrain continuity without exact expected-versus-changed generation equality",
+		"fold digging, construction, brush pleasantness, materials, persistence, or production-scale behavior into the invalidation milestone"
+	],
+	"evidence": [
+		"edit_invalidation_standard.json, edit_invalidation_reference_windows.json, and edit_invalidation_motion_windows.json",
+		"three cold qualification runs with identical scenario-matrix and final active-key signatures",
+		"83 active native application records, including records without visible render payloads, partitioned into 64 LOD0 and 19 LOD1 records",
+		"seven exact affected-set scenarios covering coarse parent, fine child, same-LOD halo, mixed-LOD transition dependency, disjoint sphere-plus-box batching, unloaded no-op, and rapid supersession",
+		"14 exact replacements, 14 page-meshing cancellation calls, one empty loaded intersection, four stale resource rejections, and unchanged generations for every unrelated active record",
+		"96 retained audited frames with zero visible holes, render overlap, double collision, and frame failures",
+		"100-sample independent-oracle distribution, edit-settlement and frame distributions, memory telemetry, provenance, full trace, and three-state @tool observatory captures",
+		"world-transvoxel debug and release M4/M5 native contracts plus Godot 4.6.3 and 4.7 active-query and edit-metric regression coverage"
+	],
+	"qualified_scope": [
+		"exact conservative integer edit bounds against independently computed padded scalar-sample footprints",
+		"bounded LOD1 coarse-parent, LOD0 fine-child, same-LOD neighbor, and mixed regular/transition-dependent generation replacement",
+		"disjoint sphere and box transaction union without bridge-volume invalidation",
+		"unloaded no-op edits, page-meshing cancellation, rapid supersession, stale-result rejection, and final render/collision generation coherence",
+		"retained deterministic signatures, performance distributions, provenance, complete frame trace, focused runner, and editor motion evidence"
+	],
+	"unqualified_scope": [
+		"digging, construction, undo/redo semantics, brush quality, resolvability, stability, destruction, and explosions owned by TQP-37 and later milestones",
+		"adaptive material and texture continuity owned by TQP-38",
+		"navigation agreement, persistence replay, multi-layer streaming, and arbitrary fault-order determinism owned by TQP-39 through TQP-42",
+		"dynamic LOD2 and deeper hierarchies, production-scale performance, GPU acceleration, other hardware, other platforms, and production authority"
+	],
+	"standards_changed": [
+		"Terrain Qualification Program revision 26",
+		"execution-plan revision 18",
+		"edit invalidation standard native_edit_invalidation_windows_v1",
+		"world-transvoxel active application-state enumeration and native edit replacement metrics"
+	],
+	"review": "Qualification must fail closed if active native enumeration, exact affected IDs, unchanged generations, empty-transaction deltas, cancellation/stale controls, final resource coherence, deterministic signatures, full trace, capture hashes, focused runner, program validation, upstream source pin, or preservation smoke tests differ. Visible scene nodes are explicitly not an affected-set authority.",
+	"downstream_impact": "TQP-37 becomes the next dependency-ordered milestone. Gate E remains closed. TQP-36 authorizes only bounded invalidation and incremental-remeshing mechanics; it does not authorize adaptive digging/construction semantics, materials, persistence, deeper LOD, GPU authority, or production terrain. A narrow world-transvoxel observability extension was required; no fallback path was added."
+}

@@ -24,6 +24,9 @@ const AdversarialCorpusObservatoryScene := preload(
 const DynamicLodPublicationObservatoryScene := preload(
 	"res://labs/terrain_lab/scenes/dynamic_lod_publication_observatory.tscn"
 )
+const EditInvalidationObservatoryScene := preload(
+	"res://labs/terrain_lab/scenes/edit_invalidation_observatory.tscn"
+)
 const NativeEvidence := preload(
 	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_edit_native_evidence.gd"
 )
@@ -214,6 +217,47 @@ func _run() -> void:
 		_fail("TQP-35 observatory did not shut down cleanly")
 		return
 	publication_observatory.free()
+	var invalidation_script := load(
+		"res://labs/terrain_lab/scenes/edit_invalidation_observatory.gd"
+	) as Script
+	if invalidation_script == null or not invalidation_script.is_tool():
+		_fail("TQP-36 Edit Invalidation Observatory must execute as an editor tool")
+		return
+	var invalidation_method_names := PackedStringArray()
+	for method in invalidation_script.get_script_method_list():
+		invalidation_method_names.append(str(method.get("name", "")))
+	for required_method in [
+		"wait_until_ready", "run_action_and_wait", "get_validation_snapshot",
+		"restart_and_wait", "shutdown_for_validation",
+	]:
+		if required_method not in invalidation_method_names:
+			_fail("TQP-36 Edit Invalidation Observatory lacks " + required_method)
+			return
+	var invalidation_observatory := EditInvalidationObservatoryScene.instantiate()
+	root.add_child(invalidation_observatory)
+	var invalidation_ready: Dictionary = await invalidation_observatory.wait_until_ready()
+	if str(invalidation_ready.get("status", "")) != "PASS":
+		_fail("TQP-36 Edit Invalidation Observatory did not become ready")
+		return
+	for action in [
+		"mixed_lod_transition_dependency", "disjoint_batch_union",
+		"unloaded_noop", "rapid_supersession",
+	]:
+		var invalidation_result: Dictionary = await invalidation_observatory.run_action_and_wait(action)
+		if str(invalidation_result.get("status", "")) != "PASS" \
+				or invalidation_result.get("expected_ids", []) \
+				!= invalidation_result.get("changed_ids", []):
+			_fail("TQP-36 Edit Invalidation Observatory action failed: " + action)
+			return
+	var invalidation_snapshot: Dictionary = invalidation_observatory.get_validation_snapshot()
+	if str(invalidation_snapshot.get("status", "")) != "PASS" \
+			or int(invalidation_snapshot.get("collision_overlap_count", -1)) != 0:
+		_fail("TQP-36 Edit Invalidation Observatory ownership failed")
+		return
+	if str((await invalidation_observatory.shutdown_for_validation()).get("status", "")) != "PASS":
+		_fail("TQP-36 Edit Invalidation Observatory did not shut down cleanly")
+		return
+	invalidation_observatory.free()
 	var observatory_property_names := PackedStringArray()
 	for property in observatory_script.get_script_property_list():
 		observatory_property_names.append(str(property.get("name", "")))
@@ -382,13 +426,13 @@ func _run() -> void:
 	if int(validation.get("milestone_count", 0)) != 64:
 		_fail("terrain program milestone count changed")
 		return
-	if int(validation.get("qualified_milestone_count", 0)) != 35:
+	if int(validation.get("qualified_milestone_count", 0)) != 36:
 		_fail("qualified reference milestone count changed")
 		return
 	if int(validation.get("specified_milestone_count", 0)) != 1:
 		_fail("open specification count changed")
 		return
-	if int(validation.get("proposed_milestone_count", -1)) != 10:
+	if int(validation.get("proposed_milestone_count", -1)) != 9:
 		_fail("native adaptive-terrain proposal count changed")
 		return
 	var status_counts: Dictionary = validation.get("status_counts", {})

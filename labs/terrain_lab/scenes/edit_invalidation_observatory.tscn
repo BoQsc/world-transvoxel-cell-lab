@@ -1,0 +1,201 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://labs/terrain_lab/scenes/edit_invalidation_observatory.gd" id="1_script"]
+
+[sub_resource type="ProceduralSkyMaterial" id="SkyMaterial"]
+sky_top_color = Color(0.035, 0.07, 0.085, 1)
+sky_horizon_color = Color(0.43, 0.57, 0.58, 1)
+ground_bottom_color = Color(0.025, 0.035, 0.03, 1)
+ground_horizon_color = Color(0.2, 0.26, 0.23, 1)
+
+[sub_resource type="Sky" id="Sky"]
+sky_material = SubResource("SkyMaterial")
+
+[sub_resource type="Environment" id="Environment"]
+background_mode = 2
+sky = SubResource("Sky")
+ambient_light_source = 3
+ambient_light_color = Color(0.68, 0.76, 0.72, 1)
+ambient_light_energy = 0.62
+reflected_light_source = 2
+tonemap_mode = 2
+
+[sub_resource type="StandardMaterial3D" id="DiagnosticMaterial"]
+shading_mode = 0
+vertex_color_use_as_albedo = true
+no_depth_test = true
+
+[sub_resource type="StyleBoxFlat" id="DockStyle"]
+bg_color = Color(0.025, 0.04, 0.045, 0.97)
+border_width_right = 1
+border_color = Color(0.16, 0.3, 0.3, 1)
+content_margin_left = 16.0
+content_margin_top = 16.0
+content_margin_right = 16.0
+content_margin_bottom = 16.0
+
+[sub_resource type="StyleBoxFlat" id="StatusStyle"]
+bg_color = Color(0.045, 0.075, 0.072, 0.98)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.16, 0.66, 0.62, 0.72)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+content_margin_left = 12.0
+content_margin_top = 10.0
+content_margin_right = 12.0
+content_margin_bottom = 10.0
+
+[node name="EditInvalidationObservatory" type="Node3D"]
+script = ExtResource("1_script")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment")
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+rotation_degrees = Vector3(-52, -34, 0)
+light_color = Color(1, 0.93, 0.79, 1)
+light_energy = 1.2
+shadow_enabled = true
+directional_shadow_max_distance = 360.0
+
+[node name="Fill" type="DirectionalLight3D" parent="."]
+rotation_degrees = Vector3(-24, 146, 0)
+light_color = Color(0.4, 0.66, 0.74, 1)
+light_energy = 0.3
+
+[node name="Camera3D" type="Camera3D" parent="."]
+unique_name_in_owner = true
+position = Vector3(168, 95, 152)
+current = true
+fov = 50.0
+near = 0.15
+far = 900.0
+
+[node name="Diagnostics" type="MeshInstance3D" parent="."]
+unique_name_in_owner = true
+material_override = SubResource("DiagnosticMaterial")
+cast_shadow = 0
+
+[node name="Interface" type="CanvasLayer" parent="."]
+
+[node name="Dock" type="PanelContainer" parent="Interface"]
+offset_right = 380.0
+anchor_bottom = 1.0
+grow_vertical = 1
+theme_override_styles/panel = SubResource("DockStyle")
+
+[node name="Content" type="VBoxContainer" parent="Interface/Dock"]
+theme_override_constants/separation = 8
+
+[node name="Title" type="Label" parent="Interface/Dock/Content"]
+theme_override_font_sizes/font_size = 21
+text = "Edit Invalidation Observatory"
+
+[node name="Subtitle" type="Label" parent="Interface/Dock/Content"]
+theme_override_colors/font_color = Color(0.48, 0.73, 0.7, 1)
+text = "TQP-36 / exact native affected sets"
+
+[node name="StatusPanel" type="PanelContainer" parent="Interface/Dock/Content"]
+theme_override_styles/panel = SubResource("StatusStyle")
+
+[node name="StatusRows" type="VBoxContainer" parent="Interface/Dock/Content/StatusPanel"]
+theme_override_constants/separation = 6
+
+[node name="StatusLabel" type="Label" parent="Interface/Dock/Content/StatusPanel/StatusRows"]
+unique_name_in_owner = true
+theme_override_colors/font_color = Color(0.35, 0.9, 0.65, 1)
+theme_override_font_sizes/font_size = 18
+text = "STARTING"
+
+[node name="ActionLabel" type="Label" parent="Interface/Dock/Content/StatusPanel/StatusRows"]
+unique_name_in_owner = true
+text = "starting"
+
+[node name="AffectedLabel" type="Label" parent="Interface/Dock/Content/StatusPanel/StatusRows"]
+unique_name_in_owner = true
+text = "Expected 0   changed 0   stable 0\nEXACT"
+
+[node name="PipelineLabel" type="Label" parent="Interface/Dock/Content/StatusPanel/StatusRows"]
+unique_name_in_owner = true
+theme_override_colors/font_color = Color(0.67, 0.72, 0.7, 1)
+text = "Transactions 0   empty 0\nReplaced 0   cancelled 0\nStale resources 0"
+
+[node name="Separator1" type="HSeparator" parent="Interface/Dock/Content"]
+
+[node name="ActionHeading" type="Label" parent="Interface/Dock/Content"]
+theme_override_colors/font_color = Color(0.55, 0.76, 0.74, 1)
+text = "EDIT FOOTPRINT"
+
+[node name="Row1" type="HBoxContainer" parent="Interface/Dock/Content"]
+theme_override_constants/separation = 6
+
+[node name="CoarseButton" type="Button" parent="Interface/Dock/Content/Row1"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+text = "Coarse"
+
+[node name="FineButton" type="Button" parent="Interface/Dock/Content/Row1"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+text = "Fine"
+
+[node name="BoundaryButton" type="Button" parent="Interface/Dock/Content/Row1"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+text = "Boundary"
+
+[node name="Row2" type="HBoxContainer" parent="Interface/Dock/Content"]
+theme_override_constants/separation = 6
+
+[node name="MixedButton" type="Button" parent="Interface/Dock/Content/Row2"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+text = "Mixed LOD"
+
+[node name="BatchButton" type="Button" parent="Interface/Dock/Content/Row2"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+text = "Batch"
+
+[node name="NoopButton" type="Button" parent="Interface/Dock/Content/Row2"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+text = "No-op"
+
+[node name="RapidButton" type="Button" parent="Interface/Dock/Content"]
+unique_name_in_owner = true
+text = "Rapid supersession"
+
+[node name="RestartButton" type="Button" parent="Interface/Dock/Content"]
+unique_name_in_owner = true
+text = "Restart native world"
+
+[node name="Separator2" type="HSeparator" parent="Interface/Dock/Content"]
+
+[node name="Legend" type="Label" parent="Interface/Dock/Content"]
+theme_override_colors/font_color = Color(0.66, 0.74, 0.72, 1)
+text = "RED  conservative edit bounds\nYELLOW  expected padded dependent\nGREEN  generation changed exactly"
+
+[node name="Scope" type="Label" parent="Interface/Dock/Content"]
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.5, 0.56, 0.55, 1)
+text = "NATIVE APPLICATION RECORDS\nEMPTY PAYLOADS INCLUDED\nVISUALS ARE DIAGNOSTIC"
+vertical_alignment = 2
+
+[node name="Badge" type="Label" parent="Interface"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -270.0
+offset_top = 20.0
+offset_right = -22.0
+offset_bottom = 64.0
+grow_horizontal = 0
+theme_override_colors/font_color = Color(0.91, 0.95, 0.93, 0.92)
+text = "TQP-36  INVALIDATION"
+horizontal_alignment = 2
