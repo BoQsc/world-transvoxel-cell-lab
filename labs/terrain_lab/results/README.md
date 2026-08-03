@@ -43,7 +43,22 @@ Use `--fixture <fixture_id>` for any retained face, edge, corner, all-face, or
 empty/full minimized repro. The full matrix calls `WorldTransvoxelCellProbe`
 directly 658 times with no fallback and retains exact cold/warm signatures.
 Its static bounded claim does not include dynamic LOD publication, arbitrary
-hierarchies, enclosure policy, or production performance.
+hierarchies, or production performance.
+
+`boundary_enclosure_reference_windows.json` retains the focused TQP-32 native
+boundary and enclosure policy:
+
+```text
+godot --headless --path . \
+  --script labs/terrain_lab/tools/run_boundary_enclosure_validation.gd -- \
+  --output res://labs/terrain_lab/results/boundary_enclosure_reference_windows.json
+```
+
+Use `--fixture <fixture_id>` for a closed-volume, closed-terrain, or declared
+open-contour repro. The retained report calls `WorldTransvoxelCellProbe` 69
+times, records exact cold/warm signatures and all-six-face halo sampling, and
+requires twelve invalid-policy controls. The adjacent PNG is the automated
+1280x720 editor diagnostic; it is not a visual-quality acceptance gate.
 
 `terrain_observatory_diagnostics_reference_windows.json` retains the focused
 TQP-26 chunk, job, resource, collision, rejection, event-retention, and signed

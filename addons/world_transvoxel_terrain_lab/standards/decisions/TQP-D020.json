@@ -1,0 +1,46 @@
+{
+	"schema": "world_transvoxel.terrain_lab.decision.v1",
+	"id": "TQP-D020",
+	"date": "2026-08-03",
+	"decision": "Qualify TQP-32 for the retained bounded Windows native chunk, finite-world boundary, outside-field sampling, enclosure, unloaded-neighbor, and catalog policy without widening the claim to general topology or dynamic terrain.",
+	"affected_milestones": ["TQP-32"],
+	"repositories": ["world-transvoxel-cell-lab", "world-transvoxel"],
+	"alternatives_considered": [
+		"treat the resident chunk set as the field domain and synthesize air for missing neighbors",
+		"hide exterior cracks with skirts or overlapping geometry",
+		"defer all boundary ownership until dynamic streaming work",
+		"qualify a bounded total sample-source policy before independent general topology oracles"
+	],
+	"evidence": [
+		"boundary_enclosure_standard.json and boundary_enclosure_reference_windows.json",
+		"four retained two-by-two-by-two LOD0 and LOD2 windows with 64 cold/warm direct WorldTransvoxelCellProbe chunk calls",
+		"closed all-face volume and closed capped terrain with zero exterior, interior-open, or nonmanifold edges",
+		"intentionally open terrain with 142 open edges confined to declared exterior planes and no interior openings",
+		"6,936 native gradient-halo samples outside each fixture domain, evenly covering all six directions",
+		"five direct native LOD2 unloaded-neighbor calls proving resident-target signature invariance and exact loaded interface agreement",
+		"twelve injected controls for invalid catalogs, residency, skirts, overlap, and resident-dependent density",
+		"@tool boundary_enclosure_observatory.tscn and retained 1280x720 diagnostic capture"
+	],
+	"qualified_scope": [
+		"native LOD0 and LOD2 internal same-resolution interfaces in the retained finite windows",
+		"total authoritative density/material sampling through the native gradient halo",
+		"density-field-owned closed enclosure, side/bottom terrain caps, and declared open exterior contours",
+		"resident chunk geometry independence from same-LOD neighbor residency",
+		"exact bounded eight-chunk catalog and bounded partial-residency rejection policy",
+		"explicit rejection of artificial skirts, hidden overlap, and resident fallback density"
+	],
+	"unqualified_scope": [
+		"general independent geometry/topology oracles and arbitrary injected mesh defects reserved for TQP-33",
+		"randomized or adversarial field corpora reserved for TQP-34",
+		"dynamic asynchronous LOD publication, streaming, edits, rendering, collision, navigation, and persistence",
+		"catalog sizes beyond the retained policy fixture",
+		"production performance, other platforms, and other native build profiles"
+	],
+	"standards_changed": [
+		"program revision 22",
+		"execution-plan revision 14",
+		"boundary/enclosure standard TQP-BOUNDARY-ENCLOSURE-WINDOWS-V1"
+	],
+	"review": "Focused native fixtures, cold/warm determinism, internal seam equality, declared contour classification, total halo sampling, catalog rejection, residency invariance, injected controls, retained evidence validation, and editor capture inspection passed. The capture is diagnostic support rather than a visual-quality acceptance gate.",
+	"downstream_impact": "TQP-33 becomes the next dependency-ordered milestone. Gate E remains closed, and dynamic adaptive terrain, destruction promotion, GPU authority, and production claims remain frozen. No world-transvoxel source or binary change was required."
+}

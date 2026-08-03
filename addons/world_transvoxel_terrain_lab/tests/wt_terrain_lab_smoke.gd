@@ -12,6 +12,9 @@ const SurfaceShadingReviewScene := preload(
 const LargeTerrainObservatoryScene := preload(
 	"res://labs/terrain_lab/scenes/large_terrain_observatory.tscn"
 )
+const BoundaryEnclosureObservatoryScene := preload(
+	"res://labs/terrain_lab/scenes/boundary_enclosure_observatory.tscn"
+)
 const NativeEvidence := preload(
 	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_edit_native_evidence.gd"
 )
@@ -56,6 +59,37 @@ func _run() -> void:
 	if LargeTerrainObservatoryScene == null:
 		_fail("TQP-27 Large Terrain Observatory scene is unavailable")
 		return
+	var boundary_script := load(
+		"res://labs/terrain_lab/scenes/boundary_enclosure_observatory.gd"
+	) as Script
+	if boundary_script == null or not boundary_script.is_tool():
+		_fail("TQP-32 Boundary Observatory must execute as an editor tool")
+		return
+	var boundary := BoundaryEnclosureObservatoryScene.instantiate()
+	root.add_child(boundary)
+	for mode in range(3):
+		boundary.editor_fixture_mode = mode
+		boundary.call("_rebuild")
+		var boundary_snapshot: Dictionary = boundary.get_validation_snapshot()
+		if str(boundary_snapshot.get("status", "")) != "PASS":
+			_fail("TQP-32 Boundary Observatory fixture failed")
+			return
+		if int(boundary_snapshot.get("native_chunk_count", 0)) != 8:
+			_fail("TQP-32 Boundary Observatory native chunk count changed")
+			return
+		var boundary_topology: Dictionary = boundary_snapshot.get("topology", {})
+		var exterior_open := int(boundary_topology.get("exterior_open_edge_count", -1))
+		if (mode == 2 and exterior_open <= 0) or (mode != 2 and exterior_open != 0):
+			_fail("TQP-32 Boundary Observatory contour ownership changed")
+			return
+		if int(boundary_topology.get("interior_open_edge_count", -1)) != 0 \
+				or int(boundary_topology.get("nonmanifold_edge_count", -1)) != 0:
+			_fail("TQP-32 Boundary Observatory topology failed")
+			return
+		if int((boundary_snapshot.get("sample_audit", {}) as Dictionary).get("outside_sample_count", 0)) <= 0:
+			_fail("TQP-32 Boundary Observatory lacks outside-field halo samples")
+			return
+	boundary.free()
 	var observatory_property_names := PackedStringArray()
 	for property in observatory_script.get_script_property_list():
 		observatory_property_names.append(str(property.get("name", "")))
@@ -224,13 +258,13 @@ func _run() -> void:
 	if int(validation.get("milestone_count", 0)) != 64:
 		_fail("terrain program milestone count changed")
 		return
-	if int(validation.get("qualified_milestone_count", 0)) != 31:
+	if int(validation.get("qualified_milestone_count", 0)) != 32:
 		_fail("qualified reference milestone count changed")
 		return
 	if int(validation.get("specified_milestone_count", 0)) != 1:
 		_fail("open specification count changed")
 		return
-	if int(validation.get("proposed_milestone_count", -1)) != 14:
+	if int(validation.get("proposed_milestone_count", -1)) != 13:
 		_fail("native adaptive-terrain proposal count changed")
 		return
 	var status_counts: Dictionary = validation.get("status_counts", {})

@@ -29,6 +29,13 @@ automatic rebuild, canonical edit seeding, chunk bounds, brush parameters,
 dig, construction, reset, and explicit rebuild. Running the scene retains the
 same terrain and exposes the larger on-screen interaction panel.
 
+The TQP-32 Boundary Observatory is a separate `@tool` scene at
+`scenes/boundary_enclosure_observatory.tscn`. It renders the retained closed
+volume, capped terrain, and intentionally open contour through the native
+chunk probe and exposes their chunk bounds and topology classifications. It is
+an inspection surface for the boundary policy, not a production terrain scene
+or a substitute for machine evidence.
+
 `tools/run_edit_gate_b_validation.gd` executes the focused `TQP-09` through
 `TQP-14` qualification. `tools/capture_edit_qualification_visual.gd`
 regenerates the deterministic brush and temporal-edit cross-section reference.

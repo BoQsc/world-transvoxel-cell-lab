@@ -156,7 +156,7 @@ residency shape, edit history, or runtime scale. In particular:
 
 The 2026-08-02 terrain-core completeness audit found the former roadmap moved
 from bounded TQP-27 evidence directly to destruction. Phase 4 closes that gap.
-Until Gate E passes, this program may claim the qualified TQP-01 through TQP-31
+Until Gate E passes, this program may claim the qualified TQP-01 through TQP-32
 scopes, but it must not claim authoritative dynamic adaptive Transvoxel terrain.
 
 ## Phase 1: Qualified Foundations And Reference Semantics
@@ -603,17 +603,30 @@ coordinates, four materials, and empty/full controls. Winding is checked
 for shared-edge consistency and connected-component normal polarity, matching
 the native finalizer contract. One local skinny-triangle normal disagreement is
 retained as a diagnostic and is not a component winding defect. Dynamic or
-arbitrary adaptive arrangements and world-boundary policy remain unqualified.
+arbitrary adaptive arrangements remain unqualified; TQP-32 separately owns
+the bounded world-boundary policy.
 
 ### TQP-32: Chunk, World Boundary, And Enclosure Policy
 
-Status: `proposed`. Owner: Terrain Systems Lab. Depends on: TQP-02, TQP-03,
+Status: `qualified`. Owner: Terrain Systems Lab. Depends on: TQP-02, TQP-03,
 TQP-05, TQP-29, TQP-30, TQP-31.
 
 Complete when internal chunk interfaces, finite-world edges, vertical limits,
 outside-field sampling, closed versus intentionally open contours, caps,
 unloaded neighbors, and catalog limits have explicit ownership. Artificial
 skirts or hidden overlap cannot count as a topology correction.
+
+The retained Windows reference runs four 2x2x2 native windows at LOD0 and LOD2
+twice, for 64 direct chunk calls, plus five LOD2 unloaded-neighbor calls. Closed
+volume and capped-terrain fixtures have zero open or nonmanifold edges; the declared
+open fixture has 142 exterior open edges confined to the declared +/-X and
++/-Z planes, with none on +/-Y. Every fixture serves 6,936
+native gradient-halo samples outside its finite domain across all six faces.
+Twelve injected controls prove that invalid catalogs, resident-dependent density,
+skirts, and overlap are rejected. The exact eight-chunk catalog, partial
+residency, signatures, minimized repros, and `@tool` Boundary Observatory are
+retained. TQP-33 general topology oracles, dynamic terrain, larger catalogs,
+production performance, and other platforms remain unqualified.
 
 ### TQP-33: Independent Geometry And Topology Oracles
 
@@ -951,13 +964,14 @@ a standard, not an assertion that future terrain work is finished.
 
 The program records every milestone at a truthful evidence state:
 
-- `TQP-01` through `TQP-31` are qualified
+- `TQP-01` through `TQP-32` are qualified
   for their narrow contract, native Windows reference, or reference-model
   scopes. Gate B is qualified; its native chunk rebuild benchmark remains a
   background/debug reference and is not a production frame-time claim.
-- `TQP-28` through `TQP-31` qualify the deterministic field contract, bounded
+- `TQP-28` through `TQP-32` qualify the deterministic field contract, bounded
   LOD0 complex native corpus, finite adaptive selector, and static native
-  transition-assembly matrix. `TQP-32` through `TQP-45` remain proposed, so
+  transition-assembly matrix, plus bounded boundary/enclosure policy.
+  `TQP-33` through `TQP-45` remain proposed, so
   the program makes no Gate E adaptive-terrain authority claim.
 - `TQP-46` through `TQP-51` retain the previously implemented destruction and
   structural reference behavior under their revision-19 identifiers.
@@ -965,8 +979,8 @@ The program records every milestone at a truthful evidence state:
 - `TQP-53` through `TQP-64` are blocked by named external targets and exit
   conditions in `program_blockers.json`.
 
-The next dependency-ordered milestone is TQP-32, the chunk, world-boundary, and
-enclosure policy. TQP-27 remains qualified through `TQP-D016` only for its
+The next dependency-ordered milestone is TQP-33, independent geometry and
+topology oracles. TQP-27 remains qualified through `TQP-D016` only for its
 bounded native Windows 2K-world soak and durable edit-journal restart.
 `TQP-F002` retains large-volume snapshot compaction as an open upstream
 capacity issue. Gate D is qualified only for that bounded reference claim;
@@ -975,12 +989,13 @@ behind it. A milestone may advance only when its declared evidence passes.
 
 ## What Comes Next
 
-The immediate task is TQP-32. It will define chunk and finite-world boundary
-ownership, vertical limits, outside-field sampling, closed versus intentionally
-open contours, unloaded neighbors, caps, and catalog limits without accepting
-skirts or hidden overlap as topology corrections.
+TQP-32 now defines the bounded chunk and finite-world boundary policy:
+authoritative outside-field halo samples, density-owned caps, declared open
+contours, residency-independent chunk geometry, exact catalog limits, and no
+skirts or hidden overlap.
 
-TQP-33 and TQP-34 then add independent geometry/topology oracles and
+The immediate task is TQP-33. TQP-33 and TQP-34 add independent
+geometry/topology oracles and
 adversarial or randomized cases with minimized repros. This is where the lab
 must prove that complex mixed-resolution fields remain connected and explain
 failures without relying only on the implementation being tested. TQP-30 and
@@ -1087,4 +1102,9 @@ Retained decisions:
   selector and retained native Windows transition-assembly matrix, align the
   winding oracle with the native connected-component contract, and retain
   dynamic terrain, enclosure, independent-oracle, and production claims as
+  unqualified.
+- `TQP-D020`: qualify TQP-32 for the bounded native Windows boundary,
+  outside-field halo, enclosure, unloaded-neighbor, and exact catalog policy;
+  reject skirts, overlap, and resident-dependent density while retaining
+  general topology, dynamic terrain, larger catalogs, and production claims as
   unqualified.

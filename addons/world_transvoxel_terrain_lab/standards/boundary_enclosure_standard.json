@@ -1,0 +1,125 @@
+{
+	"schema": "world_transvoxel.terrain_lab.boundary_enclosure_standard.v1",
+	"standard_id": "TQP-BOUNDARY-ENCLOSURE-WINDOWS-V1",
+	"authority": "WORLD_TRANSVOXEL_NATIVE_BOUNDARY_REFERENCE",
+	"milestone": "TQP-32",
+	"evidence": "res://labs/terrain_lab/results/boundary_enclosure_reference_windows.json",
+	"contract": {
+		"native_dependency": "WorldTransvoxelCellProbe",
+		"fallback_geometry": "forbidden",
+		"chunk_interface_ownership": "one_authoritative_integer_sample_field_shared_by_every_chunk_and_lod_representation",
+		"outside_field_sampling": "total_authoritative_density_and_material_function_with_gradient_halo",
+		"gradient_halo": "native_mesher_may_sample_one_current_lod_spacing_beyond_chunk_endpoints_on_every_axis",
+		"unloaded_neighbor_policy": "residency_never_changes_authoritative_samples_or_resident_chunk_geometry",
+		"closed_contour_policy": "density_field_enclosure_inside_declared_finite_domain",
+		"open_contour_policy": "open_edges_allowed_only_on_declared_exterior_planes",
+		"cap_source": "authoritative_density_field_only",
+		"vertical_limits": "top_and_bottom_follow_the_same_density_field_enclosure_rule_as_horizontal_world_limits",
+		"catalog_ownership": "finite_world_catalog_is_exact_and_residency_is_a_bounded_subset",
+		"forbidden_topology_corrections": [
+			"artificial_skirts",
+			"hidden_overlap",
+			"resident_fallback_density"
+		]
+	},
+	"catalog": {
+		"minimum_chunk": [0, 0, 0],
+		"size_chunks": [2, 2, 2],
+		"lod": 0,
+		"world_capacity": 8,
+		"resident_capacity": 8,
+		"world_catalog_policy": "all_eight_declared_chunks_exactly_once",
+		"residency_policy": "zero_to_eight_unique_members_of_world_catalog",
+		"rejection_policy": "duplicate_out_of_bounds_missing_malformed_unknown_unsupported_lod_or_over_capacity_entries_fail_closed"
+	},
+	"fixtures": [
+		{
+			"id": "closed_volume_all_faces",
+			"kind": "closed_volume",
+			"chunk_base": [0, 0, 0],
+			"window_chunks": [2, 2, 2],
+			"enclosure_inset_samples": 1.75,
+			"contour": "closed",
+			"declared_open_faces": [],
+			"requires_all_enclosure_faces": true
+		},
+		{
+			"id": "closed_terrain_side_bottom_caps",
+			"kind": "closed_terrain",
+			"chunk_base": [-2, 1, -1],
+			"window_chunks": [2, 2, 2],
+			"enclosure_inset_samples": 1.75,
+			"contour": "closed",
+			"declared_open_faces": [],
+			"requires_all_enclosure_faces": false
+		},
+		{
+			"id": "intentional_open_terrain",
+			"kind": "open_terrain",
+			"chunk_base": [3, -2, 2],
+			"window_chunks": [2, 2, 2],
+			"enclosure_inset_samples": 1.75,
+			"contour": "open",
+			"declared_open_faces": ["negative_x", "positive_x", "negative_z", "positive_z"],
+			"requires_all_enclosure_faces": false
+		},
+		{
+			"id": "coarse_closed_volume_lod2",
+			"kind": "closed_volume",
+			"chunk_base": [-1, -1, -1],
+			"window_chunks": [2, 2, 2],
+			"lod": 2,
+			"enclosure_inset_samples": 7.0,
+			"contour": "closed",
+			"declared_open_faces": [],
+			"requires_all_enclosure_faces": true
+		}
+	],
+	"budgets": {
+		"minimum_fixture_count": 4,
+		"minimum_negative_control_count": 12,
+		"minimum_native_chunk_call_count": 69,
+		"maximum_fixture_p95_usec": 15000000,
+		"maximum_total_usec": 90000000
+	},
+	"runtime_profile": {
+		"platform": "Windows",
+		"build_type": "debug_editor_headless",
+		"backend": "world_transvoxel_native_extension"
+	},
+	"stable_expected": {
+		"matrix_geometry_signature": "80c53a44f112c0d1a5ede3671107555c999c34a9991a37b9f8eb63febb39b04b",
+		"unloaded_neighbor_signature": "97c676e804242c9b2d3302db10f350659317138c46edade8d57a230aaf8e1a96",
+		"fixtures": {
+			"closed_volume_all_faces": "ef3767fe17cb0654084ebdca601343b93fdca837ed42c552a3c3afa902e264c8",
+			"closed_terrain_side_bottom_caps": "2344fb0b1b0b827585c17a7453ca30be7101dd53e48ba36261faaab3e9e2b45e",
+			"intentional_open_terrain": "6c7195beb6a4e165ca39f869f84d052b2bd4f24a78833a29949dd6eed00ce31f",
+			"coarse_closed_volume_lod2": "fad9f7f7da6bfb6284178128fa054f4d5ecc679c47475139588cea073066d937"
+		}
+	},
+	"editor_inspection": {
+		"scene": "res://labs/terrain_lab/scenes/boundary_enclosure_observatory.tscn",
+		"capture": "res://labs/terrain_lab/results/boundary_enclosure_observatory_reference_windows.png",
+		"capture_sha256": "4fff426a1f9514ca15deb15ae9ff8ec4ee170747985332a7b282d19d9ddfcefc",
+		"width": 1280,
+		"height": 720,
+		"default_fixture": "closed_terrain_side_bottom_caps",
+		"automation_status": "PASS",
+		"review_scope": "diagnostic_editor_inspection_not_a_visual_quality_gate"
+	},
+	"qualified_scope": [
+		"native LOD0 and LOD2 internal same-resolution interfaces for four retained two-by-two-by-two finite windows",
+		"total authoritative sample-source behavior including the native one-sample gradient halo on all six exterior directions",
+		"closed density-field enclosure, terrain side and bottom caps, and intentionally open exterior contours",
+		"LOD2 resident target geometry invariance when a same-LOD neighbor is unloaded or loaded",
+		"exact bounded world catalog and bounded partial-residency validation with injected invalid controls",
+		"explicit rejection of artificial skirts, hidden overlap, and resident-dependent fallback density"
+	],
+	"explicitly_unqualified_scope": [
+		"general independent geometry and topology oracles or arbitrary defect injection reserved for TQP-33",
+		"randomized and adversarial field generation reserved for TQP-34",
+		"dynamic asynchronous LOD publication, streaming, edits, collision, navigation, rendering, or persistence",
+		"world catalogs larger than the retained two-by-two-by-two policy fixture",
+		"production performance, other platforms, and other native build profiles"
+	]
+}

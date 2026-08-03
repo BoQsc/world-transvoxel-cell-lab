@@ -16,6 +16,12 @@ const SURFACE_REVIEW_SCENE := (
 	"res://labs/terrain_lab/scenes/surface_shading_review.tscn"
 )
 const SURFACE_REVIEW_MENU_LABEL := "Open TQP-23 Surface Review"
+const BOUNDARY_ENCLOSURE_OBSERVATORY_SCENE := (
+	"res://labs/terrain_lab/scenes/boundary_enclosure_observatory.tscn"
+)
+const BOUNDARY_ENCLOSURE_OBSERVATORY_MENU_LABEL := (
+	"Open TQP-32 Boundary Observatory"
+)
 
 
 func _enter_tree() -> void:
@@ -31,6 +37,10 @@ func _enter_tree() -> void:
 		_open_large_terrain_observatory
 	)
 	add_tool_menu_item(SURFACE_REVIEW_MENU_LABEL, _open_surface_review)
+	add_tool_menu_item(
+		BOUNDARY_ENCLOSURE_OBSERVATORY_MENU_LABEL,
+		_open_boundary_enclosure_observatory
+	)
 	set_process(true)
 
 
@@ -38,6 +48,7 @@ func _exit_tree() -> void:
 	remove_tool_menu_item(OBSERVATORY_MENU_LABEL)
 	remove_tool_menu_item(LARGE_TERRAIN_OBSERVATORY_MENU_LABEL)
 	remove_tool_menu_item(SURFACE_REVIEW_MENU_LABEL)
+	remove_tool_menu_item(BOUNDARY_ENCLOSURE_OBSERVATORY_MENU_LABEL)
 	remove_custom_type("WtTransvoxelTerrainLab")
 
 
@@ -51,6 +62,12 @@ func _open_large_terrain_observatory() -> void:
 
 func _open_surface_review() -> void:
 	get_editor_interface().open_scene_from_path(SURFACE_REVIEW_SCENE)
+
+
+func _open_boundary_enclosure_observatory() -> void:
+	get_editor_interface().open_scene_from_path(
+		BOUNDARY_ENCLOSURE_OBSERVATORY_SCENE
+	)
 
 
 func _process(delta: float) -> void:

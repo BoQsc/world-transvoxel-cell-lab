@@ -32,6 +32,9 @@ const AdaptiveLodEvidence := preload(
 const TransitionAssemblyEvidence := preload(
 	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_transition_assembly_evidence.gd"
 )
+const BoundaryEnclosureEvidence := preload(
+	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_boundary_enclosure_evidence.gd"
+)
 
 const PROGRAM_SCHEMA := "world_transvoxel.terrain_lab.program.v2"
 const LAB_SCOPE := "experimental_terrain_qualification"
@@ -120,6 +123,7 @@ static func validate(program: Dictionary, dependencies: Dictionary) -> Dictionar
 	_validate_native_field_evidence(program, milestone_by_id, failures)
 	_validate_adaptive_lod_evidence(program, milestone_by_id, failures)
 	_validate_transition_assembly_evidence(program, milestone_by_id, failures)
+	_validate_boundary_enclosure_evidence(program, milestone_by_id, failures)
 	_validate_visual_evidence(program, milestone_by_id, failures)
 	_validate_dependency_boundary(program, dependencies, failures)
 	_validate_source_boundary(failures)
@@ -247,7 +251,7 @@ static func _validate_evidence_files(program: Dictionary, failures: Array[String
 		"TQP-D001", "TQP-D002", "TQP-D003", "TQP-D004", "TQP-D005",
 		"TQP-D006", "TQP-D007", "TQP-D008", "TQP-D009", "TQP-D010",
 		"TQP-D011", "TQP-D012", "TQP-D013", "TQP-D014", "TQP-D015",
-		"TQP-D016", "TQP-D017", "TQP-D018", "TQP-D019",
+		"TQP-D016", "TQP-D017", "TQP-D018", "TQP-D019", "TQP-D020",
 	]:
 		_expect(decision_ids.has(required), "missing retained decision: " + required, failures)
 	for key in [
@@ -284,6 +288,8 @@ static func _validate_evidence_files(program: Dictionary, failures: Array[String
 		"adaptive_lod_evidence",
 		"transition_assembly_standard",
 		"transition_assembly_evidence",
+		"boundary_enclosure_standard",
+		"boundary_enclosure_evidence",
 		"wave_02_first_batch_evidence",
 		"wave_02_second_batch_evidence",
 		"execution_plan",
@@ -957,6 +963,32 @@ static func _validate_transition_assembly_evidence(
 		str((milestone_by_id.get("TQP-31", {}) as Dictionary).get("status", ""))
 			== "qualified",
 		"TQP-31 must match retained transition assembly evidence",
+		failures
+	)
+
+
+static func _validate_boundary_enclosure_evidence(
+	program: Dictionary,
+	milestone_by_id: Dictionary,
+	failures: Array[String]
+) -> void:
+	var standard := JsonLoader.load_dictionary(
+		str(program.get("boundary_enclosure_standard", ""))
+	)
+	_expect(
+		str(standard.get("schema", ""))
+			== "world_transvoxel.terrain_lab.boundary_enclosure_standard.v1",
+		"TQP-32 boundary/enclosure standard schema mismatch",
+		failures
+	)
+	var validation := BoundaryEnclosureEvidence.validate_retained()
+	if str(validation.get("status", "")) != "PASS":
+		for failure_value in validation.get("failures", []):
+			failures.append("TQP-32 boundary/enclosure: " + str(failure_value))
+	_expect(
+		str((milestone_by_id.get("TQP-32", {}) as Dictionary).get("status", ""))
+			== "qualified",
+		"TQP-32 must match retained boundary/enclosure evidence",
 		failures
 	)
 

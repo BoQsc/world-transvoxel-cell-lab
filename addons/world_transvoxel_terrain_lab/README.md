@@ -4,11 +4,12 @@ The Terrain Lab addon owns controlled experiments for the Terrain Qualification
 Program. It is separate from `world_transvoxel_cell_lab` even though both addons
 share this repository and the pinned `world_transvoxel` dependency.
 
-Current status: fail-closed program revision 21. All 64 milestones have a
-machine-readable evidence state. TQP-01 through TQP-31 retain their bounded
-qualified scopes; TQP-28 through TQP-31 establish the deterministic native
+Current status: fail-closed program revision 22. All 64 milestones have a
+machine-readable evidence state. TQP-01 through TQP-32 retain their bounded
+qualified scopes; TQP-28 through TQP-32 establish the deterministic native
 field contract, LOD0 complex-field corpus, bounded adaptive selector, and
-native transition-assembly matrix. TQP-32 through TQP-45 remain `proposed`.
+native transition-assembly matrix plus boundary/enclosure policy. TQP-33
+through TQP-45 remain `proposed`.
 Destruction, GPU, and production promotion remain closed behind Gate E.
 
 Gate B edit qualification is retained in
@@ -79,6 +80,19 @@ controls provide the retained origin, center, and distant locations. Running
 the scene provides the same teleport controls and a free camera. The scene does
 not instantiate the entire catalog as resident geometry and does not extend
 TQP-27's bounded qualification claim.
+
+TQP-32 Boundary Observatory:
+
+```text
+res://labs/terrain_lab/scenes/boundary_enclosure_observatory.tscn
+```
+
+Open it from **Project > Tools > Open TQP-32 Boundary Observatory**. Its
+`@tool` root switches among the retained closed-volume, closed-terrain, and
+intentionally-open native fixtures. The panel reports contour classification,
+interior openings, nonmanifold edges, and outside-field gradient-halo samples;
+it never generates caps, skirts, or fallback geometry outside
+`WorldTransvoxelCellProbe`.
 
 TQP-23 guided surface review:
 

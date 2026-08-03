@@ -1,0 +1,561 @@
+{
+	"schema": "world_transvoxel.terrain_lab.boundary_enclosure_qualification.v1",
+	"standard_id": "TQP-BOUNDARY-ENCLOSURE-WINDOWS-V1",
+	"authority": "WORLD_TRANSVOXEL_NATIVE_BOUNDARY_REFERENCE",
+	"milestone": "TQP-32",
+	"status": "PASS",
+	"retained_complete": true,
+	"contract": {
+		"status": "PASS",
+		"checks": [
+			{
+				"id": "standard_schema",
+				"status": "PASS"
+			},
+			{
+				"id": "native_authority",
+				"status": "PASS"
+			},
+			{
+				"id": "no_fallback",
+				"status": "PASS"
+			},
+			{
+				"id": "outside_field_sampling",
+				"status": "PASS"
+			},
+			{
+				"id": "unloaded_neighbor",
+				"status": "PASS"
+			},
+			{
+				"id": "closed_contours",
+				"status": "PASS"
+			},
+			{
+				"id": "open_contours",
+				"status": "PASS"
+			},
+			{
+				"id": "cap_ownership",
+				"status": "PASS"
+			},
+			{
+				"id": "forbidden_corrections",
+				"status": "PASS"
+			},
+			{
+				"id": "catalog_rejection",
+				"status": "PASS"
+			}
+		],
+		"failures": []
+	},
+	"fixtures": [
+		{
+			"fixture_id": "closed_volume_all_faces",
+			"kind": "closed_volume",
+			"lod": 0,
+			"contour": "closed",
+			"status": "PASS",
+			"definition_signature": "8dea93a63c3a22ee116492b8a9fc65d4d934dbd722d1411b7a161445985cd22c",
+			"geometry_signature": "ef3767fe17cb0654084ebdca601343b93fdca837ed42c552a3c3afa902e264c8",
+			"warm_geometry_signature": "ef3767fe17cb0654084ebdca601343b93fdca837ed42c552a3c3afa902e264c8",
+			"native_chunk_call_count": 16,
+			"triangle_count": 10088,
+			"vertex_count": 5400,
+			"seam_count": 12,
+			"topology": {
+				"status": "PASS",
+				"chunk_count": 8,
+				"triangle_count": 10088,
+				"unique_edge_count": 15132,
+				"exterior_open_edge_count": 0,
+				"interior_open_edge_count": 0,
+				"nonmanifold_edge_count": 0,
+				"window_min": "(0.0, 0.0, 0.0)",
+				"window_max": "(32.0, 32.0, 32.0)",
+				"coordinate_frame_origin": "(0.0, 0.0, 0.0)",
+				"sample_interior_open_edges": [],
+				"sample_nonmanifold_edges": [],
+				"failures": []
+			},
+			"declared_open_faces": [],
+			"open_edge_faces": {
+				"exterior_open_edge_count": 0,
+				"face_counts": {
+					"negative_x": 0,
+					"positive_x": 0,
+					"negative_y": 0,
+					"positive_y": 0,
+					"negative_z": 0,
+					"positive_z": 0
+				},
+				"unclassified_open_edge_count": 0,
+				"multiplane_open_edge_count": 0
+			},
+			"enclosure_face_presence": {
+				"negative_x": true,
+				"positive_x": true,
+				"negative_y": true,
+				"positive_y": true,
+				"negative_z": true,
+				"positive_z": true
+			},
+			"sample_audit": {
+				"sample_call_count": 53176,
+				"sample_min": "(-1, -1, -1)",
+				"sample_max": "(33, 33, 33)",
+				"outside_sample_count": 6936,
+				"outside_face_counts": {
+					"negative_x": 1156,
+					"positive_x": 1156,
+					"negative_y": 1156,
+					"positive_y": 1156,
+					"negative_z": 1156,
+					"positive_z": 1156
+				},
+				"declared_domain_min": "(0, 0, 0)",
+				"declared_domain_max": "(32, 32, 32)"
+			},
+			"elapsed_usec": 2032869,
+			"minimized_repro": {
+				"runner": "res://labs/terrain_lab/tools/run_boundary_enclosure_validation.gd",
+				"arguments": [
+					"--fixture",
+					"closed_volume_all_faces"
+				]
+			},
+			"failures": []
+		},
+		{
+			"fixture_id": "closed_terrain_side_bottom_caps",
+			"kind": "closed_terrain",
+			"lod": 0,
+			"contour": "closed",
+			"status": "PASS",
+			"definition_signature": "f3432731e92ace8b5c66460bb6d24a573ebad5f64a63eb7ee669b144f448c0a0",
+			"geometry_signature": "2344fb0b1b0b827585c17a7453ca30be7101dd53e48ba36261faaab3e9e2b45e",
+			"warm_geometry_signature": "2344fb0b1b0b827585c17a7453ca30be7101dd53e48ba36261faaab3e9e2b45e",
+			"native_chunk_call_count": 16,
+			"triangle_count": 7672,
+			"vertex_count": 4152,
+			"seam_count": 12,
+			"topology": {
+				"status": "PASS",
+				"chunk_count": 8,
+				"triangle_count": 7672,
+				"unique_edge_count": 11508,
+				"exterior_open_edge_count": 0,
+				"interior_open_edge_count": 0,
+				"nonmanifold_edge_count": 0,
+				"window_min": "(0.0, 0.0, 0.0)",
+				"window_max": "(32.0, 32.0, 32.0)",
+				"coordinate_frame_origin": "(-32.0, 16.0, -16.0)",
+				"sample_interior_open_edges": [],
+				"sample_nonmanifold_edges": [],
+				"failures": []
+			},
+			"declared_open_faces": [],
+			"open_edge_faces": {
+				"exterior_open_edge_count": 0,
+				"face_counts": {
+					"negative_x": 0,
+					"positive_x": 0,
+					"negative_y": 0,
+					"positive_y": 0,
+					"negative_z": 0,
+					"positive_z": 0
+				},
+				"unclassified_open_edge_count": 0,
+				"multiplane_open_edge_count": 0
+			},
+			"enclosure_face_presence": {
+				"negative_x": true,
+				"positive_x": true,
+				"negative_y": true,
+				"positive_y": false,
+				"negative_z": true,
+				"positive_z": true
+			},
+			"sample_audit": {
+				"sample_call_count": 53176,
+				"sample_min": "(-33, 15, -17)",
+				"sample_max": "(1, 49, 17)",
+				"outside_sample_count": 6936,
+				"outside_face_counts": {
+					"negative_x": 1156,
+					"positive_x": 1156,
+					"negative_y": 1156,
+					"positive_y": 1156,
+					"negative_z": 1156,
+					"positive_z": 1156
+				},
+				"declared_domain_min": "(-32, 16, -16)",
+				"declared_domain_max": "(0, 48, 16)"
+			},
+			"elapsed_usec": 1728950,
+			"minimized_repro": {
+				"runner": "res://labs/terrain_lab/tools/run_boundary_enclosure_validation.gd",
+				"arguments": [
+					"--fixture",
+					"closed_terrain_side_bottom_caps"
+				]
+			},
+			"failures": []
+		},
+		{
+			"fixture_id": "intentional_open_terrain",
+			"kind": "open_terrain",
+			"lod": 0,
+			"contour": "open",
+			"status": "PASS",
+			"definition_signature": "063136e6993625a383d70179d162af03bd6f4e7e8f0181923e2e5f4ee664ef58",
+			"geometry_signature": "6c7195beb6a4e165ca39f869f84d052b2bd4f24a78833a29949dd6eed00ce31f",
+			"warm_geometry_signature": "6c7195beb6a4e165ca39f869f84d052b2bd4f24a78833a29949dd6eed00ce31f",
+			"native_chunk_call_count": 16,
+			"triangle_count": 2420,
+			"vertex_count": 1430,
+			"seam_count": 12,
+			"topology": {
+				"status": "PASS",
+				"chunk_count": 8,
+				"triangle_count": 2420,
+				"unique_edge_count": 3701,
+				"exterior_open_edge_count": 142,
+				"interior_open_edge_count": 0,
+				"nonmanifold_edge_count": 0,
+				"window_min": "(0.0, 0.0, 0.0)",
+				"window_max": "(32.0, 32.0, 32.0)",
+				"coordinate_frame_origin": "(48.0, -32.0, 32.0)",
+				"sample_interior_open_edges": [],
+				"sample_nonmanifold_edges": [],
+				"failures": []
+			},
+			"declared_open_faces": [
+				"negative_x",
+				"positive_x",
+				"negative_z",
+				"positive_z"
+			],
+			"open_edge_faces": {
+				"exterior_open_edge_count": 142,
+				"face_counts": {
+					"negative_x": 36,
+					"positive_x": 36,
+					"negative_y": 0,
+					"positive_y": 0,
+					"negative_z": 35,
+					"positive_z": 35
+				},
+				"unclassified_open_edge_count": 0,
+				"multiplane_open_edge_count": 0
+			},
+			"enclosure_face_presence": {
+				"negative_x": true,
+				"positive_x": true,
+				"negative_y": false,
+				"positive_y": false,
+				"negative_z": true,
+				"positive_z": true
+			},
+			"sample_audit": {
+				"sample_call_count": 53176,
+				"sample_min": "(47, -33, 31)",
+				"sample_max": "(81, 1, 65)",
+				"outside_sample_count": 6936,
+				"outside_face_counts": {
+					"negative_x": 1156,
+					"positive_x": 1156,
+					"negative_y": 1156,
+					"positive_y": 1156,
+					"negative_z": 1156,
+					"positive_z": 1156
+				},
+				"declared_domain_min": "(48, -32, 32)",
+				"declared_domain_max": "(80, 0, 64)"
+			},
+			"elapsed_usec": 1032406,
+			"minimized_repro": {
+				"runner": "res://labs/terrain_lab/tools/run_boundary_enclosure_validation.gd",
+				"arguments": [
+					"--fixture",
+					"intentional_open_terrain"
+				]
+			},
+			"failures": []
+		},
+		{
+			"fixture_id": "coarse_closed_volume_lod2",
+			"kind": "closed_volume",
+			"lod": 2,
+			"contour": "closed",
+			"status": "PASS",
+			"definition_signature": "e72f7beb65044019902da907585f08b1ab7d49da6e4c428b3d50390c010507ca",
+			"geometry_signature": "fad9f7f7da6bfb6284178128fa054f4d5ecc679c47475139588cea073066d937",
+			"warm_geometry_signature": "fad9f7f7da6bfb6284178128fa054f4d5ecc679c47475139588cea073066d937",
+			"native_chunk_call_count": 16,
+			"triangle_count": 10088,
+			"vertex_count": 5400,
+			"seam_count": 12,
+			"topology": {
+				"status": "PASS",
+				"chunk_count": 8,
+				"triangle_count": 10088,
+				"unique_edge_count": 15132,
+				"exterior_open_edge_count": 0,
+				"interior_open_edge_count": 0,
+				"nonmanifold_edge_count": 0,
+				"window_min": "(0.0, 0.0, 0.0)",
+				"window_max": "(128.0, 128.0, 128.0)",
+				"coordinate_frame_origin": "(-64.0, -64.0, -64.0)",
+				"sample_interior_open_edges": [],
+				"sample_nonmanifold_edges": [],
+				"failures": []
+			},
+			"declared_open_faces": [],
+			"open_edge_faces": {
+				"exterior_open_edge_count": 0,
+				"face_counts": {
+					"negative_x": 0,
+					"positive_x": 0,
+					"negative_y": 0,
+					"positive_y": 0,
+					"negative_z": 0,
+					"positive_z": 0
+				},
+				"unclassified_open_edge_count": 0,
+				"multiplane_open_edge_count": 0
+			},
+			"enclosure_face_presence": {
+				"negative_x": true,
+				"positive_x": true,
+				"negative_y": true,
+				"positive_y": true,
+				"negative_z": true,
+				"positive_z": true
+			},
+			"sample_audit": {
+				"sample_call_count": 120552,
+				"sample_min": "(-68, -68, -68)",
+				"sample_max": "(68, 68, 68)",
+				"outside_sample_count": 6936,
+				"outside_face_counts": {
+					"negative_x": 1156,
+					"positive_x": 1156,
+					"negative_y": 1156,
+					"positive_y": 1156,
+					"negative_z": 1156,
+					"positive_z": 1156
+				},
+				"declared_domain_min": "(-64, -64, -64)",
+				"declared_domain_max": "(64, 64, 64)"
+			},
+			"elapsed_usec": 2737161,
+			"minimized_repro": {
+				"runner": "res://labs/terrain_lab/tools/run_boundary_enclosure_validation.gd",
+				"arguments": [
+					"--fixture",
+					"coarse_closed_volume_lod2"
+				]
+			},
+			"failures": []
+		}
+	],
+	"catalog_policy": {
+		"status": "PASS",
+		"world_catalog": {
+			"status": "PASS",
+			"entry_count": 8,
+			"expected_entry_count": 8,
+			"capacity": 8,
+			"failures": []
+		},
+		"partial_residency": {
+			"status": "PASS",
+			"resident_count": 3,
+			"capacity": 8,
+			"failures": []
+		},
+		"catalog_signature": "2ea4e09079bf11ad41ba1f83339a43e073da027b2d3de84ac6a2e1bacd2ed042",
+		"failures": []
+	},
+	"unloaded_neighbor": {
+		"status": "PASS",
+		"resident_target_signature": "4ba55e2c7121a5dbb11e8215be934cdd75113f810c5d27b2daf3c2198508c7b1",
+		"unloaded_target_signature": "4ba55e2c7121a5dbb11e8215be934cdd75113f810c5d27b2daf3c2198508c7b1",
+		"geometry_invariant": true,
+		"loaded_interface": {
+			"status": "PASS",
+			"axis": 0,
+			"left_edge_count": 18,
+			"right_edge_count": 18,
+			"left_only_count": 0,
+			"right_only_count": 0,
+			"multiplicity_mismatch_count": 0,
+			"sample_left_only": [],
+			"sample_right_only": [],
+			"sample_multiplicity_mismatches": [],
+			"failures": []
+		},
+		"resident_coupled_negative_detected": true,
+		"native_chunk_call_count": 5,
+		"signature": "97c676e804242c9b2d3302db10f350659317138c46edade8d57a230aaf8e1a96",
+		"failures": []
+	},
+	"negative_controls": {
+		"status": "PASS",
+		"control_count": 12,
+		"controls": [
+			{
+				"id": "duplicate_catalog_chunk",
+				"status": "PASS",
+				"injected_failure_detected": true,
+				"detector_failures": [
+					"catalog capacity exceeded",
+					"catalog contains a duplicate chunk",
+					"catalog does not exactly own the finite world"
+				]
+			},
+			{
+				"id": "missing_catalog_chunk",
+				"status": "PASS",
+				"injected_failure_detected": true,
+				"detector_failures": [
+					"catalog does not exactly own the finite world"
+				]
+			},
+			{
+				"id": "out_of_bounds_catalog_chunk",
+				"status": "PASS",
+				"injected_failure_detected": true,
+				"detector_failures": [
+					"catalog entry is outside the finite world"
+				]
+			},
+			{
+				"id": "catalog_capacity_overflow",
+				"status": "PASS",
+				"injected_failure_detected": true,
+				"detector_failures": [
+					"catalog capacity exceeded"
+				]
+			},
+			{
+				"id": "malformed_catalog_coordinate",
+				"status": "PASS",
+				"injected_failure_detected": true,
+				"detector_failures": [
+					"catalog entry has an invalid coordinate or LOD type"
+				]
+			},
+			{
+				"id": "unsupported_catalog_lod",
+				"status": "PASS",
+				"injected_failure_detected": true,
+				"detector_failures": [
+					"catalog entry has unsupported LOD"
+				]
+			},
+			{
+				"id": "unknown_resident_chunk",
+				"status": "PASS",
+				"injected_failure_detected": true,
+				"detector_failures": [
+					"resident entry is absent from the world catalog"
+				]
+			},
+			{
+				"id": "duplicate_resident_chunk",
+				"status": "PASS",
+				"injected_failure_detected": true,
+				"detector_failures": [
+					"resident set contains a duplicate chunk"
+				]
+			},
+			{
+				"id": "artificial_skirt",
+				"status": "PASS",
+				"injected_failure_detected": true,
+				"detector_failures": [
+					"forbidden topology correction"
+				]
+			},
+			{
+				"id": "hidden_overlap",
+				"status": "PASS",
+				"injected_failure_detected": true,
+				"detector_failures": [
+					"forbidden topology correction"
+				]
+			},
+			{
+				"id": "resident_fallback_density",
+				"status": "PASS",
+				"injected_failure_detected": true,
+				"detector_failures": [
+					"forbidden topology correction"
+				]
+			},
+			{
+				"id": "resident_coupled_geometry_change",
+				"status": "PASS",
+				"injected_failure_detected": true
+			}
+		],
+		"failures": []
+	},
+	"matrix": {
+		"fixture_count": 4,
+		"native_chunk_call_count": 69,
+		"geometry_signature": "80c53a44f112c0d1a5ede3671107555c999c34a9991a37b9f8eb63febb39b04b"
+	},
+	"performance": {
+		"fixture_distribution": {
+			"sample_count": 4,
+			"p50_usec": 1728950.0,
+			"p95_usec": 2737161.0,
+			"p99_usec": 2737161.0,
+			"worst_usec": 2737161.0
+		},
+		"elapsed_usec": 7910437
+	},
+	"provenance": {
+		"workload_signature": "80c53a44f112c0d1a5ede3671107555c999c34a9991a37b9f8eb63febb39b04b",
+		"build_type": "debug",
+		"os": "Windows",
+		"architecture": "x86_64",
+		"cpu": "Intel(R) Core(TM) i5-7300HQ CPU @ 2.50GHz",
+		"gpu": "",
+		"driver": "vulkan",
+		"godot_version": "4.7.1-stable (steam)",
+		"backend_revision": "7745271430da87604095038288ca0f668dff74e7c01b9b62361207c2530e7cc5",
+		"native_dependency": "WorldTransvoxelCellProbe",
+		"processor_count": 4
+	},
+	"failures": [],
+	"standard_validation": {
+		"schema": "world_transvoxel.terrain_lab.boundary_enclosure_evidence_validation.v1",
+		"status": "PASS",
+		"qualification_status": "QUALIFIED_NATIVE_BOUNDARY_ENCLOSURE_WINDOWS_V1",
+		"scope_status": {
+			"TQP-32": "qualified_native_boundary_enclosure_policy_v1"
+		},
+		"qualified_scope": [
+			"native LOD0 and LOD2 internal same-resolution interfaces for four retained two-by-two-by-two finite windows",
+			"total authoritative sample-source behavior including the native one-sample gradient halo on all six exterior directions",
+			"closed density-field enclosure, terrain side and bottom caps, and intentionally open exterior contours",
+			"LOD2 resident target geometry invariance when a same-LOD neighbor is unloaded or loaded",
+			"exact bounded world catalog and bounded partial-residency validation with injected invalid controls",
+			"explicit rejection of artificial skirts, hidden overlap, and resident-dependent fallback density"
+		],
+		"explicitly_unqualified_scope": [
+			"general independent geometry and topology oracles or arbitrary defect injection reserved for TQP-33",
+			"randomized and adversarial field generation reserved for TQP-34",
+			"dynamic asynchronous LOD publication, streaming, edits, collision, navigation, rendering, or persistence",
+			"world catalogs larger than the retained two-by-two-by-two policy fixture",
+			"production performance, other platforms, and other native build profiles"
+		],
+		"failures": []
+	}
+}
