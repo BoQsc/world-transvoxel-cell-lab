@@ -27,6 +27,9 @@ const DynamicLodPublicationObservatoryScene := preload(
 const EditInvalidationObservatoryScene := preload(
 	"res://labs/terrain_lab/scenes/edit_invalidation_observatory.tscn"
 )
+const AdaptiveEditObservatoryScene := preload(
+	"res://labs/terrain_lab/scenes/adaptive_edit_observatory.tscn"
+)
 const NativeEvidence := preload(
 	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_edit_native_evidence.gd"
 )
@@ -258,6 +261,62 @@ func _run() -> void:
 		_fail("TQP-36 Edit Invalidation Observatory did not shut down cleanly")
 		return
 	invalidation_observatory.free()
+	var adaptive_edit_script := load(
+		"res://labs/terrain_lab/scenes/adaptive_edit_observatory.gd"
+	) as Script
+	if adaptive_edit_script == null or not adaptive_edit_script.is_tool():
+		_fail("TQP-37 Adaptive Edit Observatory must execute as an editor tool")
+		return
+	var adaptive_edit_method_names := PackedStringArray()
+	for method in adaptive_edit_script.get_script_method_list():
+		adaptive_edit_method_names.append(str(method.get("name", "")))
+	for required_method in [
+		"wait_until_ready", "run_action_and_wait", "get_validation_snapshot",
+		"restart_and_wait", "shutdown_for_validation",
+	]:
+		if required_method not in adaptive_edit_method_names:
+			_fail("TQP-37 Adaptive Edit Observatory lacks " + required_method)
+			return
+	var adaptive_edit_observatory := AdaptiveEditObservatoryScene.instantiate()
+	root.add_child(adaptive_edit_observatory)
+	var adaptive_ready: Dictionary = await adaptive_edit_observatory.wait_until_ready()
+	if str(adaptive_ready.get("status", "")) != "PASS":
+		_fail("TQP-37 Adaptive Edit Observatory did not become ready")
+		return
+	var carve_result: Dictionary = await adaptive_edit_observatory.run_action_and_wait(
+		"transition_face_carve"
+	)
+	if str(carve_result.get("status", "")) != "PASS" \
+			or int(carve_result.get("local_triangle_count", 0)) <= 0:
+		_fail("TQP-37 transition carve observatory action failed")
+		return
+	var coarse_result: Dictionary = await adaptive_edit_observatory.run_action_and_wait(
+		"under_resolved_coarse"
+	)
+	if str(coarse_result.get("status", "")) != "PASS" \
+			or int(coarse_result.get("local_triangle_count", -1)) != 0:
+		_fail("TQP-37 under-resolved coarse control failed")
+		return
+	var refined_result: Dictionary = await adaptive_edit_observatory.run_action_and_wait(
+		"under_resolved_refined"
+	)
+	if str(refined_result.get("status", "")) != "PASS" \
+			or int(refined_result.get("local_triangle_count", 0)) != 8 \
+			or int(refined_result.get("edit_lod_retention_zones", 0)) <= 0:
+		_fail("TQP-37 under-resolved refinement observatory action failed")
+		return
+	var adaptive_snapshot: Dictionary = adaptive_edit_observatory.get_validation_snapshot()
+	var collision_profile: Dictionary = adaptive_snapshot.get("collision_profile", {})
+	if str(adaptive_snapshot.get("status", "")) != "PASS" \
+			or int(adaptive_snapshot.get("collision_overlap_count", -1)) != 0 \
+			or str(collision_profile.get("production_policy_qualification", "")) \
+				!= "UNQUALIFIED_OWNED_BY_LATER_TQP":
+		_fail("TQP-37 Adaptive Edit Observatory ownership scope failed")
+		return
+	if str((await adaptive_edit_observatory.shutdown_for_validation()).get("status", "")) != "PASS":
+		_fail("TQP-37 Adaptive Edit Observatory did not shut down cleanly")
+		return
+	adaptive_edit_observatory.free()
 	var observatory_property_names := PackedStringArray()
 	for property in observatory_script.get_script_property_list():
 		observatory_property_names.append(str(property.get("name", "")))
@@ -426,13 +485,13 @@ func _run() -> void:
 	if int(validation.get("milestone_count", 0)) != 64:
 		_fail("terrain program milestone count changed")
 		return
-	if int(validation.get("qualified_milestone_count", 0)) != 36:
+	if int(validation.get("qualified_milestone_count", 0)) != 37:
 		_fail("qualified reference milestone count changed")
 		return
 	if int(validation.get("specified_milestone_count", 0)) != 1:
 		_fail("open specification count changed")
 		return
-	if int(validation.get("proposed_milestone_count", -1)) != 9:
+	if int(validation.get("proposed_milestone_count", -1)) != 8:
 		_fail("native adaptive-terrain proposal count changed")
 		return
 	var status_counts: Dictionary = validation.get("status_counts", {})

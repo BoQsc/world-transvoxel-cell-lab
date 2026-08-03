@@ -104,6 +104,15 @@ Performance evidence requires warmup policy, sample count, p50, p95, p99,
 worst-case latency, retained and peak memory, build type, machine metadata, and
 the exact workload signature. A single average timing is not qualification.
 
+The specified low-power profile is
+`low_power_performance_profile.json`. It targets sustained 60 FPS inside a
+declared 16 W measurement boundary after thermal warmup. The target requires
+frame-pacing, responsiveness, CPU/GPU time, memory, power, and energy-per-work
+evidence. Render, collision, navigation, and authoritative query residency are
+independent: collision is requested only by bounded physics invokers and must
+not be generated for every visible chunk by default. This profile is currently
+unqualified and cannot be cited as achieved performance.
+
 Visual quality evidence is distinct from geometric correctness. Pleasantness
 requires an art-direction target, fixed comparisons, temporal inspection, and
 human review in addition to automated checks.
@@ -728,7 +737,7 @@ production performance, and other platforms remain explicitly unqualified.
 
 ### TQP-37: Digging And Construction Across Adaptive LOD
 
-Status: `proposed`. Owner: Edit Semantics Lab and Terrain Systems Lab. Depends
+Status: `qualified`. Owner: Edit Semantics Lab and Terrain Systems Lab. Depends
 on: TQP-10, TQP-11, TQP-13, TQP-14, TQP-29, TQP-31, TQP-36.
 
 Complete when resolvable and intentionally under-resolved digging and
@@ -736,6 +745,22 @@ construction cross chunks, transition faces, edges, corners, vertical layers,
 origin shifts, and unloaded regions. Repeated edits, undo/redo, unload/reload,
 and later refinement must preserve the authoritative field and expose no crack,
 duplicate surface, edit loss, or LOD-dependent semantic change.
+
+`TQP-D025` qualifies the bounded Windows debug LOD1/LOD0 profile through six
+isolated native-runtime scenarios: transition-face carving, edge/corner
+material construction, repeated smooth tunnel strokes, an initially
+under-resolved construction that becomes visible after refinement and is then
+held by native edit-LOD retention, an unloaded edit loaded later, and
+reconstructive undo/redo. Exact live interface-edge multisets agree on every
+selected transition, face, edge, and corner plane; all retained meshes contain
+zero exact duplicate, degenerate, or nonfinite triangles. Authoritative sample
+identity survives origin movement, unload/reload, and durable restart, and
+more than 4,000 audited frames contain zero visible-hole, render-overlap,
+double-collision, or frame failures. Generic in-place CSG undo is not exposed
+by the native API, so only deterministic fresh-world reconstruction from the
+enabled ordered command ledger is qualified. The measured timings are Windows
+debug diagnostics, and this small fixture's bounded 48/64 collision profile is
+not a production collision-residency or 60 FPS/16 W claim.
 
 ### TQP-38: Adaptive Material And Texture Continuity
 
@@ -813,7 +838,11 @@ Complete when complex multi-layer adaptive terrain passes repeated cold/warm
 generation, traversal, teleports, LOD churn, digging, construction, material
 edits, persistence, recovery, and shutdown with p50/p95/p99/worst timings,
 throughput, resident and peak memory, queue depth, resource ceilings, workload
-signatures, provenance, and retained long-soak drift evidence.
+signatures, provenance, and retained long-soak drift evidence. The retained CPU
+reference must also execute the specified low-power workloads with independent,
+bounded collision invokers and report frame pacing, edit responsiveness, power,
+and energy per frame; failure to meet the target remains valid baseline evidence
+and does not predetermine the GPU decision.
 
 ### TQP-45: Native Adaptive Terrain Authority Gate
 
@@ -902,7 +931,9 @@ and E.
 
 Complete when field evaluation, meshing, buffer residency, rendering,
 collision readback, synchronization, target APIs, and expected benefit are
-separate measured decisions.
+separate measured decisions. CPU and GPU candidates must run the same pinned
+low-power profile, and promotion requires a measured frame-pacing or
+energy-efficiency benefit without correctness regression.
 
 ### TQP-53: GPU Field Evaluation
 
@@ -942,7 +973,8 @@ Status: `blocked`. Owner: Backend Qualification Lab. Depends on: TQP-04,
 TQP-44, TQP-55, TQP-56.
 
 Complete when correctness, reproducibility, performance, memory, drivers,
-vendors, graphics APIs, and explicitly unsupported hardware are recorded.
+vendors, graphics APIs, power boundaries, thermal steady state, and explicitly
+unsupported hardware are recorded.
 
 ## Phase 7: Production Terrain And Release Qualification
 
@@ -999,7 +1031,9 @@ applicable TQP-01 through TQP-61 milestones.
 
 Complete when supported platforms, renderers, native artifacts, hardware,
 upgrade paths, visuals, performance budgets, and explicitly unqualified scope
-form a reproducible release bundle.
+form a reproducible release bundle. Every supported quality profile must declare
+its power boundary, frame-pacing envelope, collision-residency policy, and target
+hardware class.
 
 ### TQP-63: Long-Haul Certification
 
@@ -1007,7 +1041,7 @@ Status: `blocked`. Owner: Terrain Qualification Program. Depends on: TQP-62.
 
 Complete when extended traversal, editing, construction, destruction,
 save/load, streaming, origin shifting, device events, and fault injection pass
-without correctness, memory, or performance drift.
+without correctness, memory, performance, thermal, or power drift.
 
 ### TQP-64: Production Terrain Standard 1.0
 
@@ -1021,17 +1055,18 @@ a standard, not an assertion that future terrain work is finished.
 
 The program records every milestone at a truthful evidence state:
 
-- `TQP-01` through `TQP-36` are qualified
+- `TQP-01` through `TQP-37` are qualified
   for their narrow contract, native Windows reference, or reference-model
   scopes. Gate B is qualified; its native chunk rebuild benchmark remains a
   background/debug reference and is not a production frame-time claim.
-- `TQP-28` through `TQP-36` qualify the deterministic field contract, bounded
+- `TQP-28` through `TQP-37` qualify the deterministic field contract, bounded
   LOD0 complex native corpus, finite adaptive selector, and static native
   transition-assembly matrix, bounded boundary/enclosure policy, and independent
   geometry/topology oracles, seeded adversarial/minimized repro corpus, and
   bounded native dynamic LOD publication with temporal ownership checks, and
-  exact native edit invalidation with incremental remeshing.
-  `TQP-37` through `TQP-45` remain proposed, so
+  exact native edit invalidation with incremental remeshing, and bounded native
+  adaptive digging/construction semantics with lifecycle and refinement
+  identity. `TQP-38` through `TQP-45` remain proposed, so
   the program makes no Gate E adaptive-terrain authority claim.
 - `TQP-46` through `TQP-51` retain the previously implemented destruction and
   structural reference behavior under their revision-19 identifiers.
@@ -1039,8 +1074,8 @@ The program records every milestone at a truthful evidence state:
 - `TQP-53` through `TQP-64` are blocked by named external targets and exit
   conditions in `program_blockers.json`.
 
-The next dependency-ordered milestone is TQP-37, digging and construction
-across adaptive LOD. TQP-27 remains qualified through `TQP-D016` only for its
+The next dependency-ordered milestone is TQP-38, adaptive material and texture
+continuity. TQP-27 remains qualified through `TQP-D016` only for its
 bounded native Windows 2K-world soak and durable edit-journal restart.
 `TQP-F002` retains large-volume snapshot compaction as an open upstream
 capacity issue. Gate D is qualified only for that bounded reference claim;
@@ -1187,3 +1222,10 @@ Retained decisions:
   padded-footprint set equality, batching, no-op, cancellation, stale-result,
   resource-retirement, performance, trace, and editor evidence; retain adaptive
   digging/construction semantics and all later terrain claims as unqualified.
+- `TQP-D025`: qualify TQP-37 for bounded Windows native LOD1/LOD0 adaptive
+  digging and construction with exact live-interface topology, authoritative
+  field identity across lifecycle actions, under-resolved refinement followed
+  by native edit-LOD retention, and reconstructive command-ledger history;
+  retain generic in-place undo, adaptive materials, production collision
+  residency, low-power performance, deeper LOD, GPU, and production authority
+  as unqualified.

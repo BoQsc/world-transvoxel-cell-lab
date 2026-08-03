@@ -4,13 +4,14 @@ The Terrain Lab addon owns controlled experiments for the Terrain Qualification
 Program. It is separate from `world_transvoxel_cell_lab` even though both addons
 share this repository and the pinned `world_transvoxel` dependency.
 
-Current status: fail-closed program revision 26. All 64 milestones have a
-machine-readable evidence state. TQP-01 through TQP-36 retain their bounded
-qualified scopes; TQP-28 through TQP-36 establish the deterministic native
+Current status: fail-closed program revision 27. All 64 milestones have a
+machine-readable evidence state. TQP-01 through TQP-37 retain their bounded
+qualified scopes; TQP-28 through TQP-37 establish the deterministic native
 field contract, LOD0 complex-field corpus, bounded adaptive selector, and
 native transition-assembly matrix, boundary/enclosure policy, and independent
 geometry/topology oracles plus the seeded adversarial/minimized corpus, dynamic
-LOD publication, and exact edit invalidation. TQP-37 through TQP-45 remain
+LOD publication, exact edit invalidation, and bounded adaptive digging and
+construction with lifecycle/refinement identity. TQP-38 through TQP-45 remain
 `proposed`.
 Destruction, GPU, and production promotion remain closed behind Gate E.
 
@@ -119,6 +120,20 @@ regression cases,
 four completion-order replays, and optional seed overrides. It renders only
 native geometry and reports the independent TQP-33 verdict, case seed, replay
 order, chunk/triangle counts, components, Euler characteristic, and materials.
+
+TQP-37 Adaptive Edit Observatory:
+
+```text
+res://labs/terrain_lab/scenes/adaptive_edit_observatory.tscn
+```
+
+Open it from **Project > Tools > Open TQP-37 Adaptive Editing**. Its `@tool`
+root runs only the native world-transvoxel runtime and exposes isolated seam
+carve, corner construction, repeated tunnel, under-resolved coarse/refined,
+unloaded edit, and reconstructive-history fixtures. The panel reports field,
+local triangle, edit-retention, render, and collision state. Its bounded 48/64
+collision profile is a correctness fixture, not a production collision-policy
+or low-power performance qualification.
 
 TQP-23 guided surface review:
 

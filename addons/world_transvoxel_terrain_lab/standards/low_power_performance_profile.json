@@ -1,0 +1,92 @@
+{
+	"schema": "world_transvoxel.terrain_lab.low_power_performance_profile.v1",
+	"profile_id": "sustained_60fps_16w_candidate_v1",
+	"status": "SPECIFIED_UNQUALIFIED",
+	"purpose": "backend-neutral production target used to measure CPU and GPU candidates without selecting an implementation in advance",
+	"measurement_contract": {
+		"target_fps": 60.0,
+		"frame_budget_ms": 16.666667,
+		"minimum_warmup_seconds": 300,
+		"minimum_steady_state_seconds": 1800,
+		"power_limit_watts": 16.0,
+		"power_boundary_must_be_declared": true,
+		"accepted_power_boundaries": [
+			"soc_or_package",
+			"complete_system_at_battery_or_dc_input"
+		],
+		"hardware_profile_must_be_pinned": true,
+		"operating_system_build_must_be_pinned": true,
+		"driver_and_graphics_api_must_be_pinned": true,
+		"resolution_and_quality_profile_must_be_pinned": true,
+		"ambient_and_thermal_state_must_be_recorded": true
+	},
+	"frame_pacing_targets": {
+		"maximum_p95_frame_ms": 16.666667,
+		"maximum_p99_frame_ms": 20.0,
+		"maximum_worst_frame_ms": 50.0,
+		"maximum_fraction_over_33_333_ms": 0.001,
+		"minimum_sample_count": 108000
+	},
+	"responsiveness_targets": {
+		"maximum_input_to_edit_acknowledgement_ms": 16.666667,
+		"maximum_edit_to_first_visible_response_ms": 50.0,
+		"maximum_edit_to_local_collision_coherence_ms": 100.0,
+		"maximum_background_edit_settlement_p95_ms": 250.0
+	},
+	"terrain_budget_accounting": [
+		"main_thread_render_and_collision_publication",
+		"worker_field_evaluation_and_meshing",
+		"streaming_io_and_decompression",
+		"render_cpu_submission",
+		"terrain_gpu_time",
+		"physics_broadphase_and_collision_shape_cost",
+		"resident_and_peak_cpu_memory",
+		"resident_and_peak_gpu_memory",
+		"energy_per_frame_and_energy_per_published_chunk"
+	],
+	"collision_residency_contract": {
+		"render_and_collision_demand_are_independent": true,
+		"all_visible_chunks_may_not_receive_collision_by_default": true,
+		"collision_is_requested_by_bounded_physics_invokers": true,
+		"required_invoker_classes": [
+			"controlled_player",
+			"active_vehicle",
+			"awake_dynamic_body",
+			"explicit_gameplay_query_region"
+		],
+		"activation_and_deactivation_hysteresis_required": true,
+		"collision_generation_and_application_are_budgeted": true,
+		"distant_nonphysics_queries_use_authoritative_field_queries": true,
+		"navigation_residency_is_independent_from_render_and_collision": true,
+		"no_collision_hole_inside_declared_swept_motion_envelope": true
+	},
+	"required_workloads": [
+		"stationary_thermal_steady_state",
+		"continuous_ground_traversal",
+		"high_speed_flight",
+		"vertical_cave_traversal",
+		"repeated_digging_and_construction",
+		"adaptive_lod_churn",
+		"teleport_and_recovery",
+		"multiple_collision_invokers",
+		"memory_pressure_and_resource_retirement"
+	],
+	"quality_profiles": [
+		"low_power_16w_60fps",
+		"balanced",
+		"quality"
+	],
+	"qualification_ownership": {
+		"TQP-44": "backend-neutral CPU reference and adaptive workload baseline",
+		"TQP-52": "measured CPU/GPU architecture and expected-benefit decision",
+		"TQP-57": "cross-hardware power, frame-pacing, correctness, and driver matrix",
+		"TQP-62": "production release budgets and supported quality profiles",
+		"TQP-63": "long-haul thermal and performance drift certification"
+	},
+	"explicitly_unqualified_scope": [
+		"any current claim that the 16 W or sustained 60 FPS target passes",
+		"a specific target device until its hardware and power boundary are pinned",
+		"GPU field evaluation, meshing, residency, or collision readback",
+		"production frame pacing, edit latency, thermal stability, or battery life"
+	]
+}

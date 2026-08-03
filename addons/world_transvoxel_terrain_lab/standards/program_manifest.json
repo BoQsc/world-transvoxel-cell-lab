@@ -1,6 +1,6 @@
 {
 	"schema": "world_transvoxel.terrain_lab.program.v2",
-	"program_revision": 26,
+	"program_revision": 27,
 	"lab_scope": "experimental_terrain_qualification",
 	"authority": "EVIDENCE_PROGRAM_ONLY",
 	"production_status": "NOT_PRODUCTION",
@@ -9,6 +9,7 @@
 	"qualification_state": "res://addons/world_transvoxel_terrain_lab/standards/qualification_state.json",
 	"backend_decision": "res://addons/world_transvoxel_terrain_lab/standards/backend_architecture_decision.json",
 	"blocker_catalog": "res://addons/world_transvoxel_terrain_lab/standards/program_blockers.json",
+	"low_power_performance_profile": "res://addons/world_transvoxel_terrain_lab/standards/low_power_performance_profile.json",
 	"visual_evidence": "res://addons/world_transvoxel_terrain_lab/standards/visual_evidence.json",
 	"visual_quality_corpus_standard": "res://addons/world_transvoxel_terrain_lab/standards/visual_quality_corpus_standard.json",
 	"visual_quality_corpus_evidence": "res://labs/terrain_lab/results/visual_quality_corpus_reference_windows.json",
@@ -51,6 +52,9 @@
 	"edit_invalidation_standard": "res://addons/world_transvoxel_terrain_lab/standards/edit_invalidation_standard.json",
 	"edit_invalidation_evidence": "res://labs/terrain_lab/results/edit_invalidation_reference_windows.json",
 	"edit_invalidation_motion_evidence": "res://labs/terrain_lab/results/edit_invalidation_motion_windows.json",
+	"adaptive_edit_standard": "res://addons/world_transvoxel_terrain_lab/standards/adaptive_edit_standard.json",
+	"adaptive_edit_evidence": "res://labs/terrain_lab/results/adaptive_edit_reference_windows.json",
+	"adaptive_edit_motion_evidence": "res://labs/terrain_lab/results/adaptive_edit_motion_windows.json",
 	"wave_02_first_batch_evidence": "res://labs/terrain_lab/results/wave_02_first_batch_reference_windows.json",
 	"wave_02_second_batch_evidence": "res://labs/terrain_lab/results/wave_02_second_batch_reference_windows.json",
 	"execution_plan": "res://addons/world_transvoxel_terrain_lab/standards/execution_plan.json",
@@ -171,7 +175,8 @@
 		"res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D021.json",
 		"res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D022.json",
 		"res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D023.json",
-		"res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D024.json"
+		"res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D024.json",
+		"res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D025.json"
 	],
 	"milestones": [
 		{"id": "TQP-01", "title": "Operating Envelope", "status": "qualified", "domain": "foundation", "owner": "Terrain Qualification Program", "depends_on": [], "evidence_profile": "foundation", "contract_ref": "#tqp-01-operating-envelope", "claim_scope": "reference_envelope_v1"},
@@ -210,7 +215,7 @@
 		{"id": "TQP-34", "title": "Adversarial, Randomized, And Minimized Repro Corpus", "status": "qualified", "domain": "native_adaptive_terrain", "owner": "Terrain Systems Lab and Cell Lab", "depends_on": ["TQP-04", "TQP-29", "TQP-31", "TQP-33"], "evidence_profile": "systems", "contract_ref": "#tqp-34-adversarial-randomized-and-minimized-repro-corpus", "claim_scope": "qualified_seeded_adversarial_minimized_corpus_windows_v1"},
 		{"id": "TQP-35", "title": "Dynamic LOD Publication And Temporal Stability", "status": "qualified", "domain": "native_adaptive_terrain", "owner": "Terrain Systems Lab", "depends_on": ["TQP-15", "TQP-17", "TQP-19", "TQP-22", "TQP-30", "TQP-31", "TQP-33", "TQP-34"], "evidence_profile": "systems", "contract_ref": "#tqp-35-dynamic-lod-publication-and-temporal-stability", "claim_scope": "qualified_native_dynamic_lod_publication_windows_v1"},
 		{"id": "TQP-36", "title": "Edit Invalidation And Incremental Remeshing", "status": "qualified", "domain": "native_adaptive_terrain", "owner": "Edit Semantics Lab and Terrain Systems Lab", "depends_on": ["TQP-06", "TQP-12", "TQP-15", "TQP-17", "TQP-29", "TQP-30", "TQP-31", "TQP-35"], "evidence_profile": "systems", "contract_ref": "#tqp-36-edit-invalidation-and-incremental-remeshing", "claim_scope": "qualified_native_edit_invalidation_windows_v1"},
-		{"id": "TQP-37", "title": "Digging And Construction Across Adaptive LOD", "status": "proposed", "domain": "native_adaptive_terrain", "owner": "Edit Semantics Lab and Terrain Systems Lab", "depends_on": ["TQP-10", "TQP-11", "TQP-13", "TQP-14", "TQP-29", "TQP-31", "TQP-36"], "evidence_profile": "systems", "contract_ref": "#tqp-37-digging-and-construction-across-adaptive-lod", "claim_scope": "no_claim_proposed_adaptive_edit_corpus"},
+		{"id": "TQP-37", "title": "Digging And Construction Across Adaptive LOD", "status": "qualified", "domain": "native_adaptive_terrain", "owner": "Edit Semantics Lab and Terrain Systems Lab", "depends_on": ["TQP-10", "TQP-11", "TQP-13", "TQP-14", "TQP-29", "TQP-31", "TQP-36"], "evidence_profile": "systems", "contract_ref": "#tqp-37-digging-and-construction-across-adaptive-lod", "claim_scope": "qualified_native_adaptive_editing_windows_v1"},
 		{"id": "TQP-38", "title": "Adaptive Material And Texture Continuity", "status": "proposed", "domain": "native_adaptive_terrain", "owner": "Material and Surface Lab", "depends_on": ["TQP-18", "TQP-21", "TQP-23", "TQP-25", "TQP-31", "TQP-35", "TQP-37"], "evidence_profile": "visual", "contract_ref": "#tqp-38-adaptive-material-and-texture-continuity", "claim_scope": "no_claim_proposed_adaptive_surface_corpus"},
 		{"id": "TQP-39", "title": "Adaptive Render, Collision, Query, And Navigation Agreement", "status": "proposed", "domain": "native_adaptive_terrain", "owner": "Terrain Systems Lab", "depends_on": ["TQP-24", "TQP-31", "TQP-35", "TQP-37"], "evidence_profile": "systems", "contract_ref": "#tqp-39-adaptive-render-collision-query-and-navigation-agreement", "claim_scope": "no_claim_proposed_system_agreement"},
 		{"id": "TQP-40", "title": "Multi-Layer Adaptive Streaming And Residency", "status": "proposed", "domain": "native_adaptive_terrain", "owner": "Terrain Systems Lab", "depends_on": ["TQP-19", "TQP-20", "TQP-22", "TQP-27", "TQP-30", "TQP-35"], "evidence_profile": "systems", "contract_ref": "#tqp-40-multi-layer-adaptive-streaming-and-residency", "claim_scope": "no_claim_proposed_adaptive_streaming"},
@@ -266,7 +271,8 @@
 		"TQP-33 bounded Windows independent native geometry and topology oracles",
 		"TQP-34 bounded Windows seeded adversarial, replay, minimization, and corrected-regression corpus",
 		"TQP-35 bounded Windows native LOD1/LOD0 dynamic publication and temporal ownership contract",
-		"TQP-36 bounded Windows native exact edit invalidation and incremental remeshing contract"
+		"TQP-36 bounded Windows native exact edit invalidation and incremental remeshing contract",
+		"TQP-37 bounded Windows native LOD1/LOD0 adaptive digging, construction, lifecycle, refinement, retention, and reconstructive-history contract"
 	],
 	"explicitly_unqualified_scope": [
 		"production terrain runtime",
@@ -275,13 +281,14 @@
 		"GPU field or meshing authority",
 		"non-Windows platforms",
 		"visual behavior outside the accepted TQP-25 Windows reference corpus",
-		"native adaptive terrain authority and Gate E qualification for TQP-28 through TQP-45; TQP-37 through TQP-45 remain incomplete",
+		"native adaptive terrain authority and Gate E qualification for TQP-28 through TQP-45; TQP-38 through TQP-45 remain incomplete",
 		"complete qualification of implemented TQP-46 through TQP-51 behavior",
 		"large-volume snapshot compaction recorded by TQP-F002",
 		"TQP-52 measured GPU candidate benefit",
 		"automatic cleanup of abandoned snapshot staging directories",
 		"snapshot atomicity outside the declared Windows reference platform",
 		"cross-hardware performance",
+		"sustained 60 FPS at a declared 16 W power boundary and production targeted-collision residency",
 		"long-haul certification"
 	]
 }

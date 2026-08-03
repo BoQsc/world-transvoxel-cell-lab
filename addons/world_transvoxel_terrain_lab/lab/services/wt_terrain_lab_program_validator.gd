@@ -47,6 +47,9 @@ const DynamicLodPublicationEvidence := preload(
 const EditInvalidationEvidence := preload(
 	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_edit_invalidation_evidence.gd"
 )
+const AdaptiveEditEvidence := preload(
+	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_adaptive_edit_evidence.gd"
+)
 
 const PROGRAM_SCHEMA := "world_transvoxel.terrain_lab.program.v2"
 const LAB_SCOPE := "experimental_terrain_qualification"
@@ -140,6 +143,8 @@ static func validate(program: Dictionary, dependencies: Dictionary) -> Dictionar
 	_validate_adversarial_corpus_evidence(program, milestone_by_id, failures)
 	_validate_dynamic_lod_publication_evidence(program, milestone_by_id, failures)
 	_validate_edit_invalidation_evidence(program, milestone_by_id, failures)
+	_validate_adaptive_edit_evidence(program, milestone_by_id, failures)
+	_validate_low_power_performance_profile(program, failures)
 	_validate_visual_evidence(program, milestone_by_id, failures)
 	_validate_dependency_boundary(program, dependencies, failures)
 	_validate_source_boundary(failures)
@@ -268,7 +273,7 @@ static func _validate_evidence_files(program: Dictionary, failures: Array[String
 		"TQP-D006", "TQP-D007", "TQP-D008", "TQP-D009", "TQP-D010",
 		"TQP-D011", "TQP-D012", "TQP-D013", "TQP-D014", "TQP-D015",
 		"TQP-D016", "TQP-D017", "TQP-D018", "TQP-D019", "TQP-D020",
-		"TQP-D021", "TQP-D022", "TQP-D023", "TQP-D024",
+		"TQP-D021", "TQP-D022", "TQP-D023", "TQP-D024", "TQP-D025",
 	]:
 		_expect(decision_ids.has(required), "missing retained decision: " + required, failures)
 	for key in [
@@ -278,6 +283,7 @@ static func _validate_evidence_files(program: Dictionary, failures: Array[String
 		"visual_evidence",
 		"visual_quality_corpus_standard",
 		"visual_quality_corpus_evidence",
+		"low_power_performance_profile",
 		"edit_gate_b_evidence",
 		"temporal_wave_standard",
 		"material_blending_standard",
@@ -317,6 +323,9 @@ static func _validate_evidence_files(program: Dictionary, failures: Array[String
 		"edit_invalidation_standard",
 		"edit_invalidation_evidence",
 		"edit_invalidation_motion_evidence",
+		"adaptive_edit_standard",
+		"adaptive_edit_evidence",
+		"adaptive_edit_motion_evidence",
 		"wave_02_first_batch_evidence",
 		"wave_02_second_batch_evidence",
 		"execution_plan",
@@ -1120,6 +1129,68 @@ static func _validate_edit_invalidation_evidence(
 		str((milestone_by_id.get("TQP-36", {}) as Dictionary).get("status", ""))
 			== "qualified",
 		"TQP-36 must match retained edit invalidation evidence",
+		failures
+	)
+
+
+static func _validate_adaptive_edit_evidence(
+	program: Dictionary,
+	milestone_by_id: Dictionary,
+	failures: Array[String]
+) -> void:
+	var standard := JsonLoader.load_dictionary(
+		str(program.get("adaptive_edit_standard", ""))
+	)
+	_expect(
+		str(standard.get("schema", ""))
+			== "world_transvoxel.terrain_lab.adaptive_edit_standard.v1",
+		"TQP-37 adaptive edit standard schema mismatch",
+		failures
+	)
+	var validation := AdaptiveEditEvidence.validate_retained()
+	if str(validation.get("status", "")) != "PASS":
+		for failure_value in validation.get("failures", []):
+			failures.append("TQP-37 adaptive edit: " + str(failure_value))
+	_expect(
+		str((milestone_by_id.get("TQP-37", {}) as Dictionary).get("status", ""))
+			== "qualified",
+		"TQP-37 must match retained adaptive edit evidence",
+		failures
+	)
+
+
+static func _validate_low_power_performance_profile(
+	program: Dictionary,
+	failures: Array[String]
+) -> void:
+	var profile := JsonLoader.load_dictionary(
+		str(program.get("low_power_performance_profile", ""))
+	)
+	_expect(
+		str(profile.get("schema", ""))
+			== "world_transvoxel.terrain_lab.low_power_performance_profile.v1",
+		"low-power performance profile schema mismatch",
+		failures
+	)
+	_expect(
+		str(profile.get("status", "")) == "SPECIFIED_UNQUALIFIED",
+		"low-power profile must remain unqualified until measured",
+		failures
+	)
+	var measurement: Dictionary = profile.get("measurement_contract", {})
+	_expect(
+		is_equal_approx(float(measurement.get("target_fps", 0.0)), 60.0)
+			and is_equal_approx(float(measurement.get("power_limit_watts", 0.0)), 16.0),
+		"low-power 60 FPS / 16 W target changed",
+		failures
+	)
+	var collision: Dictionary = profile.get("collision_residency_contract", {})
+	_expect(
+		bool(collision.get("render_and_collision_demand_are_independent", false))
+			and bool(collision.get("all_visible_chunks_may_not_receive_collision_by_default", false))
+			and bool(collision.get("collision_is_requested_by_bounded_physics_invokers", false))
+			and bool(collision.get("collision_generation_and_application_are_budgeted", false)),
+		"low-power targeted collision contract is incomplete",
 		failures
 	)
 

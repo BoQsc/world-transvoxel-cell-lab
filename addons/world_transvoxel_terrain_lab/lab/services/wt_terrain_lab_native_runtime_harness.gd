@@ -7,6 +7,8 @@ const MAX_WAIT_FRAMES := 1800
 var terrain: Node
 var sample_results := {}
 var sample_failures := {}
+var sample_batch_results := {}
+var sample_batch_failures := {}
 var snapshot_results := {}
 var snapshot_failures := {}
 var committed_revisions: Array[int] = []
@@ -62,6 +64,8 @@ func create_runtime(
 	terrain.set("configuration", config)
 	terrain.connect("authoritative_sample_ready", _on_sample_ready)
 	terrain.connect("authoritative_sample_failed", _on_sample_failed)
+	terrain.connect("authoritative_samples_ready", _on_samples_ready)
+	terrain.connect("authoritative_samples_failed", _on_samples_failed)
 	terrain.connect("world_snapshot_ready", _on_snapshot_ready)
 	terrain.connect("world_snapshot_failed", _on_snapshot_failed)
 	terrain.connect("edit_committed", _on_edit_committed)
@@ -215,6 +219,30 @@ func request_sample(point: Vector3i, lod: int = 0) -> Dictionary:
 	return {"status": "FAIL", "error": "authoritative sample timed out"}
 
 
+func request_samples(points: Array[Vector3i], lod: int = 0) -> Array[Dictionary]:
+	var request_points: Array = []
+	for point in points:
+		request_points.append(point)
+	var request_id := int(terrain.call(
+		"request_authoritative_samples", request_points, lod
+	))
+	if request_id <= 0:
+		return [{"status": "FAIL", "error": str(terrain.call("get_world_error"))}]
+	for _frame in range(MAX_WAIT_FRAMES):
+		if sample_batch_results.has(request_id):
+			var result: Array[Dictionary] = []
+			for sample in sample_batch_results[request_id]:
+				result.append(sample_record(sample))
+			return result
+		if sample_batch_failures.has(request_id):
+			return [{
+				"status": "FAIL",
+				"error": str(sample_batch_failures[request_id]),
+			}]
+		await get_tree().process_frame
+	return [{"status": "FAIL", "error": "authoritative sample batch timed out"}]
+
+
 func request_compaction(output_root: String, source_revision: int) -> Dictionary:
 	ensure_directory(output_root.get_base_dir())
 	var request_id := int(terrain.call(
@@ -276,6 +304,8 @@ func runtime_metrics() -> Dictionary:
 func clear_events() -> void:
 	sample_results.clear()
 	sample_failures.clear()
+	sample_batch_results.clear()
+	sample_batch_failures.clear()
 	snapshot_results.clear()
 	snapshot_failures.clear()
 	committed_revisions.clear()
@@ -365,6 +395,14 @@ func _on_sample_ready(request_id: int, sample: RefCounted) -> void:
 
 func _on_sample_failed(request_id: int, error: String) -> void:
 	sample_failures[request_id] = error
+
+
+func _on_samples_ready(request_id: int, samples: Array) -> void:
+	sample_batch_results[request_id] = samples
+
+
+func _on_samples_failed(request_id: int, error: String) -> void:
+	sample_batch_failures[request_id] = error
 
 
 func _on_snapshot_ready(

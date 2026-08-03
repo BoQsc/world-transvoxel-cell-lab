@@ -64,6 +64,14 @@ transactions. Red lines show conservative edit bounds, yellow lines show the
 independently expected padded dependents, and green lines show exactly changed
 generations. Empty active payloads participate even when no render node exists.
 
+The TQP-37 Adaptive Edit Observatory is a separate `@tool` scene at
+`scenes/adaptive_edit_observatory.tscn`. It runs isolated native seam-carve,
+corner-construction, repeated-tunnel, under-resolved coarse/refined, unloaded,
+and reconstructive-history fixtures. It displays local triangle and native
+edit-retention state alongside render and collision telemetry. Machine field,
+topology, lifecycle, and temporal evidence remains authoritative; the scene's
+48/64 collision profile and Windows debug timings are not production claims.
+
 `tools/run_edit_gate_b_validation.gd` executes the focused `TQP-09` through
 `TQP-14` qualification. `tools/capture_edit_qualification_visual.gd`
 regenerates the deterministic brush and temporal-edit cross-section reference.

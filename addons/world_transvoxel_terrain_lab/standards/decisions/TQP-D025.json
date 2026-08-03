@@ -1,0 +1,50 @@
+{
+	"schema": "world_transvoxel.terrain_lab.decision.v1",
+	"id": "TQP-D025",
+	"date": "2026-08-03",
+	"decision": "Qualify TQP-37 for the retained bounded Windows native LOD1/LOD0 adaptive digging-and-construction profile, including lifecycle identity, exact selected-interface topology, later refinement, edit-LOD retention, and reconstructive command-ledger history.",
+	"affected_milestones": ["TQP-37"],
+	"repositories": ["world-transvoxel-cell-lab", "world-transvoxel"],
+	"alternatives_considered": [
+		"judge digging and construction only from screenshots without authoritative sample relations or exact interface-edge audits",
+		"require path-dependent whole-window mesh signatures to remain equal after unload, restart, or a changed LOD transition mask",
+		"treat a coarse feature as missing field data instead of separating authoritative field semantics from representational resolution",
+		"allow a refined edit to disappear after the viewer retreats instead of validating native edit-LOD retention",
+		"claim generic in-place CSG undo despite the native API exposing no such operation",
+		"treat this small correctness fixture as proof of production collision residency, 60 FPS, 16 W, or GPU necessity"
+	],
+	"evidence": [
+		"adaptive_edit_standard.json, adaptive_edit_reference_windows.json, adaptive_edit_motion_windows.json, and the @tool Adaptive Edit Observatory",
+		"two complete native qualification runs with identical scenario-matrix and final semantic signatures",
+		"six isolated scenarios covering transition-face carve, chunk edge/corner construction, repeated transition tunnel strokes, under-resolved later refinement, unloaded edit then load, and reconstructive undo/redo",
+		"exact negative/positive interface-edge multiset agreement at the selected transition face and all selected chunk face, edge, and corner planes",
+		"zero exact duplicate, degenerate, or nonfinite triangles in every retained scenario topology audit",
+		"authoritative sample identity through presentation origin shift, unload/reload, durable world restart, coarse/refined presentation changes, unloaded commit, and command-ledger reconstruction",
+		"an initially hidden 0.75-unit construction that emits eight triangles after refinement and remains exact under one native edit-LOD retention zone",
+		"more than 4,000 audited frames with zero visible holes, render overlaps, double collisions, or frame failures",
+		"Windows debug frame, scenario, memory, resource, provenance, sampled trace, and three-view graphical evidence explicitly labeled non-production"
+	],
+	"qualified_scope": [
+		"bounded Windows debug native LOD1/LOD0 digging and construction across selected transition faces, same-LOD faces, edges, corners, vertical layers, and unloaded regions",
+		"repeated smooth tunnel strokes and material construction using only world-transvoxel native edit transactions",
+		"authoritative field identity through origin movement, unload/reload, durable restart, later refinement, and unloaded edit publication",
+		"under-resolved field-versus-representation separation followed by exact native edit-LOD retention once refined",
+		"correctness-only reconstructive undo/redo by rebuilding a fresh native world from the enabled ordered command ledger",
+		"exact selected-interface edge agreement, triangle integrity, temporal ownership checks, deterministic signatures, telemetry, focused runner, and editor motion evidence"
+	],
+	"unqualified_scope": [
+		"generic in-place native CSG undo/redo and its performance",
+		"brush ergonomics, pleasantness, arbitrary shapes, stability, destruction, explosions, connectivity, or gameplay semantics",
+		"adaptive material, texture, shading, render/collision/query/navigation, persistence, multi-layer streaming, and arbitrary fault-order behavior owned by TQP-38 through TQP-42",
+		"LOD2 and deeper adaptive edit hierarchies, production-scale terrain, production collision residency, release frame pacing, sustained 60 FPS, 16 W operation, GPU acceleration, other hardware, and other platforms",
+		"Gate E native adaptive terrain authority and production terrain authority"
+	],
+	"standards_changed": [
+		"Terrain Qualification Program revision 27",
+		"execution-plan revision 19",
+		"adaptive edit standard native_adaptive_edit_windows_v1",
+		"specified-unqualified low-power performance profile sustained_60fps_16w_candidate_v1"
+	],
+	"review": "Qualification must fail closed if any required scenario, authoritative sample relation, selected-interface edge multiset, topology invariant, lifecycle action, under-resolved/refined control, edit-LOD retention result, reconstructive history identity, temporal ownership counter, deterministic signature, telemetry field, provenance value, capture hash, editor action, focused runner, program validation, source pin, or preservation smoke test differs. Whole-window geometry hashes are diagnostic where a valid LOD transition mask changes; field identity plus a fresh topology audit remains authoritative there.",
+	"downstream_impact": "TQP-38 becomes the next dependency-ordered milestone. Gate E remains closed. TQP-37 authorizes only the retained bounded adaptive-edit contract; it does not authorize adaptive materials, general in-place undo, production collision policy, production performance, low-power operation, GPU authority, or a production terrain addon. No fallback geometry or alternate mesher was added."
+}
