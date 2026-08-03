@@ -1,0 +1,92 @@
+{
+	"schema": "world_transvoxel.terrain_lab.adaptive_streaming_residency_standard.v1",
+	"milestone": "TQP-40",
+	"standard_id": "native_multi_layer_adaptive_streaming_windows_v1",
+	"authority": "world_transvoxel_native_runtime",
+	"evidence": "res://labs/terrain_lab/results/adaptive_streaming_residency_reference_windows.json",
+	"motion_evidence": "res://labs/terrain_lab/results/adaptive_streaming_residency_motion_windows.json",
+	"observatory_scene": "res://labs/terrain_lab/scenes/adaptive_streaming_observatory.tscn",
+	"runtime_profile": {
+		"platform": "Windows",
+		"build": "debug_reference",
+		"worker_count": 2,
+		"source_revision": 940001,
+		"seed": 400040,
+		"procedural_preset": "rolling_hills_cave",
+		"volume_chunks": [96, 32, 96],
+		"vertical_chunk_origin": -16,
+		"volume_cells": [1536, 512, 1536],
+		"maximum_lod": 2,
+		"lod_refinement_radius_chunks": 1,
+		"active_chunk_capacity": 1024,
+		"pipeline_capacity": 4096,
+		"page_cache_capacity": 1024,
+		"collision_capacity": 256,
+		"global_coarse_lod_coverage": false
+	},
+	"workload": {
+		"cave_viewer": {"id": 401, "position": [1024.0, -20.0, 1024.0], "radius_chunks": 1},
+		"surface_viewer": {"id": 402, "position": [900.0, 42.0, 970.0], "radius_chunks": 1},
+		"prefetch_viewer": {"id": 403, "position": [1400.0, -10.0, 1400.0], "radius_chunks": 0},
+		"teleport_viewers": [
+			{"id": 401, "position": [256.0, 20.0, 256.0], "radius_chunks": 1},
+			{"id": 402, "position": [320.0, -40.0, 320.0], "radius_chunks": 1},
+			{"id": 403, "position": [384.0, 16.0, 384.0], "radius_chunks": 0}
+		],
+		"vertical_probe": {"x": 1024, "z": 1024, "minimum_y": -72, "maximum_y": 36, "step": 4, "viewer_y": -20},
+		"presentation_origin_offset": [-1048576.0, 512.0, 1048576.0],
+		"required_actions": [
+			"multi_layer_cave_residency",
+			"adaptive_parent_child_coverage",
+			"multi_viewer_union",
+			"prefetch_unique_coverage",
+			"presentation_origin_rebase",
+			"teleport_eviction",
+			"bounded_residency_and_resources",
+			"viewer_retirement_and_drain"
+		]
+	},
+	"invariants": {
+		"requires_native_runtime_only": true,
+		"requires_all_lods_0_through_2": true,
+		"requires_vertical_sign_crossings_above_and_below_viewer": true,
+		"requires_unique_prefetch_contribution": true,
+		"requires_old_teleport_keys_and_resources_retired": true,
+		"requires_settled_visibility_generation_coherence": true,
+		"requires_zero_resources_after_all_viewers_removed": true,
+		"origin_shift_scope": "consumer_presentation_root_transform_without_native_grid_or_state_mutation"
+	},
+	"budgets": {
+		"maximum_settlement_frames": 1800,
+		"maximum_active_chunk_records": 1024,
+		"maximum_render_resources": 1024,
+		"maximum_collision_resources": 256,
+		"maximum_peak_process_memory_bytes": 1610612736,
+		"maximum_pending_retirements_after_settlement": 0,
+		"maximum_pending_replacements_after_settlement": 0,
+		"maximum_queued_jobs_after_settlement": 0
+	},
+	"stable_expected": {
+		"cave_state_signature": "b29390b21898d6b5495a5c6dd9ab267f60ab9a4afd8bfc33ee387e1a2bf93a9e",
+		"multi_viewer_state_signature": "f6d1fde3bbc6cb54bdca9b5cc505b783f0a3a16d19591cf837c3e9b6831932dd",
+		"teleport_state_signature": "36295a2dae55e5fadd070f2f29d06dd56051eb6bc37424bd3ed88018691a71ef",
+		"cave_lod_counts": {"0": 64, "1": 88, "2": 15},
+		"multi_viewer_lod_counts": {"0": 128, "1": 176, "2": 27},
+		"teleport_lod_counts": {"0": 128, "1": 160, "2": 24},
+		"semantic_signature": "ea82edbd82e66249671a0186ef9593e5881583ca4be5a0ca702c75120cf98c61"
+	},
+	"qualified_scope": [
+		"Windows debug native procedural 1536x512x1536-cell catalog with horizontal and vertical cave residency",
+		"LOD0, LOD1, and LOD2 adaptive parent/child leaves for cave, surface, and prefetch viewers",
+		"vertical authoritative sign crossings below and above an underground viewer",
+		"multi-viewer union, unique coarse prefetch coverage, far teleport eviction, and complete viewer retirement",
+		"bounded active, cache, render, collision, queue, replacement, retirement, and process-memory diagnostics",
+		"consumer presentation-root origin rebase with unchanged native chunk state and local resource transforms"
+	],
+	"explicitly_unqualified_scope": [
+		"native floating-origin coordinate mutation, planetary coordinates, or arbitrary precision",
+		"production memory, frame-time, low-power, long-soak, or GPU budgets",
+		"collision policy quality, navigation, persistence, edit replay, or fault injection",
+		"non-Windows platforms, arbitrary procedural fields, or production terrain authority"
+	]
+}

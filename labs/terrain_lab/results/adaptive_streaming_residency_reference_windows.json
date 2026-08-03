@@ -1,0 +1,317 @@
+{
+	"schema": "world_transvoxel.terrain_lab.adaptive_streaming_residency_qualification.v1",
+	"milestone": "TQP-40",
+	"status": "PASS",
+	"retained_complete": true,
+	"standard_id": "native_multi_layer_adaptive_streaming_windows_v1",
+	"authority": "world_transvoxel_native_runtime",
+	"actions": {
+		"multi_layer_cave_residency": "PASS",
+		"adaptive_parent_child_coverage": "PASS",
+		"multi_viewer_union": "PASS",
+		"presentation_origin_rebase": "PASS",
+		"prefetch_unique_coverage": "PASS",
+		"teleport_eviction": "PASS",
+		"bounded_residency_and_resources": "PASS",
+		"viewer_retirement_and_drain": "PASS"
+	},
+	"cave_residency": {
+		"active_count": 167,
+		"lod_counts": {
+			"0": 64,
+			"1": 88,
+			"2": 15
+		},
+		"minimum_coordinate": "(15, -4, 15)",
+		"maximum_coordinate": "(65, 1, 65)",
+		"generation_mismatch_count": 0,
+		"state_signature": "b29390b21898d6b5495a5c6dd9ab267f60ab9a4afd8bfc33ee387e1a2bf93a9e",
+		"metrics": {
+			"viewer_updates": 1,
+			"viewer_removals": 0,
+			"planned_demands": 167,
+			"sample_jobs": 167,
+			"mesh_jobs": 167,
+			"transition_mesh_completions": 36,
+			"storage_duplicate_requests": 278,
+			"page_cache_encoded_entries": 753,
+			"page_cache_decoded_entries": 753,
+			"page_cache_encoded_evictions": 0,
+			"page_cache_decoded_evictions": 0,
+			"page_stale_storage_completions": 0,
+			"application_stale_render": 0,
+			"application_stale_collision": 0,
+			"active_chunk_records": 167,
+			"visual_ready_chunk_records": 167,
+			"visual_required_chunk_records": 167,
+			"render_resources": 54,
+			"collision_resources": 0,
+			"pending_chunk_retirements": 0,
+			"pending_chunk_replacements": 0,
+			"scheduler_queued_jobs": 0,
+			"scheduler_queued_completions": 0
+		}
+	},
+	"vertical_cave_audit": {
+		"status": "PASS",
+		"sample_count": 28,
+		"crossings": [
+			{
+				"from": "(1024, -60, 1024)",
+				"to": "(1024, -56, 1024)"
+			},
+			{
+				"from": "(1024, 16, 1024)",
+				"to": "(1024, 20, 1024)"
+			},
+			{
+				"from": "(1024, 24, 1024)",
+				"to": "(1024, 28, 1024)"
+			}
+		],
+		"below_viewer": true,
+		"above_viewer": true,
+		"signature": "a09b2772ffa4ea546fd5004887b6d2b4b4b0faa5c8ada6d20e9363994a495c99",
+		"failures": []
+	},
+	"multi_viewer_residency": {
+		"active_count": 331,
+		"lod_counts": {
+			"0": 128,
+			"1": 176,
+			"2": 27
+		},
+		"minimum_coordinate": "(13, -4, 14)",
+		"maximum_coordinate": "(65, 3, 65)",
+		"generation_mismatch_count": 0,
+		"state_signature": "f6d1fde3bbc6cb54bdca9b5cc505b783f0a3a16d19591cf837c3e9b6831932dd",
+		"metrics": {
+			"viewer_updates": 4,
+			"viewer_removals": 0,
+			"planned_demands": 995,
+			"sample_jobs": 331,
+			"mesh_jobs": 331,
+			"transition_mesh_completions": 71,
+			"storage_duplicate_requests": 451,
+			"page_cache_encoded_entries": 865,
+			"page_cache_decoded_entries": 793,
+			"page_cache_encoded_evictions": 608,
+			"page_cache_decoded_evictions": 680,
+			"page_stale_storage_completions": 0,
+			"application_stale_render": 0,
+			"application_stale_collision": 0,
+			"active_chunk_records": 331,
+			"visual_ready_chunk_records": 331,
+			"visual_required_chunk_records": 331,
+			"render_resources": 120,
+			"collision_resources": 0,
+			"pending_chunk_retirements": 0,
+			"pending_chunk_replacements": 0,
+			"scheduler_queued_jobs": 0,
+			"scheduler_queued_completions": 0
+		}
+	},
+	"prefetch_unique_keys": [
+		"21:-1:21:2"
+	],
+	"prefetch_probe": {
+		"with_count": 331,
+		"without_count": 330,
+		"expected_root_with": true,
+		"expected_root_without": false
+	},
+	"presentation_origin_rebase": {
+		"status": "PASS",
+		"scope": "consumer_presentation_root_transform",
+		"offset": "(-1048576.0, 512.0, 1048576.0)",
+		"local_resource_unchanged": true,
+		"global_delta_matches": true,
+		"state_signature": "f6d1fde3bbc6cb54bdca9b5cc505b783f0a3a16d19591cf837c3e9b6831932dd"
+	},
+	"teleport_residency": {
+		"active_count": 312,
+		"lod_counts": {
+			"0": 128,
+			"1": 160,
+			"2": 24
+		},
+		"minimum_coordinate": "(3, -4, 3)",
+		"maximum_coordinate": "(21, 3, 21)",
+		"generation_mismatch_count": 0,
+		"state_signature": "36295a2dae55e5fadd070f2f29d06dd56051eb6bc37424bd3ed88018691a71ef",
+		"metrics": {
+			"viewer_updates": 8,
+			"viewer_removals": 1,
+			"planned_demands": 2293,
+			"sample_jobs": 644,
+			"mesh_jobs": 644,
+			"transition_mesh_completions": 140,
+			"storage_duplicate_requests": 675,
+			"page_cache_encoded_entries": 881,
+			"page_cache_decoded_entries": 810,
+			"page_cache_encoded_evictions": 1758,
+			"page_cache_decoded_evictions": 1903,
+			"page_stale_storage_completions": 0,
+			"application_stale_render": 0,
+			"application_stale_collision": 0,
+			"active_chunk_records": 312,
+			"visual_ready_chunk_records": 312,
+			"visual_required_chunk_records": 312,
+			"render_resources": 47,
+			"collision_resources": 3,
+			"pending_chunk_retirements": 0,
+			"pending_chunk_replacements": 0,
+			"scheduler_queued_jobs": 0,
+			"scheduler_queued_completions": 0
+		}
+	},
+	"teleport_retained_old_keys": [],
+	"teleport_retained_old_resources": [],
+	"bounded_residency": {
+		"status": "PASS",
+		"checks": {
+			"active": true,
+			"render": true,
+			"collision": true,
+			"retirements": true,
+			"replacements": true,
+			"jobs": true,
+			"visibility": true,
+			"generations": true,
+			"memory": true
+		},
+		"metrics": {
+			"viewer_updates": 8,
+			"viewer_removals": 1,
+			"planned_demands": 2293,
+			"sample_jobs": 644,
+			"mesh_jobs": 644,
+			"transition_mesh_completions": 140,
+			"storage_duplicate_requests": 675,
+			"page_cache_encoded_entries": 881,
+			"page_cache_decoded_entries": 810,
+			"page_cache_encoded_evictions": 1758,
+			"page_cache_decoded_evictions": 1903,
+			"page_stale_storage_completions": 0,
+			"application_stale_render": 0,
+			"application_stale_collision": 0,
+			"active_chunk_records": 312,
+			"visual_ready_chunk_records": 312,
+			"visual_required_chunk_records": 312,
+			"render_resources": 47,
+			"collision_resources": 3,
+			"pending_chunk_retirements": 0,
+			"pending_chunk_replacements": 0,
+			"scheduler_queued_jobs": 0,
+			"scheduler_queued_completions": 0
+		},
+		"memory": {
+			"retained_bytes": 28914027,
+			"peak_bytes": 42156637
+		}
+	},
+	"drain_metrics": {
+		"viewer_updates": 8,
+		"viewer_removals": 4,
+		"planned_demands": 2293,
+		"sample_jobs": 646,
+		"mesh_jobs": 644,
+		"transition_mesh_completions": 140,
+		"storage_duplicate_requests": 675,
+		"page_cache_encoded_entries": 627,
+		"page_cache_decoded_entries": 558,
+		"page_cache_encoded_evictions": 1758,
+		"page_cache_decoded_evictions": 1903,
+		"page_stale_storage_completions": 2,
+		"application_stale_render": 0,
+		"application_stale_collision": 4,
+		"active_chunk_records": 0,
+		"visual_ready_chunk_records": 0,
+		"visual_required_chunk_records": 0,
+		"render_resources": 0,
+		"collision_resources": 0,
+		"pending_chunk_retirements": 0,
+		"pending_chunk_replacements": 0,
+		"scheduler_queued_jobs": 0,
+		"scheduler_queued_completions": 0
+	},
+	"settlements": [
+		{
+			"id": "cave",
+			"status": "PASS",
+			"frames": 552,
+			"elapsed_usec": 10671766
+		},
+		{
+			"id": "multi_viewer_union",
+			"status": "PASS",
+			"frames": 486,
+			"elapsed_usec": 10479958
+		},
+		{
+			"id": "prefetch_removal_probe",
+			"status": "PASS",
+			"frames": 0,
+			"elapsed_usec": 172
+		},
+		{
+			"id": "prefetch_restore",
+			"status": "PASS",
+			"frames": 2,
+			"elapsed_usec": 11246
+		},
+		{
+			"id": "teleport",
+			"status": "PASS",
+			"frames": 1118,
+			"elapsed_usec": 17653585
+		},
+		{
+			"id": "remove_prefetch",
+			"status": "PASS",
+			"frames": 0,
+			"elapsed_usec": 238
+		}
+	],
+	"performance": {
+		"scope": "WINDOWS_DEBUG_DIAGNOSTIC_NOT_PRODUCTION_FRAME_OR_POWER_BUDGET",
+		"settlement_usec": {
+			"sample_count": 6,
+			"p50_usec": 11246.0,
+			"p95_usec": 17653585.0,
+			"p99_usec": 17653585.0,
+			"worst_usec": 17653585.0
+		},
+		"memory": {
+			"retained_bytes": 27574397,
+			"peak_bytes": 42156637
+		}
+	},
+	"semantic_signature": "ea82edbd82e66249671a0186ef9593e5881583ca4be5a0ca702c75120cf98c61",
+	"provenance": {
+		"workload_signature": "tqp40_native_multi_layer_streaming_windows_v1",
+		"build_type": "debug",
+		"os": "Windows",
+		"architecture": "x86_64",
+		"cpu": "Intel(R) Core(TM) i5-7300HQ CPU @ 2.50GHz",
+		"gpu": "",
+		"driver": "vulkan",
+		"godot_version": "4.7.1-stable (steam)",
+		"backend_revision": "efe4e52e91088966067b016ae6af001f6b4ae751f7c5ce5d39710165699b8325"
+	},
+	"qualified_scope": [
+		"Windows debug native procedural 1536x512x1536-cell catalog with horizontal and vertical cave residency",
+		"LOD0, LOD1, and LOD2 adaptive parent/child leaves for cave, surface, and prefetch viewers",
+		"vertical authoritative sign crossings below and above an underground viewer",
+		"multi-viewer union, unique coarse prefetch coverage, far teleport eviction, and complete viewer retirement",
+		"bounded active, cache, render, collision, queue, replacement, retirement, and process-memory diagnostics",
+		"consumer presentation-root origin rebase with unchanged native chunk state and local resource transforms"
+	],
+	"explicitly_unqualified_scope": [
+		"native floating-origin coordinate mutation, planetary coordinates, or arbitrary precision",
+		"production memory, frame-time, low-power, long-soak, or GPU budgets",
+		"collision policy quality, navigation, persistence, edit replay, or fault injection",
+		"non-Windows platforms, arbitrary procedural fields, or production terrain authority"
+	],
+	"failures": []
+}

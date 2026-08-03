@@ -1,0 +1,96 @@
+{
+	"schema": "world_transvoxel.terrain_lab.adaptive_persistence_standard.v1",
+	"milestone": "TQP-41",
+	"standard_id": "native_adaptive_persistence_replay_windows_v1",
+	"authority": "world_transvoxel_native_runtime_and_native_dense_baker",
+	"evidence": "res://labs/terrain_lab/results/adaptive_persistence_reference_windows.json",
+	"motion_evidence": "res://labs/terrain_lab/results/adaptive_persistence_motion_windows.json",
+	"observatory_scene": "res://labs/terrain_lab/scenes/adaptive_persistence_observatory.tscn",
+	"fixture_manifest": "res://labs/terrain_lab/fixtures/adaptive_persistence/fixture_manifest.json",
+	"large_volume_finding": "res://addons/world_transvoxel_terrain_lab/standards/large_volume_snapshot_finding.json",
+	"temporal_wave_evidence": "res://labs/terrain_lab/results/temporal_wave_reference_windows.json",
+	"runtime_profile": {
+		"platform": "Windows",
+		"build": "debug_reference",
+		"worker_count": 2,
+		"source_revision": 941001,
+		"compacted_source_revision": 941002,
+		"viewer_id": 411,
+		"viewer_position": [80.0, 48.0, 80.0],
+		"viewer_radius_chunks": 1,
+		"maximum_lod": 1,
+		"lod_refinement_radius_chunks": 1,
+		"active_chunk_capacity": 512,
+		"pipeline_capacity": 2048,
+		"page_cache_capacity": 512,
+		"collision_capacity": 128
+	},
+	"workload": {
+		"central_transaction": [
+			{"operation": "carve_smooth_sdf_sphere", "center": [80.0, 42.0, 80.0], "radius": 5.0, "strength": 1.0, "smooth_radius": 0.75},
+			{"operation": "construct_material_smooth_sdf_sphere", "center": [80.0, 58.0, 80.0], "radius": 4.0, "strength": 1.0, "material": 8, "smooth_radius": 0.5}
+		],
+		"distant_transaction": [
+			{"operation": "construct_material_smooth_sdf_sphere", "center": [176.0, 58.0, 176.0], "radius": 5.0, "strength": 1.0, "material": 7, "smooth_radius": 0.5}
+		],
+		"central_probes": [[80, 42, 80], [80, 36, 80], [80, 58, 80], [80, 63, 80]],
+		"distant_probe": [176, 58, 176],
+		"distant_viewer_position": [176.0, 58.0, 176.0],
+		"required_actions": [
+			"native_baked_fixture_integrity",
+			"adaptive_residency_before_edit",
+			"complex_durable_edit_transactions",
+			"distant_unloaded_edit",
+			"journal_replay",
+			"inherited_truncated_journal_recovery",
+			"adaptive_complete_journal_prefix_replay",
+			"supported_snapshot_compaction",
+			"atomic_staging_failure",
+			"snapshot_migration",
+			"post_restart_query_and_resource_regeneration"
+		]
+	},
+	"invariants": {
+		"requires_native_baker_fixture": true,
+		"requires_complete_fine_descendants_for_edited_coarse_pages": true,
+		"requires_two_adaptive_lods": true,
+		"requires_edit_journal_bytes": true,
+		"requires_complete_transaction_prefix_replay": true,
+		"requires_inherited_tqp26_physical_truncated_tail_recovery": true,
+		"requires_compacted_and_migrated_query_identity": true,
+		"requires_compacted_and_migrated_geometry_identity": true,
+		"requires_distant_resource_after_restart": true,
+		"large_volume_snapshot_finding": "TQP-F002_REMAINS_EXPLICIT_CAPACITY_LIMIT"
+	},
+	"budgets": {
+		"expected_fixture_page_count": 44,
+		"expected_initial_active_chunks": 34,
+		"expected_initial_lod0_chunks": 8,
+		"expected_initial_lod1_chunks": 26,
+		"maximum_settlement_frames": 1800,
+		"maximum_active_chunk_records": 512,
+		"maximum_peak_process_memory_bytes": 1073741824
+	},
+	"stable_expected": {
+		"initial_state_signature": "6a279ec57ba4bd5c0c23220bb5f2750d029e8fc9e6669229d7363907a7a44101",
+		"edited_sample_signature": "d5e69e0e6b1bdbd0af920742d2bcb0a01c1fd1d60c88b8240ea4f39a7e974189",
+		"edited_geometry_signature": "edc5481c172bc74c220e4627981af7523dffe335f1128d68c4d3a48b1d9c53c3",
+		"semantic_signature": "8f915598367c6ba0f7a261dbf7164857f291f3c182867fc07475d182e0efe5de"
+	},
+	"qualified_scope": [
+		"Windows debug 44-page native-baked LOD1/LOD0 hierarchy with two complete editable parent subtrees",
+		"durable cave, constructed material, and initially unloaded distant construction transactions",
+		"journal replay and truncated-tail recovery to the last complete transaction",
+		"44-page supported native snapshot compaction, atomic staging failure, and current-schema migration",
+		"authoritative query identity after fresh-runtime journal replay and deterministic native geometry regeneration after supported compaction and migration",
+		"post-restart distant edited resource generation from a previously unloaded region"
+	],
+	"explicitly_unqualified_scope": [
+		"large-volume snapshot compaction retained as TQP-F002 and not disguised by this bounded fixture",
+		"arbitrary sparse catalogs lacking complete fine descendants for edited coarse pages",
+		"same-node stop/start reuse across distinct object roots; retained restart authority uses a fresh WorldTransvoxelTerrain instance",
+		"direct post-restart meshing of the edited distant coarse page before compaction; query replay is qualified, while distant resource regeneration is qualified from the supported compacted snapshot",
+		"multi-hour recovery, operating-system crash injection, disk exhaustion, allocation failure, or concurrent process writers",
+		"production save format guarantees, networking, non-Windows platforms, GPU authority, or production terrain authority"
+	]
+}

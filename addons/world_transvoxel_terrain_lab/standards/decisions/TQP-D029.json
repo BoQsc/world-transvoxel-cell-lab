@@ -1,0 +1,44 @@
+{
+	"schema": "world_transvoxel.terrain_lab.decision.v1",
+	"id": "TQP-D029",
+	"date": "2026-08-03",
+	"decision": "Qualify TQP-41 for the retained bounded Windows native-baked adaptive persistence, fresh-runtime replay, supported compaction, migration, and regenerated-resource profile.",
+	"affected_milestones": ["TQP-41"],
+	"repositories": ["world-transvoxel-cell-lab", "world-transvoxel"],
+	"alternatives_considered": [
+		"use a procedural fallback instead of a retained native-baked adaptive hierarchy",
+		"treat reused-node restart behavior as process-restart durability evidence",
+		"claim direct coarse-page resource regeneration before compaction despite a native page-mesh failure",
+		"retain the visually clipped y=62 distant sphere because its center query passed",
+		"hide the TQP-F002 large-volume compaction capacity limit"
+	],
+	"evidence": [
+		"adaptive_persistence_standard.json, 44-page native-baked fixture, and retained qualification and motion reports",
+		"central smooth carve and material construction plus an initially unloaded distant material construction",
+		"fresh-runtime complete-transaction-prefix and full-journal query replay with pinned sample and geometry signatures",
+		"inherited TQP-26 physical truncated-tail recovery evidence",
+		"supported 44-page compaction, fail-closed staging collision, current-schema migration, and fresh-runtime reopen",
+		"distant compacted resource regeneration with one active and one render resource",
+		"visual inspection that moved the distant sphere from y=62 to y=58 so its support remains inside the retained page hierarchy",
+		"inspected edited, replayed, and distant @tool observatory captures; edited and replayed images are visually identical"
+	],
+	"qualified_scope": [
+		"bounded Windows debug 44-page native-baked LOD1/LOD0 hierarchy",
+		"durable central cave and construction transactions plus initially unloaded distant construction",
+		"fresh-runtime authoritative query replay and committed-prefix replay",
+		"supported 44-page compaction, migration, atomic staging failure, and compacted distant resource regeneration"
+	],
+	"unqualified_scope": [
+		"same WorldTransvoxelTerrain node reuse across distinct stopped worlds",
+		"direct meshing of the edited distant coarse journal page before supported compaction",
+		"large-volume compaction beyond TQP-F002, sparse catalogs without complete fine descendants, or arbitrary save formats",
+		"operating-system crash injection, disk exhaustion, concurrent writers, networking, non-Windows platforms, GPU authority, Gate E, or production terrain"
+	],
+	"standards_changed": [
+		"Terrain Qualification Program revision 30",
+		"execution-plan revision 21",
+		"native adaptive persistence standard native_adaptive_persistence_replay_windows_v1"
+	],
+	"review": "Qualification fails closed if fixture hashes, edit semantics, fresh-runtime replay, inherited recovery, compaction, migration, staging failure, distant resource regeneration, stable signatures, provenance, captures, or explicit limitations differ.",
+	"downstream_impact": "TQP-42 becomes the next dependency-ordered milestone. TQP-F002 and the direct pre-compaction coarse-page mesh failure remain explicit and no Gate E or production claim is created."
+}

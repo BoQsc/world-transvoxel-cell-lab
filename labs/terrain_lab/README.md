@@ -72,6 +72,19 @@ edit-retention state alongside render and collision telemetry. Machine field,
 topology, lifecycle, and temporal evidence remains authoritative; the scene's
 48/64 collision profile and Windows debug timings are not production claims.
 
+The TQP-40 Adaptive Streaming Observatory is a separate `@tool` scene at
+`scenes/adaptive_streaming_observatory.tscn`. It presents the exact retained
+cave, multi-viewer union, and teleport windows from the native
+1536x512x1536-cell LOD2/LOD1/LOD0 catalog and fails closed on pinned residency
+state. The presentation shader and camera are diagnostic only.
+
+The TQP-41 Adaptive Persistence Observatory is a separate `@tool` scene at
+`scenes/adaptive_persistence_observatory.tscn`. It stages the retained
+native-baked hierarchy, applies central and distant edits, recreates a fresh
+native runtime for replay, and uses supported compaction before inspecting the
+distant resource. Direct pre-compaction distant coarse-page meshing and
+same-node cross-root restart reuse are explicitly outside the qualified scope.
+
 `tools/run_edit_gate_b_validation.gd` executes the focused `TQP-09` through
 `TQP-14` qualification. `tools/capture_edit_qualification_visual.gd`
 regenerates the deterministic brush and temporal-edit cross-section reference.

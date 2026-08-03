@@ -36,6 +36,12 @@ const AdaptiveSurfaceObservatoryScene := preload(
 const AdaptiveSystemObservatoryScene := preload(
 	"res://labs/terrain_lab/scenes/adaptive_system_observatory.tscn"
 )
+const AdaptiveStreamingObservatoryScene := preload(
+	"res://labs/terrain_lab/scenes/adaptive_streaming_observatory.tscn"
+)
+const AdaptivePersistenceObservatoryScene := preload(
+	"res://labs/terrain_lab/scenes/adaptive_persistence_observatory.tscn"
+)
 const NativeEvidence := preload(
 	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_edit_native_evidence.gd"
 )
@@ -387,6 +393,67 @@ func _run() -> void:
 		_fail("TQP-39 Adaptive System Observatory did not shut down cleanly")
 		return
 	adaptive_system_observatory.free()
+	var adaptive_streaming_script := load(
+		"res://labs/terrain_lab/scenes/adaptive_streaming_observatory.gd"
+	) as Script
+	if adaptive_streaming_script == null or not adaptive_streaming_script.is_tool():
+		_fail("TQP-40 Adaptive Streaming Observatory must execute as an editor tool")
+		return
+	var adaptive_streaming_method_names := PackedStringArray()
+	for method in adaptive_streaming_script.get_script_method_list():
+		adaptive_streaming_method_names.append(str(method.get("name", "")))
+	for required_method in [
+		"wait_until_ready", "set_inspection_mode", "run_multi_viewer_and_wait",
+		"teleport_and_wait", "restart_and_wait", "get_validation_snapshot",
+		"shutdown_for_validation",
+	]:
+		if required_method not in adaptive_streaming_method_names:
+			_fail("TQP-40 Adaptive Streaming Observatory lacks " + required_method)
+			return
+	var adaptive_streaming_observatory := AdaptiveStreamingObservatoryScene.instantiate()
+	root.add_child(adaptive_streaming_observatory)
+	var streaming_ready: Dictionary = await adaptive_streaming_observatory.wait_until_ready()
+	var streaming_snapshot: Dictionary = adaptive_streaming_observatory.get_validation_snapshot()
+	if str(streaming_ready.get("status", "")) != "PASS" \
+			or str(streaming_snapshot.get("status", "")) != "PASS" \
+			or str(streaming_snapshot.get("backend_id", "")) != "world_transvoxel_native":
+		_fail("TQP-40 Adaptive Streaming Observatory residency state failed")
+		return
+	if str((await adaptive_streaming_observatory.shutdown_for_validation()).get("status", "")) != "PASS":
+		_fail("TQP-40 Adaptive Streaming Observatory did not shut down cleanly")
+		return
+	adaptive_streaming_observatory.free()
+	var adaptive_persistence_script := load(
+		"res://labs/terrain_lab/scenes/adaptive_persistence_observatory.gd"
+	) as Script
+	if adaptive_persistence_script == null or not adaptive_persistence_script.is_tool():
+		_fail("TQP-41 Adaptive Persistence Observatory must execute as an editor tool")
+		return
+	var adaptive_persistence_method_names := PackedStringArray()
+	for method in adaptive_persistence_script.get_script_method_list():
+		adaptive_persistence_method_names.append(str(method.get("name", "")))
+	for required_method in [
+		"wait_until_ready", "set_inspection_mode", "replay_and_wait",
+		"show_distant_and_wait", "restart_and_wait", "get_validation_snapshot",
+		"shutdown_for_validation",
+	]:
+		if required_method not in adaptive_persistence_method_names:
+			_fail("TQP-41 Adaptive Persistence Observatory lacks " + required_method)
+			return
+	var adaptive_persistence_observatory := AdaptivePersistenceObservatoryScene.instantiate()
+	root.add_child(adaptive_persistence_observatory)
+	var persistence_ready: Dictionary = await adaptive_persistence_observatory.wait_until_ready()
+	var persistence_snapshot: Dictionary = adaptive_persistence_observatory.get_validation_snapshot()
+	if str(persistence_ready.get("status", "")) != "PASS" \
+			or str(persistence_snapshot.get("status", "")) != "PASS" \
+			or int(persistence_snapshot.get("world_revision", -1)) != 2 \
+			or int(persistence_snapshot.get("cave_triangle_count", 0)) <= 0:
+		_fail("TQP-41 Adaptive Persistence Observatory restored state failed")
+		return
+	if str((await adaptive_persistence_observatory.shutdown_for_validation()).get("status", "")) != "PASS":
+		_fail("TQP-41 Adaptive Persistence Observatory did not shut down cleanly")
+		return
+	adaptive_persistence_observatory.free()
 	var observatory_property_names := PackedStringArray()
 	for property in observatory_script.get_script_property_list():
 		observatory_property_names.append(str(property.get("name", "")))

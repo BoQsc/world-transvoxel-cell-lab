@@ -64,6 +64,18 @@ const ADAPTIVE_SYSTEM_OBSERVATORY_SCENE := (
 const ADAPTIVE_SYSTEM_OBSERVATORY_MENU_LABEL := (
 	"Open TQP-39 Adaptive System"
 )
+const ADAPTIVE_STREAMING_OBSERVATORY_SCENE := (
+	"res://labs/terrain_lab/scenes/adaptive_streaming_observatory.tscn"
+)
+const ADAPTIVE_STREAMING_OBSERVATORY_MENU_LABEL := (
+	"Open TQP-40 Adaptive Streaming"
+)
+const ADAPTIVE_PERSISTENCE_OBSERVATORY_SCENE := (
+	"res://labs/terrain_lab/scenes/adaptive_persistence_observatory.tscn"
+)
+const ADAPTIVE_PERSISTENCE_OBSERVATORY_MENU_LABEL := (
+	"Open TQP-41 Adaptive Persistence"
+)
 
 
 func _enter_tree() -> void:
@@ -111,6 +123,14 @@ func _enter_tree() -> void:
 		ADAPTIVE_SYSTEM_OBSERVATORY_MENU_LABEL,
 		_open_adaptive_system_observatory
 	)
+	add_tool_menu_item(
+		ADAPTIVE_STREAMING_OBSERVATORY_MENU_LABEL,
+		_open_adaptive_streaming_observatory
+	)
+	add_tool_menu_item(
+		ADAPTIVE_PERSISTENCE_OBSERVATORY_MENU_LABEL,
+		_open_adaptive_persistence_observatory
+	)
 	set_process(true)
 
 
@@ -126,6 +146,8 @@ func _exit_tree() -> void:
 	remove_tool_menu_item(ADAPTIVE_EDIT_OBSERVATORY_MENU_LABEL)
 	remove_tool_menu_item(ADAPTIVE_SURFACE_OBSERVATORY_MENU_LABEL)
 	remove_tool_menu_item(ADAPTIVE_SYSTEM_OBSERVATORY_MENU_LABEL)
+	remove_tool_menu_item(ADAPTIVE_STREAMING_OBSERVATORY_MENU_LABEL)
+	remove_tool_menu_item(ADAPTIVE_PERSISTENCE_OBSERVATORY_MENU_LABEL)
 	remove_custom_type("WtTransvoxelTerrainLab")
 
 
@@ -186,6 +208,18 @@ func _open_adaptive_surface_observatory() -> void:
 func _open_adaptive_system_observatory() -> void:
 	get_editor_interface().open_scene_from_path(
 		ADAPTIVE_SYSTEM_OBSERVATORY_SCENE
+	)
+
+
+func _open_adaptive_streaming_observatory() -> void:
+	get_editor_interface().open_scene_from_path(
+		ADAPTIVE_STREAMING_OBSERVATORY_SCENE
+	)
+
+
+func _open_adaptive_persistence_observatory() -> void:
+	get_editor_interface().open_scene_from_path(
+		ADAPTIVE_PERSISTENCE_OBSERVATORY_SCENE
 	)
 
 

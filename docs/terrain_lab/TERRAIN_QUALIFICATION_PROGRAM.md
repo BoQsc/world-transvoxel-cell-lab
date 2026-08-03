@@ -800,7 +800,7 @@ remain unqualified.
 
 ### TQP-40: Multi-Layer Adaptive Streaming And Residency
 
-Status: `proposed`. Owner: Terrain Systems Lab. Depends on: TQP-19, TQP-20,
+Status: `qualified`. Owner: Terrain Systems Lab. Depends on: TQP-19, TQP-20,
 TQP-22, TQP-27, TQP-30, TQP-35.
 
 Complete when native streaming handles large horizontal and vertical terrain,
@@ -808,9 +808,18 @@ caves above and below the viewer, adaptive parent/child coverage, prefetch,
 eviction, teleports, origin shifts, memory ceilings, resource retirement, and
 visibility without the former single-layer reference assumptions.
 
+Qualification decision `TQP-D028` retains a bounded Windows debug native
+1536x512x1536-cell `rolling_hills_cave` catalog. The pinned cave,
+multi-viewer, and teleport windows contain LOD0 through LOD2, prove
+authoritative vertical crossings above and below the underground viewer,
+unique coarse prefetch contribution, old-window eviction, bounded resources,
+and complete viewer drain. The `@tool` observatory renders only native
+resources. Native floating origin, production performance or power, collision
+policy, non-Windows platforms, and production terrain remain unqualified.
+
 ### TQP-41: Adaptive Persistence And Stream Replay
 
-Status: `proposed`. Owner: Terrain Systems Lab. Depends on: TQP-13, TQP-16,
+Status: `qualified`. Owner: Terrain Systems Lab. Depends on: TQP-13, TQP-16,
 TQP-20, TQP-26, TQP-35, TQP-37, TQP-40.
 
 Complete when complex edited fields, adaptive residency state, journal replay,
@@ -818,6 +827,16 @@ supported snapshot compaction, migration, crash recovery, distant unloaded
 edits, and post-restart regeneration reproduce authoritative queries and
 derived resources. `TQP-F002` must be resolved or remain an explicit capacity
 limit in the qualified envelope.
+
+Qualification decision `TQP-D029` retains a 44-page native-baked LOD1/LOD0
+fixture with durable central cave/construction and initially unloaded distant
+construction transactions. It qualifies fresh-runtime committed-prefix and
+full-journal query replay, inherited TQP-26 truncated-tail recovery, supported
+compaction, fail-closed staging, migration, and compacted distant resource
+regeneration. Same-node reuse across distinct stopped worlds, direct distant
+coarse-page meshing before compaction, large-volume compaction beyond
+`TQP-F002`, operating-system fault injection, networking, and production save
+authority remain unqualified.
 
 ### TQP-42: Fault Injection And Cross-Order Determinism
 
@@ -1070,11 +1089,11 @@ a standard, not an assertion that future terrain work is finished.
 
 The program records every milestone at a truthful evidence state:
 
-- `TQP-01` through `TQP-39` are qualified
+- `TQP-01` through `TQP-41` are qualified
   for their narrow contract, native Windows reference, or reference-model
   scopes. Gate B is qualified; its native chunk rebuild benchmark remains a
   background/debug reference and is not a production frame-time claim.
-- `TQP-28` through `TQP-39` qualify the deterministic field contract, bounded
+- `TQP-28` through `TQP-41` qualify the deterministic field contract, bounded
   LOD0 complex native corpus, finite adaptive selector, and static native
   transition-assembly matrix, bounded boundary/enclosure policy, and independent
   geometry/topology oracles, seeded adversarial/minimized repro corpus, and
@@ -1082,8 +1101,10 @@ The program records every milestone at a truthful evidence state:
   exact native edit invalidation with incremental remeshing, and bounded native
   adaptive digging/construction semantics with lifecycle and refinement
   identity, adaptive material payload continuity, and bounded native
-  render/collision/query/physics agreement with consumer-derived navigation.
-  `TQP-40` through `TQP-45` remain proposed, so
+  render/collision/query/physics agreement with consumer-derived navigation,
+  multi-layer LOD2/LOD1/LOD0 streaming/residency, and bounded native-baked
+  adaptive persistence with fresh-runtime replay and supported compaction.
+  `TQP-42` through `TQP-45` remain proposed, so
   the program makes no Gate E adaptive-terrain authority claim.
 - `TQP-46` through `TQP-51` retain the previously implemented destruction and
   structural reference behavior under their revision-19 identifiers.
@@ -1091,8 +1112,8 @@ The program records every milestone at a truthful evidence state:
 - `TQP-53` through `TQP-64` are blocked by named external targets and exit
   conditions in `program_blockers.json`.
 
-The next dependency-ordered milestone is TQP-40, multi-layer adaptive streaming
-and residency. TQP-27 remains qualified through `TQP-D016` only for its
+The next dependency-ordered milestone is TQP-42, fault injection and
+cross-order determinism. TQP-27 remains qualified through `TQP-D016` only for its
 bounded native Windows 2K-world soak and durable edit-journal restart.
 `TQP-F002` retains large-volume snapshot compaction as an open upstream
 capacity issue. Gate D is qualified only for that bounded reference claim;

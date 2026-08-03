@@ -1,0 +1,148 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://labs/terrain_lab/scenes/adaptive_streaming_observatory.gd" id="1_script"]
+
+[sub_resource type="ProceduralSkyMaterial" id="SkyMaterial"]
+sky_top_color = Color(0.025, 0.055, 0.075, 1)
+sky_horizon_color = Color(0.42, 0.55, 0.56, 1)
+ground_bottom_color = Color(0.012, 0.018, 0.02, 1)
+ground_horizon_color = Color(0.13, 0.19, 0.18, 1)
+
+[sub_resource type="Sky" id="Sky"]
+sky_material = SubResource("SkyMaterial")
+
+[sub_resource type="Environment" id="Environment"]
+background_mode = 2
+sky = SubResource("Sky")
+ambient_light_source = 3
+ambient_light_color = Color(0.64, 0.72, 0.68, 1)
+ambient_light_energy = 0.62
+reflected_light_source = 2
+tonemap_mode = 2
+ssao_enabled = true
+ssao_radius = 1.8
+ssao_intensity = 1.7
+
+[sub_resource type="StyleBoxFlat" id="DockStyle"]
+bg_color = Color(0.022, 0.032, 0.037, 0.97)
+border_width_right = 1
+border_color = Color(0.15, 0.34, 0.31, 1)
+content_margin_left = 16.0
+content_margin_top = 16.0
+content_margin_right = 16.0
+content_margin_bottom = 16.0
+
+[node name="AdaptiveStreamingObservatory" type="Node3D"]
+script = ExtResource("1_script")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment")
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+rotation_degrees = Vector3(-54, -38, 0)
+light_color = Color(1, 0.94, 0.80, 1)
+light_energy = 1.35
+shadow_enabled = true
+directional_shadow_max_distance = 800.0
+
+[node name="Fill" type="DirectionalLight3D" parent="."]
+rotation_degrees = Vector3(-20, 144, 0)
+light_color = Color(0.34, 0.62, 0.78, 1)
+light_energy = 0.38
+
+[node name="CaveLight" type="OmniLight3D" parent="."]
+unique_name_in_owner = true
+position = Vector3(1017, -14, 1017)
+light_color = Color(0.75, 0.87, 1, 1)
+light_energy = 2.4
+omni_range = 28.0
+shadow_enabled = false
+
+[node name="Camera3D" type="Camera3D" parent="."]
+unique_name_in_owner = true
+position = Vector3(1024, -20, 1024)
+current = true
+fov = 52.0
+near = 0.05
+far = 1800.0
+
+[node name="Interface" type="CanvasLayer" parent="."]
+
+[node name="Dock" type="PanelContainer" parent="Interface"]
+offset_right = 390.0
+anchor_bottom = 1.0
+grow_vertical = 1
+theme_override_styles/panel = SubResource("DockStyle")
+
+[node name="Content" type="VBoxContainer" parent="Interface/Dock"]
+theme_override_constants/separation = 10
+
+[node name="Title" type="Label" parent="Interface/Dock/Content"]
+theme_override_font_sizes/font_size = 21
+text = "Adaptive Streaming Observatory"
+
+[node name="Subtitle" type="Label" parent="Interface/Dock/Content"]
+theme_override_colors/font_color = Color(0.48, 0.76, 0.70, 1)
+text = "TQP-40 / multi-layer adaptive residency"
+
+[node name="StatusLabel" type="Label" parent="Interface/Dock/Content"]
+unique_name_in_owner = true
+theme_override_colors/font_color = Color(0.35, 0.91, 0.63, 1)
+theme_override_font_sizes/font_size = 18
+text = "STARTING"
+
+[node name="ModeLabel" type="Label" parent="Interface/Dock/Content"]
+unique_name_in_owner = true
+text = "MODE  CAVE"
+
+[node name="ResidencyLabel" type="Label" parent="Interface/Dock/Content"]
+unique_name_in_owner = true
+text = "Active 0   LOD0 0   LOD1 0   LOD2 0"
+
+[node name="PipelineLabel" type="Label" parent="Interface/Dock/Content"]
+unique_name_in_owner = true
+theme_override_colors/font_color = Color(0.66, 0.73, 0.70, 1)
+text = "Render 0   collision 0\nQueued jobs 0   retirements 0"
+
+[node name="Separator1" type="HSeparator" parent="Interface/Dock/Content"]
+
+[node name="ModeHeading" type="Label" parent="Interface/Dock/Content"]
+theme_override_colors/font_color = Color(0.56, 0.78, 0.74, 1)
+text = "RESIDENCY WINDOW"
+
+[node name="CaveButton" type="Button" parent="Interface/Dock/Content"]
+unique_name_in_owner = true
+text = "Cave window"
+
+[node name="MultiButton" type="Button" parent="Interface/Dock/Content"]
+unique_name_in_owner = true
+text = "Multi-viewer union"
+
+[node name="TeleportButton" type="Button" parent="Interface/Dock/Content"]
+unique_name_in_owner = true
+text = "Far teleport and eviction"
+
+[node name="RestartButton" type="Button" parent="Interface/Dock/Content"]
+unique_name_in_owner = true
+text = "Reset native fixture"
+
+[node name="Separator2" type="HSeparator" parent="Interface/Dock/Content"]
+
+[node name="Scope" type="Label" parent="Interface/Dock/Content"]
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.49, 0.56, 0.54, 1)
+text = "WORLD-TRANSVOXEL NATIVE RUNTIME\nNO FALLBACK MESH OR FIELD\nWINDOWS DEBUG QUALIFICATION"
+vertical_alignment = 2
+
+[node name="Badge" type="Label" parent="Interface"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -330.0
+offset_top = 20.0
+offset_right = -22.0
+offset_bottom = 64.0
+grow_horizontal = 0
+theme_override_colors/font_color = Color(0.91, 0.95, 0.93, 0.92)
+text = "TQP-40  ADAPTIVE RESIDENCY"
+horizontal_alignment = 2

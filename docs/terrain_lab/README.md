@@ -6,24 +6,25 @@ Qualification Program; it does not own production implementation and does not
 extend the Cell Lab root node.
 
 The [Terrain Qualification Program](TERRAIN_QUALIFICATION_PROGRAM.md) is the
-single human-readable roadmap. Program revision 28 contains TQP-01 through
+single human-readable roadmap. Program revision 30 contains TQP-01 through
 TQP-64 in ground-up execution order:
 
-- TQP-01 through TQP-39 are qualified only for their declared bounded scopes;
-- TQP-28 through TQP-39 retain the deterministic native field, complex LOD0
+- TQP-01 through TQP-41 are qualified only for their declared bounded scopes;
+- TQP-28 through TQP-41 retain the deterministic native field, complex LOD0
   corpus, bounded adaptive selector, native transition-assembly matrix, and
   finite-world boundary/enclosure policy plus independent geometry/topology
   oracles, seeded adversarial replay and minimization, and bounded native
   LOD1/LOD0 dynamic publication, exact edit invalidation, and bounded adaptive
   digging/construction with lifecycle/refinement identity, adaptive material
-  continuity, and bounded render/collision/query/navigation agreement; TQP-40
-  through TQP-45 remain proposed;
+  continuity, bounded render/collision/query/navigation agreement, bounded
+  multi-layer streaming/residency, and native-baked persistence/recovery;
+  TQP-42 through TQP-45 remain proposed;
 - TQP-46 through TQP-51 retain implemented but unqualified destruction and
   structural reference behavior;
 - TQP-52 is the specified CPU-primary GPU architecture decision;
 - TQP-53 through TQP-64 remain blocked GPU or production work.
 
-The next milestone is TQP-40, Multi-Layer Adaptive Streaming And Residency.
+The next milestone is TQP-42, Fault Injection And Cross-Order Determinism.
 Gate E remains closed, so the lab does not claim that complex dynamic adaptive
 Transvoxel terrain is qualified yet.
 

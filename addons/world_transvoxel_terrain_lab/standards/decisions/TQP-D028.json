@@ -1,0 +1,40 @@
+{
+	"schema": "world_transvoxel.terrain_lab.decision.v1",
+	"id": "TQP-D028",
+	"date": "2026-08-03",
+	"decision": "Qualify TQP-40 for the retained bounded Windows native LOD2/LOD1/LOD0 multi-layer adaptive streaming and residency profile.",
+	"affected_milestones": ["TQP-40"],
+	"repositories": ["world-transvoxel-cell-lab", "world-transvoxel"],
+	"alternatives_considered": [
+		"retain the former small horizontal reference as evidence for large vertical cave residency",
+		"simulate viewer windows or render fallback meshes in the lab",
+		"treat presentation-root origin rebasing as native floating-origin authority",
+		"promote debug settlement timings into production or low-power budgets"
+	],
+	"evidence": [
+		"adaptive_streaming_residency_standard.json and retained qualification and motion reports",
+		"native rolling_hills_cave catalog spanning 1536x512x1536 cells with vertical origin -16 chunks",
+		"pinned cave, multi-viewer, and teleport state signatures with LOD0, LOD1, and LOD2 present",
+		"authoritative vertical sign crossings below and above the underground viewer",
+		"unique coarse prefetch contribution, complete old-window eviction, bounded resources, and zero-resource viewer drain",
+		"consumer presentation-root rebase preserving native state and local resource transforms",
+		"inspected cave, multi-viewer, and teleport @tool observatory captures"
+	],
+	"qualified_scope": [
+		"bounded Windows debug native procedural 1536x512x1536-cell catalog",
+		"LOD2/LOD1/LOD0 cave, surface, and prefetch residency with multi-viewer union",
+		"far teleport eviction, viewer retirement, queue drain, and bounded debug resources",
+		"consumer presentation-root origin rebase without native coordinate mutation"
+	],
+	"unqualified_scope": [
+		"native floating origin, planetary coordinates, arbitrary precision, or global coarse coverage",
+		"production memory, frame pacing, power, collision policy, navigation, persistence, or edit behavior",
+		"non-Windows platforms, arbitrary fields, GPU authority, Gate E, or production terrain authority"
+	],
+	"standards_changed": [
+		"Terrain Qualification Program revision 29",
+		"native multi-layer adaptive streaming standard native_multi_layer_adaptive_streaming_windows_v1"
+	],
+	"review": "Qualification fails closed if pinned residency signatures, all three LOD levels, vertical crossings, prefetch uniqueness, teleport eviction, drain, provenance, captures, or retained scope differ.",
+	"downstream_impact": "TQP-41 becomes dependency-ready. No production, GPU, low-power, or Gate E claim is created."
+}

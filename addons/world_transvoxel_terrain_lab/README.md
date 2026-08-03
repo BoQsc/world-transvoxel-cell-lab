@@ -4,16 +4,18 @@ The Terrain Lab addon owns controlled experiments for the Terrain Qualification
 Program. It is separate from `world_transvoxel_cell_lab` even though both addons
 share this repository and the pinned `world_transvoxel` dependency.
 
-Current status: fail-closed program revision 28. All 64 milestones have a
-machine-readable evidence state. TQP-01 through TQP-39 retain their bounded
-qualified scopes; TQP-28 through TQP-39 establish the deterministic native
+Current status: fail-closed program revision 30. All 64 milestones have a
+machine-readable evidence state. TQP-01 through TQP-41 retain their bounded
+qualified scopes; TQP-28 through TQP-41 establish the deterministic native
 field contract, LOD0 complex-field corpus, bounded adaptive selector, and
 native transition-assembly matrix, boundary/enclosure policy, and independent
 geometry/topology oracles plus the seeded adversarial/minimized corpus, dynamic
 LOD publication, exact edit invalidation, and bounded adaptive digging and
 construction with lifecycle/refinement identity, adaptive material continuity,
 and bounded render/collision/query/physics plus consumer-derived navigation
-agreement. TQP-40 through TQP-45 remain `proposed`.
+agreement, multi-layer adaptive streaming/residency, and bounded native-baked
+adaptive persistence with fresh-runtime replay. TQP-42 through TQP-45 remain
+`proposed`.
 Destruction, GPU, and production promotion remain closed behind Gate E.
 
 Gate B edit qualification is retained in
@@ -161,6 +163,29 @@ overhang, thin construction, and staged-crater fixture. It exposes teleport
 retirement, staged replacement, and reset controls. Navigation is explicitly a
 Godot consumer derivative, not world-transvoxel authority.
 
+TQP-40 Adaptive Streaming Observatory:
+
+```text
+res://labs/terrain_lab/scenes/adaptive_streaming_observatory.tscn
+```
+
+Open it from **Project > Tools > Open TQP-40 Adaptive Streaming**. Its `@tool`
+root exposes the pinned cave, multi-viewer union, and far-teleport residency
+windows over the native LOD2/LOD1/LOD0 procedural catalog. It reports exact
+active and per-LOD counts and fails when the retained native state changes.
+
+TQP-41 Adaptive Persistence Observatory:
+
+```text
+res://labs/terrain_lab/scenes/adaptive_persistence_observatory.tscn
+```
+
+Open it from **Project > Tools > Open TQP-41 Adaptive Persistence**. Its
+`@tool` root stages the retained 44-page native-baked fixture, applies the
+central and distant transactions, recreates a fresh native runtime for journal
+replay, and compacts before loading the distant edited resource. It has no
+procedural or mesh fallback.
+
 TQP-23 guided surface review:
 
 ```text
@@ -214,4 +239,16 @@ Focused TQP-39 adaptive system report:
 
 ```text
 res://labs/terrain_lab/tools/run_adaptive_system_validation.gd
+```
+
+Focused TQP-40 adaptive streaming report:
+
+```text
+res://labs/terrain_lab/tools/run_adaptive_streaming_validation.gd
+```
+
+Focused TQP-41 adaptive persistence report:
+
+```text
+res://labs/terrain_lab/tools/run_adaptive_persistence_validation.gd
 ```
