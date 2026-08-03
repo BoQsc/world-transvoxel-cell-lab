@@ -157,8 +157,9 @@ static func same_lod_seam(
 	if right_coordinate - left_coordinate != expected_delta:
 		failures.append("chunk coordinates are not adjacent on requested axis")
 	var extent := float(CHUNK_CELLS_PER_AXIS * (1 << maxi(lod, 0)))
-	var left_edges := _boundary_edges(left, axis, extent)
-	var right_edges := _boundary_edges(right, axis, 0.0)
+	var reference_origin := chunk_origin(left)
+	var left_edges := _boundary_edges(left, axis, extent, reference_origin)
+	var right_edges := _boundary_edges(right, axis, 0.0, reference_origin)
 	var left_only: Array[String] = []
 	var right_only: Array[String] = []
 	var multiplicity_mismatches: Array[String] = []
@@ -197,10 +198,21 @@ static func same_lod_seam(
 static func same_lod_window_topology(chunks: Array) -> Dictionary:
 	var failures: Array[String] = []
 	var edge_records := {}
+	var reference_origin := Vector3.ZERO
 	var window_min := Vector3(INF, INF, INF)
 	var window_max := Vector3(-INF, -INF, -INF)
 	var expected_lod := -1
 	var triangle_count := 0
+	var reference_initialized := false
+	for chunk_value in chunks:
+		if not chunk_value is Dictionary:
+			continue
+		var candidate_origin := chunk_origin(chunk_value)
+		if not reference_initialized:
+			reference_origin = candidate_origin
+			reference_initialized = true
+		else:
+			reference_origin = reference_origin.min(candidate_origin)
 	for chunk_value in chunks:
 		if not chunk_value is Dictionary:
 			failures.append("window contains a non-dictionary chunk")
@@ -214,7 +226,9 @@ static func same_lod_window_topology(chunks: Array) -> Dictionary:
 			expected_lod = lod
 		elif lod != expected_lod:
 			failures.append("window contains mixed LODs")
-		var origin := chunk_origin(chunk)
+		# Keep topology arithmetic near zero so large-world origins cannot collapse
+		# distinct local edges through Vector3 float precision.
+		var origin := chunk_origin(chunk) - reference_origin
 		var extent := float(CHUNK_CELLS_PER_AXIS * (1 << maxi(lod, 0)))
 		window_min = window_min.min(origin)
 		window_max = window_max.max(origin + Vector3.ONE * extent)
@@ -289,6 +303,7 @@ static func same_lod_window_topology(chunks: Array) -> Dictionary:
 		"nonmanifold_edge_count": nonmanifold_edges,
 		"window_min": window_min,
 		"window_max": window_max,
+		"coordinate_frame_origin": reference_origin,
 		"sample_interior_open_edges": sample_interior_open_edges,
 		"sample_nonmanifold_edges": sample_nonmanifold_edges,
 		"failures": failures,
@@ -362,9 +377,14 @@ static func _buffer(
 	}
 
 
-static func _boundary_edges(chunk: Dictionary, axis: int, local_plane: float) -> Dictionary:
+static func _boundary_edges(
+	chunk: Dictionary,
+	axis: int,
+	local_plane: float,
+	reference_origin: Vector3 = Vector3.ZERO
+) -> Dictionary:
 	var result := {}
-	var origin := chunk_origin(chunk)
+	var origin := chunk_origin(chunk) - reference_origin
 	var regular: Dictionary = chunk.get("regular", {})
 	var vertices: PackedVector3Array = regular.get("vertices", PackedVector3Array())
 	var indices: PackedInt32Array = regular.get("indices", PackedInt32Array())

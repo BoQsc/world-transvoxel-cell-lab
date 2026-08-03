@@ -4,11 +4,12 @@ The Terrain Lab addon owns controlled experiments for the Terrain Qualification
 Program. It is separate from `world_transvoxel_cell_lab` even though both addons
 share this repository and the pinned `world_transvoxel` dependency.
 
-Current status: fail-closed program revision 19. All 64 milestones have a
-machine-readable evidence state. TQP-01 through TQP-27 retain their bounded
-qualified scopes; TQP-28 through TQP-45 are deliberately `proposed` because
-the native adaptive-terrain layer is not yet qualified. Destruction, GPU, and
-production promotion remain closed behind Gate E.
+Current status: fail-closed program revision 20. All 64 milestones have a
+machine-readable evidence state. TQP-01 through TQP-29 retain their bounded
+qualified scopes; TQP-28 and TQP-29 establish the deterministic native field
+contract and LOD0 complex-field corpus, while TQP-30 through TQP-45 remain
+`proposed`. Destruction, GPU, and production promotion remain closed behind
+Gate E.
 
 Gate B edit qualification is retained in
 `standards/edit_gate_b_standard.json`. It qualifies `TQP-09` through `TQP-14`

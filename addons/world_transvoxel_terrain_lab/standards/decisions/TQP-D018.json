@@ -1,0 +1,46 @@
+{
+	"schema": "world_transvoxel.terrain_lab.decision.v1",
+	"id": "TQP-D018",
+	"date": "2026-08-03",
+	"decision": "Qualify TQP-28 and TQP-29 for the retained deterministic field contract and bounded Windows LOD0 same-resolution native complex-field corpus, without widening the claim to adaptive LOD terrain.",
+	"affected_milestones": ["TQP-28", "TQP-29"],
+	"repositories": ["world-transvoxel-cell-lab", "world-transvoxel"],
+	"alternatives": [
+		"reuse the observatory height field without a separate sampling contract",
+		"defer complex fields until adaptive LOD assembly exists",
+		"treat screenshots as sufficient native topology evidence",
+		"accept absolute-world float topology hashing at million-unit coordinates"
+	],
+	"evidence": [
+		"native_field_standard.json analytical density, material, gradient, interpolation, seed, frequency, identity, and large-coordinate contracts",
+		"native_field_reference_windows.json fourteen-fixture retained native corpus",
+		"112 LOD0 native chunks and 168 same-LOD shared-boundary checks per cold or warm pass",
+		"assembled-window edge multiplicity with zero interior-open and nonmanifold edges for every retained fixture",
+		"focused million-unit repro proving the original nonmanifold report was absolute-world float loss in the lab oracle",
+		"cold/warm exact field and native geometry signature agreement"
+	],
+	"qualified_scope": [
+		"solid-negative and air-positive density semantics at isovalue zero",
+		"0.5 metre deterministic integer-grid sampling and material ownership",
+		"integer-local large-coordinate sampling before float conversion",
+		"fourteen explicit complex-field definitions and native LOD0 2x2x2 windows on the retained Windows debug profile",
+		"same-resolution seam, topology, material, resolvability, and minimized-repro evidence"
+	],
+	"unqualified_scope": [
+		"adaptive LOD selection and neighbor policy",
+		"transition-cell assembly",
+		"dynamic publication and cross-LOD edits",
+		"independent geometry oracles beyond the retained invariants",
+		"production generation, rendering, streaming, collision, navigation, or performance",
+		"other platforms and native build profiles"
+	],
+	"baseline_changes": [
+		"Terrain Qualification Program revision 20",
+		"program manifest and qualification state revision 20",
+		"execution plan revision 12",
+		"native field standard TQP-NATIVE-FIELD-WINDOWS-V1",
+		"large-coordinate seam and topology oracle changed to a window-relative coordinate frame"
+	],
+	"review": "Automated analytical, negative-control, native geometry, seam, topology, material, signature, and focused-repro evidence passed; no visual acceptance is claimed by these milestones.",
+	"downstream_impact": "TQP-30 becomes the next dependency-ordered milestone. Gate E remains closed and no adaptive or production terrain authority is claimed."
+}

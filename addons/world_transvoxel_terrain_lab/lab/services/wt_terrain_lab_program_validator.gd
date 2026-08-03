@@ -23,6 +23,9 @@ const VisualQualityQualification := preload(
 const LargeTerrainSoakEvidence := preload(
 	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_large_terrain_soak_evidence.gd"
 )
+const NativeFieldEvidence := preload(
+	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_native_field_evidence.gd"
+)
 
 const PROGRAM_SCHEMA := "world_transvoxel.terrain_lab.program.v2"
 const LAB_SCOPE := "experimental_terrain_qualification"
@@ -108,6 +111,7 @@ static func validate(program: Dictionary, dependencies: Dictionary) -> Dictionar
 	_validate_phase_03_system_evidence(program, milestone_by_id, failures)
 	_validate_terrain_observatory_evidence(program, milestone_by_id, failures)
 	_validate_large_terrain_soak_evidence(program, milestone_by_id, failures)
+	_validate_native_field_evidence(program, milestone_by_id, failures)
 	_validate_visual_evidence(program, milestone_by_id, failures)
 	_validate_dependency_boundary(program, dependencies, failures)
 	_validate_source_boundary(failures)
@@ -235,7 +239,7 @@ static func _validate_evidence_files(program: Dictionary, failures: Array[String
 		"TQP-D001", "TQP-D002", "TQP-D003", "TQP-D004", "TQP-D005",
 		"TQP-D006", "TQP-D007", "TQP-D008", "TQP-D009", "TQP-D010",
 		"TQP-D011", "TQP-D012", "TQP-D013", "TQP-D014", "TQP-D015",
-		"TQP-D016", "TQP-D017",
+		"TQP-D016", "TQP-D017", "TQP-D018",
 	]:
 		_expect(decision_ids.has(required), "missing retained decision: " + required, failures)
 	for key in [
@@ -266,6 +270,8 @@ static func _validate_evidence_files(program: Dictionary, failures: Array[String
 		"large_terrain_soak_standard",
 		"large_terrain_soak_evidence",
 		"large_volume_snapshot_finding",
+		"native_field_standard",
+		"native_field_evidence",
 		"wave_02_first_batch_evidence",
 		"wave_02_second_batch_evidence",
 		"execution_plan",
@@ -866,6 +872,33 @@ static func _validate_large_terrain_soak_evidence(
 		"TQP-F002 negative control did not fail closed",
 		failures
 	)
+
+
+static func _validate_native_field_evidence(
+	program: Dictionary,
+	milestone_by_id: Dictionary,
+	failures: Array[String]
+) -> void:
+	var standard := JsonLoader.load_dictionary(str(program.get("native_field_standard", "")))
+	_expect(
+		str(standard.get("schema", ""))
+			== "world_transvoxel.terrain_lab.native_field_standard.v1",
+		"TQP-28/29 native field standard schema mismatch",
+		failures
+	)
+	var validation := NativeFieldEvidence.validate_retained()
+	if str(validation.get("status", "")) != "PASS":
+		for failure_value in validation.get("failures", []):
+			failures.append("TQP-28/29 native field: " + str(failure_value))
+	for milestone_id in ["TQP-28", "TQP-29"]:
+		_expect(
+			str((milestone_by_id.get(milestone_id, {}) as Dictionary).get("status", ""))
+				== "qualified",
+			milestone_id + " must match retained native field evidence",
+			failures
+		)
+
+
 static func _validate_surface_shading_evidence(
 	program: Dictionary,
 	milestone_by_id: Dictionary,

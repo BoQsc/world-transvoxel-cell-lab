@@ -1,6 +1,6 @@
 {
 	"schema": "world_transvoxel.terrain_lab.program.v2",
-	"program_revision": 19,
+	"program_revision": 20,
 	"lab_scope": "experimental_terrain_qualification",
 	"authority": "EVIDENCE_PROGRAM_ONLY",
 	"production_status": "NOT_PRODUCTION",
@@ -33,6 +33,8 @@
 	"large_terrain_soak_standard": "res://addons/world_transvoxel_terrain_lab/standards/large_terrain_soak_standard.json",
 	"large_terrain_soak_evidence": "res://labs/terrain_lab/results/large_terrain_soak_reference_windows.json",
 	"large_volume_snapshot_finding": "res://addons/world_transvoxel_terrain_lab/standards/large_volume_snapshot_finding.json",
+	"native_field_standard": "res://addons/world_transvoxel_terrain_lab/standards/native_field_standard.json",
+	"native_field_evidence": "res://labs/terrain_lab/results/native_field_reference_windows.json",
 	"wave_02_first_batch_evidence": "res://labs/terrain_lab/results/wave_02_first_batch_reference_windows.json",
 	"wave_02_second_batch_evidence": "res://labs/terrain_lab/results/wave_02_second_batch_reference_windows.json",
 	"execution_plan": "res://addons/world_transvoxel_terrain_lab/standards/execution_plan.json",
@@ -146,7 +148,8 @@
 		"res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D014.json",
 		"res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D015.json",
 		"res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D016.json",
-		"res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D017.json"
+		"res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D017.json",
+		"res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D018.json"
 	],
 	"milestones": [
 		{"id": "TQP-01", "title": "Operating Envelope", "status": "qualified", "domain": "foundation", "owner": "Terrain Qualification Program", "depends_on": [], "evidence_profile": "foundation", "contract_ref": "#tqp-01-operating-envelope", "claim_scope": "reference_envelope_v1"},
@@ -176,8 +179,8 @@
 		{"id": "TQP-25", "title": "Visual Quality Corpus", "status": "qualified", "domain": "material_surface", "owner": "Material and Surface Lab", "depends_on": ["TQP-05", "TQP-18", "TQP-21", "TQP-23"], "evidence_profile": "visual", "contract_ref": "#tqp-25-visual-quality-corpus", "claim_scope": "reviewed_visual_regression"},
 		{"id": "TQP-26", "title": "Terrain Observatory", "status": "qualified", "domain": "terrain_systems", "owner": "Terrain Systems Lab", "depends_on": ["TQP-06", "TQP-15", "TQP-16", "TQP-19", "TQP-20", "TQP-22", "TQP-24"], "evidence_profile": "systems", "contract_ref": "#tqp-26-terrain-observatory", "claim_scope": "terrain_lab_diagnostics"},
 		{"id": "TQP-27", "title": "Large-Terrain Performance And Soak", "status": "qualified", "domain": "terrain_systems", "owner": "Terrain Systems Lab", "depends_on": ["TQP-04", "TQP-16", "TQP-19", "TQP-20", "TQP-22", "TQP-24", "TQP-26"], "evidence_profile": "systems", "contract_ref": "#tqp-27-large-terrain-performance-and-soak", "claim_scope": "native_large_terrain_soak_windows_v1"},
-		{"id": "TQP-28", "title": "Field Generation And Sampling Contract", "status": "proposed", "domain": "native_adaptive_terrain", "owner": "Terrain Systems Lab and Edit Semantics Lab", "depends_on": ["TQP-03", "TQP-05", "TQP-07", "TQP-08", "TQP-20"], "evidence_profile": "semantic", "contract_ref": "#tqp-28-field-generation-and-sampling-contract", "claim_scope": "no_claim_proposed_contract"},
-		{"id": "TQP-29", "title": "Complex Native Field Corpus", "status": "proposed", "domain": "native_adaptive_terrain", "owner": "Terrain Systems Lab and Cell Lab", "depends_on": ["TQP-04", "TQP-28"], "evidence_profile": "systems", "contract_ref": "#tqp-29-complex-native-field-corpus", "claim_scope": "no_claim_proposed_corpus"},
+		{"id": "TQP-28", "title": "Field Generation And Sampling Contract", "status": "qualified", "domain": "native_adaptive_terrain", "owner": "Terrain Systems Lab and Edit Semantics Lab", "depends_on": ["TQP-03", "TQP-05", "TQP-07", "TQP-08", "TQP-20"], "evidence_profile": "semantic", "contract_ref": "#tqp-28-field-generation-and-sampling-contract", "claim_scope": "qualified_deterministic_native_windows_field_sampling_contract_v1"},
+		{"id": "TQP-29", "title": "Complex Native Field Corpus", "status": "qualified", "domain": "native_adaptive_terrain", "owner": "Terrain Systems Lab and Cell Lab", "depends_on": ["TQP-04", "TQP-28"], "evidence_profile": "systems", "contract_ref": "#tqp-29-complex-native-field-corpus", "claim_scope": "qualified_bounded_windows_lod0_same_resolution_complex_native_field_corpus_v1"},
 		{"id": "TQP-30", "title": "Adaptive LOD Selection And Neighbor Contract", "status": "proposed", "domain": "native_adaptive_terrain", "owner": "Terrain Systems Lab", "depends_on": ["TQP-05", "TQP-19", "TQP-20", "TQP-22", "TQP-29"], "evidence_profile": "systems", "contract_ref": "#tqp-30-adaptive-lod-selection-and-neighbor-contract", "claim_scope": "no_claim_proposed_contract"},
 		{"id": "TQP-31", "title": "Regular And Transition Assembly Matrix", "status": "proposed", "domain": "native_adaptive_terrain", "owner": "Terrain Systems Lab and Cell Lab", "depends_on": ["TQP-29", "TQP-30"], "evidence_profile": "systems", "contract_ref": "#tqp-31-regular-and-transition-assembly-matrix", "claim_scope": "no_claim_proposed_matrix"},
 		{"id": "TQP-32", "title": "Chunk, World Boundary, And Enclosure Policy", "status": "proposed", "domain": "native_adaptive_terrain", "owner": "Terrain Systems Lab", "depends_on": ["TQP-02", "TQP-03", "TQP-05", "TQP-29", "TQP-30", "TQP-31"], "evidence_profile": "systems", "contract_ref": "#tqp-32-chunk-world-boundary-and-enclosure-policy", "claim_scope": "no_claim_proposed_policy"},

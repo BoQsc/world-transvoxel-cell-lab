@@ -1,0 +1,1354 @@
+{
+	"schema": "world_transvoxel.terrain_lab.native_field_qualification.v1",
+	"standard_id": "TQP-NATIVE-FIELD-WINDOWS-V1",
+	"authority": "BOUNDED_NATIVE_WINDOWS_REFERENCE",
+	"milestones": [
+		"TQP-28",
+		"TQP-29"
+	],
+	"status": "PASS",
+	"retained_complete": true,
+	"fixture_filter": "",
+	"contract": {
+		"schema": "world_transvoxel.terrain_lab.native_field_contract_qualification.v1",
+		"milestone": "TQP-28",
+		"status": "PASS",
+		"checks": [
+			{
+				"id": "density_sign",
+				"status": "PASS"
+			},
+			{
+				"id": "valid_configuration",
+				"status": "PASS"
+			},
+			{
+				"id": "analytical_sign_boundary",
+				"status": "PASS"
+			},
+			{
+				"id": "isovalue_ownership",
+				"status": "PASS"
+			},
+			{
+				"id": "world_units",
+				"status": "PASS"
+			},
+			{
+				"id": "gradient",
+				"status": "PASS"
+			},
+			{
+				"id": "material_sampling",
+				"status": "PASS"
+			},
+			{
+				"id": "interpolation",
+				"status": "PASS"
+			},
+			{
+				"id": "composition_order",
+				"status": "PASS"
+			},
+			{
+				"id": "deterministic_seed",
+				"status": "PASS"
+			},
+			{
+				"id": "chunk_lod_sample_identity",
+				"status": "PASS"
+			},
+			{
+				"id": "large_coordinate",
+				"status": "PASS"
+			},
+			{
+				"id": "frequency_limits",
+				"status": "PASS"
+			},
+			{
+				"id": "feature_resolution_limits",
+				"status": "PASS"
+			},
+			{
+				"id": "negative_configuration",
+				"status": "PASS"
+			}
+		],
+		"failures": []
+	},
+	"corpus": {
+		"fixture_count": 14,
+		"native_chunk_count": 112,
+		"same_lod_seam_count": 168,
+		"observed_features": [
+			"arch",
+			"cave",
+			"cliff",
+			"exact_isovalue_contact",
+			"high_curvature",
+			"large_coordinate",
+			"mixed_material",
+			"overhang",
+			"pillar",
+			"ridge",
+			"saddle",
+			"slope",
+			"thin_layer",
+			"tunnel",
+			"valley"
+		],
+		"field_signature": "19f209fc7b7979a3166a2e9ce86c4069abf70aa4fee65391a4795f959f9f2306",
+		"geometry_signature": "3fc44c309c369cb4bad2fe393eb9f7f06fa8d06debe4cd415a2672963e2bff2d",
+		"fixtures": [
+			{
+				"fixture_id": "slope",
+				"kind": "slope",
+				"status": "PASS",
+				"features": [
+					"slope"
+				],
+				"resolvability": "pass",
+				"definition_signature": "10120f6e1bcb0ccd5b9b69774e0cd451d4004793b4cadeb10142f156a308a5e0",
+				"field_signature": "3cdc6cdf7489834965a8bcee96d238332f89946d780c60f54850d9d972dd7bbd",
+				"geometry_signature": "5cee9148babf27bf0b27c904fa00b186d46f0301a54c776251f8edbd9644aa00",
+				"warm_geometry_signature": "5cee9148babf27bf0b27c904fa00b186d46f0301a54c776251f8edbd9644aa00",
+				"sample_inventory": {
+					"sample_count": 35937,
+					"solid_samples": 17898,
+					"air_samples": 17898,
+					"boundary_samples": 141,
+					"material_ids": [
+						0,
+						1
+					],
+					"minimum_density": -11.0,
+					"maximum_density": 11.0
+				},
+				"native_chunk_count": 8,
+				"triangle_count": 2816,
+				"vertex_count": 1615,
+				"material_ids": [
+					1
+				],
+				"seam_count": 12,
+				"topology": {
+					"status": "PASS",
+					"chunk_count": 8,
+					"triangle_count": 2816,
+					"unique_edge_count": 4300,
+					"exterior_open_edge_count": 152,
+					"interior_open_edge_count": 0,
+					"nonmanifold_edge_count": 0,
+					"window_min": "(0.0, 0.0, 0.0)",
+					"window_max": "(32.0, 32.0, 32.0)",
+					"coordinate_frame_origin": "(0.0, 0.0, 0.0)",
+					"sample_interior_open_edges": [],
+					"sample_nonmanifold_edges": [],
+					"failures": []
+				},
+				"elapsed_usec": 1096432,
+				"minimized_repro": {
+					"runner": "res://labs/terrain_lab/tools/run_native_field_validation.gd",
+					"arguments": [
+						"--fixture",
+						"slope"
+					],
+					"fixture": {
+						"id": "slope",
+						"kind": "slope",
+						"seed": 101.0,
+						"chunk_base": [
+							0.0,
+							0.0,
+							0.0
+						],
+						"window_chunks": [
+							2.0,
+							2.0,
+							2.0
+						],
+						"features": [
+							"slope"
+						],
+						"expected_materials": [
+							1.0
+						],
+						"resolvability": "pass",
+						"maximum_authored_periodic_frequency_cycles_per_m": 0.0
+					},
+					"lod": 0,
+					"transition_mask": 0,
+					"sample_scale_m": 0.5,
+					"field_signature": "3cdc6cdf7489834965a8bcee96d238332f89946d780c60f54850d9d972dd7bbd",
+					"geometry_signature": "5cee9148babf27bf0b27c904fa00b186d46f0301a54c776251f8edbd9644aa00"
+				},
+				"failures": []
+			},
+			{
+				"fixture_id": "ridge_valley",
+				"kind": "ridge_valley",
+				"status": "PASS",
+				"features": [
+					"ridge",
+					"valley"
+				],
+				"resolvability": "pass",
+				"definition_signature": "5ec967eb52597ab4df8e795a1d8389ec67c7ec8f7b33d80adf68e8ab67cdac3a",
+				"field_signature": "82cedb060a82a6c605ac518e3a56f937c8ccf505fe873fd0a187baedb651b37f",
+				"geometry_signature": "93e3837f021c7053e460542b40a3c5dd3cb3d6a0f12021ed4ae335a0ec93c252",
+				"warm_geometry_signature": "93e3837f021c7053e460542b40a3c5dd3cb3d6a0f12021ed4ae335a0ec93c252",
+				"sample_inventory": {
+					"sample_count": 35937,
+					"solid_samples": 17395,
+					"air_samples": 18542,
+					"boundary_samples": 0,
+					"material_ids": [
+						0,
+						1
+					],
+					"minimum_density": -11.4907717047146,
+					"maximum_density": 11.5618327844258
+				},
+				"native_chunk_count": 8,
+				"triangle_count": 4092,
+				"vertex_count": 2385,
+				"material_ids": [
+					1
+				],
+				"seam_count": 12,
+				"topology": {
+					"status": "PASS",
+					"chunk_count": 8,
+					"triangle_count": 4092,
+					"unique_edge_count": 6231,
+					"exterior_open_edge_count": 186,
+					"interior_open_edge_count": 0,
+					"nonmanifold_edge_count": 0,
+					"window_min": "(0.0, 0.0, 0.0)",
+					"window_max": "(32.0, 32.0, 32.0)",
+					"coordinate_frame_origin": "(0.0, 0.0, 0.0)",
+					"sample_interior_open_edges": [],
+					"sample_nonmanifold_edges": [],
+					"failures": []
+				},
+				"elapsed_usec": 1161327,
+				"minimized_repro": {
+					"runner": "res://labs/terrain_lab/tools/run_native_field_validation.gd",
+					"arguments": [
+						"--fixture",
+						"ridge_valley"
+					],
+					"fixture": {
+						"id": "ridge_valley",
+						"kind": "ridge_valley",
+						"seed": 211.0,
+						"chunk_base": [
+							0.0,
+							0.0,
+							0.0
+						],
+						"window_chunks": [
+							2.0,
+							2.0,
+							2.0
+						],
+						"features": [
+							"ridge",
+							"valley"
+						],
+						"expected_materials": [
+							1.0
+						],
+						"resolvability": "pass",
+						"maximum_authored_periodic_frequency_cycles_per_m": 0.0876
+					},
+					"lod": 0,
+					"transition_mask": 0,
+					"sample_scale_m": 0.5,
+					"field_signature": "82cedb060a82a6c605ac518e3a56f937c8ccf505fe873fd0a187baedb651b37f",
+					"geometry_signature": "93e3837f021c7053e460542b40a3c5dd3cb3d6a0f12021ed4ae335a0ec93c252"
+				},
+				"failures": []
+			},
+			{
+				"fixture_id": "cliff",
+				"kind": "cliff",
+				"status": "PASS",
+				"features": [
+					"cliff"
+				],
+				"resolvability": "pass",
+				"definition_signature": "ae425bc8033ec0611ce283f44fecb9cfde5fbaae85a8d5ad5cdf27b122606b87",
+				"field_signature": "9df97d01f5422fb235f9433efb5d9d1aff50c0592baf4c2172410b520c085622",
+				"geometry_signature": "f7e5447e3988814c68d2ea400e64d508c7f4c5e1079de8092d9e7a261e0af094",
+				"warm_geometry_signature": "f7e5447e3988814c68d2ea400e64d508c7f4c5e1079de8092d9e7a261e0af094",
+				"sample_inventory": {
+					"sample_count": 35937,
+					"solid_samples": 12512,
+					"air_samples": 22857,
+					"boundary_samples": 568,
+					"material_ids": [
+						0,
+						1
+					],
+					"minimum_density": -8.34948596918894,
+					"maximum_density": 8.34948596918894
+				},
+				"native_chunk_count": 8,
+				"triangle_count": 2598,
+				"vertex_count": 1536,
+				"material_ids": [
+					1
+				],
+				"seam_count": 12,
+				"topology": {
+					"status": "PASS",
+					"chunk_count": 8,
+					"triangle_count": 2598,
+					"unique_edge_count": 3969,
+					"exterior_open_edge_count": 144,
+					"interior_open_edge_count": 0,
+					"nonmanifold_edge_count": 0,
+					"window_min": "(0.0, 0.0, 0.0)",
+					"window_max": "(32.0, 32.0, 32.0)",
+					"coordinate_frame_origin": "(0.0, 0.0, 0.0)",
+					"sample_interior_open_edges": [],
+					"sample_nonmanifold_edges": [],
+					"failures": []
+				},
+				"elapsed_usec": 1085186,
+				"minimized_repro": {
+					"runner": "res://labs/terrain_lab/tools/run_native_field_validation.gd",
+					"arguments": [
+						"--fixture",
+						"cliff"
+					],
+					"fixture": {
+						"id": "cliff",
+						"kind": "cliff",
+						"seed": 307.0,
+						"chunk_base": [
+							0.0,
+							0.0,
+							0.0
+						],
+						"window_chunks": [
+							2.0,
+							2.0,
+							2.0
+						],
+						"features": [
+							"cliff"
+						],
+						"expected_materials": [
+							1.0
+						],
+						"resolvability": "pass",
+						"maximum_authored_periodic_frequency_cycles_per_m": 0.1035
+					},
+					"lod": 0,
+					"transition_mask": 0,
+					"sample_scale_m": 0.5,
+					"field_signature": "9df97d01f5422fb235f9433efb5d9d1aff50c0592baf4c2172410b520c085622",
+					"geometry_signature": "f7e5447e3988814c68d2ea400e64d508c7f4c5e1079de8092d9e7a261e0af094"
+				},
+				"failures": []
+			},
+			{
+				"fixture_id": "cave",
+				"kind": "cave",
+				"status": "PASS",
+				"features": [
+					"cave"
+				],
+				"resolvability": "pass",
+				"definition_signature": "5304942b78668c5c8803be0c87ef291e28d186c919b1980b228b047b88c7d35a",
+				"field_signature": "2d87896ae4856c429a50f9a1ae6561bbdc870d0613c4d011308c860276c619df",
+				"geometry_signature": "88d677403897948fd9c55243869d7b5c1a594a3719e6ff5e6395577000c12fa5",
+				"warm_geometry_signature": "88d677403897948fd9c55243869d7b5c1a594a3719e6ff5e6395577000c12fa5",
+				"sample_inventory": {
+					"sample_count": 35937,
+					"solid_samples": 25761,
+					"air_samples": 9087,
+					"boundary_samples": 1089,
+					"material_ids": [
+						0,
+						1
+					],
+					"minimum_density": -9.60640621185303,
+					"maximum_density": 4.25
+				},
+				"native_chunk_count": 8,
+				"triangle_count": 4744,
+				"vertex_count": 2716,
+				"material_ids": [
+					1
+				],
+				"seam_count": 12,
+				"topology": {
+					"status": "PASS",
+					"chunk_count": 8,
+					"triangle_count": 4744,
+					"unique_edge_count": 7180,
+					"exterior_open_edge_count": 128,
+					"interior_open_edge_count": 0,
+					"nonmanifold_edge_count": 0,
+					"window_min": "(0.0, 0.0, 0.0)",
+					"window_max": "(32.0, 32.0, 32.0)",
+					"coordinate_frame_origin": "(0.0, 0.0, 0.0)",
+					"sample_interior_open_edges": [],
+					"sample_nonmanifold_edges": [],
+					"failures": []
+				},
+				"elapsed_usec": 1223635,
+				"minimized_repro": {
+					"runner": "res://labs/terrain_lab/tools/run_native_field_validation.gd",
+					"arguments": [
+						"--fixture",
+						"cave"
+					],
+					"fixture": {
+						"id": "cave",
+						"kind": "cave",
+						"seed": 401.0,
+						"chunk_base": [
+							0.0,
+							0.0,
+							0.0
+						],
+						"window_chunks": [
+							2.0,
+							2.0,
+							2.0
+						],
+						"features": [
+							"cave"
+						],
+						"expected_materials": [
+							1.0
+						],
+						"resolvability": "pass",
+						"maximum_authored_periodic_frequency_cycles_per_m": 0.0
+					},
+					"lod": 0,
+					"transition_mask": 0,
+					"sample_scale_m": 0.5,
+					"field_signature": "2d87896ae4856c429a50f9a1ae6561bbdc870d0613c4d011308c860276c619df",
+					"geometry_signature": "88d677403897948fd9c55243869d7b5c1a594a3719e6ff5e6395577000c12fa5"
+				},
+				"failures": []
+			},
+			{
+				"fixture_id": "tunnel",
+				"kind": "tunnel",
+				"status": "PASS",
+				"features": [
+					"tunnel"
+				],
+				"resolvability": "pass",
+				"definition_signature": "26a2aa07f124c1bfb7b1d70606976b24c0d051b45af3c61f399899d5059f4c3b",
+				"field_signature": "5ce352f4995348fd88dcd4e3d69365159e5b75cc8e7c60bf9c1a6e76a149399e",
+				"geometry_signature": "4b9e85be9cf3dc8267bdb9a0cd749d55cd5652acabf3520a55d921b29f1777d8",
+				"warm_geometry_signature": "4b9e85be9cf3dc8267bdb9a0cd749d55cd5652acabf3520a55d921b29f1777d8",
+				"sample_inventory": {
+					"sample_count": 35937,
+					"solid_samples": 25641,
+					"air_samples": 8811,
+					"boundary_samples": 1485,
+					"material_ids": [
+						0,
+						1
+					],
+					"minimum_density": -8.81370830535889,
+					"maximum_density": 3.0
+				},
+				"native_chunk_count": 8,
+				"triangle_count": 4864,
+				"vertex_count": 2788,
+				"material_ids": [
+					1
+				],
+				"seam_count": 12,
+				"topology": {
+					"status": "PASS",
+					"chunk_count": 8,
+					"triangle_count": 4864,
+					"unique_edge_count": 7404,
+					"exterior_open_edge_count": 216,
+					"interior_open_edge_count": 0,
+					"nonmanifold_edge_count": 0,
+					"window_min": "(0.0, 0.0, 0.0)",
+					"window_max": "(32.0, 32.0, 32.0)",
+					"coordinate_frame_origin": "(0.0, 0.0, 0.0)",
+					"sample_interior_open_edges": [],
+					"sample_nonmanifold_edges": [],
+					"failures": []
+				},
+				"elapsed_usec": 1287214,
+				"minimized_repro": {
+					"runner": "res://labs/terrain_lab/tools/run_native_field_validation.gd",
+					"arguments": [
+						"--fixture",
+						"tunnel"
+					],
+					"fixture": {
+						"id": "tunnel",
+						"kind": "tunnel",
+						"seed": 503.0,
+						"chunk_base": [
+							0.0,
+							0.0,
+							0.0
+						],
+						"window_chunks": [
+							2.0,
+							2.0,
+							2.0
+						],
+						"features": [
+							"tunnel"
+						],
+						"expected_materials": [
+							1.0
+						],
+						"resolvability": "pass",
+						"maximum_authored_periodic_frequency_cycles_per_m": 0.0
+					},
+					"lod": 0,
+					"transition_mask": 0,
+					"sample_scale_m": 0.5,
+					"field_signature": "5ce352f4995348fd88dcd4e3d69365159e5b75cc8e7c60bf9c1a6e76a149399e",
+					"geometry_signature": "4b9e85be9cf3dc8267bdb9a0cd749d55cd5652acabf3520a55d921b29f1777d8"
+				},
+				"failures": []
+			},
+			{
+				"fixture_id": "arch",
+				"kind": "arch",
+				"status": "PASS",
+				"features": [
+					"arch"
+				],
+				"resolvability": "pass",
+				"definition_signature": "0c66ffb32dc11a3f72df635f4f1e56f325e069e8e505120605efdc1b862b0c13",
+				"field_signature": "229e1effc804f632a8ae529680608cc2c243547963ec778cbc5a7ec6c4705f46",
+				"geometry_signature": "e10c18520b0f6bc4428dc4e7373d8712e31ec9c7119bc59a2c2bfeac1e01333e",
+				"warm_geometry_signature": "e10c18520b0f6bc4428dc4e7373d8712e31ec9c7119bc59a2c2bfeac1e01333e",
+				"sample_inventory": {
+					"sample_count": 35937,
+					"solid_samples": 1708,
+					"air_samples": 34159,
+					"boundary_samples": 70,
+					"material_ids": [
+						0,
+						1
+					],
+					"minimum_density": -1.39999997615814,
+					"maximum_density": 7.48932552337646
+				},
+				"native_chunk_count": 8,
+				"triangle_count": 2568,
+				"vertex_count": 1476,
+				"material_ids": [
+					1
+				],
+				"seam_count": 12,
+				"topology": {
+					"status": "PASS",
+					"chunk_count": 8,
+					"triangle_count": 2568,
+					"unique_edge_count": 3852,
+					"exterior_open_edge_count": 0,
+					"interior_open_edge_count": 0,
+					"nonmanifold_edge_count": 0,
+					"window_min": "(0.0, 0.0, 0.0)",
+					"window_max": "(32.0, 32.0, 32.0)",
+					"coordinate_frame_origin": "(0.0, 0.0, 0.0)",
+					"sample_interior_open_edges": [],
+					"sample_nonmanifold_edges": [],
+					"failures": []
+				},
+				"elapsed_usec": 1317068,
+				"minimized_repro": {
+					"runner": "res://labs/terrain_lab/tools/run_native_field_validation.gd",
+					"arguments": [
+						"--fixture",
+						"arch"
+					],
+					"fixture": {
+						"id": "arch",
+						"kind": "arch",
+						"seed": 601.0,
+						"chunk_base": [
+							0.0,
+							0.0,
+							0.0
+						],
+						"window_chunks": [
+							2.0,
+							2.0,
+							2.0
+						],
+						"features": [
+							"arch"
+						],
+						"expected_materials": [
+							1.0
+						],
+						"resolvability": "pass",
+						"maximum_authored_periodic_frequency_cycles_per_m": 0.0
+					},
+					"lod": 0,
+					"transition_mask": 0,
+					"sample_scale_m": 0.5,
+					"field_signature": "229e1effc804f632a8ae529680608cc2c243547963ec778cbc5a7ec6c4705f46",
+					"geometry_signature": "e10c18520b0f6bc4428dc4e7373d8712e31ec9c7119bc59a2c2bfeac1e01333e"
+				},
+				"failures": []
+			},
+			{
+				"fixture_id": "overhang",
+				"kind": "overhang",
+				"status": "PASS",
+				"features": [
+					"overhang"
+				],
+				"resolvability": "pass",
+				"definition_signature": "7e9e3f78263a580540af6ef8c4afc4cc93cd594a2ceaf5bc7a6c218d9424b81d",
+				"field_signature": "abb680c63c8873315a8833b4d9f41e2453e97c4c477bf606848fa3682dba5df9",
+				"geometry_signature": "dbfdb89053ba109fa6af0d0b1028508709bb956d72796687a6b180ae10af2f39",
+				"warm_geometry_signature": "dbfdb89053ba109fa6af0d0b1028508709bb956d72796687a6b180ae10af2f39",
+				"sample_inventory": {
+					"sample_count": 35937,
+					"solid_samples": 9262,
+					"air_samples": 25626,
+					"boundary_samples": 1049,
+					"material_ids": [
+						0,
+						1
+					],
+					"minimum_density": -3.5,
+					"maximum_density": 6.47750759124756
+				},
+				"native_chunk_count": 8,
+				"triangle_count": 4304,
+				"vertex_count": 2464,
+				"material_ids": [
+					1
+				],
+				"seam_count": 12,
+				"topology": {
+					"status": "PASS",
+					"chunk_count": 8,
+					"triangle_count": 4304,
+					"unique_edge_count": 6520,
+					"exterior_open_edge_count": 128,
+					"interior_open_edge_count": 0,
+					"nonmanifold_edge_count": 0,
+					"window_min": "(0.0, 0.0, 0.0)",
+					"window_max": "(32.0, 32.0, 32.0)",
+					"coordinate_frame_origin": "(0.0, 0.0, 0.0)",
+					"sample_interior_open_edges": [],
+					"sample_nonmanifold_edges": [],
+					"failures": []
+				},
+				"elapsed_usec": 1284980,
+				"minimized_repro": {
+					"runner": "res://labs/terrain_lab/tools/run_native_field_validation.gd",
+					"arguments": [
+						"--fixture",
+						"overhang"
+					],
+					"fixture": {
+						"id": "overhang",
+						"kind": "overhang",
+						"seed": 701.0,
+						"chunk_base": [
+							0.0,
+							0.0,
+							0.0
+						],
+						"window_chunks": [
+							2.0,
+							2.0,
+							2.0
+						],
+						"features": [
+							"overhang"
+						],
+						"expected_materials": [
+							1.0
+						],
+						"resolvability": "pass",
+						"maximum_authored_periodic_frequency_cycles_per_m": 0.0
+					},
+					"lod": 0,
+					"transition_mask": 0,
+					"sample_scale_m": 0.5,
+					"field_signature": "abb680c63c8873315a8833b4d9f41e2453e97c4c477bf606848fa3682dba5df9",
+					"geometry_signature": "dbfdb89053ba109fa6af0d0b1028508709bb956d72796687a6b180ae10af2f39"
+				},
+				"failures": []
+			},
+			{
+				"fixture_id": "pillar",
+				"kind": "pillar",
+				"status": "PASS",
+				"features": [
+					"pillar"
+				],
+				"resolvability": "pass",
+				"definition_signature": "aa361d714de518a1620ac70351158d60c02b2e1273793493a8e3e58b27abdff8",
+				"field_signature": "3b9ab1a5f4cbe37b897280799b1ce077b6e0c8d7eb9d29b83cdab5e2fa1fae91",
+				"geometry_signature": "e2935a0b5f4eba96cc9b4d379fe9e9afb3afe983ed06548568b3f9827540d7ae",
+				"warm_geometry_signature": "e2935a0b5f4eba96cc9b4d379fe9e9afb3afe983ed06548568b3f9827540d7ae",
+				"sample_inventory": {
+					"sample_count": 35937,
+					"solid_samples": 1587,
+					"air_samples": 33912,
+					"boundary_samples": 438,
+					"material_ids": [
+						0,
+						1
+					],
+					"minimum_density": -2.5,
+					"maximum_density": 8.81370830535889
+				},
+				"native_chunk_count": 8,
+				"triangle_count": 1928,
+				"vertex_count": 1136,
+				"material_ids": [
+					1
+				],
+				"seam_count": 12,
+				"topology": {
+					"status": "PASS",
+					"chunk_count": 8,
+					"triangle_count": 1928,
+					"unique_edge_count": 2892,
+					"exterior_open_edge_count": 0,
+					"interior_open_edge_count": 0,
+					"nonmanifold_edge_count": 0,
+					"window_min": "(0.0, 0.0, 0.0)",
+					"window_max": "(32.0, 32.0, 32.0)",
+					"coordinate_frame_origin": "(0.0, 0.0, 0.0)",
+					"sample_interior_open_edges": [],
+					"sample_nonmanifold_edges": [],
+					"failures": []
+				},
+				"elapsed_usec": 966156,
+				"minimized_repro": {
+					"runner": "res://labs/terrain_lab/tools/run_native_field_validation.gd",
+					"arguments": [
+						"--fixture",
+						"pillar"
+					],
+					"fixture": {
+						"id": "pillar",
+						"kind": "pillar",
+						"seed": 809.0,
+						"chunk_base": [
+							0.0,
+							0.0,
+							0.0
+						],
+						"window_chunks": [
+							2.0,
+							2.0,
+							2.0
+						],
+						"features": [
+							"pillar"
+						],
+						"expected_materials": [
+							1.0
+						],
+						"resolvability": "pass",
+						"maximum_authored_periodic_frequency_cycles_per_m": 0.0
+					},
+					"lod": 0,
+					"transition_mask": 0,
+					"sample_scale_m": 0.5,
+					"field_signature": "3b9ab1a5f4cbe37b897280799b1ce077b6e0c8d7eb9d29b83cdab5e2fa1fae91",
+					"geometry_signature": "e2935a0b5f4eba96cc9b4d379fe9e9afb3afe983ed06548568b3f9827540d7ae"
+				},
+				"failures": []
+			},
+			{
+				"fixture_id": "saddle",
+				"kind": "saddle",
+				"status": "PASS",
+				"features": [
+					"saddle"
+				],
+				"resolvability": "pass",
+				"definition_signature": "5b68885b04c10bf716b14471fb50ad68b628e23a97c227b4fa41470df405ebfc",
+				"field_signature": "b088d5f89da2fa05940bea019a299a66ef980f4fc39478fcbba775ba342162af",
+				"geometry_signature": "d971ff9b4cc0f59bf60a7c5b35292727fd3d33fa657c2eb96a461d72160e2736",
+				"warm_geometry_signature": "d971ff9b4cc0f59bf60a7c5b35292727fd3d33fa657c2eb96a461d72160e2736",
+				"sample_inventory": {
+					"sample_count": 35937,
+					"solid_samples": 17906,
+					"air_samples": 17906,
+					"boundary_samples": 125,
+					"material_ids": [
+						0,
+						1
+					],
+					"minimum_density": -13.12,
+					"maximum_density": 13.12
+				},
+				"native_chunk_count": 8,
+				"triangle_count": 4680,
+				"vertex_count": 2684,
+				"material_ids": [
+					1
+				],
+				"seam_count": 12,
+				"topology": {
+					"status": "PASS",
+					"chunk_count": 8,
+					"triangle_count": 4680,
+					"unique_edge_count": 7126,
+					"exterior_open_edge_count": 212,
+					"interior_open_edge_count": 0,
+					"nonmanifold_edge_count": 0,
+					"window_min": "(0.0, 0.0, 0.0)",
+					"window_max": "(32.0, 32.0, 32.0)",
+					"coordinate_frame_origin": "(0.0, 0.0, 0.0)",
+					"sample_interior_open_edges": [],
+					"sample_nonmanifold_edges": [],
+					"failures": []
+				},
+				"elapsed_usec": 1227187,
+				"minimized_repro": {
+					"runner": "res://labs/terrain_lab/tools/run_native_field_validation.gd",
+					"arguments": [
+						"--fixture",
+						"saddle"
+					],
+					"fixture": {
+						"id": "saddle",
+						"kind": "saddle",
+						"seed": 907.0,
+						"chunk_base": [
+							0.0,
+							0.0,
+							0.0
+						],
+						"window_chunks": [
+							2.0,
+							2.0,
+							2.0
+						],
+						"features": [
+							"saddle"
+						],
+						"expected_materials": [
+							1.0
+						],
+						"resolvability": "pass",
+						"maximum_authored_periodic_frequency_cycles_per_m": 0.0
+					},
+					"lod": 0,
+					"transition_mask": 0,
+					"sample_scale_m": 0.5,
+					"field_signature": "b088d5f89da2fa05940bea019a299a66ef980f4fc39478fcbba775ba342162af",
+					"geometry_signature": "d971ff9b4cc0f59bf60a7c5b35292727fd3d33fa657c2eb96a461d72160e2736"
+				},
+				"failures": []
+			},
+			{
+				"fixture_id": "thin_layer",
+				"kind": "thin_layer",
+				"status": "PASS",
+				"features": [
+					"thin_layer"
+				],
+				"resolvability": "degraded_but_present",
+				"definition_signature": "b6c811aa7ea8ee7285915ab8544a8b7602255b3f89a7c77828e2f435b23ab429",
+				"field_signature": "0338df630ef43729cc14ba163a2aeb2389efb5e27173c320188c9a734a79f148",
+				"geometry_signature": "d97e5442a014fa9c1ca311276606895f45155dea6a7571cabe512a5e6430f789",
+				"warm_geometry_signature": "d97e5442a014fa9c1ca311276606895f45155dea6a7571cabe512a5e6430f789",
+				"sample_inventory": {
+					"sample_count": 35937,
+					"solid_samples": 2426,
+					"air_samples": 33331,
+					"boundary_samples": 180,
+					"material_ids": [
+						0,
+						1
+					],
+					"minimum_density": -0.5,
+					"maximum_density": 8.35640621185303
+				},
+				"native_chunk_count": 8,
+				"triangle_count": 7504,
+				"vertex_count": 4248,
+				"material_ids": [
+					1
+				],
+				"seam_count": 12,
+				"topology": {
+					"status": "PASS",
+					"chunk_count": 8,
+					"triangle_count": 7504,
+					"unique_edge_count": 11256,
+					"exterior_open_edge_count": 0,
+					"interior_open_edge_count": 0,
+					"nonmanifold_edge_count": 0,
+					"window_min": "(0.0, 0.0, 0.0)",
+					"window_max": "(32.0, 32.0, 32.0)",
+					"coordinate_frame_origin": "(0.0, 0.0, 0.0)",
+					"sample_interior_open_edges": [],
+					"sample_nonmanifold_edges": [],
+					"failures": []
+				},
+				"elapsed_usec": 1517608,
+				"minimized_repro": {
+					"runner": "res://labs/terrain_lab/tools/run_native_field_validation.gd",
+					"arguments": [
+						"--fixture",
+						"thin_layer"
+					],
+					"fixture": {
+						"id": "thin_layer",
+						"kind": "thin_layer",
+						"seed": 1009.0,
+						"chunk_base": [
+							0.0,
+							0.0,
+							0.0
+						],
+						"window_chunks": [
+							2.0,
+							2.0,
+							2.0
+						],
+						"features": [
+							"thin_layer"
+						],
+						"expected_materials": [
+							1.0
+						],
+						"resolvability": "degraded_but_present",
+						"minimum_feature_thickness_m": 1.0,
+						"maximum_authored_periodic_frequency_cycles_per_m": 0.0
+					},
+					"lod": 0,
+					"transition_mask": 0,
+					"sample_scale_m": 0.5,
+					"field_signature": "0338df630ef43729cc14ba163a2aeb2389efb5e27173c320188c9a734a79f148",
+					"geometry_signature": "d97e5442a014fa9c1ca311276606895f45155dea6a7571cabe512a5e6430f789"
+				},
+				"failures": []
+			},
+			{
+				"fixture_id": "high_curvature",
+				"kind": "high_curvature",
+				"status": "PASS",
+				"features": [
+					"high_curvature"
+				],
+				"resolvability": "pass",
+				"definition_signature": "ad09c721a68a6432136b5055ee1428c7b6d3c40d2ca17adfdf21b2df630405b5",
+				"field_signature": "269ac13c4e273798b34af8e77e0ed466222c2c2327a75f4814fae44c95d10536",
+				"geometry_signature": "6ba0ed9799cd363a2ef5a376d34d899e37b50a5f181f80c9217e05140e25a56a",
+				"warm_geometry_signature": "6ba0ed9799cd363a2ef5a376d34d899e37b50a5f181f80c9217e05140e25a56a",
+				"sample_inventory": {
+					"sample_count": 35937,
+					"solid_samples": 1244,
+					"air_samples": 34693,
+					"boundary_samples": 0,
+					"material_ids": [
+						0,
+						1
+					],
+					"minimum_density": -1.34264049530029,
+					"maximum_density": 9.32220592498779
+				},
+				"native_chunk_count": 8,
+				"triangle_count": 2560,
+				"vertex_count": 1512,
+				"material_ids": [
+					1
+				],
+				"seam_count": 12,
+				"topology": {
+					"status": "PASS",
+					"chunk_count": 8,
+					"triangle_count": 2560,
+					"unique_edge_count": 3840,
+					"exterior_open_edge_count": 0,
+					"interior_open_edge_count": 0,
+					"nonmanifold_edge_count": 0,
+					"window_min": "(0.0, 0.0, 0.0)",
+					"window_max": "(32.0, 32.0, 32.0)",
+					"coordinate_frame_origin": "(0.0, 0.0, 0.0)",
+					"sample_interior_open_edges": [],
+					"sample_nonmanifold_edges": [],
+					"failures": []
+				},
+				"elapsed_usec": 1104546,
+				"minimized_repro": {
+					"runner": "res://labs/terrain_lab/tools/run_native_field_validation.gd",
+					"arguments": [
+						"--fixture",
+						"high_curvature"
+					],
+					"fixture": {
+						"id": "high_curvature",
+						"kind": "high_curvature",
+						"seed": 1103.0,
+						"chunk_base": [
+							0.0,
+							0.0,
+							0.0
+						],
+						"window_chunks": [
+							2.0,
+							2.0,
+							2.0
+						],
+						"features": [
+							"high_curvature"
+						],
+						"expected_materials": [
+							1.0
+						],
+						"resolvability": "pass",
+						"maximum_authored_periodic_frequency_cycles_per_m": 0.0
+					},
+					"lod": 0,
+					"transition_mask": 0,
+					"sample_scale_m": 0.5,
+					"field_signature": "269ac13c4e273798b34af8e77e0ed466222c2c2327a75f4814fae44c95d10536",
+					"geometry_signature": "6ba0ed9799cd363a2ef5a376d34d899e37b50a5f181f80c9217e05140e25a56a"
+				},
+				"failures": []
+			},
+			{
+				"fixture_id": "mixed_material",
+				"kind": "mixed_material",
+				"status": "PASS",
+				"features": [
+					"mixed_material"
+				],
+				"resolvability": "pass",
+				"definition_signature": "8063ef3c8173569fca84274b2dd7c9df1483be3e05e18f55c919654de42747d4",
+				"field_signature": "dd54417559d225d8e21dada1eb8d28dfcaabee0bf3ea9e5578323010a39e08f6",
+				"geometry_signature": "6e68046550305934a7c1b8fb5ba955219e9ba8b735d46c35d00d22adb9f6ebe7",
+				"warm_geometry_signature": "6e68046550305934a7c1b8fb5ba955219e9ba8b735d46c35d00d22adb9f6ebe7",
+				"sample_inventory": {
+					"sample_count": 35937,
+					"solid_samples": 4945,
+					"air_samples": 30992,
+					"boundary_samples": 0,
+					"material_ids": [
+						0,
+						1,
+						2,
+						3
+					],
+					"minimum_density": -5.25,
+					"maximum_density": 8.60640621185303
+				},
+				"native_chunk_count": 8,
+				"triangle_count": 4184,
+				"vertex_count": 2352,
+				"material_ids": [
+					1,
+					2,
+					3
+				],
+				"seam_count": 12,
+				"topology": {
+					"status": "PASS",
+					"chunk_count": 8,
+					"triangle_count": 4184,
+					"unique_edge_count": 6276,
+					"exterior_open_edge_count": 0,
+					"interior_open_edge_count": 0,
+					"nonmanifold_edge_count": 0,
+					"window_min": "(0.0, 0.0, 0.0)",
+					"window_max": "(32.0, 32.0, 32.0)",
+					"coordinate_frame_origin": "(0.0, 0.0, 0.0)",
+					"sample_interior_open_edges": [],
+					"sample_nonmanifold_edges": [],
+					"failures": []
+				},
+				"elapsed_usec": 1317639,
+				"minimized_repro": {
+					"runner": "res://labs/terrain_lab/tools/run_native_field_validation.gd",
+					"arguments": [
+						"--fixture",
+						"mixed_material"
+					],
+					"fixture": {
+						"id": "mixed_material",
+						"kind": "mixed_material",
+						"seed": 1201.0,
+						"chunk_base": [
+							0.0,
+							0.0,
+							0.0
+						],
+						"window_chunks": [
+							2.0,
+							2.0,
+							2.0
+						],
+						"features": [
+							"mixed_material"
+						],
+						"expected_materials": [
+							1.0,
+							2.0,
+							3.0
+						],
+						"resolvability": "pass",
+						"maximum_authored_periodic_frequency_cycles_per_m": 0.0
+					},
+					"lod": 0,
+					"transition_mask": 0,
+					"sample_scale_m": 0.5,
+					"field_signature": "dd54417559d225d8e21dada1eb8d28dfcaabee0bf3ea9e5578323010a39e08f6",
+					"geometry_signature": "6e68046550305934a7c1b8fb5ba955219e9ba8b735d46c35d00d22adb9f6ebe7"
+				},
+				"failures": []
+			},
+			{
+				"fixture_id": "exact_isovalue",
+				"kind": "exact_isovalue",
+				"status": "PASS",
+				"features": [
+					"exact_isovalue_contact"
+				],
+				"resolvability": "pass",
+				"definition_signature": "00a925faff89472e8d58957f078ca91607c49cfae804973eec6ca6c8ad9dfc61",
+				"field_signature": "fe023edf63b696b5b323b925c4d4769cf72c3086fb41fb4db8ab3a4c273b9d45",
+				"geometry_signature": "04f65482ecd2591d07d5226b86f3b837c7f41278c847d8e80f4d1ddddcc8e69a",
+				"warm_geometry_signature": "04f65482ecd2591d07d5226b86f3b837c7f41278c847d8e80f4d1ddddcc8e69a",
+				"sample_inventory": {
+					"sample_count": 35937,
+					"solid_samples": 2103,
+					"air_samples": 33828,
+					"boundary_samples": 6,
+					"material_ids": [
+						0,
+						1
+					],
+					"minimum_density": -4.0,
+					"maximum_density": 9.85640621185303
+				},
+				"native_chunk_count": 8,
+				"triangle_count": 2312,
+				"vertex_count": 1344,
+				"material_ids": [
+					1
+				],
+				"seam_count": 12,
+				"topology": {
+					"status": "PASS",
+					"chunk_count": 8,
+					"triangle_count": 2312,
+					"unique_edge_count": 3468,
+					"exterior_open_edge_count": 0,
+					"interior_open_edge_count": 0,
+					"nonmanifold_edge_count": 0,
+					"window_min": "(0.0, 0.0, 0.0)",
+					"window_max": "(32.0, 32.0, 32.0)",
+					"coordinate_frame_origin": "(0.0, 0.0, 0.0)",
+					"sample_interior_open_edges": [],
+					"sample_nonmanifold_edges": [],
+					"failures": []
+				},
+				"elapsed_usec": 1094414,
+				"minimized_repro": {
+					"runner": "res://labs/terrain_lab/tools/run_native_field_validation.gd",
+					"arguments": [
+						"--fixture",
+						"exact_isovalue"
+					],
+					"fixture": {
+						"id": "exact_isovalue",
+						"kind": "exact_isovalue",
+						"seed": 1301.0,
+						"chunk_base": [
+							0.0,
+							0.0,
+							0.0
+						],
+						"window_chunks": [
+							2.0,
+							2.0,
+							2.0
+						],
+						"features": [
+							"exact_isovalue_contact"
+						],
+						"expected_materials": [
+							1.0
+						],
+						"resolvability": "pass",
+						"maximum_authored_periodic_frequency_cycles_per_m": 0.0
+					},
+					"lod": 0,
+					"transition_mask": 0,
+					"sample_scale_m": 0.5,
+					"field_signature": "fe023edf63b696b5b323b925c4d4769cf72c3086fb41fb4db8ab3a4c273b9d45",
+					"geometry_signature": "04f65482ecd2591d07d5226b86f3b837c7f41278c847d8e80f4d1ddddcc8e69a"
+				},
+				"failures": []
+			},
+			{
+				"fixture_id": "large_coordinate",
+				"kind": "large_coordinate",
+				"status": "PASS",
+				"features": [
+					"large_coordinate"
+				],
+				"resolvability": "pass",
+				"definition_signature": "91a697f10f78186df37150ad0647daf797ac01111ee1d17fc8d972ef4e29dfe8",
+				"field_signature": "0babdd2a7593463339e579cabd773a01a8905df4aa59c4f599f6cc1b8cfdb38a",
+				"geometry_signature": "15d2b6d69e465d15e8449b8ead849970a06ae7ce549a1735f9120c91fdc470ed",
+				"warm_geometry_signature": "15d2b6d69e465d15e8449b8ead849970a06ae7ce549a1735f9120c91fdc470ed",
+				"sample_inventory": {
+					"sample_count": 35937,
+					"solid_samples": 17898,
+					"air_samples": 17898,
+					"boundary_samples": 141,
+					"material_ids": [
+						0,
+						1
+					],
+					"minimum_density": -11.0,
+					"maximum_density": 11.0
+				},
+				"native_chunk_count": 8,
+				"triangle_count": 2816,
+				"vertex_count": 1615,
+				"material_ids": [
+					1
+				],
+				"seam_count": 12,
+				"topology": {
+					"status": "PASS",
+					"chunk_count": 8,
+					"triangle_count": 2816,
+					"unique_edge_count": 4300,
+					"exterior_open_edge_count": 152,
+					"interior_open_edge_count": 0,
+					"nonmanifold_edge_count": 0,
+					"window_min": "(0.0, 0.0, 0.0)",
+					"window_max": "(32.0, 32.0, 32.0)",
+					"coordinate_frame_origin": "(1000000.0, 0.0, -1000000.0)",
+					"sample_interior_open_edges": [],
+					"sample_nonmanifold_edges": [],
+					"failures": []
+				},
+				"elapsed_usec": 1009273,
+				"minimized_repro": {
+					"runner": "res://labs/terrain_lab/tools/run_native_field_validation.gd",
+					"arguments": [
+						"--fixture",
+						"large_coordinate"
+					],
+					"fixture": {
+						"id": "large_coordinate",
+						"kind": "large_coordinate",
+						"seed": 1409.0,
+						"chunk_base": [
+							62500.0,
+							0.0,
+							-62500.0
+						],
+						"window_chunks": [
+							2.0,
+							2.0,
+							2.0
+						],
+						"features": [
+							"large_coordinate"
+						],
+						"expected_materials": [
+							1.0
+						],
+						"resolvability": "pass",
+						"maximum_authored_periodic_frequency_cycles_per_m": 0.0
+					},
+					"lod": 0,
+					"transition_mask": 0,
+					"sample_scale_m": 0.5,
+					"field_signature": "0babdd2a7593463339e579cabd773a01a8905df4aa59c4f599f6cc1b8cfdb38a",
+					"geometry_signature": "15d2b6d69e465d15e8449b8ead849970a06ae7ce549a1735f9120c91fdc470ed"
+				},
+				"failures": []
+			}
+		]
+	},
+	"performance": {
+		"profile": "debug_regression_reference_not_production_budget",
+		"elapsed_usec": 16792135,
+		"maximum_total_usec": 120000000,
+		"fixture_distribution": {
+			"sample_count": 14,
+			"p50_usec": 1161327.0,
+			"p95_usec": 1517608.0,
+			"p99_usec": 1517608.0,
+			"worst_usec": 1517608.0
+		},
+		"maximum_fixture_p95_usec": 10000000.0
+	},
+	"provenance": {
+		"workload_signature": "19f209fc7b7979a3166a2e9ce86c4069abf70aa4fee65391a4795f959f9f2306:3fc44c309c369cb4bad2fe393eb9f7f06fa8d06debe4cd415a2672963e2bff2d",
+		"build_type": "debug",
+		"os": "Windows",
+		"architecture": "x86_64",
+		"cpu": "Intel(R) Core(TM) i5-7300HQ CPU @ 2.50GHz",
+		"gpu": "",
+		"driver": "vulkan",
+		"godot_version": "4.7.1-stable (steam)",
+		"backend_revision": "7745271430da87604095038288ca0f668dff74e7c01b9b62361207c2530e7cc5",
+		"processor_count": 4,
+		"native_dependency": "WorldTransvoxelCellProbe"
+	},
+	"qualified_scope": [
+		"TQP-28 field semantics and analytical sampling fixtures",
+		"TQP-29 deterministic LOD0 same-resolution 2x2x2 native chunk windows",
+		"fourteen explicit complex-field fixture definitions on Windows debug native world-transvoxel",
+		"same-LOD seam and assembled-window topology checks for the retained corpus"
+	],
+	"explicitly_unqualified_scope": [
+		"adaptive LOD selection and transition-cell assembly",
+		"dynamic LOD publication or cross-LOD edits",
+		"independent geometry oracle beyond invariants",
+		"production terrain generation, streaming, rendering, collision, navigation, or performance",
+		"platforms and native builds outside the retained Windows debug profile"
+	],
+	"failures": [],
+	"standard_validation": {
+		"schema": "world_transvoxel.terrain_lab.native_field_evidence_validation.v1",
+		"status": "PASS",
+		"qualification_status": "QUALIFIED_NATIVE_WINDOWS_FIELD_AND_COMPLEX_LOD0_CORPUS_V1",
+		"scope_status": {
+			"TQP-28": "qualified_native_field_generation_and_sampling_contract_v1",
+			"TQP-29": "qualified_complex_native_lod0_field_corpus_v1"
+		},
+		"qualified_scope": [
+			"TQP-28 field semantics and analytical sampling fixtures",
+			"TQP-29 deterministic LOD0 same-resolution 2x2x2 native chunk windows",
+			"fourteen explicit complex-field fixture definitions on Windows debug native world-transvoxel",
+			"same-LOD seam and assembled-window topology checks for the retained corpus"
+		],
+		"explicitly_unqualified_scope": [
+			"adaptive LOD selection and transition-cell assembly",
+			"dynamic LOD publication or cross-LOD edits",
+			"independent geometry oracle beyond invariants",
+			"production terrain generation, streaming, rendering, collision, navigation, or performance",
+			"platforms and native builds outside the retained Windows debug profile"
+		],
+		"failures": []
+	}
+}

@@ -1,0 +1,91 @@
+{
+	"schema": "world_transvoxel.terrain_lab.native_field_standard.v1",
+	"standard_id": "TQP-NATIVE-FIELD-WINDOWS-V1",
+	"authority": "BOUNDED_NATIVE_WINDOWS_REFERENCE",
+	"milestones": ["TQP-28", "TQP-29"],
+	"evidence": "res://labs/terrain_lab/results/native_field_reference_windows.json",
+	"contract": {
+		"density_sign": "solid_negative_air_positive",
+		"isovalue": 0.0,
+		"isovalue_ownership": "boundary_not_material_authored",
+		"sample_scale_m": 0.5,
+		"chunk_cells_per_axis": 16,
+		"composition_order": "base_then_ordered_boolean_sdf",
+		"material_sampling": "zero_for_air_positive_material_for_solid",
+		"gradient": "normalized_centered_finite_difference_in_world_metres",
+		"interpolation": "clamped_linear_with_midpoint_for_equal_endpoints",
+		"maximum_authored_periodic_frequency_cycles_per_m": 0.175,
+		"minimum_resolvable_feature_thickness_m": 1.0,
+		"nonperiodic_feature_policy": "curvature_boolean_kinks_and_thin_features_use_explicit_resolvability_not_bandlimit_claims",
+		"large_coordinate_policy": "integer_grid_offset_before_float_world_unit_conversion",
+		"sample_identity": "same_integer_world_grid_coordinate_is_chunk_and_lod_independent",
+		"seed_policy": "explicit_integer_seed_deterministic_no_hidden_rng"
+	},
+	"runtime_profile": {
+		"platform": "Windows",
+		"godot_major": 4,
+		"build_type": "debug_editor_headless",
+		"backend": "world_transvoxel_native_extension"
+	},
+	"budgets": {
+		"maximum_total_usec": 120000000,
+		"maximum_fixture_p95_usec": 10000000,
+		"minimum_fixture_count": 14,
+		"minimum_native_chunk_count": 112,
+		"minimum_same_lod_seam_count": 168
+	},
+	"required_feature_inventory": [
+		"slope", "ridge", "valley", "cliff", "cave", "tunnel", "arch",
+		"overhang", "pillar", "saddle", "thin_layer", "high_curvature",
+		"mixed_material", "exact_isovalue_contact", "large_coordinate"
+	],
+	"fixtures": [
+		{"id": "slope", "kind": "slope", "seed": 101, "chunk_base": [0, 0, 0], "window_chunks": [2, 2, 2], "features": ["slope"], "expected_materials": [1], "resolvability": "pass", "maximum_authored_periodic_frequency_cycles_per_m": 0.0},
+		{"id": "ridge_valley", "kind": "ridge_valley", "seed": 211, "chunk_base": [0, 0, 0], "window_chunks": [2, 2, 2], "features": ["ridge", "valley"], "expected_materials": [1], "resolvability": "pass", "maximum_authored_periodic_frequency_cycles_per_m": 0.0876},
+		{"id": "cliff", "kind": "cliff", "seed": 307, "chunk_base": [0, 0, 0], "window_chunks": [2, 2, 2], "features": ["cliff"], "expected_materials": [1], "resolvability": "pass", "maximum_authored_periodic_frequency_cycles_per_m": 0.1035},
+		{"id": "cave", "kind": "cave", "seed": 401, "chunk_base": [0, 0, 0], "window_chunks": [2, 2, 2], "features": ["cave"], "expected_materials": [1], "resolvability": "pass", "maximum_authored_periodic_frequency_cycles_per_m": 0.0},
+		{"id": "tunnel", "kind": "tunnel", "seed": 503, "chunk_base": [0, 0, 0], "window_chunks": [2, 2, 2], "features": ["tunnel"], "expected_materials": [1], "resolvability": "pass", "maximum_authored_periodic_frequency_cycles_per_m": 0.0},
+		{"id": "arch", "kind": "arch", "seed": 601, "chunk_base": [0, 0, 0], "window_chunks": [2, 2, 2], "features": ["arch"], "expected_materials": [1], "resolvability": "pass", "maximum_authored_periodic_frequency_cycles_per_m": 0.0},
+		{"id": "overhang", "kind": "overhang", "seed": 701, "chunk_base": [0, 0, 0], "window_chunks": [2, 2, 2], "features": ["overhang"], "expected_materials": [1], "resolvability": "pass", "maximum_authored_periodic_frequency_cycles_per_m": 0.0},
+		{"id": "pillar", "kind": "pillar", "seed": 809, "chunk_base": [0, 0, 0], "window_chunks": [2, 2, 2], "features": ["pillar"], "expected_materials": [1], "resolvability": "pass", "maximum_authored_periodic_frequency_cycles_per_m": 0.0},
+		{"id": "saddle", "kind": "saddle", "seed": 907, "chunk_base": [0, 0, 0], "window_chunks": [2, 2, 2], "features": ["saddle"], "expected_materials": [1], "resolvability": "pass", "maximum_authored_periodic_frequency_cycles_per_m": 0.0},
+		{"id": "thin_layer", "kind": "thin_layer", "seed": 1009, "chunk_base": [0, 0, 0], "window_chunks": [2, 2, 2], "features": ["thin_layer"], "expected_materials": [1], "resolvability": "degraded_but_present", "minimum_feature_thickness_m": 1.0, "maximum_authored_periodic_frequency_cycles_per_m": 0.0},
+		{"id": "high_curvature", "kind": "high_curvature", "seed": 1103, "chunk_base": [0, 0, 0], "window_chunks": [2, 2, 2], "features": ["high_curvature"], "expected_materials": [1], "resolvability": "pass", "maximum_authored_periodic_frequency_cycles_per_m": 0.0},
+		{"id": "mixed_material", "kind": "mixed_material", "seed": 1201, "chunk_base": [0, 0, 0], "window_chunks": [2, 2, 2], "features": ["mixed_material"], "expected_materials": [1, 2, 3], "resolvability": "pass", "maximum_authored_periodic_frequency_cycles_per_m": 0.0},
+		{"id": "exact_isovalue", "kind": "exact_isovalue", "seed": 1301, "chunk_base": [0, 0, 0], "window_chunks": [2, 2, 2], "features": ["exact_isovalue_contact"], "expected_materials": [1], "resolvability": "pass", "maximum_authored_periodic_frequency_cycles_per_m": 0.0},
+		{"id": "large_coordinate", "kind": "large_coordinate", "seed": 1409, "chunk_base": [62500, 0, -62500], "window_chunks": [2, 2, 2], "features": ["large_coordinate"], "expected_materials": [1], "resolvability": "pass", "maximum_authored_periodic_frequency_cycles_per_m": 0.0}
+	],
+	"stable_expected": {
+		"corpus_field_signature": "19f209fc7b7979a3166a2e9ce86c4069abf70aa4fee65391a4795f959f9f2306",
+		"corpus_geometry_signature": "3fc44c309c369cb4bad2fe393eb9f7f06fa8d06debe4cd415a2672963e2bff2d",
+		"fixtures": {
+			"slope": {"field_signature": "3cdc6cdf7489834965a8bcee96d238332f89946d780c60f54850d9d972dd7bbd", "geometry_signature": "5cee9148babf27bf0b27c904fa00b186d46f0301a54c776251f8edbd9644aa00"},
+			"ridge_valley": {"field_signature": "82cedb060a82a6c605ac518e3a56f937c8ccf505fe873fd0a187baedb651b37f", "geometry_signature": "93e3837f021c7053e460542b40a3c5dd3cb3d6a0f12021ed4ae335a0ec93c252"},
+			"cliff": {"field_signature": "9df97d01f5422fb235f9433efb5d9d1aff50c0592baf4c2172410b520c085622", "geometry_signature": "f7e5447e3988814c68d2ea400e64d508c7f4c5e1079de8092d9e7a261e0af094"},
+			"cave": {"field_signature": "2d87896ae4856c429a50f9a1ae6561bbdc870d0613c4d011308c860276c619df", "geometry_signature": "88d677403897948fd9c55243869d7b5c1a594a3719e6ff5e6395577000c12fa5"},
+			"tunnel": {"field_signature": "5ce352f4995348fd88dcd4e3d69365159e5b75cc8e7c60bf9c1a6e76a149399e", "geometry_signature": "4b9e85be9cf3dc8267bdb9a0cd749d55cd5652acabf3520a55d921b29f1777d8"},
+			"arch": {"field_signature": "229e1effc804f632a8ae529680608cc2c243547963ec778cbc5a7ec6c4705f46", "geometry_signature": "e10c18520b0f6bc4428dc4e7373d8712e31ec9c7119bc59a2c2bfeac1e01333e"},
+			"overhang": {"field_signature": "abb680c63c8873315a8833b4d9f41e2453e97c4c477bf606848fa3682dba5df9", "geometry_signature": "dbfdb89053ba109fa6af0d0b1028508709bb956d72796687a6b180ae10af2f39"},
+			"pillar": {"field_signature": "3b9ab1a5f4cbe37b897280799b1ce077b6e0c8d7eb9d29b83cdab5e2fa1fae91", "geometry_signature": "e2935a0b5f4eba96cc9b4d379fe9e9afb3afe983ed06548568b3f9827540d7ae"},
+			"saddle": {"field_signature": "b088d5f89da2fa05940bea019a299a66ef980f4fc39478fcbba775ba342162af", "geometry_signature": "d971ff9b4cc0f59bf60a7c5b35292727fd3d33fa657c2eb96a461d72160e2736"},
+			"thin_layer": {"field_signature": "0338df630ef43729cc14ba163a2aeb2389efb5e27173c320188c9a734a79f148", "geometry_signature": "d97e5442a014fa9c1ca311276606895f45155dea6a7571cabe512a5e6430f789"},
+			"high_curvature": {"field_signature": "269ac13c4e273798b34af8e77e0ed466222c2c2327a75f4814fae44c95d10536", "geometry_signature": "6ba0ed9799cd363a2ef5a376d34d899e37b50a5f181f80c9217e05140e25a56a"},
+			"mixed_material": {"field_signature": "dd54417559d225d8e21dada1eb8d28dfcaabee0bf3ea9e5578323010a39e08f6", "geometry_signature": "6e68046550305934a7c1b8fb5ba955219e9ba8b735d46c35d00d22adb9f6ebe7"},
+			"exact_isovalue": {"field_signature": "fe023edf63b696b5b323b925c4d4769cf72c3086fb41fb4db8ab3a4c273b9d45", "geometry_signature": "04f65482ecd2591d07d5226b86f3b837c7f41278c847d8e80f4d1ddddcc8e69a"},
+			"large_coordinate": {"field_signature": "0babdd2a7593463339e579cabd773a01a8905df4aa59c4f599f6cc1b8cfdb38a", "geometry_signature": "15d2b6d69e465d15e8449b8ead849970a06ae7ce549a1735f9120c91fdc470ed"}
+		}
+	},
+	"qualified_scope": [
+		"TQP-28 field semantics and analytical sampling fixtures",
+		"TQP-29 deterministic LOD0 same-resolution 2x2x2 native chunk windows",
+		"fourteen explicit complex-field fixture definitions on Windows debug native world-transvoxel",
+		"same-LOD seam and assembled-window topology checks for the retained corpus"
+	],
+	"explicitly_unqualified_scope": [
+		"adaptive LOD selection and transition-cell assembly",
+		"dynamic LOD publication or cross-LOD edits",
+		"independent geometry oracle beyond invariants",
+		"production terrain generation, streaming, rendering, collision, navigation, or performance",
+		"platforms and native builds outside the retained Windows debug profile"
+	]
+}

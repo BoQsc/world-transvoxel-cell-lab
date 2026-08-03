@@ -2,6 +2,20 @@
 
 This directory retains machine-readable Terrain Qualification Program evidence.
 
+`native_field_reference_windows.json` retains the focused TQP-28 field contract
+and TQP-29 fourteen-fixture native LOD0 complex-field corpus:
+
+```text
+godot --headless --path . \
+  --script labs/terrain_lab/tools/run_native_field_validation.gd -- \
+  --output res://labs/terrain_lab/results/native_field_reference_windows.json
+```
+
+Use `--fixture <fixture_id>` after the command separator for a minimized
+single-fixture repro. This corpus is a Windows debug regression reference; it
+does not qualify adaptive LOD selection, transition cells, or production
+terrain performance.
+
 `terrain_observatory_diagnostics_reference_windows.json` retains the focused
 TQP-26 chunk, job, resource, collision, rejection, event-retention, and signed
 repro-export contract:

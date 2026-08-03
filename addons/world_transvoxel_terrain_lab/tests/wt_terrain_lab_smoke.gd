@@ -224,13 +224,13 @@ func _run() -> void:
 	if int(validation.get("milestone_count", 0)) != 64:
 		_fail("terrain program milestone count changed")
 		return
-	if int(validation.get("qualified_milestone_count", 0)) != 27:
+	if int(validation.get("qualified_milestone_count", 0)) != 29:
 		_fail("qualified reference milestone count changed")
 		return
 	if int(validation.get("specified_milestone_count", 0)) != 1:
 		_fail("open specification count changed")
 		return
-	if int(validation.get("proposed_milestone_count", -1)) != 18:
+	if int(validation.get("proposed_milestone_count", -1)) != 16:
 		_fail("native adaptive-terrain proposal count changed")
 		return
 	var status_counts: Dictionary = validation.get("status_counts", {})

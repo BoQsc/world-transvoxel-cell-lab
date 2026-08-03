@@ -2,14 +2,23 @@
 extends RefCounted
 class_name WtTerrainLabNativeAdaptiveQualification
 
+const NativeFieldEvidence := preload(
+	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_native_field_evidence.gd"
+)
+
 
 static func run() -> Dictionary:
+	var field_validation := NativeFieldEvidence.validate_retained()
+	var failures: Array = field_validation.get("failures", [])
+	var field_passed := str(field_validation.get("status", "")) == "PASS"
 	return {
 		"schema": "world_transvoxel.terrain_lab.native_adaptive_terrain_qualification.v1",
-		"status": "PASS",
+		"status": "PASS" if field_passed else "FAIL",
 		"scope_status": {
-			"TQP-28": "proposed_pending_field_generation_and_sampling_contract",
-			"TQP-29": "proposed_pending_complex_native_field_corpus",
+			"TQP-28": "qualified_native_field_generation_and_sampling_contract_v1"
+				if field_passed else "failed_native_field_contract",
+			"TQP-29": "qualified_complex_native_lod0_field_corpus_v1"
+				if field_passed else "failed_complex_native_field_corpus",
 			"TQP-30": "proposed_pending_adaptive_lod_contract",
 			"TQP-31": "proposed_pending_regular_transition_assembly_matrix",
 			"TQP-32": "proposed_pending_boundary_and_enclosure_policy",
@@ -27,17 +36,19 @@ static func run() -> Dictionary:
 			"TQP-44": "proposed_pending_complex_adaptive_soak",
 			"TQP-45": "proposed_gate_open",
 		},
-		"audit_status": "GAP_CONFIRMED_NO_NATIVE_ADAPTIVE_TERRAIN_AUTHORITY_CLAIM",
+		"audit_status": "FIELD_FOUNDATION_QUALIFIED_ADAPTIVE_TERRAIN_STILL_OPEN",
+		"native_field_evidence": field_validation,
 		"preserved_qualified_scope": [
 			"TQP-01 through TQP-27 declared bounded scopes",
+			"TQP-28 deterministic native field-generation and sampling contract",
+			"TQP-29 bounded Windows LOD0 same-resolution complex native field corpus",
 		],
 		"explicitly_unqualified_scope": [
-			"complex assembled native terrain fields",
 			"full adaptive LOD hierarchy and transition arrangements",
 			"dynamic cross-LOD digging and construction",
 			"multi-layer adaptive streaming and persistence",
 			"complex adaptive visual quality and performance",
 			"Gate E native adaptive terrain authority",
 		],
-		"failures": [],
+		"failures": failures,
 	}

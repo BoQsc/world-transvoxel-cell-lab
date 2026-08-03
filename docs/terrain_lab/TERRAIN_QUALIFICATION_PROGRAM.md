@@ -528,24 +528,41 @@ TQP-40 -> TQP-41 -> TQP-42 -> TQP-43 -> TQP-44 -> TQP-45.
 
 ### TQP-28: Field Generation And Sampling Contract
 
-Status: `proposed`. Owner: Terrain Systems Lab and Edit Semantics Lab. Depends
-on: TQP-03, TQP-05, TQP-07, TQP-08, TQP-20.
+Status: `qualified` for the retained deterministic native Windows field
+contract. Owner: Terrain Systems Lab and Edit Semantics Lab. Depends on:
+TQP-03, TQP-05, TQP-07, TQP-08, TQP-20.
 
 Complete when density sign, isovalue ownership, world units, deterministic
 seeds, field composition order, material sampling, gradients, interpolation,
 frequency limits, large-coordinate behavior, and chunk/LOD-independent sample
 identity are fixed by analytical positive, boundary, and negative fixtures.
 
+The retained `TQP-NATIVE-FIELD-WINDOWS-V1` standard fixes solid-negative and
+air-positive density, isovalue zero, 0.5 metre integer-grid samples, material
+ownership, normalized gradients, interpolation, explicit seeds, frequency
+limits, integer-local large-coordinate conversion, and sample identity.
+Adaptive LOD selection, transition assembly, production field generation, and
+other platforms remain explicitly unqualified.
+
 ### TQP-29: Complex Native Field Corpus
 
-Status: `proposed`. Owner: Terrain Systems Lab and Cell Lab. Depends on:
-TQP-04, TQP-28.
+Status: `qualified` for the bounded Windows LOD0 same-resolution native corpus.
+Owner: Terrain Systems Lab and Cell Lab. Depends on: TQP-04, TQP-28.
 
 Complete when native fixtures cover slopes, ridges, valleys, cliffs, caves,
 tunnels, arches, overhangs, pillars, saddles, thin layers, high curvature,
 mixed materials, exact-isovalue contacts, and large coordinates. Each fixture
 requires a stable field signature, expected feature inventory, resolvability
 classification, and minimized repro export.
+
+The retained corpus contains fourteen deterministic 2x2x2 windows: slopes,
+ridges and valleys, cliffs, caves, tunnels, arches, overhangs, pillars,
+saddles, thin layers, high curvature, mixed materials, exact-isovalue contacts,
+and million-unit coordinates. Its two native passes each cover 112 chunks and
+168 shared same-LOD boundaries. Every assembled window has zero interior-open
+and nonmanifold edges, and every fixture retains exact field/native geometry
+signatures plus a focused repro command. This does not qualify adaptive LOD or
+transition cells; those begin at TQP-30 and TQP-31.
 
 ### TQP-30: Adaptive LOD Selection And Neighbor Contract
 
@@ -913,20 +930,21 @@ a standard, not an assertion that future terrain work is finished.
 
 The program records every milestone at a truthful evidence state:
 
-- `TQP-01` through `TQP-27` are qualified
+- `TQP-01` through `TQP-29` are qualified
   for their narrow contract, native Windows reference, or reference-model
   scopes. Gate B is qualified; its native chunk rebuild benchmark remains a
   background/debug reference and is not a production frame-time claim.
-- `TQP-28` through `TQP-45` are proposed by the terrain-core completeness
-  audit and have no qualification claim.
+- `TQP-28` and `TQP-29` qualify the deterministic field contract and bounded
+  LOD0 same-resolution complex native corpus. `TQP-30` through `TQP-45`
+  remain proposed and make no adaptive-terrain authority claim.
 - `TQP-46` through `TQP-51` retain the previously implemented destruction and
   structural reference behavior under their revision-19 identifiers.
 - `TQP-52` is specified and requires measured GPU-candidate benefit.
 - `TQP-53` through `TQP-64` are blocked by named external targets and exit
   conditions in `program_blockers.json`.
 
-The next dependency-ordered milestone is TQP-28, the field-generation and
-sampling contract. TQP-27 remains qualified through `TQP-D016` only for its
+The next dependency-ordered milestone is TQP-30, the adaptive LOD selection and
+neighbor contract. TQP-27 remains qualified through `TQP-D016` only for its
 bounded native Windows 2K-world soak and durable edit-journal restart.
 `TQP-F002` retains large-volume snapshot compaction as an open upstream
 capacity issue. Gate D is qualified only for that bounded reference claim;
@@ -996,3 +1014,7 @@ Retained decisions:
   missing TQP-28 through TQP-45 native adaptive-terrain qualification phase,
   shift only unqualified later work, and freeze destruction, GPU, and
   production promotion until Gate E passes.
+- `TQP-D018`: qualify TQP-28 and TQP-29 for the retained deterministic field
+  contract and bounded Windows LOD0 complex native-field corpus, correct the
+  large-coordinate lab oracle to a window-relative frame, and retain adaptive
+  LOD, transitions, production terrain, and other platforms as unqualified.
