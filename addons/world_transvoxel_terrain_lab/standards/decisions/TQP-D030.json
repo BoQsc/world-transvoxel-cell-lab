@@ -1,0 +1,52 @@
+{
+	"schema": "world_transvoxel.terrain_lab.decision.v1",
+	"id": "TQP-D030",
+	"date": "2026-08-03",
+	"decision": "Insert sparse hierarchy storage and large-world compaction as TQP-42, then shift former TQP-42 through TQP-64 to TQP-43 through TQP-65 so execution remains ground-up and sequential.",
+	"reason": "TQP-30 qualifies finite balanced-octree selection but explicitly excludes large hierarchy storage. TQP-40 qualifies bounded residency, TQP-41 qualifies only a 44-page persistence fixture, and TQP-F002 proves that the 299,520-page reference cannot use the current production snapshot path. Fault injection, visual review, soak, and Gate E must not proceed while the authoritative hierarchy and persistence representation remain unqualified at the retained large-world scale.",
+	"alternatives_considered": [
+		"treat TQP-30 octree selection as proof of efficient native storage",
+		"fold storage scalability into TQP-45 performance soak after fault injection and visual review",
+		"append storage as TQP-65 despite its earlier dependency position",
+		"mandate an octree without comparing it with equivalent sparse or implicit hierarchy representations"
+	],
+	"evidence": [
+		"TQP-30 adaptive_lod_standard explicitly leaves unbounded or planet-scale hierarchy storage unqualified",
+		"world-transvoxel WtBalancedLodPlanner retains a sorted complete page-catalog vector and uses binary-search membership",
+		"world-transvoxel procedural key generation materializes every declared hierarchy page",
+		"world-transvoxel production snapshot storage is bounded to 4,096 pages while the manifest and procedural ceilings are 524,288 pages",
+		"TQP-F002 records deterministic large-volume compaction rejection for the retained 299,520-page 2048x256x2048-cell reference",
+		"TQP-41 qualifies compaction and migration only for a retained 44-page native-baked hierarchy"
+	],
+	"required_contract": [
+		"octree or equivalent sparse hierarchy chosen by correctness and measured cost",
+		"deterministic page, ancestor, child, neighbor, range, and viewer-root queries",
+		"separate declared-catalog, sparse-index, edit-overlay, cache, and resident memory accounting",
+		"no mandatory all-page materialization on runtime hot paths",
+		"large-world compaction, reopen, edit replay, migration, and atomic failure evidence",
+		"predeclared startup, lookup, traversal, update, bytes-per-page, peak-memory, and compaction budgets",
+		"focused editor observatory for hierarchy and storage behavior"
+	],
+	"explicit_non_claims": [
+		"no TQP-42 qualification is created by this roadmap decision",
+		"no octree implementation is selected in advance",
+		"TQP-F002 remains open until the retained large-world evidence passes",
+		"no production, GPU, networking, or planet-scale storage claim"
+	],
+	"former_to_revision_31": {
+		"TQP-42": "TQP-43", "TQP-43": "TQP-44", "TQP-44": "TQP-45",
+		"TQP-45": "TQP-46", "TQP-46": "TQP-47", "TQP-47": "TQP-48",
+		"TQP-48": "TQP-49", "TQP-49": "TQP-50", "TQP-50": "TQP-51",
+		"TQP-51": "TQP-52", "TQP-52": "TQP-53", "TQP-53": "TQP-54",
+		"TQP-54": "TQP-55", "TQP-55": "TQP-56", "TQP-56": "TQP-57",
+		"TQP-57": "TQP-58", "TQP-58": "TQP-59", "TQP-59": "TQP-60",
+		"TQP-60": "TQP-61", "TQP-61": "TQP-62", "TQP-62": "TQP-63",
+		"TQP-63": "TQP-64", "TQP-64": "TQP-65"
+	},
+	"standards_changed": [
+		"Terrain Qualification Program revision 31",
+		"execution-plan revision 22",
+		"qualification-state and blocker identifiers through TQP-65"
+	],
+	"downstream_impact": "TQP-42 is the sole next dependency-ordered milestone. Former fault injection is TQP-43, visual review is TQP-44, adaptive soak is TQP-45, Gate E is TQP-46, and all later unqualified work shifts by one without changing status or claim scope."
+}

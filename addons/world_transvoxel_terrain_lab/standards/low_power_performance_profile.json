@@ -77,11 +77,11 @@
 		"quality"
 	],
 	"qualification_ownership": {
-		"TQP-44": "backend-neutral CPU reference and adaptive workload baseline",
-		"TQP-52": "measured CPU/GPU architecture and expected-benefit decision",
-		"TQP-57": "cross-hardware power, frame-pacing, correctness, and driver matrix",
-		"TQP-62": "production release budgets and supported quality profiles",
-		"TQP-63": "long-haul thermal and performance drift certification"
+		"TQP-45": "backend-neutral CPU reference and adaptive workload baseline",
+		"TQP-53": "measured CPU/GPU architecture and expected-benefit decision",
+		"TQP-58": "cross-hardware power, frame-pacing, correctness, and driver matrix",
+		"TQP-63": "production release budgets and supported quality profiles",
+		"TQP-64": "long-haul thermal and performance drift certification"
 	},
 	"explicitly_unqualified_scope": [
 		"any current claim that the 16 W or sustained 60 FPS target passes",

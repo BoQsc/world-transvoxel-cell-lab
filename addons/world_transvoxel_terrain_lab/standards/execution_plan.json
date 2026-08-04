@@ -1,7 +1,7 @@
 {
 	"schema": "world_transvoxel.terrain_lab.execution_plan.v1",
-	"plan_revision": 21,
-	"program_revision": 30,
+	"plan_revision": 22,
+	"program_revision": 31,
 	"policy": "single_human_tqp_dependency_order_fail_closed",
 	"human_authority": "res://docs/terrain_lab/TERRAIN_QUALIFICATION_PROGRAM.md",
 	"current_wave": "TQP-WAVE-03",
@@ -65,7 +65,8 @@
 				["TQP-42"],
 				["TQP-43"],
 				["TQP-44"],
-				["TQP-45"]
+				["TQP-45"],
+				["TQP-46"]
 			]
 		},
 		{
@@ -73,8 +74,8 @@
 			"title": "Destruction and structural world systems",
 			"status": "blocked",
 			"steps": [
-				["TQP-46", "TQP-47", "TQP-48", "TQP-49", "TQP-50"],
-				["TQP-51"]
+				["TQP-47", "TQP-48", "TQP-49", "TQP-50", "TQP-51"],
+				["TQP-52"]
 			]
 		},
 		{
@@ -82,11 +83,11 @@
 			"title": "GPU candidate qualification",
 			"status": "blocked",
 			"steps": [
-				["TQP-52"],
 				["TQP-53"],
 				["TQP-54"],
-				["TQP-55", "TQP-56"],
-				["TQP-57"]
+				["TQP-55"],
+				["TQP-56", "TQP-57"],
+				["TQP-58"]
 			]
 		},
 		{
@@ -94,12 +95,12 @@
 			"title": "Production terrain and release qualification",
 			"status": "blocked",
 			"steps": [
-				["TQP-58"],
-				["TQP-59", "TQP-60"],
-				["TQP-61"],
+				["TQP-59"],
+				["TQP-60", "TQP-61"],
 				["TQP-62"],
 				["TQP-63"],
-				["TQP-64"]
+				["TQP-64"],
+				["TQP-65"]
 			]
 		}
 	]

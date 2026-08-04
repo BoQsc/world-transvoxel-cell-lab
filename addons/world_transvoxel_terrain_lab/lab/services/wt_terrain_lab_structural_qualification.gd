@@ -37,11 +37,11 @@ static func run() -> Dictionary:
 		"schema": "world_transvoxel.terrain_lab.structural_world_qualification.v1",
 		"status": "PASS" if failures.is_empty() else "FAIL",
 		"scope_status": {
-			"TQP-47": "implemented_pending_strength_and_under_resolution_matrix",
-			"TQP-48": "implemented_ownership_only_pending_fluid_system_evidence",
-			"TQP-49": "implemented_pending_collision_destruction_and_persistence",
-			"TQP-50": "implemented_pending_bridge_authoring_and_lod_matrix",
-			"TQP-51": "implemented_pending_rigid_body_remesh_collision_and_persistence",
+			"TQP-48": "implemented_pending_strength_and_under_resolution_matrix",
+			"TQP-49": "implemented_ownership_only_pending_fluid_system_evidence",
+			"TQP-50": "implemented_pending_collision_destruction_and_persistence",
+			"TQP-51": "implemented_pending_bridge_authoring_and_lod_matrix",
+			"TQP-52": "implemented_pending_rigid_body_remesh_collision_and_persistence",
 		},
 		"implemented_scope": [
 			"fluid ownership boundary",
@@ -52,7 +52,7 @@ static func run() -> Dictionary:
 			"production vegetation rendering",
 			"road and bridge authoring tools",
 			"gameplay suitability",
-			"complete TQP-47 through TQP-51 qualification",
+			"complete TQP-48 through TQP-52 qualification",
 		],
 		"provenance": Statistics.provenance("structural_world_reference_v1"),
 		"milestones": milestones,
@@ -74,7 +74,7 @@ static func _qualify_connectivity() -> Dictionary:
 	_expect(not supported.has(Vector3i(8, 8, 8)), "floating component became supported", failures)
 	var unsupported := _difference(solid, supported)
 	_expect(unsupported.size() == 2, "unsupported component size changed", failures)
-	var result := _result("TQP-47", solid.size() + 4, failures)
+	var result := _result("TQP-48", solid.size() + 4, failures)
 	result["supported_count"] = supported.size()
 	result["unsupported_count"] = unsupported.size()
 	return result
@@ -95,7 +95,7 @@ static func _qualify_collapse_policy() -> Dictionary:
 		_expect(decision == str(component["expected"]), "collapse policy changed", failures)
 	var replay_signature := JSON.stringify(components).sha256_text()
 	_expect(not replay_signature.is_empty(), "collapse replay signature missing", failures)
-	var result := _result("TQP-51", components.size() + 1, failures)
+	var result := _result("TQP-52", components.size() + 1, failures)
 	result["replay_signature"] = replay_signature
 	result["qualification_scope"] = "REFERENCE_POLICY_NO_RIGID_BODY_IMPLEMENTATION"
 	return result
@@ -122,7 +122,7 @@ static func _qualify_fluid_ownership() -> Dictionary:
 		"fluid volume must not become terrain density authority",
 		failures
 	)
-	var result := _result("TQP-48", ownership.size() + 1, failures)
+	var result := _result("TQP-49", ownership.size() + 1, failures)
 	result["ownership"] = ownership
 	result["qualification_scope"] = "OWNERSHIP_CONTRACT_ONLY"
 	return result
@@ -136,7 +136,7 @@ static func _qualify_placement_invalidation() -> Dictionary:
 	_expect(first == replay, "placement replay is not deterministic", failures)
 	_expect(first != changed_surface, "surface version did not invalidate placement", failures)
 	_expect(first.size() == 16, "placement count changed", failures)
-	var result := _result("TQP-49", first.size() + 2, failures)
+	var result := _result("TQP-50", first.size() + 2, failures)
 	result["placement_signature"] = JSON.stringify(first).sha256_text()
 	return result
 
@@ -169,7 +169,7 @@ static func _qualify_authored_composition() -> Dictionary:
 	var replay := EditField.new()
 	_expect(replay.reconstruct(field.serialized_journal()), "authored replay failed", failures)
 	_expect(replay.journal_signature() == field.journal_signature(), "authored replay diverged", failures)
-	var result := _result("TQP-50", 7, failures)
+	var result := _result("TQP-51", 7, failures)
 	result["composition_order"] = [
 		"procedural_and_authored_base",
 		"ordered_construction_and_subtraction_journal",

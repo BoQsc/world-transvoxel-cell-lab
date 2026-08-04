@@ -128,11 +128,11 @@ human review in addition to automated checks.
 - Gate D: bounded large-world reference claims require `TQP-06`, `TQP-15`,
   `TQP-16`, `TQP-19`, `TQP-20`, `TQP-22`, `TQP-24`, `TQP-26`, and `TQP-27`.
 - Gate E: native adaptive-terrain authority requires `TQP-28` through
-  `TQP-45`. Gate D's bounded reference models do not satisfy this gate.
-- Gate F: GPU authority cannot advance until `TQP-52` through `TQP-57` pass
+  `TQP-46`. Gate D's bounded reference models do not satisfy this gate.
+- Gate F: GPU authority cannot advance until `TQP-53` through `TQP-58` pass
   differential qualification against Gate E.
 - Gate G: production release requires every applicable prerequisite and
-  `TQP-58` through `TQP-64`.
+  `TQP-59` through `TQP-65`.
 
 ## How To Follow This Program
 
@@ -142,9 +142,10 @@ promotion order: investigation may happen early, but qualification cannot skip
 an earlier dependency.
 
 The machine-readable `execution_plan.json` mirrors the same order but is not a
-second human roadmap. Program revision 25 preserves the ground-up sequence
-introduced by `TQP-D017` and advances only milestones with retained evidence.
-The older revision-5 migration remains retained in `TQP-D006` as history.
+second human roadmap. Program revision 31 preserves the ground-up sequence,
+inserts the missing large-world storage milestone through `TQP-D030`, and
+advances only milestones with retained evidence. Earlier identifier migrations
+remain retained in `TQP-D006` and `TQP-D017` as history.
 
 ## Completeness And Claim Boundary
 
@@ -165,7 +166,7 @@ residency shape, edit history, or runtime scale. In particular:
 
 The 2026-08-02 terrain-core completeness audit found the former roadmap moved
 from bounded TQP-27 evidence directly to destruction. Phase 4 closes that gap.
-Until Gate E passes, this program may claim the qualified TQP-01 through TQP-33
+Until Gate E passes, this program may claim the qualified TQP-01 through TQP-41
 scopes, but it must not claim authoritative dynamic adaptive Transvoxel terrain.
 
 ## Phase 1: Qualified Foundations And Reference Semantics
@@ -382,7 +383,7 @@ Status: `qualified`. Owner: Terrain Systems Lab. Depends on: TQP-03, TQP-06.
 Qualified for the CPU large-world reference after origin shifts, distant edits,
 negative coordinates, decimal-string save coordinates, origin-relative render
 conversion, and 100,000 traversal steps pass without integer drift. GPU
-equivalence remains explicitly unqualified until TQP-53 through TQP-57.
+equivalence remains explicitly unqualified until TQP-54 through TQP-58.
 
 ### TQP-21: Texture System
 
@@ -532,7 +533,7 @@ passes.
 
 Execution order: TQP-28 -> TQP-29 -> TQP-30 -> TQP-31 -> TQP-32 ->
 TQP-33 -> TQP-34 -> TQP-35 -> TQP-36 -> TQP-37 -> TQP-38 -> TQP-39 ->
-TQP-40 -> TQP-41 -> TQP-42 -> TQP-43 -> TQP-44 -> TQP-45.
+TQP-40 -> TQP-41 -> TQP-42 -> TQP-43 -> TQP-44 -> TQP-45 -> TQP-46.
 
 ### TQP-28: Field Generation And Sampling Contract
 
@@ -684,7 +685,7 @@ shrinks an injected 25-triangle duplicate control to a stable two-triangle,
 three-vertex fixture. `TQP-D011`, `TQP-D018`, and `TQP-D019` are retained as
 direct corrected-behavior or corrected-judgment regressions. Serialized
 completion-order permutations are qualified here; actual concurrent execution
-and dynamic publication remain reserved for TQP-35 and TQP-42. `cold` means
+and dynamic publication remain reserved for TQP-35 and TQP-43. `cold` means
 the first canonical replay on a fresh per-case probe and `warm` its immediate
 repeat; these are correctness lanes, not hardware-cache isolation claims.
 
@@ -838,10 +839,44 @@ coarse-page meshing before compaction, large-volume compaction beyond
 `TQP-F002`, operating-system fault injection, networking, and production save
 authority remain unqualified.
 
-### TQP-42: Fault Injection And Cross-Order Determinism
+### TQP-42: Sparse Hierarchy Storage And Large-World Compaction
+
+Status: `proposed`. Owner: Terrain Systems Lab and Edit Semantics Lab. Depends
+on: TQP-13, TQP-16, TQP-20, TQP-27, TQP-30, TQP-40, TQP-41.
+
+Complete when the native authority has a deterministic, measured sparse
+hierarchy storage contract for large adaptive worlds. An octree is a valid
+candidate, but the contract permits an equivalent sparse spatial index,
+implicit procedural hierarchy with sparse baked/edit overlays, or another
+representation that passes the same evidence. Selection must be based on
+results rather than the data-structure name.
+
+Qualification requires exact page-presence, ancestor/child, neighbor, range,
+and viewer-root queries across dense, sparse, vertically layered, edited, and
+large-coordinate fixtures. The runtime hot path must not require materializing
+every possible page key, and catalog, index, cache, edit-overlay, and resident
+memory must have separate counters and declared ceilings. Cold/warm startup,
+lookup, traversal, insertion, edit invalidation, serialization, migration, and
+compaction require p50/p95/p99/worst timings, bytes per declared and resident
+page, peak memory, deterministic signatures, and comparison with the retained
+flat sorted-catalog baseline.
+
+The existing 299,520-page 2048x256x2048-cell reference must compact, reopen,
+replay committed edits, and reproduce authoritative samples and adaptive
+resources under bounded peak memory and atomic publication. Corruption,
+duplicate keys, missing ancestors or descendants, interrupted output, and
+capacity exhaustion must fail closed. `TQP-F002` closes only when that retained
+large-world evidence passes. The `@tool` observatory must expose hierarchy
+shape, declared versus resident pages, index/cache bytes, lookup and compaction
+work, and localized edit overlays without manufacturing fallback terrain.
+
+This milestone does not qualify planet-scale or unbounded worlds, networking,
+distributed databases, GPU residency, or production save compatibility.
+
+### TQP-43: Fault Injection And Cross-Order Determinism
 
 Status: `proposed`. Owner: Terrain Systems Lab. Depends on: TQP-15, TQP-17,
-TQP-26, TQP-34, TQP-35, TQP-36, TQP-37, TQP-39, TQP-40, TQP-41.
+TQP-26, TQP-34, TQP-35, TQP-36, TQP-37, TQP-39, TQP-40, TQP-41, TQP-42.
 
 Complete when randomized worker completion, cancellation, duplicate and stale
 requests, save interruption, malformed input, allocation failure, rapid viewer
@@ -849,11 +884,11 @@ motion, and shutdown produce deterministic authoritative state or a declared
 fail-closed error. Resource and event traces must identify the first divergent
 generation.
 
-### TQP-43: Complex Terrain Visual And Temporal Corpus
+### TQP-44: Complex Terrain Visual And Temporal Corpus
 
 Status: `proposed`. Owner: Material and Surface Lab and Terrain Systems Lab.
 Depends on: TQP-23, TQP-25, TQP-26, TQP-31, TQP-35, TQP-37, TQP-38, TQP-39,
-TQP-40, TQP-42.
+TQP-40, TQP-43.
 
 Complete when fixed stills and motion paths recursively inspect representative
 and adversarial terrain at overview, chunk, transition, and cell scales from
@@ -862,11 +897,11 @@ popping, flicker, shadows, texture scale, edited surfaces, caves, overhangs,
 and visual pleasantness against declared targets; automation cannot accept the
 milestone by itself.
 
-### TQP-44: Complex Adaptive Terrain Performance And Soak
+### TQP-45: Complex Adaptive Terrain Performance And Soak
 
 Status: `proposed`. Owner: Terrain Systems Lab. Depends on: TQP-04, TQP-26,
 TQP-27, TQP-34, TQP-35, TQP-37, TQP-38, TQP-39, TQP-40, TQP-41, TQP-42,
-TQP-43.
+TQP-43, TQP-44.
 
 Complete when complex multi-layer adaptive terrain passes repeated cold/warm
 generation, traversal, teleports, LOD churn, digging, construction, material
@@ -878,10 +913,10 @@ bounded collision invokers and report frame pacing, edit responsiveness, power,
 and energy per frame; failure to meet the target remains valid baseline evidence
 and does not predetermine the GPU decision.
 
-### TQP-45: Native Adaptive Terrain Authority Gate
+### TQP-46: Native Adaptive Terrain Authority Gate
 
 Status: `proposed`. Owner: Terrain Qualification Program. Depends on: TQP-28
-through TQP-44.
+through TQP-45.
 
 Complete when every Phase 4 milestone is qualified for one coherent declared
 envelope, all open findings have explicit disposition, independent and visual
@@ -894,12 +929,12 @@ prove. Only this milestone may promote Gate E.
 This phase qualifies destructive edits and optional world systems only after
 Gate E establishes trustworthy adaptive terrain behavior.
 
-Execution batches: (TQP-46, TQP-47, TQP-48, TQP-49, TQP-50) -> TQP-51.
+Execution batches: (TQP-47, TQP-48, TQP-49, TQP-50, TQP-51) -> TQP-52.
 
 Reference behavior exists, but these milestones remain unqualified until their
 native, temporal, persistence, visual, and performance gaps close.
 
-### TQP-46: Explosion Corpus
+### TQP-47: Explosion Corpus
 
 Status: `implemented`. Owner: Edit Semantics Lab and Structural Systems Lab.
 Depends on: Gate E, TQP-09, TQP-10, TQP-11, TQP-12, TQP-13, TQP-14, TQP-17.
@@ -908,7 +943,7 @@ Complete when radial and directed blasts, material damage, bounded noise,
 overlap, fragmentation inputs, collision timing, replay, and cost are
 qualified.
 
-### TQP-47: Connectivity And Support
+### TQP-48: Connectivity And Support
 
 Status: `implemented`. Owner: Structural and World Systems Lab. Depends on:
 Gate E, TQP-02, TQP-11, TQP-12.
@@ -916,7 +951,7 @@ Gate E, TQP-02, TQP-11, TQP-12.
 Complete when anchors, solid connectivity, support graphs, floating terrain,
 material strength, and under-resolved supports have deterministic policies.
 
-### TQP-48: Fluids And Hydrology
+### TQP-49: Fluids And Hydrology
 
 Status: `implemented`. Owner: Structural and World Systems Lab. Depends on:
 Gate E, TQP-05, TQP-16, TQP-19.
@@ -924,7 +959,7 @@ Gate E, TQP-05, TQP-16, TQP-19.
 Complete when terrain-water intersections, coastlines, caves, drainage,
 flooding, edits, LODs, persistence, and rendering have defined ownership.
 
-### TQP-49: Vegetation And Object Placement
+### TQP-50: Vegetation And Object Placement
 
 Status: `implemented`. Owner: Structural and World Systems Lab. Depends on:
 Gate E, TQP-08, TQP-16, TQP-19.
@@ -932,7 +967,7 @@ Gate E, TQP-08, TQP-16, TQP-19.
 Complete when placement provenance, invalidation, regeneration, persistence,
 collision, and destruction after terrain edits are deterministic.
 
-### TQP-50: Roads, Structures, And Authored Terrain
+### TQP-51: Roads, Structures, And Authored Terrain
 
 Status: `implemented`. Owner: Structural and World Systems Lab. Depends on:
 Gate E, TQP-08, TQP-11, TQP-16.
@@ -940,10 +975,10 @@ Gate E, TQP-08, TQP-11, TQP-16.
 Complete when stamps, foundations, tunnels, bridges, authored construction,
 procedural fields, edits, materials, and LODs compose predictably.
 
-### TQP-51: Collapse And Debris
+### TQP-52: Collapse And Debris
 
 Status: `implemented`. Owner: Structural and World Systems Lab. Depends on:
-Gate E, TQP-24, TQP-46, TQP-47.
+Gate E, TQP-24, TQP-47, TQP-48.
 
 Complete when separated components, collapse decisions, rigid-body conversion,
 remeshing, collision, cleanup, persistence, and replay are qualified.
@@ -953,12 +988,12 @@ remeshing, collision, cleanup, persistence, and replay are qualified.
 This phase evaluates GPU acceleration against the qualified CPU reference. It
 does not replace CPU authority or begin by rewriting the lab.
 
-Execution batches: TQP-52 -> TQP-53 -> TQP-54 -> (TQP-55, TQP-56) -> TQP-57.
+Execution batches: TQP-53 -> TQP-54 -> TQP-55 -> (TQP-56, TQP-57) -> TQP-58.
 
-TQP-52 is specified. Later batches remain blocked until concrete GPU field,
+TQP-53 is specified. Later batches remain blocked until concrete GPU field,
 meshing, residency, and multi-vendor hardware targets exist.
 
-### TQP-52: GPU Architecture Decision
+### TQP-53: GPU Architecture Decision
 
 Status: `specified`. Owner: Backend Qualification Lab. Depends on: Gates A
 and E.
@@ -969,42 +1004,42 @@ separate measured decisions. CPU and GPU candidates must run the same pinned
 low-power profile, and promotion requires a measured frame-pacing or
 energy-efficiency benefit without correctness regression.
 
-### TQP-53: GPU Field Evaluation
+### TQP-54: GPU Field Evaluation
 
 Status: `blocked`. Owner: Backend Qualification Lab. Depends on: TQP-07,
-TQP-08, TQP-12, TQP-28, TQP-29, TQP-52.
+TQP-08, TQP-12, TQP-28, TQP-29, TQP-53.
 
 Complete when GPU density, gradients, materials, edits, filtering, precision,
 and determinism pass analytical and CPU differential evidence.
 
-### TQP-54: GPU Meshing Candidate
+### TQP-55: GPU Meshing Candidate
 
 Status: `blocked`. Owner: Backend Qualification Lab. Depends on: TQP-31,
-TQP-33, TQP-34, TQP-52, TQP-53.
+TQP-33, TQP-34, TQP-53, TQP-54.
 
 Complete when GPU regular, transition, and chunk extraction exists as a
 candidate without weakening or replacing the native CPU reference.
 
-### TQP-55: CPU/GPU Differential Corpus
+### TQP-56: CPU/GPU Differential Corpus
 
 Status: `blocked`. Owner: Backend Qualification Lab and Cell Lab. Depends on:
-TQP-34, TQP-45, TQP-54.
+TQP-34, TQP-46, TQP-55.
 
 Complete when topology, seams, feature survival, materials, edits, bounds, and
 numeric tolerances pass the shared primitive and terrain corpora.
 
-### TQP-56: GPU Residency And Publication
+### TQP-57: GPU Residency And Publication
 
 Status: `blocked`. Owner: Backend Qualification Lab and Terrain Systems Lab.
-Depends on: TQP-15, TQP-22, TQP-35, TQP-40, TQP-42, TQP-54.
+Depends on: TQP-15, TQP-22, TQP-35, TQP-40, TQP-43, TQP-55.
 
 Complete when allocation, reuse, indirect drawing, transfer, collision
 readback, stale work, synchronization, and device-loss recovery are qualified.
 
-### TQP-57: Cross-Hardware GPU Matrix
+### TQP-58: Cross-Hardware GPU Matrix
 
 Status: `blocked`. Owner: Backend Qualification Lab. Depends on: TQP-04,
-TQP-44, TQP-55, TQP-56.
+TQP-45, TQP-56, TQP-57.
 
 Complete when correctness, reproducibility, performance, memory, drivers,
 vendors, graphics APIs, power boundaries, thermal steady state, and explicitly
@@ -1017,13 +1052,13 @@ qualified prerequisite gates. It proves the addon boundary, authoring,
 networking when applicable, integration-game parity, release matrix, and
 long-haul behavior before publishing Standard 1.0.
 
-Execution batches: TQP-58 -> (TQP-59, TQP-60) -> TQP-61 -> TQP-62 ->
-TQP-63 -> TQP-64.
+Execution batches: TQP-59 -> (TQP-60, TQP-61) -> TQP-62 -> TQP-63 ->
+TQP-64 -> TQP-65.
 
 This phase is blocked because a pinned candidate production addon and its later
 release evidence do not yet exist.
 
-### TQP-58: Production Addon Boundary
+### TQP-59: Production Addon Boundary
 
 Status: `blocked`. Owner: `world-transvoxel-terrain`. Depends on: Gates A
 through E.
@@ -1032,36 +1067,36 @@ Complete when runtime APIs, data ownership, dependencies, configuration,
 extension points, threading, errors, and unsupported behavior are frozen for a
 candidate release.
 
-### TQP-59: Authoring And Inspection Workflow
+### TQP-60: Authoring And Inspection Workflow
 
 Status: `blocked`. Owner: `world-transvoxel-terrain`. Depends on: TQP-08,
 TQP-10, TQP-11, TQP-12, TQP-13, TQP-14, TQP-17, TQP-18, TQP-21, TQP-23,
-TQP-25, TQP-26, TQP-37, TQP-38, TQP-43, TQP-45, TQP-46, TQP-58.
+TQP-25, TQP-26, TQP-37, TQP-38, TQP-44, TQP-46, TQP-47, TQP-59.
 
 Complete when brushes, previews, undo/redo, material authoring, diagnostics,
 imports, profiling, and one-action repro export support real workflows.
 
-### TQP-60: Networking And Recovery
+### TQP-61: Networking And Recovery
 
 Status: `blocked`. Owner: Production terrain and integration layers. Depends
-on: TQP-13, TQP-16, TQP-17, TQP-41, TQP-42, TQP-58.
+on: TQP-13, TQP-16, TQP-17, TQP-41, TQP-43, TQP-59.
 
 Complete when replication, ordering, conflict resolution, late join, save
 recovery, disconnects, corruption, and authority transitions are qualified for
 the declared multiplayer model.
 
-### TQP-61: Integration-Game Parity
+### TQP-62: Integration-Game Parity
 
 Status: `blocked`. Owner: Integration game and `world-transvoxel-terrain`.
-Depends on: TQP-27, TQP-43, TQP-44, TQP-45, TQP-58, TQP-59.
+Depends on: TQP-27, TQP-44, TQP-45, TQP-46, TQP-59, TQP-60.
 
 Complete when representative gameplay terrain, edits, saves, rendering,
 collision, and failures reduce to canonical qualification evidence.
 
-### TQP-62: Production Release Matrix
+### TQP-63: Production Release Matrix
 
 Status: `blocked`. Owner: Terrain Qualification Program. Depends on:
-applicable TQP-01 through TQP-61 milestones.
+applicable TQP-01 through TQP-62 milestones.
 
 Complete when supported platforms, renderers, native artifacts, hardware,
 upgrade paths, visuals, performance budgets, and explicitly unqualified scope
@@ -1069,17 +1104,17 @@ form a reproducible release bundle. Every supported quality profile must declare
 its power boundary, frame-pacing envelope, collision-residency policy, and target
 hardware class.
 
-### TQP-63: Long-Haul Certification
+### TQP-64: Long-Haul Certification
 
-Status: `blocked`. Owner: Terrain Qualification Program. Depends on: TQP-62.
+Status: `blocked`. Owner: Terrain Qualification Program. Depends on: TQP-63.
 
 Complete when extended traversal, editing, construction, destruction,
 save/load, streaming, origin shifting, device events, and fault injection pass
 without correctness, memory, performance, thermal, or power drift.
 
-### TQP-64: Production Terrain Standard 1.0
+### TQP-65: Production Terrain Standard 1.0
 
-Status: `blocked`. Owner: Terrain Qualification Program. Depends on: TQP-63.
+Status: `blocked`. Owner: Terrain Qualification Program. Depends on: TQP-64.
 
 Complete when the final evidence bundle is reviewed, versioned, reproducible,
 and explicit about every qualified and unqualified claim. This milestone marks
@@ -1104,20 +1139,20 @@ The program records every milestone at a truthful evidence state:
   render/collision/query/physics agreement with consumer-derived navigation,
   multi-layer LOD2/LOD1/LOD0 streaming/residency, and bounded native-baked
   adaptive persistence with fresh-runtime replay and supported compaction.
-  `TQP-42` through `TQP-45` remain proposed, so
+  `TQP-42` through `TQP-46` remain proposed, so
   the program makes no Gate E adaptive-terrain authority claim.
-- `TQP-46` through `TQP-51` retain the previously implemented destruction and
+- `TQP-47` through `TQP-52` retain the previously implemented destruction and
   structural reference behavior under their revision-19 identifiers.
-- `TQP-52` is specified and requires measured GPU-candidate benefit.
-- `TQP-53` through `TQP-64` are blocked by named external targets and exit
+- `TQP-53` is specified and requires measured GPU-candidate benefit.
+- `TQP-54` through `TQP-65` are blocked by named external targets and exit
   conditions in `program_blockers.json`.
 
-The next dependency-ordered milestone is TQP-42, fault injection and
-cross-order determinism. TQP-27 remains qualified through `TQP-D016` only for its
-bounded native Windows 2K-world soak and durable edit-journal restart.
+The next dependency-ordered milestone is TQP-42, sparse hierarchy storage and
+large-world compaction. TQP-27 remains qualified through `TQP-D016` only for
+its bounded native Windows 2K-world soak and durable edit-journal restart.
 `TQP-F002` retains large-volume snapshot compaction as an open upstream
-capacity issue. Gate D is qualified only for that bounded reference claim;
-Gate E is open, and destruction, GPU, and production promotion are frozen
+capacity issue owned by TQP-42. Gate D is qualified only for that bounded
+reference claim; Gate E remains closed, and destruction, GPU, and production promotion are frozen
 behind it. A milestone may advance only when its declared evidence passes.
 
 ## What Comes Next
@@ -1136,30 +1171,31 @@ actual concurrent publication.
 
 TQP-35 begins the changing-terrain system and qualifies the bounded native
 LOD1/LOD0 publication timeline. TQP-36 now qualifies exact bounded edit
-invalidation and incremental remeshing mechanics. TQP-37 through TQP-42 qualify
-digging and construction across LOD boundaries,
-material continuity, render/collision/query/navigation agreement, streaming,
-persistence, replay, failure recovery, and determinism under different work
-orders. These milestones determine whether the correct static primitive stays
-correct while a viewer moves and terrain changes over time.
+invalidation and incremental remeshing mechanics. TQP-37 through TQP-41 now
+qualify bounded adaptive edits, material continuity, system agreement,
+streaming, persistence, and replay. TQP-42 must make the hierarchy and snapshot
+representation efficient at the retained large-world scale before TQP-43
+injects failures and schedule-order variation. These milestones determine
+whether the correct static primitive stays correct while a viewer moves,
+terrain changes, and most of the world remains nonresident.
 
-TQP-43 and TQP-44 provide the final adaptive-terrain review layer. TQP-43
-requires broad visual and temporal inspection of complex terrain, while TQP-44
+TQP-44 and TQP-45 provide the final adaptive-terrain review layer. TQP-44
+requires broad visual and temporal inspection of complex terrain, while TQP-45
 measures sustained performance, memory, residency, queues, and long-running
 stability under the complete qualified workload. Spatial or temporal
 milestones should expose focused `@tool` observatories and reproducible
 captures for human inspection, but screenshots remain supporting evidence and
 cannot replace machine invariants or retained reports.
 
-TQP-45 is Gate E. It can qualify only a coherent envelope in which all earlier
+TQP-46 is Gate E. It can qualify only a coherent envelope in which all earlier
 Phase 4 contracts agree. Passing it would mean that the lab has an
 authoritative bounded reference for native adaptive edited Transvoxel terrain;
 it would not by itself mean that a production game terrain is finished.
 
 Only after Gate E should the program reassess the existing destruction and
-structural work in TQP-46 through TQP-51. GPU work in TQP-52 through TQP-57 is
+structural work in TQP-47 through TQP-52. GPU work in TQP-53 through TQP-58 is
 a candidate backend measured against the qualified CPU reference, not a
-replacement chosen in advance. TQP-58 through TQP-64 then address production
+replacement chosen in advance. TQP-59 through TQP-65 then address production
 integration, networking, tooling, compatibility, release evidence, and the
 final Production Terrain Standard. Those later phases remain separate so they
 cannot weaken or obscure the terrain-core evidence now being built.
@@ -1191,7 +1227,7 @@ Retained decisions:
   Windows temporal-integrity and persistence reference scope.
 - `TQP-D006`: replace domain-grouped identifiers with the former revision-5
   TQP-01 through TQP-46 sequence without changing milestone evidence state;
-  `TQP-D017` supersedes only its unqualified TQP-28 onward numbering.
+  `TQP-D017` and `TQP-D030` retain the later unqualified-phase migrations.
 - `TQP-D007`: qualify TQP-19 and TQP-20 for deterministic reference scopes and
   retain TQP-18 as implemented pending explicit human visual review.
 - `TQP-D008`: accept the retained TQP-18 material-blending diagnostic and
@@ -1224,9 +1260,10 @@ Retained decisions:
   compaction in `TQP-F002` and production, multi-hour, GPU, cross-hardware, and
   non-Windows performance as unqualified.
 - `TQP-D017`: preserve accepted TQP-01 through TQP-27 evidence, insert the
-  missing TQP-28 through TQP-45 native adaptive-terrain qualification phase,
+  former TQP-28 through TQP-45 native adaptive-terrain qualification phase,
   shift only unqualified later work, and freeze destruction, GPU, and
-  production promotion until Gate E passes.
+  production promotion until Gate E passes; `TQP-D030` subsequently inserts
+  the new TQP-42 storage milestone and shifts its later identifiers.
 - `TQP-D018`: qualify TQP-28 and TQP-29 for the retained deterministic field
   contract and bounded Windows LOD0 complex native-field corpus, correct the
   large-coordinate lab oracle to a window-relative frame, and retain adaptive
@@ -1278,3 +1315,12 @@ Retained decisions:
   physics-ray, targeted-demand, staged replacement, and consumer-derived
   navigation evidence while leaving production collision, navigation,
   performance, deeper LOD, GPU, and production authority unqualified.
+- `TQP-D028`: qualify TQP-40 for the retained native Windows LOD2/LOD1/LOD0
+  multi-layer streaming and residency profile without claiming native floating
+  origin, production performance, or GPU residency.
+- `TQP-D029`: qualify TQP-41 for the retained 44-page native-baked adaptive
+  persistence profile while keeping direct pre-compaction distant coarse-page
+  meshing and large-volume compaction explicitly unqualified.
+- `TQP-D030`: insert sparse hierarchy storage and large-world compaction as
+  TQP-42, renumber former TQP-42 through TQP-64 to TQP-43 through TQP-65, and
+  require measured evidence rather than mandating an octree by assumption.

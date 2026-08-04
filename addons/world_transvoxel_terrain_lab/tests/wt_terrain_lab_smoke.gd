@@ -416,8 +416,11 @@ func _run() -> void:
 	var streaming_snapshot: Dictionary = adaptive_streaming_observatory.get_validation_snapshot()
 	if str(streaming_ready.get("status", "")) != "PASS" \
 			or str(streaming_snapshot.get("status", "")) != "PASS" \
-			or str(streaming_snapshot.get("backend_id", "")) != "world_transvoxel_native":
-		_fail("TQP-40 Adaptive Streaming Observatory residency state failed")
+			or str(streaming_snapshot.get("backend_id", "")) != "transvoxel_mit_official":
+		_fail(
+			"TQP-40 Adaptive Streaming Observatory residency state failed: ready=%s snapshot=%s"
+			% [str(streaming_ready), str(streaming_snapshot)]
+		)
 		return
 	if str((await adaptive_streaming_observatory.shutdown_for_validation()).get("status", "")) != "PASS":
 		_fail("TQP-40 Adaptive Streaming Observatory did not shut down cleanly")
@@ -619,16 +622,16 @@ func _run() -> void:
 	if str(validation.get("status", "")) != "PASS":
 		_fail("terrain lab boundary failed: " + str(validation.get("failures", [])))
 		return
-	if int(validation.get("milestone_count", 0)) != 64:
+	if int(validation.get("milestone_count", 0)) != 65:
 		_fail("terrain program milestone count changed")
 		return
-	if int(validation.get("qualified_milestone_count", 0)) != 39:
+	if int(validation.get("qualified_milestone_count", 0)) != 41:
 		_fail("qualified reference milestone count changed")
 		return
 	if int(validation.get("specified_milestone_count", 0)) != 1:
 		_fail("open specification count changed")
 		return
-	if int(validation.get("proposed_milestone_count", -1)) != 6:
+	if int(validation.get("proposed_milestone_count", -1)) != 5:
 		_fail("native adaptive-terrain proposal count changed")
 		return
 	var status_counts: Dictionary = validation.get("status_counts", {})

@@ -96,7 +96,7 @@ static func validate(program: Dictionary, dependencies: Dictionary) -> Dictionar
 		"program must execute in dependency order and fail closed",
 		failures
 	)
-	_expect(milestones.size() == 64, "program must contain exactly 64 milestones", failures)
+	_expect(milestones.size() == 65, "program must contain exactly 65 milestones", failures)
 
 	var contract_refs := {}
 	for index in range(milestones.size()):
@@ -392,7 +392,7 @@ static func _validate_execution_plan(
 						failures
 					)
 	_expect(active_wave_count == 1, "execution plan must have exactly one active wave", failures)
-	_expect(positions.size() == 64, "execution plan must cover all 64 milestones", failures)
+	_expect(positions.size() == 65, "execution plan must cover all 65 milestones", failures)
 	for milestone_id in milestone_by_id:
 		var milestone: Dictionary = milestone_by_id[milestone_id]
 		var milestone_position: Vector2i = positions.get(milestone_id, Vector2i(-1, -1))
@@ -462,7 +462,7 @@ static func _validate_qualification_state(
 				milestone_id + " status differs from retained qualification state",
 				failures
 			)
-	_expect(seen.size() == 64, "qualification state must classify all 64 milestones", failures)
+	_expect(seen.size() == 65, "qualification state must classify all 65 milestones", failures)
 	var suite_milestones := {}
 	for suite_value in state.get("suites", []):
 		var suite: Dictionary = suite_value
@@ -475,7 +475,7 @@ static func _validate_qualification_state(
 				failures
 			)
 			suite_milestones[milestone_id] = str(suite.get("id", ""))
-	_expect(suite_milestones.size() == 64, "qualification suites must cover all milestones", failures)
+	_expect(suite_milestones.size() == 65, "qualification suites must cover all milestones", failures)
 	var blocker_catalog := JsonLoader.load_dictionary(str(program.get("blocker_catalog", "")))
 	var blocker_ids := {}
 	for blocker_value in blocker_catalog.get("blockers", []):
@@ -503,7 +503,7 @@ static func _validate_qualification_state(
 				failures
 			)
 			_expect(
-				int(retained.get("milestone_count", 0)) == 64,
+				int(retained.get("milestone_count", 0)) == 65,
 				"retained qualification report milestone count changed",
 				failures
 			)

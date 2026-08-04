@@ -47,7 +47,7 @@ static func run() -> Dictionary:
 		_expect(not str(record.get("owner", "")).is_empty(), milestone + " blocker owner missing", failures)
 		_expect(not str(record.get("exit", "")).is_empty(), milestone + " blocker exit missing", failures)
 		blocker_by_milestone[milestone] = record
-	for index in range(53, 65):
+	for index in range(54, 66):
 		var milestone := "TQP-%02d" % index
 		_expect(blocker_by_milestone.has(milestone), "missing fail-closed blocker: " + milestone, failures)
 	_expect(
@@ -64,8 +64,7 @@ static func run() -> Dictionary:
 		"schema": "world_transvoxel.terrain_lab.completion_qualification.v1",
 		"status": "PASS" if failures.is_empty() else "FAIL",
 		"scope_status": {
-			"TQP-52": "specified_pending_candidate_benefit_measurement",
-			"TQP-53": "blocked",
+			"TQP-53": "specified_pending_candidate_benefit_measurement",
 			"TQP-54": "blocked",
 			"TQP-55": "blocked",
 			"TQP-56": "blocked",
@@ -77,16 +76,17 @@ static func run() -> Dictionary:
 			"TQP-62": "blocked",
 			"TQP-63": "blocked",
 			"TQP-64": "blocked",
+			"TQP-65": "blocked",
 		},
 		"backend_decision": backend_decision,
 		"blockers": blocker_records,
 		"specified_scope": [
-			"TQP-52 CPU-primary backend architecture decision and candidate promotion boundaries",
+			"TQP-53 CPU-primary backend architecture decision and candidate promotion boundaries",
 		],
 		"explicitly_unqualified_scope": [
-			"GPU backend milestones TQP-53 through TQP-57",
-			"production milestones TQP-58 through TQP-64",
-			"TQP-52 measured GPU candidate benefit",
+			"GPU backend milestones TQP-54 through TQP-58",
+			"production milestones TQP-59 through TQP-65",
+			"TQP-53 measured GPU candidate benefit",
 		],
 		"failures": failures,
 	}
