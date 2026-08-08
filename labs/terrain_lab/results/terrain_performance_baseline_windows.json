@@ -1,0 +1,284 @@
+{
+  "schema": "world_transvoxel.terrain_lab.performance_scorecard.v1",
+  "source": {
+    "path": "labs/terrain_lab/results/low_power_profiles_reference_windows.json",
+    "sha256": "4dd7f86ed920b8858f8d410fdefb66f46aac693a6cc2529a94904337b74f8b6d",
+    "schema": "world_transvoxel.terrain_lab.low_power_profiles_qualification.v2",
+    "status": "MEASURED_TARGET_MISS",
+    "run_mode": "exact_qualification"
+  },
+  "qualification": {
+    "retained_complete": true,
+    "target_misses": [
+      "frame_p95",
+      "frame_worst",
+      "edit_visual_response",
+      "edit_collision_coherence"
+    ],
+    "comparison_only": false
+  },
+  "environment": {
+    "profile_id": "low_power_16w_60fps",
+    "profile": {
+      "resolution": [
+        960.0,
+        540.0
+      ],
+      "target_fps": 60.0,
+      "viewer_radius_chunks": 1.0,
+      "maximum_lod": 2.0,
+      "collision_radius_chunks": 1.0,
+      "render_apply_budget": 4.0,
+      "collision_apply_budget": 2.0,
+      "shadows": false,
+      "active_chunk_capacity": 1024.0,
+      "cache_capacity": 1024.0,
+      "pipeline_capacity": 4096.0
+    },
+    "hardware": {
+      "platform": "Windows-10-10.0.19045-SP0",
+      "machine": "AMD64",
+      "processor": "Intel64 Family 6 Model 158 Stepping 9, GenuineIntel",
+      "python": "3.13.7",
+      "gpu": {
+        "name": "NVIDIA GeForce GTX 1060 with Max-Q Design",
+        "driver": "566.36",
+        "power_w": 5.51,
+        "temperature_c": 66.0,
+        "utilization_percent": 0.0,
+        "memory_mib": 0.0
+      }
+    },
+    "provenance": {
+      "workload_signature": "tqp48_low_power_16w_60fps",
+      "build_type": "debug",
+      "os": "Windows",
+      "architecture": "x86_64",
+      "cpu": "Intel(R) Core(TM) i5-7300HQ CPU @ 2.50GHz",
+      "gpu": "NVIDIA GeForce GTX 1060 with Max-Q Design",
+      "driver": "vulkan",
+      "godot_version": "4.7.1-stable (steam)",
+      "backend_revision": "545a7554551c4772a7889da59378f08fe74cc57e33924993e385e72c8f389ca3"
+    },
+    "measurement_seconds": 1802.580076,
+    "frame_samples": 108000
+  },
+  "frame_pacing": {
+    "average_fps": 59.91412056415074,
+    "average_frame_ms": 16.690556259259257,
+    "p50_ms": 16.374,
+    "p95_ms": 17.318,
+    "p99_ms": 18.229,
+    "worst_ms": 1168.215,
+    "fraction_over_33_333_ms": 0.000222222222222222
+  },
+  "cpu": {
+    "godot_process_frame_ms": {
+      "p50": 3.875,
+      "p95": 19.36,
+      "p99": 33.653,
+      "worst": 1167.529
+    },
+    "physics_frame_ms": {
+      "p50": 0.061,
+      "p95": 2.044,
+      "p99": 2.094,
+      "worst": 3.722
+    },
+    "render_submission_frame_ms": {
+      "p50": 0.361999988555908,
+      "p95": 1.15199995040894,
+      "p99": 2.28900003433228,
+      "worst": 3.37400007247925
+    },
+    "process_wide": {
+      "available": false,
+      "reason": "source run predates process-wide CPU telemetry",
+      "worker_threads_included": false
+    },
+    "package_power": {
+      "available": false,
+      "boundary": "cpu_package",
+      "watts": null,
+      "reason": "trusted RAPL/CPU-package provider not installed"
+    }
+  },
+  "terrain_work": {
+    "render_publications": 32351,
+    "render_publications_per_second": 17.947052910841116,
+    "collision_publications": 62571,
+    "collision_publications_per_second": 34.71191146129144,
+    "published_events": 344357,
+    "published_events_per_second": 191.03561865841903,
+    "edit_commits": 72,
+    "dig_commits": 36,
+    "construction_commits": 36
+  },
+  "responsiveness": {
+    "workload_edit_acknowledgement_ms": {
+      "p50": 0.048,
+      "p95": 0.091,
+      "p99": 0.155,
+      "worst": 0.155
+    },
+    "edit_acknowledgement_p99_ms": 0.055,
+    "edit_visual_response_p99_ms": 154.734,
+    "edit_collision_coherence_p99_ms": 154.734,
+    "edit_settlement_p95_ms": 230.22,
+    "focused_retained_context": {
+      "comparison_eligible": true,
+      "source": "labs/terrain_lab/results/fast_arrival_responsiveness_reference_windows.json",
+      "edit_acknowledgement_p99_ms": 0.055,
+      "edit_visual_response_p99_ms": 154.734,
+      "edit_collision_coherence_p99_ms": 154.734,
+      "edit_settlement_p95_ms": 230.22
+    }
+  },
+  "resources": {
+    "memory": {
+      "start_bytes": 72666037,
+      "end_bytes": 89488813,
+      "peak_bytes": 120097029
+    },
+    "queue_peaks": {
+      "scheduler": 220,
+      "storage": 720,
+      "render": 0,
+      "collision": 2
+    }
+  },
+  "gpu_context": {
+    "render_frame_ms": {
+      "p50": 2.57299995422363,
+      "p95": 5.34800004959106,
+      "p99": 5.53399991989136,
+      "worst": 8.104000091552729
+    },
+    "board_power": {
+      "boundary": "gpu_board",
+      "source": "nvidia-smi power.draw",
+      "samples": 901,
+      "average_w": 7.128679245283019,
+      "p95_w": 25.43,
+      "worst_w": 26.61,
+      "energy_j": 12850.015175741886,
+      "energy_per_frame_j": 0.11898162199761006,
+      "energy_per_published_chunk_j": 0.3972061196173808
+    },
+    "board_wpf60": {
+      "formula": "gpu_board_average_watts * average_frame_ms / 16.666667",
+      "average_frame_ms": 16.690556259259257,
+      "average_gpu_board_watts": 7.128679245283019,
+      "value": 7.138897319856603,
+      "target": 16.0,
+      "over_target": 0.0
+    }
+  },
+  "comparison_metrics": [
+    {
+      "id": "average_fps",
+      "value": 59.91412056415074,
+      "unit": "fps",
+      "preferred_direction": "higher",
+      "context": "whole workload"
+    },
+    {
+      "id": "frame_p95",
+      "value": 17.318,
+      "unit": "ms",
+      "preferred_direction": "lower",
+      "context": "whole workload"
+    },
+    {
+      "id": "frame_p99",
+      "value": 18.229,
+      "unit": "ms",
+      "preferred_direction": "lower",
+      "context": "whole workload"
+    },
+    {
+      "id": "frame_worst",
+      "value": 1168.215,
+      "unit": "ms",
+      "preferred_direction": "lower",
+      "context": "whole workload; investigate outliers independently"
+    },
+    {
+      "id": "godot_process_p95",
+      "value": 19.36,
+      "unit": "ms",
+      "preferred_direction": "lower",
+      "context": "Godot frame process timing; not package energy"
+    },
+    {
+      "id": "process_cpu_core_equivalents",
+      "value": null,
+      "unit": "logical cores",
+      "preferred_direction": "lower_for_equal_work",
+      "context": "process-wide CPU time including worker threads"
+    },
+    {
+      "id": "amortized_process_cpu_ms_per_render_publication",
+      "value": null,
+      "unit": "CPU ms/publication",
+      "preferred_direction": "lower",
+      "context": "amortized over the mixed terrain workload"
+    },
+    {
+      "id": "render_publications_per_second",
+      "value": 17.947052910841116,
+      "unit": "publications/s",
+      "preferred_direction": "higher",
+      "context": "render publications applied by the terrain runtime"
+    },
+    {
+      "id": "collision_publications_per_second",
+      "value": 34.71191146129144,
+      "unit": "publications/s",
+      "preferred_direction": "higher",
+      "context": "targeted collision publications applied by the terrain runtime"
+    },
+    {
+      "id": "edit_visual_response_p99",
+      "value": 154.734,
+      "unit": "ms",
+      "preferred_direction": "lower",
+      "context": "focused retained edit evidence"
+    },
+    {
+      "id": "edit_collision_coherence_p99",
+      "value": 154.734,
+      "unit": "ms",
+      "preferred_direction": "lower",
+      "context": "focused retained edit evidence"
+    },
+    {
+      "id": "peak_working_memory",
+      "value": 120097029,
+      "unit": "bytes",
+      "preferred_direction": "lower_for_equal_scope",
+      "context": "Godot workload monitor"
+    },
+    {
+      "id": "gpu_board_wpf60",
+      "value": 7.138897319856603,
+      "unit": "GPU-board WPF60",
+      "preferred_direction": "lower",
+      "context": "GPU context only; not CPU or whole-system power"
+    },
+    {
+      "id": "cpu_package_average_power",
+      "value": null,
+      "unit": "W",
+      "preferred_direction": "lower_for_equal_work",
+      "context": "unavailable until a trusted CPU-package sensor is connected"
+    }
+  ],
+  "limitations": [
+    "source run predates process-wide CPU telemetry",
+    "trusted RAPL/CPU-package provider not installed",
+    "GPU-board, CPU-package, and whole-system power are separate boundaries.",
+    "Publication rates are comparable only under the same pinned workload and profile.",
+    "A development observation cannot qualify or replace retained TQP-48 evidence."
+  ]
+}

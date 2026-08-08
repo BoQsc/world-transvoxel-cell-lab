@@ -13,11 +13,21 @@ import subprocess
 import tempfile
 import time
 
+try:
+    import psutil
+except ImportError:  # Optional outside the pinned Windows benchmark host.
+    psutil = None
+
+from terrain_performance_scorecard import build_scorecard
+
 
 ROOT = pathlib.Path(__file__).resolve().parents[3]
 RESULTS = ROOT / "labs/terrain_lab/results"
 STANDARD = ROOT / "addons/world_transvoxel_terrain_lab/standards/low_power_qualification_standard.json"
 OUTPUT = ROOT / "labs/terrain_lab/results/low_power_profiles_reference_windows.json"
+DEV_OUTPUT = ROOT / "labs/terrain_lab/results/terrain_performance_dev_windows.json"
+SCORECARD_OUTPUT = ROOT / "labs/terrain_lab/results/terrain_performance_baseline_windows.json"
+DEV_SCORECARD_OUTPUT = ROOT / "labs/terrain_lab/results/terrain_performance_dev_scorecard_windows.json"
 DEFAULT_GODOT = pathlib.Path(r"C:\Program Files (x86)\Steam\steamapps\common\Godot Engine\godot.windows.opt.tools.64.exe")
 GPU_WPF60_FRAME_MS = 1000.0 / 60.0
 
@@ -123,6 +133,177 @@ def sha256(path: pathlib.Path) -> str:
 
 def average(values: list[float]) -> float:
     return statistics.fmean(values) if values else 0.0
+
+
+class ProcessTelemetryMonitor:
+    """Sample total Godot process cost, including its worker threads."""
+
+    def __init__(self, process_id: int):
+        self.logical_cpu_count = 0
+        self.process = None
+        self.reason = "psutil is not installed"
+        if psutil is None:
+            return
+        try:
+            self.logical_cpu_count = int(psutil.cpu_count(logical=True) or 1)
+            self.process = psutil.Process(process_id)
+            self.process.cpu_percent(interval=None)
+            self.reason = ""
+        except (psutil.Error, OSError) as error:
+            self.process = None
+            self.reason = f"process telemetry initialization failed: {error}"
+
+    def sample(self) -> dict:
+        if self.process is None:
+            return {
+                "available": False,
+                "source": "psutil.Process",
+                "reason": self.reason,
+            }
+        try:
+            times = self.process.cpu_times()
+            cpu_percent = float(self.process.cpu_percent(interval=None))
+            memory = self.process.memory_info()
+            return {
+                "available": True,
+                "source": "psutil.Process",
+                "provider_version": getattr(psutil, "__version__", None),
+                "worker_threads_included": True,
+                "logical_cpu_count": self.logical_cpu_count,
+                "cpu_user_seconds": float(times.user),
+                "cpu_system_seconds": float(times.system),
+                "cpu_total_seconds": float(times.user + times.system),
+                "cpu_percent_one_core_scale": cpu_percent,
+                "machine_cpu_capacity_percent": cpu_percent
+                / float(max(1, self.logical_cpu_count)),
+                "resident_memory_bytes": int(memory.rss),
+                "thread_count": int(self.process.num_threads()),
+            }
+        except (psutil.Error, OSError) as error:
+            return {
+                "available": False,
+                "source": "psutil.Process",
+                "reason": f"process telemetry sample failed: {error}",
+            }
+
+
+def summarize_process_telemetry(
+    samples: list[dict],
+    measurement_seconds: float,
+    frames: int,
+    render_publications: int,
+    collision_publications: int,
+    edit_commits: int,
+) -> dict:
+    records = [
+        sample.get("process", {})
+        for sample in samples
+        if sample.get("process", {}).get("available")
+    ]
+    if len(records) < 2:
+        reasons = [
+            str(sample.get("process", {}).get("reason"))
+            for sample in samples
+            if sample.get("process", {}).get("reason")
+        ]
+        return {
+            "available": False,
+            "source": "psutil.Process",
+            "reason": reasons[0] if reasons else "fewer than two CPU telemetry samples",
+            "worker_threads_included": False,
+        }
+
+    first_sample = next(
+        sample for sample in samples if sample.get("process", {}).get("available")
+    )
+    last_sample = next(
+        sample
+        for sample in reversed(samples)
+        if sample.get("process", {}).get("available")
+    )
+    first = first_sample["process"]
+    last = last_sample["process"]
+    sampled_seconds = max(
+        0.0,
+        float(last_sample.get("timestamp_unix_seconds", 0.0))
+        - float(first_sample.get("timestamp_unix_seconds", 0.0)),
+    )
+    cpu_seconds = max(
+        0.0,
+        float(last.get("cpu_total_seconds", 0.0))
+        - float(first.get("cpu_total_seconds", 0.0)),
+    )
+    logical_cpu_count = int(last.get("logical_cpu_count", 1) or 1)
+    active_core_equivalents = (
+        cpu_seconds / sampled_seconds if sampled_seconds > 0.0 else None
+    )
+    sample_coverage_fraction = (
+        min(1.0, sampled_seconds / measurement_seconds)
+        if measurement_seconds > 0.0
+        else 0.0
+    )
+    estimated_measurement_cpu_seconds = (
+        cpu_seconds / sample_coverage_fraction
+        if sample_coverage_fraction > 0.0
+        else None
+    )
+    cpu_percentages = [
+        float(record.get("cpu_percent_one_core_scale", 0.0)) for record in records[1:]
+    ]
+    resident_memory = [
+        float(record.get("resident_memory_bytes", 0.0)) for record in records
+    ]
+    thread_counts = [float(record.get("thread_count", 0.0)) for record in records]
+
+    def cpu_time_per(count: int) -> float | None:
+        return (
+            estimated_measurement_cpu_seconds * 1000.0 / float(count)
+            if count > 0 and estimated_measurement_cpu_seconds is not None
+            else None
+        )
+
+    return {
+        "available": True,
+        "source": "psutil.Process cpu_times/cpu_percent/memory_info",
+        "provider_version": getattr(psutil, "__version__", None),
+        "worker_threads_included": True,
+        "sample_count": len(records),
+        "sampled_seconds": sampled_seconds,
+        "measurement_seconds": measurement_seconds,
+        "sample_coverage_fraction": sample_coverage_fraction,
+        "logical_cpu_count": logical_cpu_count,
+        "process_cpu_seconds": cpu_seconds,
+        "estimated_measurement_cpu_seconds": estimated_measurement_cpu_seconds,
+        "average_active_core_equivalents": active_core_equivalents,
+        "average_machine_cpu_capacity_percent": active_core_equivalents
+        / float(logical_cpu_count)
+        * 100.0
+        if active_core_equivalents is not None
+        else None,
+        "sampled_cpu_percent_one_core_scale": {
+            "p50": percentile(cpu_percentages, 0.50),
+            "p95": percentile(cpu_percentages, 0.95),
+            "worst": max(cpu_percentages, default=0.0),
+        },
+        "amortized_process_cpu_time_per_frame_ms": cpu_time_per(frames),
+        "amortized_process_cpu_time_per_render_publication_ms": cpu_time_per(
+            render_publications
+        ),
+        "amortized_process_cpu_time_per_collision_publication_ms": cpu_time_per(
+            collision_publications
+        ),
+        "amortized_process_cpu_time_per_edit_commit_ms": cpu_time_per(edit_commits),
+        "resident_memory_bytes": {
+            "p50": percentile(resident_memory, 0.50),
+            "p95": percentile(resident_memory, 0.95),
+            "worst": max(resident_memory, default=0.0),
+        },
+        "thread_count": {
+            "p50": percentile(thread_counts, 0.50),
+            "p95": percentile(thread_counts, 0.95),
+            "worst": max(thread_counts, default=0.0),
+        },
+    }
 
 
 def average_frame_ms(measurement: dict) -> float:
@@ -298,6 +479,7 @@ def execute(standard: dict, args: argparse.Namespace) -> int:
         "--measurement-seconds", str(args.measurement_seconds), "--output", str(workload_path),
     ]
     process = subprocess.Popen(command, cwd=ROOT)
+    process_monitor = ProcessTelemetryMonitor(process.pid)
     samples: list[dict] = []
     monitor_started = time.monotonic()
     next_sample = monitor_started
@@ -311,6 +493,7 @@ def execute(standard: dict, args: argparse.Namespace) -> int:
                 "primary_power": power,
                 "gpu": gpu,
                 "auxiliary_power": auxiliary_power_observations(),
+                "process": process_monitor.sample(),
             }
         )
         next_sample += args.sample_interval
@@ -345,6 +528,20 @@ def execute(standard: dict, args: argparse.Namespace) -> int:
     energy_j = average_watts * duration
     published = int(
         measurement.get("metric_deltas", {}).get("application_applied_render", 0)
+    )
+    collision_publications = int(
+        measurement.get("metric_deltas", {}).get("application_applied_collision", 0)
+    )
+    edit_commits = int(
+        measurement.get("metric_deltas", {}).get("edit_commits", 0)
+    )
+    process_telemetry = summarize_process_telemetry(
+        measurement_samples,
+        duration,
+        frames,
+        published,
+        collision_publications,
+        edit_commits,
     )
     target = json.loads((ROOT / "addons/world_transvoxel_terrain_lab/standards/low_power_performance_profile.json").read_text(encoding="utf-8"))
     pacing = target["frame_pacing_targets"]
@@ -422,7 +619,37 @@ def execute(standard: dict, args: argparse.Namespace) -> int:
         and measurement_ended > measurement_started,
         "drift_windows_recorded": len(measurement.get("drift_windows", [])) >= 2,
     }
-    retained_complete = all(protocol_checks.values())
+    retained_complete = not args.development_run and all(protocol_checks.values())
+    development_checks = {
+        "runner_success": process.returncode == 0 and workload.get("status") == "PASS",
+        "profile_pinned": workload.get("profile_id") == args.profile
+        and workload.get("profile") == standard["profiles"][args.profile],
+        "measurement_completed": frames > 0
+        and duration >= float(args.measurement_seconds),
+        "workload_class_coverage": all(
+            int(workload_counts.get(name, 0)) > 0 for name in required_classes
+        ),
+        "dig_and_construction_executed": int(action_counts.get("dig_commits", 0)) > 0
+        and int(action_counts.get("construction_commits", 0)) > 0
+        and int(action_counts.get("edit_rejections", 0)) == 0,
+        "multiple_collision_invokers_executed": int(
+            action_counts.get("secondary_invoker_updates", 0)
+        )
+        > 0
+        and int(action_counts.get("secondary_invoker_rejections", 0)) == 0,
+        "resource_retirement_executed": int(
+            action_counts.get("secondary_invoker_retirements", 0)
+        )
+        > 0
+        and int(action_counts.get("retirement_rejections", 0)) == 0,
+        "accepted_power_boundary_continuous": bool(samples)
+        and all(sample.get("primary_power", {}).get("available") for sample in samples),
+        "power_sample_coverage": len(measurement_samples) >= expected_power_samples
+        and len(watts) == len(measurement_samples),
+        "process_wide_cpu_telemetry": bool(process_telemetry.get("available"))
+        and float(process_telemetry.get("sample_coverage_fraction", 0.0)) >= 0.90,
+    }
+    development_complete = args.development_run and all(development_checks.values())
     target_checks = {
         "frame_p95": float(frame.get("p95_usec", 1e30))
         <= float(pacing["maximum_p95_frame_ms"]) * 1000.0,
@@ -458,10 +685,17 @@ def execute(standard: dict, args: argparse.Namespace) -> int:
     }
     pass_target = retained_complete and all(target_checks.values())
     drift = drift_qualification(
-        standard, workload, measurement_samples, retained_complete
+        standard,
+        workload,
+        measurement_samples,
+        retained_complete or development_complete,
     )
     status = (
-        "PASS"
+        "DEV_OBSERVATION_ONLY"
+        if development_complete
+        else "DEV_RUN_FAILED"
+        if args.development_run
+        else "PASS"
         if pass_target
         else "MEASURED_TARGET_MISS"
         if retained_complete
@@ -471,6 +705,9 @@ def execute(standard: dict, args: argparse.Namespace) -> int:
         "schema": "world_transvoxel.terrain_lab.low_power_profiles_qualification.v2",
         "milestone": "TQP-48", "standard_id": standard["standard_id"],
         "status": status,
+        "run_mode": "development_observation"
+        if args.development_run
+        else "exact_qualification",
         "retained_complete": retained_complete,
         "primary_metric": "gpu_board_wpf60",
         "profile_id": args.profile, "profiles_frozen": standard["profiles"],
@@ -496,33 +733,73 @@ def execute(standard: dict, args: argparse.Namespace) -> int:
             "over_target": max(0.0, measured_wpf60 - float(contract["target_wpf60"])),
         },
         "auxiliary_power_observations": auxiliary_power_observations(),
+        "process_telemetry": process_telemetry,
         "thermal": {"gpu_start_c": samples[0].get("gpu", {}).get("temperature_c") if samples else None, "gpu_end_c": samples[-1].get("gpu", {}).get("temperature_c") if samples else None},
         "workload": workload, "raw_power_samples": samples,
         "measurement_power_samples": measurement_samples,
         "focused_responsiveness_evidence": focused_evidence,
         "protocol_checks": protocol_checks,
+        "development_checks": development_checks,
+        "development_target_observations": target_checks
+        if args.development_run
+        else {},
         "target_checks": target_checks,
         "drift_qualification": drift,
         "qualified_scope": standard["qualified_scope"] if retained_complete else [],
         "explicitly_unqualified_scope": standard["explicitly_unqualified_scope"],
-        "blockers": [name for name, passed in protocol_checks.items() if not passed],
-        "target_misses": [name for name, passed in target_checks.items() if not passed],
+        "blockers": [
+            name
+            for name, passed in (
+                development_checks.items()
+                if args.development_run
+                else protocol_checks.items()
+            )
+            if not passed
+        ],
+        "target_misses": []
+        if args.development_run
+        else [name for name, passed in target_checks.items() if not passed],
         "target_miss_is_baseline_evidence": retained_complete and not pass_target,
     }
     write_report(report, args.output)
+    write_report(build_scorecard(report, args.output.resolve()), args.scorecard_output)
+    if args.development_run:
+        return 0 if development_complete else 2
     return 0 if pass_target else 1 if retained_complete else 2
 
 
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--execute", action="store_true")
+    parser.add_argument("--development-run", action="store_true")
     parser.add_argument("--profile", default="low_power_16w_60fps")
-    parser.add_argument("--warmup-seconds", type=int, default=300)
-    parser.add_argument("--measurement-seconds", type=int, default=1800)
+    parser.add_argument("--warmup-seconds", type=int)
+    parser.add_argument("--measurement-seconds", type=int)
     parser.add_argument("--sample-interval", type=float, default=2.0)
     parser.add_argument("--godot", type=pathlib.Path, default=DEFAULT_GODOT)
-    parser.add_argument("--output", type=pathlib.Path, default=OUTPUT)
+    parser.add_argument("--output", type=pathlib.Path)
+    parser.add_argument("--scorecard-output", type=pathlib.Path)
     args = parser.parse_args()
+    if args.development_run:
+        if not args.execute:
+            parser.error("--development-run requires --execute")
+        args.warmup_seconds = args.warmup_seconds or 30
+        args.measurement_seconds = args.measurement_seconds or 120
+        args.output = args.output or DEV_OUTPUT
+        args.scorecard_output = args.scorecard_output or DEV_SCORECARD_OUTPUT
+        if args.output.resolve() == OUTPUT.resolve():
+            parser.error("a development run cannot overwrite retained TQP-48 evidence")
+        if args.scorecard_output.resolve() == SCORECARD_OUTPUT.resolve():
+            parser.error("a development run cannot overwrite the exact scorecard")
+    else:
+        args.warmup_seconds = args.warmup_seconds or 300
+        args.measurement_seconds = args.measurement_seconds or 1800
+        args.output = args.output or OUTPUT
+        args.scorecard_output = args.scorecard_output or SCORECARD_OUTPUT
+    if args.warmup_seconds <= 0 or args.measurement_seconds <= 0:
+        parser.error("warmup and measurement durations must be positive")
+    if args.sample_interval <= 0.0:
+        parser.error("sample interval must be positive")
     standard = json.loads(STANDARD.read_text(encoding="utf-8"))
     return execute(standard, args) if args.execute else preflight(standard, args.output)
 

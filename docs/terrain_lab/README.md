@@ -45,8 +45,9 @@ reference to release the standalone CPU addon; qualify and release GPU; and
 only then advance game-oriented systems.
 
 The [Terrain Lab Baselines](BASELINES.md) file records the retained TQP-48
-through TQP-50 CPU-authority baseline. Read it before changing performance
-budgets, promotion state, or retained reports.
+through TQP-50 CPU-authority baseline, the compact exact performance scorecard,
+and the process-wide CPU development baseline. Read it before changing
+performance budgets, promotion state, or retained reports.
 
 `qualification_state.json`, `program_blockers.json`, and retained reports are
 machine evidence mirrors. They cannot widen the TQP claim.
