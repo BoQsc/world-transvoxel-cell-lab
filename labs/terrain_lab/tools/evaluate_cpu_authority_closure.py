@@ -74,8 +74,10 @@ def complete_power(report: dict[str, Any]) -> bool:
     return (
         bool(report.get("retained_complete"))
         and report.get("status") in {"PASS", "MEASURED_TARGET_MISS"}
-        and report.get("power_boundary")
-        in {"soc_or_package", "complete_system_at_battery_or_dc_input"}
+        and report.get("schema")
+        == "world_transvoxel.terrain_lab.low_power_profiles_qualification.v2"
+        and report.get("primary_metric") == "gpu_board_wpf60"
+        and report.get("power_boundary") == "gpu_board"
         and bool(checks)
         and all(bool(value) for value in checks.values())
         and report.get("profile_id") == "low_power_16w_60fps"
@@ -91,6 +93,8 @@ def complete_power(report: dict[str, Any]) -> bool:
         >= float(contract.get("steady_state_seconds", -1))
         and int(measurement.get("frame_count", 0))
         >= int(contract.get("minimum_frame_samples", -1))
+        and float(report.get("gpu_board_wpf60", {}).get("value", 1e30))
+        >= 0.0
     )
 
 

@@ -1,19 +1,26 @@
 {
-	"schema": "world_transvoxel.terrain_lab.low_power_performance_profile.v1",
-	"profile_id": "sustained_60fps_16w_candidate_v1",
+	"schema": "world_transvoxel.terrain_lab.low_power_performance_profile.v2",
+	"profile_id": "sustained_60fps_gpu_board_wpf60_candidate_v2",
 	"status": "SPECIFIED_UNQUALIFIED",
-	"purpose": "backend-neutral production target used to measure CPU and GPU candidates without selecting an implementation in advance",
+	"purpose": "CPU terrain workload target that preserves the old gpu-marching-cubes 60 FPS / 16 WPF60 meaning while keeping CPU-package and whole-system power as separate observation lanes",
 	"measurement_contract": {
 		"target_fps": 60.0,
 		"frame_budget_ms": 16.666667,
 		"minimum_warmup_seconds": 300,
 		"minimum_steady_state_seconds": 1800,
-		"power_limit_watts": 16.0,
+		"primary_metric": "gpu_board_wpf60",
+		"target_wpf60": 16.0,
+		"primary_power_boundary": "gpu_board",
+		"primary_power_source": "nvidia-smi power.draw",
+		"wpf60_formula": "gpu_board_average_watts * average_frame_ms / 16.666667",
 		"power_boundary_must_be_declared": true,
-		"accepted_power_boundaries": [
-			"soc_or_package",
-			"complete_system_at_battery_or_dc_input"
+		"observation_power_boundaries": [
+			"cpu_package",
+			"complete_system_at_battery",
+			"complete_system_at_dc_input",
+			"complete_system_at_ac_input"
 		],
+		"power_boundaries_are_not_interchangeable": true,
 		"hardware_profile_must_be_pinned": true,
 		"operating_system_build_must_be_pinned": true,
 		"driver_and_graphics_api_must_be_pinned": true,
@@ -42,7 +49,9 @@
 		"physics_broadphase_and_collision_shape_cost",
 		"resident_and_peak_cpu_memory",
 		"resident_and_peak_gpu_memory",
-		"energy_per_frame_and_energy_per_published_chunk"
+		"gpu_board_wpf60",
+		"gpu_board_energy_per_frame_and_energy_per_published_chunk",
+		"optional_cpu_package_and_complete_system_power_observations"
 	],
 	"collision_residency_contract": {
 		"render_and_collision_demand_are_independent": true,
@@ -80,7 +89,7 @@
 		"TQP-45": "fast-arrival streaming and edit responsiveness distributions",
 		"TQP-46": "targeted collision residency and update-latency distributions",
 		"TQP-47": "large-world rendering, frame-pacing, memory, and queue baseline",
-		"TQP-48": "backend-neutral CPU low-power profile and exact 60 FPS / 16 W candidate measurement",
+		"TQP-48": "CPU terrain workload profile and exact 60 FPS / 16 GPU-board WPF60 candidate measurement",
 		"TQP-49": "adaptive long-soak thermal, power, memory, queue, and recovery drift",
 		"TQP-55": "CPU production release budgets and supported quality profiles",
 		"TQP-56": "CPU production long-haul thermal and performance certification",
@@ -90,6 +99,7 @@
 	},
 	"explicitly_unqualified_scope": [
 		"any current claim that the 16 W or sustained 60 FPS target passes",
+		"any claim that GPU-board WPF60 is CPU-package or complete-system wattage",
 		"a specific target device until its hardware and power boundary are pinned",
 		"GPU field evaluation, meshing, residency, or collision readback",
 		"production frame pacing, edit latency, thermal stability, or battery life"

@@ -339,6 +339,7 @@ static func _validate_evidence_files(program: Dictionary, failures: Array[String
 		"TQP-D021", "TQP-D022", "TQP-D023", "TQP-D024", "TQP-D025",
 		"TQP-D026", "TQP-D027", "TQP-D028", "TQP-D029", "TQP-D030",
 		"TQP-D031", "TQP-D032", "TQP-D033", "TQP-D034", "TQP-D035",
+		"TQP-D036",
 	]:
 		_expect(decision_ids.has(required), "missing retained decision: " + required, failures)
 	for key in [
@@ -1613,7 +1614,7 @@ static func _validate_low_power_performance_profile(
 	)
 	_expect(
 		str(profile.get("schema", ""))
-			== "world_transvoxel.terrain_lab.low_power_performance_profile.v1",
+			== "world_transvoxel.terrain_lab.low_power_performance_profile.v2",
 		"low-power performance profile schema mismatch",
 		failures
 	)
@@ -1625,8 +1626,10 @@ static func _validate_low_power_performance_profile(
 	var measurement: Dictionary = profile.get("measurement_contract", {})
 	_expect(
 		is_equal_approx(float(measurement.get("target_fps", 0.0)), 60.0)
-			and is_equal_approx(float(measurement.get("power_limit_watts", 0.0)), 16.0),
-		"low-power 60 FPS / 16 W target changed",
+			and str(measurement.get("primary_metric", "")) == "gpu_board_wpf60"
+			and str(measurement.get("primary_power_boundary", "")) == "gpu_board"
+			and is_equal_approx(float(measurement.get("target_wpf60", 0.0)), 16.0),
+		"low-power 60 FPS / 16 GPU-board WPF60 target changed",
 		failures
 	)
 	var collision: Dictionary = profile.get("collision_residency_contract", {})
@@ -1667,11 +1670,12 @@ static func _validate_cpu_closure_implementation(
 	var power := JsonLoader.load_dictionary(str(program.get("low_power_qualification_evidence", "")))
 	_expect(
 		str(power.get("schema", ""))
-			== "world_transvoxel.terrain_lab.low_power_profiles_qualification.v1"
+			== "world_transvoxel.terrain_lab.low_power_profiles_qualification.v2"
 			and str(power.get("status", "")) in [
-				"BLOCKED_POWER_BOUNDARY_ON_AC", "READY_FOR_EXACT_RUN",
+				"BLOCKED_ACCEPTED_POWER_SENSOR_UNAVAILABLE", "READY_FOR_EXACT_RUN",
 				"INCOMPLETE_RUN", "MEASURED_TARGET_MISS", "PASS",
-			],
+			]
+			and str(power.get("primary_metric", "")) == "gpu_board_wpf60",
 		"TQP-48 fail-closed power report is invalid",
 		failures
 	)

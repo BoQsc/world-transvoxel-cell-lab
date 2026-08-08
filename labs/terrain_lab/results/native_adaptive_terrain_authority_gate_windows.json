@@ -8,8 +8,8 @@
   "retained_complete": false,
   "pinned_manifest": {
     "path": "addons/world_transvoxel_terrain_lab/standards/program_manifest.json",
-    "program_revision": 36,
-    "sha256": "f0344339201816d1e487711bf215ae0a653094a22b4d23d742673eef6330dd81"
+    "program_revision": 37,
+    "sha256": "34156ba5af60614c00a03ea0d1e019472592f60b020e79b1aa8818c6ba0a735d"
   },
   "milestone_matrix": {
     "TQP-28": {

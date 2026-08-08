@@ -6,7 +6,7 @@ Qualification Program; it does not own production implementation and does not
 extend the Cell Lab root node.
 
 The [Terrain Qualification Program](TERRAIN_QUALIFICATION_PROGRAM.md) is the
-single human-readable roadmap. Program revision 36 contains TQP-01 through
+single human-readable roadmap. Program revision 37 contains TQP-01 through
 TQP-71 in ground-up execution order:
 
 - TQP-01 through TQP-43 are qualified only for their declared bounded scopes;
@@ -33,9 +33,10 @@ TQP-71 in ground-up execution order:
   systems, while TQP-71 networking remains blocked.
 
 The next promotion milestone is TQP-48, Low-Power Performance Profiles And
-60 FPS At 16 W. It requires an accepted package or complete-system power
-boundary. Gate E remains closed, so the lab does not claim that complex dynamic
-adaptive Transvoxel terrain is fully qualified yet.
+60 FPS At 16 W. It uses the inherited GPU-board WPF60 definition from the old
+`gpu-marching-cubes` benchmark and remains pending the exact run. Gate E
+remains closed, so the lab does not claim that complex dynamic adaptive
+Transvoxel terrain is fully qualified yet.
 
 The [What Comes Next](TERRAIN_QUALIFICATION_PROGRAM.md#what-comes-next)
 section explains the broader path: finish visual, responsiveness, targeted

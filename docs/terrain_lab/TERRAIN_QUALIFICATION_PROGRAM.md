@@ -135,12 +135,15 @@ the exact workload signature. A single average timing is not qualification.
 
 The specified low-power profile is
 `low_power_performance_profile.json`. It targets sustained 60 FPS inside a
-declared 16 W measurement boundary after thermal warmup. The target requires
-frame-pacing, responsiveness, CPU/GPU time, memory, power, and energy-per-work
-evidence. Render, collision, navigation, and authoritative query residency are
-independent: collision is requested only by bounded physics invokers and must
-not be generated for every visible chunk by default. This profile is currently
-unqualified and cannot be cited as achieved performance.
+declared 16 GPU-board WPF60 boundary after thermal warmup, preserving the
+old `gpu-marching-cubes` `nvidia-smi power.draw` benchmark meaning. CPU-package,
+battery, DC-input, and AC-input power are separate observation boundaries and
+must not be treated as interchangeable with GPU-board WPF60. The target
+requires frame-pacing, responsiveness, CPU/GPU time, memory, power, and
+energy-per-work evidence. Render, collision, navigation, and authoritative
+query residency are independent: collision is requested only by bounded physics
+invokers and must not be generated for every visible chunk by default. This
+profile is currently unqualified and cannot be cited as achieved performance.
 
 Visual quality evidence is distinct from geometric correctness. Pleasantness
 requires an art-direction target, fixed comparisons, temporal inspection, and
@@ -174,10 +177,10 @@ promotion order: investigation may happen early, but qualification cannot skip
 an earlier dependency.
 
 The machine-readable `execution_plan.json` mirrors the same order but is not a
-second human roadmap. Program revision 36 preserves every qualified TQP-01
-through TQP-47 claim and corrects only the future sequence through `TQP-D033`:
-finish native CPU terrain authority, release the standalone CPU addon, qualify
-and release GPU acceleration, and defer game-oriented systems until afterward.
+second human roadmap. Program revision 37 preserves every qualified TQP-01
+through TQP-47 claim, keeps the ordered CPU/GPU release sequence from
+`TQP-D033`, and corrects TQP-48's inherited low-power target through
+`TQP-D036`.
 Earlier identifier migrations remain retained in `TQP-D006`, `TQP-D017`, and
 `TQP-D030` as history.
 
@@ -1041,28 +1044,30 @@ debug-machine regression bounds, not release targets.
 
 ### TQP-48: Low-Power Performance Profiles And 60 FPS At 16 W
 
-Status: `implemented`, unqualified and blocked on an accepted power boundary.
+Status: `implemented`, unqualified and pending the exact GPU-board WPF60 run.
 Owner: Terrain Systems Lab and Terrain Qualification Program. Depends on:
 TQP-04, TQP-27, TQP-38, TQP-39, TQP-45, TQP-46, TQP-47.
 
 Complete when low-power, balanced, and quality profiles have frozen settings,
 hardware, renderer, resolution, view distance, collision policy, warmup,
-thermal state, sample count, and power boundary. The retained CPU reference
-must run the exact 60 FPS / 16 W candidate workloads and report frame pacing,
-arrival and edit latency, collision latency, CPU/GPU time, memory, package or
-system power, energy per frame, and energy per published chunk. Missing the
-target is valid baseline evidence; it cannot be rewritten as a pass or used to
-preselect GPU implementation.
+thermal state, sample count, and the GPU-board WPF60 boundary. The retained CPU
+reference must run the exact 60 FPS / 16 GPU-board WPF60 candidate workload and
+report frame pacing, arrival and edit latency, collision latency, CPU/GPU time,
+memory, GPU-board power, GPU-board energy per frame, and GPU-board energy per
+published chunk. Missing the WPF60 target is valid baseline evidence; it cannot
+be rewritten as a pass or used to preselect GPU implementation.
 
-Low-power, balanced, and quality settings are frozen. The exact runner refuses
-to qualify GPU-board-only power or AC-connected zero battery discharge. The
-low-power candidate requires a 300-second warmup, 1800 measured seconds, at
-least 108000 frames, and package or complete-system input power. Shortened,
-wrong-profile, partial-workload, discontinuous-power, or missing-sample runs
-are `INCOMPLETE_RUN`, never target misses. The exact report retains
-time-aligned power samples, real dig/construction and collision-invoker actions,
-resource retirement, focused responsiveness evidence, and rolling drift
-windows.
+Low-power, balanced, and quality settings are frozen. The exact runner accepts
+only `nvidia-smi power.draw` as the inherited WPF60 target source. CPU-package,
+battery, DC-input, and AC-input power can be retained as separately labeled
+observations when trusted sensors exist, but they cannot close the WPF60 claim
+or be inferred from GPU-board watts. The low-power candidate requires a
+300-second warmup, 1800 measured seconds, at least 108000 frames, and continuous
+GPU-board samples. Shortened, wrong-profile, partial-workload,
+discontinuous-power, or missing-sample runs are `INCOMPLETE_RUN`, never target
+misses. The exact report retains time-aligned power samples, real
+dig/construction and collision-invoker actions, resource retirement, focused
+responsiveness evidence, and rolling drift windows.
 
 ### TQP-49: Complex Adaptive Terrain Soak And Recovery
 
@@ -1368,8 +1373,9 @@ The program records every milestone at a truthful evidence state:
 - `TQP-71` networking remains blocked by a missing multiplayer authority model.
 
 The next dependency-ordered milestone is TQP-48, Low-Power Performance Profiles
-And 60 FPS At 16 W. It requires an accepted package or complete-system power
-boundary. TQP-42 closes `TQP-F002` for the retained Windows 2K
+And 60 FPS At 16 W. It now uses the inherited GPU-board WPF60 definition from
+the old `gpu-marching-cubes` benchmark and keeps complete-system power as a
+separate future observation boundary. TQP-42 closes `TQP-F002` for the retained Windows 2K
 procedural profile through sparse overlay compaction, and TQP-43 qualifies its
 bounded fault-order profile, but neither creates a general production
 save-format or adaptive-terrain authority claim. Gate D remains qualified only
@@ -1567,3 +1573,7 @@ Retained decisions:
 - `TQP-D035`: accept the explicit human PASS for the exact TQP-44 corpus and
   promote TQP-44 through TQP-47 in dependency order for their bounded Windows
   scopes; retain TQP-48 through TQP-50 and Gate E as unqualified.
+- `TQP-D036`: correct TQP-48's inherited `60 FPS / 16 W` target to the
+  `gpu-marching-cubes` GPU-board WPF60 definition using `nvidia-smi power.draw`;
+  keep CPU-package, battery, DC-input, and AC-input power as separate
+  observation boundaries and leave TQP-48 through TQP-50 unqualified.

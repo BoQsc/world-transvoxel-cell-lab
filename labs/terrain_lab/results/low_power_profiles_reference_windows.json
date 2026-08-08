@@ -1,9 +1,10 @@
 {
-  "schema": "world_transvoxel.terrain_lab.low_power_profiles_qualification.v1",
+  "schema": "world_transvoxel.terrain_lab.low_power_profiles_qualification.v2",
   "milestone": "TQP-48",
-  "standard_id": "cpu_low_power_profiles_windows_v1",
-  "status": "BLOCKED_POWER_BOUNDARY_ON_AC",
+  "standard_id": "gpu_board_wpf60_low_power_profiles_windows_v2",
+  "status": "READY_FOR_EXACT_RUN",
   "retained_complete": false,
+  "primary_metric": "gpu_board_wpf60",
   "profiles_frozen": {
     "low_power_16w_60fps": {
       "resolution": [
@@ -58,10 +59,17 @@
     "warmup_seconds": 300,
     "steady_state_seconds": 1800,
     "minimum_frame_samples": 108000,
-    "power_limit_watts": 16.0,
-    "accepted_power_boundaries": [
-      "soc_or_package",
-      "complete_system_at_battery_or_dc_input"
+    "primary_metric": "gpu_board_wpf60",
+    "target_wpf60": 16.0,
+    "target_frame_ms": 16.666667,
+    "authoritative_power_boundary": "gpu_board",
+    "authoritative_power_source": "nvidia-smi power.draw",
+    "wpf60_formula": "gpu_board_average_watts * average_frame_ms / 16.666667",
+    "observation_power_boundaries": [
+      "cpu_package",
+      "complete_system_at_battery",
+      "complete_system_at_dc_input",
+      "complete_system_at_ac_input"
     ],
     "power_sample_interval_seconds": 2.0,
     "required_workload_classes": [
@@ -85,33 +93,67 @@
     "gpu": {
       "name": "NVIDIA GeForce GTX 1060 with Max-Q Design",
       "driver": "566.36",
-      "power_w": 5.2,
-      "temperature_c": 70.0,
-      "utilization_percent": 1.0,
-      "memory_mib": 0.0
+      "power_w": 4.39,
+      "temperature_c": 62.0,
+      "utilization_percent": 0.0,
+      "memory_mib": 1060.0
     }
   },
   "power_preflight": {
-    "available": false,
-    "boundary": "none",
-    "watts": null,
-    "reason": "accepted package/system sensor unavailable; battery is AC-connected or reports zero discharge",
-    "battery": {
-      "PowerOnline": true,
-      "Discharging": false,
-      "Charging": false,
-      "DischargeRate": 0,
-      "Voltage": 11801,
-      "RemainingCapacity": 27090
+    "available": true,
+    "boundary": "gpu_board",
+    "watts": 4.52,
+    "source": "nvidia-smi power.draw",
+    "metric": "gpu_board_wpf60",
+    "gpu": {
+      "name": "NVIDIA GeForce GTX 1060 with Max-Q Design",
+      "driver": "566.36",
+      "power_w": 4.52,
+      "temperature_c": 62.0,
+      "utilization_percent": 0.0,
+      "memory_mib": 1060.0
+    }
+  },
+  "auxiliary_power_observations": {
+    "complete_system_at_battery": {
+      "available": false,
+      "boundary": "complete_system_at_battery",
+      "watts": null,
+      "reason": "battery is not discharging or reports zero discharge",
+      "battery": {
+        "PowerOnline": true,
+        "Discharging": false,
+        "Charging": false,
+        "DischargeRate": 0,
+        "Voltage": 11794,
+        "RemainingCapacity": 27090
+      }
+    },
+    "cpu_package": {
+      "available": false,
+      "boundary": "cpu_package",
+      "watts": null,
+      "reason": "trusted RAPL/CPU-package provider not installed"
+    },
+    "complete_system_at_ac_input": {
+      "available": false,
+      "boundary": "complete_system_at_ac_input",
+      "watts": null,
+      "reason": "external AC input meter not connected"
+    },
+    "complete_system_at_dc_input": {
+      "available": false,
+      "boundary": "complete_system_at_dc_input",
+      "watts": null,
+      "reason": "external DC input meter not connected"
     }
   },
   "qualified_scope": [],
   "explicitly_unqualified_scope": [
-    "GPU-board-only power as package or system power",
-    "qualification while AC-connected battery discharge is zero",
+    "claiming GPU-board WPF60 as CPU-package or whole-system watts",
+    "claiming complete-system AC, DC, or battery input power without a separate accepted sensor",
+    "CPU-package watt qualification without a trusted RAPL or equivalent provider",
     "cross-hardware, battery-life, GPU-meshing, production-release, or Gate E claims"
   ],
-  "blockers": [
-    "accepted package/system sensor unavailable; battery is AC-connected or reports zero discharge"
-  ]
+  "blockers": []
 }

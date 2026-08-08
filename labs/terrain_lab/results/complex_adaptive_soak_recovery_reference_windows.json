@@ -72,10 +72,10 @@
     {
       "name": "power_long_run",
       "path": "labs/terrain_lab/results/low_power_profiles_reference_windows.json",
-      "schema": "world_transvoxel.terrain_lab.low_power_profiles_qualification.v1",
-      "reported_status": "BLOCKED_POWER_BOUNDARY_ON_AC",
+      "schema": "world_transvoxel.terrain_lab.low_power_profiles_qualification.v2",
+      "reported_status": "READY_FOR_EXACT_RUN",
       "accepted": false,
-      "sha256": "1e1896f441441c948cfcb6e2474d70cebde91fd476f7b40eac2f4232f3bafccc"
+      "sha256": "580c24affece4fce259382357ec7da5881d76067ade8c4a5635fc81f56cb3839"
     }
   ],
   "coverage": {

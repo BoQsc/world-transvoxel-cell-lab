@@ -1,0 +1,31 @@
+{
+	"schema": "world_transvoxel.terrain_lab.decision.v1",
+	"id": "TQP-D036",
+	"date": "2026-08-08",
+	"decision": "Correct TQP-48's inherited 60 FPS / 16 W target to the gpu-marching-cubes GPU-board WPF60 definition and keep CPU-package plus complete-system power as separate observation boundaries.",
+	"affected_milestones": ["TQP-48", "TQP-49", "TQP-50", "TQP-55", "TQP-63"],
+	"repositories": ["world-transvoxel-cell-lab", "gpu-marching-cubes"],
+	"evidence": [
+		"gpu-marching-cubes addons/tests/WPF60_REFERENCE.md defines WPF60 as GPU watts * frame_ms / 16.667",
+		"gpu-marching-cubes locked town baseline and runners sample nvidia-smi power.draw as raw GPU watts",
+		"the current Terrain Lab workload is CPU terrain authority, but the inherited 16 W target is a GPU-board render-efficiency metric"
+	],
+	"qualified_scope": [
+		"TQP-48 may qualify only an exact Windows CPU-terrain workload against 16 GPU-board WPF60 using nvidia-smi power.draw",
+		"the report may retain CPU-package, battery, DC-input, or AC-input power observations when trusted sensors are present"
+	],
+	"unqualified_scope": [
+		"claiming GPU-board WPF60 as CPU-package power",
+		"claiming GPU-board WPF60 as complete-system AC, DC, or battery input power",
+		"claiming GPU field generation, GPU meshing, or GPU collision readback correctness",
+		"cross-hardware, production, and battery-life qualification"
+	],
+	"standards_changed": [
+		"Terrain Qualification Program revision 37",
+		"execution-plan revision 28",
+		"low-power profile and qualification standard v2",
+		"TQP-48 fail-closed runner and evaluator"
+	],
+	"review": "The correction preserves the old 60fps16w benchmark meaning while preventing the lab from mixing GPU-board, CPU-package, and complete-device energy claims. TQP-48 remains implemented but unqualified until the exact v2 workload completes.",
+	"downstream_impact": "Gate E remains closed. CPU production and GPU-backend milestones may use the WPF60 evidence as a render-efficiency signal, but complete-device and CPU-package power targets require their own accepted sensors and reports."
+}

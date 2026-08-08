@@ -1,7 +1,7 @@
 {
-	"schema": "world_transvoxel.terrain_lab.low_power_qualification_standard.v1",
+	"schema": "world_transvoxel.terrain_lab.low_power_qualification_standard.v2",
 	"milestone": "TQP-48",
-	"standard_id": "cpu_low_power_profiles_windows_v1",
+	"standard_id": "gpu_board_wpf60_low_power_profiles_windows_v2",
 	"target_contract": "res://addons/world_transvoxel_terrain_lab/standards/low_power_performance_profile.json",
 	"evidence": "res://labs/terrain_lab/results/low_power_profiles_reference_windows.json",
 	"workload_runner": "res://labs/terrain_lab/tools/run_low_power_profile_workload.gd",
@@ -37,19 +37,25 @@
 		"warmup_seconds": 300,
 		"steady_state_seconds": 1800,
 		"minimum_frame_samples": 108000,
-		"power_limit_watts": 16.0,
-		"accepted_power_boundaries": ["soc_or_package", "complete_system_at_battery_or_dc_input"],
+		"primary_metric": "gpu_board_wpf60",
+		"target_wpf60": 16.0,
+		"target_frame_ms": 16.666667,
+		"authoritative_power_boundary": "gpu_board",
+		"authoritative_power_source": "nvidia-smi power.draw",
+		"wpf60_formula": "gpu_board_average_watts * average_frame_ms / 16.666667",
+		"observation_power_boundaries": ["cpu_package", "complete_system_at_battery", "complete_system_at_dc_input", "complete_system_at_ac_input"],
 		"power_sample_interval_seconds": 2.0,
 		"required_workload_classes": ["idle", "ground_traversal", "high_speed_flight", "vertical_cave", "lod_churn", "teleport", "digging", "construction", "multiple_collision_invokers", "resource_retirement"]
 	},
 	"qualified_scope": [
 		"pinned Windows CPU reference low-power, balanced, and quality settings",
-		"exact sustained 60 FPS / 16 W candidate measurement protocol with accepted package or full-system boundary",
-		"frame pacing, native arrival/edit/collision metrics, CPU/GPU render time, memory, energy per frame, and energy per published chunk"
+		"exact sustained 60 FPS / 16 GPU-board WPF60 candidate measurement protocol using nvidia-smi power.draw",
+		"frame pacing, native arrival/edit/collision metrics, CPU/GPU render time, memory, GPU-board energy per frame, and GPU-board energy per published chunk"
 	],
 	"explicitly_unqualified_scope": [
-		"GPU-board-only power as package or system power",
-		"qualification while AC-connected battery discharge is zero",
+		"claiming GPU-board WPF60 as CPU-package or whole-system watts",
+		"claiming complete-system AC, DC, or battery input power without a separate accepted sensor",
+		"CPU-package watt qualification without a trusted RAPL or equivalent provider",
 		"cross-hardware, battery-life, GPU-meshing, production-release, or Gate E claims"
 	]
 }

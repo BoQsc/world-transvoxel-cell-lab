@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run the exact TQP-48 workload only when an accepted power boundary exists."""
+"""Run the exact TQP-48 GPU-board WPF60 workload when its sensor exists."""
 
 from __future__ import annotations
 
@@ -19,6 +19,7 @@ RESULTS = ROOT / "labs/terrain_lab/results"
 STANDARD = ROOT / "addons/world_transvoxel_terrain_lab/standards/low_power_qualification_standard.json"
 OUTPUT = ROOT / "labs/terrain_lab/results/low_power_profiles_reference_windows.json"
 DEFAULT_GODOT = pathlib.Path(r"C:\Program Files (x86)\Steam\steamapps\common\Godot Engine\godot.windows.opt.tools.64.exe")
+GPU_WPF60_FRAME_MS = 1000.0 / 60.0
 
 
 def run_text(command: list[str]) -> str:
@@ -59,14 +60,44 @@ def gpu_sample() -> dict:
         return {"raw": raw}
 
 
-def accepted_power_sample() -> dict:
+def battery_power_observation() -> dict:
     battery = battery_status()
     online = bool(battery.get("PowerOnline", True))
     discharging = bool(battery.get("Discharging", False))
     rate_mw = float(battery.get("DischargeRate", 0) or 0)
     if not online and discharging and rate_mw > 0:
-        return {"available": True, "boundary": "complete_system_at_battery_or_dc_input", "watts": rate_mw / 1000.0, "source": "Windows root/wmi BatteryStatus.DischargeRate", "battery": battery}
-    return {"available": False, "boundary": "none", "watts": None, "reason": "accepted package/system sensor unavailable; battery is AC-connected or reports zero discharge", "battery": battery}
+        return {"available": True, "boundary": "complete_system_at_battery", "watts": rate_mw / 1000.0, "source": "Windows root/wmi BatteryStatus.DischargeRate", "battery": battery}
+    return {"available": False, "boundary": "complete_system_at_battery", "watts": None, "reason": "battery is not discharging or reports zero discharge", "battery": battery}
+
+
+def auxiliary_power_observations() -> dict:
+    return {
+        "complete_system_at_battery": battery_power_observation(),
+        "cpu_package": {"available": False, "boundary": "cpu_package", "watts": None, "reason": "trusted RAPL/CPU-package provider not installed"},
+        "complete_system_at_ac_input": {"available": False, "boundary": "complete_system_at_ac_input", "watts": None, "reason": "external AC input meter not connected"},
+        "complete_system_at_dc_input": {"available": False, "boundary": "complete_system_at_dc_input", "watts": None, "reason": "external DC input meter not connected"},
+    }
+
+
+def accepted_power_sample() -> dict:
+    gpu = gpu_sample()
+    watts = gpu.get("power_w")
+    if isinstance(watts, (int, float)) and float(watts) > 0.0:
+        return {
+            "available": True,
+            "boundary": "gpu_board",
+            "watts": float(watts),
+            "source": "nvidia-smi power.draw",
+            "metric": "gpu_board_wpf60",
+            "gpu": gpu,
+        }
+    return {
+        "available": False,
+        "boundary": "gpu_board",
+        "watts": None,
+        "reason": "accepted GPU-board sensor unavailable; nvidia-smi power.draw did not return positive watts",
+        "gpu": gpu,
+    }
 
 
 def hardware() -> dict:
@@ -92,6 +123,18 @@ def sha256(path: pathlib.Path) -> str:
 
 def average(values: list[float]) -> float:
     return statistics.fmean(values) if values else 0.0
+
+
+def average_frame_ms(measurement: dict) -> float:
+    frames = int(measurement.get("frame_count", 0) or 0)
+    duration = float(measurement.get("elapsed_seconds", 0.0) or 0.0)
+    return (duration * 1000.0 / float(frames)) if frames > 0 and duration > 0.0 else 0.0
+
+
+def gpu_board_wpf60(power_w: float, frame_ms: float) -> float:
+    if power_w <= 0.0 or frame_ms <= 0.0:
+        return 0.0
+    return power_w * frame_ms / GPU_WPF60_FRAME_MS
 
 
 def drift_qualification(
@@ -144,9 +187,9 @@ def drift_qualification(
         + float(acceptance.get("maximum_queue_depth_drift_allowance", 0.0))
     )
     watts = [
-        float(sample.get("system", {}).get("watts", 0.0))
+        float(sample.get("primary_power", sample.get("system", {})).get("watts", 0.0))
         for sample in power_samples
-        if sample.get("system", {}).get("available")
+        if sample.get("primary_power", sample.get("system", {})).get("available")
     ]
     power_band = max(1, len(watts) // 4)
     first_power = average(watts[:power_band])
@@ -218,15 +261,17 @@ def drift_qualification(
 def preflight(standard: dict, output: pathlib.Path) -> int:
     power = accepted_power_sample()
     report = {
-        "schema": "world_transvoxel.terrain_lab.low_power_profiles_qualification.v1",
+        "schema": "world_transvoxel.terrain_lab.low_power_profiles_qualification.v2",
         "milestone": "TQP-48",
         "standard_id": standard["standard_id"],
-        "status": "READY_FOR_EXACT_RUN" if power["available"] else "BLOCKED_POWER_BOUNDARY_ON_AC",
+        "status": "READY_FOR_EXACT_RUN" if power["available"] else "BLOCKED_ACCEPTED_POWER_SENSOR_UNAVAILABLE",
         "retained_complete": False,
+        "primary_metric": "gpu_board_wpf60",
         "profiles_frozen": standard["profiles"],
         "measurement_contract": standard["measurement"],
         "hardware": hardware(),
         "power_preflight": power,
+        "auxiliary_power_observations": auxiliary_power_observations(),
         "qualified_scope": [],
         "explicitly_unqualified_scope": standard["explicitly_unqualified_scope"],
         "blockers": [] if power["available"] else [power["reason"]],
@@ -258,13 +303,14 @@ def execute(standard: dict, args: argparse.Namespace) -> int:
     next_sample = monitor_started
     while process.poll() is None:
         power = accepted_power_sample()
-        gpu = gpu_sample()
+        gpu = power.get("gpu") if isinstance(power.get("gpu"), dict) else gpu_sample()
         samples.append(
             {
                 "elapsed_s": time.monotonic() - monitor_started,
                 "timestamp_unix_seconds": time.time(),
-                "system": power,
+                "primary_power": power,
                 "gpu": gpu,
+                "auxiliary_power": auxiliary_power_observations(),
             }
         )
         next_sample += args.sample_interval
@@ -289,11 +335,13 @@ def execute(standard: dict, args: argparse.Namespace) -> int:
         <= measurement_ended
     ]
     watts = [
-        float(sample["system"]["watts"])
+        float(sample["primary_power"]["watts"])
         for sample in measurement_samples
-        if sample["system"].get("available")
+        if sample["primary_power"].get("available")
     ]
     average_watts = average(watts)
+    avg_frame_ms = average_frame_ms(measurement)
+    measured_wpf60 = gpu_board_wpf60(average_watts, avg_frame_ms)
     energy_j = average_watts * duration
     published = int(
         measurement.get("metric_deltas", {}).get("application_applied_render", 0)
@@ -359,9 +407,9 @@ def execute(standard: dict, args: argparse.Namespace) -> int:
         > 0
         and int(action_counts.get("retirement_rejections", 0)) == 0,
         "accepted_power_boundary_continuous": bool(samples)
-        and all(sample.get("system", {}).get("available") for sample in samples)
+        and all(sample.get("primary_power", {}).get("available") for sample in samples)
         and all(
-            sample.get("system", {}).get("boundary") == initial["boundary"]
+            sample.get("primary_power", {}).get("boundary") == initial["boundary"]
             for sample in samples
         ),
         "power_sample_coverage": len(measurement_samples) >= expected_power_samples
@@ -386,7 +434,7 @@ def execute(standard: dict, args: argparse.Namespace) -> int:
             measurement.get("fraction_over_33_333ms", 1.0)
         )
         <= float(pacing["maximum_fraction_over_33_333_ms"]),
-        "system_power": average_watts <= float(contract["power_limit_watts"]),
+        "gpu_board_wpf60": measured_wpf60 <= float(contract["target_wpf60"]),
         "edit_acknowledgement": float(
             edited.get("input_acknowledgement", {}).get("p99_usec", 1e30)
         )
@@ -420,14 +468,34 @@ def execute(standard: dict, args: argparse.Namespace) -> int:
         else "INCOMPLETE_RUN"
     )
     report = {
-        "schema": "world_transvoxel.terrain_lab.low_power_profiles_qualification.v1",
+        "schema": "world_transvoxel.terrain_lab.low_power_profiles_qualification.v2",
         "milestone": "TQP-48", "standard_id": standard["standard_id"],
         "status": status,
         "retained_complete": retained_complete,
+        "primary_metric": "gpu_board_wpf60",
         "profile_id": args.profile, "profiles_frozen": standard["profiles"],
         "measurement_contract": standard["measurement"], "hardware": hardware(),
         "power_boundary": initial["boundary"], "power_source": initial["source"],
-        "power": {"samples": len(watts), "average_w": average_watts, "p95_w": percentile(watts, 0.95), "worst_w": max(watts, default=0.0), "energy_j": energy_j, "energy_per_frame_j": energy_j / frames if frames else None, "energy_per_published_chunk_j": energy_j / published if published else None},
+        "power": {
+            "boundary": initial["boundary"],
+            "source": initial["source"],
+            "samples": len(watts),
+            "average_w": average_watts,
+            "p95_w": percentile(watts, 0.95),
+            "worst_w": max(watts, default=0.0),
+            "energy_j": energy_j,
+            "energy_per_frame_j": energy_j / frames if frames else None,
+            "energy_per_published_chunk_j": energy_j / published if published else None,
+        },
+        "gpu_board_wpf60": {
+            "formula": "gpu_board_average_watts * average_frame_ms / 16.666667",
+            "average_frame_ms": avg_frame_ms,
+            "average_gpu_board_watts": average_watts,
+            "value": measured_wpf60,
+            "target": float(contract["target_wpf60"]),
+            "over_target": max(0.0, measured_wpf60 - float(contract["target_wpf60"])),
+        },
+        "auxiliary_power_observations": auxiliary_power_observations(),
         "thermal": {"gpu_start_c": samples[0].get("gpu", {}).get("temperature_c") if samples else None, "gpu_end_c": samples[-1].get("gpu", {}).get("temperature_c") if samples else None},
         "workload": workload, "raw_power_samples": samples,
         "measurement_power_samples": measurement_samples,

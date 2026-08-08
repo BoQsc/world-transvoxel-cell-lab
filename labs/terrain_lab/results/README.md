@@ -269,9 +269,11 @@ godot --resolution 1280x720 --path . \
   --output res://labs/terrain_lab/results/large_world_performance_reference_windows.json
 ```
 
-TQP-48 preflight fails closed while no accepted package or complete-system
-power sensor is available. On this laptop, disconnect AC before the exact run
-so Windows battery discharge is a complete-system boundary:
+TQP-48 uses the inherited GPU-board WPF60 target from the old
+`gpu-marching-cubes` benchmark. Preflight fails closed only when
+`nvidia-smi power.draw` is unavailable. CPU-package, battery, DC-input, and
+AC-input power can be retained as separately labeled observations when trusted
+sensors exist, but they do not replace the WPF60 target:
 
 ```text
 python labs/terrain_lab/tools/measure_low_power_profiles.py
