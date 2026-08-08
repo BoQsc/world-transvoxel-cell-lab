@@ -1,0 +1,33 @@
+{
+	"schema": "world_transvoxel.terrain_lab.native_adaptive_authority_gate_standard.v1",
+	"milestone": "TQP-50",
+	"gate": "GATE_E",
+	"standard_id": "native_adaptive_terrain_authority_gate_v1",
+	"evidence": "res://labs/terrain_lab/results/native_adaptive_terrain_authority_gate_windows.json",
+	"required_milestones": ["TQP-28", "TQP-29", "TQP-30", "TQP-31", "TQP-32", "TQP-33", "TQP-34", "TQP-35", "TQP-36", "TQP-37", "TQP-38", "TQP-39", "TQP-40", "TQP-41", "TQP-42", "TQP-43", "TQP-44", "TQP-45", "TQP-46", "TQP-47", "TQP-48", "TQP-49"],
+	"authority_matrix": {
+		"world-transvoxel": {
+			"authoritative_for": ["native regular and transition cell tables and meshing", "native field/page/edit/runtime contracts", "native scheduling, cancellation, publication, collision, query, persistence, and deterministic fault-order primitives"],
+			"not_authoritative_for": ["terrain orchestration policy acceptance", "human visual quality", "production addon API", "integration-game behavior"]
+		},
+		"world-transvoxel-cell-lab": {
+			"authoritative_for": ["close-up primitive conformance, topology, seams, table reachability, focused performance, and visual diagnosis against pinned world-transvoxel"],
+			"not_authoritative_for": ["large adaptive terrain orchestration", "production runtime", "game integration"]
+		},
+		"world-transvoxel-terrain-lab": {
+			"authoritative_for": ["assembled adaptive CPU terrain qualification, field/edit/collision/persistence policy, retained observatories, performance envelopes, and explicit claim boundaries"],
+			"not_authoritative_for": ["shipping production API", "GPU backend", "gameplay systems", "unmeasured platforms or hardware"]
+		},
+		"integration-game": {
+			"authoritative_for": ["downstream repro discovery and consumer acceptance only"],
+			"not_authoritative_for": ["primitive correctness", "terrain standardization", "upstream fixes without minimized lab proof"]
+		}
+	},
+	"promotion_rules": [
+		"all required milestones qualified for one coherent declared CPU envelope",
+		"all findings closed, accepted, or explicitly deferred outside the gate claim",
+		"independent automation and human visual review pass",
+		"retained reports reproduce from pinned revisions",
+		"no blocked, missing, failed, provisional, or inferred evidence is promoted"
+	]
+}

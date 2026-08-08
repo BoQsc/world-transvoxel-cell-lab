@@ -1,0 +1,55 @@
+{
+	"schema": "world_transvoxel.terrain_lab.low_power_qualification_standard.v1",
+	"milestone": "TQP-48",
+	"standard_id": "cpu_low_power_profiles_windows_v1",
+	"target_contract": "res://addons/world_transvoxel_terrain_lab/standards/low_power_performance_profile.json",
+	"evidence": "res://labs/terrain_lab/results/low_power_profiles_reference_windows.json",
+	"workload_runner": "res://labs/terrain_lab/tools/run_low_power_profile_workload.gd",
+	"world": {
+		"source_revision": 948001,
+		"seed": 480048,
+		"preset": "rolling_hills_cave",
+		"volume_chunks": [128, 16, 128],
+		"vertical_chunk_origin": -8,
+		"worker_count": 2
+	},
+	"profiles": {
+		"low_power_16w_60fps": {
+			"resolution": [960, 540], "target_fps": 60, "viewer_radius_chunks": 1,
+			"maximum_lod": 2, "collision_radius_chunks": 1, "render_apply_budget": 4,
+			"collision_apply_budget": 2, "shadows": false, "active_chunk_capacity": 1024,
+			"cache_capacity": 1024, "pipeline_capacity": 4096
+		},
+		"balanced": {
+			"resolution": [1280, 720], "target_fps": 60, "viewer_radius_chunks": 2,
+			"maximum_lod": 2, "collision_radius_chunks": 1, "render_apply_budget": 6,
+			"collision_apply_budget": 2, "shadows": true, "active_chunk_capacity": 1536,
+			"cache_capacity": 1536, "pipeline_capacity": 6144
+		},
+		"quality": {
+			"resolution": [1920, 1080], "target_fps": 60, "viewer_radius_chunks": 3,
+			"maximum_lod": 2, "collision_radius_chunks": 1, "render_apply_budget": 8,
+			"collision_apply_budget": 3, "shadows": true, "active_chunk_capacity": 2048,
+			"cache_capacity": 2048, "pipeline_capacity": 8192
+		}
+	},
+	"measurement": {
+		"warmup_seconds": 300,
+		"steady_state_seconds": 1800,
+		"minimum_frame_samples": 108000,
+		"power_limit_watts": 16.0,
+		"accepted_power_boundaries": ["soc_or_package", "complete_system_at_battery_or_dc_input"],
+		"power_sample_interval_seconds": 2.0,
+		"required_workload_classes": ["idle", "ground_traversal", "high_speed_flight", "vertical_cave", "lod_churn", "teleport", "digging", "construction", "multiple_collision_invokers", "resource_retirement"]
+	},
+	"qualified_scope": [
+		"pinned Windows CPU reference low-power, balanced, and quality settings",
+		"exact sustained 60 FPS / 16 W candidate measurement protocol with accepted package or full-system boundary",
+		"frame pacing, native arrival/edit/collision metrics, CPU/GPU render time, memory, energy per frame, and energy per published chunk"
+	],
+	"explicitly_unqualified_scope": [
+		"GPU-board-only power as package or system power",
+		"qualification while AC-connected battery discharge is zero",
+		"cross-hardware, battery-life, GPU-meshing, production-release, or Gate E claims"
+	]
+}

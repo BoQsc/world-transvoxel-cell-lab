@@ -1,0 +1,532 @@
+{
+  "schema": "world_transvoxel.terrain_lab.complex_visual_temporal_corpus_automation.v1",
+  "milestone": "TQP-44",
+  "status": "PASS_AUTOMATION_PENDING_HUMAN",
+  "standard_id": "native_complex_visual_temporal_corpus_windows_v1",
+  "authority": "world_transvoxel_native_observatories_plus_human_review",
+  "corpus_signature": "3a8f7aa2e1c93817e079979883056381642926111246b2132618082838c92144",
+  "coverage": {
+    "still_count": 25,
+    "motion_path_count": 7,
+    "distinct_live_scene_count": 12,
+    "scale_counts": {
+      "cell": 7,
+      "chunk": 6,
+      "overview": 6,
+      "transition": 6
+    },
+    "category_counts": {
+      "caves": 2,
+      "cracks": 12,
+      "edited_surfaces": 7,
+      "flicker": 3,
+      "overhangs": 4,
+      "overlaps": 10,
+      "popping": 4,
+      "shadows": 5,
+      "silhouettes": 7,
+      "texture_scale": 7,
+      "visual_pleasantness": 7
+    },
+    "multi_angle_subjects": [
+      "adaptive_world",
+      "cave",
+      "cell_topology",
+      "constructed_cell",
+      "edited_surface",
+      "edited_transition",
+      "large_world",
+      "lod_transition",
+      "surface_scale",
+      "tangent_cell"
+    ]
+  },
+  "stills": [
+    {
+      "id": "world_overview",
+      "subject": "large_world",
+      "scale": "overview",
+      "angle": "world",
+      "path": "res://labs/terrain_lab/results/large_terrain_observatory_world_overview_windows.png",
+      "scene": "res://labs/terrain_lab/scenes/large_terrain_observatory.tscn",
+      "categories": [
+        "silhouettes",
+        "visual_pleasantness"
+      ],
+      "sha256": "ccf42fa95047671459dbc1793dd791925e603eee312d0eb1618d780c06695744",
+      "bytes": 203197,
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "id": "large_reference",
+      "subject": "large_world",
+      "scale": "overview",
+      "angle": "ground",
+      "path": "res://labs/terrain_lab/results/large_terrain_observatory_reference_windows.png",
+      "scene": "res://labs/terrain_lab/scenes/large_terrain_observatory.tscn",
+      "categories": [
+        "silhouettes",
+        "texture_scale"
+      ],
+      "sha256": "e6e06e657354bade0e8f1fb45ba2e88ff6ecd81cb113f67a8d49b59e4a6a2edd",
+      "bytes": 256613,
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "id": "streaming_multi_viewer",
+      "subject": "adaptive_world",
+      "scale": "overview",
+      "angle": "multi_viewer",
+      "path": "res://labs/terrain_lab/results/adaptive_streaming_multi_viewer_windows.png",
+      "scene": "res://labs/terrain_lab/scenes/adaptive_streaming_observatory.tscn",
+      "categories": [
+        "silhouettes",
+        "cracks",
+        "visual_pleasantness"
+      ],
+      "sha256": "468dfb61aec0886a1705e48a257c36886eb2fdd0ae21ddb45d3a97cdb2e44a68",
+      "bytes": 275647,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "streaming_teleport",
+      "subject": "adaptive_world",
+      "scale": "overview",
+      "angle": "teleport_destination",
+      "path": "res://labs/terrain_lab/results/adaptive_streaming_teleport_windows.png",
+      "scene": "res://labs/terrain_lab/scenes/adaptive_streaming_observatory.tscn",
+      "categories": [
+        "popping",
+        "flicker",
+        "cracks"
+      ],
+      "sha256": "ae3f592443844ddaa6879f576be0a14efee5361a61b6e906fb1c671aea7d8f58",
+      "bytes": 258940,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "system_overview",
+      "subject": "edited_system",
+      "scale": "overview",
+      "angle": "oblique",
+      "path": "res://labs/terrain_lab/results/adaptive_system_overview_windows.png",
+      "scene": "res://labs/terrain_lab/scenes/adaptive_system_observatory.tscn",
+      "categories": [
+        "edited_surfaces",
+        "overhangs",
+        "visual_pleasantness"
+      ],
+      "sha256": "3b9625fa5eafa1e56d93cbaf36057235558327afaa5aa96176f2918fa66acfd0",
+      "bytes": 291981,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "natural_surface",
+      "subject": "surface_quality",
+      "scale": "overview",
+      "angle": "natural",
+      "path": "res://labs/terrain_lab/results/visual_quality_natural.png",
+      "scene": "res://labs/terrain_lab/scenes/terrain_observatory.tscn",
+      "categories": [
+        "texture_scale",
+        "shadows",
+        "visual_pleasantness"
+      ],
+      "sha256": "9bde6b8577ebdeab8312f0ab2d3c2f978855a3250c41257f1cdc4cf3a96b1fdc",
+      "bytes": 704010,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "system_cave",
+      "subject": "cave",
+      "scale": "chunk",
+      "angle": "entrance",
+      "path": "res://labs/terrain_lab/results/adaptive_system_cave_windows.png",
+      "scene": "res://labs/terrain_lab/scenes/adaptive_system_observatory.tscn",
+      "categories": [
+        "caves",
+        "overhangs",
+        "shadows"
+      ],
+      "sha256": "119b1e90e898899712135429ee63e4a9f009cf219b035443ec837f0d2dcc8cff",
+      "bytes": 300091,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "streaming_cave",
+      "subject": "cave",
+      "scale": "chunk",
+      "angle": "interior",
+      "path": "res://labs/terrain_lab/results/adaptive_streaming_cave_windows.png",
+      "scene": "res://labs/terrain_lab/scenes/adaptive_streaming_observatory.tscn",
+      "categories": [
+        "caves",
+        "cracks",
+        "shadows"
+      ],
+      "sha256": "87a967d94c7076a7e2b7fb7e533733377726bd009f7740a295ce2ee08af10c73",
+      "bytes": 183740,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "constructed_surface",
+      "subject": "edited_surface",
+      "scale": "chunk",
+      "angle": "construction",
+      "path": "res://labs/terrain_lab/results/visual_quality_constructed.png",
+      "scene": "res://labs/terrain_lab/scenes/terrain_observatory.tscn",
+      "categories": [
+        "edited_surfaces",
+        "texture_scale",
+        "visual_pleasantness"
+      ],
+      "sha256": "e175dfa225938062194702c7a20ffc7e520dd9ca8074159d6e3295e5ae4bee32",
+      "bytes": 770916,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "destroyed_surface",
+      "subject": "edited_surface",
+      "scale": "chunk",
+      "angle": "digging",
+      "path": "res://labs/terrain_lab/results/visual_quality_destroyed.png",
+      "scene": "res://labs/terrain_lab/scenes/terrain_observatory.tscn",
+      "categories": [
+        "edited_surfaces",
+        "overhangs",
+        "visual_pleasantness"
+      ],
+      "sha256": "d25e10d070477c360a806bac3d537a3be6d6025517ffd71c4e5b0e8359766d48",
+      "bytes": 716241,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "surface_near",
+      "subject": "surface_scale",
+      "scale": "chunk",
+      "angle": "near",
+      "path": "res://labs/terrain_lab/results/surface_shading_near.png",
+      "scene": "res://labs/terrain_lab/scenes/surface_shading_review.tscn",
+      "categories": [
+        "texture_scale",
+        "shadows"
+      ],
+      "sha256": "21910c11716cbe64f94069871a9f584aba0bf612bf8606d40f0250eab4f8a373",
+      "bytes": 672721,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "surface_far",
+      "subject": "surface_scale",
+      "scale": "chunk",
+      "angle": "far",
+      "path": "res://labs/terrain_lab/results/surface_shading_far.png",
+      "scene": "res://labs/terrain_lab/scenes/surface_shading_review.tscn",
+      "categories": [
+        "texture_scale",
+        "shadows"
+      ],
+      "sha256": "2d84a02cd8b3a18e48ce3c18c36dfd8b93a4e5963f1150568344d96354fbc642",
+      "bytes": 525809,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "transition_split",
+      "subject": "lod_transition",
+      "scale": "transition",
+      "angle": "split",
+      "path": "res://labs/terrain_lab/results/dynamic_lod_publication_split_approach_windows.png",
+      "scene": "res://labs/terrain_lab/scenes/dynamic_lod_publication_observatory.tscn",
+      "categories": [
+        "cracks",
+        "overlaps",
+        "popping"
+      ],
+      "sha256": "1f0ae206b21c6539a56f4b324138b499ef8f9c396bc4af8b513156e68cb32dcd",
+      "bytes": 288251,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "transition_merge",
+      "subject": "lod_transition",
+      "scale": "transition",
+      "angle": "merge",
+      "path": "res://labs/terrain_lab/results/dynamic_lod_publication_merge_retreat_windows.png",
+      "scene": "res://labs/terrain_lab/scenes/dynamic_lod_publication_observatory.tscn",
+      "categories": [
+        "cracks",
+        "overlaps",
+        "popping"
+      ],
+      "sha256": "bc9cc2fdda46a6f0e3930e969afcbc40781d519866da2c86047a774ddaa75762",
+      "bytes": 286440,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "transition_supersession",
+      "subject": "lod_transition",
+      "scale": "transition",
+      "angle": "rapid_motion",
+      "path": "res://labs/terrain_lab/results/dynamic_lod_publication_rapid_supersession_windows.png",
+      "scene": "res://labs/terrain_lab/scenes/dynamic_lod_publication_observatory.tscn",
+      "categories": [
+        "popping",
+        "flicker",
+        "overlaps"
+      ],
+      "sha256": "0bd8d6ad29e417c803a54e8233a6a33a5bf771342ea0ace6f9d1918e80e9f2a7",
+      "bytes": 290890,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "transition_edit",
+      "subject": "edited_transition",
+      "scale": "transition",
+      "angle": "carve",
+      "path": "res://labs/terrain_lab/results/adaptive_edit_transition_face_carve_windows.png",
+      "scene": "res://labs/terrain_lab/scenes/adaptive_edit_observatory.tscn",
+      "categories": [
+        "cracks",
+        "overlaps",
+        "edited_surfaces"
+      ],
+      "sha256": "5118269d5f9e6bddcb26024a1a82e5eb22443d0d4340eb73508939ffbcdde88a",
+      "bytes": 333740,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "transition_dependency",
+      "subject": "edited_transition",
+      "scale": "transition",
+      "angle": "dependency",
+      "path": "res://labs/terrain_lab/results/edit_invalidation_mixed_lod_transition_dependency_windows.png",
+      "scene": "res://labs/terrain_lab/scenes/edit_invalidation_observatory.tscn",
+      "categories": [
+        "cracks",
+        "overlaps",
+        "flicker"
+      ],
+      "sha256": "e3ed025b8fee2b31b961c75b1a011c3a156137143c7eecdfc013b86bb5d40674",
+      "bytes": 363889,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "transition_initial",
+      "subject": "lod_transition",
+      "scale": "transition",
+      "angle": "initial",
+      "path": "res://labs/terrain_lab/results/dynamic_lod_publication_initial_load_windows.png",
+      "scene": "res://labs/terrain_lab/scenes/dynamic_lod_publication_observatory.tscn",
+      "categories": [
+        "silhouettes",
+        "cracks",
+        "overlaps"
+      ],
+      "sha256": "ba40b8787d1ed3b319aa19f000768206c0fd470685e2b08dd35d9dce8da0f196",
+      "bytes": 286476,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "cell_oracle",
+      "subject": "cell_topology",
+      "scale": "cell",
+      "angle": "oracle",
+      "path": "res://labs/terrain_lab/results/independent_oracle_observatory_reference_windows.png",
+      "scene": "res://labs/terrain_lab/scenes/independent_oracle_observatory.tscn",
+      "categories": [
+        "cracks",
+        "overlaps"
+      ],
+      "sha256": "37e6e0d632a5f213e9b812f4693c6755d5addb27a61210df68d770eea321d7ac",
+      "bytes": 257194,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "cell_adversarial",
+      "subject": "cell_topology",
+      "scale": "cell",
+      "angle": "adversarial",
+      "path": "res://labs/terrain_lab/results/adversarial_corpus_observatory_reference_windows.png",
+      "scene": "res://labs/terrain_lab/scenes/adversarial_corpus_observatory.tscn",
+      "categories": [
+        "silhouettes",
+        "cracks",
+        "overlaps"
+      ],
+      "sha256": "5ba712959a75cc52633c333b97997f06a84816bb199eb70b875334cfa60c8739",
+      "bytes": 325497,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "cell_tangent_seam",
+      "subject": "tangent_cell",
+      "scale": "cell",
+      "angle": "seam",
+      "path": "res://labs/terrain_lab/results/terrain_observatory_tangent_seam.png",
+      "scene": "res://labs/terrain_lab/scenes/terrain_observatory.tscn",
+      "categories": [
+        "cracks",
+        "texture_scale"
+      ],
+      "sha256": "c708263a1d71fc4067169503928a796a7e6e113a89aa95985b51cd653c6c73ba",
+      "bytes": 167595,
+      "width": 1152,
+      "height": 648
+    },
+    {
+      "id": "cell_tangent_pole",
+      "subject": "tangent_cell",
+      "scale": "cell",
+      "angle": "pole",
+      "path": "res://labs/terrain_lab/results/terrain_observatory_tangent_pole.png",
+      "scene": "res://labs/terrain_lab/scenes/terrain_observatory.tscn",
+      "categories": [
+        "overlaps",
+        "texture_scale"
+      ],
+      "sha256": "b7a6cc91a285f84b10d4ebd337cb4949b1b2142ca3e63a1ad83b9f83162798a1",
+      "bytes": 771571,
+      "width": 1152,
+      "height": 648
+    },
+    {
+      "id": "cell_thin_feature",
+      "subject": "constructed_cell",
+      "scale": "cell",
+      "angle": "thin_feature",
+      "path": "res://labs/terrain_lab/results/adaptive_system_thin_feature_windows.png",
+      "scene": "res://labs/terrain_lab/scenes/adaptive_system_observatory.tscn",
+      "categories": [
+        "silhouettes",
+        "edited_surfaces",
+        "overhangs"
+      ],
+      "sha256": "d112a8623a98b999db5ba4df6671e37aa943b48111ac6915dc0ffe68ba0d8508",
+      "bytes": 328508,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "cell_edge_corner",
+      "subject": "constructed_cell",
+      "scale": "cell",
+      "angle": "edge_corner",
+      "path": "res://labs/terrain_lab/results/adaptive_edit_chunk_edge_corner_construction_windows.png",
+      "scene": "res://labs/terrain_lab/scenes/adaptive_edit_observatory.tscn",
+      "categories": [
+        "cracks",
+        "overlaps",
+        "edited_surfaces"
+      ],
+      "sha256": "0c564a05cf815ff578e35be92394b4a1f8b926c8189ddb044a1b3fac6078c000",
+      "bytes": 341072,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "id": "cell_under_resolved",
+      "subject": "constructed_cell",
+      "scale": "cell",
+      "angle": "refined",
+      "path": "res://labs/terrain_lab/results/adaptive_edit_under_resolved_refined_windows.png",
+      "scene": "res://labs/terrain_lab/scenes/adaptive_edit_observatory.tscn",
+      "categories": [
+        "silhouettes",
+        "edited_surfaces",
+        "visual_pleasantness"
+      ],
+      "sha256": "a2afe10c7a4778c08ed63b5626a72a3d2028be7b72168f56db9316746dfb2422",
+      "bytes": 317510,
+      "width": 1280,
+      "height": 720
+    }
+  ],
+  "motion_paths": [
+    {
+      "id": "dynamic_lod",
+      "path": "res://labs/terrain_lab/results/dynamic_lod_publication_motion_windows.json",
+      "scene": "res://labs/terrain_lab/scenes/dynamic_lod_publication_observatory.tscn",
+      "sha256": "257f081ef9fe93f4d98431b96136192fb85546b165d3ea85d0fa44fcc65bb652",
+      "schema": "world_transvoxel.terrain_lab.dynamic_lod_publication_motion.v1",
+      "milestone": "TQP-35",
+      "capture_count": 4
+    },
+    {
+      "id": "edit_invalidation",
+      "path": "res://labs/terrain_lab/results/edit_invalidation_motion_windows.json",
+      "scene": "res://labs/terrain_lab/scenes/edit_invalidation_observatory.tscn",
+      "sha256": "a81b51d1405fedf09dbc56360ee6dae353a1582ddd4b860c95718563657338a7",
+      "schema": "world_transvoxel.terrain_lab.edit_invalidation_motion.v1",
+      "milestone": "TQP-36",
+      "capture_count": 3
+    },
+    {
+      "id": "adaptive_edit",
+      "path": "res://labs/terrain_lab/results/adaptive_edit_motion_windows.json",
+      "scene": "res://labs/terrain_lab/scenes/adaptive_edit_observatory.tscn",
+      "sha256": "436d256035f51f3c687c43934a5ecd1ede43c0ca1b753508f3fdeb6ea4c5a234",
+      "schema": "world_transvoxel.terrain_lab.adaptive_edit_motion.v1",
+      "milestone": "TQP-37",
+      "capture_count": 3
+    },
+    {
+      "id": "adaptive_surface",
+      "path": "res://labs/terrain_lab/results/adaptive_surface_continuity_motion_windows.json",
+      "scene": "res://labs/terrain_lab/scenes/adaptive_surface_observatory.tscn",
+      "sha256": "b65b02bf916994362f4d79f1b823bd4a236cbdfcd10cf57905be896053a57cda",
+      "schema": "world_transvoxel.terrain_lab.adaptive_surface_continuity_motion.v1",
+      "milestone": "TQP-38",
+      "capture_count": 3
+    },
+    {
+      "id": "adaptive_system",
+      "path": "res://labs/terrain_lab/results/adaptive_system_agreement_motion_windows.json",
+      "scene": "res://labs/terrain_lab/scenes/adaptive_system_observatory.tscn",
+      "sha256": "01a24c3c270b46f1d92f591f8b5283189c32d0ea2faeaf3c5405bbc844db01c3",
+      "schema": "world_transvoxel.terrain_lab.adaptive_system_agreement_motion.v1",
+      "milestone": "TQP-39",
+      "capture_count": 3
+    },
+    {
+      "id": "adaptive_streaming",
+      "path": "res://labs/terrain_lab/results/adaptive_streaming_residency_motion_windows.json",
+      "scene": "res://labs/terrain_lab/scenes/adaptive_streaming_observatory.tscn",
+      "sha256": "383843e6a71d01d77d8e7b368f9c5de050bc10de04aa8ce1660558b852220f11",
+      "schema": "world_transvoxel.terrain_lab.adaptive_streaming_residency_motion.v1",
+      "milestone": "TQP-40",
+      "capture_count": 3
+    },
+    {
+      "id": "adaptive_persistence",
+      "path": "res://labs/terrain_lab/results/adaptive_persistence_motion_windows.json",
+      "scene": "res://labs/terrain_lab/scenes/adaptive_persistence_observatory.tscn",
+      "sha256": "d1986cb240733ebbee7816e400c1c60640193a0dd6047a54e6c2549689b92f9a",
+      "schema": "world_transvoxel.terrain_lab.adaptive_persistence_motion.v1",
+      "milestone": "TQP-41",
+      "capture_count": 3
+    }
+  ],
+  "human_review_required": true,
+  "automation_accepts_milestone": false,
+  "failures": []
+}

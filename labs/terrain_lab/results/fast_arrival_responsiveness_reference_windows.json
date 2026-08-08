@@ -1,0 +1,1589 @@
+{
+	"schema": "world_transvoxel.terrain_lab.fast_arrival_responsiveness_qualification.v1",
+	"milestone": "TQP-45",
+	"standard_id": "native_fast_arrival_edit_responsiveness_windows_v1",
+	"authority": "world_transvoxel_native_runtime_and_pinned_native_priority_contracts",
+	"status": "PASS",
+	"retained_complete": true,
+	"provenance": {
+		"workload_signature": "tqp45_native_fast_arrival_windows_v1",
+		"build_type": "debug",
+		"os": "Windows",
+		"architecture": "x86_64",
+		"cpu": "Intel(R) Core(TM) i5-7300HQ CPU @ 2.50GHz",
+		"gpu": "",
+		"driver": "vulkan",
+		"godot_version": "4.7.1-stable (steam)",
+		"backend_revision": "545a7554551c4772a7889da59378f08fe74cc57e33924993e385e72c8f389ca3"
+	},
+	"demand_classes": [
+		"current_visual",
+		"current_collision",
+		"interactive_edit",
+		"obsolete_distant"
+	],
+	"latency_stages": [
+		"input_acknowledgement",
+		"first_correct_visual",
+		"collision_coherence",
+		"local_settlement"
+	],
+	"queue_peaks": {
+		"scheduler": 183,
+		"render": 0,
+		"collision": 2,
+		"storage": 269
+	},
+	"memory": {
+		"retained_bytes": 27497575,
+		"peak_bytes": 43620569
+	},
+	"geometry_signature_hash": "c29b7e8e1133df814d16efcbc326ceaed8f2df10692a76c081cc4f4a2ed5c55f",
+	"final_metrics": {
+		"viewer_updates": 25,
+		"collision_viewer_updates": 24,
+		"coalesced_viewer_events": 4,
+		"planned_demands": 14045,
+		"sample_jobs": 1902,
+		"mesh_jobs": 1898,
+		"edit_commits": 6,
+		"edit_replacements": 34,
+		"edit_cancelled_page_meshing_generations": 34,
+		"page_stale_storage_completions": 1,
+		"scheduler_queued_jobs": 0,
+		"storage_queued_requests": 0,
+		"queued_render": 0,
+		"total_collision_backlog": 0,
+		"active_chunk_records": 420,
+		"render_resources": 90,
+		"collision_resources": 90,
+		"application_applied_render": 2875,
+		"application_applied_collision": 4907,
+		"render_latency_frames_maximum": 3,
+		"collision_latency_frames_maximum": 4,
+		"pending_chunk_replacements": 0,
+		"pending_chunk_retirements": 0
+	},
+	"shutdown": "PASS",
+	"qualified_scope": [
+		"Windows debug native LOD1/LOD0 procedural cold, warm, edited, evicted, and superseded arrival workloads",
+		"p50, p95, p99, and worst acknowledgement, first-correct-visual, collision-coherence, and settlement latency",
+		"native interactive edit priority, generation cancellation, stale-result discard, bounded queues, observable target readiness, and local demand convergence"
+	],
+	"explicitly_unqualified_scope": [
+		"production release latency targets, arbitrary hardware, networking, disk contention, or non-Windows behavior",
+		"TQP-46 collision safety envelopes, TQP-47 frame pacing, TQP-48 power, TQP-49 long soak, GPU execution, or Gate E"
+	],
+	"failures": [],
+	"groups": {
+		"cold": [
+			{
+				"class": "cold",
+				"status": "PASS",
+				"position": "(127.0, 24.0, 72.0)",
+				"target_chunk": "(7, 1, 4)",
+				"input_acknowledgement_usec": 19,
+				"first_correct_visual_usec": 51322,
+				"collision_coherence_usec": 24815,
+				"local_settlement_usec": 1909748,
+				"event_observed": true,
+				"readiness": {
+					"visual_leaf": {
+						"present": true,
+						"coordinate": "(7, 1, 4)",
+						"lod": 0,
+						"generation": 38,
+						"visual_generation": 0,
+						"staged_visual_generation": 0,
+						"collision_generation": 0,
+						"staged_collision_generation": 0,
+						"visual_required": true,
+						"collision_required": true,
+						"visual_ready": true,
+						"collision_ready": true,
+						"fully_ready": true
+					},
+					"collision_leaf": {
+						"present": true,
+						"coordinate": "(7, 1, 4)",
+						"lod": 0,
+						"generation": 38,
+						"visual_generation": 0,
+						"staged_visual_generation": 0,
+						"collision_generation": 0,
+						"staged_collision_generation": 0,
+						"visual_required": true,
+						"collision_required": true,
+						"visual_ready": false,
+						"collision_ready": true,
+						"fully_ready": false
+					}
+				},
+				"generation_agreement": {
+					"status": "PASS",
+					"mismatch_count": 0,
+					"mismatches": []
+				}
+			},
+			{
+				"class": "cold",
+				"status": "PASS",
+				"position": "(312.0, 40.0, 312.0)",
+				"target_chunk": "(19, 2, 19)",
+				"input_acknowledgement_usec": 18,
+				"first_correct_visual_usec": 864389,
+				"collision_coherence_usec": 877773,
+				"local_settlement_usec": 2223284,
+				"event_observed": true,
+				"readiness": {
+					"visual_leaf": {
+						"present": true,
+						"coordinate": "(19, 2, 19)",
+						"lod": 0,
+						"generation": 112,
+						"visual_generation": 0,
+						"staged_visual_generation": 0,
+						"collision_generation": 0,
+						"staged_collision_generation": 0,
+						"visual_required": true,
+						"collision_required": true,
+						"visual_ready": true,
+						"collision_ready": false,
+						"fully_ready": false
+					},
+					"collision_leaf": {
+						"present": true,
+						"coordinate": "(19, 2, 19)",
+						"lod": 0,
+						"generation": 112,
+						"visual_generation": 0,
+						"staged_visual_generation": 0,
+						"collision_generation": 0,
+						"staged_collision_generation": 0,
+						"visual_required": true,
+						"collision_required": true,
+						"visual_ready": true,
+						"collision_ready": true,
+						"fully_ready": true
+					}
+				},
+				"generation_agreement": {
+					"status": "PASS",
+					"mismatch_count": 0,
+					"mismatches": []
+				}
+			},
+			{
+				"class": "cold",
+				"status": "PASS",
+				"position": "(64.0, 30.0, 300.0)",
+				"target_chunk": "(4, 1, 18)",
+				"input_acknowledgement_usec": 16,
+				"first_correct_visual_usec": 207111,
+				"collision_coherence_usec": 214169,
+				"local_settlement_usec": 2231644,
+				"event_observed": true,
+				"readiness": {
+					"visual_leaf": {
+						"present": true,
+						"coordinate": "(4, 1, 18)",
+						"lod": 0,
+						"generation": 211,
+						"visual_generation": 211,
+						"staged_visual_generation": 0,
+						"collision_generation": 0,
+						"staged_collision_generation": 0,
+						"visual_required": true,
+						"collision_required": true,
+						"visual_ready": true,
+						"collision_ready": false,
+						"fully_ready": false
+					},
+					"collision_leaf": {
+						"present": true,
+						"coordinate": "(4, 1, 18)",
+						"lod": 0,
+						"generation": 211,
+						"visual_generation": 211,
+						"staged_visual_generation": 0,
+						"collision_generation": 211,
+						"staged_collision_generation": 0,
+						"visual_required": true,
+						"collision_required": true,
+						"visual_ready": true,
+						"collision_ready": true,
+						"fully_ready": true
+					}
+				},
+				"generation_agreement": {
+					"status": "PASS",
+					"mismatch_count": 0,
+					"mismatches": []
+				}
+			},
+			{
+				"class": "cold",
+				"status": "PASS",
+				"position": "(300.0, 30.0, 64.0)",
+				"target_chunk": "(18, 1, 4)",
+				"input_acknowledgement_usec": 18,
+				"first_correct_visual_usec": 968617,
+				"collision_coherence_usec": 982420,
+				"local_settlement_usec": 2383152,
+				"event_observed": true,
+				"readiness": {
+					"visual_leaf": {
+						"present": true,
+						"coordinate": "(18, 1, 4)",
+						"lod": 0,
+						"generation": 297,
+						"visual_generation": 297,
+						"staged_visual_generation": 0,
+						"collision_generation": 0,
+						"staged_collision_generation": 0,
+						"visual_required": true,
+						"collision_required": true,
+						"visual_ready": true,
+						"collision_ready": false,
+						"fully_ready": false
+					},
+					"collision_leaf": {
+						"present": true,
+						"coordinate": "(18, 1, 4)",
+						"lod": 0,
+						"generation": 297,
+						"visual_generation": 297,
+						"staged_visual_generation": 0,
+						"collision_generation": 297,
+						"staged_collision_generation": 0,
+						"visual_required": true,
+						"collision_required": true,
+						"visual_ready": true,
+						"collision_ready": true,
+						"fully_ready": true
+					}
+				},
+				"generation_agreement": {
+					"status": "PASS",
+					"mismatch_count": 0,
+					"mismatches": []
+				}
+			}
+		],
+		"warm": [
+			{
+				"class": "warm",
+				"status": "PASS",
+				"position": "(127.0, 24.0, 72.0)",
+				"target_chunk": "(7, 1, 4)",
+				"input_acknowledgement_usec": 3066,
+				"first_correct_visual_usec": 207838,
+				"collision_coherence_usec": 223421,
+				"local_settlement_usec": 3031576,
+				"event_observed": true,
+				"readiness": {
+					"visual_leaf": {
+						"present": true,
+						"coordinate": "(7, 1, 4)",
+						"lod": 0,
+						"generation": 382,
+						"visual_generation": 0,
+						"staged_visual_generation": 0,
+						"collision_generation": 0,
+						"staged_collision_generation": 0,
+						"visual_required": true,
+						"collision_required": true,
+						"visual_ready": true,
+						"collision_ready": false,
+						"fully_ready": false
+					},
+					"collision_leaf": {
+						"present": true,
+						"coordinate": "(7, 1, 4)",
+						"lod": 0,
+						"generation": 382,
+						"visual_generation": 0,
+						"staged_visual_generation": 0,
+						"collision_generation": 0,
+						"staged_collision_generation": 0,
+						"visual_required": true,
+						"collision_required": true,
+						"visual_ready": true,
+						"collision_ready": true,
+						"fully_ready": true
+					}
+				},
+				"generation_agreement": {
+					"status": "PASS",
+					"mismatch_count": 0,
+					"mismatches": []
+				}
+			},
+			{
+				"class": "warm",
+				"status": "PASS",
+				"position": "(312.0, 40.0, 312.0)",
+				"target_chunk": "(19, 2, 19)",
+				"input_acknowledgement_usec": 66,
+				"first_correct_visual_usec": 207615,
+				"collision_coherence_usec": 214546,
+				"local_settlement_usec": 2624343,
+				"event_observed": true,
+				"readiness": {
+					"visual_leaf": {
+						"present": true,
+						"coordinate": "(19, 2, 19)",
+						"lod": 0,
+						"generation": 456,
+						"visual_generation": 0,
+						"staged_visual_generation": 0,
+						"collision_generation": 0,
+						"staged_collision_generation": 0,
+						"visual_required": true,
+						"collision_required": true,
+						"visual_ready": true,
+						"collision_ready": false,
+						"fully_ready": false
+					},
+					"collision_leaf": {
+						"present": true,
+						"coordinate": "(19, 2, 19)",
+						"lod": 0,
+						"generation": 456,
+						"visual_generation": 0,
+						"staged_visual_generation": 0,
+						"collision_generation": 0,
+						"staged_collision_generation": 0,
+						"visual_required": true,
+						"collision_required": true,
+						"visual_ready": true,
+						"collision_ready": true,
+						"fully_ready": true
+					}
+				},
+				"generation_agreement": {
+					"status": "PASS",
+					"mismatch_count": 0,
+					"mismatches": []
+				}
+			},
+			{
+				"class": "warm",
+				"status": "PASS",
+				"position": "(64.0, 30.0, 300.0)",
+				"target_chunk": "(4, 1, 18)",
+				"input_acknowledgement_usec": 16,
+				"first_correct_visual_usec": 887159,
+				"collision_coherence_usec": 901014,
+				"local_settlement_usec": 2246417,
+				"event_observed": true,
+				"readiness": {
+					"visual_leaf": {
+						"present": true,
+						"coordinate": "(4, 1, 18)",
+						"lod": 0,
+						"generation": 555,
+						"visual_generation": 555,
+						"staged_visual_generation": 0,
+						"collision_generation": 0,
+						"staged_collision_generation": 0,
+						"visual_required": true,
+						"collision_required": true,
+						"visual_ready": true,
+						"collision_ready": false,
+						"fully_ready": false
+					},
+					"collision_leaf": {
+						"present": true,
+						"coordinate": "(4, 1, 18)",
+						"lod": 0,
+						"generation": 555,
+						"visual_generation": 555,
+						"staged_visual_generation": 0,
+						"collision_generation": 555,
+						"staged_collision_generation": 0,
+						"visual_required": true,
+						"collision_required": true,
+						"visual_ready": true,
+						"collision_ready": true,
+						"fully_ready": true
+					}
+				},
+				"generation_agreement": {
+					"status": "PASS",
+					"mismatch_count": 0,
+					"mismatches": []
+				}
+			},
+			{
+				"class": "warm",
+				"status": "PASS",
+				"position": "(300.0, 30.0, 64.0)",
+				"target_chunk": "(18, 1, 4)",
+				"input_acknowledgement_usec": 14,
+				"first_correct_visual_usec": 890249,
+				"collision_coherence_usec": 897175,
+				"local_settlement_usec": 2263350,
+				"event_observed": true,
+				"readiness": {
+					"visual_leaf": {
+						"present": true,
+						"coordinate": "(18, 1, 4)",
+						"lod": 0,
+						"generation": 641,
+						"visual_generation": 641,
+						"staged_visual_generation": 0,
+						"collision_generation": 0,
+						"staged_collision_generation": 0,
+						"visual_required": true,
+						"collision_required": true,
+						"visual_ready": true,
+						"collision_ready": false,
+						"fully_ready": false
+					},
+					"collision_leaf": {
+						"present": true,
+						"coordinate": "(18, 1, 4)",
+						"lod": 0,
+						"generation": 641,
+						"visual_generation": 641,
+						"staged_visual_generation": 0,
+						"collision_generation": 641,
+						"staged_collision_generation": 0,
+						"visual_required": true,
+						"collision_required": true,
+						"visual_ready": true,
+						"collision_ready": true,
+						"fully_ready": true
+					}
+				},
+				"generation_agreement": {
+					"status": "PASS",
+					"mismatch_count": 0,
+					"mismatches": []
+				}
+			}
+		],
+		"edited": [
+			{
+				"id": "dig_transition",
+				"class": "edited",
+				"kind": "dig",
+				"status": "PASS",
+				"position": [
+					127.0,
+					24.0,
+					72.0
+				],
+				"target_chunk": "(6, 1, 2)",
+				"input_acknowledgement_usec": 55,
+				"first_correct_visual_usec": 133056,
+				"collision_coherence_usec": 59927,
+				"local_settlement_usec": 230220,
+				"world_revision": 1,
+				"before_sample": {
+					"status": "PASS",
+					"point": "(96, 20, 40)",
+					"lod": 0,
+					"density": -13.4283494949341,
+					"material": 1,
+					"source_revision": 945001,
+					"world_revision": 0,
+					"agreeing_page_count": 2
+				},
+				"after_sample": {
+					"status": "PASS",
+					"point": "(96, 20, 40)",
+					"lod": 0,
+					"density": 6.0,
+					"material": 1,
+					"source_revision": 945001,
+					"world_revision": 1,
+					"agreeing_page_count": 2
+				},
+				"readiness": {
+					"visual_leaf": {
+						"present": true,
+						"coordinate": "(6, 1, 2)",
+						"lod": 0,
+						"generation": 775,
+						"visual_generation": 775,
+						"staged_visual_generation": 0,
+						"collision_generation": 0,
+						"staged_collision_generation": 0,
+						"visual_required": true,
+						"collision_required": true,
+						"visual_ready": true,
+						"collision_ready": true,
+						"fully_ready": true
+					},
+					"collision_leaf": {
+						"present": true,
+						"coordinate": "(6, 1, 2)",
+						"lod": 0,
+						"generation": 775,
+						"visual_generation": 0,
+						"staged_visual_generation": 0,
+						"collision_generation": 0,
+						"staged_collision_generation": 0,
+						"visual_required": true,
+						"collision_required": true,
+						"visual_ready": false,
+						"collision_ready": true,
+						"fully_ready": false
+					}
+				},
+				"generation_agreement": {
+					"status": "PASS",
+					"mismatch_count": 0,
+					"mismatches": []
+				}
+			},
+			{
+				"id": "construct_corner",
+				"class": "edited",
+				"kind": "construct",
+				"status": "PASS",
+				"position": [
+					128.0,
+					32.0,
+					64.0
+				],
+				"target_chunk": "(8, 2, 4)",
+				"input_acknowledgement_usec": 29,
+				"first_correct_visual_usec": 131045,
+				"collision_coherence_usec": 131045,
+				"local_settlement_usec": 172417,
+				"world_revision": 2,
+				"before_sample": {
+					"status": "PASS",
+					"point": "(128, 32, 64)",
+					"lod": 0,
+					"density": -1.45890247821808,
+					"material": 3,
+					"source_revision": 945001,
+					"world_revision": 1,
+					"agreeing_page_count": 8
+				},
+				"after_sample": {
+					"status": "PASS",
+					"point": "(128, 32, 64)",
+					"lod": 0,
+					"density": -5.0,
+					"material": 7,
+					"source_revision": 945001,
+					"world_revision": 2,
+					"agreeing_page_count": 8
+				},
+				"readiness": {
+					"visual_leaf": {
+						"present": true,
+						"coordinate": "(8, 2, 4)",
+						"lod": 0,
+						"generation": 913,
+						"visual_generation": 913,
+						"staged_visual_generation": 0,
+						"collision_generation": 913,
+						"staged_collision_generation": 0,
+						"visual_required": true,
+						"collision_required": true,
+						"visual_ready": true,
+						"collision_ready": true,
+						"fully_ready": true
+					},
+					"collision_leaf": {
+						"present": true,
+						"coordinate": "(8, 2, 4)",
+						"lod": 0,
+						"generation": 913,
+						"visual_generation": 913,
+						"staged_visual_generation": 0,
+						"collision_generation": 913,
+						"staged_collision_generation": 0,
+						"visual_required": true,
+						"collision_required": true,
+						"visual_ready": true,
+						"collision_ready": true,
+						"fully_ready": true
+					}
+				},
+				"generation_agreement": {
+					"status": "PASS",
+					"mismatch_count": 0,
+					"mismatches": []
+				}
+			},
+			{
+				"id": "dig_tunnel_a",
+				"class": "edited",
+				"kind": "dig",
+				"status": "PASS",
+				"position": [
+					127.0,
+					24.0,
+					72.0
+				],
+				"target_chunk": "(5, 1, 2)",
+				"input_acknowledgement_usec": 51,
+				"first_correct_visual_usec": 96315,
+				"collision_coherence_usec": 96315,
+				"local_settlement_usec": 172294,
+				"world_revision": 3,
+				"before_sample": {
+					"status": "PASS",
+					"point": "(91, 19, 39)",
+					"lod": 0,
+					"density": 0.803847551345825,
+					"material": 1,
+					"source_revision": 945001,
+					"world_revision": 2,
+					"agreeing_page_count": 1
+				},
+				"after_sample": {
+					"status": "PASS",
+					"point": "(91, 19, 39)",
+					"lod": 0,
+					"density": 4.5,
+					"material": 1,
+					"source_revision": 945001,
+					"world_revision": 3,
+					"agreeing_page_count": 1
+				},
+				"readiness": {
+					"visual_leaf": {
+						"present": true,
+						"coordinate": "(5, 1, 2)",
+						"lod": 0,
+						"generation": 1012,
+						"visual_generation": 1012,
+						"staged_visual_generation": 0,
+						"collision_generation": 1012,
+						"staged_collision_generation": 0,
+						"visual_required": true,
+						"collision_required": true,
+						"visual_ready": true,
+						"collision_ready": true,
+						"fully_ready": true
+					},
+					"collision_leaf": {
+						"present": true,
+						"coordinate": "(5, 1, 2)",
+						"lod": 0,
+						"generation": 1012,
+						"visual_generation": 1012,
+						"staged_visual_generation": 0,
+						"collision_generation": 1012,
+						"staged_collision_generation": 0,
+						"visual_required": true,
+						"collision_required": true,
+						"visual_ready": true,
+						"collision_ready": true,
+						"fully_ready": true
+					}
+				},
+				"generation_agreement": {
+					"status": "PASS",
+					"mismatch_count": 0,
+					"mismatches": []
+				}
+			},
+			{
+				"id": "dig_tunnel_b",
+				"class": "edited",
+				"kind": "dig",
+				"status": "PASS",
+				"position": [
+					127.0,
+					24.0,
+					72.0
+				],
+				"target_chunk": "(6, 1, 2)",
+				"input_acknowledgement_usec": 30,
+				"first_correct_visual_usec": 154734,
+				"collision_coherence_usec": 154734,
+				"local_settlement_usec": 203066,
+				"world_revision": 4,
+				"before_sample": {
+					"status": "PASS",
+					"point": "(99, 21, 41)",
+					"lod": 0,
+					"density": 2.68337512016296,
+					"material": 1,
+					"source_revision": 945001,
+					"world_revision": 3,
+					"agreeing_page_count": 1
+				},
+				"after_sample": {
+					"status": "PASS",
+					"point": "(99, 21, 41)",
+					"lod": 0,
+					"density": 4.5,
+					"material": 1,
+					"source_revision": 945001,
+					"world_revision": 4,
+					"agreeing_page_count": 1
+				},
+				"readiness": {
+					"visual_leaf": {
+						"present": true,
+						"coordinate": "(6, 1, 2)",
+						"lod": 0,
+						"generation": 1020,
+						"visual_generation": 1020,
+						"staged_visual_generation": 0,
+						"collision_generation": 1020,
+						"staged_collision_generation": 0,
+						"visual_required": true,
+						"collision_required": true,
+						"visual_ready": true,
+						"collision_ready": true,
+						"fully_ready": true
+					},
+					"collision_leaf": {
+						"present": true,
+						"coordinate": "(6, 1, 2)",
+						"lod": 0,
+						"generation": 1020,
+						"visual_generation": 1020,
+						"staged_visual_generation": 0,
+						"collision_generation": 1020,
+						"staged_collision_generation": 0,
+						"visual_required": true,
+						"collision_required": true,
+						"visual_ready": true,
+						"collision_ready": true,
+						"fully_ready": true
+					}
+				},
+				"generation_agreement": {
+					"status": "PASS",
+					"mismatch_count": 0,
+					"mismatches": []
+				}
+			},
+			{
+				"id": "construct_refined",
+				"class": "edited",
+				"kind": "construct",
+				"status": "PASS",
+				"position": [
+					127.0,
+					47.0,
+					72.0
+				],
+				"target_chunk": "(5, 2, 3)",
+				"input_acknowledgement_usec": 30,
+				"first_correct_visual_usec": 75771,
+				"collision_coherence_usec": 75771,
+				"local_settlement_usec": 96479,
+				"world_revision": 5,
+				"before_sample": {
+					"status": "PASS",
+					"point": "(81, 47, 53)",
+					"lod": 0,
+					"density": 12.9120655059814,
+					"material": 3,
+					"source_revision": 945001,
+					"world_revision": 4,
+					"agreeing_page_count": 4
+				},
+				"after_sample": {
+					"status": "PASS",
+					"point": "(81, 47, 53)",
+					"lod": 0,
+					"density": -1.25,
+					"material": 9,
+					"source_revision": 945001,
+					"world_revision": 5,
+					"agreeing_page_count": 4
+				},
+				"readiness": {
+					"visual_leaf": {
+						"present": true,
+						"coordinate": "(5, 2, 3)",
+						"lod": 0,
+						"generation": 1079,
+						"visual_generation": 1079,
+						"staged_visual_generation": 0,
+						"collision_generation": 1079,
+						"staged_collision_generation": 0,
+						"visual_required": true,
+						"collision_required": true,
+						"visual_ready": true,
+						"collision_ready": true,
+						"fully_ready": true
+					},
+					"collision_leaf": {
+						"present": true,
+						"coordinate": "(5, 2, 3)",
+						"lod": 0,
+						"generation": 1079,
+						"visual_generation": 1079,
+						"staged_visual_generation": 0,
+						"collision_generation": 1079,
+						"staged_collision_generation": 0,
+						"visual_required": true,
+						"collision_required": true,
+						"visual_ready": true,
+						"collision_ready": true,
+						"fully_ready": true
+					}
+				},
+				"generation_agreement": {
+					"status": "PASS",
+					"mismatch_count": 0,
+					"mismatches": []
+				}
+			},
+			{
+				"id": "construct_distant",
+				"class": "edited",
+				"kind": "construct",
+				"status": "PASS",
+				"position": [
+					312.0,
+					40.0,
+					312.0
+				],
+				"target_chunk": "(19, 2, 19)",
+				"input_acknowledgement_usec": 30,
+				"first_correct_visual_usec": 34423,
+				"collision_coherence_usec": 6792,
+				"local_settlement_usec": 34423,
+				"world_revision": 6,
+				"before_sample": {
+					"status": "PASS",
+					"point": "(312, 40, 312)",
+					"lod": 0,
+					"density": 20.3547210693359,
+					"material": 4,
+					"source_revision": 945001,
+					"world_revision": 5,
+					"agreeing_page_count": 1
+				},
+				"after_sample": {
+					"status": "PASS",
+					"point": "(312, 40, 312)",
+					"lod": 0,
+					"density": -4.0,
+					"material": 11,
+					"source_revision": 945001,
+					"world_revision": 6,
+					"agreeing_page_count": 1
+				},
+				"readiness": {
+					"visual_leaf": {
+						"present": true,
+						"coordinate": "(19, 2, 19)",
+						"lod": 0,
+						"generation": 1169,
+						"visual_generation": 1169,
+						"staged_visual_generation": 0,
+						"collision_generation": 1169,
+						"staged_collision_generation": 0,
+						"visual_required": true,
+						"collision_required": true,
+						"visual_ready": true,
+						"collision_ready": true,
+						"fully_ready": true
+					},
+					"collision_leaf": {
+						"present": true,
+						"coordinate": "(19, 2, 19)",
+						"lod": 0,
+						"generation": 1169,
+						"visual_generation": 0,
+						"staged_visual_generation": 0,
+						"collision_generation": 0,
+						"staged_collision_generation": 0,
+						"visual_required": true,
+						"collision_required": true,
+						"visual_ready": false,
+						"collision_ready": true,
+						"fully_ready": false
+					}
+				},
+				"generation_agreement": {
+					"status": "PASS",
+					"mismatch_count": 0,
+					"mismatches": []
+				}
+			}
+		],
+		"previously_evicted": [
+			{
+				"class": "previously_evicted",
+				"status": "PASS",
+				"position": "(127.0, 24.0, 72.0)",
+				"target_chunk": "(7, 1, 4)",
+				"input_acknowledgement_usec": 19,
+				"first_correct_visual_usec": 35699,
+				"collision_coherence_usec": 35699,
+				"local_settlement_usec": 1082392,
+				"event_observed": true,
+				"readiness": {
+					"visual_leaf": {
+						"present": true,
+						"coordinate": "(7, 1, 4)",
+						"lod": 0,
+						"generation": 918,
+						"visual_generation": 0,
+						"staged_visual_generation": 0,
+						"collision_generation": 0,
+						"staged_collision_generation": 0,
+						"visual_required": true,
+						"collision_required": true,
+						"visual_ready": true,
+						"collision_ready": true,
+						"fully_ready": true
+					},
+					"collision_leaf": {
+						"present": true,
+						"coordinate": "(7, 1, 4)",
+						"lod": 0,
+						"generation": 918,
+						"visual_generation": 0,
+						"staged_visual_generation": 0,
+						"collision_generation": 0,
+						"staged_collision_generation": 0,
+						"visual_required": true,
+						"collision_required": true,
+						"visual_ready": true,
+						"collision_ready": true,
+						"fully_ready": true
+					}
+				},
+				"generation_agreement": {
+					"status": "PASS",
+					"mismatch_count": 0,
+					"mismatches": []
+				}
+			},
+			{
+				"class": "previously_evicted",
+				"status": "PASS",
+				"position": "(312.0, 40.0, 312.0)",
+				"target_chunk": "(19, 2, 19)",
+				"input_acknowledgement_usec": 964,
+				"first_correct_visual_usec": 15655,
+				"collision_coherence_usec": 15655,
+				"local_settlement_usec": 15655,
+				"event_observed": true,
+				"readiness": {
+					"visual_leaf": {
+						"present": true,
+						"coordinate": "(19, 2, 19)",
+						"lod": 0,
+						"generation": 1169,
+						"visual_generation": 1169,
+						"staged_visual_generation": 0,
+						"collision_generation": 1169,
+						"staged_collision_generation": 0,
+						"visual_required": true,
+						"collision_required": true,
+						"visual_ready": true,
+						"collision_ready": true,
+						"fully_ready": true
+					},
+					"collision_leaf": {
+						"present": true,
+						"coordinate": "(19, 2, 19)",
+						"lod": 0,
+						"generation": 1169,
+						"visual_generation": 1169,
+						"staged_visual_generation": 0,
+						"collision_generation": 1169,
+						"staged_collision_generation": 0,
+						"visual_required": true,
+						"collision_required": true,
+						"visual_ready": true,
+						"collision_ready": true,
+						"fully_ready": true
+					}
+				},
+				"generation_agreement": {
+					"status": "PASS",
+					"mismatch_count": 0,
+					"mismatches": []
+				}
+			},
+			{
+				"class": "previously_evicted",
+				"status": "PASS",
+				"position": "(64.0, 30.0, 300.0)",
+				"target_chunk": "(4, 1, 18)",
+				"input_acknowledgement_usec": 19,
+				"first_correct_visual_usec": 187997,
+				"collision_coherence_usec": 201620,
+				"local_settlement_usec": 2439505,
+				"event_observed": true,
+				"readiness": {
+					"visual_leaf": {
+						"present": true,
+						"coordinate": "(4, 1, 18)",
+						"lod": 0,
+						"generation": 1605,
+						"visual_generation": 1605,
+						"staged_visual_generation": 0,
+						"collision_generation": 0,
+						"staged_collision_generation": 0,
+						"visual_required": true,
+						"collision_required": true,
+						"visual_ready": true,
+						"collision_ready": false,
+						"fully_ready": false
+					},
+					"collision_leaf": {
+						"present": true,
+						"coordinate": "(4, 1, 18)",
+						"lod": 0,
+						"generation": 1605,
+						"visual_generation": 1605,
+						"staged_visual_generation": 0,
+						"collision_generation": 1605,
+						"staged_collision_generation": 0,
+						"visual_required": true,
+						"collision_required": true,
+						"visual_ready": true,
+						"collision_ready": true,
+						"fully_ready": true
+					}
+				},
+				"generation_agreement": {
+					"status": "PASS",
+					"mismatch_count": 0,
+					"mismatches": []
+				}
+			},
+			{
+				"class": "previously_evicted",
+				"status": "PASS",
+				"position": "(300.0, 30.0, 64.0)",
+				"target_chunk": "(18, 1, 4)",
+				"input_acknowledgement_usec": 20,
+				"first_correct_visual_usec": 187669,
+				"collision_coherence_usec": 194553,
+				"local_settlement_usec": 2430522,
+				"event_observed": true,
+				"readiness": {
+					"visual_leaf": {
+						"present": true,
+						"coordinate": "(18, 1, 4)",
+						"lod": 0,
+						"generation": 1777,
+						"visual_generation": 1777,
+						"staged_visual_generation": 0,
+						"collision_generation": 0,
+						"staged_collision_generation": 0,
+						"visual_required": true,
+						"collision_required": true,
+						"visual_ready": true,
+						"collision_ready": false,
+						"fully_ready": false
+					},
+					"collision_leaf": {
+						"present": true,
+						"coordinate": "(18, 1, 4)",
+						"lod": 0,
+						"generation": 1777,
+						"visual_generation": 1777,
+						"staged_visual_generation": 0,
+						"collision_generation": 1777,
+						"staged_collision_generation": 0,
+						"visual_required": true,
+						"collision_required": true,
+						"visual_ready": true,
+						"collision_ready": true,
+						"fully_ready": true
+					}
+				},
+				"generation_agreement": {
+					"status": "PASS",
+					"mismatch_count": 0,
+					"mismatches": []
+				}
+			}
+		]
+	},
+	"distributions": {
+		"cold": {
+			"input_acknowledgement": {
+				"sample_count": 4,
+				"p50_usec": 18.0,
+				"p95_usec": 19.0,
+				"p99_usec": 19.0,
+				"worst_usec": 19.0
+			},
+			"first_correct_visual": {
+				"sample_count": 4,
+				"p50_usec": 207111.0,
+				"p95_usec": 968617.0,
+				"p99_usec": 968617.0,
+				"worst_usec": 968617.0
+			},
+			"collision_coherence": {
+				"sample_count": 4,
+				"p50_usec": 214169.0,
+				"p95_usec": 982420.0,
+				"p99_usec": 982420.0,
+				"worst_usec": 982420.0
+			},
+			"local_settlement": {
+				"sample_count": 4,
+				"p50_usec": 2223284.0,
+				"p95_usec": 2383152.0,
+				"p99_usec": 2383152.0,
+				"worst_usec": 2383152.0
+			}
+		},
+		"warm": {
+			"input_acknowledgement": {
+				"sample_count": 4,
+				"p50_usec": 16.0,
+				"p95_usec": 3066.0,
+				"p99_usec": 3066.0,
+				"worst_usec": 3066.0
+			},
+			"first_correct_visual": {
+				"sample_count": 4,
+				"p50_usec": 207838.0,
+				"p95_usec": 890249.0,
+				"p99_usec": 890249.0,
+				"worst_usec": 890249.0
+			},
+			"collision_coherence": {
+				"sample_count": 4,
+				"p50_usec": 223421.0,
+				"p95_usec": 901014.0,
+				"p99_usec": 901014.0,
+				"worst_usec": 901014.0
+			},
+			"local_settlement": {
+				"sample_count": 4,
+				"p50_usec": 2263350.0,
+				"p95_usec": 3031576.0,
+				"p99_usec": 3031576.0,
+				"worst_usec": 3031576.0
+			}
+		},
+		"edited": {
+			"input_acknowledgement": {
+				"sample_count": 6,
+				"p50_usec": 30.0,
+				"p95_usec": 55.0,
+				"p99_usec": 55.0,
+				"worst_usec": 55.0
+			},
+			"first_correct_visual": {
+				"sample_count": 6,
+				"p50_usec": 96315.0,
+				"p95_usec": 154734.0,
+				"p99_usec": 154734.0,
+				"worst_usec": 154734.0
+			},
+			"collision_coherence": {
+				"sample_count": 6,
+				"p50_usec": 75771.0,
+				"p95_usec": 154734.0,
+				"p99_usec": 154734.0,
+				"worst_usec": 154734.0
+			},
+			"local_settlement": {
+				"sample_count": 6,
+				"p50_usec": 172294.0,
+				"p95_usec": 230220.0,
+				"p99_usec": 230220.0,
+				"worst_usec": 230220.0
+			}
+		},
+		"previously_evicted": {
+			"input_acknowledgement": {
+				"sample_count": 4,
+				"p50_usec": 19.0,
+				"p95_usec": 964.0,
+				"p99_usec": 964.0,
+				"worst_usec": 964.0
+			},
+			"first_correct_visual": {
+				"sample_count": 4,
+				"p50_usec": 35699.0,
+				"p95_usec": 187997.0,
+				"p99_usec": 187997.0,
+				"worst_usec": 187997.0
+			},
+			"collision_coherence": {
+				"sample_count": 4,
+				"p50_usec": 35699.0,
+				"p95_usec": 201620.0,
+				"p99_usec": 201620.0,
+				"worst_usec": 201620.0
+			},
+			"local_settlement": {
+				"sample_count": 4,
+				"p50_usec": 1082392.0,
+				"p95_usec": 2439505.0,
+				"p99_usec": 2439505.0,
+				"worst_usec": 2439505.0
+			}
+		}
+	},
+	"eviction_moves": [
+		{
+			"class": "eviction_move",
+			"status": "PASS",
+			"position": "(192.0, 30.0, 192.0)",
+			"target_chunk": "(12, 1, 12)",
+			"input_acknowledgement_usec": 15,
+			"first_correct_visual_usec": 239711,
+			"collision_coherence_usec": 246608,
+			"local_settlement_usec": 4142807,
+			"event_observed": true,
+			"readiness": {
+				"visual_leaf": {
+					"present": true,
+					"coordinate": "(12, 1, 12)",
+					"lod": 0,
+					"generation": 1211,
+					"visual_generation": 1211,
+					"staged_visual_generation": 0,
+					"collision_generation": 0,
+					"staged_collision_generation": 0,
+					"visual_required": true,
+					"collision_required": true,
+					"visual_ready": true,
+					"collision_ready": false,
+					"fully_ready": false
+				},
+				"collision_leaf": {
+					"present": true,
+					"coordinate": "(12, 1, 12)",
+					"lod": 0,
+					"generation": 1211,
+					"visual_generation": 1211,
+					"staged_visual_generation": 0,
+					"collision_generation": 1211,
+					"staged_collision_generation": 0,
+					"visual_required": true,
+					"collision_required": true,
+					"visual_ready": true,
+					"collision_ready": true,
+					"fully_ready": true
+				}
+			},
+			"generation_agreement": {
+				"status": "PASS",
+				"mismatch_count": 0,
+				"mismatches": []
+			}
+		},
+		{
+			"class": "eviction_move",
+			"status": "PASS",
+			"position": "(192.0, 30.0, 192.0)",
+			"target_chunk": "(12, 1, 12)",
+			"input_acknowledgement_usec": 19,
+			"first_correct_visual_usec": 327368,
+			"collision_coherence_usec": 334795,
+			"local_settlement_usec": 1748792,
+			"event_observed": true,
+			"readiness": {
+				"visual_leaf": {
+					"present": true,
+					"coordinate": "(12, 1, 12)",
+					"lod": 0,
+					"generation": 1433,
+					"visual_generation": 1433,
+					"staged_visual_generation": 0,
+					"collision_generation": 0,
+					"staged_collision_generation": 0,
+					"visual_required": true,
+					"collision_required": true,
+					"visual_ready": true,
+					"collision_ready": false,
+					"fully_ready": false
+				},
+				"collision_leaf": {
+					"present": true,
+					"coordinate": "(12, 1, 12)",
+					"lod": 0,
+					"generation": 1433,
+					"visual_generation": 1433,
+					"staged_visual_generation": 0,
+					"collision_generation": 1433,
+					"staged_collision_generation": 0,
+					"visual_required": true,
+					"collision_required": true,
+					"visual_ready": true,
+					"collision_ready": true,
+					"fully_ready": true
+				}
+			},
+			"generation_agreement": {
+				"status": "PASS",
+				"mismatch_count": 0,
+				"mismatches": []
+			}
+		},
+		{
+			"class": "eviction_move",
+			"status": "PASS",
+			"position": "(192.0, 30.0, 192.0)",
+			"target_chunk": "(12, 1, 12)",
+			"input_acknowledgement_usec": 15,
+			"first_correct_visual_usec": 460106,
+			"collision_coherence_usec": 398019,
+			"local_settlement_usec": 1439925,
+			"event_observed": true,
+			"readiness": {
+				"visual_leaf": {
+					"present": true,
+					"coordinate": "(12, 1, 12)",
+					"lod": 0,
+					"generation": 1519,
+					"visual_generation": 1519,
+					"staged_visual_generation": 0,
+					"collision_generation": 1519,
+					"staged_collision_generation": 0,
+					"visual_required": true,
+					"collision_required": true,
+					"visual_ready": true,
+					"collision_ready": true,
+					"fully_ready": true
+				},
+				"collision_leaf": {
+					"present": true,
+					"coordinate": "(12, 1, 12)",
+					"lod": 0,
+					"generation": 1519,
+					"visual_generation": 0,
+					"staged_visual_generation": 0,
+					"collision_generation": 1519,
+					"staged_collision_generation": 0,
+					"visual_required": true,
+					"collision_required": true,
+					"visual_ready": false,
+					"collision_ready": true,
+					"fully_ready": false
+				}
+			},
+			"generation_agreement": {
+				"status": "PASS",
+				"mismatch_count": 0,
+				"mismatches": []
+			}
+		},
+		{
+			"class": "eviction_move",
+			"status": "PASS",
+			"position": "(192.0, 30.0, 192.0)",
+			"target_chunk": "(12, 1, 12)",
+			"input_acknowledgement_usec": 18,
+			"first_correct_visual_usec": 362201,
+			"collision_coherence_usec": 370072,
+			"local_settlement_usec": 1776709,
+			"event_observed": true,
+			"readiness": {
+				"visual_leaf": {
+					"present": true,
+					"coordinate": "(12, 1, 12)",
+					"lod": 0,
+					"generation": 1691,
+					"visual_generation": 1691,
+					"staged_visual_generation": 0,
+					"collision_generation": 0,
+					"staged_collision_generation": 0,
+					"visual_required": true,
+					"collision_required": true,
+					"visual_ready": true,
+					"collision_ready": false,
+					"fully_ready": false
+				},
+				"collision_leaf": {
+					"present": true,
+					"coordinate": "(12, 1, 12)",
+					"lod": 0,
+					"generation": 1691,
+					"visual_generation": 1691,
+					"staged_visual_generation": 0,
+					"collision_generation": 1691,
+					"staged_collision_generation": 0,
+					"visual_required": true,
+					"collision_required": true,
+					"visual_ready": true,
+					"collision_ready": true,
+					"fully_ready": true
+				}
+			},
+			"generation_agreement": {
+				"status": "PASS",
+				"mismatch_count": 0,
+				"mismatches": []
+			}
+		}
+	],
+	"supersession": {
+		"status": "PASS",
+		"submitted_obsolete_updates": 5,
+		"accepted_obsolete_updates": 5,
+		"coalesced_event_delta": 4,
+		"final_demand_matches_canonical_baseline": true,
+		"baseline_demand": {
+			"visual_count": 420,
+			"collision_count": 420,
+			"visual_hash": "df35ea67ec30e6d64ca9552ba28b39ddff4ec9c92ac5ca0d14555564b9dd0e8d",
+			"collision_hash": "df35ea67ec30e6d64ca9552ba28b39ddff4ec9c92ac5ca0d14555564b9dd0e8d"
+		},
+		"final_demand": {
+			"visual_count": 420,
+			"collision_count": 420,
+			"visual_hash": "df35ea67ec30e6d64ca9552ba28b39ddff4ec9c92ac5ca0d14555564b9dd0e8d",
+			"collision_hash": "df35ea67ec30e6d64ca9552ba28b39ddff4ec9c92ac5ca0d14555564b9dd0e8d"
+		},
+		"baseline_local": {
+			"class": "supersession_baseline_local",
+			"status": "PASS",
+			"position": "(127.0, 24.0, 72.0)",
+			"target_chunk": "(7, 1, 4)",
+			"input_acknowledgement_usec": 17,
+			"first_correct_visual_usec": 15888,
+			"collision_coherence_usec": 15888,
+			"local_settlement_usec": 923493,
+			"event_observed": true,
+			"readiness": {
+				"visual_leaf": {
+					"present": true,
+					"coordinate": "(7, 1, 4)",
+					"lod": 0,
+					"generation": 918,
+					"visual_generation": 0,
+					"staged_visual_generation": 0,
+					"collision_generation": 0,
+					"staged_collision_generation": 0,
+					"visual_required": true,
+					"collision_required": true,
+					"visual_ready": true,
+					"collision_ready": true,
+					"fully_ready": true
+				},
+				"collision_leaf": {
+					"present": true,
+					"coordinate": "(7, 1, 4)",
+					"lod": 0,
+					"generation": 918,
+					"visual_generation": 0,
+					"staged_visual_generation": 0,
+					"collision_generation": 0,
+					"staged_collision_generation": 0,
+					"visual_required": true,
+					"collision_required": true,
+					"visual_ready": true,
+					"collision_ready": true,
+					"fully_ready": true
+				}
+			},
+			"generation_agreement": {
+				"status": "PASS",
+				"mismatch_count": 0,
+				"mismatches": []
+			}
+		},
+		"current_local": {
+			"class": "supersession_current_local",
+			"status": "PASS",
+			"position": "(127.0, 24.0, 72.0)",
+			"target_chunk": "(7, 1, 4)",
+			"input_acknowledgement_usec": 9,
+			"first_correct_visual_usec": 18981,
+			"collision_coherence_usec": 18981,
+			"local_settlement_usec": 739108,
+			"event_observed": true,
+			"readiness": {
+				"visual_leaf": {
+					"present": true,
+					"coordinate": "(7, 1, 4)",
+					"lod": 0,
+					"generation": 918,
+					"visual_generation": 0,
+					"staged_visual_generation": 0,
+					"collision_generation": 0,
+					"staged_collision_generation": 0,
+					"visual_required": true,
+					"collision_required": true,
+					"visual_ready": true,
+					"collision_ready": true,
+					"fully_ready": true
+				},
+				"collision_leaf": {
+					"present": true,
+					"coordinate": "(7, 1, 4)",
+					"lod": 0,
+					"generation": 918,
+					"visual_generation": 0,
+					"staged_visual_generation": 0,
+					"collision_generation": 0,
+					"staged_collision_generation": 0,
+					"visual_required": true,
+					"collision_required": true,
+					"visual_ready": true,
+					"collision_ready": true,
+					"fully_ready": true
+				}
+			},
+			"generation_agreement": {
+				"status": "PASS",
+				"mismatch_count": 0,
+				"mismatches": []
+			}
+		},
+		"before_metrics": {
+			"viewer_updates": 23,
+			"collision_viewer_updates": 23,
+			"coalesced_viewer_events": 0,
+			"planned_demands": 12747,
+			"sample_jobs": 1861,
+			"mesh_jobs": 1861,
+			"edit_commits": 6,
+			"edit_replacements": 34,
+			"edit_cancelled_page_meshing_generations": 34,
+			"page_stale_storage_completions": 0,
+			"scheduler_queued_jobs": 0,
+			"storage_queued_requests": 0,
+			"queued_render": 0,
+			"total_collision_backlog": 0,
+			"active_chunk_records": 420,
+			"render_resources": 90,
+			"collision_resources": 90,
+			"application_applied_render": 2786,
+			"application_applied_collision": 4819,
+			"render_latency_frames_maximum": 3,
+			"collision_latency_frames_maximum": 4,
+			"pending_chunk_replacements": 0,
+			"pending_chunk_retirements": 0
+		},
+		"after_metrics": {
+			"viewer_updates": 25,
+			"collision_viewer_updates": 24,
+			"coalesced_viewer_events": 4,
+			"planned_demands": 14045,
+			"sample_jobs": 1902,
+			"mesh_jobs": 1898,
+			"edit_commits": 6,
+			"edit_replacements": 34,
+			"edit_cancelled_page_meshing_generations": 34,
+			"page_stale_storage_completions": 1,
+			"scheduler_queued_jobs": 0,
+			"storage_queued_requests": 0,
+			"queued_render": 0,
+			"total_collision_backlog": 0,
+			"active_chunk_records": 420,
+			"render_resources": 90,
+			"collision_resources": 90,
+			"application_applied_render": 2875,
+			"application_applied_collision": 4907,
+			"render_latency_frames_maximum": 3,
+			"collision_latency_frames_maximum": 4,
+			"pending_chunk_replacements": 0,
+			"pending_chunk_retirements": 0
+		}
+	}
+}

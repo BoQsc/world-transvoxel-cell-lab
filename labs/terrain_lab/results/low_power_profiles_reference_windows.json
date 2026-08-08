@@ -1,0 +1,117 @@
+{
+  "schema": "world_transvoxel.terrain_lab.low_power_profiles_qualification.v1",
+  "milestone": "TQP-48",
+  "standard_id": "cpu_low_power_profiles_windows_v1",
+  "status": "BLOCKED_POWER_BOUNDARY_ON_AC",
+  "retained_complete": false,
+  "profiles_frozen": {
+    "low_power_16w_60fps": {
+      "resolution": [
+        960,
+        540
+      ],
+      "target_fps": 60,
+      "viewer_radius_chunks": 1,
+      "maximum_lod": 2,
+      "collision_radius_chunks": 1,
+      "render_apply_budget": 4,
+      "collision_apply_budget": 2,
+      "shadows": false,
+      "active_chunk_capacity": 1024,
+      "cache_capacity": 1024,
+      "pipeline_capacity": 4096
+    },
+    "balanced": {
+      "resolution": [
+        1280,
+        720
+      ],
+      "target_fps": 60,
+      "viewer_radius_chunks": 2,
+      "maximum_lod": 2,
+      "collision_radius_chunks": 1,
+      "render_apply_budget": 6,
+      "collision_apply_budget": 2,
+      "shadows": true,
+      "active_chunk_capacity": 1536,
+      "cache_capacity": 1536,
+      "pipeline_capacity": 6144
+    },
+    "quality": {
+      "resolution": [
+        1920,
+        1080
+      ],
+      "target_fps": 60,
+      "viewer_radius_chunks": 3,
+      "maximum_lod": 2,
+      "collision_radius_chunks": 1,
+      "render_apply_budget": 8,
+      "collision_apply_budget": 3,
+      "shadows": true,
+      "active_chunk_capacity": 2048,
+      "cache_capacity": 2048,
+      "pipeline_capacity": 8192
+    }
+  },
+  "measurement_contract": {
+    "warmup_seconds": 300,
+    "steady_state_seconds": 1800,
+    "minimum_frame_samples": 108000,
+    "power_limit_watts": 16.0,
+    "accepted_power_boundaries": [
+      "soc_or_package",
+      "complete_system_at_battery_or_dc_input"
+    ],
+    "power_sample_interval_seconds": 2.0,
+    "required_workload_classes": [
+      "idle",
+      "ground_traversal",
+      "high_speed_flight",
+      "vertical_cave",
+      "lod_churn",
+      "teleport",
+      "digging",
+      "construction",
+      "multiple_collision_invokers",
+      "resource_retirement"
+    ]
+  },
+  "hardware": {
+    "platform": "Windows-10-10.0.19045-SP0",
+    "machine": "AMD64",
+    "processor": "Intel64 Family 6 Model 158 Stepping 9, GenuineIntel",
+    "python": "3.13.7",
+    "gpu": {
+      "name": "NVIDIA GeForce GTX 1060 with Max-Q Design",
+      "driver": "566.36",
+      "power_w": 5.2,
+      "temperature_c": 70.0,
+      "utilization_percent": 1.0,
+      "memory_mib": 0.0
+    }
+  },
+  "power_preflight": {
+    "available": false,
+    "boundary": "none",
+    "watts": null,
+    "reason": "accepted package/system sensor unavailable; battery is AC-connected or reports zero discharge",
+    "battery": {
+      "PowerOnline": true,
+      "Discharging": false,
+      "Charging": false,
+      "DischargeRate": 0,
+      "Voltage": 11801,
+      "RemainingCapacity": 27090
+    }
+  },
+  "qualified_scope": [],
+  "explicitly_unqualified_scope": [
+    "GPU-board-only power as package or system power",
+    "qualification while AC-connected battery discharge is zero",
+    "cross-hardware, battery-life, GPU-meshing, production-release, or Gate E claims"
+  ],
+  "blockers": [
+    "accepted package/system sensor unavailable; battery is AC-connected or reports zero discharge"
+  ]
+}

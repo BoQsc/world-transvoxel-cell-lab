@@ -76,6 +76,10 @@ const ADAPTIVE_PERSISTENCE_OBSERVATORY_SCENE := (
 const ADAPTIVE_PERSISTENCE_OBSERVATORY_MENU_LABEL := (
 	"Open TQP-41 Adaptive Persistence"
 )
+const COMPLEX_VISUAL_REVIEW_SCENE := (
+	"res://labs/terrain_lab/scenes/complex_visual_review_observatory.tscn"
+)
+const COMPLEX_VISUAL_REVIEW_MENU_LABEL := "Open TQP-44 Complex Visual Review"
 
 
 func _enter_tree() -> void:
@@ -131,6 +135,7 @@ func _enter_tree() -> void:
 		ADAPTIVE_PERSISTENCE_OBSERVATORY_MENU_LABEL,
 		_open_adaptive_persistence_observatory
 	)
+	add_tool_menu_item(COMPLEX_VISUAL_REVIEW_MENU_LABEL, _open_complex_visual_review)
 	set_process(true)
 
 
@@ -148,6 +153,7 @@ func _exit_tree() -> void:
 	remove_tool_menu_item(ADAPTIVE_SYSTEM_OBSERVATORY_MENU_LABEL)
 	remove_tool_menu_item(ADAPTIVE_STREAMING_OBSERVATORY_MENU_LABEL)
 	remove_tool_menu_item(ADAPTIVE_PERSISTENCE_OBSERVATORY_MENU_LABEL)
+	remove_tool_menu_item(COMPLEX_VISUAL_REVIEW_MENU_LABEL)
 	remove_custom_type("WtTransvoxelTerrainLab")
 
 
@@ -223,13 +229,24 @@ func _open_adaptive_persistence_observatory() -> void:
 	)
 
 
+func _open_complex_visual_review() -> void:
+	get_editor_interface().open_scene_from_path(COMPLEX_VISUAL_REVIEW_SCENE)
+
+
 func _process(delta: float) -> void:
 	_editor_camera_accumulator += delta
 	if _editor_camera_accumulator < 0.2:
 		return
 	_editor_camera_accumulator = 0.0
 	var edited_root := get_editor_interface().get_edited_scene_root()
-	if edited_root == null or not edited_root.has_method("track_editor_camera"):
+	if edited_root == null:
+		return
+	if edited_root.has_method("consume_open_scene_request"):
+		var requested_scene := str(edited_root.call("consume_open_scene_request"))
+		if not requested_scene.is_empty():
+			get_editor_interface().open_scene_from_path(requested_scene)
+			return
+	if not edited_root.has_method("track_editor_camera"):
 		return
 	var editor_viewport := get_editor_interface().get_editor_viewport_3d(0)
 	if editor_viewport == null:

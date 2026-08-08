@@ -1,0 +1,262 @@
+{
+  "schema": "world_transvoxel.terrain_lab.cpu_closure_native_authority.v1",
+  "status": "PASS",
+  "authority": {
+    "repository": "world-transvoxel",
+    "git_commit": "f4abd7ab4f921f98aba4ee45b4453af0bae53cd8",
+    "git_describe": "last-tested-0001-20-gf4abd7a",
+    "executables": {
+      "workload_debug": {
+        "path": "build/native-tests/test_wt_m5_workload.template_debug.x86_64.exe",
+        "sha256": "61a0d306051ff7aa115f898578300affafd83a5aa59d6ad35ae78a847c35928c"
+      },
+      "workload_release": {
+        "path": "build/native-tests/test_wt_m5_workload.template_release.x86_64.exe",
+        "sha256": "61a0d306051ff7aa115f898578300affafd83a5aa59d6ad35ae78a847c35928c"
+      },
+      "lod_streaming_debug": {
+        "path": "build/native-tests/test_wt_production_lod_streaming.template_debug.x86_64.exe",
+        "sha256": "d9277f5cbde97befe74f8b51d8a58b39b80132fd0bcbecf539d32fc9d2b055d8"
+      },
+      "lod_streaming_release": {
+        "path": "build/native-tests/test_wt_production_lod_streaming.template_release.x86_64.exe",
+        "sha256": "d9277f5cbde97befe74f8b51d8a58b39b80132fd0bcbecf539d32fc9d2b055d8"
+      },
+      "snapshot_query_release": {
+        "path": "build/native-tests/test_wt_production_snapshot_query.template_release.x86_64.exe",
+        "sha256": "6c50460302dcabc01e014b7a332399cc161e6b5cf3a87b4a3fc5b320fea15614"
+      },
+      "soak_release": {
+        "path": "build/native-tests/test_wt_m5_soak.template_release.x86_64.exe",
+        "sha256": "d03de15a12bdc90c9049cc2d1fd024a78fa88ce8007397fddf0876763c4d22b2"
+      }
+    }
+  },
+  "expected_contract_hashes": {
+    "workload_hash": "b758a78f2da5582081a579ea74de5bec0d33901a334001a395f3a462dbf27d44",
+    "lod_streaming_hash": "4d3cbadcef8d851df1061e6845444ba9ad4c02ac9671b072c92b1b944a4e2314",
+    "snapshot_query_hash": "2b3da9885262e7548e95192e698eb00eebe57fadc82e05aa05b5da83dbc2c689"
+  },
+  "build_matrix": {
+    "template_debug": {
+      "status": "PASS",
+      "workload_hash": "b758a78f2da5582081a579ea74de5bec0d33901a334001a395f3a462dbf27d44",
+      "workload_metrics": {
+        "frames": 106,
+        "worker_jobs": 526,
+        "desired_max": 10,
+        "records_max": 10,
+        "jobs_max": 10,
+        "render_max": 29,
+        "collision_max": 5,
+        "resources_max": 30,
+        "readiness_max": 10,
+        "stale": 5,
+        "discarded_jobs": 12,
+        "discarded_completions": 0
+      },
+      "lod_streaming_hash": "4d3cbadcef8d851df1061e6845444ba9ad4c02ac9671b072c92b1b944a4e2314",
+      "lod_streaming_metrics": {
+        "entries": 9,
+        "mask": 1,
+        "retained_entries": 18,
+        "retained_edit_key": 1,
+        "fallback_retention": 1,
+        "bridge0": "320/1674",
+        "bridge1": "320/1674",
+        "staged_expects": 8,
+        "staged_collision_preserve_expects": 0,
+        "transition_stage_generations": 0,
+        "transition_preserve_generations": 0,
+        "global_coarse": 1,
+        "many_zone_retention": 1,
+        "lod_hysteresis": 1,
+        "edit_viewer_second_edit": 1,
+        "collision_reactivation": 1,
+        "replacement_collision_continuity": 1,
+        "collision_publication_priority": 1,
+        "collision_publication_coalescing": 1,
+        "g21_entries": 1380,
+        "g21_nearest_coarse": 51.5,
+        "transition_completions": 2
+      },
+      "lod_streaming_contract": {
+        "pages": 28,
+        "viewers": 2,
+        "transitions": 3,
+        "lod_hysteresis": 1,
+        "collision_reactivation": 1,
+        "edit_viewer_second_edit": 1,
+        "replacement_collision_continuity": 1,
+        "collision_publication_priority": 1,
+        "collision_publication_coalescing": 1,
+        "g21_near_field": 1,
+        "backend": "MIT"
+      },
+      "peak_working_set_bytes": 19156992
+    },
+    "template_release": {
+      "status": "PASS",
+      "workload_hash": "b758a78f2da5582081a579ea74de5bec0d33901a334001a395f3a462dbf27d44",
+      "workload_metrics": {
+        "frames": 106,
+        "worker_jobs": 526,
+        "desired_max": 10,
+        "records_max": 10,
+        "jobs_max": 10,
+        "render_max": 29,
+        "collision_max": 5,
+        "resources_max": 30,
+        "readiness_max": 10,
+        "stale": 5,
+        "discarded_jobs": 12,
+        "discarded_completions": 0
+      },
+      "lod_streaming_hash": "4d3cbadcef8d851df1061e6845444ba9ad4c02ac9671b072c92b1b944a4e2314",
+      "lod_streaming_metrics": {
+        "entries": 9,
+        "mask": 1,
+        "retained_entries": 18,
+        "retained_edit_key": 1,
+        "fallback_retention": 1,
+        "bridge0": "320/1674",
+        "bridge1": "320/1674",
+        "staged_expects": 8,
+        "staged_collision_preserve_expects": 0,
+        "transition_stage_generations": 0,
+        "transition_preserve_generations": 0,
+        "global_coarse": 1,
+        "many_zone_retention": 1,
+        "lod_hysteresis": 1,
+        "edit_viewer_second_edit": 1,
+        "collision_reactivation": 1,
+        "replacement_collision_continuity": 1,
+        "collision_publication_priority": 1,
+        "collision_publication_coalescing": 1,
+        "g21_entries": 1380,
+        "g21_nearest_coarse": 51.5,
+        "transition_completions": 2
+      },
+      "lod_streaming_contract": {
+        "pages": 28,
+        "viewers": 2,
+        "transitions": 3,
+        "lod_hysteresis": 1,
+        "collision_reactivation": 1,
+        "edit_viewer_second_edit": 1,
+        "replacement_collision_continuity": 1,
+        "collision_publication_priority": 1,
+        "collision_publication_coalescing": 1,
+        "g21_near_field": 1,
+        "backend": "MIT"
+      },
+      "peak_working_set_bytes": 18800640
+    }
+  },
+  "representative_workload_distribution_ns": {
+    "samples": 25,
+    "p50": 2942900,
+    "p95": 4259400,
+    "p99": 4290600,
+    "worst": 4290600,
+    "values": [
+      3508100,
+      4290600,
+      2446500,
+      2566900,
+      2388800,
+      2488000,
+      2559600,
+      3170600,
+      2496800,
+      3873000,
+      2354500,
+      3384700,
+      2942900,
+      4179700,
+      3440300,
+      2820100,
+      2396300,
+      2433700,
+      2986100,
+      3647900,
+      2687800,
+      2596200,
+      4259400,
+      3242600,
+      3929500
+    ],
+    "peak_working_set_bytes": 3805184
+  },
+  "snapshot_query": {
+    "status": "PASS",
+    "hash": "2b3da9885262e7548e95192e698eb00eebe57fadc82e05aa05b5da83dbc2c689",
+    "contract": {
+      "queries": 7,
+      "compactions": 1,
+      "migrations": 1,
+      "rejection_cases": 6,
+      "sparse_rejection_cases": 8
+    },
+    "duration_ns": 5457623400,
+    "peak_working_set_bytes": 10489856
+  },
+  "native_soak": {
+    "status": "PASS",
+    "requested_duration_seconds": 60,
+    "metrics": {
+      "duration_ns": 60000039100,
+      "target_ns": 60000000000,
+      "frames": 2401960,
+      "viewer_events": 3303903,
+      "edit_events": 37531,
+      "worker_jobs": 12075451,
+      "desired_max": 10,
+      "records_max": 10,
+      "jobs_max": 11,
+      "completions_max": 0,
+      "render_max": 0,
+      "collision_max": 7,
+      "resources_max": 21,
+      "pending_max": 10,
+      "readiness_max": 4,
+      "stale": 11728,
+      "cancellations": 9031843,
+      "applied_render": 5422084,
+      "applied_collision": 1720541,
+      "rejections": 0,
+      "frame_max_ns": 35858400,
+      "trace_events": 2347,
+      "trace_bytes": 300728
+    },
+    "trace_sha256": "03ad7e16292a3a1bb9df42038f0f2ddbc43e30445637d293a2d0d0bd03380d3b",
+    "trace_bytes": 300728,
+    "peak_working_set_bytes": 4411392
+  },
+  "proof_map": {
+    "TQP-45": [
+      "interactive_edit_priority",
+      "priority_ordered_loading_retry",
+      "generation_cancellation_and_stale_discard",
+      "bounded_readiness_latency"
+    ],
+    "TQP-46": [
+      "visual_and_collision_demand_independence",
+      "collision_reactivation_hysteresis",
+      "replacement_collision_continuity",
+      "collision_publication_priority_and_coalescing",
+      "authoritative_sparse_query_without_render_residency"
+    ],
+    "TQP-47": [
+      "bounded_native_worker_and_queue_workload",
+      "debug_release_contract_identity",
+      "peak_working_set_measurement"
+    ],
+    "TQP-49": [
+      "fixed_duration_native_churn",
+      "cancellations_and_stale_results",
+      "bounded_readiness_and_queues",
+      "binary_trace_integrity"
+    ]
+  }
+}

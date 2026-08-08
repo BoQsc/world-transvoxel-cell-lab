@@ -1,0 +1,187 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://labs/terrain_lab/scenes/complex_visual_review_observatory.gd" id="1_script"]
+
+[sub_resource type="StyleBoxFlat" id="SideStyle"]
+bg_color = Color(0.025, 0.035, 0.04, 1)
+border_width_right = 1
+border_color = Color(0.15, 0.34, 0.34, 1)
+content_margin_left = 16.0
+content_margin_top = 16.0
+content_margin_right = 16.0
+content_margin_bottom = 16.0
+
+[node name="ComplexVisualReviewObservatory" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.01, 0.014, 0.017, 1)
+
+[node name="Main" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="Side" type="PanelContainer" parent="Main"]
+custom_minimum_size = Vector2(340, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("SideStyle")
+
+[node name="Content" type="VBoxContainer" parent="Main/Side"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="ProgramTitle" type="Label" parent="Main/Side/Content"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 21
+text = "Complex Terrain Review"
+
+[node name="ProgramSubtitle" type="Label" parent="Main/Side/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.44, 0.76, 0.72, 1)
+text = "TQP-44 / recursive visual and temporal corpus"
+
+[node name="StatusLabel" type="Label" parent="Main/Side/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.73, 0.28, 1)
+text = "LOADING"
+
+[node name="Separator" type="HSeparator" parent="Main/Side/Content"]
+layout_mode = 2
+
+[node name="MotionHeading" type="Label" parent="Main/Side/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.62, 0.78, 0.75, 1)
+text = "MOTION SOURCES"
+
+[node name="MotionRow" type="HBoxContainer" parent="Main/Side/Content"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="MotionSelector" type="OptionButton" parent="Main/Side/Content/MotionRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MotionLiveButton" type="Button" parent="Main/Side/Content/MotionRow"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Open"
+tooltip_text = "Open selected live motion source"
+
+[node name="CriteriaHeading" type="Label" parent="Main/Side/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.62, 0.78, 0.75, 1)
+text = "HUMAN REVIEW VERDICT"
+
+[node name="Criteria" type="VBoxContainer" parent="Main/Side/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="FindingEdit" type="LineEdit" parent="Main/Side/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+placeholder_text = "Finding for rejection"
+
+[node name="VerdictRow" type="HBoxContainer" parent="Main/Side/Content"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="AcceptButton" type="Button" parent="Main/Side/Content/VerdictRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Record pass"
+
+[node name="RejectButton" type="Button" parent="Main/Side/Content/VerdictRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Record finding"
+
+[node name="Spacer" type="Control" parent="Main/Side/Content"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Scope" type="Label" parent="Main/Side/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.49, 0.56, 0.55, 1)
+text = "TRACKED CAPTURES ARE EVIDENCE\nLIVE SCENES REMAIN THE INSPECTION AUTHORITY\nAUTOMATION CANNOT ACCEPT THIS VERDICT"
+
+[node name="Viewer" type="VBoxContainer" parent="Main"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="Header" type="HBoxContainer" parent="Main/Viewer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="PreviousButton" type="Button" parent="Main/Viewer/Header"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(44, 44)
+layout_mode = 2
+text = "<"
+tooltip_text = "Previous evidence"
+
+[node name="TitleLabel" type="Label" parent="Main/Viewer/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 18
+text = "Evidence"
+vertical_alignment = 1
+
+[node name="CounterLabel" type="Label" parent="Main/Viewer/Header"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(80, 44)
+layout_mode = 2
+text = "00 / 00"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LiveButton" type="Button" parent="Main/Viewer/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Open live source"
+
+[node name="NextButton" type="Button" parent="Main/Viewer/Header"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(44, 44)
+layout_mode = 2
+text = ">"
+tooltip_text = "Next evidence"
+
+[node name="ImageView" type="TextureRect" parent="Main/Viewer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(640, 360)
+layout_mode = 2
+size_flags_vertical = 3
+expand_mode = 1
+stretch_mode = 5
+
+[node name="MetadataLabel" type="Label" parent="Main/Viewer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.62, 0.7, 0.69, 1)
+text = "SCALE / SUBJECT / ANGLE\ncategories"
+horizontal_alignment = 1

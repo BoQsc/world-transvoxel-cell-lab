@@ -174,7 +174,7 @@ promotion order: investigation may happen early, but qualification cannot skip
 an earlier dependency.
 
 The machine-readable `execution_plan.json` mirrors the same order but is not a
-second human roadmap. Program revision 34 preserves every qualified TQP-01
+second human roadmap. Program revision 35 preserves every qualified TQP-01
 through TQP-43 claim and corrects only the future sequence through `TQP-D033`:
 finish native CPU terrain authority, release the standalone CPU addon, qualify
 and release GPU acceleration, and defer game-oriented systems until afterward.
@@ -952,7 +952,8 @@ arbitrary operating-system out-of-memory recovery is not claimed.
 
 ### TQP-44: Complex Terrain Visual And Temporal Corpus
 
-Status: `proposed`. Owner: Material and Surface Lab and Terrain Systems Lab.
+Status: `implemented`, unqualified pending explicit human review. Owner:
+Material and Surface Lab and Terrain Systems Lab.
 Depends on: TQP-23, TQP-25, TQP-26, TQP-31, TQP-35, TQP-37, TQP-38, TQP-39,
 TQP-40, TQP-43.
 
@@ -963,11 +964,18 @@ popping, flicker, shadows, texture scale, edited surfaces, caves, overhangs,
 and visual pleasantness against declared targets; automation cannot accept the
 milestone by itself.
 
+The retained automation fixes 25 stills, seven motion paths, twelve live source
+scenes, four inspection scales, multiple angles, and corpus hashes. The
+`@tool` review observatory records no acceptance until a human checks every
+declared category, traverses every still and motion path, and requests every
+live source scene. The retained verdict is tied to the exact corpus hash.
+
 ### TQP-45: Streaming Priority And Fast-Arrival Edit Responsiveness
 
-Status: `proposed`. Owner: Terrain Systems Lab and Edit Semantics Lab. Depends
-on: TQP-15, TQP-19, TQP-22, TQP-27, TQP-35, TQP-36, TQP-37, TQP-39, TQP-40,
-TQP-42, TQP-43, TQP-44.
+Status: `implemented`, candidate evidence retained; promotion waits for TQP-44.
+Owner: Terrain Systems Lab and Edit Semantics Lab. Depends on: TQP-15, TQP-19,
+TQP-22, TQP-27, TQP-35, TQP-36, TQP-37, TQP-39, TQP-40, TQP-42, TQP-43,
+TQP-44.
 
 Complete when high-speed traversal and teleports into cold, warm, edited, and
 previously evicted regions prove explicit demand classes, bounded queues,
@@ -978,10 +986,18 @@ reported as p50/p95/p99/worst latency. Old distant work must not delay current
 local demand, and readiness must be observable instead of inferred from a
 temporarily stale render or collision state.
 
+The Windows candidate covers cold, warm, edited, previously evicted, and
+superseded destinations. It retains p50/p95/p99/worst acknowledgement, visual,
+collision, and settlement latency and exact canonical final-demand identity.
+Readiness retains separate order-independent visual and collision leaves and
+rejects stale nonzero or staged sink generations; generation zero is accepted
+only as the native sink representation of an applied empty payload.
+
 ### TQP-46: Targeted Collision Residency And Update Latency
 
-Status: `proposed`. Owner: Terrain Systems Lab. Depends on: TQP-24, TQP-35,
-TQP-36, TQP-37, TQP-39, TQP-40, TQP-45.
+Status: `implemented`, candidate evidence retained; promotion waits for TQP-45.
+Owner: Terrain Systems Lab. Depends on: TQP-24, TQP-35, TQP-36, TQP-37,
+TQP-39, TQP-40, TQP-45.
 
 Complete when render, collision, navigation, and authoritative query demand are
 independent. Bounded player, vehicle, awake-body, and explicit-query invokers
@@ -991,11 +1007,21 @@ main-thread application, replacement, edit coherence, retirement, memory, and
 physics cost must be measured, and no qualified path may expose a collision
 hole or stale collision inside its declared envelope.
 
+The native policy intentionally gives a visual viewer bounded near-field
+collision using activation/deactivation hysteresis; distant visible chunks are
+collision-free. Separate collision viewers add collision-only overlays for the
+four invoker classes. The candidate checks event consumption, swept overlap,
+physics rays, edit replacement, on-demand navigation derivation, and overlay
+retirement after canonical visual replanning. Required render and collision
+states also prove current-or-empty applied sink generations with no staged
+replacement.
+
 ### TQP-47: Large-World Rendering, Frame Pacing, Memory, And Queues
 
-Status: `proposed`. Owner: Terrain Systems Lab and Material and Surface Lab.
-Depends on: TQP-04, TQP-20, TQP-22, TQP-26, TQP-27, TQP-30, TQP-31, TQP-35,
-TQP-38, TQP-40, TQP-42, TQP-45, TQP-46.
+Status: `implemented`, candidate evidence retained; promotion waits for TQP-46.
+Owner: Terrain Systems Lab and Material and Surface Lab. Depends on: TQP-04,
+TQP-20, TQP-22, TQP-26, TQP-27, TQP-30, TQP-31, TQP-35, TQP-38, TQP-40,
+TQP-42, TQP-45, TQP-46.
 
 Complete when representative large horizontal and vertical terrain workloads
 measure frame p50/p95/p99/worst, stutter bursts, render-thread and main-thread
@@ -1006,10 +1032,18 @@ and idle steady state must remain bounded by declared profiles. Optimizations
 must be individually measured and must preserve all applicable geometry,
 material, edit, collision, and persistence evidence.
 
+The reference workload renders a 2048x256x2048 catalog at 1280x720 in
+Forward+, with bounded LOD2/LOD1/LOD0 residency. Each of eight workload classes
+retains 120 frame samples plus measured render CPU/GPU time, draw and primitive
+counts, native worker deltas, queues, loading state, resources, and CPU/GPU
+memory. Every scenario retains applied-generation agreement. Its ceilings are
+debug-machine regression bounds, not release targets.
+
 ### TQP-48: Low-Power Performance Profiles And 60 FPS At 16 W
 
-Status: `proposed`. Owner: Terrain Systems Lab and Terrain Qualification
-Program. Depends on: TQP-04, TQP-27, TQP-38, TQP-39, TQP-45, TQP-46, TQP-47.
+Status: `implemented`, unqualified and blocked on an accepted power boundary.
+Owner: Terrain Systems Lab and Terrain Qualification Program. Depends on:
+TQP-04, TQP-27, TQP-38, TQP-39, TQP-45, TQP-46, TQP-47.
 
 Complete when low-power, balanced, and quality profiles have frozen settings,
 hardware, renderer, resolution, view distance, collision policy, warmup,
@@ -1020,11 +1054,21 @@ system power, energy per frame, and energy per published chunk. Missing the
 target is valid baseline evidence; it cannot be rewritten as a pass or used to
 preselect GPU implementation.
 
+Low-power, balanced, and quality settings are frozen. The exact runner refuses
+to qualify GPU-board-only power or AC-connected zero battery discharge. The
+low-power candidate requires a 300-second warmup, 1800 measured seconds, at
+least 108000 frames, and package or complete-system input power. Shortened,
+wrong-profile, partial-workload, discontinuous-power, or missing-sample runs
+are `INCOMPLETE_RUN`, never target misses. The exact report retains
+time-aligned power samples, real dig/construction and collision-invoker actions,
+resource retirement, focused responsiveness evidence, and rolling drift
+windows.
+
 ### TQP-49: Complex Adaptive Terrain Soak And Recovery
 
-Status: `proposed`. Owner: Terrain Systems Lab. Depends on: TQP-13, TQP-15,
-TQP-16, TQP-26, TQP-27, TQP-34, TQP-41, TQP-42, TQP-43, TQP-44, TQP-45,
-TQP-46, TQP-47, TQP-48.
+Status: `implemented`, unqualified and blocked on dependencies. Owner: Terrain
+Systems Lab. Depends on: TQP-13, TQP-15, TQP-16, TQP-26, TQP-27, TQP-34,
+TQP-41, TQP-42, TQP-43, TQP-44, TQP-45, TQP-46, TQP-47, TQP-48.
 
 Complete when repeated cold/warm generation, long traversal, teleports, LOD
 churn, digging, construction, material edits, persistence, restart, resource
@@ -1034,16 +1078,28 @@ not drift outside declared limits. Reports must retain workload signatures,
 provenance, distributions, peak values, recovery traces, and minimized repros
 for every failure.
 
+The fail-closed evaluator composes the native 60-second churn, large-world
+soak, persistence/restart, fault recovery, TQP-44 review, TQP-45 through TQP-47
+focused reports, and the exact TQP-48 long run. Missing review, power, thermal,
+memory, queue, or frame-drift evidence remains a named blocker. First/last
+steady-state bands must keep memory, frame p99, queue depth, accepted-boundary
+power, and GPU temperature within declared drift limits.
+
 ### TQP-50: Native Adaptive Terrain Authority Gate
 
-Status: `proposed`. Owner: Terrain Qualification Program. Depends on: TQP-28
-through TQP-49.
+Status: `implemented`, Gate E blocked. Owner: Terrain Qualification Program.
+Depends on: TQP-28 through TQP-49.
 
 Complete when every Phase 4 milestone is qualified for one coherent declared
 CPU envelope, all open findings have explicit disposition, independent and
 visual reviews pass, reports reproduce from pinned revisions, and the authority
 matrix states exactly what world-transvoxel, Cell Lab, and Terrain Lab do and
 do not prove. Only this milestone may promote Gate E.
+
+The retained gate report contains the complete milestone matrix, pinned
+manifest hash, finding dispositions, and explicit authority boundaries for
+world-transvoxel, Cell Lab, Terrain Lab, and the integration game. It cannot
+promote while any matrix member is missing or unqualified.
 
 ## Phase 5: Standalone CPU Production Terrain Release
 
@@ -1300,7 +1356,7 @@ The program records every milestone at a truthful evidence state:
   the retained implicit procedural hierarchy with sparse large-world snapshot
   overlays, plus retained fault injection, fail-closed recovery controls,
   generation-aware traces, and cross-order runtime convergence. `TQP-44`
-  through `TQP-50` remain proposed, so
+  through `TQP-50` are implemented but unqualified in dependency order, so
   the program makes no Gate E adaptive-terrain authority claim.
 - `TQP-51` through `TQP-57` are blocked CPU production-addon work.
 - `TQP-58` is the specified CPU-primary GPU architecture decision; `TQP-59`

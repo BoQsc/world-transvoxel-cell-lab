@@ -1,0 +1,26 @@
+{
+	"schema": "world_transvoxel.terrain_lab.complex_visual_temporal_corpus_human_review.v1",
+	"milestone": "TQP-44",
+	"status": "PENDING_HUMAN_REVIEW",
+	"reviewer": "",
+	"reviewed_at": "",
+	"corpus_signature": "",
+	"categories": {
+		"silhouettes": "PENDING",
+		"cracks": "PENDING",
+		"overlaps": "PENDING",
+		"popping": "PENDING",
+		"flicker": "PENDING",
+		"shadows": "PENDING",
+		"texture_scale": "PENDING",
+		"edited_surfaces": "PENDING",
+		"caves": "PENDING",
+		"overhangs": "PENDING",
+		"visual_pleasantness": "PENDING"
+	},
+	"reviewed_still_ids": [],
+	"reviewed_motion_path_ids": [],
+	"requested_live_scenes": [],
+	"findings": [],
+	"note": "Automation may verify coverage and evidence integrity but may not change this verdict to PASS."
+}

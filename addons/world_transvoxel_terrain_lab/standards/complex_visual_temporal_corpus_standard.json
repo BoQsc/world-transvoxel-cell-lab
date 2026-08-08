@@ -1,0 +1,80 @@
+{
+	"schema": "world_transvoxel.terrain_lab.complex_visual_temporal_corpus_standard.v1",
+	"milestone": "TQP-44",
+	"standard_id": "native_complex_visual_temporal_corpus_windows_v1",
+	"authority": "world_transvoxel_native_observatories_plus_human_review",
+	"automation_evidence": "res://labs/terrain_lab/results/complex_visual_temporal_corpus_automation_windows.json",
+	"review_verdict": "res://labs/terrain_lab/results/complex_visual_temporal_corpus_human_review_windows.json",
+	"observatory_scene": "res://labs/terrain_lab/scenes/complex_visual_review_observatory.tscn",
+	"coverage_contract": {
+		"required_scales": ["overview", "chunk", "transition", "cell"],
+		"minimum_stills": 24,
+		"minimum_motion_paths": 7,
+		"minimum_stills_per_scale": 3,
+		"minimum_distinct_live_scenes": 8,
+		"minimum_multi_angle_subjects": 8,
+		"human_review_requires_every_still": true,
+		"human_review_requires_every_motion_path": true,
+		"human_review_requires_every_live_source": true,
+		"required_review_categories": [
+			"silhouettes",
+			"cracks",
+			"overlaps",
+			"popping",
+			"flicker",
+			"shadows",
+			"texture_scale",
+			"edited_surfaces",
+			"caves",
+			"overhangs",
+			"visual_pleasantness"
+		],
+		"automation_may_accept_human_review": false
+	},
+	"motion_paths": [
+		{"id": "dynamic_lod", "path": "res://labs/terrain_lab/results/dynamic_lod_publication_motion_windows.json", "scene": "res://labs/terrain_lab/scenes/dynamic_lod_publication_observatory.tscn"},
+		{"id": "edit_invalidation", "path": "res://labs/terrain_lab/results/edit_invalidation_motion_windows.json", "scene": "res://labs/terrain_lab/scenes/edit_invalidation_observatory.tscn"},
+		{"id": "adaptive_edit", "path": "res://labs/terrain_lab/results/adaptive_edit_motion_windows.json", "scene": "res://labs/terrain_lab/scenes/adaptive_edit_observatory.tscn"},
+		{"id": "adaptive_surface", "path": "res://labs/terrain_lab/results/adaptive_surface_continuity_motion_windows.json", "scene": "res://labs/terrain_lab/scenes/adaptive_surface_observatory.tscn"},
+		{"id": "adaptive_system", "path": "res://labs/terrain_lab/results/adaptive_system_agreement_motion_windows.json", "scene": "res://labs/terrain_lab/scenes/adaptive_system_observatory.tscn"},
+		{"id": "adaptive_streaming", "path": "res://labs/terrain_lab/results/adaptive_streaming_residency_motion_windows.json", "scene": "res://labs/terrain_lab/scenes/adaptive_streaming_observatory.tscn"},
+		{"id": "adaptive_persistence", "path": "res://labs/terrain_lab/results/adaptive_persistence_motion_windows.json", "scene": "res://labs/terrain_lab/scenes/adaptive_persistence_observatory.tscn"}
+	],
+	"stills": [
+		{"id": "world_overview", "subject": "large_world", "scale": "overview", "angle": "world", "path": "res://labs/terrain_lab/results/large_terrain_observatory_world_overview_windows.png", "scene": "res://labs/terrain_lab/scenes/large_terrain_observatory.tscn", "categories": ["silhouettes", "visual_pleasantness"]},
+		{"id": "large_reference", "subject": "large_world", "scale": "overview", "angle": "ground", "path": "res://labs/terrain_lab/results/large_terrain_observatory_reference_windows.png", "scene": "res://labs/terrain_lab/scenes/large_terrain_observatory.tscn", "categories": ["silhouettes", "texture_scale"]},
+		{"id": "streaming_multi_viewer", "subject": "adaptive_world", "scale": "overview", "angle": "multi_viewer", "path": "res://labs/terrain_lab/results/adaptive_streaming_multi_viewer_windows.png", "scene": "res://labs/terrain_lab/scenes/adaptive_streaming_observatory.tscn", "categories": ["silhouettes", "cracks", "visual_pleasantness"]},
+		{"id": "streaming_teleport", "subject": "adaptive_world", "scale": "overview", "angle": "teleport_destination", "path": "res://labs/terrain_lab/results/adaptive_streaming_teleport_windows.png", "scene": "res://labs/terrain_lab/scenes/adaptive_streaming_observatory.tscn", "categories": ["popping", "flicker", "cracks"]},
+		{"id": "system_overview", "subject": "edited_system", "scale": "overview", "angle": "oblique", "path": "res://labs/terrain_lab/results/adaptive_system_overview_windows.png", "scene": "res://labs/terrain_lab/scenes/adaptive_system_observatory.tscn", "categories": ["edited_surfaces", "overhangs", "visual_pleasantness"]},
+		{"id": "natural_surface", "subject": "surface_quality", "scale": "overview", "angle": "natural", "path": "res://labs/terrain_lab/results/visual_quality_natural.png", "scene": "res://labs/terrain_lab/scenes/terrain_observatory.tscn", "categories": ["texture_scale", "shadows", "visual_pleasantness"]},
+		{"id": "system_cave", "subject": "cave", "scale": "chunk", "angle": "entrance", "path": "res://labs/terrain_lab/results/adaptive_system_cave_windows.png", "scene": "res://labs/terrain_lab/scenes/adaptive_system_observatory.tscn", "categories": ["caves", "overhangs", "shadows"]},
+		{"id": "streaming_cave", "subject": "cave", "scale": "chunk", "angle": "interior", "path": "res://labs/terrain_lab/results/adaptive_streaming_cave_windows.png", "scene": "res://labs/terrain_lab/scenes/adaptive_streaming_observatory.tscn", "categories": ["caves", "cracks", "shadows"]},
+		{"id": "constructed_surface", "subject": "edited_surface", "scale": "chunk", "angle": "construction", "path": "res://labs/terrain_lab/results/visual_quality_constructed.png", "scene": "res://labs/terrain_lab/scenes/terrain_observatory.tscn", "categories": ["edited_surfaces", "texture_scale", "visual_pleasantness"]},
+		{"id": "destroyed_surface", "subject": "edited_surface", "scale": "chunk", "angle": "digging", "path": "res://labs/terrain_lab/results/visual_quality_destroyed.png", "scene": "res://labs/terrain_lab/scenes/terrain_observatory.tscn", "categories": ["edited_surfaces", "overhangs", "visual_pleasantness"]},
+		{"id": "surface_near", "subject": "surface_scale", "scale": "chunk", "angle": "near", "path": "res://labs/terrain_lab/results/surface_shading_near.png", "scene": "res://labs/terrain_lab/scenes/surface_shading_review.tscn", "categories": ["texture_scale", "shadows"]},
+		{"id": "surface_far", "subject": "surface_scale", "scale": "chunk", "angle": "far", "path": "res://labs/terrain_lab/results/surface_shading_far.png", "scene": "res://labs/terrain_lab/scenes/surface_shading_review.tscn", "categories": ["texture_scale", "shadows"]},
+		{"id": "transition_split", "subject": "lod_transition", "scale": "transition", "angle": "split", "path": "res://labs/terrain_lab/results/dynamic_lod_publication_split_approach_windows.png", "scene": "res://labs/terrain_lab/scenes/dynamic_lod_publication_observatory.tscn", "categories": ["cracks", "overlaps", "popping"]},
+		{"id": "transition_merge", "subject": "lod_transition", "scale": "transition", "angle": "merge", "path": "res://labs/terrain_lab/results/dynamic_lod_publication_merge_retreat_windows.png", "scene": "res://labs/terrain_lab/scenes/dynamic_lod_publication_observatory.tscn", "categories": ["cracks", "overlaps", "popping"]},
+		{"id": "transition_supersession", "subject": "lod_transition", "scale": "transition", "angle": "rapid_motion", "path": "res://labs/terrain_lab/results/dynamic_lod_publication_rapid_supersession_windows.png", "scene": "res://labs/terrain_lab/scenes/dynamic_lod_publication_observatory.tscn", "categories": ["popping", "flicker", "overlaps"]},
+		{"id": "transition_edit", "subject": "edited_transition", "scale": "transition", "angle": "carve", "path": "res://labs/terrain_lab/results/adaptive_edit_transition_face_carve_windows.png", "scene": "res://labs/terrain_lab/scenes/adaptive_edit_observatory.tscn", "categories": ["cracks", "overlaps", "edited_surfaces"]},
+		{"id": "transition_dependency", "subject": "edited_transition", "scale": "transition", "angle": "dependency", "path": "res://labs/terrain_lab/results/edit_invalidation_mixed_lod_transition_dependency_windows.png", "scene": "res://labs/terrain_lab/scenes/edit_invalidation_observatory.tscn", "categories": ["cracks", "overlaps", "flicker"]},
+		{"id": "transition_initial", "subject": "lod_transition", "scale": "transition", "angle": "initial", "path": "res://labs/terrain_lab/results/dynamic_lod_publication_initial_load_windows.png", "scene": "res://labs/terrain_lab/scenes/dynamic_lod_publication_observatory.tscn", "categories": ["silhouettes", "cracks", "overlaps"]},
+		{"id": "cell_oracle", "subject": "cell_topology", "scale": "cell", "angle": "oracle", "path": "res://labs/terrain_lab/results/independent_oracle_observatory_reference_windows.png", "scene": "res://labs/terrain_lab/scenes/independent_oracle_observatory.tscn", "categories": ["cracks", "overlaps"]},
+		{"id": "cell_adversarial", "subject": "cell_topology", "scale": "cell", "angle": "adversarial", "path": "res://labs/terrain_lab/results/adversarial_corpus_observatory_reference_windows.png", "scene": "res://labs/terrain_lab/scenes/adversarial_corpus_observatory.tscn", "categories": ["silhouettes", "cracks", "overlaps"]},
+		{"id": "cell_tangent_seam", "subject": "tangent_cell", "scale": "cell", "angle": "seam", "path": "res://labs/terrain_lab/results/terrain_observatory_tangent_seam.png", "scene": "res://labs/terrain_lab/scenes/terrain_observatory.tscn", "categories": ["cracks", "texture_scale"]},
+		{"id": "cell_tangent_pole", "subject": "tangent_cell", "scale": "cell", "angle": "pole", "path": "res://labs/terrain_lab/results/terrain_observatory_tangent_pole.png", "scene": "res://labs/terrain_lab/scenes/terrain_observatory.tscn", "categories": ["overlaps", "texture_scale"]},
+		{"id": "cell_thin_feature", "subject": "constructed_cell", "scale": "cell", "angle": "thin_feature", "path": "res://labs/terrain_lab/results/adaptive_system_thin_feature_windows.png", "scene": "res://labs/terrain_lab/scenes/adaptive_system_observatory.tscn", "categories": ["silhouettes", "edited_surfaces", "overhangs"]},
+		{"id": "cell_edge_corner", "subject": "constructed_cell", "scale": "cell", "angle": "edge_corner", "path": "res://labs/terrain_lab/results/adaptive_edit_chunk_edge_corner_construction_windows.png", "scene": "res://labs/terrain_lab/scenes/adaptive_edit_observatory.tscn", "categories": ["cracks", "overlaps", "edited_surfaces"]},
+		{"id": "cell_under_resolved", "subject": "constructed_cell", "scale": "cell", "angle": "refined", "path": "res://labs/terrain_lab/results/adaptive_edit_under_resolved_refined_windows.png", "scene": "res://labs/terrain_lab/scenes/adaptive_edit_observatory.tscn", "categories": ["silhouettes", "edited_surfaces", "visual_pleasantness"]}
+	],
+	"qualified_scope": [
+		"human-reviewed Windows native terrain still and motion corpus spanning overview, chunk, transition, and cell scales",
+		"representative and adversarial terrain, LOD movement, digging, construction, caves, overhangs, materials, texture scale, and shadows",
+		"deterministic tracked image and motion-evidence integrity with direct links to live @tool source observatories"
+	],
+	"explicitly_unqualified_scope": [
+		"visual quality on non-Windows renderers, other GPUs, display pipelines, or arbitrary content",
+		"automated image similarity as a substitute for human visual acceptance",
+		"performance, power, collision residency, long-haul soak, GPU terrain authority, or Gate E"
+	]
+}

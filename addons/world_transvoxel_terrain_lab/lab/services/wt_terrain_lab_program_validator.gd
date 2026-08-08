@@ -62,6 +62,18 @@ const AdaptiveStreamingEvidence := preload(
 const AdaptivePersistenceEvidence := preload(
 	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_adaptive_persistence_evidence.gd"
 )
+const ComplexVisualEvidence := preload(
+	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_complex_visual_evidence.gd"
+)
+const FastArrivalEvidence := preload(
+	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_fast_arrival_evidence.gd"
+)
+const TargetedCollisionEvidence := preload(
+	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_targeted_collision_evidence.gd"
+)
+const LargeWorldPerformanceEvidence := preload(
+	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_large_world_performance_evidence.gd"
+)
 
 const PROGRAM_SCHEMA := "world_transvoxel.terrain_lab.program.v2"
 const LAB_SCOPE := "experimental_terrain_qualification"
@@ -184,6 +196,7 @@ static func validate(program: Dictionary, dependencies: Dictionary) -> Dictionar
 	_validate_adaptive_persistence_evidence(program, milestone_by_id, failures)
 	_validate_sparse_hierarchy_evidence(program, milestone_by_id, failures)
 	_validate_fault_order_evidence(program, milestone_by_id, failures)
+	_validate_cpu_closure_implementation(program, milestone_by_id, failures)
 	_validate_low_power_performance_profile(program, failures)
 	_validate_visual_evidence(program, milestone_by_id, failures)
 	_validate_dependency_boundary(program, dependencies, failures)
@@ -324,6 +337,8 @@ static func _validate_evidence_files(program: Dictionary, failures: Array[String
 		"TQP-D011", "TQP-D012", "TQP-D013", "TQP-D014", "TQP-D015",
 		"TQP-D016", "TQP-D017", "TQP-D018", "TQP-D019", "TQP-D020",
 		"TQP-D021", "TQP-D022", "TQP-D023", "TQP-D024", "TQP-D025",
+		"TQP-D026", "TQP-D027", "TQP-D028", "TQP-D029", "TQP-D030",
+		"TQP-D031", "TQP-D032", "TQP-D033", "TQP-D034",
 	]:
 		_expect(decision_ids.has(required), "missing retained decision: " + required, failures)
 	for key in [
@@ -376,6 +391,21 @@ static func _validate_evidence_files(program: Dictionary, failures: Array[String
 		"adaptive_edit_standard",
 		"adaptive_edit_evidence",
 		"adaptive_edit_motion_evidence",
+		"complex_visual_temporal_corpus_standard",
+		"complex_visual_temporal_corpus_automation",
+		"complex_visual_temporal_corpus_human_review",
+		"fast_arrival_responsiveness_standard",
+		"fast_arrival_responsiveness_evidence",
+		"targeted_collision_residency_standard",
+		"targeted_collision_residency_evidence",
+		"large_world_performance_standard",
+		"large_world_performance_evidence",
+		"low_power_qualification_standard",
+		"low_power_qualification_evidence",
+		"complex_adaptive_soak_recovery_standard",
+		"complex_adaptive_soak_recovery_evidence",
+		"native_adaptive_authority_gate_standard",
+		"native_adaptive_authority_gate_evidence",
 		"wave_02_first_batch_evidence",
 		"wave_02_second_batch_evidence",
 		"execution_plan",
@@ -1608,6 +1638,67 @@ static func _validate_low_power_performance_profile(
 		"low-power targeted collision contract is incomplete",
 		failures
 	)
+
+
+static func _validate_cpu_closure_implementation(
+	program: Dictionary,
+	milestone_by_id: Dictionary,
+	failures: Array[String]
+) -> void:
+	var visual := ComplexVisualEvidence.validate_retained()
+	_expect(
+		str(visual.get("automation_status", "")) == "PASS"
+			and str(visual.get("status", "")) in ["PENDING_HUMAN_REVIEW", "PASS"],
+		"TQP-44 implemented corpus is invalid",
+		failures
+	)
+	for validation in [
+		FastArrivalEvidence.validate_retained(),
+		TargetedCollisionEvidence.validate_retained(),
+		LargeWorldPerformanceEvidence.validate_retained(),
+	]:
+		_expect(
+			str((validation as Dictionary).get("status", "")) == "PASS",
+			"focused CPU closure candidate evidence failed: %s %s" % [
+				str((validation as Dictionary).get("schema", "unknown")),
+				str((validation as Dictionary).get("failures", [])),
+			],
+			failures
+		)
+	var power := JsonLoader.load_dictionary(str(program.get("low_power_qualification_evidence", "")))
+	_expect(
+		str(power.get("schema", ""))
+			== "world_transvoxel.terrain_lab.low_power_profiles_qualification.v1"
+			and str(power.get("status", "")) in [
+				"BLOCKED_POWER_BOUNDARY_ON_AC", "READY_FOR_EXACT_RUN",
+				"INCOMPLETE_RUN", "MEASURED_TARGET_MISS", "PASS",
+			],
+		"TQP-48 fail-closed power report is invalid",
+		failures
+	)
+	var soak := JsonLoader.load_dictionary(str(program.get("complex_adaptive_soak_recovery_evidence", "")))
+	_expect(
+		str(soak.get("schema", ""))
+			== "world_transvoxel.terrain_lab.complex_adaptive_soak_recovery_qualification.v1"
+			and str(soak.get("status", "")) in ["BLOCKED_DEPENDENCIES", "PASS"],
+		"TQP-49 fail-closed soak report is invalid",
+		failures
+	)
+	var gate := JsonLoader.load_dictionary(str(program.get("native_adaptive_authority_gate_evidence", "")))
+	_expect(
+		str(gate.get("schema", ""))
+			== "world_transvoxel.terrain_lab.native_adaptive_terrain_authority_gate.v1"
+			and str(gate.get("status", "")) in ["BLOCKED", "PASS"]
+			and (str(gate.get("status", "")) == "PASS") == bool(gate.get("gate_promoted", false)),
+		"TQP-50 fail-closed authority gate report is invalid",
+		failures
+	)
+	for milestone_id in ["TQP-44", "TQP-45", "TQP-46", "TQP-47", "TQP-48", "TQP-49", "TQP-50"]:
+		_expect(
+			str((milestone_by_id.get(milestone_id, {}) as Dictionary).get("status", "")) == "implemented",
+			milestone_id + " implementation status changed before dependency-ordered promotion",
+			failures
+		)
 
 
 static func _validate_surface_shading_evidence(

@@ -6,7 +6,7 @@ Qualification Program; it does not own production implementation and does not
 extend the Cell Lab root node.
 
 The [Terrain Qualification Program](TERRAIN_QUALIFICATION_PROGRAM.md) is the
-single human-readable roadmap. Program revision 34 contains TQP-01 through
+single human-readable roadmap. Program revision 35 contains TQP-01 through
 TQP-71 in ground-up execution order:
 
 - TQP-01 through TQP-43 are qualified only for their declared bounded scopes;
@@ -20,17 +20,19 @@ TQP-71 in ground-up execution order:
   multi-layer streaming/residency, native-baked persistence/recovery, and the
   retained implicit procedural hierarchy with sparse large-world compaction,
   plus fault injection, fail-closed admission controls, generation-aware traces,
-  and cross-order runtime convergence; TQP-44 through TQP-50 remain proposed;
+  and cross-order runtime convergence; TQP-44 through TQP-50 are implemented
+  but remain unqualified in dependency order;
 - TQP-51 through TQP-57 are the blocked standalone CPU production release;
 - TQP-58 is the specified CPU-primary GPU architecture decision and TQP-59
   through TQP-64 are the blocked GPU qualification and release;
 - TQP-65 through TQP-70 retain implemented but unqualified post-release game
   systems, while TQP-71 networking remains blocked.
 
-The next milestone is TQP-44, Complex Terrain Visual And Temporal Corpus. It
-requires explicit human review and cannot be accepted by automation alone.
-Gate E remains closed, so the lab does not claim that complex dynamic adaptive
-Transvoxel terrain is qualified yet.
+The next promotion milestone is TQP-44, Complex Terrain Visual And Temporal
+Corpus. It requires explicit human review and cannot be accepted by automation
+alone. TQP-48 additionally requires an accepted package or complete-system
+power boundary. Gate E remains closed, so the lab does not claim that complex
+dynamic adaptive Transvoxel terrain is qualified yet.
 
 The [What Comes Next](TERRAIN_QUALIFICATION_PROGRAM.md#what-comes-next)
 section explains the broader path: finish visual, responsiveness, targeted

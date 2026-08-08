@@ -1,0 +1,44 @@
+{
+	"schema": "world_transvoxel.terrain_lab.complex_adaptive_soak_recovery_standard.v1",
+	"milestone": "TQP-49",
+	"standard_id": "native_complex_adaptive_soak_recovery_windows_v1",
+	"evidence": "res://labs/terrain_lab/results/complex_adaptive_soak_recovery_reference_windows.json",
+	"required_evidence": {
+		"native_soak": "res://labs/terrain_lab/results/cpu_closure_native_authority_windows.json",
+		"large_world_soak": "res://labs/terrain_lab/results/large_terrain_soak_reference_windows.json",
+		"persistence": "res://labs/terrain_lab/results/adaptive_persistence_reference_windows.json",
+		"fault_recovery": "res://labs/terrain_lab/results/fault_order_reference_windows.json",
+		"visual_review": "res://labs/terrain_lab/results/complex_visual_temporal_corpus_human_review_windows.json",
+		"fast_arrival": "res://labs/terrain_lab/results/fast_arrival_responsiveness_reference_windows.json",
+		"collision": "res://labs/terrain_lab/results/targeted_collision_residency_reference_windows.json",
+		"performance": "res://labs/terrain_lab/results/large_world_performance_reference_windows.json",
+		"power_long_run": "res://labs/terrain_lab/results/low_power_profiles_reference_windows.json"
+	},
+	"acceptance": {
+		"minimum_native_soak_seconds": 60,
+		"minimum_complex_rendered_seconds": 1800,
+		"minimum_frame_samples": 108000,
+		"maximum_memory_growth_fraction": 0.25,
+		"maximum_memory_growth_allowance_bytes": 67108864,
+		"maximum_frame_p99_drift_fraction": 0.25,
+		"maximum_frame_p99_drift_allowance_usec": 2000.0,
+		"maximum_queue_depth_drift_fraction": 0.25,
+		"maximum_queue_depth_drift_allowance": 16,
+		"maximum_power_drift_fraction": 0.25,
+		"maximum_power_drift_allowance_watts": 2.0,
+		"maximum_gpu_temperature_c": 90.0,
+		"maximum_gpu_temperature_drift_c": 10.0,
+		"requires_exact_persistence_identity": true,
+		"requires_controlled_failure_recovery": true,
+		"requires_clean_shutdown": true,
+		"requires_visual_review": true
+	},
+	"qualified_scope": [
+		"pinned Windows complex native CPU terrain traversal, teleport, LOD churn, edits, materials, persistence, restart, pressure, controlled failure, recovery, and shutdown",
+		"retained state and geometry identity with frame, memory, queue, latency, thermal, and accepted-boundary power drift"
+	],
+	"explicitly_unqualified_scope": [
+		"qualification without accepted TQP-44 human review or complete TQP-48 long-run power evidence",
+		"multi-day, cross-hardware, non-Windows, production addon, GPU, gameplay, networking, or Gate E claims"
+	]
+}

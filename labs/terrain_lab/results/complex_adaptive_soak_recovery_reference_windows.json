@@ -1,0 +1,116 @@
+{
+  "schema": "world_transvoxel.terrain_lab.complex_adaptive_soak_recovery_qualification.v1",
+  "milestone": "TQP-49",
+  "standard_id": "native_complex_adaptive_soak_recovery_windows_v1",
+  "status": "BLOCKED_DEPENDENCIES",
+  "retained_complete": false,
+  "evidence": [
+    {
+      "name": "native_soak",
+      "path": "labs/terrain_lab/results/cpu_closure_native_authority_windows.json",
+      "schema": "world_transvoxel.terrain_lab.cpu_closure_native_authority.v1",
+      "reported_status": "PASS",
+      "accepted": true,
+      "sha256": "09fd2596070a1231f205e3b7b43c6e7a34cb00936848e04d4fa459f8854ac563"
+    },
+    {
+      "name": "large_world_soak",
+      "path": "labs/terrain_lab/results/large_terrain_soak_reference_windows.json",
+      "schema": "world_transvoxel.terrain_lab.large_terrain_soak_qualification.v1",
+      "reported_status": "PASS",
+      "accepted": true,
+      "sha256": "8c78e58321e678532de42c56dfb897859c579239f8902b1c2b40ae81ef80e297"
+    },
+    {
+      "name": "persistence",
+      "path": "labs/terrain_lab/results/adaptive_persistence_reference_windows.json",
+      "schema": "world_transvoxel.terrain_lab.adaptive_persistence_qualification.v1",
+      "reported_status": "PASS",
+      "accepted": true,
+      "sha256": "39465cb2cf5881ca6bbbbb3ad80e89071a32b636db4c0abccde9a534da92eb47"
+    },
+    {
+      "name": "fault_recovery",
+      "path": "labs/terrain_lab/results/fault_order_reference_windows.json",
+      "schema": "world_transvoxel.terrain_lab.fault_order_qualification.v1",
+      "reported_status": "PASS",
+      "accepted": true,
+      "sha256": "1f698edc4175540d7f2b89ff5ed8a53ccac98a02d8212ac1740e0e053d3614c8"
+    },
+    {
+      "name": "visual_review",
+      "path": "labs/terrain_lab/results/complex_visual_temporal_corpus_human_review_windows.json",
+      "schema": "world_transvoxel.terrain_lab.complex_visual_temporal_corpus_human_review.v1",
+      "reported_status": "PENDING_HUMAN_REVIEW",
+      "accepted": false,
+      "sha256": "26767471b2f95e831f1434e97364dede851812c219ab42b89cacf2864497ce76"
+    },
+    {
+      "name": "fast_arrival",
+      "path": "labs/terrain_lab/results/fast_arrival_responsiveness_reference_windows.json",
+      "schema": "world_transvoxel.terrain_lab.fast_arrival_responsiveness_qualification.v1",
+      "reported_status": "PASS",
+      "accepted": true,
+      "sha256": "c04b9d0e28115dde98ea53d7e633bc9bd751e6a146e711f59f84df38cef75710"
+    },
+    {
+      "name": "collision",
+      "path": "labs/terrain_lab/results/targeted_collision_residency_reference_windows.json",
+      "schema": "world_transvoxel.terrain_lab.targeted_collision_residency_qualification.v1",
+      "reported_status": "PASS",
+      "accepted": true,
+      "sha256": "e6908ca8f2248bdd5b021267b2760589c1946408f9c9f12107b7b9bb7fa5bbe8"
+    },
+    {
+      "name": "performance",
+      "path": "labs/terrain_lab/results/large_world_performance_reference_windows.json",
+      "schema": "world_transvoxel.terrain_lab.large_world_performance_qualification.v1",
+      "reported_status": "PASS",
+      "accepted": true,
+      "sha256": "bcf696bf291bd78e21bdab4847c556e9570249a5d406d53bd50d373369448853"
+    },
+    {
+      "name": "power_long_run",
+      "path": "labs/terrain_lab/results/low_power_profiles_reference_windows.json",
+      "schema": "world_transvoxel.terrain_lab.low_power_profiles_qualification.v1",
+      "reported_status": "BLOCKED_POWER_BOUNDARY_ON_AC",
+      "accepted": false,
+      "sha256": "cb008cfcee1c8f78947b5a29918261bd75b5af401b464952d692593cdd2d3bbe"
+    }
+  ],
+  "coverage": {
+    "native_soak": true,
+    "large_world_soak": true,
+    "persistence": true,
+    "fault_recovery": true,
+    "visual_review": false,
+    "fast_arrival": true,
+    "collision": true,
+    "performance": true,
+    "power_long_run": false
+  },
+  "temporal_drift": {
+    "complex_rendered_seconds": 0.0,
+    "frame_samples": 0,
+    "native_soak_seconds": 60,
+    "memory_drift": "PENDING_EXACT_TQP48_RUN",
+    "queue_drift": "PENDING_EXACT_TQP48_RUN",
+    "frame_drift": "PENDING_EXACT_TQP48_RUN",
+    "thermal_drift": "PENDING_EXACT_TQP48_RUN",
+    "power_drift": "PENDING_EXACT_TQP48_RUN"
+  },
+  "recovery_contract": {
+    "persistence_restart": true,
+    "controlled_failure_recovery": true,
+    "clean_native_shutdown": true
+  },
+  "qualified_scope": [],
+  "explicitly_unqualified_scope": [
+    "qualification without accepted TQP-44 human review or complete TQP-48 long-run power evidence",
+    "multi-day, cross-hardware, non-Windows, production addon, GPU, gameplay, networking, or Gate E claims"
+  ],
+  "blockers": [
+    "visual_review",
+    "power_long_run"
+  ]
+}

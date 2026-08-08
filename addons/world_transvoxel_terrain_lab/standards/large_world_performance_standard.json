@@ -1,0 +1,61 @@
+{
+	"schema": "world_transvoxel.terrain_lab.large_world_performance_standard.v1",
+	"milestone": "TQP-47",
+	"standard_id": "native_large_world_render_frame_memory_queues_windows_v1",
+	"authority": "world_transvoxel_native_runtime_rendered_by_godot_forward_plus",
+	"evidence": "res://labs/terrain_lab/results/large_world_performance_reference_windows.json",
+	"native_authority_evidence": "res://labs/terrain_lab/results/cpu_closure_native_authority_windows.json",
+	"runtime_profile": {
+		"platform": "Windows",
+		"build": "debug_reference",
+		"renderer": "forward_plus",
+		"resolution": [1280, 720],
+		"worker_count": 2,
+		"source_revision": 947001,
+		"seed": 470047,
+		"preset": "rolling_hills_cave",
+		"volume_chunks": [128, 16, 128],
+		"volume_cells": [2048, 256, 2048],
+		"vertical_chunk_origin": -8,
+		"viewer_radius_chunks": 2,
+		"collision_radius_chunks": 1,
+		"maximum_lod": 2,
+		"active_chunk_capacity": 2048,
+		"pipeline_capacity": 8192,
+		"cache_capacity": 2048,
+		"collision_capacity": 256,
+		"frames_per_scenario": 120
+	},
+	"scenarios": [
+		{"id": "idle_steady", "kind": "idle", "start": [1024.0, 44.0, 1024.0], "end": [1024.0, 44.0, 1024.0]},
+		{"id": "ground_traversal", "kind": "motion", "start": [256.0, 36.0, 256.0], "end": [448.0, 40.0, 384.0]},
+		{"id": "high_speed_flight", "kind": "motion", "start": [512.0, 112.0, 512.0], "end": [960.0, 124.0, 768.0]},
+		{"id": "vertical_cave", "kind": "motion", "start": [1024.0, 64.0, 1024.0], "end": [1024.0, -24.0, 1024.0]},
+		{"id": "adaptive_lod_churn", "kind": "lod_churn", "start": [768.0, 48.0, 768.0], "end": [960.0, 48.0, 960.0]},
+		{"id": "cold_teleport", "kind": "teleport", "start": [192.0, 40.0, 1792.0], "end": [1792.0, 40.0, 1792.0]},
+		{"id": "digging", "kind": "dig", "start": [1792.0, 40.0, 1792.0], "end": [1792.0, 40.0, 1792.0], "edit_center": [1792.0, 26.0, 1792.0]},
+		{"id": "construction", "kind": "construct", "start": [1792.0, 40.0, 1792.0], "end": [1792.0, 40.0, 1792.0], "edit_center": [1800.0, 30.0, 1792.0], "material": 12}
+	],
+	"budgets": {
+		"minimum_frame_samples_per_scenario": 120,
+		"maximum_frame_p99_usec": 100000.0,
+		"maximum_frame_worst_usec": 500000.0,
+		"maximum_stutter_fraction_over_100ms": 0.01,
+		"maximum_scheduler_queue_depth": 8192,
+		"maximum_storage_queue_depth": 8192,
+		"maximum_render_queue_depth": 2048,
+		"maximum_collision_queue_depth": 256,
+		"maximum_peak_process_memory_bytes": 1610612736,
+		"minimum_rendered_scenarios": 8
+	},
+	"qualified_scope": [
+		"Windows debug 2048x256x2048 native terrain catalog with bounded adaptive residency",
+		"rendered idle, traversal, flight, cave, LOD churn, teleport, digging, and construction scenarios",
+		"frame pacing, Godot process and physics time, measured render CPU/GPU time, draws, primitives, native worker throughput, queues, loading state, memory, and resource retirement",
+		"regression ceilings for the pinned reference machine and renderer, not production targets"
+	],
+	"explicitly_unqualified_scope": [
+		"60 FPS, 16 W, release-build, cross-hardware, cross-renderer, or GPU-meshing claims",
+		"multi-hour drift, arbitrary view distances, production materials, navigation, multiplayer, or Gate E"
+	]
+}

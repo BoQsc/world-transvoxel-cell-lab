@@ -1,0 +1,35 @@
+{
+	"schema": "world_transvoxel.terrain_lab.decision.v1",
+	"id": "TQP-D034",
+	"date": "2026-08-08",
+	"decision": "Implement the complete TQP-44 through TQP-50 CPU-authority closure toolchain without promoting milestones out of dependency order.",
+	"affected_milestones": ["TQP-44", "TQP-45", "TQP-46", "TQP-47", "TQP-48", "TQP-49", "TQP-50"],
+	"repositories": ["world-transvoxel-cell-lab", "world-transvoxel"],
+	"evidence": [
+		"TQP-44 fixed visual and temporal corpus automation plus explicit in-editor human review workflow",
+		"TQP-45 native fast-arrival, edit responsiveness, readiness, queue, and supersession qualification",
+		"TQP-46 native near-field and explicit-overlay collision qualification with physics, edit, query, and navigation-consumer checks",
+		"TQP-47 rendered large-world frame, render, worker, queue, resource, and memory qualification",
+		"TQP-48 frozen profiles plus exact 300-second warmup and 1800-second measurement runner",
+		"TQP-49 fail-closed complex soak and recovery aggregation",
+		"TQP-50 fail-closed Gate E evidence and authority matrix"
+	],
+	"qualified_scope": [
+		"implementation status and evidence plumbing only",
+		"preservation of every qualified TQP-01 through TQP-43 claim",
+		"TQP-44 remains the sole next promotion step"
+	],
+	"unqualified_scope": [
+		"TQP-44 human visual acceptance",
+		"TQP-45 through TQP-50 promotion before their dependencies qualify",
+		"package or full-system power while the reference machine is AC-connected",
+		"Gate E, production terrain, GPU terrain, or game-system claims"
+	],
+	"standards_changed": [
+		"Terrain Qualification Program revision 35",
+		"execution-plan revision 26",
+		"program manifest and qualification-state implementation mirrors"
+	],
+	"review": "Implementation is not qualification. The closure gate remains blocked if human review, accepted power-boundary evidence, long-run drift evidence, any dependency, or any focused report is missing or failed.",
+	"downstream_impact": "TQP-44 through TQP-50 can now be executed and inspected. TQP-44 remains next; TQP-49 and TQP-50 aggregate blockers instead of inferring success."
+}

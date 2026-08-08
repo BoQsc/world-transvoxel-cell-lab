@@ -1,0 +1,776 @@
+{
+	"schema": "world_transvoxel.terrain_lab.large_world_performance_qualification.v1",
+	"milestone": "TQP-47",
+	"standard_id": "native_large_world_render_frame_memory_queues_windows_v1",
+	"authority": "world_transvoxel_native_runtime_rendered_by_godot_forward_plus",
+	"status": "PASS",
+	"retained_complete": true,
+	"provenance": {
+		"workload_signature": "tqp47_large_world_render_windows_v1",
+		"build_type": "debug",
+		"os": "Windows",
+		"architecture": "x86_64",
+		"cpu": "Intel(R) Core(TM) i5-7300HQ CPU @ 2.50GHz",
+		"gpu": "NVIDIA GeForce GTX 1060 with Max-Q Design",
+		"driver": "vulkan",
+		"godot_version": "4.7.1-stable (steam)",
+		"backend_revision": "545a7554551c4772a7889da59378f08fe74cc57e33924993e385e72c8f389ca3"
+	},
+	"runtime_profile": {
+		"platform": "Windows",
+		"build": "debug_reference",
+		"renderer": "forward_plus",
+		"resolution": [
+			1280.0,
+			720.0
+		],
+		"worker_count": 2.0,
+		"source_revision": 947001.0,
+		"seed": 470047.0,
+		"preset": "rolling_hills_cave",
+		"volume_chunks": [
+			128.0,
+			16.0,
+			128.0
+		],
+		"volume_cells": [
+			2048.0,
+			256.0,
+			2048.0
+		],
+		"vertical_chunk_origin": -8.0,
+		"viewer_radius_chunks": 2.0,
+		"collision_radius_chunks": 1.0,
+		"maximum_lod": 2.0,
+		"active_chunk_capacity": 2048.0,
+		"pipeline_capacity": 8192.0,
+		"cache_capacity": 2048.0,
+		"collision_capacity": 256.0,
+		"frames_per_scenario": 120.0
+	},
+	"scenarios": [
+		{
+			"id": "idle_steady",
+			"kind": "idle",
+			"status": "PASS",
+			"frame": {
+				"sample_count": 120,
+				"p50_usec": 16442.0,
+				"p95_usec": 16821.0,
+				"p99_usec": 17281.0,
+				"worst_usec": 19408.0
+			},
+			"stutter_over_100ms_count": 0,
+			"stutter_fraction_over_100ms": 0.0,
+			"process": {
+				"sample_count": 120,
+				"p50_usec": 17250.0,
+				"p95_usec": 19529.0,
+				"p99_usec": 19529.0,
+				"worst_usec": 19529.0
+			},
+			"physics": {
+				"sample_count": 120,
+				"p50_usec": 209.0,
+				"p95_usec": 282.0,
+				"p99_usec": 282.0,
+				"worst_usec": 282.0
+			},
+			"render_cpu": {
+				"sample_count": 120,
+				"p50_usec": 337.999999523163,
+				"p95_usec": 607.999980449677,
+				"p99_usec": 750.999987125397,
+				"worst_usec": 992.999970912933
+			},
+			"render_gpu": {
+				"sample_count": 120,
+				"p50_usec": 1970.00002861023,
+				"p95_usec": 2000.99992752075,
+				"p99_usec": 2013.99993896484,
+				"worst_usec": 3391.99995994568
+			},
+			"draw_calls": {
+				"sample_count": 120,
+				"p50_usec": 96.0,
+				"p95_usec": 96.0,
+				"p99_usec": 96.0,
+				"worst_usec": 96.0
+			},
+			"primitives": {
+				"sample_count": 120,
+				"p50_usec": 93168.0,
+				"p95_usec": 93168.0,
+				"p99_usec": 93168.0,
+				"worst_usec": 93168.0
+			},
+			"worker_delta": {
+				"sample_jobs": 0,
+				"mesh_jobs": 0,
+				"sample_time_ns": 0,
+				"mesh_time_ns": 0
+			},
+			"loading_state": {
+				"world_running": true,
+				"scheduler_queued_jobs": 0,
+				"storage_queued_requests": 0,
+				"queued_render": 0,
+				"collision_backlog": 0,
+				"pending_replacements": 0,
+				"pending_retirements": 0
+			},
+			"resources": {
+				"active_chunks": 240,
+				"render_resources": 83,
+				"collision_resources": 36
+			},
+			"applied_generation_agreement": {
+				"status": "PASS",
+				"visual_mismatches": [],
+				"collision_mismatches": []
+			},
+			"edit": {}
+		},
+		{
+			"id": "ground_traversal",
+			"kind": "motion",
+			"status": "PASS",
+			"frame": {
+				"sample_count": 120,
+				"p50_usec": 16399.0,
+				"p95_usec": 18112.0,
+				"p99_usec": 18669.0,
+				"worst_usec": 18786.0
+			},
+			"stutter_over_100ms_count": 0,
+			"stutter_fraction_over_100ms": 0.0,
+			"process": {
+				"sample_count": 120,
+				"p50_usec": 18559.0,
+				"p95_usec": 18773.0,
+				"p99_usec": 18773.0,
+				"worst_usec": 18773.0
+			},
+			"physics": {
+				"sample_count": 120,
+				"p50_usec": 429.0,
+				"p95_usec": 2096.0,
+				"p99_usec": 2096.0,
+				"worst_usec": 2096.0
+			},
+			"render_cpu": {
+				"sample_count": 120,
+				"p50_usec": 379.000008106232,
+				"p95_usec": 778.999984264374,
+				"p99_usec": 1156.00001811981,
+				"worst_usec": 1172.00005054474
+			},
+			"render_gpu": {
+				"sample_count": 120,
+				"p50_usec": 4197.00002670288,
+				"p95_usec": 4614.99977111816,
+				"p99_usec": 4651.99995040894,
+				"worst_usec": 4657.99999237061
+			},
+			"draw_calls": {
+				"sample_count": 120,
+				"p50_usec": 64.0,
+				"p95_usec": 82.0,
+				"p99_usec": 85.0,
+				"worst_usec": 85.0
+			},
+			"primitives": {
+				"sample_count": 120,
+				"p50_usec": 35491.0,
+				"p95_usec": 45973.0,
+				"p99_usec": 47778.0,
+				"worst_usec": 47778.0
+			},
+			"worker_delta": {
+				"sample_jobs": 372,
+				"mesh_jobs": 338,
+				"sample_time_ns": 14480900,
+				"mesh_time_ns": 3899823900
+			},
+			"loading_state": {
+				"world_running": true,
+				"scheduler_queued_jobs": 0,
+				"storage_queued_requests": 0,
+				"queued_render": 0,
+				"collision_backlog": 0,
+				"pending_replacements": 0,
+				"pending_retirements": 0
+			},
+			"resources": {
+				"active_chunks": 275,
+				"render_resources": 61,
+				"collision_resources": 45
+			},
+			"applied_generation_agreement": {
+				"status": "PASS",
+				"visual_mismatches": [],
+				"collision_mismatches": []
+			},
+			"edit": {}
+		},
+		{
+			"id": "high_speed_flight",
+			"kind": "motion",
+			"status": "PASS",
+			"frame": {
+				"sample_count": 120,
+				"p50_usec": 16392.0,
+				"p95_usec": 17708.0,
+				"p99_usec": 18295.0,
+				"worst_usec": 18347.0
+			},
+			"stutter_over_100ms_count": 0,
+			"stutter_fraction_over_100ms": 0.0,
+			"process": {
+				"sample_count": 120,
+				"p50_usec": 18511.0,
+				"p95_usec": 18913.0,
+				"p99_usec": 18913.0,
+				"worst_usec": 18913.0
+			},
+			"physics": {
+				"sample_count": 120,
+				"p50_usec": 382.0,
+				"p95_usec": 458.0,
+				"p99_usec": 458.0,
+				"worst_usec": 458.0
+			},
+			"render_cpu": {
+				"sample_count": 120,
+				"p50_usec": 222.000002861023,
+				"p95_usec": 578.999996185303,
+				"p99_usec": 707.000017166138,
+				"worst_usec": 814.999997615814
+			},
+			"render_gpu": {
+				"sample_count": 120,
+				"p50_usec": 2418.99991035461,
+				"p95_usec": 2865.00000953674,
+				"p99_usec": 2890.00010490417,
+				"worst_usec": 2901.99995040894
+			},
+			"draw_calls": {
+				"sample_count": 120,
+				"p50_usec": 21.0,
+				"p95_usec": 25.0,
+				"p99_usec": 25.0,
+				"worst_usec": 25.0
+			},
+			"primitives": {
+				"sample_count": 120,
+				"p50_usec": 11298.0,
+				"p95_usec": 13436.0,
+				"p99_usec": 13436.0,
+				"worst_usec": 13436.0
+			},
+			"worker_delta": {
+				"sample_jobs": 298,
+				"mesh_jobs": 192,
+				"sample_time_ns": 3661000,
+				"mesh_time_ns": 2132691900
+			},
+			"loading_state": {
+				"world_running": true,
+				"scheduler_queued_jobs": 0,
+				"storage_queued_requests": 0,
+				"queued_render": 0,
+				"collision_backlog": 0,
+				"pending_replacements": 0,
+				"pending_retirements": 0
+			},
+			"resources": {
+				"active_chunks": 145,
+				"render_resources": 27,
+				"collision_resources": 4
+			},
+			"applied_generation_agreement": {
+				"status": "PASS",
+				"visual_mismatches": [],
+				"collision_mismatches": []
+			},
+			"edit": {}
+		},
+		{
+			"id": "vertical_cave",
+			"kind": "motion",
+			"status": "PASS",
+			"frame": {
+				"sample_count": 120,
+				"p50_usec": 16472.0,
+				"p95_usec": 17428.0,
+				"p99_usec": 19581.0,
+				"worst_usec": 19638.0
+			},
+			"stutter_over_100ms_count": 0,
+			"stutter_fraction_over_100ms": 0.0,
+			"process": {
+				"sample_count": 120,
+				"p50_usec": 19486.0,
+				"p95_usec": 19652.0,
+				"p99_usec": 19652.0,
+				"worst_usec": 19652.0
+			},
+			"physics": {
+				"sample_count": 120,
+				"p50_usec": 285.0,
+				"p95_usec": 415.0,
+				"p99_usec": 415.0,
+				"worst_usec": 415.0
+			},
+			"render_cpu": {
+				"sample_count": 120,
+				"p50_usec": 393.00000667572,
+				"p95_usec": 602.999985218048,
+				"p99_usec": 921.999990940094,
+				"worst_usec": 1215.0000333786
+			},
+			"render_gpu": {
+				"sample_count": 120,
+				"p50_usec": 4515.99979400635,
+				"p95_usec": 5823.99988174438,
+				"p99_usec": 5925.00019073486,
+				"worst_usec": 5941.99991226196
+			},
+			"draw_calls": {
+				"sample_count": 120,
+				"p50_usec": 79.0,
+				"p95_usec": 107.0,
+				"p99_usec": 110.0,
+				"worst_usec": 110.0
+			},
+			"primitives": {
+				"sample_count": 120,
+				"p50_usec": 74470.0,
+				"p95_usec": 104967.0,
+				"p99_usec": 107229.0,
+				"worst_usec": 107229.0
+			},
+			"worker_delta": {
+				"sample_jobs": 149,
+				"mesh_jobs": 149,
+				"sample_time_ns": 77399900,
+				"mesh_time_ns": 2252159700
+			},
+			"loading_state": {
+				"world_running": true,
+				"scheduler_queued_jobs": 0,
+				"storage_queued_requests": 0,
+				"queued_render": 0,
+				"collision_backlog": 0,
+				"pending_replacements": 0,
+				"pending_retirements": 0
+			},
+			"resources": {
+				"active_chunks": 212,
+				"render_resources": 83,
+				"collision_resources": 60
+			},
+			"applied_generation_agreement": {
+				"status": "PASS",
+				"visual_mismatches": [],
+				"collision_mismatches": []
+			},
+			"edit": {}
+		},
+		{
+			"id": "adaptive_lod_churn",
+			"kind": "lod_churn",
+			"status": "PASS",
+			"frame": {
+				"sample_count": 120,
+				"p50_usec": 16424.0,
+				"p95_usec": 18093.0,
+				"p99_usec": 18666.0,
+				"worst_usec": 19065.0
+			},
+			"stutter_over_100ms_count": 0,
+			"stutter_fraction_over_100ms": 0.0,
+			"process": {
+				"sample_count": 120,
+				"p50_usec": 18568.0,
+				"p95_usec": 19160.0,
+				"p99_usec": 19160.0,
+				"worst_usec": 19160.0
+			},
+			"physics": {
+				"sample_count": 120,
+				"p50_usec": 492.0,
+				"p95_usec": 734.0,
+				"p99_usec": 734.0,
+				"worst_usec": 734.0
+			},
+			"render_cpu": {
+				"sample_count": 120,
+				"p50_usec": 314.000010490417,
+				"p95_usec": 662.999987602234,
+				"p99_usec": 948.000013828278,
+				"worst_usec": 2364.00008201599
+			},
+			"render_gpu": {
+				"sample_count": 120,
+				"p50_usec": 3378.99994850159,
+				"p95_usec": 3576.99990272522,
+				"p99_usec": 3592.99993515015,
+				"worst_usec": 3602.9999256134
+			},
+			"draw_calls": {
+				"sample_count": 120,
+				"p50_usec": 47.0,
+				"p95_usec": 51.0,
+				"p99_usec": 51.0,
+				"worst_usec": 51.0
+			},
+			"primitives": {
+				"sample_count": 120,
+				"p50_usec": 25989.0,
+				"p95_usec": 28619.0,
+				"p99_usec": 28793.0,
+				"worst_usec": 29175.0
+			},
+			"worker_delta": {
+				"sample_jobs": 332,
+				"mesh_jobs": 239,
+				"sample_time_ns": 10221100,
+				"mesh_time_ns": 2670751600
+			},
+			"loading_state": {
+				"world_running": true,
+				"scheduler_queued_jobs": 0,
+				"storage_queued_requests": 0,
+				"queued_render": 0,
+				"collision_backlog": 0,
+				"pending_replacements": 0,
+				"pending_retirements": 0
+			},
+			"resources": {
+				"active_chunks": 185,
+				"render_resources": 42,
+				"collision_resources": 33
+			},
+			"applied_generation_agreement": {
+				"status": "PASS",
+				"visual_mismatches": [],
+				"collision_mismatches": []
+			},
+			"edit": {}
+		},
+		{
+			"id": "cold_teleport",
+			"kind": "teleport",
+			"status": "PASS",
+			"frame": {
+				"sample_count": 120,
+				"p50_usec": 16461.0,
+				"p95_usec": 16712.0,
+				"p99_usec": 16867.0,
+				"worst_usec": 16971.0
+			},
+			"stutter_over_100ms_count": 0,
+			"stutter_fraction_over_100ms": 0.0,
+			"process": {
+				"sample_count": 120,
+				"p50_usec": 18659.0,
+				"p95_usec": 20917.0,
+				"p99_usec": 20917.0,
+				"worst_usec": 20917.0
+			},
+			"physics": {
+				"sample_count": 120,
+				"p50_usec": 195.0,
+				"p95_usec": 201.0,
+				"p99_usec": 201.0,
+				"worst_usec": 201.0
+			},
+			"render_cpu": {
+				"sample_count": 120,
+				"p50_usec": 199.000000953674,
+				"p95_usec": 349.000006914139,
+				"p99_usec": 497.999995946884,
+				"worst_usec": 527.999997138977
+			},
+			"render_gpu": {
+				"sample_count": 120,
+				"p50_usec": 172.999992966652,
+				"p95_usec": 1332.00001716614,
+				"p99_usec": 1659.9999666214,
+				"worst_usec": 1682.99996852875
+			},
+			"draw_calls": {
+				"sample_count": 120,
+				"p50_usec": 0.0,
+				"p95_usec": 64.0,
+				"p99_usec": 73.0,
+				"worst_usec": 74.0
+			},
+			"primitives": {
+				"sample_count": 120,
+				"p50_usec": 0.0,
+				"p95_usec": 35517.0,
+				"p99_usec": 40418.0,
+				"worst_usec": 40974.0
+			},
+			"worker_delta": {
+				"sample_jobs": 0,
+				"mesh_jobs": 0,
+				"sample_time_ns": 0,
+				"mesh_time_ns": 0
+			},
+			"loading_state": {
+				"world_running": true,
+				"scheduler_queued_jobs": 0,
+				"storage_queued_requests": 0,
+				"queued_render": 0,
+				"collision_backlog": 0,
+				"pending_replacements": 0,
+				"pending_retirements": 0
+			},
+			"resources": {
+				"active_chunks": 240,
+				"render_resources": 49,
+				"collision_resources": 36
+			},
+			"applied_generation_agreement": {
+				"status": "PASS",
+				"visual_mismatches": [],
+				"collision_mismatches": []
+			},
+			"edit": {}
+		},
+		{
+			"id": "digging",
+			"kind": "dig",
+			"status": "PASS",
+			"frame": {
+				"sample_count": 120,
+				"p50_usec": 16460.0,
+				"p95_usec": 16817.0,
+				"p99_usec": 17004.0,
+				"worst_usec": 17020.0
+			},
+			"stutter_over_100ms_count": 0,
+			"stutter_fraction_over_100ms": 0.0,
+			"process": {
+				"sample_count": 120,
+				"p50_usec": 16998.0,
+				"p95_usec": 18516.0,
+				"p99_usec": 18516.0,
+				"worst_usec": 18516.0
+			},
+			"physics": {
+				"sample_count": 120,
+				"p50_usec": 151.0,
+				"p95_usec": 193.0,
+				"p99_usec": 193.0,
+				"worst_usec": 193.0
+			},
+			"render_cpu": {
+				"sample_count": 120,
+				"p50_usec": 294.999986886978,
+				"p95_usec": 405.000001192093,
+				"p99_usec": 462.999999523163,
+				"worst_usec": 532.999992370605
+			},
+			"render_gpu": {
+				"sample_count": 120,
+				"p50_usec": 1707.00001716614,
+				"p95_usec": 1728.00004482269,
+				"p99_usec": 1735.00001430511,
+				"worst_usec": 1751.99997425079
+			},
+			"draw_calls": {
+				"sample_count": 120,
+				"p50_usec": 82.0,
+				"p95_usec": 82.0,
+				"p99_usec": 82.0,
+				"worst_usec": 82.0
+			},
+			"primitives": {
+				"sample_count": 120,
+				"p50_usec": 42910.0,
+				"p95_usec": 42910.0,
+				"p99_usec": 42910.0,
+				"worst_usec": 42910.0
+			},
+			"worker_delta": {
+				"sample_jobs": 0,
+				"mesh_jobs": 0,
+				"sample_time_ns": 0,
+				"mesh_time_ns": 0
+			},
+			"loading_state": {
+				"world_running": true,
+				"scheduler_queued_jobs": 0,
+				"storage_queued_requests": 0,
+				"queued_render": 0,
+				"collision_backlog": 0,
+				"pending_replacements": 0,
+				"pending_retirements": 0
+			},
+			"resources": {
+				"active_chunks": 240,
+				"render_resources": 53,
+				"collision_resources": 40
+			},
+			"applied_generation_agreement": {
+				"status": "PASS",
+				"visual_mismatches": [],
+				"collision_mismatches": []
+			},
+			"edit": {
+				"status": "PASS",
+				"latency_usec": 200721,
+				"world_revision": 1
+			}
+		},
+		{
+			"id": "construction",
+			"kind": "construct",
+			"status": "PASS",
+			"frame": {
+				"sample_count": 120,
+				"p50_usec": 16449.0,
+				"p95_usec": 16670.0,
+				"p99_usec": 16932.0,
+				"worst_usec": 17032.0
+			},
+			"stutter_over_100ms_count": 0,
+			"stutter_fraction_over_100ms": 0.0,
+			"process": {
+				"sample_count": 120,
+				"p50_usec": 17134.0,
+				"p95_usec": 20240.0,
+				"p99_usec": 20240.0,
+				"worst_usec": 20240.0
+			},
+			"physics": {
+				"sample_count": 120,
+				"p50_usec": 65.0,
+				"p95_usec": 158.0,
+				"p99_usec": 158.0,
+				"worst_usec": 158.0
+			},
+			"render_cpu": {
+				"sample_count": 120,
+				"p50_usec": 324.000000953674,
+				"p95_usec": 442.00000166893,
+				"p99_usec": 509.00000333786,
+				"worst_usec": 541.000008583069
+			},
+			"render_gpu": {
+				"sample_count": 120,
+				"p50_usec": 1702.99994945526,
+				"p95_usec": 1717.00000762939,
+				"p99_usec": 1735.99994182587,
+				"worst_usec": 1763.00001144409
+			},
+			"draw_calls": {
+				"sample_count": 120,
+				"p50_usec": 82.0,
+				"p95_usec": 82.0,
+				"p99_usec": 82.0,
+				"worst_usec": 82.0
+			},
+			"primitives": {
+				"sample_count": 120,
+				"p50_usec": 42878.0,
+				"p95_usec": 42878.0,
+				"p99_usec": 42878.0,
+				"worst_usec": 42878.0
+			},
+			"worker_delta": {
+				"sample_jobs": 0,
+				"mesh_jobs": 0,
+				"sample_time_ns": 0,
+				"mesh_time_ns": 0
+			},
+			"loading_state": {
+				"world_running": true,
+				"scheduler_queued_jobs": 0,
+				"storage_queued_requests": 0,
+				"queued_render": 0,
+				"collision_backlog": 0,
+				"pending_replacements": 0,
+				"pending_retirements": 0
+			},
+			"resources": {
+				"active_chunks": 268,
+				"render_resources": 53,
+				"collision_resources": 40
+			},
+			"applied_generation_agreement": {
+				"status": "PASS",
+				"visual_mismatches": [],
+				"collision_mismatches": []
+			},
+			"edit": {
+				"status": "PASS",
+				"latency_usec": 199914,
+				"world_revision": 2
+			}
+		}
+	],
+	"aggregate": {
+		"frame_envelope": {
+			"sample_count": 32,
+			"p50_usec": 17004.0,
+			"p95_usec": 19581.0,
+			"p99_usec": 19638.0,
+			"worst_usec": 19638.0
+		},
+		"gpu_p99_envelope": {
+			"sample_count": 8,
+			"p50_usec": 2013.99993896484,
+			"p95_usec": 5925.00019073486,
+			"p99_usec": 5925.00019073486,
+			"worst_usec": 5925.00019073486
+		},
+		"rendered_scenarios": 8,
+		"stutter_over_100ms_count": 0
+	},
+	"queue_peaks": {
+		"scheduler": 236,
+		"storage": 372,
+		"render": 0,
+		"collision": 3,
+		"storage_age_ns": 5130500
+	},
+	"memory": {
+		"retained_bytes": 65305296,
+		"peak_bytes": 83409928
+	},
+	"gpu_memory": {
+		"video_bytes": 75144768.0,
+		"texture_bytes": 54885888.0,
+		"buffer_bytes": 14942236.0
+	},
+	"final_loading_state": {
+		"world_running": true,
+		"scheduler_queued_jobs": 0,
+		"storage_queued_requests": 0,
+		"queued_render": 0,
+		"collision_backlog": 0,
+		"pending_replacements": 0,
+		"pending_retirements": 0
+	},
+	"shutdown": "PASS",
+	"optimization_controls": {
+		"authority_baseline_only": true,
+		"unmeasured_optimizations_promoted": false
+	},
+	"qualified_scope": [
+		"Windows debug 2048x256x2048 native terrain catalog with bounded adaptive residency",
+		"rendered idle, traversal, flight, cave, LOD churn, teleport, digging, and construction scenarios",
+		"frame pacing, Godot process and physics time, measured render CPU/GPU time, draws, primitives, native worker throughput, queues, loading state, memory, and resource retirement",
+		"regression ceilings for the pinned reference machine and renderer, not production targets"
+	],
+	"explicitly_unqualified_scope": [
+		"60 FPS, 16 W, release-build, cross-hardware, cross-renderer, or GPU-meshing claims",
+		"multi-hour drift, arbitrary view distances, production materials, navigation, multiplayer, or Gate E"
+	],
+	"failures": []
+}
