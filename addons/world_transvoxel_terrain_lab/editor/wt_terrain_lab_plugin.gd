@@ -231,6 +231,7 @@ func _open_adaptive_persistence_observatory() -> void:
 
 func _open_complex_visual_review() -> void:
 	get_editor_interface().open_scene_from_path(COMPLEX_VISUAL_REVIEW_SCENE)
+	get_editor_interface().set_main_screen_editor("2D")
 
 
 func _process(delta: float) -> void:
