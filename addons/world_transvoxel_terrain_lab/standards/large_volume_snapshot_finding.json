@@ -2,26 +2,29 @@
 	"schema": "world_transvoxel.terrain_lab.finding.v1",
 	"id": "TQP-F002",
 	"title": "Large-volume snapshot compaction capacity",
-	"status": "OPEN_UPSTREAM_CAPACITY_LIMIT",
+	"status": "CLOSED_BY_TQP42_SPARSE_PROCEDURAL_SNAPSHOT",
 	"reported_by": "TQP-27 native large-terrain soak",
 	"reported_on": "2026-08-02",
+	"resolved_by": "TQP-42 sparse hierarchy storage and large-world compaction",
+	"resolved_on": "2026-08-08",
+	"upstream_commit": "ecf9e33b7327ed8f2ea761d01e29b433738263ed",
 	"observed_in": "128 x 16 x 128 procedural volumetric reference",
 	"classification": "PERSISTENCE_SCALABILITY_LIMIT",
 	"observations": [
 		"The documented 2K volumetric procedural profile contains roughly 299,520 catalog pages across its LOD hierarchy.",
-		"The native snapshot path rejects this procedural catalog during snapshot-manifest validation before compaction.",
-		"The snapshot store also declares a separate 4,096-page source capacity, far below this profile's catalog size.",
+		"The former all-pages native snapshot path rejected this procedural catalog during snapshot-manifest validation before compaction.",
+		"The replacement stores the procedural descriptor and a bounded sparse baked/edit overlay instead of materializing every declared page.",
 		"The same large world reopens successfully from its procedural source and durable edit journal, preserving committed authoritative samples.",
-		"The rejection is deterministic, explicit, and leaves no partially published output directory."
+		"The retained TQP-42 workload compacts central and finite-boundary edits, reopens and migrates the snapshot, reproduces authoritative samples and adaptive resources, and leaves no partial publication on failure."
 	],
 	"bounded_conclusion": [
-		"Large-world durable journal save/load can be qualified independently of snapshot compaction.",
-		"Large-volume compacted snapshots are not qualified and must not be inferred from TQP-16 small-fixture compaction evidence.",
+		"Large-world sparse procedural snapshot compaction is qualified only for the retained Windows 128x16x128-chunk profile and declared limits.",
+		"The result does not qualify arbitrary explicit catalogs, immutable production save compatibility, or unbounded worlds.",
 		"No evidence attributes this limit to Transvoxel meshing tables or terrain geometry correctness."
 	],
 	"disposition": {
-		"TQP-27": "Retain the deterministic capacity rejection as a required negative control and qualify only durable journal restart.",
-		"upstream": "Replace or extend the bounded all-pages snapshot path before claiming compacted snapshots for the 2K volumetric profile.",
-		"production": "Keep large-volume compaction unqualified until an upstream implementation passes equivalent large-world save, recovery, memory, and atomic-publication evidence."
+		"TQP-27": "Retain the historical all-pages capacity rejection as the negative control that motivated TQP-42.",
+		"TQP-42": "Close this finding for the retained sparse procedural snapshot profile using exact native, Godot, performance, recovery, migration, and atomic-publication evidence.",
+		"production": "Keep generic production save compatibility unqualified until the production-addon and release milestones define and qualify a stable format and wider fault envelope."
 	}
 }

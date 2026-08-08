@@ -42,6 +42,9 @@ const AdaptiveStreamingObservatoryScene := preload(
 const AdaptivePersistenceObservatoryScene := preload(
 	"res://labs/terrain_lab/scenes/adaptive_persistence_observatory.tscn"
 )
+const SparseHierarchyObservatoryScene := preload(
+	"res://labs/terrain_lab/scenes/sparse_hierarchy_observatory.tscn"
+)
 const NativeEvidence := preload(
 	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_edit_native_evidence.gd"
 )
@@ -457,6 +460,38 @@ func _run() -> void:
 		_fail("TQP-41 Adaptive Persistence Observatory did not shut down cleanly")
 		return
 	adaptive_persistence_observatory.free()
+	var sparse_hierarchy_script := load(
+		"res://labs/terrain_lab/scenes/sparse_hierarchy_observatory.gd"
+	) as Script
+	if sparse_hierarchy_script == null or not sparse_hierarchy_script.is_tool():
+		_fail("TQP-42 Sparse Hierarchy Observatory must execute as an editor tool")
+		return
+	var sparse_hierarchy_method_names := PackedStringArray()
+	for method in sparse_hierarchy_script.get_script_method_list():
+		sparse_hierarchy_method_names.append(str(method.get("name", "")))
+	for required_method in [
+		"wait_until_ready", "apply_localized_edit", "compact_and_reopen",
+		"restart_source", "get_validation_snapshot", "shutdown_for_validation",
+	]:
+		if required_method not in sparse_hierarchy_method_names:
+			_fail("TQP-42 Sparse Hierarchy Observatory lacks " + required_method)
+			return
+	var sparse_hierarchy_observatory := SparseHierarchyObservatoryScene.instantiate()
+	root.add_child(sparse_hierarchy_observatory)
+	var hierarchy_ready: Dictionary = await sparse_hierarchy_observatory.wait_until_ready()
+	var hierarchy_snapshot: Dictionary = sparse_hierarchy_observatory.get_validation_snapshot()
+	var hierarchy_metrics: Dictionary = hierarchy_snapshot.get("metrics", {})
+	if str(hierarchy_ready.get("status", "")) != "PASS" \
+			or str(hierarchy_snapshot.get("status", "")) != "PASS" \
+			or int(hierarchy_metrics.get("hierarchy_kind", 0)) != 2 \
+			or int(hierarchy_metrics.get("hierarchy_declared_pages", 0)) != 299520 \
+			or int(hierarchy_metrics.get("hierarchy_explicit_index_entries", -1)) != 0:
+		_fail("TQP-42 Sparse Hierarchy Observatory source state failed")
+		return
+	if str((await sparse_hierarchy_observatory.shutdown_for_validation()).get("status", "")) != "PASS":
+		_fail("TQP-42 Sparse Hierarchy Observatory did not shut down cleanly")
+		return
+	sparse_hierarchy_observatory.free()
 	var observatory_property_names := PackedStringArray()
 	for property in observatory_script.get_script_property_list():
 		observatory_property_names.append(str(property.get("name", "")))
@@ -625,13 +660,13 @@ func _run() -> void:
 	if int(validation.get("milestone_count", 0)) != 65:
 		_fail("terrain program milestone count changed")
 		return
-	if int(validation.get("qualified_milestone_count", 0)) != 41:
+	if int(validation.get("qualified_milestone_count", 0)) != 42:
 		_fail("qualified reference milestone count changed")
 		return
 	if int(validation.get("specified_milestone_count", 0)) != 1:
 		_fail("open specification count changed")
 		return
-	if int(validation.get("proposed_milestone_count", -1)) != 5:
+	if int(validation.get("proposed_milestone_count", -1)) != 4:
 		_fail("native adaptive-terrain proposal count changed")
 		return
 	var status_counts: Dictionary = validation.get("status_counts", {})

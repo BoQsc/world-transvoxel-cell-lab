@@ -1,0 +1,134 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://labs/terrain_lab/scenes/sparse_hierarchy_observatory.gd" id="1_script"]
+
+[sub_resource type="ProceduralSkyMaterial" id="SkyMaterial"]
+sky_top_color = Color(0.07, 0.11, 0.16, 1)
+sky_horizon_color = Color(0.48, 0.58, 0.62, 1)
+ground_bottom_color = Color(0.035, 0.045, 0.05, 1)
+ground_horizon_color = Color(0.34, 0.39, 0.4, 1)
+
+[sub_resource type="Sky" id="Sky"]
+sky_material = SubResource("SkyMaterial")
+
+[sub_resource type="Environment" id="Environment"]
+background_mode = 2
+sky = SubResource("Sky")
+ambient_light_source = 3
+ambient_light_color = Color(0.72, 0.78, 0.8, 1)
+ambient_light_energy = 0.55
+tonemap_mode = 2
+
+[sub_resource type="StyleBoxFlat" id="DockStyle"]
+bg_color = Color(0.035, 0.043, 0.052, 0.95)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.18, 0.23, 0.27, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+content_margin_left = 14.0
+content_margin_top = 12.0
+content_margin_right = 14.0
+content_margin_bottom = 12.0
+
+[node name="SparseHierarchyObservatory" type="Node3D"]
+script = ExtResource("1_script")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment")
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+rotation_degrees = Vector3(-52, -32, 0)
+light_color = Color(1, 0.91, 0.78, 1)
+light_energy = 1.35
+shadow_enabled = true
+directional_shadow_max_distance = 340.0
+
+[node name="Fill" type="DirectionalLight3D" parent="."]
+rotation_degrees = Vector3(-24, 148, 0)
+light_color = Color(0.45, 0.67, 0.82, 1)
+light_energy = 0.45
+
+[node name="Camera3D" type="Camera3D" parent="."]
+unique_name_in_owner = true
+current = true
+far = 2000.0
+
+[node name="Interface" type="CanvasLayer" parent="."]
+
+[node name="Dock" type="PanelContainer" parent="Interface"]
+offset_left = 18.0
+offset_top = 18.0
+offset_right = 480.0
+offset_bottom = 292.0
+theme_override_styles/panel = SubResource("DockStyle")
+
+[node name="Content" type="VBoxContainer" parent="Interface/Dock"]
+theme_override_constants/separation = 7
+
+[node name="Title" type="Label" parent="Interface/Dock/Content"]
+theme_override_colors/font_color = Color(0.87, 0.95, 0.97, 1)
+theme_override_font_sizes/font_size = 19
+text = "Sparse Hierarchy Observatory"
+
+[node name="Subtitle" type="Label" parent="Interface/Dock/Content"]
+theme_override_colors/font_color = Color(0.5, 0.69, 0.72, 1)
+text = "TQP-42  |  WORLD-TRANSVOXEL AUTHORITY"
+
+[node name="StatusLabel" type="Label" parent="Interface/Dock/Content"]
+unique_name_in_owner = true
+theme_override_colors/font_color = Color(0.62, 0.9, 0.68, 1)
+text = "STARTING"
+
+[node name="PagesLabel" type="Label" parent="Interface/Dock/Content"]
+unique_name_in_owner = true
+text = "Declared  0    Active  0"
+
+[node name="MemoryLabel" type="Label" parent="Interface/Dock/Content"]
+unique_name_in_owner = true
+text = "Hierarchy index  0 B    Explicit keys  0"
+
+[node name="OverlayLabel" type="Label" parent="Interface/Dock/Content"]
+unique_name_in_owner = true
+text = "Overlay  0 pages / 0 B    Cache  0 + 0"
+
+[node name="QueriesLabel" type="Label" parent="Interface/Dock/Content"]
+unique_name_in_owner = true
+text = "Queries  member 0  child 0  range 0  roots 0"
+
+[node name="PipelineLabel" type="Label" parent="Interface/Dock/Content"]
+unique_name_in_owner = true
+text = "Resources  render 0  collision 0    Queue  0 / 0"
+
+[node name="Separator" type="HSeparator" parent="Interface/Dock/Content"]
+
+[node name="Actions" type="HBoxContainer" parent="Interface/Dock/Content"]
+theme_override_constants/separation = 8
+
+[node name="EditButton" type="Button" parent="Interface/Dock/Content/Actions"]
+unique_name_in_owner = true
+text = "Apply edit"
+
+[node name="CompactButton" type="Button" parent="Interface/Dock/Content/Actions"]
+unique_name_in_owner = true
+text = "Compact + reopen"
+
+[node name="RestartButton" type="Button" parent="Interface/Dock/Content/Actions"]
+unique_name_in_owner = true
+text = "Reset source"
+
+[node name="Scope" type="Label" parent="Interface/Dock/Content"]
+theme_override_colors/font_color = Color(0.53, 0.58, 0.61, 1)
+text = "299,520 declared pages  |  localized sparse overlay"
+
+[node name="Badge" type="Label" parent="Interface"]
+offset_left = 18.0
+offset_top = 306.0
+offset_right = 248.0
+offset_bottom = 334.0
+theme_override_colors/font_color = Color(0.82, 0.88, 0.9, 1)
+text = "NO LAB TERRAIN FALLBACK"

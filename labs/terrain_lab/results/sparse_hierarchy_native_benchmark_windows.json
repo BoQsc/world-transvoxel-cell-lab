@@ -1,0 +1,862 @@
+{
+  "authority": {
+    "executable": "build/native-tests/test_wt_production_snapshot_query.template_debug.x86_64.exe",
+    "executable_sha256": "965dbb0e59ea2082ab812cffa0a9e5e84ee1fecf3623b5b08cc1cdb3a68cd0cc",
+    "git_commit": "ecf9e33b7327ed8f2ea761d01e29b433738263ed",
+    "native_contract_hash": "2b3da9885262e7548e95192e698eb00eebe57fadc82e05aa05b5da83dbc2c689",
+    "repository": "world-transvoxel"
+  },
+  "method": {
+    "hierarchy_queries_per_native_run": 4096,
+    "measured_runs": 7,
+    "memory_metric": "windows_peak_working_set",
+    "warmup_runs": 1
+  },
+  "runs": [
+    {
+      "duration_ns": 3874606000,
+      "hierarchy": {
+        "flat_p50": 100,
+        "flat_p95": 300,
+        "flat_p99": 500,
+        "flat_startup_ns": 5590500,
+        "flat_worst": 13400,
+        "implicit_p50": 100,
+        "implicit_p95": 100,
+        "implicit_p99": 100,
+        "implicit_startup_ns": 8000,
+        "implicit_worst": 13200
+      },
+      "hierarchy_operations": {
+        "ancestor": {
+          "operation": "ancestor",
+          "p50_ns": 100,
+          "p95_ns": 100,
+          "p99_ns": 100,
+          "samples": 4096,
+          "worst_ns": 27200
+        },
+        "children": {
+          "operation": "children",
+          "p50_ns": 100,
+          "p95_ns": 200,
+          "p99_ns": 200,
+          "samples": 4096,
+          "worst_ns": 28800
+        },
+        "neighbors": {
+          "operation": "neighbors",
+          "p50_ns": 100,
+          "p95_ns": 200,
+          "p99_ns": 200,
+          "samples": 4096,
+          "worst_ns": 11500
+        },
+        "range": {
+          "operation": "range",
+          "p50_ns": 100,
+          "p95_ns": 100,
+          "p99_ns": 100,
+          "samples": 4096,
+          "worst_ns": 2300
+        },
+        "viewer_roots": {
+          "operation": "viewer_roots",
+          "p50_ns": 300,
+          "p95_ns": 300,
+          "p99_ns": 400,
+          "samples": 4096,
+          "worst_ns": 29800
+        }
+      },
+      "native_hash": "2b3da9885262e7548e95192e698eb00eebe57fadc82e05aa05b5da83dbc2c689",
+      "peak_working_set_bytes": 10362880,
+      "snapshot": {
+        "cold_open_ns": 77200,
+        "declared_pages": 299520,
+        "edit_invalidation_query_ns": 174034100,
+        "final_reopen_ns": 598800,
+        "first_compaction_ns": 825170600,
+        "first_edit_append_ns": 5064700,
+        "first_reopen_ns": 687100,
+        "hierarchy_index_bytes": 40,
+        "migrated_reopen_ns": 1389800,
+        "migration_ns": 739334000,
+        "overlay_index_bytes": 3831,
+        "overlay_pages": 52,
+        "second_compaction_ns": 737848200,
+        "second_edit_append_ns": 2577100
+      }
+    },
+    {
+      "duration_ns": 3413454800,
+      "hierarchy": {
+        "flat_p50": 200,
+        "flat_p95": 500,
+        "flat_p99": 1000,
+        "flat_startup_ns": 6039300,
+        "flat_worst": 8100,
+        "implicit_p50": 100,
+        "implicit_p95": 100,
+        "implicit_p99": 100,
+        "implicit_startup_ns": 10100,
+        "implicit_worst": 600
+      },
+      "hierarchy_operations": {
+        "ancestor": {
+          "operation": "ancestor",
+          "p50_ns": 100,
+          "p95_ns": 100,
+          "p99_ns": 200,
+          "samples": 4096,
+          "worst_ns": 162800
+        },
+        "children": {
+          "operation": "children",
+          "p50_ns": 100,
+          "p95_ns": 200,
+          "p99_ns": 200,
+          "samples": 4096,
+          "worst_ns": 600
+        },
+        "neighbors": {
+          "operation": "neighbors",
+          "p50_ns": 100,
+          "p95_ns": 200,
+          "p99_ns": 300,
+          "samples": 4096,
+          "worst_ns": 6200
+        },
+        "range": {
+          "operation": "range",
+          "p50_ns": 100,
+          "p95_ns": 100,
+          "p99_ns": 200,
+          "samples": 4096,
+          "worst_ns": 50500
+        },
+        "viewer_roots": {
+          "operation": "viewer_roots",
+          "p50_ns": 300,
+          "p95_ns": 400,
+          "p99_ns": 500,
+          "samples": 4096,
+          "worst_ns": 52500
+        }
+      },
+      "native_hash": "2b3da9885262e7548e95192e698eb00eebe57fadc82e05aa05b5da83dbc2c689",
+      "peak_working_set_bytes": 10420224,
+      "snapshot": {
+        "cold_open_ns": 84200,
+        "declared_pages": 299520,
+        "edit_invalidation_query_ns": 171484200,
+        "final_reopen_ns": 692300,
+        "first_compaction_ns": 655926800,
+        "first_edit_append_ns": 4154700,
+        "first_reopen_ns": 1499000,
+        "hierarchy_index_bytes": 40,
+        "migrated_reopen_ns": 588400,
+        "migration_ns": 550907300,
+        "overlay_index_bytes": 3831,
+        "overlay_pages": 52,
+        "second_compaction_ns": 716166500,
+        "second_edit_append_ns": 2572300
+      }
+    },
+    {
+      "duration_ns": 3592739700,
+      "hierarchy": {
+        "flat_p50": 100,
+        "flat_p95": 200,
+        "flat_p99": 400,
+        "flat_startup_ns": 5729000,
+        "flat_worst": 1200,
+        "implicit_p50": 100,
+        "implicit_p95": 100,
+        "implicit_p99": 100,
+        "implicit_startup_ns": 23900,
+        "implicit_worst": 2200
+      },
+      "hierarchy_operations": {
+        "ancestor": {
+          "operation": "ancestor",
+          "p50_ns": 100,
+          "p95_ns": 100,
+          "p99_ns": 100,
+          "samples": 4096,
+          "worst_ns": 1600
+        },
+        "children": {
+          "operation": "children",
+          "p50_ns": 100,
+          "p95_ns": 200,
+          "p99_ns": 200,
+          "samples": 4096,
+          "worst_ns": 200
+        },
+        "neighbors": {
+          "operation": "neighbors",
+          "p50_ns": 100,
+          "p95_ns": 200,
+          "p99_ns": 200,
+          "samples": 4096,
+          "worst_ns": 300
+        },
+        "range": {
+          "operation": "range",
+          "p50_ns": 100,
+          "p95_ns": 100,
+          "p99_ns": 100,
+          "samples": 4096,
+          "worst_ns": 300
+        },
+        "viewer_roots": {
+          "operation": "viewer_roots",
+          "p50_ns": 300,
+          "p95_ns": 300,
+          "p99_ns": 400,
+          "samples": 4096,
+          "worst_ns": 1500
+        }
+      },
+      "native_hash": "2b3da9885262e7548e95192e698eb00eebe57fadc82e05aa05b5da83dbc2c689",
+      "peak_working_set_bytes": 10526720,
+      "snapshot": {
+        "cold_open_ns": 66200,
+        "declared_pages": 299520,
+        "edit_invalidation_query_ns": 165997900,
+        "final_reopen_ns": 602400,
+        "first_compaction_ns": 648890600,
+        "first_edit_append_ns": 4628300,
+        "first_reopen_ns": 658800,
+        "hierarchy_index_bytes": 40,
+        "migrated_reopen_ns": 635000,
+        "migration_ns": 679792400,
+        "overlay_index_bytes": 3831,
+        "overlay_pages": 52,
+        "second_compaction_ns": 708528400,
+        "second_edit_append_ns": 1052600
+      }
+    },
+    {
+      "duration_ns": 3710215800,
+      "hierarchy": {
+        "flat_p50": 100,
+        "flat_p95": 200,
+        "flat_p99": 400,
+        "flat_startup_ns": 6448000,
+        "flat_worst": 15600,
+        "implicit_p50": 100,
+        "implicit_p95": 100,
+        "implicit_p99": 100,
+        "implicit_startup_ns": 8600,
+        "implicit_worst": 100
+      },
+      "hierarchy_operations": {
+        "ancestor": {
+          "operation": "ancestor",
+          "p50_ns": 100,
+          "p95_ns": 100,
+          "p99_ns": 100,
+          "samples": 4096,
+          "worst_ns": 13000
+        },
+        "children": {
+          "operation": "children",
+          "p50_ns": 100,
+          "p95_ns": 200,
+          "p99_ns": 200,
+          "samples": 4096,
+          "worst_ns": 200
+        },
+        "neighbors": {
+          "operation": "neighbors",
+          "p50_ns": 100,
+          "p95_ns": 200,
+          "p99_ns": 200,
+          "samples": 4096,
+          "worst_ns": 200
+        },
+        "range": {
+          "operation": "range",
+          "p50_ns": 100,
+          "p95_ns": 100,
+          "p99_ns": 100,
+          "samples": 4096,
+          "worst_ns": 100
+        },
+        "viewer_roots": {
+          "operation": "viewer_roots",
+          "p50_ns": 300,
+          "p95_ns": 300,
+          "p99_ns": 400,
+          "samples": 4096,
+          "worst_ns": 13200
+        }
+      },
+      "native_hash": "2b3da9885262e7548e95192e698eb00eebe57fadc82e05aa05b5da83dbc2c689",
+      "peak_working_set_bytes": 10547200,
+      "snapshot": {
+        "cold_open_ns": 70500,
+        "declared_pages": 299520,
+        "edit_invalidation_query_ns": 171745400,
+        "final_reopen_ns": 606300,
+        "first_compaction_ns": 636295000,
+        "first_edit_append_ns": 4603500,
+        "first_reopen_ns": 664000,
+        "hierarchy_index_bytes": 40,
+        "migrated_reopen_ns": 583500,
+        "migration_ns": 899903700,
+        "overlay_index_bytes": 3831,
+        "overlay_pages": 52,
+        "second_compaction_ns": 690349300,
+        "second_edit_append_ns": 2520800
+      }
+    },
+    {
+      "duration_ns": 3397984300,
+      "hierarchy": {
+        "flat_p50": 100,
+        "flat_p95": 300,
+        "flat_p99": 500,
+        "flat_startup_ns": 5693700,
+        "flat_worst": 31300,
+        "implicit_p50": 100,
+        "implicit_p95": 100,
+        "implicit_p99": 100,
+        "implicit_startup_ns": 8800,
+        "implicit_worst": 18300
+      },
+      "hierarchy_operations": {
+        "ancestor": {
+          "operation": "ancestor",
+          "p50_ns": 100,
+          "p95_ns": 100,
+          "p99_ns": 100,
+          "samples": 4096,
+          "worst_ns": 18500
+        },
+        "children": {
+          "operation": "children",
+          "p50_ns": 100,
+          "p95_ns": 200,
+          "p99_ns": 200,
+          "samples": 4096,
+          "worst_ns": 18600
+        },
+        "neighbors": {
+          "operation": "neighbors",
+          "p50_ns": 100,
+          "p95_ns": 200,
+          "p99_ns": 200,
+          "samples": 4096,
+          "worst_ns": 27500
+        },
+        "range": {
+          "operation": "range",
+          "p50_ns": 100,
+          "p95_ns": 100,
+          "p99_ns": 100,
+          "samples": 4096,
+          "worst_ns": 20300
+        },
+        "viewer_roots": {
+          "operation": "viewer_roots",
+          "p50_ns": 300,
+          "p95_ns": 400,
+          "p99_ns": 500,
+          "samples": 4096,
+          "worst_ns": 96000
+        }
+      },
+      "native_hash": "2b3da9885262e7548e95192e698eb00eebe57fadc82e05aa05b5da83dbc2c689",
+      "peak_working_set_bytes": 10526720,
+      "snapshot": {
+        "cold_open_ns": 85600,
+        "declared_pages": 299520,
+        "edit_invalidation_query_ns": 167426800,
+        "final_reopen_ns": 607100,
+        "first_compaction_ns": 641767000,
+        "first_edit_append_ns": 5778500,
+        "first_reopen_ns": 672400,
+        "hierarchy_index_bytes": 40,
+        "migrated_reopen_ns": 616700,
+        "migration_ns": 542257700,
+        "overlay_index_bytes": 3831,
+        "overlay_pages": 52,
+        "second_compaction_ns": 718012500,
+        "second_edit_append_ns": 2859500
+      }
+    },
+    {
+      "duration_ns": 3562043000,
+      "hierarchy": {
+        "flat_p50": 100,
+        "flat_p95": 300,
+        "flat_p99": 500,
+        "flat_startup_ns": 5625700,
+        "flat_worst": 52900,
+        "implicit_p50": 100,
+        "implicit_p95": 100,
+        "implicit_p99": 100,
+        "implicit_startup_ns": 8500,
+        "implicit_worst": 13100
+      },
+      "hierarchy_operations": {
+        "ancestor": {
+          "operation": "ancestor",
+          "p50_ns": 100,
+          "p95_ns": 100,
+          "p99_ns": 100,
+          "samples": 4096,
+          "worst_ns": 18700
+        },
+        "children": {
+          "operation": "children",
+          "p50_ns": 100,
+          "p95_ns": 200,
+          "p99_ns": 200,
+          "samples": 4096,
+          "worst_ns": 18300
+        },
+        "neighbors": {
+          "operation": "neighbors",
+          "p50_ns": 100,
+          "p95_ns": 200,
+          "p99_ns": 200,
+          "samples": 4096,
+          "worst_ns": 13200
+        },
+        "range": {
+          "operation": "range",
+          "p50_ns": 100,
+          "p95_ns": 100,
+          "p99_ns": 100,
+          "samples": 4096,
+          "worst_ns": 18600
+        },
+        "viewer_roots": {
+          "operation": "viewer_roots",
+          "p50_ns": 300,
+          "p95_ns": 300,
+          "p99_ns": 500,
+          "samples": 4096,
+          "worst_ns": 32800
+        }
+      },
+      "native_hash": "2b3da9885262e7548e95192e698eb00eebe57fadc82e05aa05b5da83dbc2c689",
+      "peak_working_set_bytes": 10395648,
+      "snapshot": {
+        "cold_open_ns": 83600,
+        "declared_pages": 299520,
+        "edit_invalidation_query_ns": 179807800,
+        "final_reopen_ns": 595900,
+        "first_compaction_ns": 633410000,
+        "first_edit_append_ns": 5079100,
+        "first_reopen_ns": 611200,
+        "hierarchy_index_bytes": 40,
+        "migrated_reopen_ns": 579200,
+        "migration_ns": 636490700,
+        "overlay_index_bytes": 3831,
+        "overlay_pages": 52,
+        "second_compaction_ns": 741605400,
+        "second_edit_append_ns": 1733100
+      }
+    },
+    {
+      "duration_ns": 3414714800,
+      "hierarchy": {
+        "flat_p50": 100,
+        "flat_p95": 300,
+        "flat_p99": 500,
+        "flat_startup_ns": 5862400,
+        "flat_worst": 18900,
+        "implicit_p50": 100,
+        "implicit_p95": 100,
+        "implicit_p99": 100,
+        "implicit_startup_ns": 8700,
+        "implicit_worst": 100
+      },
+      "hierarchy_operations": {
+        "ancestor": {
+          "operation": "ancestor",
+          "p50_ns": 100,
+          "p95_ns": 100,
+          "p99_ns": 100,
+          "samples": 4096,
+          "worst_ns": 22200
+        },
+        "children": {
+          "operation": "children",
+          "p50_ns": 100,
+          "p95_ns": 200,
+          "p99_ns": 200,
+          "samples": 4096,
+          "worst_ns": 1400
+        },
+        "neighbors": {
+          "operation": "neighbors",
+          "p50_ns": 100,
+          "p95_ns": 200,
+          "p99_ns": 200,
+          "samples": 4096,
+          "worst_ns": 1400
+        },
+        "range": {
+          "operation": "range",
+          "p50_ns": 100,
+          "p95_ns": 100,
+          "p99_ns": 100,
+          "samples": 4096,
+          "worst_ns": 13100
+        },
+        "viewer_roots": {
+          "operation": "viewer_roots",
+          "p50_ns": 300,
+          "p95_ns": 300,
+          "p99_ns": 400,
+          "samples": 4096,
+          "worst_ns": 19000
+        }
+      },
+      "native_hash": "2b3da9885262e7548e95192e698eb00eebe57fadc82e05aa05b5da83dbc2c689",
+      "peak_working_set_bytes": 10412032,
+      "snapshot": {
+        "cold_open_ns": 91100,
+        "declared_pages": 299520,
+        "edit_invalidation_query_ns": 172627500,
+        "final_reopen_ns": 725200,
+        "first_compaction_ns": 653333900,
+        "first_edit_append_ns": 4235300,
+        "first_reopen_ns": 664200,
+        "hierarchy_index_bytes": 40,
+        "migrated_reopen_ns": 613800,
+        "migration_ns": 576267500,
+        "overlay_index_bytes": 3831,
+        "overlay_pages": 52,
+        "second_compaction_ns": 704189200,
+        "second_edit_append_ns": 2414000
+      }
+    }
+  ],
+  "schema": "world_transvoxel.sparse_hierarchy_benchmark.v1",
+  "status": "PASS",
+  "summary": {
+    "fixed_counters": {
+      "declared_pages": 299520,
+      "hierarchy_index_bytes": 40,
+      "overlay_index_bytes": 3831,
+      "overlay_pages": 52
+    },
+    "hierarchy": {
+      "flat_p50": {
+        "p50": 100,
+        "p95": 100,
+        "p99": 100,
+        "samples": 7,
+        "worst": 200
+      },
+      "flat_p95": {
+        "p50": 300,
+        "p95": 300,
+        "p99": 300,
+        "samples": 7,
+        "worst": 500
+      },
+      "flat_p99": {
+        "p50": 500,
+        "p95": 500,
+        "p99": 500,
+        "samples": 7,
+        "worst": 1000
+      },
+      "flat_startup_ns": {
+        "p50": 5729000,
+        "p95": 6039300,
+        "p99": 6039300,
+        "samples": 7,
+        "worst": 6448000
+      },
+      "flat_worst": {
+        "p50": 15600,
+        "p95": 31300,
+        "p99": 31300,
+        "samples": 7,
+        "worst": 52900
+      },
+      "implicit_p50": {
+        "p50": 100,
+        "p95": 100,
+        "p99": 100,
+        "samples": 7,
+        "worst": 100
+      },
+      "implicit_p95": {
+        "p50": 100,
+        "p95": 100,
+        "p99": 100,
+        "samples": 7,
+        "worst": 100
+      },
+      "implicit_p99": {
+        "p50": 100,
+        "p95": 100,
+        "p99": 100,
+        "samples": 7,
+        "worst": 100
+      },
+      "implicit_startup_ns": {
+        "p50": 8700,
+        "p95": 10100,
+        "p99": 10100,
+        "samples": 7,
+        "worst": 23900
+      },
+      "implicit_worst": {
+        "p50": 2200,
+        "p95": 13200,
+        "p99": 13200,
+        "samples": 7,
+        "worst": 18300
+      }
+    },
+    "hierarchy_operations": {
+      "ancestor": {
+        "p50_ns": {
+          "p50": 100,
+          "p95": 100,
+          "p99": 100,
+          "samples": 7,
+          "worst": 100
+        },
+        "p95_ns": {
+          "p50": 100,
+          "p95": 100,
+          "p99": 100,
+          "samples": 7,
+          "worst": 100
+        },
+        "p99_ns": {
+          "p50": 100,
+          "p95": 100,
+          "p99": 100,
+          "samples": 7,
+          "worst": 200
+        },
+        "worst_ns": {
+          "p50": 18700,
+          "p95": 27200,
+          "p99": 27200,
+          "samples": 7,
+          "worst": 162800
+        }
+      },
+      "children": {
+        "p50_ns": {
+          "p50": 100,
+          "p95": 100,
+          "p99": 100,
+          "samples": 7,
+          "worst": 100
+        },
+        "p95_ns": {
+          "p50": 200,
+          "p95": 200,
+          "p99": 200,
+          "samples": 7,
+          "worst": 200
+        },
+        "p99_ns": {
+          "p50": 200,
+          "p95": 200,
+          "p99": 200,
+          "samples": 7,
+          "worst": 200
+        },
+        "worst_ns": {
+          "p50": 1400,
+          "p95": 18600,
+          "p99": 18600,
+          "samples": 7,
+          "worst": 28800
+        }
+      },
+      "neighbors": {
+        "p50_ns": {
+          "p50": 100,
+          "p95": 100,
+          "p99": 100,
+          "samples": 7,
+          "worst": 100
+        },
+        "p95_ns": {
+          "p50": 200,
+          "p95": 200,
+          "p99": 200,
+          "samples": 7,
+          "worst": 200
+        },
+        "p99_ns": {
+          "p50": 200,
+          "p95": 200,
+          "p99": 200,
+          "samples": 7,
+          "worst": 300
+        },
+        "worst_ns": {
+          "p50": 6200,
+          "p95": 13200,
+          "p99": 13200,
+          "samples": 7,
+          "worst": 27500
+        }
+      },
+      "range": {
+        "p50_ns": {
+          "p50": 100,
+          "p95": 100,
+          "p99": 100,
+          "samples": 7,
+          "worst": 100
+        },
+        "p95_ns": {
+          "p50": 100,
+          "p95": 100,
+          "p99": 100,
+          "samples": 7,
+          "worst": 100
+        },
+        "p99_ns": {
+          "p50": 100,
+          "p95": 100,
+          "p99": 100,
+          "samples": 7,
+          "worst": 200
+        },
+        "worst_ns": {
+          "p50": 13100,
+          "p95": 20300,
+          "p99": 20300,
+          "samples": 7,
+          "worst": 50500
+        }
+      },
+      "viewer_roots": {
+        "p50_ns": {
+          "p50": 300,
+          "p95": 300,
+          "p99": 300,
+          "samples": 7,
+          "worst": 300
+        },
+        "p95_ns": {
+          "p50": 300,
+          "p95": 400,
+          "p99": 400,
+          "samples": 7,
+          "worst": 400
+        },
+        "p99_ns": {
+          "p50": 400,
+          "p95": 500,
+          "p99": 500,
+          "samples": 7,
+          "worst": 500
+        },
+        "worst_ns": {
+          "p50": 29800,
+          "p95": 52500,
+          "p99": 52500,
+          "samples": 7,
+          "worst": 96000
+        }
+      }
+    },
+    "peak_working_set_bytes": {
+      "p50": 10420224,
+      "p95": 10526720,
+      "p99": 10526720,
+      "samples": 7,
+      "worst": 10547200
+    },
+    "process_duration_ns": {
+      "p50": 3562043000,
+      "p95": 3710215800,
+      "p99": 3710215800,
+      "samples": 7,
+      "worst": 3874606000
+    },
+    "snapshot_operations": {
+      "cold_open_ns": {
+        "p50": 83600,
+        "p95": 85600,
+        "p99": 85600,
+        "samples": 7,
+        "worst": 91100
+      },
+      "edit_invalidation_query_ns": {
+        "p50": 171745400,
+        "p95": 174034100,
+        "p99": 174034100,
+        "samples": 7,
+        "worst": 179807800
+      },
+      "final_reopen_ns": {
+        "p50": 606300,
+        "p95": 692300,
+        "p99": 692300,
+        "samples": 7,
+        "worst": 725200
+      },
+      "first_compaction_ns": {
+        "p50": 648890600,
+        "p95": 655926800,
+        "p99": 655926800,
+        "samples": 7,
+        "worst": 825170600
+      },
+      "first_edit_append_ns": {
+        "p50": 4628300,
+        "p95": 5079100,
+        "p99": 5079100,
+        "samples": 7,
+        "worst": 5778500
+      },
+      "first_reopen_ns": {
+        "p50": 664200,
+        "p95": 687100,
+        "p99": 687100,
+        "samples": 7,
+        "worst": 1499000
+      },
+      "migrated_reopen_ns": {
+        "p50": 613800,
+        "p95": 635000,
+        "p99": 635000,
+        "samples": 7,
+        "worst": 1389800
+      },
+      "migration_ns": {
+        "p50": 636490700,
+        "p95": 739334000,
+        "p99": 739334000,
+        "samples": 7,
+        "worst": 899903700
+      },
+      "second_compaction_ns": {
+        "p50": 716166500,
+        "p95": 737848200,
+        "p99": 737848200,
+        "samples": 7,
+        "worst": 741605400
+      },
+      "second_edit_append_ns": {
+        "p50": 2520800,
+        "p95": 2577100,
+        "p99": 2577100,
+        "samples": 7,
+        "worst": 2859500
+      }
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+	"schema": "world_transvoxel.terrain_lab.decision.v1",
+	"id": "TQP-D031",
+	"date": "2026-08-08",
+	"decision": "Qualify TQP-42 for the retained Windows implicit procedural hierarchy, sparse edit overlay, and 299,520-page large-world compaction profile.",
+	"affected_milestones": ["TQP-42"],
+	"repositories": ["world-transvoxel-cell-lab", "world-transvoxel"],
+	"upstream_commit": "ecf9e33b7327ed8f2ea761d01e29b433738263ed",
+	"alternatives_considered": [
+		"materialize all 299,520 declared page keys in the runtime hot path",
+		"mandate an explicit pointer octree without comparative evidence",
+		"retain journal-only restart and leave large-world compaction unsupported",
+		"treat the previous all-pages snapshot rejection as acceptable positive evidence",
+		"claim a general production save format from one retained procedural profile"
+	],
+	"evidence": [
+		"native exact hierarchy contract for page presence, ancestor, complete children, same-LOD neighbors, ranges, and viewer roots against a retained flat sorted catalog",
+		"seven-run native benchmark pinned to upstream commit ecf9e33 with p50, p95, p99, worst, executable hash, peak working set, and deterministic authority hash",
+		"299,520 declared pages represented by a 40-byte implicit hierarchy descriptor and zero explicit runtime catalog entries",
+		"central construction and finite-boundary carve compacted into 32 sparse overlay pages in the Godot reference workload",
+		"fresh-runtime reopen reproducing authoritative samples, state signature, and regenerated geometry signature",
+		"current-schema migration plus fail-closed corrupt descriptor, missing manifest, interrupted publication, duplicate/malformed hierarchy, and capacity controls",
+		"@tool Sparse Hierarchy Observatory source and compact/reopen workflows with live hierarchy, overlay, cache, residency, queue, and query counters",
+		"complete upstream M5 and production qualification suites on Godot 4.6.3 and 4.7, plus matching debug and release snapshot-query hashes"
+	],
+	"qualified_scope": [
+		"Windows debug implicit procedural hierarchy for the retained 128x16x128-chunk, 299,520-page reference",
+		"exact hierarchy queries and runtime demand without materializing every declared page key",
+		"localized durable central and finite-boundary edits with sparse overlay compaction",
+		"large-world compact, reopen, replay, adaptive resource regeneration, and current-schema migration",
+		"separate declared hierarchy, sparse index, overlay index, cache, active record, render, and collision counters",
+		"bounded fail-closed descriptor, manifest, publication, hierarchy, and sparse-overlay capacity controls"
+	],
+	"unqualified_scope": [
+		"planet-scale, unbounded, distributed, networked, or GPU-resident worlds",
+		"production save compatibility or an immutable public file format",
+		"arbitrary explicit sparse catalogs that violate complete refinement ancestry",
+		"multi-hour soak, disk exhaustion, allocation failure, concurrent process writers, or randomized schedule fault injection",
+		"non-Windows performance, production frame pacing, low-power targets, Gate E, or production terrain"
+	],
+	"standards_changed": [
+		"Terrain Qualification Program revision 32",
+		"execution-plan revision 23",
+		"sparse hierarchy storage standard implicit_procedural_hierarchy_sparse_overlay_windows_v1",
+		"TQP-F002 closed for the retained sparse procedural snapshot profile"
+	],
+	"review": "Qualification fails closed if the upstream commit, executable or contract hash, exact hierarchy comparisons, retained counts and signatures, compact/reopen replay, migration, resource regeneration, negative controls, observatory workflow, provenance, or explicit limitations differ.",
+	"downstream_impact": "TQP-43 becomes the next dependency-ordered milestone. TQP-F002 no longer blocks the retained 2K procedural profile, but generic production save compatibility and Gate E remain unqualified."
+}

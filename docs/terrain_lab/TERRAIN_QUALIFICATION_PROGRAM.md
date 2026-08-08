@@ -142,10 +142,11 @@ promotion order: investigation may happen early, but qualification cannot skip
 an earlier dependency.
 
 The machine-readable `execution_plan.json` mirrors the same order but is not a
-second human roadmap. Program revision 31 preserves the ground-up sequence,
-inserts the missing large-world storage milestone through `TQP-D030`, and
-advances only milestones with retained evidence. Earlier identifier migrations
-remain retained in `TQP-D006` and `TQP-D017` as history.
+second human roadmap. Program revision 32 preserves the ground-up sequence,
+inserts the missing large-world storage milestone through `TQP-D030`, qualifies
+its retained scope through `TQP-D031`, and advances only milestones with
+retained evidence. Earlier identifier migrations remain retained in `TQP-D006`
+and `TQP-D017` as history.
 
 ## Completeness And Claim Boundary
 
@@ -166,7 +167,7 @@ residency shape, edit history, or runtime scale. In particular:
 
 The 2026-08-02 terrain-core completeness audit found the former roadmap moved
 from bounded TQP-27 evidence directly to destruction. Phase 4 closes that gap.
-Until Gate E passes, this program may claim the qualified TQP-01 through TQP-41
+Until Gate E passes, this program may claim the qualified TQP-01 through TQP-42
 scopes, but it must not claim authoritative dynamic adaptive Transvoxel terrain.
 
 ## Phase 1: Qualified Foundations And Reference Semantics
@@ -841,7 +842,7 @@ authority remain unqualified.
 
 ### TQP-42: Sparse Hierarchy Storage And Large-World Compaction
 
-Status: `proposed`. Owner: Terrain Systems Lab and Edit Semantics Lab. Depends
+Status: `qualified`. Owner: Terrain Systems Lab and Edit Semantics Lab. Depends
 on: TQP-13, TQP-16, TQP-20, TQP-27, TQP-30, TQP-40, TQP-41.
 
 Complete when the native authority has a deterministic, measured sparse
@@ -872,6 +873,19 @@ work, and localized edit overlays without manufacturing fallback terrain.
 
 This milestone does not qualify planet-scale or unbounded worlds, networking,
 distributed databases, GPU residency, or production save compatibility.
+
+Qualification decision `TQP-D031` retains upstream commit `ecf9e33`, native
+contract hash `2b3da9885262e7548e95192e698eb00eebe57fadc82e05aa05b5da83dbc2c689`,
+and a seven-run Windows benchmark. The 299,520
+declared pages require zero explicit runtime catalog entries and a 40-byte
+implicit hierarchy descriptor. Central construction and a finite-boundary carve
+compact to a sparse overlay, reopen with identical authoritative samples and
+regenerated geometry, migrate, and fail closed under descriptor, manifest,
+publication, hierarchy, and capacity negative controls. The separate `@tool`
+observatory validates both source startup and compact/reopen workflows while
+exposing declared, overlay, cache, resident, queue, resource, and hierarchy-query
+counters. `TQP-F002` closes only for this retained sparse procedural snapshot
+profile; generic production save compatibility remains unqualified.
 
 ### TQP-43: Fault Injection And Cross-Order Determinism
 
@@ -1124,11 +1138,11 @@ a standard, not an assertion that future terrain work is finished.
 
 The program records every milestone at a truthful evidence state:
 
-- `TQP-01` through `TQP-41` are qualified
+- `TQP-01` through `TQP-42` are qualified
   for their narrow contract, native Windows reference, or reference-model
   scopes. Gate B is qualified; its native chunk rebuild benchmark remains a
   background/debug reference and is not a production frame-time claim.
-- `TQP-28` through `TQP-41` qualify the deterministic field contract, bounded
+- `TQP-28` through `TQP-42` qualify the deterministic field contract, bounded
   LOD0 complex native corpus, finite adaptive selector, and static native
   transition-assembly matrix, bounded boundary/enclosure policy, and independent
   geometry/topology oracles, seeded adversarial/minimized repro corpus, and
@@ -1138,8 +1152,9 @@ The program records every milestone at a truthful evidence state:
   identity, adaptive material payload continuity, and bounded native
   render/collision/query/physics agreement with consumer-derived navigation,
   multi-layer LOD2/LOD1/LOD0 streaming/residency, and bounded native-baked
-  adaptive persistence with fresh-runtime replay and supported compaction.
-  `TQP-42` through `TQP-46` remain proposed, so
+  adaptive persistence with fresh-runtime replay and supported compaction, and
+  the retained implicit procedural hierarchy with sparse large-world snapshot
+  overlays. `TQP-43` through `TQP-46` remain proposed, so
   the program makes no Gate E adaptive-terrain authority claim.
 - `TQP-47` through `TQP-52` retain the previously implemented destruction and
   structural reference behavior under their revision-19 identifiers.
@@ -1147,13 +1162,13 @@ The program records every milestone at a truthful evidence state:
 - `TQP-54` through `TQP-65` are blocked by named external targets and exit
   conditions in `program_blockers.json`.
 
-The next dependency-ordered milestone is TQP-42, sparse hierarchy storage and
-large-world compaction. TQP-27 remains qualified through `TQP-D016` only for
-its bounded native Windows 2K-world soak and durable edit-journal restart.
-`TQP-F002` retains large-volume snapshot compaction as an open upstream
-capacity issue owned by TQP-42. Gate D is qualified only for that bounded
-reference claim; Gate E remains closed, and destruction, GPU, and production promotion are frozen
-behind it. A milestone may advance only when its declared evidence passes.
+The next dependency-ordered milestone is TQP-43, fault injection and cross-order
+determinism. TQP-42 closes `TQP-F002` for the retained Windows 2K procedural
+profile through sparse overlay compaction, but it does not create a general
+production save-format claim. Gate D remains qualified only for its bounded
+reference claim; Gate E remains closed, and destruction, GPU, and production
+promotion are frozen behind it. A milestone may advance only when its declared
+evidence passes.
 
 ## What Comes Next
 
@@ -1173,9 +1188,9 @@ TQP-35 begins the changing-terrain system and qualifies the bounded native
 LOD1/LOD0 publication timeline. TQP-36 now qualifies exact bounded edit
 invalidation and incremental remeshing mechanics. TQP-37 through TQP-41 now
 qualify bounded adaptive edits, material continuity, system agreement,
-streaming, persistence, and replay. TQP-42 must make the hierarchy and snapshot
-representation efficient at the retained large-world scale before TQP-43
-injects failures and schedule-order variation. These milestones determine
+streaming, persistence, and replay. TQP-42 now qualifies the hierarchy and
+snapshot representation at the retained large-world scale. TQP-43 next injects
+failures and schedule-order variation. These milestones determine
 whether the correct static primitive stays correct while a viewer moves,
 terrain changes, and most of the world remains nonresident.
 
@@ -1324,3 +1339,6 @@ Retained decisions:
 - `TQP-D030`: insert sparse hierarchy storage and large-world compaction as
   TQP-42, renumber former TQP-42 through TQP-64 to TQP-43 through TQP-65, and
   require measured evidence rather than mandating an octree by assumption.
+- `TQP-D031`: qualify TQP-42 for the retained Windows implicit procedural
+  hierarchy and sparse-overlay large-world compaction profile, close `TQP-F002`
+  only for that profile, and leave production save compatibility unqualified.

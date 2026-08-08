@@ -389,3 +389,28 @@ godot --headless --path . \
 
 The image is visual-regression evidence, not standalone geometric correctness
 or production art acceptance.
+
+`sparse_hierarchy_reference_windows.json` retains the TQP-42 Godot authority
+run for the 128x16x128-chunk procedural world. It verifies zero explicit runtime
+catalog entries, a 40-byte implicit hierarchy descriptor, central and
+finite-boundary edits, sparse compaction, fresh-runtime replay, regenerated
+resources, migration, and fail-closed publication and corruption controls.
+`sparse_hierarchy_native_benchmark_windows.json` separately retains seven native
+runs with p50/p95/p99/worst timings, peak working set, executable SHA-256,
+upstream commit, and native contract hash. The `@tool` source and compact/reopen
+workflow is retained in
+`sparse_hierarchy_observatory_validation_windows.json`.
+
+```text
+godot --headless --path . \
+  --script labs/terrain_lab/tools/run_sparse_hierarchy_validation.gd -- \
+  --output res://labs/terrain_lab/results/sparse_hierarchy_reference_windows.json
+
+godot --headless --path . \
+  --script labs/terrain_lab/tools/run_sparse_hierarchy_observatory_validation.gd -- \
+  --output res://labs/terrain_lab/results/sparse_hierarchy_observatory_validation_windows.json
+```
+
+These reports qualify only the bounded Windows sparse procedural snapshot
+profile accepted by `TQP-D031`; production save compatibility remains
+unqualified.

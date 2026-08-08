@@ -1,0 +1,1205 @@
+{
+	"schema": "world_transvoxel.terrain_lab.sparse_hierarchy_qualification.v1",
+	"milestone": "TQP-42",
+	"status": "PASS",
+	"retained_complete": true,
+	"standard_id": "implicit_procedural_hierarchy_sparse_overlay_windows_v1",
+	"authority": "world_transvoxel_native_implicit_hierarchy_and_sparse_procedural_snapshot",
+	"actions": {
+		"native_exact_hierarchy_contract": "PASS",
+		"flat_catalog_comparison": "PASS",
+		"implicit_runtime_startup": "PASS",
+		"declared_index_cache_resident_accounting": "PASS",
+		"localized_and_boundary_edit_invalidation": "PASS",
+		"large_world_sparse_compaction": "PASS",
+		"sparse_snapshot_reopen_and_replay": "PASS",
+		"adaptive_resource_regeneration": "PASS",
+		"interrupted_publication_failure": "PASS",
+		"sparse_snapshot_migration": "PASS",
+		"corrupt_descriptor_failure": "PASS",
+		"missing_manifest_failure": "PASS"
+	},
+	"native_benchmark": {
+		"authority": {
+			"executable": "build/native-tests/test_wt_production_snapshot_query.template_debug.x86_64.exe",
+			"executable_sha256": "965dbb0e59ea2082ab812cffa0a9e5e84ee1fecf3623b5b08cc1cdb3a68cd0cc",
+			"git_commit": "ecf9e33b7327ed8f2ea761d01e29b433738263ed",
+			"native_contract_hash": "2b3da9885262e7548e95192e698eb00eebe57fadc82e05aa05b5da83dbc2c689",
+			"repository": "world-transvoxel"
+		},
+		"method": {
+			"hierarchy_queries_per_native_run": 4096.0,
+			"measured_runs": 7.0,
+			"memory_metric": "windows_peak_working_set",
+			"warmup_runs": 1.0
+		},
+		"runs": [
+			{
+				"duration_ns": 3874606000.0,
+				"hierarchy": {
+					"flat_p50": 100.0,
+					"flat_p95": 300.0,
+					"flat_p99": 500.0,
+					"flat_startup_ns": 5590500.0,
+					"flat_worst": 13400.0,
+					"implicit_p50": 100.0,
+					"implicit_p95": 100.0,
+					"implicit_p99": 100.0,
+					"implicit_startup_ns": 8000.0,
+					"implicit_worst": 13200.0
+				},
+				"hierarchy_operations": {
+					"ancestor": {
+						"operation": "ancestor",
+						"p50_ns": 100.0,
+						"p95_ns": 100.0,
+						"p99_ns": 100.0,
+						"samples": 4096.0,
+						"worst_ns": 27200.0
+					},
+					"children": {
+						"operation": "children",
+						"p50_ns": 100.0,
+						"p95_ns": 200.0,
+						"p99_ns": 200.0,
+						"samples": 4096.0,
+						"worst_ns": 28800.0
+					},
+					"neighbors": {
+						"operation": "neighbors",
+						"p50_ns": 100.0,
+						"p95_ns": 200.0,
+						"p99_ns": 200.0,
+						"samples": 4096.0,
+						"worst_ns": 11500.0
+					},
+					"range": {
+						"operation": "range",
+						"p50_ns": 100.0,
+						"p95_ns": 100.0,
+						"p99_ns": 100.0,
+						"samples": 4096.0,
+						"worst_ns": 2300.0
+					},
+					"viewer_roots": {
+						"operation": "viewer_roots",
+						"p50_ns": 300.0,
+						"p95_ns": 300.0,
+						"p99_ns": 400.0,
+						"samples": 4096.0,
+						"worst_ns": 29800.0
+					}
+				},
+				"native_hash": "2b3da9885262e7548e95192e698eb00eebe57fadc82e05aa05b5da83dbc2c689",
+				"peak_working_set_bytes": 10362880.0,
+				"snapshot": {
+					"cold_open_ns": 77200.0,
+					"declared_pages": 299520.0,
+					"edit_invalidation_query_ns": 174034100.0,
+					"final_reopen_ns": 598800.0,
+					"first_compaction_ns": 825170600.0,
+					"first_edit_append_ns": 5064700.0,
+					"first_reopen_ns": 687100.0,
+					"hierarchy_index_bytes": 40.0,
+					"migrated_reopen_ns": 1389800.0,
+					"migration_ns": 739334000.0,
+					"overlay_index_bytes": 3831.0,
+					"overlay_pages": 52.0,
+					"second_compaction_ns": 737848200.0,
+					"second_edit_append_ns": 2577100.0
+				}
+			},
+			{
+				"duration_ns": 3413454800.0,
+				"hierarchy": {
+					"flat_p50": 200.0,
+					"flat_p95": 500.0,
+					"flat_p99": 1000.0,
+					"flat_startup_ns": 6039300.0,
+					"flat_worst": 8100.0,
+					"implicit_p50": 100.0,
+					"implicit_p95": 100.0,
+					"implicit_p99": 100.0,
+					"implicit_startup_ns": 10100.0,
+					"implicit_worst": 600.0
+				},
+				"hierarchy_operations": {
+					"ancestor": {
+						"operation": "ancestor",
+						"p50_ns": 100.0,
+						"p95_ns": 100.0,
+						"p99_ns": 200.0,
+						"samples": 4096.0,
+						"worst_ns": 162800.0
+					},
+					"children": {
+						"operation": "children",
+						"p50_ns": 100.0,
+						"p95_ns": 200.0,
+						"p99_ns": 200.0,
+						"samples": 4096.0,
+						"worst_ns": 600.0
+					},
+					"neighbors": {
+						"operation": "neighbors",
+						"p50_ns": 100.0,
+						"p95_ns": 200.0,
+						"p99_ns": 300.0,
+						"samples": 4096.0,
+						"worst_ns": 6200.0
+					},
+					"range": {
+						"operation": "range",
+						"p50_ns": 100.0,
+						"p95_ns": 100.0,
+						"p99_ns": 200.0,
+						"samples": 4096.0,
+						"worst_ns": 50500.0
+					},
+					"viewer_roots": {
+						"operation": "viewer_roots",
+						"p50_ns": 300.0,
+						"p95_ns": 400.0,
+						"p99_ns": 500.0,
+						"samples": 4096.0,
+						"worst_ns": 52500.0
+					}
+				},
+				"native_hash": "2b3da9885262e7548e95192e698eb00eebe57fadc82e05aa05b5da83dbc2c689",
+				"peak_working_set_bytes": 10420224.0,
+				"snapshot": {
+					"cold_open_ns": 84200.0,
+					"declared_pages": 299520.0,
+					"edit_invalidation_query_ns": 171484200.0,
+					"final_reopen_ns": 692300.0,
+					"first_compaction_ns": 655926800.0,
+					"first_edit_append_ns": 4154700.0,
+					"first_reopen_ns": 1499000.0,
+					"hierarchy_index_bytes": 40.0,
+					"migrated_reopen_ns": 588400.0,
+					"migration_ns": 550907300.0,
+					"overlay_index_bytes": 3831.0,
+					"overlay_pages": 52.0,
+					"second_compaction_ns": 716166500.0,
+					"second_edit_append_ns": 2572300.0
+				}
+			},
+			{
+				"duration_ns": 3592739700.0,
+				"hierarchy": {
+					"flat_p50": 100.0,
+					"flat_p95": 200.0,
+					"flat_p99": 400.0,
+					"flat_startup_ns": 5729000.0,
+					"flat_worst": 1200.0,
+					"implicit_p50": 100.0,
+					"implicit_p95": 100.0,
+					"implicit_p99": 100.0,
+					"implicit_startup_ns": 23900.0,
+					"implicit_worst": 2200.0
+				},
+				"hierarchy_operations": {
+					"ancestor": {
+						"operation": "ancestor",
+						"p50_ns": 100.0,
+						"p95_ns": 100.0,
+						"p99_ns": 100.0,
+						"samples": 4096.0,
+						"worst_ns": 1600.0
+					},
+					"children": {
+						"operation": "children",
+						"p50_ns": 100.0,
+						"p95_ns": 200.0,
+						"p99_ns": 200.0,
+						"samples": 4096.0,
+						"worst_ns": 200.0
+					},
+					"neighbors": {
+						"operation": "neighbors",
+						"p50_ns": 100.0,
+						"p95_ns": 200.0,
+						"p99_ns": 200.0,
+						"samples": 4096.0,
+						"worst_ns": 300.0
+					},
+					"range": {
+						"operation": "range",
+						"p50_ns": 100.0,
+						"p95_ns": 100.0,
+						"p99_ns": 100.0,
+						"samples": 4096.0,
+						"worst_ns": 300.0
+					},
+					"viewer_roots": {
+						"operation": "viewer_roots",
+						"p50_ns": 300.0,
+						"p95_ns": 300.0,
+						"p99_ns": 400.0,
+						"samples": 4096.0,
+						"worst_ns": 1500.0
+					}
+				},
+				"native_hash": "2b3da9885262e7548e95192e698eb00eebe57fadc82e05aa05b5da83dbc2c689",
+				"peak_working_set_bytes": 10526720.0,
+				"snapshot": {
+					"cold_open_ns": 66200.0,
+					"declared_pages": 299520.0,
+					"edit_invalidation_query_ns": 165997900.0,
+					"final_reopen_ns": 602400.0,
+					"first_compaction_ns": 648890600.0,
+					"first_edit_append_ns": 4628300.0,
+					"first_reopen_ns": 658800.0,
+					"hierarchy_index_bytes": 40.0,
+					"migrated_reopen_ns": 635000.0,
+					"migration_ns": 679792400.0,
+					"overlay_index_bytes": 3831.0,
+					"overlay_pages": 52.0,
+					"second_compaction_ns": 708528400.0,
+					"second_edit_append_ns": 1052600.0
+				}
+			},
+			{
+				"duration_ns": 3710215800.0,
+				"hierarchy": {
+					"flat_p50": 100.0,
+					"flat_p95": 200.0,
+					"flat_p99": 400.0,
+					"flat_startup_ns": 6448000.0,
+					"flat_worst": 15600.0,
+					"implicit_p50": 100.0,
+					"implicit_p95": 100.0,
+					"implicit_p99": 100.0,
+					"implicit_startup_ns": 8600.0,
+					"implicit_worst": 100.0
+				},
+				"hierarchy_operations": {
+					"ancestor": {
+						"operation": "ancestor",
+						"p50_ns": 100.0,
+						"p95_ns": 100.0,
+						"p99_ns": 100.0,
+						"samples": 4096.0,
+						"worst_ns": 13000.0
+					},
+					"children": {
+						"operation": "children",
+						"p50_ns": 100.0,
+						"p95_ns": 200.0,
+						"p99_ns": 200.0,
+						"samples": 4096.0,
+						"worst_ns": 200.0
+					},
+					"neighbors": {
+						"operation": "neighbors",
+						"p50_ns": 100.0,
+						"p95_ns": 200.0,
+						"p99_ns": 200.0,
+						"samples": 4096.0,
+						"worst_ns": 200.0
+					},
+					"range": {
+						"operation": "range",
+						"p50_ns": 100.0,
+						"p95_ns": 100.0,
+						"p99_ns": 100.0,
+						"samples": 4096.0,
+						"worst_ns": 100.0
+					},
+					"viewer_roots": {
+						"operation": "viewer_roots",
+						"p50_ns": 300.0,
+						"p95_ns": 300.0,
+						"p99_ns": 400.0,
+						"samples": 4096.0,
+						"worst_ns": 13200.0
+					}
+				},
+				"native_hash": "2b3da9885262e7548e95192e698eb00eebe57fadc82e05aa05b5da83dbc2c689",
+				"peak_working_set_bytes": 10547200.0,
+				"snapshot": {
+					"cold_open_ns": 70500.0,
+					"declared_pages": 299520.0,
+					"edit_invalidation_query_ns": 171745400.0,
+					"final_reopen_ns": 606300.0,
+					"first_compaction_ns": 636295000.0,
+					"first_edit_append_ns": 4603500.0,
+					"first_reopen_ns": 664000.0,
+					"hierarchy_index_bytes": 40.0,
+					"migrated_reopen_ns": 583500.0,
+					"migration_ns": 899903700.0,
+					"overlay_index_bytes": 3831.0,
+					"overlay_pages": 52.0,
+					"second_compaction_ns": 690349300.0,
+					"second_edit_append_ns": 2520800.0
+				}
+			},
+			{
+				"duration_ns": 3397984300.0,
+				"hierarchy": {
+					"flat_p50": 100.0,
+					"flat_p95": 300.0,
+					"flat_p99": 500.0,
+					"flat_startup_ns": 5693700.0,
+					"flat_worst": 31300.0,
+					"implicit_p50": 100.0,
+					"implicit_p95": 100.0,
+					"implicit_p99": 100.0,
+					"implicit_startup_ns": 8800.0,
+					"implicit_worst": 18300.0
+				},
+				"hierarchy_operations": {
+					"ancestor": {
+						"operation": "ancestor",
+						"p50_ns": 100.0,
+						"p95_ns": 100.0,
+						"p99_ns": 100.0,
+						"samples": 4096.0,
+						"worst_ns": 18500.0
+					},
+					"children": {
+						"operation": "children",
+						"p50_ns": 100.0,
+						"p95_ns": 200.0,
+						"p99_ns": 200.0,
+						"samples": 4096.0,
+						"worst_ns": 18600.0
+					},
+					"neighbors": {
+						"operation": "neighbors",
+						"p50_ns": 100.0,
+						"p95_ns": 200.0,
+						"p99_ns": 200.0,
+						"samples": 4096.0,
+						"worst_ns": 27500.0
+					},
+					"range": {
+						"operation": "range",
+						"p50_ns": 100.0,
+						"p95_ns": 100.0,
+						"p99_ns": 100.0,
+						"samples": 4096.0,
+						"worst_ns": 20300.0
+					},
+					"viewer_roots": {
+						"operation": "viewer_roots",
+						"p50_ns": 300.0,
+						"p95_ns": 400.0,
+						"p99_ns": 500.0,
+						"samples": 4096.0,
+						"worst_ns": 96000.0
+					}
+				},
+				"native_hash": "2b3da9885262e7548e95192e698eb00eebe57fadc82e05aa05b5da83dbc2c689",
+				"peak_working_set_bytes": 10526720.0,
+				"snapshot": {
+					"cold_open_ns": 85600.0,
+					"declared_pages": 299520.0,
+					"edit_invalidation_query_ns": 167426800.0,
+					"final_reopen_ns": 607100.0,
+					"first_compaction_ns": 641767000.0,
+					"first_edit_append_ns": 5778500.0,
+					"first_reopen_ns": 672400.0,
+					"hierarchy_index_bytes": 40.0,
+					"migrated_reopen_ns": 616700.0,
+					"migration_ns": 542257700.0,
+					"overlay_index_bytes": 3831.0,
+					"overlay_pages": 52.0,
+					"second_compaction_ns": 718012500.0,
+					"second_edit_append_ns": 2859500.0
+				}
+			},
+			{
+				"duration_ns": 3562043000.0,
+				"hierarchy": {
+					"flat_p50": 100.0,
+					"flat_p95": 300.0,
+					"flat_p99": 500.0,
+					"flat_startup_ns": 5625700.0,
+					"flat_worst": 52900.0,
+					"implicit_p50": 100.0,
+					"implicit_p95": 100.0,
+					"implicit_p99": 100.0,
+					"implicit_startup_ns": 8500.0,
+					"implicit_worst": 13100.0
+				},
+				"hierarchy_operations": {
+					"ancestor": {
+						"operation": "ancestor",
+						"p50_ns": 100.0,
+						"p95_ns": 100.0,
+						"p99_ns": 100.0,
+						"samples": 4096.0,
+						"worst_ns": 18700.0
+					},
+					"children": {
+						"operation": "children",
+						"p50_ns": 100.0,
+						"p95_ns": 200.0,
+						"p99_ns": 200.0,
+						"samples": 4096.0,
+						"worst_ns": 18300.0
+					},
+					"neighbors": {
+						"operation": "neighbors",
+						"p50_ns": 100.0,
+						"p95_ns": 200.0,
+						"p99_ns": 200.0,
+						"samples": 4096.0,
+						"worst_ns": 13200.0
+					},
+					"range": {
+						"operation": "range",
+						"p50_ns": 100.0,
+						"p95_ns": 100.0,
+						"p99_ns": 100.0,
+						"samples": 4096.0,
+						"worst_ns": 18600.0
+					},
+					"viewer_roots": {
+						"operation": "viewer_roots",
+						"p50_ns": 300.0,
+						"p95_ns": 300.0,
+						"p99_ns": 500.0,
+						"samples": 4096.0,
+						"worst_ns": 32800.0
+					}
+				},
+				"native_hash": "2b3da9885262e7548e95192e698eb00eebe57fadc82e05aa05b5da83dbc2c689",
+				"peak_working_set_bytes": 10395648.0,
+				"snapshot": {
+					"cold_open_ns": 83600.0,
+					"declared_pages": 299520.0,
+					"edit_invalidation_query_ns": 179807800.0,
+					"final_reopen_ns": 595900.0,
+					"first_compaction_ns": 633410000.0,
+					"first_edit_append_ns": 5079100.0,
+					"first_reopen_ns": 611200.0,
+					"hierarchy_index_bytes": 40.0,
+					"migrated_reopen_ns": 579200.0,
+					"migration_ns": 636490700.0,
+					"overlay_index_bytes": 3831.0,
+					"overlay_pages": 52.0,
+					"second_compaction_ns": 741605400.0,
+					"second_edit_append_ns": 1733100.0
+				}
+			},
+			{
+				"duration_ns": 3414714800.0,
+				"hierarchy": {
+					"flat_p50": 100.0,
+					"flat_p95": 300.0,
+					"flat_p99": 500.0,
+					"flat_startup_ns": 5862400.0,
+					"flat_worst": 18900.0,
+					"implicit_p50": 100.0,
+					"implicit_p95": 100.0,
+					"implicit_p99": 100.0,
+					"implicit_startup_ns": 8700.0,
+					"implicit_worst": 100.0
+				},
+				"hierarchy_operations": {
+					"ancestor": {
+						"operation": "ancestor",
+						"p50_ns": 100.0,
+						"p95_ns": 100.0,
+						"p99_ns": 100.0,
+						"samples": 4096.0,
+						"worst_ns": 22200.0
+					},
+					"children": {
+						"operation": "children",
+						"p50_ns": 100.0,
+						"p95_ns": 200.0,
+						"p99_ns": 200.0,
+						"samples": 4096.0,
+						"worst_ns": 1400.0
+					},
+					"neighbors": {
+						"operation": "neighbors",
+						"p50_ns": 100.0,
+						"p95_ns": 200.0,
+						"p99_ns": 200.0,
+						"samples": 4096.0,
+						"worst_ns": 1400.0
+					},
+					"range": {
+						"operation": "range",
+						"p50_ns": 100.0,
+						"p95_ns": 100.0,
+						"p99_ns": 100.0,
+						"samples": 4096.0,
+						"worst_ns": 13100.0
+					},
+					"viewer_roots": {
+						"operation": "viewer_roots",
+						"p50_ns": 300.0,
+						"p95_ns": 300.0,
+						"p99_ns": 400.0,
+						"samples": 4096.0,
+						"worst_ns": 19000.0
+					}
+				},
+				"native_hash": "2b3da9885262e7548e95192e698eb00eebe57fadc82e05aa05b5da83dbc2c689",
+				"peak_working_set_bytes": 10412032.0,
+				"snapshot": {
+					"cold_open_ns": 91100.0,
+					"declared_pages": 299520.0,
+					"edit_invalidation_query_ns": 172627500.0,
+					"final_reopen_ns": 725200.0,
+					"first_compaction_ns": 653333900.0,
+					"first_edit_append_ns": 4235300.0,
+					"first_reopen_ns": 664200.0,
+					"hierarchy_index_bytes": 40.0,
+					"migrated_reopen_ns": 613800.0,
+					"migration_ns": 576267500.0,
+					"overlay_index_bytes": 3831.0,
+					"overlay_pages": 52.0,
+					"second_compaction_ns": 704189200.0,
+					"second_edit_append_ns": 2414000.0
+				}
+			}
+		],
+		"schema": "world_transvoxel.sparse_hierarchy_benchmark.v1",
+		"status": "PASS",
+		"summary": {
+			"fixed_counters": {
+				"declared_pages": 299520.0,
+				"hierarchy_index_bytes": 40.0,
+				"overlay_index_bytes": 3831.0,
+				"overlay_pages": 52.0
+			},
+			"hierarchy": {
+				"flat_p50": {
+					"p50": 100.0,
+					"p95": 100.0,
+					"p99": 100.0,
+					"samples": 7.0,
+					"worst": 200.0
+				},
+				"flat_p95": {
+					"p50": 300.0,
+					"p95": 300.0,
+					"p99": 300.0,
+					"samples": 7.0,
+					"worst": 500.0
+				},
+				"flat_p99": {
+					"p50": 500.0,
+					"p95": 500.0,
+					"p99": 500.0,
+					"samples": 7.0,
+					"worst": 1000.0
+				},
+				"flat_startup_ns": {
+					"p50": 5729000.0,
+					"p95": 6039300.0,
+					"p99": 6039300.0,
+					"samples": 7.0,
+					"worst": 6448000.0
+				},
+				"flat_worst": {
+					"p50": 15600.0,
+					"p95": 31300.0,
+					"p99": 31300.0,
+					"samples": 7.0,
+					"worst": 52900.0
+				},
+				"implicit_p50": {
+					"p50": 100.0,
+					"p95": 100.0,
+					"p99": 100.0,
+					"samples": 7.0,
+					"worst": 100.0
+				},
+				"implicit_p95": {
+					"p50": 100.0,
+					"p95": 100.0,
+					"p99": 100.0,
+					"samples": 7.0,
+					"worst": 100.0
+				},
+				"implicit_p99": {
+					"p50": 100.0,
+					"p95": 100.0,
+					"p99": 100.0,
+					"samples": 7.0,
+					"worst": 100.0
+				},
+				"implicit_startup_ns": {
+					"p50": 8700.0,
+					"p95": 10100.0,
+					"p99": 10100.0,
+					"samples": 7.0,
+					"worst": 23900.0
+				},
+				"implicit_worst": {
+					"p50": 2200.0,
+					"p95": 13200.0,
+					"p99": 13200.0,
+					"samples": 7.0,
+					"worst": 18300.0
+				}
+			},
+			"hierarchy_operations": {
+				"ancestor": {
+					"p50_ns": {
+						"p50": 100.0,
+						"p95": 100.0,
+						"p99": 100.0,
+						"samples": 7.0,
+						"worst": 100.0
+					},
+					"p95_ns": {
+						"p50": 100.0,
+						"p95": 100.0,
+						"p99": 100.0,
+						"samples": 7.0,
+						"worst": 100.0
+					},
+					"p99_ns": {
+						"p50": 100.0,
+						"p95": 100.0,
+						"p99": 100.0,
+						"samples": 7.0,
+						"worst": 200.0
+					},
+					"worst_ns": {
+						"p50": 18700.0,
+						"p95": 27200.0,
+						"p99": 27200.0,
+						"samples": 7.0,
+						"worst": 162800.0
+					}
+				},
+				"children": {
+					"p50_ns": {
+						"p50": 100.0,
+						"p95": 100.0,
+						"p99": 100.0,
+						"samples": 7.0,
+						"worst": 100.0
+					},
+					"p95_ns": {
+						"p50": 200.0,
+						"p95": 200.0,
+						"p99": 200.0,
+						"samples": 7.0,
+						"worst": 200.0
+					},
+					"p99_ns": {
+						"p50": 200.0,
+						"p95": 200.0,
+						"p99": 200.0,
+						"samples": 7.0,
+						"worst": 200.0
+					},
+					"worst_ns": {
+						"p50": 1400.0,
+						"p95": 18600.0,
+						"p99": 18600.0,
+						"samples": 7.0,
+						"worst": 28800.0
+					}
+				},
+				"neighbors": {
+					"p50_ns": {
+						"p50": 100.0,
+						"p95": 100.0,
+						"p99": 100.0,
+						"samples": 7.0,
+						"worst": 100.0
+					},
+					"p95_ns": {
+						"p50": 200.0,
+						"p95": 200.0,
+						"p99": 200.0,
+						"samples": 7.0,
+						"worst": 200.0
+					},
+					"p99_ns": {
+						"p50": 200.0,
+						"p95": 200.0,
+						"p99": 200.0,
+						"samples": 7.0,
+						"worst": 300.0
+					},
+					"worst_ns": {
+						"p50": 6200.0,
+						"p95": 13200.0,
+						"p99": 13200.0,
+						"samples": 7.0,
+						"worst": 27500.0
+					}
+				},
+				"range": {
+					"p50_ns": {
+						"p50": 100.0,
+						"p95": 100.0,
+						"p99": 100.0,
+						"samples": 7.0,
+						"worst": 100.0
+					},
+					"p95_ns": {
+						"p50": 100.0,
+						"p95": 100.0,
+						"p99": 100.0,
+						"samples": 7.0,
+						"worst": 100.0
+					},
+					"p99_ns": {
+						"p50": 100.0,
+						"p95": 100.0,
+						"p99": 100.0,
+						"samples": 7.0,
+						"worst": 200.0
+					},
+					"worst_ns": {
+						"p50": 13100.0,
+						"p95": 20300.0,
+						"p99": 20300.0,
+						"samples": 7.0,
+						"worst": 50500.0
+					}
+				},
+				"viewer_roots": {
+					"p50_ns": {
+						"p50": 300.0,
+						"p95": 300.0,
+						"p99": 300.0,
+						"samples": 7.0,
+						"worst": 300.0
+					},
+					"p95_ns": {
+						"p50": 300.0,
+						"p95": 400.0,
+						"p99": 400.0,
+						"samples": 7.0,
+						"worst": 400.0
+					},
+					"p99_ns": {
+						"p50": 400.0,
+						"p95": 500.0,
+						"p99": 500.0,
+						"samples": 7.0,
+						"worst": 500.0
+					},
+					"worst_ns": {
+						"p50": 29800.0,
+						"p95": 52500.0,
+						"p99": 52500.0,
+						"samples": 7.0,
+						"worst": 96000.0
+					}
+				}
+			},
+			"peak_working_set_bytes": {
+				"p50": 10420224.0,
+				"p95": 10526720.0,
+				"p99": 10526720.0,
+				"samples": 7.0,
+				"worst": 10547200.0
+			},
+			"process_duration_ns": {
+				"p50": 3562043000.0,
+				"p95": 3710215800.0,
+				"p99": 3710215800.0,
+				"samples": 7.0,
+				"worst": 3874606000.0
+			},
+			"snapshot_operations": {
+				"cold_open_ns": {
+					"p50": 83600.0,
+					"p95": 85600.0,
+					"p99": 85600.0,
+					"samples": 7.0,
+					"worst": 91100.0
+				},
+				"edit_invalidation_query_ns": {
+					"p50": 171745400.0,
+					"p95": 174034100.0,
+					"p99": 174034100.0,
+					"samples": 7.0,
+					"worst": 179807800.0
+				},
+				"final_reopen_ns": {
+					"p50": 606300.0,
+					"p95": 692300.0,
+					"p99": 692300.0,
+					"samples": 7.0,
+					"worst": 725200.0
+				},
+				"first_compaction_ns": {
+					"p50": 648890600.0,
+					"p95": 655926800.0,
+					"p99": 655926800.0,
+					"samples": 7.0,
+					"worst": 825170600.0
+				},
+				"first_edit_append_ns": {
+					"p50": 4628300.0,
+					"p95": 5079100.0,
+					"p99": 5079100.0,
+					"samples": 7.0,
+					"worst": 5778500.0
+				},
+				"first_reopen_ns": {
+					"p50": 664200.0,
+					"p95": 687100.0,
+					"p99": 687100.0,
+					"samples": 7.0,
+					"worst": 1499000.0
+				},
+				"migrated_reopen_ns": {
+					"p50": 613800.0,
+					"p95": 635000.0,
+					"p99": 635000.0,
+					"samples": 7.0,
+					"worst": 1389800.0
+				},
+				"migration_ns": {
+					"p50": 636490700.0,
+					"p95": 739334000.0,
+					"p99": 739334000.0,
+					"samples": 7.0,
+					"worst": 899903700.0
+				},
+				"second_compaction_ns": {
+					"p50": 716166500.0,
+					"p95": 737848200.0,
+					"p99": 737848200.0,
+					"samples": 7.0,
+					"worst": 741605400.0
+				},
+				"second_edit_append_ns": {
+					"p50": 2520800.0,
+					"p95": 2577100.0,
+					"p99": 2577100.0,
+					"samples": 7.0,
+					"worst": 2859500.0
+				}
+			}
+		}
+	},
+	"runtime": {
+		"startup_usec": 15822.0,
+		"edit_usec": 725977.0,
+		"compaction_usec": 684480.0,
+		"reopen_usec": 13457.0,
+		"migration_usec": 459633.0,
+		"initial_metrics": {
+			"hierarchy_kind": 2,
+			"hierarchy_declared_pages": 299520,
+			"hierarchy_explicit_index_entries": 0,
+			"hierarchy_estimated_index_bytes": 40,
+			"hierarchy_sparse_overlay_entries": 0,
+			"hierarchy_sparse_overlay_index_bytes": 0,
+			"hierarchy_membership_queries": 0,
+			"hierarchy_child_queries": 0,
+			"hierarchy_ancestor_queries": 0,
+			"hierarchy_neighbor_queries": 0,
+			"hierarchy_range_queries": 0,
+			"hierarchy_viewer_root_queries": 0,
+			"hierarchy_lod_enumerations": 0,
+			"page_cache_encoded_entries": 0,
+			"page_cache_decoded_entries": 0,
+			"active_chunk_records": 0,
+			"render_resources": 0,
+			"collision_resources": 0,
+			"scheduler_queued_jobs": 0,
+			"scheduler_queued_completions": 0,
+			"storage_queued_requests": 0,
+			"queued_render": 0,
+			"pending_chunk_replacements": 0,
+			"pending_chunk_retirements": 0,
+			"page_mesh_failures": 0,
+			"page_storage_failures": 0,
+			"world_snapshots": 0,
+			"world_snapshot_rejections": 0
+		},
+		"initial_state": {
+			"active_count": 186,
+			"ready_mismatch_count": 0,
+			"state_signature": "cb3bc7def1fc3681f4a12c7de30db07a80e0d636c86b813967b4c54feee74da2",
+			"geometry_signature": "611284e1bf1ca0e5402d58eb665d93cefddf73dc43b70c9ed347de38dd2e6338",
+			"metrics": {
+				"hierarchy_kind": 2,
+				"hierarchy_declared_pages": 299520,
+				"hierarchy_explicit_index_entries": 0,
+				"hierarchy_estimated_index_bytes": 40,
+				"hierarchy_sparse_overlay_entries": 0,
+				"hierarchy_sparse_overlay_index_bytes": 0,
+				"hierarchy_membership_queries": 216,
+				"hierarchy_child_queries": 24,
+				"hierarchy_ancestor_queries": 0,
+				"hierarchy_neighbor_queries": 0,
+				"hierarchy_range_queries": 1,
+				"hierarchy_viewer_root_queries": 1,
+				"hierarchy_lod_enumerations": 0,
+				"page_cache_encoded_entries": 512,
+				"page_cache_decoded_entries": 512,
+				"active_chunk_records": 186,
+				"render_resources": 81,
+				"collision_resources": 81,
+				"scheduler_queued_jobs": 0,
+				"scheduler_queued_completions": 0,
+				"storage_queued_requests": 0,
+				"queued_render": 0,
+				"pending_chunk_replacements": 0,
+				"pending_chunk_retirements": 0,
+				"page_mesh_failures": 0,
+				"page_storage_failures": 0,
+				"world_snapshots": 0,
+				"world_snapshot_rejections": 0
+			}
+		},
+		"baseline_central": {
+			"status": "PASS",
+			"point": "(1024, 64, 1024)",
+			"lod": 0,
+			"density": 29.2550659179688,
+			"material": 5,
+			"source_revision": 942001,
+			"world_revision": 0,
+			"agreeing_page_count": 8
+		},
+		"baseline_boundary": {
+			"status": "PASS",
+			"point": "(0, -128, 0)",
+			"lod": 0,
+			"density": -153.395721435547,
+			"material": 1,
+			"source_revision": 942001,
+			"world_revision": 0,
+			"agreeing_page_count": 1
+		},
+		"edited_central": {
+			"status": "PASS",
+			"point": "(1024, 64, 1024)",
+			"lod": 0,
+			"density": -5.0,
+			"material": 8,
+			"source_revision": 942001,
+			"world_revision": 2,
+			"agreeing_page_count": 8
+		},
+		"edited_boundary": {
+			"status": "PASS",
+			"point": "(0, -128, 0)",
+			"lod": 0,
+			"density": 1.26794922351837,
+			"material": 1,
+			"source_revision": 942001,
+			"world_revision": 2,
+			"agreeing_page_count": 1
+		},
+		"edited_state": {
+			"active_count": 186,
+			"ready_mismatch_count": 0,
+			"state_signature": "cb3bc7def1fc3681f4a12c7de30db07a80e0d636c86b813967b4c54feee74da2",
+			"geometry_signature": "50daf24059d46ae01ac3a8cd60a1c14aae70c50c2bf17ede6b74c7e2b290880b",
+			"metrics": {
+				"hierarchy_kind": 2,
+				"hierarchy_declared_pages": 299520,
+				"hierarchy_explicit_index_entries": 0,
+				"hierarchy_estimated_index_bytes": 40,
+				"hierarchy_sparse_overlay_entries": 0,
+				"hierarchy_sparse_overlay_index_bytes": 0,
+				"hierarchy_membership_queries": 216,
+				"hierarchy_child_queries": 24,
+				"hierarchy_ancestor_queries": 0,
+				"hierarchy_neighbor_queries": 0,
+				"hierarchy_range_queries": 1,
+				"hierarchy_viewer_root_queries": 1,
+				"hierarchy_lod_enumerations": 0,
+				"page_cache_encoded_entries": 512,
+				"page_cache_decoded_entries": 512,
+				"active_chunk_records": 186,
+				"render_resources": 89,
+				"collision_resources": 89,
+				"scheduler_queued_jobs": 0,
+				"scheduler_queued_completions": 0,
+				"storage_queued_requests": 0,
+				"queued_render": 0,
+				"pending_chunk_replacements": 0,
+				"pending_chunk_retirements": 0,
+				"page_mesh_failures": 0,
+				"page_storage_failures": 0,
+				"world_snapshots": 0,
+				"world_snapshot_rejections": 0
+			}
+		},
+		"compaction": {
+			"manifest_path": "C:/Users/Windows10_new/AppData/Roaming/Godot/app_userdata/World Transvoxel Labs/world_transvoxel_terrain_lab/tqp42_sparse_hierarchy/snapshot\\world.wtproc",
+			"source_revision": 942002,
+			"world_revision": 2,
+			"page_count": 32,
+			"status": "PASS"
+		},
+		"reopened_metrics": {
+			"hierarchy_kind": 2,
+			"hierarchy_declared_pages": 299520,
+			"hierarchy_explicit_index_entries": 0,
+			"hierarchy_estimated_index_bytes": 40,
+			"hierarchy_sparse_overlay_entries": 32,
+			"hierarchy_sparse_overlay_index_bytes": 2711,
+			"hierarchy_membership_queries": 0,
+			"hierarchy_child_queries": 0,
+			"hierarchy_ancestor_queries": 0,
+			"hierarchy_neighbor_queries": 0,
+			"hierarchy_range_queries": 0,
+			"hierarchy_viewer_root_queries": 0,
+			"hierarchy_lod_enumerations": 0,
+			"page_cache_encoded_entries": 0,
+			"page_cache_decoded_entries": 0,
+			"active_chunk_records": 0,
+			"render_resources": 0,
+			"collision_resources": 0,
+			"scheduler_queued_jobs": 0,
+			"scheduler_queued_completions": 0,
+			"storage_queued_requests": 0,
+			"queued_render": 0,
+			"pending_chunk_replacements": 0,
+			"pending_chunk_retirements": 0,
+			"page_mesh_failures": 0,
+			"page_storage_failures": 0,
+			"world_snapshots": 0,
+			"world_snapshot_rejections": 0
+		},
+		"reopened_central": {
+			"status": "PASS",
+			"point": "(1024, 64, 1024)",
+			"lod": 0,
+			"density": -5.0,
+			"material": 8,
+			"source_revision": 942002,
+			"world_revision": 2,
+			"agreeing_page_count": 8
+		},
+		"reopened_boundary": {
+			"status": "PASS",
+			"point": "(0, -128, 0)",
+			"lod": 0,
+			"density": 1.26794922351837,
+			"material": 1,
+			"source_revision": 942002,
+			"world_revision": 2,
+			"agreeing_page_count": 1
+		},
+		"reopened_state": {
+			"active_count": 186,
+			"ready_mismatch_count": 0,
+			"state_signature": "cb3bc7def1fc3681f4a12c7de30db07a80e0d636c86b813967b4c54feee74da2",
+			"geometry_signature": "50daf24059d46ae01ac3a8cd60a1c14aae70c50c2bf17ede6b74c7e2b290880b",
+			"metrics": {
+				"hierarchy_kind": 2,
+				"hierarchy_declared_pages": 299520,
+				"hierarchy_explicit_index_entries": 0,
+				"hierarchy_estimated_index_bytes": 40,
+				"hierarchy_sparse_overlay_entries": 32,
+				"hierarchy_sparse_overlay_index_bytes": 2711,
+				"hierarchy_membership_queries": 216,
+				"hierarchy_child_queries": 24,
+				"hierarchy_ancestor_queries": 0,
+				"hierarchy_neighbor_queries": 0,
+				"hierarchy_range_queries": 1,
+				"hierarchy_viewer_root_queries": 1,
+				"hierarchy_lod_enumerations": 0,
+				"page_cache_encoded_entries": 512,
+				"page_cache_decoded_entries": 512,
+				"active_chunk_records": 186,
+				"render_resources": 89,
+				"collision_resources": 89,
+				"scheduler_queued_jobs": 0,
+				"scheduler_queued_completions": 0,
+				"storage_queued_requests": 0,
+				"queued_render": 0,
+				"pending_chunk_replacements": 0,
+				"pending_chunk_retirements": 0,
+				"page_mesh_failures": 0,
+				"page_storage_failures": 0,
+				"world_snapshots": 0,
+				"world_snapshot_rejections": 0
+			}
+		},
+		"interrupted": {
+			"status": "FAIL",
+			"error": "world snapshot file writing failed"
+		},
+		"migration": {
+			"manifest_path": "C:/Users/Windows10_new/AppData/Roaming/Godot/app_userdata/World Transvoxel Labs/world_transvoxel_terrain_lab/tqp42_sparse_hierarchy/migrated\\world.wtproc",
+			"source_revision": 942002,
+			"world_revision": 2,
+			"page_count": 32,
+			"status": "PASS"
+		},
+		"migrated_central": {
+			"status": "PASS",
+			"point": "(1024, 64, 1024)",
+			"lod": 0,
+			"density": -5.0,
+			"material": 8,
+			"source_revision": 942002,
+			"world_revision": 2,
+			"agreeing_page_count": 8
+		},
+		"migrated_boundary": {
+			"status": "PASS",
+			"point": "(0, -128, 0)",
+			"lod": 0,
+			"density": 1.26794922351837,
+			"material": 1,
+			"source_revision": 942002,
+			"world_revision": 2,
+			"agreeing_page_count": 1
+		},
+		"corruption": {
+			"corrupt_descriptor": true,
+			"missing_manifest": true
+		}
+	},
+	"performance": {
+		"scope": "WINDOWS_DEBUG_REFERENCE_NOT_PRODUCTION_FRAME_OR_SAVE_BUDGET",
+		"operation_usec": {
+			"sample_count": 5,
+			"p50_usec": 459633.0,
+			"p95_usec": 725977.0,
+			"p99_usec": 725977.0,
+			"worst_usec": 725977.0
+		},
+		"memory": {
+			"retained_bytes": 27403540,
+			"peak_bytes": 40096093
+		}
+	},
+	"semantic_signature": "5d7377a14ed761a1739d06909a65e1be90d28367d6d8da53d34cf707bfd2ab44",
+	"provenance": {
+		"workload_signature": "tqp42_sparse_hierarchy_windows_v1",
+		"build_type": "debug",
+		"os": "Windows",
+		"architecture": "x86_64",
+		"cpu": "Intel(R) Core(TM) i5-7300HQ CPU @ 2.50GHz",
+		"gpu": "",
+		"driver": "vulkan",
+		"godot_version": "4.7.1-stable (steam)",
+		"backend_revision": "45c65d6dcb13a4a6570050fe1946f732bbef049d9a431d450134f66feac9700f"
+	},
+	"qualified_scope": [
+		"Windows debug implicit procedural hierarchy for the retained 128x16x128-chunk, 299,520-page reference",
+		"exact native presence, ancestor, complete-child, same-LOD neighbor, range, and viewer-root queries compared with the flat sorted catalog",
+		"runtime startup and adaptive demand without materializing the declared page catalog",
+		"localized central and finite-boundary durable edits with sparse overlay compaction",
+		"large-world compact, reopen, authoritative query replay, adaptive resource regeneration, and current-schema migration",
+		"separate declared hierarchy, sparse index, overlay index, cache, active record, render, and collision counters",
+		"fail-closed corrupt descriptor, missing manifest, interrupted publication, and bounded sparse-overlay capacity contracts"
+	],
+	"explicitly_unqualified_scope": [
+		"planet-scale, unbounded, distributed, networked, or GPU-resident worlds",
+		"production save compatibility or an immutable long-term public file format",
+		"arbitrary explicit sparse catalogs that violate complete refinement ancestry",
+		"multi-hour soak, disk exhaustion, allocation failure, concurrent process writers, or randomized schedule fault injection reserved for TQP-43 and TQP-45",
+		"non-Windows performance, production frame pacing, low-power targets, or Gate E"
+	],
+	"finding_disposition": "TQP-F002_CLOSED_BY_TQP42_SPARSE_PROCEDURAL_SNAPSHOT",
+	"failures": []
+}

@@ -160,6 +160,7 @@ static func validate(program: Dictionary, dependencies: Dictionary) -> Dictionar
 	_validate_adaptive_system_evidence(program, milestone_by_id, failures)
 	_validate_adaptive_streaming_evidence(program, milestone_by_id, failures)
 	_validate_adaptive_persistence_evidence(program, milestone_by_id, failures)
+	_validate_sparse_hierarchy_evidence(program, milestone_by_id, failures)
 	_validate_low_power_performance_profile(program, failures)
 	_validate_visual_evidence(program, milestone_by_id, failures)
 	_validate_dependency_boundary(program, dependencies, failures)
@@ -935,7 +936,12 @@ static func _validate_large_terrain_soak_evidence(
 		str(program.get("large_volume_snapshot_finding", ""))
 	)
 	_expect(str(finding.get("id", "")) == "TQP-F002", "large-volume snapshot finding ID changed", failures)
-	_expect(str(finding.get("status", "")) == "OPEN_UPSTREAM_CAPACITY_LIMIT", "large-volume snapshot finding was closed without upstream evidence", failures)
+	_expect(
+		str(finding.get("status", ""))
+			== "CLOSED_BY_TQP42_SPARSE_PROCEDURAL_SNAPSHOT",
+		"large-volume snapshot finding does not match TQP-42 disposition",
+		failures
+	)
 	_expect(
 		str((validation.get("persistence", {}) as Dictionary).get("large_volume_compaction_status", ""))
 			== "EXPECTED_CAPACITY_REJECTION",
@@ -1268,6 +1274,122 @@ static func _validate_adaptive_persistence_evidence(
 		str((milestone_by_id.get("TQP-41", {}) as Dictionary).get("status", ""))
 			== "qualified",
 		"TQP-41 must match retained adaptive persistence evidence", failures
+	)
+
+
+static func _validate_sparse_hierarchy_evidence(
+	program: Dictionary,
+	milestone_by_id: Dictionary,
+	failures: Array[String]
+) -> void:
+	var standard_path := str(program.get("sparse_hierarchy_storage_standard", ""))
+	var evidence_path := str(program.get("sparse_hierarchy_storage_evidence", ""))
+	var native_path := str(program.get("sparse_hierarchy_native_benchmark_evidence", ""))
+	var observatory_path := str(program.get("sparse_hierarchy_observatory_evidence", ""))
+	var standard := JsonLoader.load_dictionary(standard_path)
+	var evidence := JsonLoader.load_dictionary(evidence_path)
+	var native := JsonLoader.load_dictionary(native_path)
+	var observatory := JsonLoader.load_dictionary(observatory_path)
+	var expected: Dictionary = standard.get("stable_expected", {})
+	var native_authority: Dictionary = native.get("authority", {})
+	var native_summary: Dictionary = native.get("summary", {})
+	var counters: Dictionary = native_summary.get("fixed_counters", {})
+	_expect(
+		str(standard.get("schema", ""))
+			== "world_transvoxel.terrain_lab.sparse_hierarchy_storage_standard.v1",
+		"TQP-42 sparse hierarchy standard schema mismatch",
+		failures
+	)
+	_expect(
+		str(standard.get("evidence", "")) == evidence_path
+			and str(standard.get("native_benchmark_evidence", "")) == native_path,
+		"TQP-42 sparse hierarchy evidence paths changed",
+		failures
+	)
+	_expect(
+		str(evidence.get("schema", ""))
+			== "world_transvoxel.terrain_lab.sparse_hierarchy_qualification.v1"
+			and str(evidence.get("milestone", "")) == "TQP-42"
+			and str(evidence.get("status", "")) == "PASS"
+			and bool(evidence.get("retained_complete", false))
+			and (evidence.get("failures", []) as Array).is_empty(),
+		"TQP-42 retained qualification is absent or failed",
+		failures
+	)
+	_expect(
+		str(evidence.get("semantic_signature", ""))
+			== str(expected.get("semantic_signature", "")),
+		"TQP-42 semantic signature changed",
+		failures
+	)
+	var actions: Dictionary = evidence.get("actions", {})
+	for action in (standard.get("workload", {}) as Dictionary).get("required_actions", []):
+		_expect(
+			str(actions.get(str(action), "")) == "PASS",
+			"TQP-42 required action failed: " + str(action),
+			failures
+		)
+	_expect(
+		str(native.get("schema", ""))
+			== "world_transvoxel.sparse_hierarchy_benchmark.v1"
+			and str(native.get("status", "")) == "PASS"
+			and int((native.get("method", {}) as Dictionary).get("measured_runs", 0)) >= 7
+			and str((native.get("method", {}) as Dictionary).get("memory_metric", ""))
+				== str(expected.get("memory_metric", ""))
+			and str(native_authority.get("git_commit", ""))
+				== str(expected.get("upstream_commit", ""))
+			and str(native_authority.get("executable_sha256", ""))
+				== str(expected.get("executable_sha256", ""))
+			and str(native_authority.get("native_contract_hash", ""))
+				== str(expected.get("native_contract_hash", "")),
+		"TQP-42 pinned native benchmark authority changed",
+		failures
+	)
+	_expect(
+		int(counters.get("declared_pages", -1)) == int(expected.get("declared_pages", -2))
+			and int(counters.get("hierarchy_index_bytes", -1))
+				== int(expected.get("hierarchy_index_bytes", -2))
+			and int(counters.get("overlay_pages", -1))
+				== int(expected.get("native_overlay_pages", -2))
+			and int((native_summary.get("peak_working_set_bytes", {}) as Dictionary).get("worst", 0)) > 0,
+		"TQP-42 native hierarchy counters or memory evidence changed",
+		failures
+	)
+	_expect(
+		str(observatory.get("schema", ""))
+			== "world_transvoxel.terrain_lab.sparse_hierarchy_observatory_validation.v1"
+			and str(observatory.get("status", "")) == "PASS"
+			and (observatory.get("failures", []) as Array).is_empty(),
+		"TQP-42 observatory workflow evidence is absent or failed",
+		failures
+	)
+	var source: Dictionary = observatory.get("source_snapshot", {})
+	var sparse: Dictionary = observatory.get("sparse_snapshot", {})
+	_expect(
+		int(source.get("declared_pages", -1)) == int(expected.get("declared_pages", -2))
+			and int(source.get("explicit_index_entries", -1)) == 0
+			and int(sparse.get("overlay_pages", 0)) > 0,
+		"TQP-42 observatory hierarchy or overlay counters changed",
+		failures
+	)
+	var finding := JsonLoader.load_dictionary(
+		str(program.get("large_volume_snapshot_finding", ""))
+	)
+	_expect(
+		str(finding.get("status", ""))
+			== "CLOSED_BY_TQP42_SPARSE_PROCEDURAL_SNAPSHOT"
+			and str(finding.get("upstream_commit", ""))
+				== str(expected.get("upstream_commit", ""))
+			and str(evidence.get("finding_disposition", ""))
+				== "TQP-F002_CLOSED_BY_TQP42_SPARSE_PROCEDURAL_SNAPSHOT",
+		"TQP-F002 closure lacks matching TQP-42 evidence",
+		failures
+	)
+	_expect(
+		str((milestone_by_id.get("TQP-42", {}) as Dictionary).get("status", ""))
+			== "qualified",
+		"TQP-42 must match retained sparse hierarchy evidence",
+		failures
 	)
 
 

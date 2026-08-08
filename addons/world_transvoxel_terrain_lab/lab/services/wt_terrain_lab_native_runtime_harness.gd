@@ -125,6 +125,27 @@ func start_procedural_world_preset(
 	return await wait_for_state("running")
 
 
+func start_procedural_snapshot(snapshot_directory: String, journal_root: String) -> bool:
+	if terrain == null:
+		return false
+	ensure_directory(journal_root)
+	if not bool(terrain.call(
+		"start_procedural_snapshot",
+		snapshot_directory,
+		journal_root
+	)):
+		return false
+	for _frame in range(MAX_WAIT_FRAMES):
+		var state := str(terrain.call("get_world_state_name"))
+		if state == "running":
+			await get_tree().process_frame
+			return true
+		if state == "failed":
+			return false
+		await get_tree().process_frame
+	return false
+
+
 func start_manifest(manifest_path: String, object_root: String) -> bool:
 	if terrain == null or not bool(terrain.call(
 		"start_world",

@@ -85,6 +85,15 @@ native runtime for replay, and uses supported compaction before inspecting the
 distant resource. Direct pre-compaction distant coarse-page meshing and
 same-node cross-root restart reuse are explicitly outside the qualified scope.
 
+The TQP-42 Sparse Hierarchy Observatory is a separate `@tool` scene at
+`scenes/sparse_hierarchy_observatory.tscn`. It opens the retained 299,520-page
+procedural world without an explicit page catalog, renders actual upstream
+terrain, and exposes declared hierarchy, sparse overlay, cache, active-resource,
+queue, and hierarchy-query counters. Its editor actions apply the retained
+central and finite-boundary edits and perform atomic compact/reopen. It has no
+lab terrain fallback and is not a production save-format or unbounded-world
+claim.
+
 `tools/run_edit_gate_b_validation.gd` executes the focused `TQP-09` through
 `TQP-14` qualification. `tools/capture_edit_qualification_visual.gd`
 regenerates the deterministic brush and temporal-edit cross-section reference.
