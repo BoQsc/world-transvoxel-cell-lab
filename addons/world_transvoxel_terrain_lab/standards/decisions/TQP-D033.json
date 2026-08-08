@@ -1,0 +1,67 @@
+{
+	"schema": "world_transvoxel.terrain_lab.decision.v1",
+	"id": "TQP-D033",
+	"date": "2026-08-08",
+	"decision": "Preserve TQP-01 through TQP-43 and reorder all future work around native CPU authority, standalone CPU release, GPU release, and post-release game systems.",
+	"affected_milestones": ["TQP-44", "TQP-45", "TQP-46", "TQP-47", "TQP-48", "TQP-49", "TQP-50", "TQP-51", "TQP-52", "TQP-53", "TQP-54", "TQP-55", "TQP-56", "TQP-57", "TQP-58", "TQP-59", "TQP-60", "TQP-61", "TQP-62", "TQP-63", "TQP-64", "TQP-65", "TQP-66", "TQP-67", "TQP-68", "TQP-69", "TQP-70", "TQP-71"],
+	"repositories": ["world-transvoxel-cell-lab", "world-transvoxel", "world-transvoxel-terrain", "world-transvoxel-integration-game"],
+	"alternatives_considered": [
+		"leave performance, collision, responsiveness, power, and soak combined in one broad milestone",
+		"qualify game-oriented destruction and structural systems before releasing the terrain core",
+		"begin GPU implementation before a standalone qualified CPU production baseline exists",
+		"treat the integration game as the production terrain implementation",
+		"create another human roadmap instead of correcting the TQP itself"
+	],
+	"evidence": [
+		"TQP-01 through TQP-43 retained status and evidence remain unchanged",
+		"the previous TQP-45 mixed scheduler responsiveness, collision policy, rendering, memory, queues, power, and soak into one non-auditable promotion",
+		"the previous order placed game systems and GPU work before the standalone production terrain release",
+		"the retained low-power profile already requires independent collision demand, frame pacing, edit responsiveness, power, and energy evidence",
+		"known downstream failures include delayed digging and construction after fast movement, delayed collision updates, queue disorder, frame-rate pressure, and poor watt-per-60-FPS behavior"
+	],
+	"identifier_mapping": {
+		"former_TQP-44": "TQP-44",
+		"former_TQP-45": "split_into_TQP-45_through_TQP-49",
+		"former_TQP-46": "TQP-50",
+		"former_TQP-59": "TQP-51",
+		"new_runtime_contract": "TQP-52",
+		"former_TQP-60": "TQP-53",
+		"former_TQP-62": "TQP-54",
+		"former_TQP-63": "TQP-55",
+		"former_TQP-64": "TQP-56",
+		"former_TQP-65": "TQP-57",
+		"former_TQP-53": "TQP-58",
+		"former_TQP-54": "TQP-59",
+		"former_TQP-55": "TQP-60",
+		"former_TQP-56": "TQP-61",
+		"former_TQP-57": "TQP-62",
+		"former_TQP-58": "TQP-63",
+		"new_GPU_release": "TQP-64",
+		"former_TQP-47": "TQP-65",
+		"former_TQP-48": "TQP-66",
+		"former_TQP-49": "TQP-67",
+		"former_TQP-50": "TQP-68",
+		"former_TQP-51": "TQP-69",
+		"former_TQP-52": "TQP-70",
+		"former_TQP-61": "TQP-71"
+	},
+	"qualified_scope": [
+		"roadmap ordering and ownership only",
+		"preservation of every retained TQP-01 through TQP-43 status and claim",
+		"one human-readable TQP as program authority with machine-readable mirrors"
+	],
+	"unqualified_scope": [
+		"TQP-44 through TQP-50 native adaptive-terrain closure",
+		"standalone CPU production terrain",
+		"GPU field, meshing, residency, performance, or production release",
+		"post-release destruction, structural, world-system, or networking behavior",
+		"any current claim of sustained 60 FPS at 16 W"
+	],
+	"standards_changed": [
+		"Terrain Qualification Program revision 34",
+		"execution-plan revision 25",
+		"program manifest, qualification state, blockers, suite mirrors, successor milestone references, backend-decision references, and low-power ownership"
+	],
+	"review": "The migration fails closed if any TQP-01 through TQP-43 status or claim changes, if TQP-44 is not the sole recommended next milestone, if IDs are not contiguous through TQP-71, or if a blocked milestone lacks an explicit owner and exit condition.",
+	"downstream_impact": "TQP-44 remains the next milestone. Gate E now closes at TQP-50; Gate F releases the standalone CPU addon at TQP-57; Gate G releases the GPU backend at TQP-64; game-oriented work starts at TQP-65 and is not required for terrain release."
+}

@@ -47,9 +47,12 @@ static func run() -> Dictionary:
 		_expect(not str(record.get("owner", "")).is_empty(), milestone + " blocker owner missing", failures)
 		_expect(not str(record.get("exit", "")).is_empty(), milestone + " blocker exit missing", failures)
 		blocker_by_milestone[milestone] = record
-	for index in range(54, 66):
-		var milestone := "TQP-%02d" % index
+	for milestone in [
+		"TQP-51", "TQP-52", "TQP-53", "TQP-54", "TQP-55", "TQP-56", "TQP-57",
+		"TQP-59", "TQP-60", "TQP-61", "TQP-62", "TQP-63", "TQP-64", "TQP-71",
+	]:
 		_expect(blocker_by_milestone.has(milestone), "missing fail-closed blocker: " + milestone, failures)
+	_expect(blocker_by_milestone.size() == 14, "blocker catalog contains an unexpected milestone", failures)
 	_expect(
 		not ClassDB.class_exists("WtGpuTerrainBackend"),
 		"GPU backend exists but blocker catalog still declares it absent",
@@ -64,29 +67,32 @@ static func run() -> Dictionary:
 		"schema": "world_transvoxel.terrain_lab.completion_qualification.v1",
 		"status": "PASS" if failures.is_empty() else "FAIL",
 		"scope_status": {
-			"TQP-53": "specified_pending_candidate_benefit_measurement",
+			"TQP-51": "blocked",
+			"TQP-52": "blocked",
+			"TQP-53": "blocked",
 			"TQP-54": "blocked",
 			"TQP-55": "blocked",
 			"TQP-56": "blocked",
 			"TQP-57": "blocked",
-			"TQP-58": "blocked",
+			"TQP-58": "specified_pending_candidate_benefit_measurement",
 			"TQP-59": "blocked",
 			"TQP-60": "blocked",
 			"TQP-61": "blocked",
 			"TQP-62": "blocked",
 			"TQP-63": "blocked",
 			"TQP-64": "blocked",
-			"TQP-65": "blocked",
+			"TQP-71": "blocked",
 		},
 		"backend_decision": backend_decision,
 		"blockers": blocker_records,
 		"specified_scope": [
-			"TQP-53 CPU-primary backend architecture decision and candidate promotion boundaries",
+			"TQP-58 CPU-primary backend architecture decision and candidate promotion boundaries",
 		],
 		"explicitly_unqualified_scope": [
-			"GPU backend milestones TQP-54 through TQP-58",
-			"production milestones TQP-59 through TQP-65",
-			"TQP-53 measured GPU candidate benefit",
+			"CPU production milestones TQP-51 through TQP-57",
+			"GPU backend milestones TQP-59 through TQP-64",
+			"TQP-58 measured GPU candidate benefit",
+			"TQP-71 networking and recovery",
 		],
 		"failures": failures,
 	}

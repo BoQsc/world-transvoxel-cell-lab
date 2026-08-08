@@ -15,7 +15,7 @@ MANIFEST_PATH = (
 )
 STATE_PATH = MANIFEST_PATH.with_name("qualification_state.json")
 PROGRAM_PATH = ROOT / "docs" / "terrain_lab" / "TERRAIN_QUALIFICATION_PROGRAM.md"
-EXPECTED_MILESTONE_COUNT = 65
+EXPECTED_MILESTONE_COUNT = 71
 
 
 def main() -> int:

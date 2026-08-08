@@ -1,7 +1,7 @@
 {
 	"schema": "world_transvoxel.terrain_lab.execution_plan.v1",
-	"plan_revision": 24,
-	"program_revision": 33,
+	"plan_revision": 25,
+	"program_revision": 34,
 	"policy": "single_human_tqp_dependency_order_fail_closed",
 	"human_authority": "res://docs/terrain_lab/TERRAIN_QUALIFICATION_PROGRAM.md",
 	"current_wave": "TQP-WAVE-03",
@@ -45,7 +45,7 @@
 		},
 		{
 			"id": "TQP-WAVE-03",
-			"title": "Native adaptive terrain qualification",
+			"title": "Native CPU adaptive terrain authority",
 			"status": "active",
 			"steps": [
 				["TQP-28"],
@@ -66,41 +66,49 @@
 				["TQP-43"],
 				["TQP-44"],
 				["TQP-45"],
-				["TQP-46"]
+				["TQP-46"],
+				["TQP-47"],
+				["TQP-48"],
+				["TQP-49"],
+				["TQP-50"]
 			]
 		},
 		{
 			"id": "TQP-WAVE-04",
-			"title": "Destruction and structural world systems",
+			"title": "Standalone CPU production terrain release",
 			"status": "blocked",
 			"steps": [
-				["TQP-47", "TQP-48", "TQP-49", "TQP-50", "TQP-51"],
-				["TQP-52"]
+				["TQP-51"],
+				["TQP-52"],
+				["TQP-53"],
+				["TQP-54"],
+				["TQP-55"],
+				["TQP-56"],
+				["TQP-57"]
 			]
 		},
 		{
 			"id": "TQP-WAVE-05",
-			"title": "GPU candidate qualification",
+			"title": "GPU backend qualification and release",
 			"status": "blocked",
 			"steps": [
-				["TQP-53"],
-				["TQP-54"],
-				["TQP-55"],
-				["TQP-56", "TQP-57"],
-				["TQP-58"]
+				["TQP-58"],
+				["TQP-59"],
+				["TQP-60"],
+				["TQP-61"],
+				["TQP-62"],
+				["TQP-63"],
+				["TQP-64"]
 			]
 		},
 		{
 			"id": "TQP-WAVE-06",
-			"title": "Production terrain and release qualification",
+			"title": "Post-release game systems",
 			"status": "blocked",
 			"steps": [
-				["TQP-59"],
-				["TQP-60", "TQP-61"],
-				["TQP-62"],
-				["TQP-63"],
-				["TQP-64"],
-				["TQP-65"]
+				["TQP-65", "TQP-66", "TQP-67", "TQP-68", "TQP-69"],
+				["TQP-70"],
+				["TQP-71"]
 			]
 		}
 	]

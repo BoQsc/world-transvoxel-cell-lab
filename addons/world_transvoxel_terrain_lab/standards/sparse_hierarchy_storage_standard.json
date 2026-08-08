@@ -100,7 +100,7 @@
 		"planet-scale, unbounded, distributed, networked, or GPU-resident worlds",
 		"production save compatibility or an immutable long-term public file format",
 		"arbitrary explicit sparse catalogs that violate complete refinement ancestry",
-		"multi-hour soak, disk exhaustion, allocation failure, concurrent process writers, or randomized schedule fault injection reserved for TQP-43 and TQP-45",
+		"multi-hour soak, disk exhaustion, allocation failure, concurrent process writers, or randomized schedule fault injection reserved for TQP-43 and TQP-49",
 		"non-Windows performance, production frame pacing, low-power targets, or Gate E"
 	]
 }

@@ -29,10 +29,10 @@ def main() -> int:
         failures.append("execution plan human authority differs from the TQP")
 
     milestones = {item["id"]: item for item in manifest["milestones"]}
-    expected_ids = [f"TQP-{number:02d}" for number in range(1, 66)]
+    expected_ids = [f"TQP-{number:02d}" for number in range(1, 72)]
     manifest_order = [item["id"] for item in manifest["milestones"]]
     if manifest_order != expected_ids:
-        failures.append("program manifest is not in TQP-01 through TQP-65 order")
+        failures.append("program manifest is not in TQP-01 through TQP-71 order")
     gates = manifest["gates"]
     positions: dict[str, tuple[int, int]] = {}
     execution_order: list[str] = []
@@ -56,7 +56,7 @@ def main() -> int:
     if unknown:
         failures.append("execution plan has unknown IDs: " + ",".join(unknown))
     if execution_order != expected_ids:
-        failures.append("execution plan is not in TQP-01 through TQP-65 order")
+        failures.append("execution plan is not in TQP-01 through TQP-71 order")
 
     contract_path = ROOT / manifest["contract_document"].removeprefix("res://")
     contract_source = contract_path.read_text(encoding="utf-8")
@@ -67,7 +67,7 @@ def main() -> int:
     )
     contract_order = [milestone_id for milestone_id, _title in contract_headings]
     if contract_order != expected_ids:
-        failures.append("TQP document is not in TQP-01 through TQP-65 order")
+        failures.append("TQP document is not in TQP-01 through TQP-71 order")
     for milestone, heading in zip(manifest["milestones"], contract_headings):
         milestone_id, heading_title = heading
         if milestone["id"] != milestone_id or milestone["title"] != heading_title:

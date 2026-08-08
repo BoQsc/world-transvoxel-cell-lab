@@ -96,7 +96,29 @@ static func validate(program: Dictionary, dependencies: Dictionary) -> Dictionar
 		"program must execute in dependency order and fail closed",
 		failures
 	)
-	_expect(milestones.size() == 65, "program must contain exactly 65 milestones", failures)
+	_expect(
+		str(program.get("program_goal", ""))
+			== "authoritative_correct_efficient_large_volumetric_smooth_terrain",
+		"program goal changed",
+		failures
+	)
+	_expect(
+		program.get("release_sequence", []) == [
+			"native_cpu_authority",
+			"standalone_cpu_production_release",
+			"gpu_backend_release",
+			"post_release_game_systems",
+		],
+		"program release sequence changed",
+		failures
+	)
+	_expect(
+		str(program.get("optimization_policy", ""))
+			== "standard_widely_accepted_measured_no_correctness_tradeoff",
+		"program optimization policy changed",
+		failures
+	)
+	_expect(milestones.size() == 71, "program must contain exactly 71 milestones", failures)
 
 	var contract_refs := {}
 	for index in range(milestones.size()):
@@ -202,10 +224,20 @@ static func _validate_gates(
 	milestone_by_id: Dictionary,
 	failures: Array[String]
 ) -> void:
-	for required in [
-		"GATE_A", "GATE_B", "GATE_C", "GATE_D", "GATE_E", "GATE_F", "GATE_G",
-	]:
+	var expected := {
+		"GATE_A": ["TQP-01", "TQP-02", "TQP-03", "TQP-04", "TQP-05"],
+		"GATE_B": ["TQP-07", "TQP-09", "TQP-10", "TQP-11", "TQP-12", "TQP-13"],
+		"GATE_C": ["TQP-08", "TQP-18", "TQP-21", "TQP-23"],
+		"GATE_D": ["TQP-06", "TQP-15", "TQP-16", "TQP-19", "TQP-20", "TQP-22", "TQP-24", "TQP-26", "TQP-27"],
+		"GATE_E": ["TQP-28", "TQP-29", "TQP-30", "TQP-31", "TQP-32", "TQP-33", "TQP-34", "TQP-35", "TQP-36", "TQP-37", "TQP-38", "TQP-39", "TQP-40", "TQP-41", "TQP-42", "TQP-43", "TQP-44", "TQP-45", "TQP-46", "TQP-47", "TQP-48", "TQP-49", "TQP-50"],
+		"GATE_F": ["TQP-51", "TQP-52", "TQP-53", "TQP-54", "TQP-55", "TQP-56", "TQP-57"],
+		"GATE_G": ["TQP-58", "TQP-59", "TQP-60", "TQP-61", "TQP-62", "TQP-63", "TQP-64"],
+		"GATE_H": ["TQP-65", "TQP-66", "TQP-67", "TQP-68", "TQP-69", "TQP-70", "TQP-71"],
+	}
+	for required in expected:
 		_expect(gates.has(required), "missing program gate: " + required, failures)
+		_expect(gates.get(required, []) == expected[required], required + " membership changed", failures)
+	_expect(gates.size() == expected.size(), "program has an undeclared gate", failures)
 	for gate_name in gates:
 		var members: Array = gates[gate_name]
 		_expect(not members.is_empty(), str(gate_name) + " has no milestones", failures)
@@ -394,7 +426,7 @@ static func _validate_execution_plan(
 						failures
 					)
 	_expect(active_wave_count == 1, "execution plan must have exactly one active wave", failures)
-	_expect(positions.size() == 65, "execution plan must cover all 65 milestones", failures)
+	_expect(positions.size() == 71, "execution plan must cover all 71 milestones", failures)
 	for milestone_id in milestone_by_id:
 		var milestone: Dictionary = milestone_by_id[milestone_id]
 		var milestone_position: Vector2i = positions.get(milestone_id, Vector2i(-1, -1))
@@ -464,7 +496,7 @@ static func _validate_qualification_state(
 				milestone_id + " status differs from retained qualification state",
 				failures
 			)
-	_expect(seen.size() == 65, "qualification state must classify all 65 milestones", failures)
+	_expect(seen.size() == 71, "qualification state must classify all 71 milestones", failures)
 	var suite_milestones := {}
 	for suite_value in state.get("suites", []):
 		var suite: Dictionary = suite_value
@@ -477,7 +509,7 @@ static func _validate_qualification_state(
 				failures
 			)
 			suite_milestones[milestone_id] = str(suite.get("id", ""))
-	_expect(suite_milestones.size() == 65, "qualification suites must cover all milestones", failures)
+	_expect(suite_milestones.size() == 71, "qualification suites must cover all milestones", failures)
 	var blocker_catalog := JsonLoader.load_dictionary(str(program.get("blocker_catalog", "")))
 	var blocker_ids := {}
 	for blocker_value in blocker_catalog.get("blockers", []):
@@ -505,7 +537,7 @@ static func _validate_qualification_state(
 				failures
 			)
 			_expect(
-				int(retained.get("milestone_count", 0)) == 65,
+				int(retained.get("milestone_count", 0)) == 71,
 				"retained qualification report milestone count changed",
 				failures
 			)
