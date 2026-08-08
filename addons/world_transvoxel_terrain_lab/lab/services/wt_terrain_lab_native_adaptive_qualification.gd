@@ -2,6 +2,9 @@
 extends RefCounted
 class_name WtTerrainLabNativeAdaptiveQualification
 
+const JsonLoader := preload(
+	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_json.gd"
+)
 const NativeFieldEvidence := preload(
 	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_native_field_evidence.gd"
 )
@@ -81,6 +84,20 @@ static func run() -> Dictionary:
 	var fast_arrival_validation := FastArrivalEvidence.validate_retained()
 	var targeted_collision_validation := TargetedCollisionEvidence.validate_retained()
 	var large_world_validation := LargeWorldPerformanceEvidence.validate_retained()
+	var low_power := JsonLoader.load_dictionary("res://labs/terrain_lab/results/low_power_profiles_reference_windows.json")
+	var soak := JsonLoader.load_dictionary("res://labs/terrain_lab/results/complex_adaptive_soak_recovery_reference_windows.json")
+	var gate := JsonLoader.load_dictionary("res://labs/terrain_lab/results/native_adaptive_terrain_authority_gate_windows.json")
+	var low_power_status := str(low_power.get("status", ""))
+	var low_power_passed := str(low_power.get("schema", "")) == "world_transvoxel.terrain_lab.low_power_profiles_qualification.v2" \
+		and low_power_status in ["MEASURED_TARGET_MISS", "PASS"] \
+		and bool(low_power.get("retained_complete", false))
+	var soak_passed := str(soak.get("schema", "")) == "world_transvoxel.terrain_lab.complex_adaptive_soak_recovery_qualification.v1" \
+		and str(soak.get("status", "")) == "PASS" \
+		and bool(soak.get("retained_complete", false))
+	var gate_passed := str(gate.get("schema", "")) == "world_transvoxel.terrain_lab.native_adaptive_terrain_authority_gate.v1" \
+		and str(gate.get("status", "")) == "PASS" \
+		and bool(gate.get("gate_promoted", false)) \
+		and bool(gate.get("retained_complete", false))
 	var failures: Array = []
 	for validation in [
 		field_validation,
@@ -123,6 +140,12 @@ static func run() -> Dictionary:
 	var fast_arrival_passed := str(fast_arrival_validation.get("status", "")) == "PASS"
 	var targeted_collision_passed := str(targeted_collision_validation.get("status", "")) == "PASS"
 	var large_world_passed := str(large_world_validation.get("status", "")) == "PASS"
+	if not low_power_passed:
+		failures.append("TQP-48 retained exact low-power baseline evidence is incomplete")
+	if not soak_passed:
+		failures.append("TQP-49 retained complex adaptive soak evidence has not passed")
+	if not gate_passed:
+		failures.append("TQP-50 retained Gate E authority evidence has not passed")
 	var passed := field_passed and adaptive_lod_passed and transition_passed \
 		and boundary_passed and oracle_passed and adversarial_passed \
 		and dynamic_publication_passed and edit_invalidation_passed \
@@ -130,7 +153,8 @@ static func run() -> Dictionary:
 		and adaptive_system_passed and adaptive_streaming_passed \
 		and adaptive_persistence_passed and sparse_hierarchy_passed \
 		and fault_order_passed and complex_visual_passed and fast_arrival_passed \
-		and targeted_collision_passed and large_world_passed
+		and targeted_collision_passed and large_world_passed \
+		and low_power_passed and soak_passed and gate_passed
 	return {
 		"schema": "world_transvoxel.terrain_lab.native_adaptive_terrain_qualification.v1",
 		"status": "PASS" if passed else "FAIL",
@@ -171,11 +195,14 @@ static func run() -> Dictionary:
 			"TQP-45": "qualified_native_fast_arrival_responsiveness_windows_v1",
 			"TQP-46": "qualified_targeted_collision_residency_windows_v1",
 			"TQP-47": "qualified_large_world_rendering_regression_windows_v1",
-			"TQP-48": "implemented_pending_exact_gpu_board_wpf60_run",
-			"TQP-49": "implemented_blocked_dependency_aggregation",
-			"TQP-50": "implemented_gate_e_blocked",
+			"TQP-48": "qualified_exact_gpu_board_wpf60_baseline_windows_v1"
+				if low_power_passed else "implemented_pending_exact_gpu_board_wpf60_run",
+			"TQP-49": "qualified_complex_adaptive_soak_recovery_windows_v1"
+				if soak_passed else "implemented_blocked_dependency_aggregation",
+			"TQP-50": "qualified_gate_e_native_adaptive_cpu_authority_windows_v1"
+				if gate_passed else "implemented_gate_e_blocked",
 		},
-		"audit_status": "TQP47_QUALIFIED_TQP48_NEXT_GATE_E_BLOCKED",
+		"audit_status": "GATE_E_QUALIFIED_CPU_REFERENCE" if passed else "GATE_E_BLOCKED",
 		"native_field_evidence": field_validation,
 		"adaptive_lod_evidence": adaptive_lod_validation,
 		"transition_assembly_evidence": transition_validation,
@@ -217,15 +244,18 @@ static func run() -> Dictionary:
 			"TQP-45 bounded Windows native fast-arrival streaming and edit responsiveness contract",
 			"TQP-46 bounded Windows targeted collision residency and update-latency contract",
 			"TQP-47 bounded Windows large-world rendering regression, frame pacing, memory, and queue envelope",
+			"TQP-48 retained exact Windows GPU-board WPF60 long-run baseline protocol with explicit target misses",
+			"TQP-49 retained Windows complex adaptive soak, recovery, drift, and dependency aggregation",
+			"TQP-50 Gate E native adaptive CPU terrain authority for the declared bounded Windows envelope",
 		],
 		"explicitly_unqualified_scope": [
 			"arbitrary, deeper than LOD1/LOD0, fault-injected, or production adaptive hierarchy arrangements beyond the retained dynamic contract",
 			"adaptive digging, construction, materials, system agreement, streaming, and persistence beyond the retained TQP-37 through TQP-41 Windows fixtures",
 			"sparse hierarchy storage, compaction, and recovery beyond the retained TQP-42 Windows procedural profile",
 			"fault-injected ordering determinism beyond the retained TQP-43 Windows corpus and explicit admission controls",
-			"TQP-48 low-power profiles including the 60 FPS / 16 GPU-board WPF60 candidate",
-			"TQP-49 complex adaptive soak and recovery",
-			"Gate E native adaptive terrain authority",
+			"full TQP-48 low-power target pass; retained baseline misses frame_p95, frame_worst, edit_visual_response, and edit_collision_coherence",
+			"standalone CPU production terrain runtime, production API, release matrix, and long-haul certification",
+			"GPU field generation, GPU meshing, GPU collision readback, and GPU production backend authority",
 		],
 		"failures": failures,
 	}

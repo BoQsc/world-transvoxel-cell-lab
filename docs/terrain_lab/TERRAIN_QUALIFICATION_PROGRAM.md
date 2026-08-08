@@ -142,8 +142,9 @@ must not be treated as interchangeable with GPU-board WPF60. The target
 requires frame-pacing, responsiveness, CPU/GPU time, memory, power, and
 energy-per-work evidence. Render, collision, navigation, and authoritative
 query residency are independent: collision is requested only by bounded physics
-invokers and must not be generated for every visible chunk by default. This
-profile is currently unqualified and cannot be cited as achieved performance.
+invokers and must not be generated for every visible chunk by default. The target profile remains unqualified as an achieved-performance claim
+until the retained target misses are resolved. The exact TQP-48 long run is
+qualified only as baseline evidence and measurement protocol evidence.
 
 Visual quality evidence is distinct from geometric correctness. Pleasantness
 requires an art-direction target, fixed comparisons, temporal inspection, and
@@ -177,10 +178,11 @@ promotion order: investigation may happen early, but qualification cannot skip
 an earlier dependency.
 
 The machine-readable `execution_plan.json` mirrors the same order but is not a
-second human roadmap. Program revision 37 preserves every qualified TQP-01
+second human roadmap. Program revision 38 preserves every qualified TQP-01
 through TQP-47 claim, keeps the ordered CPU/GPU release sequence from
-`TQP-D033`, and corrects TQP-48's inherited low-power target through
-`TQP-D036`.
+`TQP-D033`, corrects TQP-48's inherited low-power target through
+`TQP-D036`, and closes Gate E for the bounded CPU authority envelope through
+`TQP-D037`.
 Earlier identifier migrations remain retained in `TQP-D006`, `TQP-D017`, and
 `TQP-D030` as history.
 
@@ -203,8 +205,10 @@ residency shape, edit history, or runtime scale. In particular:
 
 The 2026-08-02 terrain-core completeness audit found the former roadmap moved
 from bounded TQP-27 evidence directly to destruction. Phase 4 closes that gap.
-Until Gate E passes, this program may claim the qualified TQP-01 through TQP-43
-scopes, but it must not claim authoritative dynamic adaptive Transvoxel terrain.
+Gate E now passes for the declared bounded Windows CPU adaptive-terrain
+envelope. That claim is still narrower than production: it does not qualify a
+standalone runtime API, integration-game migration, non-Windows behavior, GPU
+backend, or the full low-power target pass.
 
 ## Phase 1: Qualified Foundations And Reference Semantics
 
@@ -1044,7 +1048,7 @@ debug-machine regression bounds, not release targets.
 
 ### TQP-48: Low-Power Performance Profiles And 60 FPS At 16 W
 
-Status: `implemented`, unqualified and pending the exact GPU-board WPF60 run.
+Status: `qualified` for the retained exact Windows GPU-board WPF60 baseline protocol; the full low-power target pass remains unqualified.
 Owner: Terrain Systems Lab and Terrain Qualification Program. Depends on:
 TQP-04, TQP-27, TQP-38, TQP-39, TQP-45, TQP-46, TQP-47.
 
@@ -1054,8 +1058,12 @@ thermal state, sample count, and the GPU-board WPF60 boundary. The retained CPU
 reference must run the exact 60 FPS / 16 GPU-board WPF60 candidate workload and
 report frame pacing, arrival and edit latency, collision latency, CPU/GPU time,
 memory, GPU-board power, GPU-board energy per frame, and GPU-board energy per
-published chunk. Missing the WPF60 target is valid baseline evidence; it cannot
-be rewritten as a pass or used to preselect GPU implementation.
+published chunk. The retained 2026-08-08 run completed the exact protocol with 108000 frames,
+1802.580076 measured seconds, average GPU-board WPF60 7.138897319856603,
+and drift PASS. It is still `MEASURED_TARGET_MISS` because frame_p95,
+frame_worst, edit_visual_response, and edit_collision_coherence missed their
+targets. Those misses are valid baseline evidence; they cannot be rewritten as
+a full low-power pass or used to preselect GPU implementation.
 
 Low-power, balanced, and quality settings are frozen. The exact runner accepts
 only `nvidia-smi power.draw` as the inherited WPF60 target source. CPU-package,
@@ -1071,7 +1079,7 @@ responsiveness evidence, and rolling drift windows.
 
 ### TQP-49: Complex Adaptive Terrain Soak And Recovery
 
-Status: `implemented`, unqualified and blocked on dependencies. Owner: Terrain
+Status: `qualified`. Owner: Terrain
 Systems Lab. Depends on: TQP-13, TQP-15, TQP-16, TQP-26, TQP-27, TQP-34,
 TQP-41, TQP-42, TQP-43, TQP-44, TQP-45, TQP-46, TQP-47, TQP-48.
 
@@ -1092,7 +1100,7 @@ power, and GPU temperature within declared drift limits.
 
 ### TQP-50: Native Adaptive Terrain Authority Gate
 
-Status: `implemented`, Gate E blocked. Owner: Terrain Qualification Program.
+Status: `qualified`, Gate E promoted for the declared bounded Windows CPU envelope. Owner: Terrain Qualification Program.
 Depends on: TQP-28 through TQP-49.
 
 Complete when every Phase 4 milestone is qualified for one coherent declared
@@ -1104,7 +1112,9 @@ do not prove. Only this milestone may promote Gate E.
 The retained gate report contains the complete milestone matrix, pinned
 manifest hash, finding dispositions, and explicit authority boundaries for
 world-transvoxel, Cell Lab, Terrain Lab, and the integration game. It cannot
-promote while any matrix member is missing or unqualified.
+promote while any matrix member is missing or unqualified. The retained
+revision-38 report promotes Gate E with no blockers after TQP-48 exact baseline
+evidence and TQP-49 soak/recovery both passed their closure conditions.
 
 ## Phase 5: Standalone CPU Production Terrain Release
 
@@ -1115,8 +1125,8 @@ game framework and has no runtime dependency on either lab.
 Execution order: TQP-51 -> TQP-52 -> TQP-53 -> TQP-54 -> TQP-55 -> TQP-56 ->
 TQP-57.
 
-This phase is blocked until Gate E qualifies and a pinned candidate addon
-exists.
+Gate E is qualified. This phase is now the active blocked wave and starts by
+creating a pinned candidate addon boundary for `world-transvoxel-terrain`.
 
 ### TQP-51: Production Addon Boundary
 
@@ -1343,7 +1353,7 @@ the declared multiplayer model.
 
 The program records every milestone at a truthful evidence state:
 
-- `TQP-01` through `TQP-43` are qualified
+- `TQP-01` through `TQP-50` are qualified
   for their narrow contract, native Windows reference, or reference-model
   scopes. Gate B is qualified; its native chunk rebuild benchmark remains a
   background/debug reference and is not a production frame-time claim.
@@ -1363,8 +1373,9 @@ The program records every milestone at a truthful evidence state:
   generation-aware traces, and cross-order runtime convergence. `TQP-44`
   through `TQP-47` additionally qualify the accepted visual corpus, bounded
   responsiveness, targeted collision, and large-world rendering regression
-  envelope. `TQP-48` through `TQP-50` remain implemented but unqualified, so
-  the program makes no Gate E adaptive-terrain authority claim.
+  envelope. `TQP-48` now retains the exact GPU-board WPF60 baseline run,
+  `TQP-49` passes the complex adaptive soak/recovery aggregation, and `TQP-50`
+  closes Gate E for the bounded Windows CPU authority envelope.
 - `TQP-51` through `TQP-57` are blocked CPU production-addon work.
 - `TQP-58` is the specified CPU-primary GPU architecture decision; `TQP-59`
   through `TQP-64` are blocked GPU implementation and release work.
@@ -1372,16 +1383,13 @@ The program records every milestone at a truthful evidence state:
   destruction and structural reference behavior under revision-34 identifiers.
 - `TQP-71` networking remains blocked by a missing multiplayer authority model.
 
-The next dependency-ordered milestone is TQP-48, Low-Power Performance Profiles
-And 60 FPS At 16 W. It now uses the inherited GPU-board WPF60 definition from
-the old `gpu-marching-cubes` benchmark and keeps complete-system power as a
-separate future observation boundary. TQP-42 closes `TQP-F002` for the retained Windows 2K
-procedural profile through sparse overlay compaction, and TQP-43 qualifies its
-bounded fault-order profile, but neither creates a general production
-save-format or adaptive-terrain authority claim. Gate D remains qualified only
-for its bounded reference claim; Gate E remains closed. CPU release, GPU
-release, and game-system promotion remain frozen behind their ordered gates. A
-milestone may advance only when its declared evidence passes.
+The next dependency-ordered milestone is TQP-51, Production Addon Boundary.
+Gate E is closed only for the bounded CPU authority envelope; CPU production
+release work must now create a standalone `world-transvoxel-terrain` boundary
+without depending on either lab at runtime. The low-power target misses,
+production release, GPU backend, and game-system behavior remain outside the
+closed Gate E claim. A milestone may advance only when its declared evidence
+passes.
 
 ## What Comes Next
 
@@ -1412,7 +1420,7 @@ overloaded performance milestone. They cover recursive visual and temporal
 inspection; scheduler priority and fast-arrival edit response; targeted
 collision residency and update latency; large-world rendering, frame pacing,
 memory, and queues; the exact low-power profiles including the 60 FPS / 16 W
-candidate; and long-running soak and recovery. Spatial or temporal milestones
+GPU-board WPF60 candidate with target misses retained; and long-running soak and recovery. Spatial or temporal milestones
 must expose focused `@tool` observatories and reproducible captures for human
 inspection, but screenshots remain supporting evidence and cannot replace
 machine invariants or retained reports.
@@ -1576,4 +1584,9 @@ Retained decisions:
 - `TQP-D036`: correct TQP-48's inherited `60 FPS / 16 W` target to the
   `gpu-marching-cubes` GPU-board WPF60 definition using `nvidia-smi power.draw`;
   keep CPU-package, battery, DC-input, and AC-input power as separate
-  observation boundaries and leave TQP-48 through TQP-50 unqualified.
+  observation boundaries and leave TQP-48 through TQP-50 unqualified until
+  exact retained evidence exists.
+- `TQP-D037`: accept the exact TQP-48 GPU-board WPF60 baseline as retained
+  evidence, keep its target misses explicit, promote TQP-49 and TQP-50 from
+  fail-closed reports, and close Gate E only for the bounded Windows CPU
+  adaptive-terrain authority envelope.

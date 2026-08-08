@@ -2,8 +2,8 @@
   "schema": "world_transvoxel.terrain_lab.complex_adaptive_soak_recovery_qualification.v1",
   "milestone": "TQP-49",
   "standard_id": "native_complex_adaptive_soak_recovery_windows_v1",
-  "status": "BLOCKED_DEPENDENCIES",
-  "retained_complete": false,
+  "status": "PASS",
+  "retained_complete": true,
   "evidence": [
     {
       "name": "native_soak",
@@ -73,9 +73,9 @@
       "name": "power_long_run",
       "path": "labs/terrain_lab/results/low_power_profiles_reference_windows.json",
       "schema": "world_transvoxel.terrain_lab.low_power_profiles_qualification.v2",
-      "reported_status": "READY_FOR_EXACT_RUN",
-      "accepted": false,
-      "sha256": "580c24affece4fce259382357ec7da5881d76067ade8c4a5635fc81f56cb3839"
+      "reported_status": "MEASURED_TARGET_MISS",
+      "accepted": true,
+      "sha256": "4dd7f86ed920b8858f8d410fdefb66f46aac693a6cc2529a94904337b74f8b6d"
     }
   ],
   "coverage": {
@@ -87,29 +87,58 @@
     "fast_arrival": true,
     "collision": true,
     "performance": true,
-    "power_long_run": false
+    "power_long_run": true
   },
   "temporal_drift": {
-    "complex_rendered_seconds": 0.0,
-    "frame_samples": 0,
+    "complex_rendered_seconds": 1802.580076,
+    "frame_samples": 108000,
     "native_soak_seconds": 60,
-    "memory_drift": "PENDING_EXACT_TQP48_RUN",
-    "queue_drift": "PENDING_EXACT_TQP48_RUN",
-    "frame_drift": "PENDING_EXACT_TQP48_RUN",
-    "thermal_drift": "PENDING_EXACT_TQP48_RUN",
-    "power_drift": "PENDING_EXACT_TQP48_RUN"
+    "memory_drift": {
+      "first_band_average_bytes": 84778574.33333333,
+      "last_band_average_bytes": 96142095.66666667,
+      "growth_bytes": 11363521.333333343,
+      "maximum_growth_bytes": 88303507.58333333
+    },
+    "queue_drift": {
+      "first_band_average_depth": 847.5,
+      "last_band_average_depth": 752.3333333333334,
+      "growth": 0.0,
+      "maximum_growth": 227.875
+    },
+    "frame_drift": {
+      "first_band_average_usec": 18505.5,
+      "last_band_average_usec": 18197.5,
+      "growth_usec": 0.0,
+      "maximum_growth_usec": 6626.375
+    },
+    "thermal_drift": {
+      "gpu_start_c": 62.0,
+      "gpu_end_c": 66.0
+    },
+    "power_drift": {
+      "boundary": "gpu_board",
+      "source": "nvidia-smi power.draw",
+      "samples": 901,
+      "average_w": 7.128679245283019,
+      "p95_w": 25.43,
+      "worst_w": 26.61,
+      "energy_j": 12850.015175741886,
+      "energy_per_frame_j": 0.11898162199761006,
+      "energy_per_published_chunk_j": 0.3972061196173808
+    }
   },
   "recovery_contract": {
     "persistence_restart": true,
     "controlled_failure_recovery": true,
     "clean_native_shutdown": true
   },
-  "qualified_scope": [],
+  "qualified_scope": [
+    "pinned Windows complex native CPU terrain traversal, teleport, LOD churn, edits, materials, persistence, restart, pressure, controlled failure, recovery, and shutdown",
+    "retained state and geometry identity with frame, memory, queue, latency, thermal, and accepted-boundary power drift"
+  ],
   "explicitly_unqualified_scope": [
     "qualification without accepted TQP-44 human review or complete TQP-48 long-run power evidence",
     "multi-day, cross-hardware, non-Windows, production addon, GPU, gameplay, networking, or Gate E claims"
   ],
-  "blockers": [
-    "power_long_run"
-  ]
+  "blockers": []
 }

@@ -1,6 +1,6 @@
 {
 	"schema": "world_transvoxel.terrain_lab.program.v2",
-	"program_revision": 37,
+	"program_revision": 38,
 	"lab_scope": "experimental_terrain_qualification",
 	"authority": "EVIDENCE_PROGRAM_ONLY",
 	"production_status": "NOT_PRODUCTION",
@@ -226,7 +226,8 @@
 		"res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D033.json",
 		"res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D034.json",
 		"res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D035.json",
-		"res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D036.json"
+		"res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D036.json",
+		"res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D037.json"
 	],
 	"milestones": [
 		{"id": "TQP-01", "title": "Operating Envelope", "status": "qualified", "domain": "foundation", "owner": "Terrain Qualification Program", "depends_on": [], "evidence_profile": "foundation", "contract_ref": "#tqp-01-operating-envelope", "claim_scope": "reference_envelope_v1"},
@@ -276,9 +277,9 @@
 		{"id": "TQP-45", "title": "Streaming Priority And Fast-Arrival Edit Responsiveness", "status": "qualified", "domain": "native_adaptive_terrain", "owner": "Terrain Systems Lab and Edit Semantics Lab", "depends_on": ["TQP-15", "TQP-19", "TQP-22", "TQP-27", "TQP-35", "TQP-36", "TQP-37", "TQP-39", "TQP-40", "TQP-42", "TQP-43", "TQP-44"], "evidence_profile": "systems", "contract_ref": "#tqp-45-streaming-priority-and-fast-arrival-edit-responsiveness", "claim_scope": "qualified_bounded_windows_native_fast_arrival_responsiveness_v1"},
 		{"id": "TQP-46", "title": "Targeted Collision Residency And Update Latency", "status": "qualified", "domain": "native_adaptive_terrain", "owner": "Terrain Systems Lab", "depends_on": ["TQP-24", "TQP-35", "TQP-36", "TQP-37", "TQP-39", "TQP-40", "TQP-45"], "evidence_profile": "systems", "contract_ref": "#tqp-46-targeted-collision-residency-and-update-latency", "claim_scope": "qualified_bounded_windows_targeted_collision_residency_v1"},
 		{"id": "TQP-47", "title": "Large-World Rendering, Frame Pacing, Memory, And Queues", "status": "qualified", "domain": "native_adaptive_terrain", "owner": "Terrain Systems Lab and Material and Surface Lab", "depends_on": ["TQP-04", "TQP-20", "TQP-22", "TQP-26", "TQP-27", "TQP-30", "TQP-31", "TQP-35", "TQP-38", "TQP-40", "TQP-42", "TQP-45", "TQP-46"], "evidence_profile": "systems", "contract_ref": "#tqp-47-large-world-rendering-frame-pacing-memory-and-queues", "claim_scope": "qualified_bounded_windows_large_world_rendering_regression_v1"},
-		{"id": "TQP-48", "title": "Low-Power Performance Profiles And 60 FPS At 16 W", "status": "implemented", "domain": "native_adaptive_terrain", "owner": "Terrain Systems Lab and Terrain Qualification Program", "depends_on": ["TQP-04", "TQP-27", "TQP-38", "TQP-39", "TQP-45", "TQP-46", "TQP-47"], "evidence_profile": "systems", "contract_ref": "#tqp-48-low-power-performance-profiles-and-60-fps-at-16-w", "claim_scope": "implemented_unqualified_pending_exact_gpu_board_wpf60_run"},
-		{"id": "TQP-49", "title": "Complex Adaptive Terrain Soak And Recovery", "status": "implemented", "domain": "native_adaptive_terrain", "owner": "Terrain Systems Lab", "depends_on": ["TQP-13", "TQP-15", "TQP-16", "TQP-26", "TQP-27", "TQP-34", "TQP-41", "TQP-42", "TQP-43", "TQP-44", "TQP-45", "TQP-46", "TQP-47", "TQP-48"], "evidence_profile": "systems", "contract_ref": "#tqp-49-complex-adaptive-terrain-soak-and-recovery", "claim_scope": "implemented_unqualified_fail_closed_dependency_aggregation"},
-		{"id": "TQP-50", "title": "Native Adaptive Terrain Authority Gate", "status": "implemented", "domain": "native_adaptive_terrain", "owner": "Terrain Qualification Program", "depends_on": ["TQP-28", "TQP-29", "TQP-30", "TQP-31", "TQP-32", "TQP-33", "TQP-34", "TQP-35", "TQP-36", "TQP-37", "TQP-38", "TQP-39", "TQP-40", "TQP-41", "TQP-42", "TQP-43", "TQP-44", "TQP-45", "TQP-46", "TQP-47", "TQP-48", "TQP-49"], "evidence_profile": "systems", "contract_ref": "#tqp-50-native-adaptive-terrain-authority-gate", "claim_scope": "implemented_gate_e_blocked_fail_closed"},
+		{"id": "TQP-48", "title": "Low-Power Performance Profiles And 60 FPS At 16 W", "status": "qualified", "domain": "native_adaptive_terrain", "owner": "Terrain Systems Lab and Terrain Qualification Program", "depends_on": ["TQP-04", "TQP-27", "TQP-38", "TQP-39", "TQP-45", "TQP-46", "TQP-47"], "evidence_profile": "systems", "contract_ref": "#tqp-48-low-power-performance-profiles-and-60-fps-at-16-w", "claim_scope": "qualified_exact_gpu_board_wpf60_baseline_windows_v1"},
+		{"id": "TQP-49", "title": "Complex Adaptive Terrain Soak And Recovery", "status": "qualified", "domain": "native_adaptive_terrain", "owner": "Terrain Systems Lab", "depends_on": ["TQP-13", "TQP-15", "TQP-16", "TQP-26", "TQP-27", "TQP-34", "TQP-41", "TQP-42", "TQP-43", "TQP-44", "TQP-45", "TQP-46", "TQP-47", "TQP-48"], "evidence_profile": "systems", "contract_ref": "#tqp-49-complex-adaptive-terrain-soak-and-recovery", "claim_scope": "qualified_complex_adaptive_soak_recovery_windows_v1"},
+		{"id": "TQP-50", "title": "Native Adaptive Terrain Authority Gate", "status": "qualified", "domain": "native_adaptive_terrain", "owner": "Terrain Qualification Program", "depends_on": ["TQP-28", "TQP-29", "TQP-30", "TQP-31", "TQP-32", "TQP-33", "TQP-34", "TQP-35", "TQP-36", "TQP-37", "TQP-38", "TQP-39", "TQP-40", "TQP-41", "TQP-42", "TQP-43", "TQP-44", "TQP-45", "TQP-46", "TQP-47", "TQP-48", "TQP-49"], "evidence_profile": "systems", "contract_ref": "#tqp-50-native-adaptive-terrain-authority-gate", "claim_scope": "qualified_gate_e_native_adaptive_cpu_authority_windows_v1"},
 		{"id": "TQP-51", "title": "Production Addon Boundary", "status": "blocked", "domain": "production_qualification", "owner": "world-transvoxel-terrain", "depends_on": ["GATE_A", "GATE_B", "GATE_C", "GATE_D", "GATE_E"], "evidence_profile": "production", "contract_ref": "#tqp-51-production-addon-boundary", "claim_scope": "candidate_production_addon"},
 		{"id": "TQP-52", "title": "Runtime API, Configuration Profiles, And Readiness States", "status": "blocked", "domain": "production_qualification", "owner": "world-transvoxel-terrain", "depends_on": ["TQP-15", "TQP-16", "TQP-19", "TQP-22", "TQP-24", "TQP-45", "TQP-46", "TQP-47", "TQP-48", "TQP-51"], "evidence_profile": "production", "contract_ref": "#tqp-52-runtime-api-configuration-profiles-and-readiness-states", "claim_scope": "candidate_production_runtime_contract"},
 		{"id": "TQP-53", "title": "Authoring And Inspection Workflow", "status": "blocked", "domain": "production_qualification", "owner": "world-transvoxel-terrain", "depends_on": ["TQP-08", "TQP-10", "TQP-11", "TQP-12", "TQP-13", "TQP-17", "TQP-21", "TQP-23", "TQP-26", "TQP-37", "TQP-38", "TQP-44", "TQP-51", "TQP-52"], "evidence_profile": "production", "contract_ref": "#tqp-53-authoring-and-inspection-workflow", "claim_scope": "candidate_production_authoring_workflow"},
@@ -339,7 +340,10 @@
 		"TQP-44 accepted Windows native complex visual and temporal corpus",
 		"TQP-45 bounded Windows native fast-arrival streaming and edit responsiveness",
 		"TQP-46 bounded Windows targeted collision residency and update latency",
-		"TQP-47 bounded Windows large-world rendering regression, frame pacing, memory, and queue envelope"
+		"TQP-47 bounded Windows large-world rendering regression, frame pacing, memory, and queue envelope",
+		"TQP-48 retained exact Windows GPU-board WPF60 long-run baseline protocol with complete samples and explicit target misses",
+		"TQP-49 retained Windows complex adaptive soak, recovery, drift, and dependency aggregation",
+		"TQP-50 Gate E native adaptive CPU terrain authority for the declared bounded Windows envelope"
 	],
 	"explicitly_unqualified_scope": [
 		"production terrain runtime",
@@ -348,7 +352,6 @@
 		"GPU field or meshing authority",
 		"non-Windows platforms",
 		"visual behavior outside the accepted TQP-25 Windows reference corpus",
-		"native adaptive terrain authority and Gate E qualification for TQP-28 through TQP-50; TQP-48 through TQP-50 remain incomplete",
 		"standalone CPU production terrain release for TQP-51 through TQP-57",
 		"GPU production terrain backend release for TQP-58 through TQP-64",
 		"complete qualification of implemented post-release TQP-65 through TQP-70 behavior",
@@ -357,7 +360,8 @@
 		"automatic cleanup of abandoned snapshot staging directories",
 		"snapshot atomicity outside the declared Windows reference platform",
 		"cross-hardware performance",
-		"sustained 60 FPS at 16 GPU-board WPF60, whole-system power claims, and production targeted-collision residency",
+		"full TQP-48 low-power target pass; retained baseline misses frame_p95, frame_worst, edit_visual_response, and edit_collision_coherence",
+		"whole-system power claims and production targeted-collision residency",
 		"CPU or GPU production long-haul certification",
 		"networking and multiplayer recovery"
 	]

@@ -98,7 +98,7 @@
 		"TQP-64": "GPU production backend release budgets"
 	},
 	"explicitly_unqualified_scope": [
-		"any current claim that the 16 W or sustained 60 FPS target passes",
+		"any current claim that the full sustained 60 FPS, frame-pacing, and edit-response target passes",
 		"any claim that GPU-board WPF60 is CPU-package or complete-system wattage",
 		"a specific target device until its hardware and power boundary are pinned",
 		"GPU field evaluation, meshing, residency, or collision readback",

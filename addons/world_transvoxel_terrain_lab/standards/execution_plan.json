@@ -1,11 +1,11 @@
 {
 	"schema": "world_transvoxel.terrain_lab.execution_plan.v1",
-	"plan_revision": 28,
-	"program_revision": 37,
+	"plan_revision": 29,
+	"program_revision": 38,
 	"policy": "single_human_tqp_dependency_order_fail_closed",
 	"human_authority": "res://docs/terrain_lab/TERRAIN_QUALIFICATION_PROGRAM.md",
-	"current_wave": "TQP-WAVE-03",
-	"recommended_next": ["TQP-48"],
+	"current_wave": "TQP-WAVE-04",
+	"recommended_next": ["TQP-51"],
 	"waves": [
 		{
 			"id": "TQP-WAVE-00",
@@ -46,7 +46,7 @@
 		{
 			"id": "TQP-WAVE-03",
 			"title": "Native CPU adaptive terrain authority",
-			"status": "active",
+			"status": "completed",
 			"steps": [
 				["TQP-28"],
 				["TQP-29"],
@@ -76,7 +76,7 @@
 		{
 			"id": "TQP-WAVE-04",
 			"title": "Standalone CPU production terrain release",
-			"status": "blocked",
+			"status": "active",
 			"steps": [
 				["TQP-51"],
 				["TQP-52"],

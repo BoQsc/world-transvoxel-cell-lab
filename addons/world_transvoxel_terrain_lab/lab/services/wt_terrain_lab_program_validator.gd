@@ -339,7 +339,7 @@ static func _validate_evidence_files(program: Dictionary, failures: Array[String
 		"TQP-D021", "TQP-D022", "TQP-D023", "TQP-D024", "TQP-D025",
 		"TQP-D026", "TQP-D027", "TQP-D028", "TQP-D029", "TQP-D030",
 		"TQP-D031", "TQP-D032", "TQP-D033", "TQP-D034", "TQP-D035",
-		"TQP-D036",
+		"TQP-D036", "TQP-D037",
 	]:
 		_expect(decision_ids.has(required), "missing retained decision: " + required, failures)
 	for key in [
@@ -1620,7 +1620,7 @@ static func _validate_low_power_performance_profile(
 	)
 	_expect(
 		str(profile.get("status", "")) == "SPECIFIED_UNQUALIFIED",
-		"low-power profile must remain unqualified until measured",
+		"low-power target profile must remain unqualified until the full target pass is measured",
 		failures
 	)
 	var measurement: Dictionary = profile.get("measurement_contract", {})
@@ -1668,34 +1668,31 @@ static func _validate_cpu_closure_implementation(
 			failures
 		)
 	var power := JsonLoader.load_dictionary(str(program.get("low_power_qualification_evidence", "")))
-	_expect(
+	var power_complete := (
 		str(power.get("schema", ""))
-			== "world_transvoxel.terrain_lab.low_power_profiles_qualification.v2"
-			and str(power.get("status", "")) in [
-				"BLOCKED_ACCEPTED_POWER_SENSOR_UNAVAILABLE", "READY_FOR_EXACT_RUN",
-				"INCOMPLETE_RUN", "MEASURED_TARGET_MISS", "PASS",
-			]
-			and str(power.get("primary_metric", "")) == "gpu_board_wpf60",
-		"TQP-48 fail-closed power report is invalid",
-		failures
+		== "world_transvoxel.terrain_lab.low_power_profiles_qualification.v2"
+		and str(power.get("status", "")) in ["MEASURED_TARGET_MISS", "PASS"]
+		and str(power.get("primary_metric", "")) == "gpu_board_wpf60"
+		and bool(power.get("retained_complete", false))
 	)
+	_expect(power_complete, "TQP-48 retained exact power report is incomplete", failures)
 	var soak := JsonLoader.load_dictionary(str(program.get("complex_adaptive_soak_recovery_evidence", "")))
-	_expect(
+	var soak_passed := (
 		str(soak.get("schema", ""))
-			== "world_transvoxel.terrain_lab.complex_adaptive_soak_recovery_qualification.v1"
-			and str(soak.get("status", "")) in ["BLOCKED_DEPENDENCIES", "PASS"],
-		"TQP-49 fail-closed soak report is invalid",
-		failures
+		== "world_transvoxel.terrain_lab.complex_adaptive_soak_recovery_qualification.v1"
+		and str(soak.get("status", "")) == "PASS"
+		and bool(soak.get("retained_complete", false))
 	)
+	_expect(soak_passed, "TQP-49 fail-closed soak report has not passed", failures)
 	var gate := JsonLoader.load_dictionary(str(program.get("native_adaptive_authority_gate_evidence", "")))
-	_expect(
+	var gate_passed := (
 		str(gate.get("schema", ""))
-			== "world_transvoxel.terrain_lab.native_adaptive_terrain_authority_gate.v1"
-			and str(gate.get("status", "")) in ["BLOCKED", "PASS"]
-			and (str(gate.get("status", "")) == "PASS") == bool(gate.get("gate_promoted", false)),
-		"TQP-50 fail-closed authority gate report is invalid",
-		failures
+		== "world_transvoxel.terrain_lab.native_adaptive_terrain_authority_gate.v1"
+		and str(gate.get("status", "")) == "PASS"
+		and bool(gate.get("gate_promoted", false))
+		and bool(gate.get("retained_complete", false))
 	)
+	_expect(gate_passed, "TQP-50 fail-closed authority gate has not passed", failures)
 	_expect(
 		str((milestone_by_id.get("TQP-44", {}) as Dictionary).get("status", ""))
 			== ("qualified" if str(visual.get("status", "")) == "PASS" else "implemented"),
@@ -1709,10 +1706,17 @@ static func _validate_cpu_closure_implementation(
 			milestone_id + " must match retained focused PASS evidence",
 			failures
 		)
-	for milestone_id in ["TQP-48", "TQP-49", "TQP-50"]:
+	var closure_statuses := {
+		"TQP-48": [power_complete, "TQP-48 must match retained exact low-power baseline evidence"],
+		"TQP-49": [soak_passed, "TQP-49 must match retained complex adaptive soak evidence"],
+		"TQP-50": [gate_passed, "TQP-50 must match retained Gate E authority evidence"],
+	}
+	for milestone_id in closure_statuses:
+		var record: Array = closure_statuses[milestone_id]
 		_expect(
-			str((milestone_by_id.get(milestone_id, {}) as Dictionary).get("status", "")) == "implemented",
-			milestone_id + " implementation status changed before its qualification evidence passed",
+			str((milestone_by_id.get(milestone_id, {}) as Dictionary).get("status", ""))
+				== ("qualified" if bool(record[0]) else "implemented"),
+			str(record[1]),
 			failures
 		)
 

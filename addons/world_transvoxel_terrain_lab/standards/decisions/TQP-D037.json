@@ -1,0 +1,43 @@
+{
+	"schema": "world_transvoxel.terrain_lab.decision.v1",
+	"id": "TQP-D037",
+	"date": "2026-08-08",
+	"decision": "Accept the exact TQP-48 GPU-board WPF60 long run as retained baseline evidence, promote TQP-49 and TQP-50 from the fail-closed reports, and close Gate E only for the declared bounded Windows CPU adaptive-terrain authority envelope.",
+	"affected_milestones": [
+		"TQP-48",
+		"TQP-49",
+		"TQP-50",
+		"TQP-51",
+		"TQP-55",
+		"TQP-61",
+		"TQP-63"
+	],
+	"repositories": [
+		"world-transvoxel-cell-lab"
+	],
+	"evidence": [
+		"low_power_profiles_reference_windows.json reports retained_complete true, status MEASURED_TARGET_MISS, 108000 frames, 1802.580076 measured seconds, average GPU-board WPF60 7.138897319856603, and drift PASS",
+		"the same TQP-48 report keeps target misses explicit: frame_p95, frame_worst, edit_visual_response, and edit_collision_coherence",
+		"complex_adaptive_soak_recovery_reference_windows.json reports PASS with no blockers after the exact TQP-48 evidence was retained",
+		"native_adaptive_terrain_authority_gate_windows.json reports PASS, gate_promoted true, and no blockers"
+	],
+	"qualified_scope": [
+		"TQP-48 exact Windows GPU-board WPF60 measurement protocol and baseline evidence, including power samples, workload coverage, dig/construction actions, collision invokers, resource retirement, and drift windows",
+		"TQP-49 complex adaptive soak and recovery aggregation over the retained Windows CPU evidence set",
+		"TQP-50 Gate E native adaptive CPU terrain authority for the bounded Windows envelope declared by the Terrain Qualification Program"
+	],
+	"unqualified_scope": [
+		"claiming that the full TQP-48 low-power target passed while the retained report is MEASURED_TARGET_MISS",
+		"claiming the retained GPU-board WPF60 result as CPU-package, battery, DC-input, AC-input, or cross-hardware power",
+		"standalone CPU production terrain release, production API, integration-game migration, and production long-haul certification",
+		"GPU field generation, GPU meshing, GPU collision readback, and GPU production backend release"
+	],
+	"standards_changed": [
+		"Terrain Qualification Program revision 38",
+		"execution-plan revision 29",
+		"TQP-48 through TQP-50 promotion state",
+		"Gate E claim boundary and next active wave"
+	],
+	"review": "The exact long run is complete enough to close the CPU authority evidence loop, but its target misses stay visible and block any claim that the low-power gameplay profile is already performant. Gate E is authority, not production readiness.",
+	"downstream_impact": "TQP-51 becomes the next ordered milestone. CPU production release remains blocked on creating the standalone addon boundary and later release evidence; GPU work remains after the CPU production gate."
+}

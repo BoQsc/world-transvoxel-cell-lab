@@ -5,20 +5,20 @@
 	"status_counts": {
 		"proposed": 0,
 		"specified": 1,
-		"implemented": 9,
-		"qualified": 47,
+		"implemented": 6,
+		"qualified": 50,
 		"production": 0,
 		"blocked": 14
 	},
 	"proposed_milestone_count": 0,
 	"specified_milestone_count": 1,
-	"qualified_milestone_count": 47,
+	"qualified_milestone_count": 50,
 	"gate_statuses": {
 		"GATE_A": "QUALIFIED",
 		"GATE_B": "QUALIFIED",
 		"GATE_C": "QUALIFIED",
 		"GATE_D": "QUALIFIED",
-		"GATE_E": "SPECIFIED",
+		"GATE_E": "QUALIFIED",
 		"GATE_F": "CLOSED",
 		"GATE_G": "CLOSED",
 		"GATE_H": "CLOSED"
@@ -132,7 +132,7 @@
 				"GPU field evaluation",
 				"TQP-65 fragmentation, collision, and production cost"
 			],
-			"elapsed_ms": 76810.552,
+			"elapsed_ms": 94517.055,
 			"provenance": {
 				"workload_signature": "edit_semantics_reference_v1",
 				"build_type": "debug",
@@ -140,13 +140,13 @@
 				"architecture": "x86_64",
 				"cpu": "Intel(R) Core(TM) i5-7300HQ CPU @ 2.50GHz",
 				"gpu": "",
-				"driver": "vulkan",
+				"driver": "opengl3",
 				"godot_version": "4.7.1-stable (steam)",
 				"backend_revision": "545a7554551c4772a7889da59378f08fe74cc57e33924993e385e72c8f389ca3"
 			},
 			"memory": {
-				"retained_bytes": 33081823,
-				"peak_bytes": 76280319
+				"retained_bytes": 33105175,
+				"peak_bytes": 90753511
 			},
 			"gate_b": {
 				"schema": "world_transvoxel.terrain_lab.edit_gate_b_qualification.v1",
@@ -180,7 +180,7 @@
 								],
 								"geometry_signature": "47a2219c0eaea6e3364797b228a756647af88d080887d011a0b83b86d0e68792",
 								"collision_signature": "3d4e05d601f943907691165f980c2fe7d5927adc0348432111cbb3e679736eac",
-								"elapsed_usec": 76694,
+								"elapsed_usec": 84111,
 								"failures": []
 							},
 							{
@@ -194,7 +194,7 @@
 								],
 								"geometry_signature": "047d15519714ea6b765987f4d8539693c91dc4e9516ad8ce00f4afd8855a7408",
 								"collision_signature": "511adbe35c25c1750ca8ed8ddb8758250a3b46d299f9840999f7ad578e98a555",
-								"elapsed_usec": 80327,
+								"elapsed_usec": 96647,
 								"failures": []
 							},
 							{
@@ -208,7 +208,7 @@
 								],
 								"geometry_signature": "53b72bcf767731b341c57b1fdee0d0725fc29fed1b46abc72ad346a98400372f",
 								"collision_signature": "35bd93e68a92bff43383e59d54ff20baf77e3c64858340949a9cae097e02ea24",
-								"elapsed_usec": 80181,
+								"elapsed_usec": 89404,
 								"failures": []
 							},
 							{
@@ -222,7 +222,7 @@
 								],
 								"geometry_signature": "2502d395952d5b37e118aeea66d90137f386de44027533a0945622e9bbd5de13",
 								"collision_signature": "57148b1fa32c05bf592b25b0bd286bf1c96d0a0144194a1d0cf814d4cbfd0cd2",
-								"elapsed_usec": 77994,
+								"elapsed_usec": 84725,
 								"failures": []
 							},
 							{
@@ -236,7 +236,7 @@
 								],
 								"geometry_signature": "03efb765b05d9590686c78715b49f3fc22a070192998bd5ca61592d636c95087",
 								"collision_signature": "781c1f0535e47b2f6bac029ab21bbc829f6699b817fd9d58a1d857ad4611f582",
-								"elapsed_usec": 83520,
+								"elapsed_usec": 96639,
 								"failures": []
 							},
 							{
@@ -250,7 +250,7 @@
 								],
 								"geometry_signature": "19e7bd5098200d48c0092d0d8a5f480072c2f15b6d387e80da5654681b480ab6",
 								"collision_signature": "7f381183b3777b01be0c566679462431118e4ff0c0f67eca6211175f9d699d37",
-								"elapsed_usec": 82749,
+								"elapsed_usec": 89311,
 								"failures": []
 							},
 							{
@@ -264,16 +264,16 @@
 								],
 								"geometry_signature": "afd8f0d1a43c49d564b3bf13b8c04dab4819cbc5724c4b078300acc1aa548cd9",
 								"collision_signature": "031d62a09266ca78cafe3d582be7b2f5c877204adab1fe014e312913b736f83b",
-								"elapsed_usec": 84602,
+								"elapsed_usec": 95340,
 								"failures": []
 							}
 						],
 						"performance": {
 							"sample_count": 100,
-							"p50_usec": 1147.0,
-							"p95_usec": 1275.0,
-							"p99_usec": 1399.0,
-							"worst_usec": 1418.0
+							"p50_usec": 1269.0,
+							"p95_usec": 1648.0,
+							"p99_usec": 3459.0,
+							"worst_usec": 11280.0
 						}
 					},
 					{
@@ -3344,29 +3344,29 @@
 						"performance": {
 							"transaction_append": {
 								"sample_count": 246,
-								"p50_usec": 435.0,
-								"p95_usec": 604.0,
-								"p99_usec": 801.0,
-								"worst_usec": 934.0
+								"p50_usec": 451.0,
+								"p95_usec": 821.0,
+								"p99_usec": 1507.0,
+								"worst_usec": 4376.0
 							},
 							"query_batch_64": {
 								"sample_count": 100,
-								"p50_usec": 677.0,
-								"p95_usec": 829.0,
-								"p99_usec": 966.0,
-								"worst_usec": 1041.0
+								"p50_usec": 889.0,
+								"p95_usec": 4294.0,
+								"p99_usec": 6574.0,
+								"worst_usec": 8628.0
 							},
 							"native_chunk_rebuild": {
 								"sample_count": 100,
-								"p50_usec": 285319.0,
-								"p95_usec": 384002.0,
-								"p99_usec": 463377.0,
-								"worst_usec": 468782.0
+								"p50_usec": 336130.0,
+								"p95_usec": 538174.0,
+								"p99_usec": 742442.0,
+								"worst_usec": 1040202.0
 							}
 						},
 						"memory": {
-							"retained_bytes": 61148031,
-							"peak_bytes": 76280319
+							"retained_bytes": 61171383,
+							"peak_bytes": 90753511
 						}
 					}
 				],
@@ -3430,10 +3430,10 @@
 					"scope": "reference_debug_workload_not_production_frame_budget",
 					"budget_evaluation": "OBSERVATION_ONLY_COMBINED_RUN",
 					"measured": {
-						"brush_batch_p95_usec": 1275.0,
-						"transaction_append_p95_usec": 604.0,
-						"query_batch_64_p95_usec": 829.0,
-						"native_chunk_rebuild_p95_usec": 384002.0,
+						"brush_batch_p95_usec": 1648.0,
+						"transaction_append_p95_usec": 821.0,
+						"query_batch_64_p95_usec": 4294.0,
+						"native_chunk_rebuild_p95_usec": 538174.0,
 						"journal_bytes": 946099,
 						"largest_spatial_bucket": 15
 					},
@@ -3481,15 +3481,15 @@
 					"architecture": "x86_64",
 					"cpu": "Intel(R) Core(TM) i5-7300HQ CPU @ 2.50GHz",
 					"gpu": "",
-					"driver": "vulkan",
+					"driver": "opengl3",
 					"godot_version": "4.7.1-stable (steam)",
 					"backend_revision": "545a7554551c4772a7889da59378f08fe74cc57e33924993e385e72c8f389ca3"
 				},
 				"memory": {
-					"retained_bytes": 33084563,
-					"peak_bytes": 76280319
+					"retained_bytes": 33107915,
+					"peak_bytes": 90753511
 				},
-				"elapsed_ms": 76807.643,
+				"elapsed_ms": 94513.306,
 				"failures": []
 			},
 			"milestones": [
@@ -3527,7 +3527,7 @@
 							],
 							"geometry_signature": "47a2219c0eaea6e3364797b228a756647af88d080887d011a0b83b86d0e68792",
 							"collision_signature": "3d4e05d601f943907691165f980c2fe7d5927adc0348432111cbb3e679736eac",
-							"elapsed_usec": 76694,
+							"elapsed_usec": 84111,
 							"failures": []
 						},
 						{
@@ -3541,7 +3541,7 @@
 							],
 							"geometry_signature": "047d15519714ea6b765987f4d8539693c91dc4e9516ad8ce00f4afd8855a7408",
 							"collision_signature": "511adbe35c25c1750ca8ed8ddb8758250a3b46d299f9840999f7ad578e98a555",
-							"elapsed_usec": 80327,
+							"elapsed_usec": 96647,
 							"failures": []
 						},
 						{
@@ -3555,7 +3555,7 @@
 							],
 							"geometry_signature": "53b72bcf767731b341c57b1fdee0d0725fc29fed1b46abc72ad346a98400372f",
 							"collision_signature": "35bd93e68a92bff43383e59d54ff20baf77e3c64858340949a9cae097e02ea24",
-							"elapsed_usec": 80181,
+							"elapsed_usec": 89404,
 							"failures": []
 						},
 						{
@@ -3569,7 +3569,7 @@
 							],
 							"geometry_signature": "2502d395952d5b37e118aeea66d90137f386de44027533a0945622e9bbd5de13",
 							"collision_signature": "57148b1fa32c05bf592b25b0bd286bf1c96d0a0144194a1d0cf814d4cbfd0cd2",
-							"elapsed_usec": 77994,
+							"elapsed_usec": 84725,
 							"failures": []
 						},
 						{
@@ -3583,7 +3583,7 @@
 							],
 							"geometry_signature": "03efb765b05d9590686c78715b49f3fc22a070192998bd5ca61592d636c95087",
 							"collision_signature": "781c1f0535e47b2f6bac029ab21bbc829f6699b817fd9d58a1d857ad4611f582",
-							"elapsed_usec": 83520,
+							"elapsed_usec": 96639,
 							"failures": []
 						},
 						{
@@ -3597,7 +3597,7 @@
 							],
 							"geometry_signature": "19e7bd5098200d48c0092d0d8a5f480072c2f15b6d387e80da5654681b480ab6",
 							"collision_signature": "7f381183b3777b01be0c566679462431118e4ff0c0f67eca6211175f9d699d37",
-							"elapsed_usec": 82749,
+							"elapsed_usec": 89311,
 							"failures": []
 						},
 						{
@@ -3611,16 +3611,16 @@
 							],
 							"geometry_signature": "afd8f0d1a43c49d564b3bf13b8c04dab4819cbc5724c4b078300acc1aa548cd9",
 							"collision_signature": "031d62a09266ca78cafe3d582be7b2f5c877204adab1fe014e312913b736f83b",
-							"elapsed_usec": 84602,
+							"elapsed_usec": 95340,
 							"failures": []
 						}
 					],
 					"performance": {
 						"sample_count": 100,
-						"p50_usec": 1147.0,
-						"p95_usec": 1275.0,
-						"p99_usec": 1399.0,
-						"worst_usec": 1418.0
+						"p50_usec": 1269.0,
+						"p95_usec": 1648.0,
+						"p99_usec": 3459.0,
+						"worst_usec": 11280.0
 					}
 				},
 				{
@@ -6691,29 +6691,29 @@
 					"performance": {
 						"transaction_append": {
 							"sample_count": 246,
-							"p50_usec": 435.0,
-							"p95_usec": 604.0,
-							"p99_usec": 801.0,
-							"worst_usec": 934.0
+							"p50_usec": 451.0,
+							"p95_usec": 821.0,
+							"p99_usec": 1507.0,
+							"worst_usec": 4376.0
 						},
 						"query_batch_64": {
 							"sample_count": 100,
-							"p50_usec": 677.0,
-							"p95_usec": 829.0,
-							"p99_usec": 966.0,
-							"worst_usec": 1041.0
+							"p50_usec": 889.0,
+							"p95_usec": 4294.0,
+							"p99_usec": 6574.0,
+							"worst_usec": 8628.0
 						},
 						"native_chunk_rebuild": {
 							"sample_count": 100,
-							"p50_usec": 285319.0,
-							"p95_usec": 384002.0,
-							"p99_usec": 463377.0,
-							"worst_usec": 468782.0
+							"p50_usec": 336130.0,
+							"p95_usec": 538174.0,
+							"p99_usec": 742442.0,
+							"worst_usec": 1040202.0
 						}
 					},
 					"memory": {
-						"retained_bytes": 61148031,
-						"peak_bytes": 76280319
+						"retained_bytes": 61171383,
+						"peak_bytes": 90753511
 					}
 				},
 				{
@@ -6817,7 +6817,7 @@
 				"architecture": "x86_64",
 				"cpu": "Intel(R) Core(TM) i5-7300HQ CPU @ 2.50GHz",
 				"gpu": "",
-				"driver": "vulkan",
+				"driver": "opengl3",
 				"godot_version": "4.7.1-stable (steam)",
 				"backend_revision": "545a7554551c4772a7889da59378f08fe74cc57e33924993e385e72c8f389ca3"
 			},
@@ -6876,18 +6876,18 @@
 					},
 					"performance": {
 						"sample_count": 100,
-						"p50_usec": 3229.0,
-						"p95_usec": 3594.0,
-						"p99_usec": 3724.0,
-						"worst_usec": 3747.0,
+						"p50_usec": 3384.0,
+						"p95_usec": 7726.0,
+						"p99_usec": 7881.0,
+						"worst_usec": 14278.0,
 						"warmup_iterations": 10,
 						"blends_per_sample": 512,
 						"budget_p95_usec": 30000.0,
 						"budget_evaluation": "OBSERVATION_ONLY_COMBINED_RUN"
 					},
 					"memory": {
-						"retained_bytes": 33110031,
-						"peak_bytes": 76280319
+						"retained_bytes": 33133383,
+						"peak_bytes": 90753511
 					},
 					"provenance": {
 						"workload_signature": "tqp18_material_blending_reference_v1",
@@ -6896,7 +6896,7 @@
 						"architecture": "x86_64",
 						"cpu": "Intel(R) Core(TM) i5-7300HQ CPU @ 2.50GHz",
 						"gpu": "",
-						"driver": "vulkan",
+						"driver": "opengl3",
 						"godot_version": "4.7.1-stable (steam)",
 						"backend_revision": "545a7554551c4772a7889da59378f08fe74cc57e33924993e385e72c8f389ca3"
 					},
@@ -7048,10 +7048,10 @@
 					},
 					"performance": {
 						"sample_count": 100,
-						"p50_usec": 5892.0,
-						"p95_usec": 6419.0,
-						"p99_usec": 6917.0,
-						"worst_usec": 8183.0,
+						"p50_usec": 6700.0,
+						"p95_usec": 10678.0,
+						"p99_usec": 15745.0,
+						"worst_usec": 15935.0,
 						"warmup_iterations": 10,
 						"mapping_operations_per_sample": 2048,
 						"budget_p95_usec": 50000.0,
@@ -7059,8 +7059,8 @@
 						"budget_evaluation": "OBSERVATION_ONLY_COMBINED_RUN"
 					},
 					"memory": {
-						"retained_bytes": 33134059,
-						"peak_bytes": 76280319
+						"retained_bytes": 33157411,
+						"peak_bytes": 90753511
 					},
 					"provenance": {
 						"workload_signature": "tqp21_reference_triplanar_texture_array_v1",
@@ -7069,7 +7069,7 @@
 						"architecture": "x86_64",
 						"cpu": "Intel(R) Core(TM) i5-7300HQ CPU @ 2.50GHz",
 						"gpu": "",
-						"driver": "vulkan",
+						"driver": "opengl3",
 						"godot_version": "4.7.1-stable (steam)",
 						"backend_revision": "545a7554551c4772a7889da59378f08fe74cc57e33924993e385e72c8f389ca3"
 					},
@@ -7177,10 +7177,10 @@
 					},
 					"performance": {
 						"sample_count": 100,
-						"p50_usec": 14332.0,
-						"p95_usec": 15365.0,
-						"p99_usec": 15785.0,
-						"worst_usec": 16282.0,
+						"p50_usec": 18897.0,
+						"p95_usec": 32871.0,
+						"p99_usec": 130112.0,
+						"worst_usec": 138937.0,
 						"warmup_iterations": 10,
 						"operations_per_sample": 4096,
 						"budget_p95_usec": 50000.0,
@@ -7188,8 +7188,8 @@
 						"budget_evaluation": "OBSERVATION_ONLY_COMBINED_RUN"
 					},
 					"memory": {
-						"retained_bytes": 33153319,
-						"peak_bytes": 76280319
+						"retained_bytes": 33176671,
+						"peak_bytes": 90753511
 					},
 					"provenance": {
 						"workload_signature": "tqp23_reference_surface_shading_v1",
@@ -7198,7 +7198,7 @@
 						"architecture": "x86_64",
 						"cpu": "Intel(R) Core(TM) i5-7300HQ CPU @ 2.50GHz",
 						"gpu": "",
-						"driver": "vulkan",
+						"driver": "opengl3",
 						"godot_version": "4.7.1-stable (steam)",
 						"backend_revision": "545a7554551c4772a7889da59378f08fe74cc57e33924993e385e72c8f389ca3"
 					},
@@ -7321,7 +7321,7 @@
 						"architecture": "x86_64",
 						"cpu": "Intel(R) Core(TM) i5-7300HQ CPU @ 2.50GHz",
 						"gpu": "",
-						"driver": "vulkan",
+						"driver": "opengl3",
 						"godot_version": "4.7.1-stable (steam)",
 						"backend_revision": "545a7554551c4772a7889da59378f08fe74cc57e33924993e385e72c8f389ca3"
 					},
@@ -7370,7 +7370,7 @@
 				"architecture": "x86_64",
 				"cpu": "Intel(R) Core(TM) i5-7300HQ CPU @ 2.50GHz",
 				"gpu": "",
-				"driver": "vulkan",
+				"driver": "opengl3",
 				"godot_version": "4.7.1-stable (steam)",
 				"backend_revision": "545a7554551c4772a7889da59378f08fe74cc57e33924993e385e72c8f389ca3"
 			},
@@ -7682,18 +7682,18 @@
 					},
 					"performance": {
 						"sample_count": 100,
-						"p50_usec": 33511.0,
-						"p95_usec": 35905.0,
-						"p99_usec": 37457.0,
-						"worst_usec": 38187.0,
+						"p50_usec": 49065.0,
+						"p95_usec": 88690.0,
+						"p99_usec": 99256.0,
+						"worst_usec": 122567.0,
 						"warmup_iterations": 10,
 						"path_updates_per_sample": 64,
 						"budget_p95_usec": 150000.0,
 						"budget_evaluation": "OBSERVATION_ONLY_COMBINED_RUN"
 					},
 					"memory": {
-						"retained_bytes": 33250219,
-						"peak_bytes": 76280319
+						"retained_bytes": 33273571,
+						"peak_bytes": 90753511
 					},
 					"provenance": {
 						"workload_signature": "tqp19_streaming_window_reference_v1",
@@ -7702,7 +7702,7 @@
 						"architecture": "x86_64",
 						"cpu": "Intel(R) Core(TM) i5-7300HQ CPU @ 2.50GHz",
 						"gpu": "",
-						"driver": "vulkan",
+						"driver": "opengl3",
 						"godot_version": "4.7.1-stable (steam)",
 						"backend_revision": "545a7554551c4772a7889da59378f08fe74cc57e33924993e385e72c8f389ca3"
 					},
@@ -7895,18 +7895,18 @@
 					},
 					"performance": {
 						"sample_count": 100,
-						"p50_usec": 4243.0,
-						"p95_usec": 4845.0,
-						"p99_usec": 5929.0,
-						"worst_usec": 6094.0,
+						"p50_usec": 4692.0,
+						"p95_usec": 6395.0,
+						"p99_usec": 9166.0,
+						"worst_usec": 10090.0,
 						"warmup_iterations": 10,
 						"coordinate_round_trips_per_sample": 1024,
 						"budget_p95_usec": 15000.0,
 						"budget_evaluation": "OBSERVATION_ONLY_COMBINED_RUN"
 					},
 					"memory": {
-						"retained_bytes": 33279931,
-						"peak_bytes": 76280319
+						"retained_bytes": 33303283,
+						"peak_bytes": 90753511
 					},
 					"provenance": {
 						"workload_signature": "tqp20_cpu_large_world_coordinate_reference_v1",
@@ -7915,7 +7915,7 @@
 						"architecture": "x86_64",
 						"cpu": "Intel(R) Core(TM) i5-7300HQ CPU @ 2.50GHz",
 						"gpu": "",
-						"driver": "vulkan",
+						"driver": "opengl3",
 						"godot_version": "4.7.1-stable (steam)",
 						"backend_revision": "545a7554551c4772a7889da59378f08fe74cc57e33924993e385e72c8f389ca3"
 					},
@@ -8015,10 +8015,10 @@
 					},
 					"performance": {
 						"sample_count": 100,
-						"p50_usec": 82499.0,
-						"p95_usec": 93058.0,
-						"p99_usec": 97670.0,
-						"worst_usec": 102993.0,
+						"p50_usec": 86602.0,
+						"p95_usec": 129085.0,
+						"p99_usec": 193797.0,
+						"worst_usec": 270167.0,
 						"warmup_iterations": 10,
 						"views_per_sample": 16,
 						"budget_p95_usec": 300000.0,
@@ -8026,8 +8026,8 @@
 						"budget_evaluation": "OBSERVATION_ONLY_COMBINED_RUN"
 					},
 					"memory": {
-						"retained_bytes": 33296887,
-						"peak_bytes": 76280319
+						"retained_bytes": 33320239,
+						"peak_bytes": 90753511
 					},
 					"provenance": {
 						"workload_signature": "tqp22_cpu_horizontal_visibility_residency_reference_v1",
@@ -8036,7 +8036,7 @@
 						"architecture": "x86_64",
 						"cpu": "Intel(R) Core(TM) i5-7300HQ CPU @ 2.50GHz",
 						"gpu": "",
-						"driver": "vulkan",
+						"driver": "opengl3",
 						"godot_version": "4.7.1-stable (steam)",
 						"backend_revision": "545a7554551c4772a7889da59378f08fe74cc57e33924993e385e72c8f389ca3"
 					},
@@ -8468,7 +8468,7 @@
 						"architecture": "x86_64",
 						"cpu": "Intel(R) Core(TM) i5-7300HQ CPU @ 2.50GHz",
 						"gpu": "",
-						"driver": "vulkan",
+						"driver": "opengl3",
 						"godot_version": "4.7.1-stable (steam)",
 						"backend_revision": "545a7554551c4772a7889da59378f08fe74cc57e33924993e385e72c8f389ca3"
 					},
@@ -8948,11 +8948,11 @@
 				"TQP-45": "qualified_native_fast_arrival_responsiveness_windows_v1",
 				"TQP-46": "qualified_targeted_collision_residency_windows_v1",
 				"TQP-47": "qualified_large_world_rendering_regression_windows_v1",
-				"TQP-48": "implemented_pending_exact_gpu_board_wpf60_run",
-				"TQP-49": "implemented_blocked_dependency_aggregation",
-				"TQP-50": "implemented_gate_e_blocked"
+				"TQP-48": "qualified_exact_gpu_board_wpf60_baseline_windows_v1",
+				"TQP-49": "qualified_complex_adaptive_soak_recovery_windows_v1",
+				"TQP-50": "qualified_gate_e_native_adaptive_cpu_authority_windows_v1"
 			},
-			"audit_status": "TQP47_QUALIFIED_TQP48_NEXT_GATE_E_BLOCKED",
+			"audit_status": "GATE_E_QUALIFIED_CPU_REFERENCE",
 			"native_field_evidence": {
 				"schema": "world_transvoxel.terrain_lab.native_field_evidence_validation.v1",
 				"status": "PASS",
@@ -9456,16 +9456,19 @@
 				"TQP-44 accepted Windows complex visual and temporal corpus",
 				"TQP-45 bounded Windows native fast-arrival streaming and edit responsiveness contract",
 				"TQP-46 bounded Windows targeted collision residency and update-latency contract",
-				"TQP-47 bounded Windows large-world rendering regression, frame pacing, memory, and queue envelope"
+				"TQP-47 bounded Windows large-world rendering regression, frame pacing, memory, and queue envelope",
+				"TQP-48 retained exact Windows GPU-board WPF60 long-run baseline protocol with explicit target misses",
+				"TQP-49 retained Windows complex adaptive soak, recovery, drift, and dependency aggregation",
+				"TQP-50 Gate E native adaptive CPU terrain authority for the declared bounded Windows envelope"
 			],
 			"explicitly_unqualified_scope": [
 				"arbitrary, deeper than LOD1/LOD0, fault-injected, or production adaptive hierarchy arrangements beyond the retained dynamic contract",
 				"adaptive digging, construction, materials, system agreement, streaming, and persistence beyond the retained TQP-37 through TQP-41 Windows fixtures",
 				"sparse hierarchy storage, compaction, and recovery beyond the retained TQP-42 Windows procedural profile",
 				"fault-injected ordering determinism beyond the retained TQP-43 Windows corpus and explicit admission controls",
-				"TQP-48 low-power profiles including the 60 FPS / 16 GPU-board WPF60 candidate",
-				"TQP-49 complex adaptive soak and recovery",
-				"Gate E native adaptive terrain authority"
+				"full TQP-48 low-power target pass; retained baseline misses frame_p95, frame_worst, edit_visual_response, and edit_collision_coherence",
+				"standalone CPU production terrain runtime, production API, release matrix, and long-haul certification",
+				"GPU field generation, GPU meshing, GPU collision readback, and GPU production backend authority"
 			],
 			"failures": []
 		},
@@ -9497,7 +9500,7 @@
 				"architecture": "x86_64",
 				"cpu": "Intel(R) Core(TM) i5-7300HQ CPU @ 2.50GHz",
 				"gpu": "",
-				"driver": "vulkan",
+				"driver": "opengl3",
 				"godot_version": "4.7.1-stable (steam)",
 				"backend_revision": "545a7554551c4772a7889da59378f08fe74cc57e33924993e385e72c8f389ca3"
 			},

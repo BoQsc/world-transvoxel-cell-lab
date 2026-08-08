@@ -56,6 +56,6 @@
 		"claiming GPU-board WPF60 as CPU-package or whole-system watts",
 		"claiming complete-system AC, DC, or battery input power without a separate accepted sensor",
 		"CPU-package watt qualification without a trusted RAPL or equivalent provider",
-		"cross-hardware, battery-life, GPU-meshing, production-release, or Gate E claims"
+		"cross-hardware, battery-life, GPU-meshing, production-release, or Gate E claims from TQP-48 alone"
 	]
 }

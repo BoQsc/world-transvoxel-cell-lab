@@ -3,13 +3,13 @@
   "milestone": "TQP-50",
   "gate": "GATE_E",
   "standard_id": "native_adaptive_terrain_authority_gate_v1",
-  "status": "BLOCKED",
-  "gate_promoted": false,
-  "retained_complete": false,
+  "status": "PASS",
+  "gate_promoted": true,
+  "retained_complete": true,
   "pinned_manifest": {
     "path": "addons/world_transvoxel_terrain_lab/standards/program_manifest.json",
-    "program_revision": 37,
-    "sha256": "34156ba5af60614c00a03ea0d1e019472592f60b020e79b1aa8818c6ba0a735d"
+    "program_revision": 38,
+    "sha256": "69c0820c59a12691cd7a5b304c43c68ec8bdd834e2aef96bdb1d35ba25bf8440"
   },
   "milestone_matrix": {
     "TQP-28": {
@@ -93,11 +93,11 @@
       "source": "focused_closure_evidence"
     },
     "TQP-48": {
-      "accepted": false,
+      "accepted": true,
       "source": "focused_closure_evidence"
     },
     "TQP-49": {
-      "accepted": false,
+      "accepted": true,
       "source": "focused_closure_evidence"
     }
   },
@@ -155,9 +155,6 @@
     "retained reports reproduce from pinned revisions",
     "no blocked, missing, failed, provisional, or inferred evidence is promoted"
   ],
-  "blockers": [
-    "TQP-48",
-    "TQP-49"
-  ],
+  "blockers": [],
   "next_action": "complete the listed fail-closed evidence; rerun this evaluator; do not promote Gate E before it reports PASS"
 }

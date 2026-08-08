@@ -4,8 +4,8 @@ The Terrain Lab addon owns controlled experiments for the Terrain Qualification
 Program. It is separate from `world_transvoxel_cell_lab` even though both addons
 share this repository and the pinned `world_transvoxel` dependency.
 
-Current status: fail-closed program revision 37. All 71 milestones have a
-machine-readable evidence state. TQP-01 through TQP-47 retain their bounded
+Current status: fail-closed program revision 38. All 71 milestones have a
+machine-readable evidence state. TQP-01 through TQP-50 retain their bounded
 qualified scopes; TQP-28 through TQP-43 establish the deterministic native
 field contract, LOD0 complex-field corpus, bounded adaptive selector, and
 native transition-assembly matrix, boundary/enclosure policy, and independent
@@ -19,8 +19,10 @@ procedural hierarchy with sparse large-world compaction, plus the retained
 fault-order, fail-closed admission, generation-trace, and cross-order runtime
 convergence contract. TQP-44 through TQP-47 additionally qualify the accepted
 visual corpus, fast-arrival edits, targeted collision, and bounded rendering
-regression envelope. TQP-48 through TQP-50 are `implemented` but unqualified
-and cover GPU-board WPF60 low-power profiles, soak, and Gate E. TQP-51 through TQP-57 own the
+regression envelope. TQP-48 qualifies the exact GPU-board WPF60 baseline
+protocol with target misses retained, TQP-49 qualifies complex adaptive soak
+and recovery, and TQP-50 closes Gate E for the bounded Windows CPU authority
+envelope. TQP-51 through TQP-57 own the
 standalone CPU release, TQP-58 through TQP-64 own GPU qualification and release,
 and TQP-65 through TQP-71 keep game-oriented systems after terrain release.
 
