@@ -161,6 +161,7 @@ static func validate(program: Dictionary, dependencies: Dictionary) -> Dictionar
 	_validate_adaptive_streaming_evidence(program, milestone_by_id, failures)
 	_validate_adaptive_persistence_evidence(program, milestone_by_id, failures)
 	_validate_sparse_hierarchy_evidence(program, milestone_by_id, failures)
+	_validate_fault_order_evidence(program, milestone_by_id, failures)
 	_validate_low_power_performance_profile(program, failures)
 	_validate_visual_evidence(program, milestone_by_id, failures)
 	_validate_dependency_boundary(program, dependencies, failures)
@@ -1389,6 +1390,154 @@ static func _validate_sparse_hierarchy_evidence(
 		str((milestone_by_id.get("TQP-42", {}) as Dictionary).get("status", ""))
 			== "qualified",
 		"TQP-42 must match retained sparse hierarchy evidence",
+		failures
+	)
+
+
+static func _validate_fault_order_evidence(
+	program: Dictionary,
+	milestone_by_id: Dictionary,
+	failures: Array[String]
+) -> void:
+	var standard_path := str(program.get("fault_order_determinism_standard", ""))
+	var evidence_path := str(program.get("fault_order_determinism_evidence", ""))
+	var native_path := str(program.get("fault_order_native_benchmark_evidence", ""))
+	var observatory_path := str(program.get("fault_order_observatory_evidence", ""))
+	var standard := JsonLoader.load_dictionary(standard_path)
+	var evidence := JsonLoader.load_dictionary(evidence_path)
+	var native := JsonLoader.load_dictionary(native_path)
+	var observatory := JsonLoader.load_dictionary(observatory_path)
+	var expected: Dictionary = standard.get("stable_expected", {})
+	var native_authority: Dictionary = native.get("authority", {})
+	var native_summary: Dictionary = native.get("summary", {})
+	var counters: Dictionary = native_summary.get("fixed_counters", {})
+	_expect(
+		str(standard.get("schema", ""))
+			== "world_transvoxel.terrain_lab.fault_order_determinism_standard.v1",
+		"TQP-43 fault-order standard schema mismatch",
+		failures
+	)
+	_expect(
+		str(standard.get("evidence", "")) == evidence_path
+			and str(standard.get("native_benchmark_evidence", "")) == native_path
+			and str(standard.get("observatory_evidence", "")) == observatory_path,
+		"TQP-43 retained evidence paths changed",
+		failures
+	)
+	_expect(
+		str(evidence.get("schema", ""))
+			== "world_transvoxel.terrain_lab.fault_order_qualification.v1"
+			and str(evidence.get("milestone", "")) == "TQP-43"
+			and str(evidence.get("status", "")) == "PASS"
+			and bool(evidence.get("retained_complete", false))
+			and bool(evidence.get("cross_order_converged", false))
+			and (evidence.get("failures", []) as Array).is_empty(),
+		"TQP-43 retained qualification is absent or failed",
+		failures
+	)
+	_expect(
+		str(evidence.get("semantic_signature", ""))
+			== str(expected.get("semantic_signature", "")),
+		"TQP-43 semantic signature changed",
+		failures
+	)
+	var actions: Dictionary = evidence.get("actions", {})
+	for action in (standard.get("workload", {}) as Dictionary).get("required_actions", []):
+		_expect(
+			str(actions.get(str(action), "")) == "PASS",
+			"TQP-43 required action failed: " + str(action),
+			failures
+		)
+	_expect(
+		str(native.get("schema", ""))
+			== "world_transvoxel.terrain_lab.fault_order_native_benchmark.v1"
+			and str(native.get("status", "")) == "PASS"
+			and int((native.get("method", {}) as Dictionary).get("measured_runs", 0)) >= 15
+			and str((native.get("method", {}) as Dictionary).get("memory_metric", ""))
+				== str(expected.get("memory_metric", ""))
+			and str(native_authority.get("git_commit", ""))
+				== str(expected.get("upstream_commit", ""))
+			and str(native_authority.get("executable_sha256", ""))
+				== str(expected.get("executable_sha256", ""))
+			and str(native_authority.get("release_executable_sha256", ""))
+				== str(expected.get("release_executable_sha256", ""))
+			and str(native_authority.get("native_contract_hash", ""))
+				== str(expected.get("native_contract_hash", "")),
+		"TQP-43 pinned native fault-order authority changed",
+		failures
+	)
+	var build_matrix: Dictionary = native.get("build_matrix", {})
+	_expect(
+		str((build_matrix.get("template_debug", {}) as Dictionary).get("status", "")) == "PASS"
+			and str((build_matrix.get("template_release", {}) as Dictionary).get("status", "")) == "PASS"
+			and str((build_matrix.get("template_debug", {}) as Dictionary).get("native_hash", ""))
+				== str(expected.get("native_contract_hash", ""))
+			and str((build_matrix.get("template_release", {}) as Dictionary).get("native_hash", ""))
+				== str(expected.get("native_contract_hash", "")),
+		"TQP-43 debug/release native authority matrix changed",
+		failures
+	)
+	for key in [
+		"orders", "records", "stale", "cancellations", "allocation_faults",
+		"interruption", "malformed", "first_divergence_generation",
+	]:
+		_expect(
+			int(counters.get(key, -1)) == int(expected.get(key, -2)),
+			"TQP-43 native counter changed: " + key,
+			failures
+		)
+	_expect(
+		str(counters.get("shutdown", "")) == str(expected.get("shutdown", ""))
+			and int((native_summary.get("peak_working_set_bytes", {}) as Dictionary).get("worst", 0)) > 0,
+		"TQP-43 native shutdown or memory evidence changed",
+		failures
+	)
+	var replays: Array = evidence.get("replays", [])
+	_expect(replays.size() == 3, "TQP-43 retained motion-order count changed", failures)
+	var state_signature := ""
+	var geometry_signature := ""
+	for replay_value in replays:
+		var replay: Dictionary = replay_value
+		var snapshot: Dictionary = replay.get("snapshot", {})
+		if state_signature.is_empty():
+			state_signature = str(snapshot.get("state_signature", ""))
+			geometry_signature = str(snapshot.get("geometry_signature", ""))
+		_expect(
+			str(replay.get("status", "")) == "PASS"
+				and bool(replay.get("viewer_drain_completed", false))
+				and bool(replay.get("stale_revision_rejected", false))
+				and int(snapshot.get("active_count", 0)) > 0
+				and int((snapshot.get("metrics", {}) as Dictionary).get("render_resources", 0)) > 0
+				and str(snapshot.get("state_signature", "")) == state_signature
+				and str(snapshot.get("geometry_signature", "")) == geometry_signature,
+			"TQP-43 live replay changed or became empty",
+			failures
+		)
+	_expect(
+		str(observatory.get("schema", ""))
+			== "world_transvoxel.terrain_lab.fault_order_observatory_validation.v1"
+			and str(observatory.get("status", "")) == "PASS"
+			and str((observatory.get("comparison", {}) as Dictionary).get("status", "")) == "PASS"
+			and (observatory.get("failures", []) as Array).is_empty(),
+		"TQP-43 observatory workflow evidence is absent or failed",
+		failures
+	)
+	var observed: Dictionary = observatory.get("comparison_snapshot", {})
+	_expect(
+		str(observed.get("backend_id", "")) == "transvoxel_mit_official"
+			and int(observed.get("native_orders", 0)) == int(expected.get("orders", -1))
+			and int(observed.get("first_divergence_generation", -1))
+				== int(expected.get("first_divergence_generation", -2))
+			and int(observed.get("render_resources", 0)) > 0
+			and int(observed.get("coalesced_viewer_events", 0)) > 0
+			and int(observed.get("rejected_events", 0)) > 0,
+		"TQP-43 observatory authority, geometry, or event counters changed",
+		failures
+	)
+	_expect(
+		str((milestone_by_id.get("TQP-43", {}) as Dictionary).get("status", ""))
+			== "qualified",
+		"TQP-43 must match retained fault-order evidence",
 		failures
 	)
 

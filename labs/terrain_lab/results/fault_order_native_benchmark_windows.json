@@ -1,0 +1,324 @@
+{
+  "schema": "world_transvoxel.terrain_lab.fault_order_native_benchmark.v1",
+  "status": "PASS",
+  "authority": {
+    "repository": "world-transvoxel",
+    "git_commit": "f4abd7ab4f921f98aba4ee45b4453af0bae53cd8",
+    "executable": "build/native-tests/test_wt_fault_order_determinism.template_debug.x86_64.exe",
+    "executable_sha256": "8dd15988df2c0dde42c6eac7f8a3249bc2446f0e0d968a907e4fb8052939750b",
+    "release_executable": "build/native-tests/test_wt_fault_order_determinism.template_release.x86_64.exe",
+    "release_executable_sha256": "8dd15988df2c0dde42c6eac7f8a3249bc2446f0e0d968a907e4fb8052939750b",
+    "native_contract_hash": "4cfe12662b60691f93eda8a27d20e1c978e9bab58c2c144b323750d2f39316bf"
+  },
+  "method": {
+    "warmup_runs": 1,
+    "measured_runs": 15,
+    "memory_metric": "windows_peak_working_set",
+    "process_scope": "one_complete_native_fault_corpus_per_process"
+  },
+  "summary": {
+    "fixed_counters": {
+      "orders": 64,
+      "records": 8,
+      "stale": 3,
+      "cancellations": 1,
+      "allocation_faults": 2,
+      "interruption": 1,
+      "malformed": 2,
+      "shutdown": "drained",
+      "first_divergence_generation": 4
+    },
+    "duration_ns": {
+      "samples": 15,
+      "p50": 34250500,
+      "p95": 38850900,
+      "p99": 38850900,
+      "worst": 38850900
+    },
+    "peak_working_set_bytes": {
+      "samples": 15,
+      "p50": 4304896,
+      "p95": 4366336,
+      "p99": 4366336,
+      "worst": 4366336
+    }
+  },
+  "build_matrix": {
+    "template_debug": {
+      "status": "PASS",
+      "native_hash": "4cfe12662b60691f93eda8a27d20e1c978e9bab58c2c144b323750d2f39316bf",
+      "fixed_counters": {
+        "orders": 64,
+        "records": 8,
+        "stale": 3,
+        "cancellations": 1,
+        "allocation_faults": 2,
+        "interruption": 1,
+        "malformed": 2,
+        "shutdown": "drained",
+        "first_divergence_generation": 4
+      },
+      "measured_runs": 15
+    },
+    "template_release": {
+      "status": "PASS",
+      "native_hash": "4cfe12662b60691f93eda8a27d20e1c978e9bab58c2c144b323750d2f39316bf",
+      "fixed_counters": {
+        "orders": 64,
+        "records": 8,
+        "stale": 3,
+        "cancellations": 1,
+        "allocation_faults": 2,
+        "interruption": 1,
+        "malformed": 2,
+        "shutdown": "drained",
+        "first_divergence_generation": 4
+      },
+      "verification_runs": 1,
+      "peak_working_set_bytes": 4300800
+    }
+  },
+  "runs": [
+    {
+      "duration_ns": 34703800,
+      "peak_working_set_bytes": 4296704,
+      "native_hash": "4cfe12662b60691f93eda8a27d20e1c978e9bab58c2c144b323750d2f39316bf",
+      "counters": {
+        "orders": 64,
+        "records": 8,
+        "stale": 3,
+        "cancellations": 1,
+        "allocation_faults": 2,
+        "interruption": 1,
+        "malformed": 2,
+        "shutdown": "drained",
+        "first_divergence_generation": 4
+      }
+    },
+    {
+      "duration_ns": 35520400,
+      "peak_working_set_bytes": 4296704,
+      "native_hash": "4cfe12662b60691f93eda8a27d20e1c978e9bab58c2c144b323750d2f39316bf",
+      "counters": {
+        "orders": 64,
+        "records": 8,
+        "stale": 3,
+        "cancellations": 1,
+        "allocation_faults": 2,
+        "interruption": 1,
+        "malformed": 2,
+        "shutdown": "drained",
+        "first_divergence_generation": 4
+      }
+    },
+    {
+      "duration_ns": 33944500,
+      "peak_working_set_bytes": 4308992,
+      "native_hash": "4cfe12662b60691f93eda8a27d20e1c978e9bab58c2c144b323750d2f39316bf",
+      "counters": {
+        "orders": 64,
+        "records": 8,
+        "stale": 3,
+        "cancellations": 1,
+        "allocation_faults": 2,
+        "interruption": 1,
+        "malformed": 2,
+        "shutdown": "drained",
+        "first_divergence_generation": 4
+      }
+    },
+    {
+      "duration_ns": 34187500,
+      "peak_working_set_bytes": 4313088,
+      "native_hash": "4cfe12662b60691f93eda8a27d20e1c978e9bab58c2c144b323750d2f39316bf",
+      "counters": {
+        "orders": 64,
+        "records": 8,
+        "stale": 3,
+        "cancellations": 1,
+        "allocation_faults": 2,
+        "interruption": 1,
+        "malformed": 2,
+        "shutdown": "drained",
+        "first_divergence_generation": 4
+      }
+    },
+    {
+      "duration_ns": 37078300,
+      "peak_working_set_bytes": 4304896,
+      "native_hash": "4cfe12662b60691f93eda8a27d20e1c978e9bab58c2c144b323750d2f39316bf",
+      "counters": {
+        "orders": 64,
+        "records": 8,
+        "stale": 3,
+        "cancellations": 1,
+        "allocation_faults": 2,
+        "interruption": 1,
+        "malformed": 2,
+        "shutdown": "drained",
+        "first_divergence_generation": 4
+      }
+    },
+    {
+      "duration_ns": 34611500,
+      "peak_working_set_bytes": 4296704,
+      "native_hash": "4cfe12662b60691f93eda8a27d20e1c978e9bab58c2c144b323750d2f39316bf",
+      "counters": {
+        "orders": 64,
+        "records": 8,
+        "stale": 3,
+        "cancellations": 1,
+        "allocation_faults": 2,
+        "interruption": 1,
+        "malformed": 2,
+        "shutdown": "drained",
+        "first_divergence_generation": 4
+      }
+    },
+    {
+      "duration_ns": 33786300,
+      "peak_working_set_bytes": 4296704,
+      "native_hash": "4cfe12662b60691f93eda8a27d20e1c978e9bab58c2c144b323750d2f39316bf",
+      "counters": {
+        "orders": 64,
+        "records": 8,
+        "stale": 3,
+        "cancellations": 1,
+        "allocation_faults": 2,
+        "interruption": 1,
+        "malformed": 2,
+        "shutdown": "drained",
+        "first_divergence_generation": 4
+      }
+    },
+    {
+      "duration_ns": 37133100,
+      "peak_working_set_bytes": 4308992,
+      "native_hash": "4cfe12662b60691f93eda8a27d20e1c978e9bab58c2c144b323750d2f39316bf",
+      "counters": {
+        "orders": 64,
+        "records": 8,
+        "stale": 3,
+        "cancellations": 1,
+        "allocation_faults": 2,
+        "interruption": 1,
+        "malformed": 2,
+        "shutdown": "drained",
+        "first_divergence_generation": 4
+      }
+    },
+    {
+      "duration_ns": 35175200,
+      "peak_working_set_bytes": 4300800,
+      "native_hash": "4cfe12662b60691f93eda8a27d20e1c978e9bab58c2c144b323750d2f39316bf",
+      "counters": {
+        "orders": 64,
+        "records": 8,
+        "stale": 3,
+        "cancellations": 1,
+        "allocation_faults": 2,
+        "interruption": 1,
+        "malformed": 2,
+        "shutdown": "drained",
+        "first_divergence_generation": 4
+      }
+    },
+    {
+      "duration_ns": 34250500,
+      "peak_working_set_bytes": 4313088,
+      "native_hash": "4cfe12662b60691f93eda8a27d20e1c978e9bab58c2c144b323750d2f39316bf",
+      "counters": {
+        "orders": 64,
+        "records": 8,
+        "stale": 3,
+        "cancellations": 1,
+        "allocation_faults": 2,
+        "interruption": 1,
+        "malformed": 2,
+        "shutdown": "drained",
+        "first_divergence_generation": 4
+      }
+    },
+    {
+      "duration_ns": 33921600,
+      "peak_working_set_bytes": 4300800,
+      "native_hash": "4cfe12662b60691f93eda8a27d20e1c978e9bab58c2c144b323750d2f39316bf",
+      "counters": {
+        "orders": 64,
+        "records": 8,
+        "stale": 3,
+        "cancellations": 1,
+        "allocation_faults": 2,
+        "interruption": 1,
+        "malformed": 2,
+        "shutdown": "drained",
+        "first_divergence_generation": 4
+      }
+    },
+    {
+      "duration_ns": 33741000,
+      "peak_working_set_bytes": 4313088,
+      "native_hash": "4cfe12662b60691f93eda8a27d20e1c978e9bab58c2c144b323750d2f39316bf",
+      "counters": {
+        "orders": 64,
+        "records": 8,
+        "stale": 3,
+        "cancellations": 1,
+        "allocation_faults": 2,
+        "interruption": 1,
+        "malformed": 2,
+        "shutdown": "drained",
+        "first_divergence_generation": 4
+      }
+    },
+    {
+      "duration_ns": 33526800,
+      "peak_working_set_bytes": 4292608,
+      "native_hash": "4cfe12662b60691f93eda8a27d20e1c978e9bab58c2c144b323750d2f39316bf",
+      "counters": {
+        "orders": 64,
+        "records": 8,
+        "stale": 3,
+        "cancellations": 1,
+        "allocation_faults": 2,
+        "interruption": 1,
+        "malformed": 2,
+        "shutdown": "drained",
+        "first_divergence_generation": 4
+      }
+    },
+    {
+      "duration_ns": 38850900,
+      "peak_working_set_bytes": 4366336,
+      "native_hash": "4cfe12662b60691f93eda8a27d20e1c978e9bab58c2c144b323750d2f39316bf",
+      "counters": {
+        "orders": 64,
+        "records": 8,
+        "stale": 3,
+        "cancellations": 1,
+        "allocation_faults": 2,
+        "interruption": 1,
+        "malformed": 2,
+        "shutdown": "drained",
+        "first_divergence_generation": 4
+      }
+    },
+    {
+      "duration_ns": 33260700,
+      "peak_working_set_bytes": 4313088,
+      "native_hash": "4cfe12662b60691f93eda8a27d20e1c978e9bab58c2c144b323750d2f39316bf",
+      "counters": {
+        "orders": 64,
+        "records": 8,
+        "stale": 3,
+        "cancellations": 1,
+        "allocation_faults": 2,
+        "interruption": 1,
+        "malformed": 2,
+        "shutdown": "drained",
+        "first_divergence_generation": 4
+      }
+    }
+  ],
+  "claim": "REFERENCE_ONLY_NOT_A_PRODUCTION_PERFORMANCE_GATE"
+}

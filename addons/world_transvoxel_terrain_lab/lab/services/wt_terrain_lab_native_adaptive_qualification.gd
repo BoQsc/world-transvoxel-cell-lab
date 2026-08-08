@@ -41,6 +41,12 @@ const AdaptiveStreamingEvidence := preload(
 const AdaptivePersistenceEvidence := preload(
 	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_adaptive_persistence_evidence.gd"
 )
+const SparseHierarchyEvidence := preload(
+	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_sparse_hierarchy_evidence.gd"
+)
+const FaultOrderEvidence := preload(
+	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_fault_order_evidence.gd"
+)
 
 
 static func run() -> Dictionary:
@@ -57,6 +63,8 @@ static func run() -> Dictionary:
 	var adaptive_system_validation := AdaptiveSystemEvidence.validate_retained()
 	var adaptive_streaming_validation := AdaptiveStreamingEvidence.validate_retained()
 	var adaptive_persistence_validation := AdaptivePersistenceEvidence.validate_retained()
+	var sparse_hierarchy_validation := SparseHierarchyEvidence.validate_retained()
+	var fault_order_validation := FaultOrderEvidence.validate_retained()
 	var failures: Array = []
 	for validation in [
 		field_validation,
@@ -72,6 +80,8 @@ static func run() -> Dictionary:
 		adaptive_system_validation,
 		adaptive_streaming_validation,
 		adaptive_persistence_validation,
+		sparse_hierarchy_validation,
+		fault_order_validation,
 	]:
 		failures.append_array(validation.get("failures", []))
 	var field_passed := str(field_validation.get("status", "")) == "PASS"
@@ -87,12 +97,15 @@ static func run() -> Dictionary:
 	var adaptive_system_passed := str(adaptive_system_validation.get("status", "")) == "PASS"
 	var adaptive_streaming_passed := str(adaptive_streaming_validation.get("status", "")) == "PASS"
 	var adaptive_persistence_passed := str(adaptive_persistence_validation.get("status", "")) == "PASS"
+	var sparse_hierarchy_passed := str(sparse_hierarchy_validation.get("status", "")) == "PASS"
+	var fault_order_passed := str(fault_order_validation.get("status", "")) == "PASS"
 	var passed := field_passed and adaptive_lod_passed and transition_passed \
 		and boundary_passed and oracle_passed and adversarial_passed \
 		and dynamic_publication_passed and edit_invalidation_passed \
 		and adaptive_edit_passed and adaptive_surface_passed \
 		and adaptive_system_passed and adaptive_streaming_passed \
-		and adaptive_persistence_passed
+		and adaptive_persistence_passed and sparse_hierarchy_passed \
+		and fault_order_passed
 	return {
 		"schema": "world_transvoxel.terrain_lab.native_adaptive_terrain_qualification.v1",
 		"status": "PASS" if passed else "FAIL",
@@ -125,13 +138,15 @@ static func run() -> Dictionary:
 				if adaptive_streaming_passed else "failed_adaptive_streaming",
 			"TQP-41": "qualified_native_adaptive_persistence_replay_v1"
 				if adaptive_persistence_passed else "failed_adaptive_persistence",
-			"TQP-42": "proposed_pending_sparse_hierarchy_storage_and_large_world_compaction",
-			"TQP-43": "proposed_pending_fault_and_order_determinism",
+			"TQP-42": "qualified_implicit_procedural_hierarchy_sparse_overlay_v1"
+				if sparse_hierarchy_passed else "failed_sparse_hierarchy",
+			"TQP-43": "qualified_fault_order_determinism_v1"
+				if fault_order_passed else "failed_fault_order_determinism",
 			"TQP-44": "proposed_pending_complex_visual_temporal_corpus",
 			"TQP-45": "proposed_pending_complex_adaptive_soak",
 			"TQP-46": "proposed_gate_open",
 		},
-		"audit_status": "ADAPTIVE_STREAMING_AND_PERSISTENCE_QUALIFIED_SPARSE_STORAGE_STILL_OPEN",
+		"audit_status": "FAULT_ORDER_QUALIFIED_VISUAL_CORPUS_STILL_OPEN",
 		"native_field_evidence": field_validation,
 		"adaptive_lod_evidence": adaptive_lod_validation,
 		"transition_assembly_evidence": transition_validation,
@@ -145,6 +160,8 @@ static func run() -> Dictionary:
 		"adaptive_system_evidence": adaptive_system_validation,
 		"adaptive_streaming_evidence": adaptive_streaming_validation,
 		"adaptive_persistence_evidence": adaptive_persistence_validation,
+		"sparse_hierarchy_evidence": sparse_hierarchy_validation,
+		"fault_order_evidence": fault_order_validation,
 		"preserved_qualified_scope": [
 			"TQP-01 through TQP-27 declared bounded scopes",
 			"TQP-28 deterministic native field-generation and sampling contract",
@@ -161,12 +178,14 @@ static func run() -> Dictionary:
 			"TQP-39 bounded Windows native render/collision/query/physics agreement and consumer-derived navigation contract",
 			"TQP-40 bounded Windows native LOD2/LOD1/LOD0 multi-layer cave, multi-viewer, prefetch, teleport, and retirement contract",
 			"TQP-41 bounded Windows native-baked adaptive edit replay, committed-prefix recovery, compaction, migration, and regenerated-resource contract",
+			"TQP-42 retained Windows implicit procedural hierarchy and sparse-overlay large-world compaction contract",
+			"TQP-43 retained Windows fault-order, fail-closed admission, generation-trace, and cross-order convergence contract",
 		],
 		"explicitly_unqualified_scope": [
 			"arbitrary, deeper than LOD1/LOD0, fault-injected, or production adaptive hierarchy arrangements beyond the retained dynamic contract",
 			"adaptive digging, construction, materials, system agreement, streaming, and persistence beyond the retained TQP-37 through TQP-41 Windows fixtures",
-			"efficient sparse hierarchy storage and large-world compaction required by TQP-42",
-			"fault-injected ordering determinism and recovery beyond retained committed-prefix and inherited truncated-tail checks",
+			"sparse hierarchy storage, compaction, and recovery beyond the retained TQP-42 Windows procedural profile",
+			"fault-injected ordering determinism beyond the retained TQP-43 Windows corpus and explicit admission controls",
 			"complex adaptive visual quality and performance",
 			"Gate E native adaptive terrain authority",
 		],

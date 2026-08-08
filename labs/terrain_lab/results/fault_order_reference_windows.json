@@ -1,0 +1,593 @@
+{
+	"schema": "world_transvoxel.terrain_lab.fault_order_qualification.v1",
+	"milestone": "TQP-43",
+	"status": "PASS",
+	"retained_complete": true,
+	"authority": "world_transvoxel_native_fault_injection_and_generation_trace",
+	"native_evidence": {
+		"schema": "world_transvoxel.terrain_lab.fault_order_native_benchmark.v1",
+		"status": "PASS",
+		"authority": {
+			"repository": "world-transvoxel",
+			"git_commit": "f4abd7ab4f921f98aba4ee45b4453af0bae53cd8",
+			"executable": "build/native-tests/test_wt_fault_order_determinism.template_debug.x86_64.exe",
+			"executable_sha256": "8dd15988df2c0dde42c6eac7f8a3249bc2446f0e0d968a907e4fb8052939750b",
+			"release_executable": "build/native-tests/test_wt_fault_order_determinism.template_release.x86_64.exe",
+			"release_executable_sha256": "8dd15988df2c0dde42c6eac7f8a3249bc2446f0e0d968a907e4fb8052939750b",
+			"native_contract_hash": "4cfe12662b60691f93eda8a27d20e1c978e9bab58c2c144b323750d2f39316bf"
+		},
+		"method": {
+			"warmup_runs": 1.0,
+			"measured_runs": 15.0,
+			"memory_metric": "windows_peak_working_set",
+			"process_scope": "one_complete_native_fault_corpus_per_process"
+		},
+		"summary": {
+			"fixed_counters": {
+				"orders": 64.0,
+				"records": 8.0,
+				"stale": 3.0,
+				"cancellations": 1.0,
+				"allocation_faults": 2.0,
+				"interruption": 1.0,
+				"malformed": 2.0,
+				"shutdown": "drained",
+				"first_divergence_generation": 4.0
+			},
+			"duration_ns": {
+				"samples": 15.0,
+				"p50": 34250500.0,
+				"p95": 38850900.0,
+				"p99": 38850900.0,
+				"worst": 38850900.0
+			},
+			"peak_working_set_bytes": {
+				"samples": 15.0,
+				"p50": 4304896.0,
+				"p95": 4366336.0,
+				"p99": 4366336.0,
+				"worst": 4366336.0
+			}
+		},
+		"build_matrix": {
+			"template_debug": {
+				"status": "PASS",
+				"native_hash": "4cfe12662b60691f93eda8a27d20e1c978e9bab58c2c144b323750d2f39316bf",
+				"fixed_counters": {
+					"orders": 64.0,
+					"records": 8.0,
+					"stale": 3.0,
+					"cancellations": 1.0,
+					"allocation_faults": 2.0,
+					"interruption": 1.0,
+					"malformed": 2.0,
+					"shutdown": "drained",
+					"first_divergence_generation": 4.0
+				},
+				"measured_runs": 15.0
+			},
+			"template_release": {
+				"status": "PASS",
+				"native_hash": "4cfe12662b60691f93eda8a27d20e1c978e9bab58c2c144b323750d2f39316bf",
+				"fixed_counters": {
+					"orders": 64.0,
+					"records": 8.0,
+					"stale": 3.0,
+					"cancellations": 1.0,
+					"allocation_faults": 2.0,
+					"interruption": 1.0,
+					"malformed": 2.0,
+					"shutdown": "drained",
+					"first_divergence_generation": 4.0
+				},
+				"verification_runs": 1.0,
+				"peak_working_set_bytes": 4300800.0
+			}
+		},
+		"runs": [
+			{
+				"duration_ns": 34703800.0,
+				"peak_working_set_bytes": 4296704.0,
+				"native_hash": "4cfe12662b60691f93eda8a27d20e1c978e9bab58c2c144b323750d2f39316bf",
+				"counters": {
+					"orders": 64.0,
+					"records": 8.0,
+					"stale": 3.0,
+					"cancellations": 1.0,
+					"allocation_faults": 2.0,
+					"interruption": 1.0,
+					"malformed": 2.0,
+					"shutdown": "drained",
+					"first_divergence_generation": 4.0
+				}
+			},
+			{
+				"duration_ns": 35520400.0,
+				"peak_working_set_bytes": 4296704.0,
+				"native_hash": "4cfe12662b60691f93eda8a27d20e1c978e9bab58c2c144b323750d2f39316bf",
+				"counters": {
+					"orders": 64.0,
+					"records": 8.0,
+					"stale": 3.0,
+					"cancellations": 1.0,
+					"allocation_faults": 2.0,
+					"interruption": 1.0,
+					"malformed": 2.0,
+					"shutdown": "drained",
+					"first_divergence_generation": 4.0
+				}
+			},
+			{
+				"duration_ns": 33944500.0,
+				"peak_working_set_bytes": 4308992.0,
+				"native_hash": "4cfe12662b60691f93eda8a27d20e1c978e9bab58c2c144b323750d2f39316bf",
+				"counters": {
+					"orders": 64.0,
+					"records": 8.0,
+					"stale": 3.0,
+					"cancellations": 1.0,
+					"allocation_faults": 2.0,
+					"interruption": 1.0,
+					"malformed": 2.0,
+					"shutdown": "drained",
+					"first_divergence_generation": 4.0
+				}
+			},
+			{
+				"duration_ns": 34187500.0,
+				"peak_working_set_bytes": 4313088.0,
+				"native_hash": "4cfe12662b60691f93eda8a27d20e1c978e9bab58c2c144b323750d2f39316bf",
+				"counters": {
+					"orders": 64.0,
+					"records": 8.0,
+					"stale": 3.0,
+					"cancellations": 1.0,
+					"allocation_faults": 2.0,
+					"interruption": 1.0,
+					"malformed": 2.0,
+					"shutdown": "drained",
+					"first_divergence_generation": 4.0
+				}
+			},
+			{
+				"duration_ns": 37078300.0,
+				"peak_working_set_bytes": 4304896.0,
+				"native_hash": "4cfe12662b60691f93eda8a27d20e1c978e9bab58c2c144b323750d2f39316bf",
+				"counters": {
+					"orders": 64.0,
+					"records": 8.0,
+					"stale": 3.0,
+					"cancellations": 1.0,
+					"allocation_faults": 2.0,
+					"interruption": 1.0,
+					"malformed": 2.0,
+					"shutdown": "drained",
+					"first_divergence_generation": 4.0
+				}
+			},
+			{
+				"duration_ns": 34611500.0,
+				"peak_working_set_bytes": 4296704.0,
+				"native_hash": "4cfe12662b60691f93eda8a27d20e1c978e9bab58c2c144b323750d2f39316bf",
+				"counters": {
+					"orders": 64.0,
+					"records": 8.0,
+					"stale": 3.0,
+					"cancellations": 1.0,
+					"allocation_faults": 2.0,
+					"interruption": 1.0,
+					"malformed": 2.0,
+					"shutdown": "drained",
+					"first_divergence_generation": 4.0
+				}
+			},
+			{
+				"duration_ns": 33786300.0,
+				"peak_working_set_bytes": 4296704.0,
+				"native_hash": "4cfe12662b60691f93eda8a27d20e1c978e9bab58c2c144b323750d2f39316bf",
+				"counters": {
+					"orders": 64.0,
+					"records": 8.0,
+					"stale": 3.0,
+					"cancellations": 1.0,
+					"allocation_faults": 2.0,
+					"interruption": 1.0,
+					"malformed": 2.0,
+					"shutdown": "drained",
+					"first_divergence_generation": 4.0
+				}
+			},
+			{
+				"duration_ns": 37133100.0,
+				"peak_working_set_bytes": 4308992.0,
+				"native_hash": "4cfe12662b60691f93eda8a27d20e1c978e9bab58c2c144b323750d2f39316bf",
+				"counters": {
+					"orders": 64.0,
+					"records": 8.0,
+					"stale": 3.0,
+					"cancellations": 1.0,
+					"allocation_faults": 2.0,
+					"interruption": 1.0,
+					"malformed": 2.0,
+					"shutdown": "drained",
+					"first_divergence_generation": 4.0
+				}
+			},
+			{
+				"duration_ns": 35175200.0,
+				"peak_working_set_bytes": 4300800.0,
+				"native_hash": "4cfe12662b60691f93eda8a27d20e1c978e9bab58c2c144b323750d2f39316bf",
+				"counters": {
+					"orders": 64.0,
+					"records": 8.0,
+					"stale": 3.0,
+					"cancellations": 1.0,
+					"allocation_faults": 2.0,
+					"interruption": 1.0,
+					"malformed": 2.0,
+					"shutdown": "drained",
+					"first_divergence_generation": 4.0
+				}
+			},
+			{
+				"duration_ns": 34250500.0,
+				"peak_working_set_bytes": 4313088.0,
+				"native_hash": "4cfe12662b60691f93eda8a27d20e1c978e9bab58c2c144b323750d2f39316bf",
+				"counters": {
+					"orders": 64.0,
+					"records": 8.0,
+					"stale": 3.0,
+					"cancellations": 1.0,
+					"allocation_faults": 2.0,
+					"interruption": 1.0,
+					"malformed": 2.0,
+					"shutdown": "drained",
+					"first_divergence_generation": 4.0
+				}
+			},
+			{
+				"duration_ns": 33921600.0,
+				"peak_working_set_bytes": 4300800.0,
+				"native_hash": "4cfe12662b60691f93eda8a27d20e1c978e9bab58c2c144b323750d2f39316bf",
+				"counters": {
+					"orders": 64.0,
+					"records": 8.0,
+					"stale": 3.0,
+					"cancellations": 1.0,
+					"allocation_faults": 2.0,
+					"interruption": 1.0,
+					"malformed": 2.0,
+					"shutdown": "drained",
+					"first_divergence_generation": 4.0
+				}
+			},
+			{
+				"duration_ns": 33741000.0,
+				"peak_working_set_bytes": 4313088.0,
+				"native_hash": "4cfe12662b60691f93eda8a27d20e1c978e9bab58c2c144b323750d2f39316bf",
+				"counters": {
+					"orders": 64.0,
+					"records": 8.0,
+					"stale": 3.0,
+					"cancellations": 1.0,
+					"allocation_faults": 2.0,
+					"interruption": 1.0,
+					"malformed": 2.0,
+					"shutdown": "drained",
+					"first_divergence_generation": 4.0
+				}
+			},
+			{
+				"duration_ns": 33526800.0,
+				"peak_working_set_bytes": 4292608.0,
+				"native_hash": "4cfe12662b60691f93eda8a27d20e1c978e9bab58c2c144b323750d2f39316bf",
+				"counters": {
+					"orders": 64.0,
+					"records": 8.0,
+					"stale": 3.0,
+					"cancellations": 1.0,
+					"allocation_faults": 2.0,
+					"interruption": 1.0,
+					"malformed": 2.0,
+					"shutdown": "drained",
+					"first_divergence_generation": 4.0
+				}
+			},
+			{
+				"duration_ns": 38850900.0,
+				"peak_working_set_bytes": 4366336.0,
+				"native_hash": "4cfe12662b60691f93eda8a27d20e1c978e9bab58c2c144b323750d2f39316bf",
+				"counters": {
+					"orders": 64.0,
+					"records": 8.0,
+					"stale": 3.0,
+					"cancellations": 1.0,
+					"allocation_faults": 2.0,
+					"interruption": 1.0,
+					"malformed": 2.0,
+					"shutdown": "drained",
+					"first_divergence_generation": 4.0
+				}
+			},
+			{
+				"duration_ns": 33260700.0,
+				"peak_working_set_bytes": 4313088.0,
+				"native_hash": "4cfe12662b60691f93eda8a27d20e1c978e9bab58c2c144b323750d2f39316bf",
+				"counters": {
+					"orders": 64.0,
+					"records": 8.0,
+					"stale": 3.0,
+					"cancellations": 1.0,
+					"allocation_faults": 2.0,
+					"interruption": 1.0,
+					"malformed": 2.0,
+					"shutdown": "drained",
+					"first_divergence_generation": 4.0
+				}
+			}
+		],
+		"claim": "REFERENCE_ONLY_NOT_A_PRODUCTION_PERFORMANCE_GATE"
+	},
+	"actions": {
+		"native_randomized_completion_orders": "PASS",
+		"native_cancellation_and_replacement": "PASS",
+		"native_duplicate_and_stale_completion": "PASS",
+		"native_allocation_failure_controls": "PASS",
+		"native_interrupted_publication_control": "PASS",
+		"native_malformed_input_controls": "PASS",
+		"native_first_divergent_generation_trace": "PASS",
+		"rapid_viewer_cross_order_convergence": "PASS",
+		"stale_viewer_revision_rejection": "PASS",
+		"clean_runtime_shutdown": "PASS"
+	},
+	"replays": [
+		{
+			"order_index": 0,
+			"status": "PASS",
+			"submitted_updates": 6,
+			"accepted_updates": 6,
+			"viewer_drain_submitted": true,
+			"viewer_drain_completed": true,
+			"settlement_frames": 166,
+			"elapsed_usec": 1153244,
+			"total_elapsed_usec": 1720984,
+			"coalesced_viewer_events": 4,
+			"stale_revision_submitted": true,
+			"stale_revision_rejected": true,
+			"snapshot": {
+				"active_count": 83,
+				"ready_mismatch_count": 0,
+				"state_signature": "5d273c185259036a4c71725c1943237970bbc3b29f00880d9b0429eb0ea86655",
+				"geometry_signature": "ef8086d667d27c73f42dc662adcaaf1fdd9e062276e6a193f855f4415cc3ee2c",
+				"metrics": {
+					"active_chunk_records": 83,
+					"non_retiring_chunk_records": 83,
+					"render_resources": 22,
+					"collision_resources": 22,
+					"sample_jobs": 138,
+					"mesh_jobs": 87,
+					"published_events": 375,
+					"coalesced_viewer_events": 4,
+					"rejected_events": 1,
+					"stale_render_events": -1,
+					"stale_collision_events": -1,
+					"scheduler_queued_jobs": 0,
+					"scheduler_queued_completions": 0,
+					"storage_queued_requests": 0,
+					"storage_queued_completions": 0,
+					"queued_render": 0,
+					"queued_collision": 0,
+					"pending_chunk_replacements": 0,
+					"pending_chunk_retirements": 0,
+					"scheduler_failed_records": 0,
+					"scheduler_queue_rejections": 0,
+					"page_mesh_failures": 0,
+					"page_storage_failures": 0,
+					"world_revision": -1
+				}
+			},
+			"shutdown": {
+				"status": "PASS",
+				"world_state": "stopped",
+				"metrics": {
+					"active_chunk_records": 0,
+					"non_retiring_chunk_records": 0,
+					"render_resources": 0,
+					"collision_resources": 0,
+					"sample_jobs": 0,
+					"mesh_jobs": 0,
+					"published_events": 0,
+					"coalesced_viewer_events": 0,
+					"rejected_events": 0,
+					"stale_render_events": -1,
+					"stale_collision_events": -1,
+					"scheduler_queued_jobs": 0,
+					"scheduler_queued_completions": 0,
+					"storage_queued_requests": 0,
+					"storage_queued_completions": 0,
+					"queued_render": 0,
+					"queued_collision": 0,
+					"pending_chunk_replacements": 0,
+					"pending_chunk_retirements": 0,
+					"scheduler_failed_records": 0,
+					"scheduler_queue_rejections": 0,
+					"page_mesh_failures": 0,
+					"page_storage_failures": 0,
+					"world_revision": -1
+				}
+			}
+		},
+		{
+			"order_index": 1,
+			"status": "PASS",
+			"submitted_updates": 6,
+			"accepted_updates": 6,
+			"viewer_drain_submitted": true,
+			"viewer_drain_completed": true,
+			"settlement_frames": 194,
+			"elapsed_usec": 1338624,
+			"total_elapsed_usec": 1965213,
+			"coalesced_viewer_events": 4,
+			"stale_revision_submitted": true,
+			"stale_revision_rejected": true,
+			"snapshot": {
+				"active_count": 83,
+				"ready_mismatch_count": 0,
+				"state_signature": "5d273c185259036a4c71725c1943237970bbc3b29f00880d9b0429eb0ea86655",
+				"geometry_signature": "ef8086d667d27c73f42dc662adcaaf1fdd9e062276e6a193f855f4415cc3ee2c",
+				"metrics": {
+					"active_chunk_records": 83,
+					"non_retiring_chunk_records": 83,
+					"render_resources": 22,
+					"collision_resources": 22,
+					"sample_jobs": 138,
+					"mesh_jobs": 87,
+					"published_events": 375,
+					"coalesced_viewer_events": 4,
+					"rejected_events": 1,
+					"stale_render_events": -1,
+					"stale_collision_events": -1,
+					"scheduler_queued_jobs": 0,
+					"scheduler_queued_completions": 0,
+					"storage_queued_requests": 0,
+					"storage_queued_completions": 0,
+					"queued_render": 0,
+					"queued_collision": 0,
+					"pending_chunk_replacements": 0,
+					"pending_chunk_retirements": 0,
+					"scheduler_failed_records": 0,
+					"scheduler_queue_rejections": 0,
+					"page_mesh_failures": 0,
+					"page_storage_failures": 0,
+					"world_revision": -1
+				}
+			},
+			"shutdown": {
+				"status": "PASS",
+				"world_state": "stopped",
+				"metrics": {
+					"active_chunk_records": 0,
+					"non_retiring_chunk_records": 0,
+					"render_resources": 0,
+					"collision_resources": 0,
+					"sample_jobs": 0,
+					"mesh_jobs": 0,
+					"published_events": 0,
+					"coalesced_viewer_events": 0,
+					"rejected_events": 0,
+					"stale_render_events": -1,
+					"stale_collision_events": -1,
+					"scheduler_queued_jobs": 0,
+					"scheduler_queued_completions": 0,
+					"storage_queued_requests": 0,
+					"storage_queued_completions": 0,
+					"queued_render": 0,
+					"queued_collision": 0,
+					"pending_chunk_replacements": 0,
+					"pending_chunk_retirements": 0,
+					"scheduler_failed_records": 0,
+					"scheduler_queue_rejections": 0,
+					"page_mesh_failures": 0,
+					"page_storage_failures": 0,
+					"world_revision": -1
+				}
+			}
+		},
+		{
+			"order_index": 2,
+			"status": "PASS",
+			"submitted_updates": 6,
+			"accepted_updates": 6,
+			"viewer_drain_submitted": true,
+			"viewer_drain_completed": true,
+			"settlement_frames": 175,
+			"elapsed_usec": 1207434,
+			"total_elapsed_usec": 1797467,
+			"coalesced_viewer_events": 4,
+			"stale_revision_submitted": true,
+			"stale_revision_rejected": true,
+			"snapshot": {
+				"active_count": 83,
+				"ready_mismatch_count": 0,
+				"state_signature": "5d273c185259036a4c71725c1943237970bbc3b29f00880d9b0429eb0ea86655",
+				"geometry_signature": "ef8086d667d27c73f42dc662adcaaf1fdd9e062276e6a193f855f4415cc3ee2c",
+				"metrics": {
+					"active_chunk_records": 83,
+					"non_retiring_chunk_records": 83,
+					"render_resources": 22,
+					"collision_resources": 22,
+					"sample_jobs": 166,
+					"mesh_jobs": 87,
+					"published_events": 431,
+					"coalesced_viewer_events": 4,
+					"rejected_events": 1,
+					"stale_render_events": -1,
+					"stale_collision_events": -1,
+					"scheduler_queued_jobs": 0,
+					"scheduler_queued_completions": 0,
+					"storage_queued_requests": 0,
+					"storage_queued_completions": 0,
+					"queued_render": 0,
+					"queued_collision": 0,
+					"pending_chunk_replacements": 0,
+					"pending_chunk_retirements": 0,
+					"scheduler_failed_records": 0,
+					"scheduler_queue_rejections": 0,
+					"page_mesh_failures": 0,
+					"page_storage_failures": 0,
+					"world_revision": -1
+				}
+			},
+			"shutdown": {
+				"status": "PASS",
+				"world_state": "stopped",
+				"metrics": {
+					"active_chunk_records": 0,
+					"non_retiring_chunk_records": 0,
+					"render_resources": 0,
+					"collision_resources": 0,
+					"sample_jobs": 0,
+					"mesh_jobs": 0,
+					"published_events": 0,
+					"coalesced_viewer_events": 0,
+					"rejected_events": 0,
+					"stale_render_events": -1,
+					"stale_collision_events": -1,
+					"scheduler_queued_jobs": 0,
+					"scheduler_queued_completions": 0,
+					"storage_queued_requests": 0,
+					"storage_queued_completions": 0,
+					"queued_render": 0,
+					"queued_collision": 0,
+					"pending_chunk_replacements": 0,
+					"pending_chunk_retirements": 0,
+					"scheduler_failed_records": 0,
+					"scheduler_queue_rejections": 0,
+					"page_mesh_failures": 0,
+					"page_storage_failures": 0,
+					"world_revision": -1
+				}
+			}
+		}
+	],
+	"cross_order_converged": true,
+	"semantic_signature": "38e59556c5d083275db3a870d8a25aaabf5f599d50878712309f1c45a6fda9b3",
+	"performance_claim": "REFERENCE_ONLY_NOT_A_PRODUCTION_PERFORMANCE_GATE",
+	"qualified_scope": [
+		"Windows debug Godot runtime convergence for three retained rapid-viewer completion histories",
+		"Windows debug and release native fault-order authority with 64 deterministic completion-order shuffles",
+		"cancellation, replacement, duplicate completion, stale generation, stale viewer revision, and shutdown-drain contracts",
+		"explicit page-buffer and snapshot-workspace allocation admission failures with recovery",
+		"interrupted publication, malformed output, and malformed descriptor fail-closed controls",
+		"generation-aware trace comparison reporting the first divergent generation",
+		"reference-only process duration and Windows peak-working-set distributions"
+	],
+	"explicitly_unqualified_scope": [
+		"arbitrary operating-system out-of-memory recovery or exception-based allocation failure",
+		"exhaustive thread schedules, hardware failures, disk exhaustion, concurrent process writers, or power loss",
+		"non-Windows behavior or performance",
+		"production frame pacing, low-power targets, multi-hour soak, networking, GPU execution, or Gate E",
+		"visual quality acceptance reserved for the human-reviewed TQP-44 corpus"
+	],
+	"failures": []
+}

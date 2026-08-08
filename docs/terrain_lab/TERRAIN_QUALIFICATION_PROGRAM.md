@@ -142,9 +142,10 @@ promotion order: investigation may happen early, but qualification cannot skip
 an earlier dependency.
 
 The machine-readable `execution_plan.json` mirrors the same order but is not a
-second human roadmap. Program revision 32 preserves the ground-up sequence,
+second human roadmap. Program revision 33 preserves the ground-up sequence,
 inserts the missing large-world storage milestone through `TQP-D030`, qualifies
-its retained scope through `TQP-D031`, and advances only milestones with
+its retained scope through `TQP-D031`, qualifies fault-order determinism through
+`TQP-D032`, and advances only milestones with
 retained evidence. Earlier identifier migrations remain retained in `TQP-D006`
 and `TQP-D017` as history.
 
@@ -167,7 +168,7 @@ residency shape, edit history, or runtime scale. In particular:
 
 The 2026-08-02 terrain-core completeness audit found the former roadmap moved
 from bounded TQP-27 evidence directly to destruction. Phase 4 closes that gap.
-Until Gate E passes, this program may claim the qualified TQP-01 through TQP-42
+Until Gate E passes, this program may claim the qualified TQP-01 through TQP-43
 scopes, but it must not claim authoritative dynamic adaptive Transvoxel terrain.
 
 ## Phase 1: Qualified Foundations And Reference Semantics
@@ -889,7 +890,7 @@ profile; generic production save compatibility remains unqualified.
 
 ### TQP-43: Fault Injection And Cross-Order Determinism
 
-Status: `proposed`. Owner: Terrain Systems Lab. Depends on: TQP-15, TQP-17,
+Status: `qualified`. Owner: Terrain Systems Lab. Depends on: TQP-15, TQP-17,
 TQP-26, TQP-34, TQP-35, TQP-36, TQP-37, TQP-39, TQP-40, TQP-41, TQP-42.
 
 Complete when randomized worker completion, cancellation, duplicate and stale
@@ -897,6 +898,24 @@ requests, save interruption, malformed input, allocation failure, rapid viewer
 motion, and shutdown produce deterministic authoritative state or a declared
 fail-closed error. Resource and event traces must identify the first divergent
 generation.
+
+Qualification decision `TQP-D032` retains upstream commit `f4abd7a`, native
+contract hash `4cfe12662b60691f93eda8a27d20e1c978e9bab58c2c144b323750d2f39316bf`,
+and 15 measured Windows debug runs of 64 completion-order shuffles. The native
+authority covers cancellation/replacement, duplicate and stale completion,
+explicit page-buffer and snapshot-workspace allocation admission failure,
+interrupted publication, malformed output/descriptor, clean shutdown, and a
+negative-control trace whose first divergent generation is 4. Debug and release
+native authority hashes agree.
+
+The Godot runtime reference stages rapid viewer supersession, proves a complete
+viewer lifecycle drain, republishes one canonical final demand, rejects a stale
+revision asynchronously, and retains identical non-empty active-state and mesh
+signatures for three motion histories. The separate `@tool` observatory exposes
+the native fault matrix, generation trace result, coalesced/rejected events,
+queues, resources, and forward-versus-reverse replay identity. Controlled
+admission failpoints are used because this native build disables C++ exceptions;
+arbitrary operating-system out-of-memory recovery is not claimed.
 
 ### TQP-44: Complex Terrain Visual And Temporal Corpus
 
@@ -1138,11 +1157,11 @@ a standard, not an assertion that future terrain work is finished.
 
 The program records every milestone at a truthful evidence state:
 
-- `TQP-01` through `TQP-42` are qualified
+- `TQP-01` through `TQP-43` are qualified
   for their narrow contract, native Windows reference, or reference-model
   scopes. Gate B is qualified; its native chunk rebuild benchmark remains a
   background/debug reference and is not a production frame-time claim.
-- `TQP-28` through `TQP-42` qualify the deterministic field contract, bounded
+- `TQP-28` through `TQP-43` qualify the deterministic field contract, bounded
   LOD0 complex native corpus, finite adaptive selector, and static native
   transition-assembly matrix, bounded boundary/enclosure policy, and independent
   geometry/topology oracles, seeded adversarial/minimized repro corpus, and
@@ -1154,7 +1173,9 @@ The program records every milestone at a truthful evidence state:
   multi-layer LOD2/LOD1/LOD0 streaming/residency, and bounded native-baked
   adaptive persistence with fresh-runtime replay and supported compaction, and
   the retained implicit procedural hierarchy with sparse large-world snapshot
-  overlays. `TQP-43` through `TQP-46` remain proposed, so
+  overlays, plus retained fault injection, fail-closed recovery controls,
+  generation-aware traces, and cross-order runtime convergence. `TQP-44`
+  through `TQP-46` remain proposed, so
   the program makes no Gate E adaptive-terrain authority claim.
 - `TQP-47` through `TQP-52` retain the previously implemented destruction and
   structural reference behavior under their revision-19 identifiers.
@@ -1162,13 +1183,15 @@ The program records every milestone at a truthful evidence state:
 - `TQP-54` through `TQP-65` are blocked by named external targets and exit
   conditions in `program_blockers.json`.
 
-The next dependency-ordered milestone is TQP-43, fault injection and cross-order
-determinism. TQP-42 closes `TQP-F002` for the retained Windows 2K procedural
-profile through sparse overlay compaction, but it does not create a general
-production save-format claim. Gate D remains qualified only for its bounded
-reference claim; Gate E remains closed, and destruction, GPU, and production
-promotion are frozen behind it. A milestone may advance only when its declared
-evidence passes.
+The next dependency-ordered milestone is TQP-44, the Complex Terrain Visual And
+Temporal Corpus. It requires explicit human inspection and cannot be accepted
+by automation alone. TQP-42 closes `TQP-F002` for the retained Windows 2K
+procedural profile through sparse overlay compaction, and TQP-43 qualifies its
+bounded fault-order profile, but neither creates a general production
+save-format or adaptive-terrain authority claim. Gate D remains qualified only
+for its bounded reference claim; Gate E remains closed, and destruction, GPU,
+and production promotion are frozen behind it. A milestone may advance only
+when its declared evidence passes.
 
 ## What Comes Next
 
@@ -1189,8 +1212,8 @@ LOD1/LOD0 publication timeline. TQP-36 now qualifies exact bounded edit
 invalidation and incremental remeshing mechanics. TQP-37 through TQP-41 now
 qualify bounded adaptive edits, material continuity, system agreement,
 streaming, persistence, and replay. TQP-42 now qualifies the hierarchy and
-snapshot representation at the retained large-world scale. TQP-43 next injects
-failures and schedule-order variation. These milestones determine
+snapshot representation at the retained large-world scale. TQP-43 now qualifies
+its bounded fault injections and schedule-order convergence. These milestones determine
 whether the correct static primitive stays correct while a viewer moves,
 terrain changes, and most of the world remains nonresident.
 
@@ -1342,3 +1365,8 @@ Retained decisions:
 - `TQP-D031`: qualify TQP-42 for the retained Windows implicit procedural
   hierarchy and sparse-overlay large-world compaction profile, close `TQP-F002`
   only for that profile, and leave production save compatibility unqualified.
+- `TQP-D032`: qualify TQP-43 for the retained Windows native fault-order matrix,
+  explicit fail-closed admission controls, generation-aware divergence trace,
+  and non-empty cross-order Godot runtime convergence after a proven viewer
+  lifecycle drain; leave exhaustive schedules, arbitrary OOM recovery,
+  non-Windows behavior, visual acceptance, soak, and Gate E unqualified.

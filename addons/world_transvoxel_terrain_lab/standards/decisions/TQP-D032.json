@@ -1,0 +1,48 @@
+{
+	"schema": "world_transvoxel.terrain_lab.decision.v1",
+	"id": "TQP-D032",
+	"date": "2026-08-08",
+	"decision": "Qualify TQP-43 for the retained Windows fault-order determinism and fail-closed recovery profile.",
+	"affected_milestones": ["TQP-43"],
+	"repositories": ["world-transvoxel-cell-lab", "world-transvoxel"],
+	"upstream_commit": "f4abd7ab4f921f98aba4ee45b4453af0bae53cd8",
+	"alternatives_considered": [
+		"treat one successful native run as sufficient determinism evidence",
+		"simulate native allocation and publication failures only in GDScript",
+		"compare history-dependent resident caches without a viewer lifecycle barrier",
+		"accept an empty final mesh because active records were present",
+		"claim arbitrary operating-system out-of-memory recovery from explicit failpoints"
+	],
+	"evidence": [
+		"matching debug and release native fault-order authority hashes across 64 deterministic completion-order shuffles",
+		"15 retained Windows debug process runs pinned by upstream commit, executable hash, native hash, fixed counters, duration distribution, and peak working set",
+		"native cancellation/replacement, duplicate and stale completion, two allocation admission failures, interrupted publication, malformed output and descriptor, recovery, and clean shutdown controls",
+		"generation-aware negative-control trace reporting first divergent generation 4",
+		"three rapid-viewer histories with a proven zero-resource lifecycle drain followed by one canonical final demand",
+		"identical non-empty state and geometry signatures with 22 authoritative render resources after every history",
+		"asynchronous stale viewer revision rejection and coalesced supersession events",
+		"@tool Fault-Order Determinism Observatory with retained storm and forward-versus-reverse validation"
+	],
+	"qualified_scope": [
+		"Windows native debug/release deterministic fault-order authority for the retained eight-record corpus",
+		"explicit page-buffer and snapshot-workspace allocation admission failures with declared recovery",
+		"interrupted publication and malformed output/descriptor fail-closed controls",
+		"bounded Windows debug Godot rapid-motion convergence after a complete viewer lifecycle drain",
+		"non-empty active-state and mesh identity, stale revision rejection, and clean shutdown",
+		"reference-only process duration and Windows peak-working-set evidence"
+	],
+	"unqualified_scope": [
+		"arbitrary operating-system out-of-memory recovery or exception-based allocation failure",
+		"exhaustive thread schedules, hardware faults, disk exhaustion, concurrent process writers, or power loss",
+		"history-independent resident cache policy before a lifecycle drain",
+		"non-Windows behavior or performance",
+		"human visual acceptance, multi-hour soak, production frame pacing, low-power targets, networking, GPU authority, Gate E, or production terrain"
+	],
+	"standards_changed": [
+		"Terrain Qualification Program revision 33",
+		"execution-plan revision 24",
+		"fault-order determinism standard fault_order_determinism_windows_v1"
+	],
+	"review": "Qualification fails closed if provenance, native hash or counters, retained runs, declared fault outcomes, first divergent generation, lifecycle drain, non-empty state/geometry identity, stale rejection, observatory workflow, or explicit limitations differ.",
+	"downstream_impact": "TQP-44 becomes the next dependency-ordered milestone and requires human visual and temporal review. Gate E remains closed."
+}

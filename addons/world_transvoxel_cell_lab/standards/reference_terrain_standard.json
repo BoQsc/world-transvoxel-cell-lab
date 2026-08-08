@@ -98,8 +98,8 @@
 		"native_dependency": {
 			"status": "PASS",
 			"source_repository": "https://github.com/BoQsc/world-transvoxel.git",
-			"source_commit": "ecf9e33b7327ed8f2ea761d01e29b433738263ed",
-			"addon_source_tree": "3b3017d28a70d965bbd84745cd9b78afd89a4181",
+			"source_commit": "f4abd7ab4f921f98aba4ee45b4453af0bae53cd8",
+			"addon_source_tree": "b2ca2b704ed0d4ad014052fecbb75a0a17e24910",
 			"addon_thirdparty_tree": "79b8d403a73dad32312c3b2e5f15f56412e288a5",
 			"godot_cpp_revision": "e83fd0904c13356ed1d4c3d09f8bb9132bdc6b77",
 			"plugin_name": "World Transvoxel",
@@ -109,8 +109,8 @@
 			"backend_upstream_revision": "51a494f03c5b024cd153b596bcc7152eb3cc93a6",
 			"official_source_sha256": "83a5511346b54c42e4e66dec916d3971c92f4fbda1c7878cbad5901a820dcab4",
 			"artifact_hashes": [
-				"878c8d7e7089cc4d795e48e8dab9ed112cae355ac71cc01ea4bc275cedf52cee",
-				"1871fc2396f9eff5a6a0c9a07c45f88f060ee3afe215330e5ac538e5a800dca3"
+				"898c11c1388170b900f84f1b04cb3529a8a4cfc7308a4c10c32818492e140b39",
+				"e60bac26e955431a164e3bb7da2d0138a60f88b72cbff2baa2f72f4a886ddff4"
 			]
 		},
 		"authority_stress": {

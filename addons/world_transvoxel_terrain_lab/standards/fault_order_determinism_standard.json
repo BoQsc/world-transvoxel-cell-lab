@@ -1,0 +1,103 @@
+{
+	"schema": "world_transvoxel.terrain_lab.fault_order_determinism_standard.v1",
+	"milestone": "TQP-43",
+	"standard_id": "fault_order_determinism_windows_v1",
+	"authority": "world_transvoxel_native_fault_injection_and_generation_trace",
+	"evidence": "res://labs/terrain_lab/results/fault_order_reference_windows.json",
+	"native_benchmark_evidence": "res://labs/terrain_lab/results/fault_order_native_benchmark_windows.json",
+	"observatory_scene": "res://labs/terrain_lab/scenes/fault_order_observatory.tscn",
+	"observatory_evidence": "res://labs/terrain_lab/results/fault_order_observatory_validation_windows.json",
+	"runtime_profile": {
+		"platform": "Windows",
+		"build": "debug_reference",
+		"worker_count": 2,
+		"source_revision": 943001,
+		"seed": 350035,
+		"preset_id": "rolling_hills_cave",
+		"chunk_count_x": 24,
+		"chunk_count_y": 8,
+		"chunk_origin_y": -2,
+		"chunk_count_z": 24,
+		"viewer_id": 431,
+		"viewer_radius_chunks": 1,
+		"maximum_lod": 1,
+		"lod_refinement_radius_chunks": 1,
+		"active_chunk_capacity": 512,
+		"pipeline_capacity": 2048,
+		"page_cache_capacity": 512,
+		"collision_capacity": 128
+	},
+	"workload": {
+		"final_position": [127.0, 30.0, 72.0],
+		"motion_orders": [
+			[[112.0, 30.0, 88.0], [136.0, 30.0, 104.0], [160.0, 30.0, 120.0], [184.0, 30.0, 136.0], [208.0, 30.0, 152.0]],
+			[[208.0, 30.0, 152.0], [184.0, 30.0, 136.0], [160.0, 30.0, 120.0], [136.0, 30.0, 104.0], [112.0, 30.0, 88.0]],
+			[[160.0, 30.0, 120.0], [112.0, 30.0, 88.0], [208.0, 30.0, 152.0], [136.0, 30.0, 104.0], [184.0, 30.0, 136.0]]
+		],
+		"required_actions": [
+			"native_randomized_completion_orders",
+			"native_cancellation_and_replacement",
+			"native_duplicate_and_stale_completion",
+			"native_allocation_failure_controls",
+			"native_interrupted_publication_control",
+			"native_malformed_input_controls",
+			"native_first_divergent_generation_trace",
+			"rapid_viewer_cross_order_convergence",
+			"stale_viewer_revision_rejection",
+			"clean_runtime_shutdown"
+		]
+	},
+	"invariants": {
+		"requires_upstream_native_benchmark": true,
+		"requires_identical_native_hash_across_every_run": true,
+		"requires_declared_fail_closed_fault_outcomes": true,
+		"requires_first_divergent_generation": true,
+		"requires_live_state_and_geometry_identity": true,
+		"requires_non_empty_authoritative_geometry": true,
+		"requires_viewer_lifecycle_drain_before_semantic_comparison": true,
+		"requires_asynchronous_stale_revision_rejection": true,
+		"requires_clean_shutdown": true,
+		"requires_no_lab_fallback": true,
+		"allocation_fault_model": "explicit_admission_failpoints_because_native_exceptions_are_disabled"
+	},
+	"budgets": {
+		"minimum_native_measured_runs": 15,
+		"maximum_settlement_frames": 1800,
+		"maximum_replay_elapsed_usec": 8000000,
+		"maximum_active_chunk_records": 512,
+		"maximum_peak_process_memory_bytes": 1073741824
+	},
+	"stable_expected": {
+		"upstream_commit": "f4abd7ab4f921f98aba4ee45b4453af0bae53cd8",
+		"executable_sha256": "8dd15988df2c0dde42c6eac7f8a3249bc2446f0e0d968a907e4fb8052939750b",
+		"release_executable_sha256": "8dd15988df2c0dde42c6eac7f8a3249bc2446f0e0d968a907e4fb8052939750b",
+		"native_contract_hash": "4cfe12662b60691f93eda8a27d20e1c978e9bab58c2c144b323750d2f39316bf",
+		"semantic_signature": "38e59556c5d083275db3a870d8a25aaabf5f599d50878712309f1c45a6fda9b3",
+		"orders": 64,
+		"records": 8,
+		"stale": 3,
+		"cancellations": 1,
+		"allocation_faults": 2,
+		"interruption": 1,
+		"malformed": 2,
+		"shutdown": "drained",
+		"first_divergence_generation": 4,
+		"memory_metric": "windows_peak_working_set"
+	},
+	"qualified_scope": [
+		"Windows debug Godot runtime convergence for three retained rapid-viewer completion histories",
+		"Windows debug and release native fault-order authority with 64 deterministic completion-order shuffles",
+		"cancellation, replacement, duplicate completion, stale generation, stale viewer revision, and shutdown-drain contracts",
+		"explicit page-buffer and snapshot-workspace allocation admission failures with recovery",
+		"interrupted publication, malformed output, and malformed descriptor fail-closed controls",
+		"generation-aware trace comparison reporting the first divergent generation",
+		"reference-only process duration and Windows peak-working-set distributions"
+	],
+	"explicitly_unqualified_scope": [
+		"arbitrary operating-system out-of-memory recovery or exception-based allocation failure",
+		"exhaustive thread schedules, hardware failures, disk exhaustion, concurrent process writers, or power loss",
+		"non-Windows behavior or performance",
+		"production frame pacing, low-power targets, multi-hour soak, networking, GPU execution, or Gate E",
+		"visual quality acceptance reserved for the human-reviewed TQP-44 corpus"
+	]
+}

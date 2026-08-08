@@ -45,6 +45,9 @@ const AdaptivePersistenceObservatoryScene := preload(
 const SparseHierarchyObservatoryScene := preload(
 	"res://labs/terrain_lab/scenes/sparse_hierarchy_observatory.tscn"
 )
+const FaultOrderObservatoryScene := preload(
+	"res://labs/terrain_lab/scenes/fault_order_observatory.tscn"
+)
 const NativeEvidence := preload(
 	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_edit_native_evidence.gd"
 )
@@ -492,6 +495,38 @@ func _run() -> void:
 		_fail("TQP-42 Sparse Hierarchy Observatory did not shut down cleanly")
 		return
 	sparse_hierarchy_observatory.free()
+	var fault_order_script := load(
+		"res://labs/terrain_lab/scenes/fault_order_observatory.gd"
+	) as Script
+	if fault_order_script == null or not fault_order_script.is_tool():
+		_fail("TQP-43 Fault-Order Observatory must execute as an editor tool")
+		return
+	var fault_order_method_names := PackedStringArray()
+	for method in fault_order_script.get_script_method_list():
+		fault_order_method_names.append(str(method.get("name", "")))
+	for required_method in [
+		"wait_until_ready", "run_motion_storm_and_wait", "compare_reverse_and_wait",
+		"restart_and_wait", "get_validation_snapshot", "shutdown_for_validation",
+	]:
+		if required_method not in fault_order_method_names:
+			_fail("TQP-43 Fault-Order Observatory lacks " + required_method)
+			return
+	var fault_order_observatory := FaultOrderObservatoryScene.instantiate()
+	root.add_child(fault_order_observatory)
+	var fault_ready: Dictionary = await fault_order_observatory.wait_until_ready()
+	var fault_snapshot: Dictionary = fault_order_observatory.get_validation_snapshot()
+	if str(fault_ready.get("status", "")) != "PASS" \
+			or str(fault_snapshot.get("status", "")) != "PASS" \
+			or str(fault_snapshot.get("backend_id", "")) != "transvoxel_mit_official" \
+			or int(fault_snapshot.get("native_orders", 0)) != 64 \
+			or int(fault_snapshot.get("first_divergence_generation", -1)) != 4 \
+			or int(fault_snapshot.get("render_resources", 0)) <= 0:
+		_fail("TQP-43 Fault-Order Observatory authority state failed")
+		return
+	if str((await fault_order_observatory.shutdown_for_validation()).get("status", "")) != "PASS":
+		_fail("TQP-43 Fault-Order Observatory did not shut down cleanly")
+		return
+	fault_order_observatory.free()
 	var observatory_property_names := PackedStringArray()
 	for property in observatory_script.get_script_property_list():
 		observatory_property_names.append(str(property.get("name", "")))
@@ -660,13 +695,13 @@ func _run() -> void:
 	if int(validation.get("milestone_count", 0)) != 65:
 		_fail("terrain program milestone count changed")
 		return
-	if int(validation.get("qualified_milestone_count", 0)) != 42:
+	if int(validation.get("qualified_milestone_count", 0)) != 43:
 		_fail("qualified reference milestone count changed")
 		return
 	if int(validation.get("specified_milestone_count", 0)) != 1:
 		_fail("open specification count changed")
 		return
-	if int(validation.get("proposed_milestone_count", -1)) != 4:
+	if int(validation.get("proposed_milestone_count", -1)) != 3:
 		_fail("native adaptive-terrain proposal count changed")
 		return
 	var status_counts: Dictionary = validation.get("status_counts", {})
