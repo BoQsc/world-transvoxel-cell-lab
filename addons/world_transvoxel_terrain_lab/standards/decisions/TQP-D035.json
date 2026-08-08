@@ -1,0 +1,33 @@
+{
+	"schema": "world_transvoxel.terrain_lab.decision.v1",
+	"id": "TQP-D035",
+	"date": "2026-08-08",
+	"decision": "Accept the explicit human TQP-44 corpus attestation and promote TQP-44 through TQP-47 in dependency order for their retained bounded Windows scopes.",
+	"affected_milestones": ["TQP-44", "TQP-45", "TQP-46", "TQP-47", "TQP-48"],
+	"repositories": ["world-transvoxel-cell-lab", "world-transvoxel"],
+	"evidence": [
+		"TQP-44 exact-corpus human PASS covering 25 stills, seven motion paths, twelve live scenes, four scales, and all required categories",
+		"TQP-45 retained native fast-arrival and edit-responsiveness PASS",
+		"TQP-46 retained targeted collision residency and update-latency PASS",
+		"TQP-47 retained rendered large-world frame, memory, queue, and applied-generation PASS"
+	],
+	"qualified_scope": [
+		"TQP-44 accepted Windows complex visual and temporal corpus tied to the retained corpus signature",
+		"TQP-45 bounded Windows debug fast-arrival streaming and edit responsiveness",
+		"TQP-46 bounded Windows targeted collision residency and update latency",
+		"TQP-47 bounded Windows debug large-world rendering regression envelope"
+	],
+	"unqualified_scope": [
+		"TQP-48 accepted-boundary low-power qualification",
+		"TQP-49 long-run complex adaptive soak and recovery",
+		"TQP-50 Gate E authority promotion",
+		"cross-hardware, non-Windows, production, GPU, and game-system claims"
+	],
+	"standards_changed": [
+		"Terrain Qualification Program revision 36",
+		"execution-plan revision 27",
+		"program manifest and qualification-state promotion mirrors"
+	],
+	"review": "The human attestation accepts only the exact retained corpus. TQP-45 through TQP-47 promote only their measured Windows candidate envelopes; no production or cross-hardware performance claim is created.",
+	"downstream_impact": "TQP-48 becomes the sole next dependency-ordered milestone. Gate E remains closed until TQP-48, TQP-49, and TQP-50 qualify."
+}

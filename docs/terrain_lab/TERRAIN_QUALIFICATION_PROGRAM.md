@@ -174,8 +174,8 @@ promotion order: investigation may happen early, but qualification cannot skip
 an earlier dependency.
 
 The machine-readable `execution_plan.json` mirrors the same order but is not a
-second human roadmap. Program revision 35 preserves every qualified TQP-01
-through TQP-43 claim and corrects only the future sequence through `TQP-D033`:
+second human roadmap. Program revision 36 preserves every qualified TQP-01
+through TQP-47 claim and corrects only the future sequence through `TQP-D033`:
 finish native CPU terrain authority, release the standalone CPU addon, qualify
 and release GPU acceleration, and defer game-oriented systems until afterward.
 Earlier identifier migrations remain retained in `TQP-D006`, `TQP-D017`, and
@@ -952,8 +952,8 @@ arbitrary operating-system out-of-memory recovery is not claimed.
 
 ### TQP-44: Complex Terrain Visual And Temporal Corpus
 
-Status: `implemented`, unqualified pending explicit human review. Owner:
-Material and Surface Lab and Terrain Systems Lab.
+Status: `qualified` for the retained Windows corpus. Owner: Material and
+Surface Lab and Terrain Systems Lab.
 Depends on: TQP-23, TQP-25, TQP-26, TQP-31, TQP-35, TQP-37, TQP-38, TQP-39,
 TQP-40, TQP-43.
 
@@ -972,7 +972,7 @@ live source scene. The retained verdict is tied to the exact corpus hash.
 
 ### TQP-45: Streaming Priority And Fast-Arrival Edit Responsiveness
 
-Status: `implemented`, candidate evidence retained; promotion waits for TQP-44.
+Status: `qualified` for the retained bounded Windows debug envelope.
 Owner: Terrain Systems Lab and Edit Semantics Lab. Depends on: TQP-15, TQP-19,
 TQP-22, TQP-27, TQP-35, TQP-36, TQP-37, TQP-39, TQP-40, TQP-42, TQP-43,
 TQP-44.
@@ -995,7 +995,7 @@ only as the native sink representation of an applied empty payload.
 
 ### TQP-46: Targeted Collision Residency And Update Latency
 
-Status: `implemented`, candidate evidence retained; promotion waits for TQP-45.
+Status: `qualified` for the retained bounded Windows envelope.
 Owner: Terrain Systems Lab. Depends on: TQP-24, TQP-35, TQP-36, TQP-37,
 TQP-39, TQP-40, TQP-45.
 
@@ -1018,7 +1018,7 @@ replacement.
 
 ### TQP-47: Large-World Rendering, Frame Pacing, Memory, And Queues
 
-Status: `implemented`, candidate evidence retained; promotion waits for TQP-46.
+Status: `qualified` for the retained bounded Windows debug regression envelope.
 Owner: Terrain Systems Lab and Material and Surface Lab. Depends on: TQP-04,
 TQP-20, TQP-22, TQP-26, TQP-27, TQP-30, TQP-31, TQP-35, TQP-38, TQP-40,
 TQP-42, TQP-45, TQP-46.
@@ -1356,7 +1356,9 @@ The program records every milestone at a truthful evidence state:
   the retained implicit procedural hierarchy with sparse large-world snapshot
   overlays, plus retained fault injection, fail-closed recovery controls,
   generation-aware traces, and cross-order runtime convergence. `TQP-44`
-  through `TQP-50` are implemented but unqualified in dependency order, so
+  through `TQP-47` additionally qualify the accepted visual corpus, bounded
+  responsiveness, targeted collision, and large-world rendering regression
+  envelope. `TQP-48` through `TQP-50` remain implemented but unqualified, so
   the program makes no Gate E adaptive-terrain authority claim.
 - `TQP-51` through `TQP-57` are blocked CPU production-addon work.
 - `TQP-58` is the specified CPU-primary GPU architecture decision; `TQP-59`
@@ -1365,9 +1367,9 @@ The program records every milestone at a truthful evidence state:
   destruction and structural reference behavior under revision-34 identifiers.
 - `TQP-71` networking remains blocked by a missing multiplayer authority model.
 
-The next dependency-ordered milestone is TQP-44, the Complex Terrain Visual And
-Temporal Corpus. It requires explicit human inspection and cannot be accepted
-by automation alone. TQP-42 closes `TQP-F002` for the retained Windows 2K
+The next dependency-ordered milestone is TQP-48, Low-Power Performance Profiles
+And 60 FPS At 16 W. It requires an accepted package or complete-system power
+boundary. TQP-42 closes `TQP-F002` for the retained Windows 2K
 procedural profile through sparse overlay compaction, and TQP-43 qualifies its
 bounded fault-order profile, but neither creates a general production
 save-format or adaptive-terrain authority claim. Gate D remains qualified only
@@ -1559,3 +1561,9 @@ Retained decisions:
   production release at TQP-51 through TQP-57, place GPU qualification and
   release at TQP-58 through TQP-64, and defer the existing game-oriented work
   to TQP-65 through TQP-71 without advancing any evidence state.
+- `TQP-D034`: implement the complete TQP-44 through TQP-50 CPU-authority
+  closure toolchain while leaving every milestone unqualified until its ordered
+  dependencies and retained evidence pass.
+- `TQP-D035`: accept the explicit human PASS for the exact TQP-44 corpus and
+  promote TQP-44 through TQP-47 in dependency order for their bounded Windows
+  scopes; retain TQP-48 through TQP-50 and Gate E as unqualified.

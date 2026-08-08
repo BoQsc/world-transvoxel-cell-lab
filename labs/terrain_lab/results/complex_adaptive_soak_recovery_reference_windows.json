@@ -41,9 +41,9 @@
       "name": "visual_review",
       "path": "labs/terrain_lab/results/complex_visual_temporal_corpus_human_review_windows.json",
       "schema": "world_transvoxel.terrain_lab.complex_visual_temporal_corpus_human_review.v1",
-      "reported_status": "PENDING_HUMAN_REVIEW",
-      "accepted": false,
-      "sha256": "26767471b2f95e831f1434e97364dede851812c219ab42b89cacf2864497ce76"
+      "reported_status": "PASS",
+      "accepted": true,
+      "sha256": "33b1a5512ff1a3e82172d98f9ade3e7638a5d5c11e1d29cfa1a8c3da916a88d6"
     },
     {
       "name": "fast_arrival",
@@ -75,7 +75,7 @@
       "schema": "world_transvoxel.terrain_lab.low_power_profiles_qualification.v1",
       "reported_status": "BLOCKED_POWER_BOUNDARY_ON_AC",
       "accepted": false,
-      "sha256": "cb008cfcee1c8f78947b5a29918261bd75b5af401b464952d692593cdd2d3bbe"
+      "sha256": "1e1896f441441c948cfcb6e2474d70cebde91fd476f7b40eac2f4232f3bafccc"
     }
   ],
   "coverage": {
@@ -83,7 +83,7 @@
     "large_world_soak": true,
     "persistence": true,
     "fault_recovery": true,
-    "visual_review": false,
+    "visual_review": true,
     "fast_arrival": true,
     "collision": true,
     "performance": true,
@@ -110,7 +110,6 @@
     "multi-day, cross-hardware, non-Windows, production addon, GPU, gameplay, networking, or Gate E claims"
   ],
   "blockers": [
-    "visual_review",
     "power_long_run"
   ]
 }

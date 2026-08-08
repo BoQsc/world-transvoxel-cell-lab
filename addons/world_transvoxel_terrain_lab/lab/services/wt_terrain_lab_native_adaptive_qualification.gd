@@ -47,6 +47,18 @@ const SparseHierarchyEvidence := preload(
 const FaultOrderEvidence := preload(
 	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_fault_order_evidence.gd"
 )
+const ComplexVisualEvidence := preload(
+	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_complex_visual_evidence.gd"
+)
+const FastArrivalEvidence := preload(
+	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_fast_arrival_evidence.gd"
+)
+const TargetedCollisionEvidence := preload(
+	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_targeted_collision_evidence.gd"
+)
+const LargeWorldPerformanceEvidence := preload(
+	"res://addons/world_transvoxel_terrain_lab/lab/services/wt_terrain_lab_large_world_performance_evidence.gd"
+)
 
 
 static func run() -> Dictionary:
@@ -65,6 +77,10 @@ static func run() -> Dictionary:
 	var adaptive_persistence_validation := AdaptivePersistenceEvidence.validate_retained()
 	var sparse_hierarchy_validation := SparseHierarchyEvidence.validate_retained()
 	var fault_order_validation := FaultOrderEvidence.validate_retained()
+	var complex_visual_validation := ComplexVisualEvidence.validate_retained()
+	var fast_arrival_validation := FastArrivalEvidence.validate_retained()
+	var targeted_collision_validation := TargetedCollisionEvidence.validate_retained()
+	var large_world_validation := LargeWorldPerformanceEvidence.validate_retained()
 	var failures: Array = []
 	for validation in [
 		field_validation,
@@ -82,6 +98,10 @@ static func run() -> Dictionary:
 		adaptive_persistence_validation,
 		sparse_hierarchy_validation,
 		fault_order_validation,
+		complex_visual_validation,
+		fast_arrival_validation,
+		targeted_collision_validation,
+		large_world_validation,
 	]:
 		failures.append_array(validation.get("failures", []))
 	var field_passed := str(field_validation.get("status", "")) == "PASS"
@@ -99,13 +119,18 @@ static func run() -> Dictionary:
 	var adaptive_persistence_passed := str(adaptive_persistence_validation.get("status", "")) == "PASS"
 	var sparse_hierarchy_passed := str(sparse_hierarchy_validation.get("status", "")) == "PASS"
 	var fault_order_passed := str(fault_order_validation.get("status", "")) == "PASS"
+	var complex_visual_passed := str(complex_visual_validation.get("status", "")) == "PASS"
+	var fast_arrival_passed := str(fast_arrival_validation.get("status", "")) == "PASS"
+	var targeted_collision_passed := str(targeted_collision_validation.get("status", "")) == "PASS"
+	var large_world_passed := str(large_world_validation.get("status", "")) == "PASS"
 	var passed := field_passed and adaptive_lod_passed and transition_passed \
 		and boundary_passed and oracle_passed and adversarial_passed \
 		and dynamic_publication_passed and edit_invalidation_passed \
 		and adaptive_edit_passed and adaptive_surface_passed \
 		and adaptive_system_passed and adaptive_streaming_passed \
 		and adaptive_persistence_passed and sparse_hierarchy_passed \
-		and fault_order_passed
+		and fault_order_passed and complex_visual_passed and fast_arrival_passed \
+		and targeted_collision_passed and large_world_passed
 	return {
 		"schema": "world_transvoxel.terrain_lab.native_adaptive_terrain_qualification.v1",
 		"status": "PASS" if passed else "FAIL",
@@ -142,15 +167,15 @@ static func run() -> Dictionary:
 				if sparse_hierarchy_passed else "failed_sparse_hierarchy",
 			"TQP-43": "qualified_fault_order_determinism_v1"
 				if fault_order_passed else "failed_fault_order_determinism",
-			"TQP-44": "implemented_pending_human_complex_visual_review",
-			"TQP-45": "implemented_candidate_pass_pending_tqp44_promotion",
-			"TQP-46": "implemented_candidate_pass_pending_tqp45_promotion",
-			"TQP-47": "implemented_candidate_pass_pending_tqp46_promotion",
+			"TQP-44": "qualified_complex_visual_temporal_corpus_windows_v1",
+			"TQP-45": "qualified_native_fast_arrival_responsiveness_windows_v1",
+			"TQP-46": "qualified_targeted_collision_residency_windows_v1",
+			"TQP-47": "qualified_large_world_rendering_regression_windows_v1",
 			"TQP-48": "implemented_blocked_accepted_power_boundary",
 			"TQP-49": "implemented_blocked_dependency_aggregation",
 			"TQP-50": "implemented_gate_e_blocked",
 		},
-		"audit_status": "TQP43_QUALIFIED_TQP44_NEXT_CLOSURE_IMPLEMENTED_GATE_E_BLOCKED",
+		"audit_status": "TQP47_QUALIFIED_TQP48_NEXT_GATE_E_BLOCKED",
 		"native_field_evidence": field_validation,
 		"adaptive_lod_evidence": adaptive_lod_validation,
 		"transition_assembly_evidence": transition_validation,
@@ -166,6 +191,10 @@ static func run() -> Dictionary:
 		"adaptive_persistence_evidence": adaptive_persistence_validation,
 		"sparse_hierarchy_evidence": sparse_hierarchy_validation,
 		"fault_order_evidence": fault_order_validation,
+		"complex_visual_evidence": complex_visual_validation,
+		"fast_arrival_evidence": fast_arrival_validation,
+		"targeted_collision_evidence": targeted_collision_validation,
+		"large_world_performance_evidence": large_world_validation,
 		"preserved_qualified_scope": [
 			"TQP-01 through TQP-27 declared bounded scopes",
 			"TQP-28 deterministic native field-generation and sampling contract",
@@ -184,16 +213,16 @@ static func run() -> Dictionary:
 			"TQP-41 bounded Windows native-baked adaptive edit replay, committed-prefix recovery, compaction, migration, and regenerated-resource contract",
 			"TQP-42 retained Windows implicit procedural hierarchy and sparse-overlay large-world compaction contract",
 			"TQP-43 retained Windows fault-order, fail-closed admission, generation-trace, and cross-order convergence contract",
+			"TQP-44 accepted Windows complex visual and temporal corpus",
+			"TQP-45 bounded Windows native fast-arrival streaming and edit responsiveness contract",
+			"TQP-46 bounded Windows targeted collision residency and update-latency contract",
+			"TQP-47 bounded Windows large-world rendering regression, frame pacing, memory, and queue envelope",
 		],
 		"explicitly_unqualified_scope": [
 			"arbitrary, deeper than LOD1/LOD0, fault-injected, or production adaptive hierarchy arrangements beyond the retained dynamic contract",
 			"adaptive digging, construction, materials, system agreement, streaming, and persistence beyond the retained TQP-37 through TQP-41 Windows fixtures",
 			"sparse hierarchy storage, compaction, and recovery beyond the retained TQP-42 Windows procedural profile",
 			"fault-injected ordering determinism beyond the retained TQP-43 Windows corpus and explicit admission controls",
-			"TQP-44 complex adaptive visual and temporal quality",
-			"TQP-45 fast-arrival streaming and edit responsiveness",
-			"TQP-46 targeted collision residency and update latency",
-			"TQP-47 large-world rendering, frame pacing, memory, and queues",
 			"TQP-48 low-power profiles including the 60 FPS / 16 W candidate",
 			"TQP-49 complex adaptive soak and recovery",
 			"Gate E native adaptive terrain authority",

@@ -338,7 +338,7 @@ static func _validate_evidence_files(program: Dictionary, failures: Array[String
 		"TQP-D016", "TQP-D017", "TQP-D018", "TQP-D019", "TQP-D020",
 		"TQP-D021", "TQP-D022", "TQP-D023", "TQP-D024", "TQP-D025",
 		"TQP-D026", "TQP-D027", "TQP-D028", "TQP-D029", "TQP-D030",
-		"TQP-D031", "TQP-D032", "TQP-D033", "TQP-D034",
+		"TQP-D031", "TQP-D032", "TQP-D033", "TQP-D034", "TQP-D035",
 	]:
 		_expect(decision_ids.has(required), "missing retained decision: " + required, failures)
 	for key in [
@@ -1649,14 +1649,13 @@ static func _validate_cpu_closure_implementation(
 	_expect(
 		str(visual.get("automation_status", "")) == "PASS"
 			and str(visual.get("status", "")) in ["PENDING_HUMAN_REVIEW", "PASS"],
-		"TQP-44 implemented corpus is invalid",
+		"TQP-44 retained corpus is invalid",
 		failures
 	)
-	for validation in [
-		FastArrivalEvidence.validate_retained(),
-		TargetedCollisionEvidence.validate_retained(),
-		LargeWorldPerformanceEvidence.validate_retained(),
-	]:
+	var fast_arrival := FastArrivalEvidence.validate_retained()
+	var targeted_collision := TargetedCollisionEvidence.validate_retained()
+	var large_world := LargeWorldPerformanceEvidence.validate_retained()
+	for validation in [fast_arrival, targeted_collision, large_world]:
 		_expect(
 			str((validation as Dictionary).get("status", "")) == "PASS",
 			"focused CPU closure candidate evidence failed: %s %s" % [
@@ -1693,10 +1692,23 @@ static func _validate_cpu_closure_implementation(
 		"TQP-50 fail-closed authority gate report is invalid",
 		failures
 	)
-	for milestone_id in ["TQP-44", "TQP-45", "TQP-46", "TQP-47", "TQP-48", "TQP-49", "TQP-50"]:
+	_expect(
+		str((milestone_by_id.get("TQP-44", {}) as Dictionary).get("status", ""))
+			== ("qualified" if str(visual.get("status", "")) == "PASS" else "implemented"),
+		"TQP-44 manifest status differs from retained human review",
+		failures
+	)
+	for milestone_id in ["TQP-45", "TQP-46", "TQP-47"]:
+		_expect(
+			str((milestone_by_id.get(milestone_id, {}) as Dictionary).get("status", ""))
+				== "qualified",
+			milestone_id + " must match retained focused PASS evidence",
+			failures
+		)
+	for milestone_id in ["TQP-48", "TQP-49", "TQP-50"]:
 		_expect(
 			str((milestone_by_id.get(milestone_id, {}) as Dictionary).get("status", "")) == "implemented",
-			milestone_id + " implementation status changed before dependency-ordered promotion",
+			milestone_id + " implementation status changed before its qualification evidence passed",
 			failures
 		)
 

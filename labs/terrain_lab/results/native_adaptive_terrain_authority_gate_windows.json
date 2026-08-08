@@ -8,8 +8,8 @@
   "retained_complete": false,
   "pinned_manifest": {
     "path": "addons/world_transvoxel_terrain_lab/standards/program_manifest.json",
-    "program_revision": 35,
-    "sha256": "8d02428cf8683f28892646467b2ebf9a7bd5cef6aa3695c3556be6e718ca469b"
+    "program_revision": 36,
+    "sha256": "f0344339201816d1e487711bf215ae0a653094a22b4d23d742673eef6330dd81"
   },
   "milestone_matrix": {
     "TQP-28": {
@@ -77,7 +77,7 @@
       "source": "program_manifest_qualified_retained_evidence"
     },
     "TQP-44": {
-      "accepted": false,
+      "accepted": true,
       "source": "focused_closure_evidence"
     },
     "TQP-45": {
@@ -156,7 +156,6 @@
     "no blocked, missing, failed, provisional, or inferred evidence is promoted"
   ],
   "blockers": [
-    "TQP-44",
     "TQP-48",
     "TQP-49"
   ],
