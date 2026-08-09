@@ -6,7 +6,7 @@ Qualification Program; it does not own production implementation and does not
 extend the Cell Lab root node.
 
 The [Terrain Qualification Program](TERRAIN_QUALIFICATION_PROGRAM.md) is the
-single human-readable roadmap. Program revision 42 contains TQP-01 through
+single human-readable roadmap. Program revision 43 contains TQP-01 through
 TQP-71 in ground-up execution order:
 
 - TQP-01 through TQP-50 are qualified only for their declared bounded scopes;
@@ -29,14 +29,16 @@ TQP-71 in ground-up execution order:
   closes Gate E for the bounded Windows CPU authority envelope;
 - TQP-51 through TQP-56 qualify the standalone candidate boundary, runtime,
   authoring, migration, release matrix, and long-haul certification; TQP-57 is
-  the limited Windows CPU Terrain Standard 1.0 production release;
+  the limited Windows CPU Terrain Standard 1.0 production release with direct
+  assembled 2048x256x2048 LOD0/LOD1/LOD2 acceptance;
 - TQP-58 is the specified CPU-primary GPU architecture decision and TQP-59
   through TQP-64 are the blocked GPU qualification and release;
 - TQP-65 through TQP-70 retain implemented but unqualified post-release game
   systems, while TQP-71 networking remains blocked.
 
 The next promotion milestone is TQP-58, GPU Architecture Decision. Gate F and
-the bounded CPU Terrain Standard 1.0 Windows release are qualified; the full
+the bounded CPU Terrain Standard 1.0 Windows release are qualified on the
+corrected committed-tree assembled-terrain basis in `TQP-D042`; the full
 low-power target pass, GPU backend, non-Windows, and cross-hardware claims
 remain unqualified.
 
@@ -46,10 +48,10 @@ treated as a compatibility requirement. Newer Godot versions require an
 explicit qualification decision before replacing or expanding the matrix.
 
 The [What Comes Next](TERRAIN_QUALIFICATION_PROGRAM.md#what-comes-next)
-section explains the broader path: finish visual, responsiveness, targeted
-collision, rendering, power, and soak evidence; use the closed Gate E CPU
-reference to release the standalone CPU addon; qualify and release GPU; and
-only then advance game-oriented systems.
+section records the completed CPU authority and standalone-release path, the
+current GPU qualification wave, and the later game-oriented systems. The
+dependency order remains authoritative even when investigation happens ahead
+of promotion.
 
 The [Terrain Lab Baselines](BASELINES.md) file records the retained TQP-48
 through TQP-50 CPU-authority baseline, the compact exact performance scorecard,

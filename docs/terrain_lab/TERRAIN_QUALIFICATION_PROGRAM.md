@@ -178,14 +178,15 @@ promotion order: investigation may happen early, but qualification cannot skip
 an earlier dependency.
 
 The machine-readable `execution_plan.json` mirrors the same order but is not a
-second human roadmap. Program revision 42 preserves every qualified TQP-01
+second human roadmap. Program revision 43 preserves every qualified TQP-01
 through TQP-47 claim, keeps the ordered CPU/GPU release sequence from
 `TQP-D033`, corrects TQP-48's inherited low-power target through
 `TQP-D036`, and closes Gate E for the bounded CPU authority envelope through
 `TQP-D037`, qualifies the first three candidate runtime and integration
 milestones through `TQP-D039`, and sets Godot 4.7 as the sole current engine
-target through `TQP-D040`, and qualifies the limited CPU Terrain Standard 1.0
-release and closes Gate F through `TQP-D041`.
+target through `TQP-D040`, records the first limited CPU Terrain Standard 1.0
+release through `TQP-D041`, and corrects its exact pins and Gate F basis with
+committed-tree assembled large-terrain evidence through `TQP-D042`.
 Earlier identifier migrations remain retained in `TQP-D006`, `TQP-D017`, and
 `TQP-D030` as history.
 
@@ -1129,8 +1130,10 @@ Execution order: TQP-51 -> TQP-52 -> TQP-53 -> TQP-54 -> TQP-55 -> TQP-56 ->
 TQP-57.
 
 Gate E and TQP-51 through TQP-56 are qualified. TQP-57 is the first production
-release for its limited Windows reference matrix, Gate F is closed, and the
-active execution wave advances to the TQP-58 GPU architecture decision.
+release for its limited Windows reference matrix and now includes direct
+assembled 2048x256x2048 LOD0/LOD1/LOD2 acceptance. Gate F is closed on that
+corrected basis, and the active execution wave advances to the TQP-58 GPU
+architecture decision.
 
 ### TQP-51: Production Addon Boundary
 
@@ -1228,8 +1231,8 @@ form a reproducible CPU release bundle.
 
 The retained Windows x86-64, Godot 4.7, Forward+ matrix includes four profiles,
 exact debug/release native artifact pins, the reference hardware class, seven
-retained evidence sources, and an 87-file deterministic candidate package with
-canonical digest `df63530846029be9b39fe939c18b2cc20c43fbe961aa481428be6ebac174f96b`.
+retained evidence sources, and a 94-file deterministic candidate package with
+canonical digest `1b7332ab974b78759df4d1086bd874eca70080e30d5f572867c916f3bb34b25c`.
 TQP-48's measured target misses remain explicit.
 
 ### TQP-56: CPU Production Long-Haul Certification
@@ -1241,7 +1244,7 @@ streaming, origin shifting, fault injection, recovery, and shutdown pass the
 release matrix without correctness, memory, queue, performance, thermal, or
 power drift.
 
-The production wrapper passed 60.2 seconds, 80 residency cycles, 20 edits, 26
+The production wrapper passed 60.35 seconds, 80 residency cycles, 20 edits, 26
 queries, six journal restarts, about 1 MB net static-memory growth, zero queue
 rejections, and clean shutdown on Godot 4.7. TQP-49 retains the complementary
 1802.58-second, 108,000-frame drift evidence.
@@ -1258,12 +1261,26 @@ first production terrain release; later GPU and game-system work cannot revise
 its evidence silently.
 
 `world-transvoxel-terrain` version `1.0.0` is reproducible from production
-commit `20f0a6e4b5fd32016e106a1bac9c1248f2d2a81f`, exact addon tree
-`bd8b7c6ebde90c483ff354f97db09512008e6fcc`, and ZIP digest
-`8df8d0a72096295b33f881d360049d3353325af01d3c3c17197b41109e697e76`.
+commit `2184988ec7d317f6aedc212e6198997b60888dfa`, exact addon tree
+`f727fb2fdd1f06037c7daab239e895fb9a98f359`, and ZIP digest
+`84803816f9c6a4b9da99c5300d7743d0b015bba1e318c7039a5c28e6ca38d7fc`.
 The release is limited to its declared matrix and keeps GPU, non-Windows,
 arbitrary-hardware, gameplay, networking, and universal performance claims
 unqualified.
+
+The corrected committed-tree acceptance uses only `world-transvoxel` commit
+`4f1fdb59e3c6200c8f823b99027b2d3f15563858` and no fallback. It runs nine
+rendered idle, traversal, flight, cave, LOD-churn, teleport, digging,
+construction, and far-return scenarios over a 2048x256x2048-cell,
+128x16x128-chunk rolling-hills/cave world. Live LOD0, LOD1, and LOD2 are all
+observed. The direct LOD0/L1 seam audit finds zero boundary, nonmanifold,
+orientation-inconsistent, and zero-area defects across 2,583 shared edges;
+targeted collision, restart persistence, queues, memory, and four visual
+captures also pass. `TQP-D042` preserves the earlier under-proven pins as
+history and makes this assembled evidence mandatory for Gate F.
+The captures retain abrupt reference material-class regions and coarse distant
+LOD silhouettes; final texture assets, art direction, and universally smooth
+large-terrain material presentation are not part of this production claim.
 
 ## Phase 6: GPU Backend Qualification And Release
 
@@ -1440,7 +1457,8 @@ The program records every milestone at a truthful evidence state:
   closes Gate E for the bounded Windows CPU authority envelope.
 - `TQP-51` through `TQP-56` qualify the pinned standalone CPU candidate,
   migration, release matrix, and long-haul contracts; `TQP-57` is the limited
-  Windows CPU Terrain Standard 1.0 production release and closes Gate F.
+  Windows CPU Terrain Standard 1.0 production release and closes Gate F with
+  committed-tree assembled 2048x256x2048 LOD0/LOD1/LOD2 evidence.
 - `TQP-58` is the specified CPU-primary GPU architecture decision; `TQP-59`
   through `TQP-64` are blocked GPU implementation and release work.
 - `TQP-65` through `TQP-70` retain the previously implemented but unqualified
@@ -1664,3 +1682,7 @@ Retained decisions:
 - `TQP-D041`: qualify the CPU release matrix and long-haul evidence, promote
   CPU Terrain Standard 1.0 as a limited Windows reference production release,
   close Gate F, and advance the active wave to TQP-58.
+- `TQP-D042`: preserve TQP-D041 as history but supersede its exact release pins
+  and Gate F evidentiary basis with the corrected world-transvoxel transition
+  constraint implementation and committed-tree assembled large-terrain,
+  mixed-LOD seam, collision, persistence, performance, and visual evidence.

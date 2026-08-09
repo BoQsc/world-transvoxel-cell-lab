@@ -1,0 +1,40 @@
+{
+	"schema": "world_transvoxel.terrain_lab.decision.v1",
+	"id": "TQP-D042",
+	"date": "2026-08-09",
+	"decision": "Supersede TQP-D041's exact release pins and Gate F evidentiary basis with a committed-tree assembled large-terrain acceptance proof. Preserve TQP-D041 as history, keep the TQP order unchanged, and allow TQP-58 only after the corrected TQP-57 evidence passes fail closed.",
+	"affected_milestones": ["TQP-55", "TQP-56", "TQP-57", "TQP-58"],
+	"repositories": [
+		"world-transvoxel-cell-lab",
+		"world-transvoxel-terrain",
+		"world-transvoxel-integration-game",
+		"world-transvoxel"
+	],
+	"finding": "The first TQP-D041 release bundle proved isolated and bounded CPU terrain behavior but did not directly prove the assembled 2048x256x2048 production terrain and its live mixed-LOD seams. The new acceptance run also exposed a cached-transition constraint splitter cycle in world-transvoxel before promotion. Therefore TQP-D041 was under-proven for the assembled large-terrain claim and its exact pins are historical, not current release authority.",
+	"evidence": [
+		"world-transvoxel commit 4f1fdb59e3c6200c8f823b99027b2d3f15563858 replaces recursive transition-face constraint splitting with bounded triangulation; the exhaustive terrain/water mask corpus passes 1458 meshes with at most 153 transition indices",
+		"world-transvoxel-terrain commit 2184988ec7d317f6aedc212e6198997b60888dfa and addon tree f727fb2fdd1f06037c7daab239e895fb9a98f359",
+		"world-transvoxel-integration-game commit d3f28a127f9f1d2faba1d8754fd3abf5cf391f0c passes the TQP-54 migration smoke on Godot 4.7 and pins the corrected authority and candidate",
+		"TQP-57 committed-tree acceptance passes nine assembled scenarios over a 2048x256x2048-cell, 128x16x128-chunk rolling-hills/cave world and observes live LOD0, LOD1, and LOD2",
+		"the direct live LOD0/L1 seam audit examines 2583 shared edges with zero boundary, nonmanifold, orientation-inconsistent, and zero-area defects",
+		"targeted collision ray agreement, digging and construction persistence after restart, four retained captures, queue budgets, and the bounded memory envelope pass",
+		"the deterministic 94-file addon digest is 1b7332ab974b78759df4d1086bd874eca70080e30d5f572867c916f3bb34b25c and release ZIP digest is 84803816f9c6a4b9da99c5300d7743d0b015bba1e318c7039a5c28e6ca38d7fc"
+	],
+	"qualified_scope": [
+		"Windows x86-64 Godot 4.7 Forward+ CPU Terrain Standard 1.0 reference matrix",
+		"standalone assembled 2048x256x2048 production terrain using world-transvoxel as its sole field and meshing authority",
+		"bounded live LOD0 LOD1 LOD2 streaming, mixed-LOD seam topology, traversal, flight, teleport, digging, construction, targeted collision, restart persistence, queues, memory, and retained visual evidence"
+	],
+	"unqualified_scope": [
+		"unbounded worlds arbitrary LOD depth non-Windows arbitrary hardware GPU terrain gameplay networking and universal 16 W 60 FPS claims",
+		"final texture assets art direction and universally smooth large-terrain material-class presentation"
+	],
+	"standards_changed": [
+		"Terrain Qualification Program revision 43",
+		"execution-plan revision 33 retained with program revision pin 43 because milestone order is unchanged",
+		"TQP-55 through TQP-57 exact production standards and retained evidence",
+		"Gate F assembled-terrain acceptance basis"
+	],
+	"review": "Gate F is current only for the corrected pinned matrix and assembled acceptance profile. The report's base revision must equal the production commit, all three LODs must be live, every scenario and capture must pass, and mixed-LOD topology, collision, and persistence must pass. Any stale or missing field fails qualification.",
+	"downstream_impact": "TQP-58 may now evaluate GPU architecture against a directly qualified assembled CPU terrain baseline. GPU work cannot replace or weaken this baseline by assumption."
+}

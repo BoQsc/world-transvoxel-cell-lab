@@ -1,6 +1,6 @@
 {
 	"schema": "world_transvoxel.terrain_lab.program.v2",
-	"program_revision": 42,
+	"program_revision": 43,
 	"lab_scope": "experimental_terrain_qualification",
 	"authority": "EVIDENCE_PROGRAM_ONLY",
 	"production_status": "NOT_PRODUCTION",
@@ -248,7 +248,8 @@
 		"res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D038.json",
 		"res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D039.json",
 		"res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D040.json",
-		"res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D041.json"
+		"res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D041.json",
+		"res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D042.json"
 	],
 	"milestones": [
 		{"id": "TQP-01", "title": "Operating Envelope", "status": "qualified", "domain": "foundation", "owner": "Terrain Qualification Program", "depends_on": [], "evidence_profile": "foundation", "contract_ref": "#tqp-01-operating-envelope", "claim_scope": "reference_envelope_v1"},
@@ -371,7 +372,7 @@
 		"TQP-54 exact pinned downstream migration with render collision edit persistence replay and failure evidence"
 		,"TQP-55 pinned Windows CPU release matrix with deterministic package and explicit target misses"
 		,"TQP-56 bounded production-wrapper and retained 1800-second long-haul certification"
-		,"TQP-57 CPU Terrain Standard 1.0 and standalone world-transvoxel-terrain 1.0.0 limited Windows reference release"
+		,"TQP-57 CPU Terrain Standard 1.0 and standalone world-transvoxel-terrain 1.0.0 limited Windows reference release with assembled 2048x256x2048 LOD0 LOD1 LOD2 acceptance"
 	],
 	"explicitly_unqualified_scope": [
 		"production terrain runtime outside CPU Terrain Standard 1.0's declared Windows reference matrix",

@@ -82,18 +82,18 @@ required workload classes ran, power samples were continuous, and drift passed.
 
 Baseline id: `CPU_TERRAIN_STANDARD_1_0_2026_08_09`
 
-Program revision: `42`
+Program revision: `43`
 
 Pins:
 
-- production commit: `20f0a6e4b5fd32016e106a1bac9c1248f2d2a81f`;
-- production addon tree: `bd8b7c6ebde90c483ff354f97db09512008e6fcc`;
-- integration commit: `efadb8dd900056e2d7f8696685605281beafb36b`;
-- native authority commit: `f4abd7ab4f921f98aba4ee45b4453af0bae53cd8`;
-- canonical 87-file addon digest:
-  `df63530846029be9b39fe939c18b2cc20c43fbe961aa481428be6ebac174f96b`;
+- production commit: `2184988ec7d317f6aedc212e6198997b60888dfa`;
+- production addon tree: `f727fb2fdd1f06037c7daab239e895fb9a98f359`;
+- integration commit: `d3f28a127f9f1d2faba1d8754fd3abf5cf391f0c`;
+- native authority commit: `4f1fdb59e3c6200c8f823b99027b2d3f15563858`;
+- canonical 94-file addon digest:
+  `1b7332ab974b78759df4d1086bd874eca70080e30d5f572867c916f3bb34b25c`;
 - deterministic release ZIP digest:
-  `8df8d0a72096295b33f881d360049d3353325af01d3c3c17197b41109e697e76`.
+  `84803816f9c6a4b9da99c5300d7743d0b015bba1e318c7039a5c28e6ca38d7fc`.
 
 Retained evidence:
 
@@ -102,12 +102,13 @@ Retained evidence:
 - `res://addons/world_transvoxel_terrain_lab/standards/cpu_production_long_haul_standard.json`
 - `res://addons/world_transvoxel_terrain_lab/standards/cpu_production_release_standard.json`
 - `res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D041.json`
+- `res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D042.json`
 
 Production-wrapper long-haul result:
 
 | Metric | Retained Result | Release Rule |
 |---|---:|---|
-| Duration | `60.200 s` | `>= 60 s` |
+| Duration | `60.350 s` | `>= 60 s` |
 | Residency cycles | `80` | `>= 8` |
 | Committed edits | `20` | `>= 2` |
 | Authoritative queries | `26` | `>= 2` |
@@ -122,6 +123,38 @@ is qualified only for Windows x86-64, Godot 4.7, Forward+, the pinned authority,
 and the declared reference hardware class. TQP-48's target misses remain part
 of the release evidence. GPU terrain, non-Windows systems, arbitrary hardware,
 game systems, and universal 16 W at 60 FPS claims are not qualified.
+
+Assembled large-terrain acceptance:
+
+| Metric | Retained Result | Release Rule |
+|---|---:|---|
+| World extent | `2048x256x2048 cells` | exact |
+| Chunk catalog | `128x16x128`, `299520` pages across LODs | exact / `>= 250000` |
+| Rendered scenarios | `9 / 9 PASS` | all required |
+| Observed live LODs | `LOD0=160`, `LOD1=116`, `LOD2=92` peak counts | all three required |
+| Frame p99 envelope | `33.233 ms` | `<= 100 ms` |
+| Peak static memory | `70,118,990 bytes` | `<= 1,610,612,736 bytes` |
+| Peak scheduler/storage queues | `224 / 467` | `<= 8192 / 8192` |
+| Peak render/collision queues | `0 / 3` | `<= 2048 / 256` |
+| Live LOD0/L1 seam edges | `2583` | direct audit required |
+| Boundary/nonmanifold/orientation/zero-area defects | `0 / 0 / 0 / 0` | all zero |
+| Targeted collision | `PASS` | required |
+| Dig/construction restart persistence | `PASS` | required |
+| Retained captures | `4 / 4 PASS` | all required |
+
+The assembled proof is bounded, not a claim that all 2048x256x2048 cells are
+simultaneously resident. It proves a large declared catalog with adaptive
+LOD0/LOD1/LOD2 residency around the moving viewer, including a direct mixed-LOD
+seam. `TQP-D042` supersedes the exact pins and Gate F basis in `TQP-D041`; the
+older decision remains historical evidence rather than current release
+authority.
+
+Fresh capture review found no visible geometric split at the audited seam and
+no missing or stale edit after far return. The reference material classifier
+does produce abrupt white, gray, and yellow regions, and distant silhouettes
+retain coarse LOD faceting. Those are retained presentation limitations, not
+topology defects. Final texture assets, art direction, and universally smooth
+large-terrain material blending remain unqualified.
 
 ## CPU-Instrumented Development Baseline
 

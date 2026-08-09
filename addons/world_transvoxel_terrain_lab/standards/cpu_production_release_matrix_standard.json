@@ -4,27 +4,27 @@
 	"standard_id": "windows_cpu_production_release_matrix_v1",
 	"candidate": {
 		"repository": "world-transvoxel-terrain",
-		"revision": "20f0a6e4b5fd32016e106a1bac9c1248f2d2a81f",
-		"addon_tree": "bd8b7c6ebde90c483ff354f97db09512008e6fcc",
+		"revision": "2184988ec7d317f6aedc212e6198997b60888dfa",
+		"addon_tree": "f727fb2fdd1f06037c7daab239e895fb9a98f359",
 		"version": "1.0.0",
-		"package_digest_sha256": "df63530846029be9b39fe939c18b2cc20c43fbe961aa481428be6ebac174f96b",
-		"files": 87
+		"package_digest_sha256": "1b7332ab974b78759df4d1086bd874eca70080e30d5f572867c916f3bb34b25c",
+		"files": 94
 	},
 	"native_authority": {
 		"repository": "world-transvoxel",
-		"revision": "f4abd7ab4f921f98aba4ee45b4453af0bae53cd8"
+		"revision": "4f1fdb59e3c6200c8f823b99027b2d3f15563858"
 	},
 	"integration": {
 		"repository": "world-transvoxel-integration-game",
-		"revision": "efadb8dd900056e2d7f8696685605281beafb36b"
+		"revision": "d3f28a127f9f1d2faba1d8754fd3abf5cf391f0c"
 	},
 	"source_contract": {
 		"path": "TQP55_RELEASE_MATRIX.json",
-		"sha256": "d6153e7acdf9588862e1f0cfdd84e43fb2b1596449b911f51f1d2e8094aafb6c"
+		"sha256": "d28744560ad63ac37c4e646af4e793ce3bac23bac82d8954fa450825eb1808f5"
 	},
 	"source_report": {
 		"path": "artifacts/tqp55_release_matrix/tqp55_release_matrix_report.json",
-		"sha256": "26af29e5cd5684c2769bb02f148ecef770c4ff0acfb33fe61c91e2474d688fb8"
+		"sha256": "5922018c022e245fe0e4547c6d578bbf5cc96338e35c7c92f279b26d5f53820b"
 	},
 	"required_matrix": {
 		"platforms": ["windows-10-x86_64"],
@@ -35,7 +35,8 @@
 	"power_target_status": "retained_measured_target_miss",
 	"qualified_scope": [
 		"pinned Windows x86-64 Godot 4.7 Forward+ CPU production release matrix",
-		"four declared runtime profiles exact native artifacts and deterministic candidate package"
+		"four declared runtime profiles exact native artifacts and deterministic candidate package",
+		"assembled 2048x256x2048 production terrain acceptance is required separately by TQP-57"
 	],
 	"explicitly_unqualified_scope": [
 		"cross-hardware non-Windows GPU terrain and universal 16 W 60 FPS claims"

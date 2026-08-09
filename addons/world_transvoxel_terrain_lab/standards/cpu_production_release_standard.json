@@ -5,34 +5,66 @@
 	"standard_id": "cpu_terrain_standard_1_0_windows_reference_v1",
 	"release_id": "world-transvoxel-terrain-cpu-1.0.0",
 	"version": "1.0.0",
-	"candidate_revision": "20f0a6e4b5fd32016e106a1bac9c1248f2d2a81f",
-	"candidate_addon_tree": "bd8b7c6ebde90c483ff354f97db09512008e6fcc",
-	"integration_revision": "efadb8dd900056e2d7f8696685605281beafb36b",
-	"integration_package_pin_sha256": "976f45808005928c4a6b1bc6ff138841eb1265d15f8f9099f88ee42d5206046d",
+	"candidate_revision": "2184988ec7d317f6aedc212e6198997b60888dfa",
+	"candidate_addon_tree": "f727fb2fdd1f06037c7daab239e895fb9a98f359",
+	"integration_revision": "d3f28a127f9f1d2faba1d8754fd3abf5cf391f0c",
+	"integration_package_pin_sha256": "712a04f32a80ce59b0700f756674cbe681b1adb464970f53461fc1f32b910bee",
 	"source_contract": {
 		"path": "TQP57_RELEASE_CONTRACT.json",
-		"sha256": "e162397dd474a0f49260634d468047ef0a8c74347fcf4cc0b8bd21bb542f2927"
+		"sha256": "e2b387daf9432a1ba3a82602fa120cd37d2e5923db90311c2bb4f98e817f0089"
 	},
 	"source_report": {
 		"path": "artifacts/tqp57_release/tqp57_release_report.json",
-		"sha256": "4319a2f5657da88f1c7f5b93300371f412ae81da41622dd4513c96fff72d38b3"
+		"sha256": "0b97be2d8ab168dbc4beca833d26643c62fa410c9044bd3550520611b0184a12"
 	},
 	"manifest": {
 		"path": "artifacts/tqp57_release/world-transvoxel-terrain-1.0.0.manifest.json",
-		"sha256": "965581c9e9746ddcd3f77af3b00af719bf0355c310c186436327d168660dfdde"
+		"sha256": "39bf970b39e8c3cda5d4d9e6138d115b872f862b6ce1ad96fbeaef1081cd4a56"
+	},
+	"large_terrain_acceptance": {
+		"contract": {
+			"path": "TQP57_LARGE_TERRAIN_ACCEPTANCE_CONTRACT.json",
+			"sha256": "cdb8e3b302303178a186c9dc3f640d6bd35af34d19d767716596d06eb410f41e"
+		},
+		"report": {
+			"path": "artifacts/tqp57_large_terrain_acceptance/tqp57_large_terrain_acceptance_report.json",
+			"sha256": "fe40478daaae9872dc9e60dc2b61a4dc18b6e7798023a164913ce32b268f3f28"
+		},
+		"volume_cells": [2048, 256, 2048],
+		"volume_chunks": [128, 16, 128],
+		"required_lod_levels": [0, 1, 2],
+		"required_scenarios": ["idle_steady", "ground_traversal", "high_speed_flight", "vertical_cave", "adaptive_lod_churn", "cold_teleport", "digging", "construction", "far_return"],
+		"required_capture_ids": ["initial_lod", "edited_site", "far_return", "lod_seam"],
+		"budgets": {
+			"minimum_catalog_pages": 250000,
+			"maximum_frame_p99_usec": 100000.0,
+			"maximum_peak_process_memory_bytes": 1610612736,
+			"maximum_scheduler_queue_depth": 8192,
+			"maximum_storage_queue_depth": 8192,
+			"maximum_render_queue_depth": 2048,
+			"maximum_collision_queue_depth": 256,
+			"maximum_coverage_overlaps": 0,
+			"maximum_generation_mismatches": 0
+		},
+		"maximum_topology_boundary_edges": 0,
+		"maximum_topology_nonmanifold_edges": 0,
+		"maximum_topology_orientation_inconsistent_edges": 0,
+		"maximum_topology_zero_area_triangles": 0
 	},
 	"package": {
 		"path": "artifacts/tqp57_release/world-transvoxel-terrain-1.0.0.zip",
-		"package_digest_sha256": "df63530846029be9b39fe939c18b2cc20c43fbe961aa481428be6ebac174f96b",
-		"zip_sha256": "8df8d0a72096295b33f881d360049d3353325af01d3c3c17197b41109e697e76",
-		"files": 87
+		"package_digest_sha256": "1b7332ab974b78759df4d1086bd874eca70080e30d5f572867c916f3bb34b25c",
+		"zip_sha256": "84803816f9c6a4b9da99c5300d7743d0b015bba1e318c7039a5c28e6ca38d7fc",
+		"files": 94
 	},
 	"release_boundary": "limited_windows_cpu_reference_release",
 	"qualified_scope": [
 		"CPU Terrain Standard 1.0 and deterministic standalone world-transvoxel-terrain 1.0.0 addon",
-		"pinned migration supported matrix and explicit unqualified scope"
+		"pinned migration supported matrix and explicit unqualified scope",
+		"assembled 2048x256x2048 rolling-hills/cave terrain with live LOD0/LOD1/LOD2, traversal, flight, teleport, digging, construction, targeted collision, restart persistence, and direct mixed-LOD topology proof"
 	],
 	"explicitly_unqualified_scope": [
-		"GPU execution non-Windows arbitrary hardware gameplay networking and universal performance claims"
+		"GPU execution non-Windows arbitrary hardware gameplay networking and universal performance claims",
+		"final production texture assets art direction and visually smooth material-class blending across arbitrary large terrain"
 	]
 }

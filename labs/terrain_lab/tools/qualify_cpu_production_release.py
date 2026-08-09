@@ -78,6 +78,14 @@ def main() -> int:
         failures.append("native authority revision mismatch")
     if integration_revision != matrix_standard["integration"]["revision"]:
         failures.append("integration revision mismatch")
+    if long_standard["candidate_revision"] != candidate_revision:
+        failures.append("TQP-56 candidate revision mismatch")
+    if release_standard["candidate_revision"] != candidate_revision:
+        failures.append("TQP-57 candidate revision mismatch")
+    if release_standard["candidate_addon_tree"] != candidate_tree:
+        failures.append("TQP-57 candidate addon tree mismatch")
+    if release_standard["integration_revision"] != integration_revision:
+        failures.append("TQP-57 integration revision mismatch")
 
     matrix_contract = source(candidate, matrix_standard["source_contract"], failures, "TQP-55 contract")
     matrix_report = source(candidate, matrix_standard["source_report"], failures, "TQP-55 report")
@@ -86,6 +94,9 @@ def main() -> int:
     release_contract = source(candidate, release_standard["source_contract"], failures, "TQP-57 contract")
     release_report = source(candidate, release_standard["source_report"], failures, "TQP-57 report")
     manifest = source(candidate, release_standard["manifest"], failures, "TQP-57 manifest")
+    large_standard = release_standard["large_terrain_acceptance"]
+    large_contract = source(candidate, large_standard["contract"], failures, "TQP-57 large-terrain contract")
+    large_report = source(candidate, large_standard["report"], failures, "TQP-57 large-terrain report")
     package_path = candidate / release_standard["package"]["path"]
     if not package_path.is_file() or sha256(package_path) != release_standard["package"]["zip_sha256"]:
         failures.append("TQP-57 release ZIP mismatch")
@@ -128,6 +139,105 @@ def main() -> int:
         failures.append("TQP-57 release report ZIP mismatch")
     if manifest.get("package", {}).get("package_digest_sha256") != package["package_digest_sha256"] or len(manifest.get("files", [])) != package["files"]:
         failures.append("TQP-57 manifest mismatch")
+
+    large_authority = large_contract.get("authority", {})
+    if (
+        large_contract.get("engine") != "4.7"
+        or large_contract.get("renderer") != "forward_plus"
+        or large_authority.get("revision") != authority_revision
+        or large_authority.get("fallback_mesher") is not False
+        or large_authority.get("fallback_field") is not False
+    ):
+        failures.append("TQP-57 large-terrain authority or engine contract mismatch")
+    if large_report.get("status") != "PASS" or large_report.get("base_revision") != candidate_revision:
+        failures.append("TQP-57 large-terrain report status or revision mismatch")
+    if large_report.get("retained_complete") is not True or large_report.get("failures") != []:
+        failures.append("TQP-57 large-terrain report is not retained complete")
+    large_profile = large_report.get("profile", {})
+    if (
+        large_profile.get("volume_cells") != large_standard["volume_cells"]
+        or large_profile.get("volume_chunks") != large_standard["volume_chunks"]
+        or large_profile.get("fallback") is not False
+        or large_profile.get("authority") != "world-transvoxel"
+    ):
+        failures.append("TQP-57 large-terrain profile mismatch")
+    observed_lods = {
+        int(level)
+        for level, count in large_report.get("observed_lod_counts", {}).items()
+        if int(count) > 0
+    }
+    if observed_lods != set(large_standard["required_lod_levels"]):
+        failures.append("TQP-57 required live LOD levels were not all observed")
+    scenarios = {
+        item.get("id"): item.get("status")
+        for item in large_report.get("scenarios", [])
+    }
+    if scenarios != {
+        scenario_id: "PASS" for scenario_id in large_standard["required_scenarios"]
+    }:
+        failures.append("TQP-57 assembled scenario matrix mismatch")
+    captures = {
+        item.get("id"): item.get("status")
+        for item in large_report.get("captures", [])
+    }
+    if captures != {
+        capture_id: "PASS" for capture_id in large_standard["required_capture_ids"]
+    }:
+        failures.append("TQP-57 retained capture matrix mismatch")
+    seam_audit = large_report.get("lod_seam_audit", {})
+    topology = seam_audit.get("topology", {})
+    for metric in (
+        "boundary_edges",
+        "nonmanifold_edges",
+        "orientation_inconsistent_edges",
+        "zero_area_triangles",
+    ):
+        budget = large_standard[f"maximum_topology_{metric}"]
+        observed = int(topology.get(metric, -1))
+        if observed < 0 or observed > int(budget):
+            failures.append(f"TQP-57 LOD seam topology failed: {metric}")
+    if (
+        seam_audit.get("status") != "PASS"
+        or seam_audit.get("lod_seam", {}).get("found") is not True
+    ):
+        failures.append("TQP-57 live mixed-LOD seam was not qualified")
+    if large_report.get("collision", {}).get("status") != "PASS":
+        failures.append("TQP-57 targeted collision acceptance failed")
+    if large_report.get("persistence", {}).get("status") != "PASS":
+        failures.append("TQP-57 edit persistence acceptance failed")
+
+    large_budgets = large_standard["budgets"]
+    contract_budgets = large_contract.get("budgets", {})
+    for budget_name, expected in large_budgets.items():
+        if contract_budgets.get(budget_name) != expected:
+            failures.append(f"TQP-57 large-terrain contract budget mismatch: {budget_name}")
+    catalog_pages = int(large_report.get("initial_snapshot", {}).get("catalog_page_count", 0))
+    if catalog_pages < int(large_budgets["minimum_catalog_pages"]):
+        failures.append("TQP-57 large-terrain catalog coverage failed")
+    frame_envelope = large_report.get("aggregate", {}).get("frame_envelope", {})
+    if float(frame_envelope.get("p99_usec", -1.0)) < 0.0 or float(
+        frame_envelope.get("p99_usec", -1.0)
+    ) > float(large_budgets["maximum_frame_p99_usec"]):
+        failures.append("TQP-57 large-terrain frame p99 budget failed")
+    memory = large_report.get("memory", {})
+    if int(memory.get("peak_static_bytes", -1)) < 0 or int(
+        memory.get("peak_static_bytes", -1)
+    ) > int(large_budgets["maximum_peak_process_memory_bytes"]):
+        failures.append("TQP-57 large-terrain memory budget failed")
+    queue_peaks = large_report.get("queue_peaks", {})
+    for queue_name in ("scheduler", "storage", "render", "collision"):
+        budget = large_budgets[f"maximum_{queue_name}_queue_depth"]
+        observed = int(queue_peaks.get(queue_name, -1))
+        if observed < 0 or observed > int(budget):
+            failures.append(f"TQP-57 large-terrain queue budget failed: {queue_name}")
+    final_lod_audit = large_report.get("final_lod_audit", {})
+    overlap_count = int(final_lod_audit.get("coverage_overlap_count", -1))
+    if overlap_count < 0 or overlap_count > int(large_budgets["maximum_coverage_overlaps"]):
+        failures.append("TQP-57 large-terrain adaptive coverage overlap failed")
+    generation_mismatches = len(final_lod_audit.get("visual_generation_mismatches", []))
+    generation_mismatches += len(final_lod_audit.get("collision_generation_mismatches", []))
+    if generation_mismatches > int(large_budgets["maximum_generation_mismatches"]):
+        failures.append("TQP-57 large-terrain generation coherence failed")
     integration_pin = integration / "TQP54_PACKAGE_PIN.json"
     if sha256(integration_pin) != release_standard["integration_package_pin_sha256"]:
         failures.append("final integration package pin mismatch")
@@ -149,7 +259,41 @@ def main() -> int:
         "milestones": {
             "TQP-55": {"status": "PASS" if not failures else "FAIL", "standard_id": matrix_standard["standard_id"], "matrix": matrix_standard["required_matrix"], "package_digest_sha256": package["package_digest_sha256"], "power_target_status": matrix_standard["power_target_status"]},
             "TQP-56": {"status": "PASS" if not failures else "FAIL", "standard_id": long_standard["standard_id"], "workload": workload, "retained_native_seconds": long_standard["retained_native_seconds"], "retained_frame_samples": long_standard["retained_frame_samples"]},
-            "TQP-57": {"status": "PASS" if not failures else "FAIL", "standard_id": release_standard["standard_id"], "release_id": release_standard["release_id"], "version": release_standard["version"], "release_boundary": release_standard["release_boundary"], "package": package},
+            "TQP-57": {
+                "status": "PASS" if not failures else "FAIL",
+                "standard_id": release_standard["standard_id"],
+                "release_id": release_standard["release_id"],
+                "version": release_standard["version"],
+                "release_boundary": release_standard["release_boundary"],
+                "package": package,
+                "large_terrain_acceptance": {
+                    "volume_cells": large_standard["volume_cells"],
+                    "volume_chunks": large_standard["volume_chunks"],
+                    "source_contract_sha256": large_standard["contract"]["sha256"],
+                    "source_report_sha256": large_standard["report"]["sha256"],
+                    "catalog_page_count": catalog_pages,
+                    "observed_lod_counts": large_report.get("observed_lod_counts", {}),
+                    "frame_envelope": frame_envelope,
+                    "memory": memory,
+                    "queue_peaks": queue_peaks,
+                    "coverage_overlap_count": overlap_count,
+                    "generation_mismatch_count": generation_mismatches,
+                    "scenarios": scenarios,
+                    "captures": captures,
+                    "lod_seam": seam_audit.get("lod_seam", {}),
+                    "topology": {
+                        metric: topology.get(metric)
+                        for metric in (
+                            "boundary_edges",
+                            "nonmanifold_edges",
+                            "orientation_inconsistent_edges",
+                            "zero_area_triangles",
+                        )
+                    },
+                    "collision": large_report.get("collision", {}).get("status"),
+                    "persistence": large_report.get("persistence", {}).get("status"),
+                },
+            },
         },
         "qualified_scope": matrix_standard["qualified_scope"] + long_standard["qualified_scope"] + release_standard["qualified_scope"],
         "explicitly_unqualified_scope": release_standard["explicitly_unqualified_scope"],
