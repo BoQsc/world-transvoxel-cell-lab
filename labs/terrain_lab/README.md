@@ -120,5 +120,5 @@ python -B labs/terrain_lab/tools/qualify_cpu_production_first_batch.py
 ```
 
 The qualifier verifies source-contract and report hashes, addon trees, package
-digests, tracked content, and both Godot engine markers. It does not install the
+digests, tracked content, and the Godot 4.7 engine markers. It does not install the
 production addon into the Terrain Lab runtime or make a TQP-55 release claim.

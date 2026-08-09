@@ -1,0 +1,44 @@
+{
+	"schema": "world_transvoxel.terrain_lab.decision.v1",
+	"id": "TQP-D040",
+	"date": "2026-08-09",
+	"decision": "Set Godot 4.7 as the minimum and sole current terrain qualification target, retain older engine results only as history, and require explicit qualification before promoting a newer Godot version.",
+	"affected_milestones": [
+		"TQP-52",
+		"TQP-53",
+		"TQP-54",
+		"TQP-55",
+		"TQP-56",
+		"TQP-57"
+	],
+	"repositories": [
+		"world-transvoxel-cell-lab",
+		"world-transvoxel-terrain",
+		"world-transvoxel-integration-game"
+	],
+	"evidence": [
+		"world-transvoxel-terrain commit 5a96a2b86c2e8dbadb0203c8a063eb3eb52e405d defaults all active addon smoke harnesses to Godot 4.7",
+		"TQP-52 and TQP-53 each pass their static contract and focused runtime smoke once on Godot 4.7",
+		"world-transvoxel-integration-game commit 177f2a3d95a523f7da1c46cfb1d3657473155c4d passes the package contract import and migration runtime smoke once on Godot 4.7",
+		"the production addon tree and exact candidate and authority package digests remain unchanged"
+	],
+	"qualified_scope": [
+		"Godot 4.7 Windows x86-64 Forward+ D3D12 terrain qualification target",
+		"single-engine TQP-52 TQP-53 and TQP-54 retained evidence",
+		"explicit fail-closed admission of future Godot versions"
+	],
+	"unqualified_scope": [
+		"Godot 4.6 compatibility or support",
+		"automatic qualification of versions newer than Godot 4.7",
+		"non-Windows platforms renderers and drivers",
+		"TQP-55 release-matrix claims"
+	],
+	"standards_changed": [
+		"Terrain Qualification Program revision 41",
+		"execution-plan revision 32",
+		"operating envelope Godot engine policy",
+		"TQP-52 through TQP-54 required engine matrices"
+	],
+	"review": "The prior Godot 4.6.3 runs remain immutable historical observations but are no longer rerun, counted, or required. Godot 4.7 is tested once per qualification path; a newer engine replaces or expands the matrix only through a recorded qualification decision.",
+	"downstream_impact": "TQP-55 and all later CPU terrain qualification must use Godot 4.7 unless a newer version is explicitly admitted. No future milestone should spend time preserving Godot 4.6 behavior."
+}

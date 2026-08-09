@@ -6,7 +6,7 @@
 	"platform": "windows-x86_64",
 	"candidate": {
 		"repository": "world-transvoxel-terrain",
-		"revision": "4e2f05c397755afd26df93738d40870032bbeaff",
+		"revision": "5a96a2b86c2e8dbadb0203c8a063eb3eb52e405d",
 		"addon_tree": "1ca9f2625e0c54c41470086aedde2e4862d0fc4e",
 		"tracked_content_clean": true
 	},
@@ -17,7 +17,7 @@
 	},
 	"integration": {
 		"repository": "world-transvoxel-integration-game",
-		"revision": "2103c3eaec02b6bba2af9edbcb21f6275d0f4b4e",
+		"revision": "177f2a3d95a523f7da1c46cfb1d3657473155c4d",
 		"tracked_content_clean": true
 	},
 	"milestones": {
@@ -28,10 +28,9 @@
 			"api_version": 2,
 			"profiles": 4,
 			"readiness_scopes": 4,
-			"source_contract_sha256": "7486901eb476a83b5442a3b67aa23bf8c5d9ad35bffbf070e4a2081387dfbf24",
-			"source_report_sha256": "5d573f1722bcbb356a244de95c481b0ceb36b7e2bc3a16385cf52f43de25f8c4",
+			"source_contract_sha256": "dfdb80358fe6afc84f0ad4e9b10c0e13dd7c389a33257040647c51d296b6b2b7",
+			"source_report_sha256": "8e6bcd8c95023f4bc65f28f58697a2746b2c9de81d59d7247ea1de350318218b",
 			"engine_markers": {
-				"4.6.3": "WT_TERRAIN_TQP52_GODOT_PASS profiles=4 generation=2 backpressure=1 stale_viewer=1 smooth_edit=1 cancellation=1",
 				"4.7": "WT_TERRAIN_TQP52_GODOT_PASS profiles=4 generation=2 backpressure=1 stale_viewer=1 smooth_edit=1 cancellation=1"
 			}
 		},
@@ -42,10 +41,9 @@
 			"draft_undo_redo": true,
 			"durable_inverse_claim": false,
 			"repro_schema": "world_transvoxel_terrain.repro.v1",
-			"source_contract_sha256": "8f7550668954b0361c7615d9100b03b4a926a884ca64216f19ab2b3ecbfcbf63",
-			"source_report_sha256": "17960ab971ad9c3f2610de024ccb2b3c7cf708b898fd532c2e8b6d8b05bc3e2d",
+			"source_contract_sha256": "9ffb5a4ceb0f754bf78c90f3e06b06b30798856f4452f38abec37ab00a6e1343",
+			"source_report_sha256": "45bc273ab719f0629ef7ed10e346afc53610db4992d75907d130b6bc48a3a75b",
 			"engine_markers": {
-				"4.6.3": "WT_TERRAIN_TQP53_GODOT_PASS draft=1 undo_redo=1 import=1 preview=1 repro=1 dock=static",
 				"4.7": "WT_TERRAIN_TQP53_GODOT_PASS draft=1 undo_redo=1 import=1 preview=1 repro=1 dock=static"
 			}
 		},
@@ -56,7 +54,7 @@
 			"package_policy": "EXACT_PINNED_AUTHORITIES_NO_FALLBACKS",
 			"candidate_package": {
 				"repository": "world-transvoxel-terrain",
-				"commit": "4e2f05c397755afd26df93738d40870032bbeaff",
+				"commit": "5a96a2b86c2e8dbadb0203c8a063eb3eb52e405d",
 				"addon_tree": "1ca9f2625e0c54c41470086aedde2e4862d0fc4e",
 				"package_digest_sha256": "afd0e17da130cc147d903039a079dcb2a99e2776c3408950da8e8caa447fde51",
 				"files": 87
@@ -69,11 +67,9 @@
 				"files": 173
 			},
 			"project_import_engines": [
-				"4.6.3",
 				"4.7"
 			],
 			"runtime_smoke_markers": {
-				"4.6.3": "WT_TQP54_MIGRATION_GODOT_PASS render=1 collision=1 edit=committed journal=replayed failure=closed generation=3",
 				"4.7": "WT_TQP54_MIGRATION_GODOT_PASS render=1 collision=1 edit=committed journal=replayed failure=closed generation=3"
 			},
 			"deep_gate_timeout_seconds": 1800,

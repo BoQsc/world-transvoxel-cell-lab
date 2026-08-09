@@ -128,6 +128,10 @@ def main() -> int:
         failures.append("TQP-52 contract schema mismatch")
     if runtime_contract.get("status") != "qualified":
         failures.append("TQP-52 contract is not qualified")
+    if runtime_contract.get("engine_policy", {}).get("minimum_version") != "4.7":
+        failures.append("TQP-52 minimum Godot version mismatch")
+    if runtime_contract.get("engine_policy", {}).get("current_qualification_matrix") != ["4.7"]:
+        failures.append("TQP-52 Godot qualification matrix mismatch")
     if runtime_contract.get("api", {}).get("version") != runtime_standard["required_api_version"]:
         failures.append("TQP-52 API version mismatch")
     if runtime_contract.get("profiles", {}).get("builtins") != runtime_standard["required_profiles"]:
@@ -154,6 +158,10 @@ def main() -> int:
         failures.append("TQP-53 contract schema mismatch")
     if authoring_contract.get("status") != "qualified":
         failures.append("TQP-53 contract is not qualified")
+    if authoring_contract.get("engine_policy", {}).get("minimum_version") != "4.7":
+        failures.append("TQP-53 minimum Godot version mismatch")
+    if authoring_contract.get("engine_policy", {}).get("current_qualification_matrix") != ["4.7"]:
+        failures.append("TQP-53 Godot qualification matrix mismatch")
     if authoring_contract.get("editor_workflow", {}).get("operations") != authoring_standard["required_operations"]:
         failures.append("TQP-53 authoring operation set mismatch")
     boundaries = authoring_contract.get("boundaries", {})
@@ -193,6 +201,10 @@ def main() -> int:
             failures.append(f"TQP-54 authority package mismatch: {key}")
     if migration_contract.get("status") != "QUALIFIED" or migration_contract.get("release_claim") is not False:
         failures.append("TQP-54 migration contract status or release boundary mismatch")
+    if migration_contract.get("engine_policy", {}).get("minimum_version") != "4.7":
+        failures.append("TQP-54 minimum Godot version mismatch")
+    if migration_contract.get("engine_policy", {}).get("current_qualification_matrix") != ["4.7"]:
+        failures.append("TQP-54 Godot qualification matrix mismatch")
     if migration_contract.get("package_policy") != "EXACT_PINNED_AUTHORITIES_NO_FALLBACKS":
         failures.append("TQP-54 package policy mismatch")
     if migration_report.get("status") != "PASS" or migration_report.get("release_claim") is not False:

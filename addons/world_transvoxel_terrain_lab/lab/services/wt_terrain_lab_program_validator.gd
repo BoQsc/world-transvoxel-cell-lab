@@ -130,6 +130,33 @@ static func validate(program: Dictionary, dependencies: Dictionary) -> Dictionar
 		"program optimization policy changed",
 		failures
 	)
+	var engine_policy: Dictionary = program.get("engine_policy", {})
+	_expect(str(engine_policy.get("minimum_version", "")) == "4.7", "minimum Godot version changed", failures)
+	_expect(
+		engine_policy.get("current_qualification_matrix", []) == ["4.7"],
+		"Godot qualification matrix must contain only 4.7",
+		failures
+	)
+	_expect(
+		str(engine_policy.get("newer_versions", ""))
+			== "require_explicit_qualification_before_promotion",
+		"newer Godot admission policy changed",
+		failures
+	)
+	var operating_envelope := JsonLoader.load_dictionary(str(program.get("operating_envelope", "")))
+	var operating_targets: Dictionary = operating_envelope.get("targets", {})
+	_expect(
+		str(operating_targets.get("godot_minimum_version", ""))
+			== str(engine_policy.get("minimum_version", "")),
+		"operating-envelope minimum Godot version differs from the program",
+		failures
+	)
+	_expect(
+		operating_targets.get("godot_qualification_matrix", [])
+			== engine_policy.get("current_qualification_matrix", []),
+		"operating-envelope Godot matrix differs from the program",
+		failures
+	)
 	_expect(milestones.size() == 71, "program must contain exactly 71 milestones", failures)
 
 	var contract_refs := {}
@@ -341,10 +368,11 @@ static func _validate_evidence_files(program: Dictionary, failures: Array[String
 		"TQP-D021", "TQP-D022", "TQP-D023", "TQP-D024", "TQP-D025",
 		"TQP-D026", "TQP-D027", "TQP-D028", "TQP-D029", "TQP-D030",
 		"TQP-D031", "TQP-D032", "TQP-D033", "TQP-D034", "TQP-D035",
-		"TQP-D036", "TQP-D037", "TQP-D038", "TQP-D039",
+		"TQP-D036", "TQP-D037", "TQP-D038", "TQP-D039", "TQP-D040",
 	]:
 		_expect(decision_ids.has(required), "missing retained decision: " + required, failures)
 	for key in [
+		"operating_envelope",
 		"qualification_state",
 		"backend_decision",
 		"blocker_catalog",
@@ -2285,7 +2313,11 @@ static func _validate_cpu_production_first_batch(
 			"TQP-52 engine marker missing: " + engine,
 			failures
 		)
-	_expect(runtime_markers.size() == 2, "TQP-52 engine evidence changed", failures)
+	_expect(
+		runtime_markers.size() == (runtime_standard.get("required_engines", []) as Array).size(),
+		"TQP-52 engine evidence changed",
+		failures
+	)
 	var authoring_record: Dictionary = records.get("TQP-53", {})
 	_expect(bool(authoring_record.get("draft_undo_redo", false)), "TQP-53 draft undo/redo evidence missing", failures)
 	_expect(authoring_record.get("durable_inverse_claim", true) == false, "TQP-53 makes a durable inverse claim", failures)
@@ -2310,7 +2342,11 @@ static func _validate_cpu_production_first_batch(
 			"TQP-53 engine marker missing: " + engine,
 			failures
 		)
-	_expect(authoring_markers.size() == 2, "TQP-53 engine evidence changed", failures)
+	_expect(
+		authoring_markers.size() == (authoring_standard.get("required_engines", []) as Array).size(),
+		"TQP-53 engine evidence changed",
+		failures
+	)
 	var migration_record: Dictionary = records.get("TQP-54", {})
 	_expect(
 		str(migration_record.get("package_policy", "")) == "EXACT_PINNED_AUTHORITIES_NO_FALLBACKS",
@@ -2351,7 +2387,11 @@ static func _validate_cpu_production_first_batch(
 			"TQP-54 engine marker missing: " + engine,
 			failures
 		)
-	_expect(migration_markers.size() == 2, "TQP-54 engine evidence changed", failures)
+	_expect(
+		migration_markers.size() == (migration_standard.get("required_engines", []) as Array).size(),
+		"TQP-54 engine evidence changed",
+		failures
+	)
 	_expect(int(migration_record.get("deep_gate_timeout_seconds", 0)) == 1800, "TQP-54 deep gate timeout changed", failures)
 	_expect(
 		str((milestone_by_id.get("TQP-55", {}) as Dictionary).get("status", "")) == "blocked",

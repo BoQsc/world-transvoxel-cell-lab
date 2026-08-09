@@ -4,7 +4,7 @@ The Terrain Lab addon owns controlled experiments for the Terrain Qualification
 Program. It is separate from `world_transvoxel_cell_lab` even though both addons
 share this repository and the pinned `world_transvoxel` dependency.
 
-Current status: fail-closed program revision 40. All 71 milestones have a
+Current status: fail-closed program revision 41. All 71 milestones have a
 machine-readable evidence state. TQP-01 through TQP-50 retain their bounded
 qualified scopes; TQP-28 through TQP-43 establish the deterministic native
 field contract, LOD0 complex-field corpus, bounded adaptive selector, and
@@ -27,6 +27,10 @@ boundary, runtime contract, authoring workflow, and downstream migration;
 TQP-55 through TQP-57 own the remaining CPU release work,
 TQP-58 through TQP-64 own GPU qualification and release,
 and TQP-65 through TQP-71 keep game-oriented systems after terrain release.
+
+Godot 4.7 is the minimum and sole current qualification target. Older engine
+results are historical evidence, not a support requirement; newer versions
+must be explicitly qualified before promotion.
 
 Gate B edit qualification is retained in
 `standards/edit_gate_b_standard.json`. It qualifies `TQP-09` through `TQP-14`

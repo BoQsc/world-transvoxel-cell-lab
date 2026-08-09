@@ -30,6 +30,10 @@
 		"architectures": ["x86_64"],
 		"renderers": ["forward_plus"],
 		"rendering_drivers": ["d3d12"],
+		"godot_minimum_version": "4.7",
+		"godot_qualification_matrix": ["4.7"],
+		"godot_newer_versions": "require_explicit_qualification_before_promotion",
+		"legacy_engine_results": "historical_evidence_not_support_requirement",
 		"minimum_system_memory_mib": 8192,
 		"minimum_vram_mib": 4096
 	},

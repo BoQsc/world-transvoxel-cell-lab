@@ -178,12 +178,13 @@ promotion order: investigation may happen early, but qualification cannot skip
 an earlier dependency.
 
 The machine-readable `execution_plan.json` mirrors the same order but is not a
-second human roadmap. Program revision 40 preserves every qualified TQP-01
+second human roadmap. Program revision 41 preserves every qualified TQP-01
 through TQP-47 claim, keeps the ordered CPU/GPU release sequence from
 `TQP-D033`, corrects TQP-48's inherited low-power target through
 `TQP-D036`, and closes Gate E for the bounded CPU authority envelope through
-`TQP-D037`, and qualifies the first three candidate runtime and integration
-milestones through `TQP-D039` without advancing release certification.
+`TQP-D037`, qualifies the first three candidate runtime and integration
+milestones through `TQP-D039`, and sets Godot 4.7 as the sole current engine
+target through `TQP-D040` without advancing release certification.
 Earlier identifier migrations remain retained in `TQP-D006`, `TQP-D017`, and
 `TQP-D030` as history.
 
@@ -1163,12 +1164,12 @@ profile must expose its resolution, distance, queue, memory, collision, and
 power tradeoffs without weakening correctness.
 
 The retained Windows candidate at `world-transvoxel-terrain` commit
-`4e2f05c397755afd26df93738d40870032bbeaff`, addon tree
+`5a96a2b86c2e8dbadb0203c8a063eb3eb52e405d`, addon tree
 `1ca9f2625e0c54c41470086aedde2e4862d0fc4e`, exposes public API version 2,
 four immutable built-in profiles, separate generation-aware render, collision,
 edit, and query readiness, bounded viewer/request admission, monotonic viewer
-revisions, and cancellation of stale generation work. Godot 4.6.3 and 4.7
-runtime smokes pass. Profile power fields remain declared intent rather than a
+revisions, and cancellation of stale generation work. The Godot 4.7 runtime
+smoke passes. Profile power fields remain declared intent rather than a
 measured power claim, and release qualification remains outside this scope.
 
 ### TQP-53: Authoring And Inspection Workflow
@@ -1203,11 +1204,11 @@ migration or rejection behavior. Integration defects must become minimized lab
 repros before any upstream correction is accepted.
 
 The retained migration pins integration commit
-`2103c3eaec02b6bba2af9edbcb21f6275d0f4b4e`, the candidate commit and tree
+`177f2a3d95a523f7da1c46cfb1d3657473155c4d`, the candidate commit and tree
 above, and `world-transvoxel` commit
 `f4abd7ab4f921f98aba4ee45b4453af0bae53cd8`. Exact package digests cover 87
-candidate files and 173 authority files. Godot 4.6.3 and 4.7 imports and
-runtime smokes pass render, collision, edit, journal replay, generation, and
+candidate files and 173 authority files. The Godot 4.7 import and runtime
+smoke pass render, collision, edit, journal replay, generation, and
 fail-closed behavior. Game-specific presentation and deep topology diagnostics
 now live outside the production-addon namespace. The terminated unbounded deep
 profile attempt is explicitly excluded from pass evidence, and this milestone
@@ -1638,3 +1639,6 @@ Retained decisions:
 - `TQP-D039`: qualify TQP-52 through TQP-54 for the pinned Windows candidate
   runtime, bounded production authoring workflow, and exact downstream
   migration while leaving TQP-55 and all release claims fail-closed.
+- `TQP-D040`: make Godot 4.7 the minimum and sole current qualification
+  target, treat earlier engine results as history rather than support, and
+  require explicit qualification before admitting a newer Godot version.

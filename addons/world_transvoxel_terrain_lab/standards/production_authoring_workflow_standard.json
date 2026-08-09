@@ -5,21 +5,21 @@
 	"evidence": "res://labs/terrain_lab/results/cpu_production_first_batch_reference_windows.json",
 	"candidate": {
 		"repository": "world-transvoxel-terrain",
-		"revision": "4e2f05c397755afd26df93738d40870032bbeaff",
+		"revision": "5a96a2b86c2e8dbadb0203c8a063eb3eb52e405d",
 		"addon_root": "addons/world_transvoxel_terrain",
 		"addon_tree": "1ca9f2625e0c54c41470086aedde2e4862d0fc4e"
 	},
 	"source_contract": {
 		"path": "TQP53_AUTHORING_CONTRACT.json",
 		"schema": "world_transvoxel_terrain.tqp53_authoring_contract.v1",
-		"sha256": "8f7550668954b0361c7615d9100b03b4a926a884ca64216f19ab2b3ecbfcbf63"
+		"sha256": "9ffb5a4ceb0f754bf78c90f3e06b06b30798856f4452f38abec37ab00a6e1343"
 	},
 	"source_report": {
 		"path": "artifacts/tqp53_authoring_workflow/tqp53_authoring_workflow_report.json",
 		"schema": "world_transvoxel_terrain.tqp53_authoring_evidence.v1",
-		"sha256": "17960ab971ad9c3f2610de024ccb2b3c7cf708b898fd532c2e8b6d8b05bc3e2d"
+		"sha256": "45bc273ab719f0629ef7ed10e346afc53610db4992d75907d130b6bc48a3a75b"
 	},
-	"required_engines": ["4.6.3", "4.7"],
+	"required_engines": ["4.7"],
 	"required_operations": ["carve", "construct", "fill", "paint", "restore", "place_volume"],
 	"promotion_rules": [
 		"the editor dock acts on WtTerrainWorld through the production addon API",
@@ -28,7 +28,7 @@
 		"profile import export diagnostics and one-action repro export are deterministic",
 		"production texture blending consumes native weighted material payloads",
 		"no Terrain Lab runtime dependency fallback mesher or duplicated procedural field exists",
-		"both required Godot engines pass the retained authoring smoke"
+		"the required Godot 4.7 target passes the retained authoring smoke"
 	],
 	"qualified_scope": [
 		"production Terrain dock and WtTerrainWorld authoring workflow",

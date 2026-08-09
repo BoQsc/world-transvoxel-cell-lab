@@ -5,11 +5,11 @@
 	"evidence": "res://labs/terrain_lab/results/cpu_production_first_batch_reference_windows.json",
 	"integration": {
 		"repository": "world-transvoxel-integration-game",
-		"revision": "2103c3eaec02b6bba2af9edbcb21f6275d0f4b4e"
+		"revision": "177f2a3d95a523f7da1c46cfb1d3657473155c4d"
 	},
 	"candidate": {
 		"repository": "world-transvoxel-terrain",
-		"revision": "4e2f05c397755afd26df93738d40870032bbeaff",
+		"revision": "5a96a2b86c2e8dbadb0203c8a063eb3eb52e405d",
 		"addon_tree": "1ca9f2625e0c54c41470086aedde2e4862d0fc4e",
 		"package_digest_sha256": "afd0e17da130cc147d903039a079dcb2a99e2776c3408950da8e8caa447fde51",
 		"files": 87
@@ -22,15 +22,15 @@
 		"files": 173
 	},
 	"source_contracts": [
-		{"path": "TQP54_PACKAGE_PIN.json", "sha256": "2a7dfed8b1d030525bc5e09313dd07f6657f9de35abbb06a35aa9b800015d709"},
-		{"path": "TQP54_MIGRATION_CONTRACT.json", "sha256": "a91e87cca22c73d376f5a88e31282eaa17f09ef94b030ed0ffc34a9bd6481c0f"},
-		{"path": "docs/evidence/tqp54_migration_windows.json", "sha256": "e9e8112c08d4d2dadac55a4c172564419bcd44ae8621d856275b99497198c931"}
+		{"path": "TQP54_PACKAGE_PIN.json", "sha256": "4fa2f9ed9f4eac0d6eb39f46b889c3463229b0ec526c43df698acd9664d42662"},
+		{"path": "TQP54_MIGRATION_CONTRACT.json", "sha256": "a942c65795ea2ef136b0c04aacd48baed81e81b0974a88ade33dc808e2210564"},
+		{"path": "docs/evidence/tqp54_migration_windows.json", "sha256": "5582d06cbc28a627786fc4762d98a53cc8ee396ef246b0bdac2631815d65fa5d"}
 	],
-	"required_engines": ["4.6.3", "4.7"],
+	"required_engines": ["4.7"],
 	"promotion_rules": [
 		"integration package contents match the exact candidate and native authority pins",
 		"game scripts use WtTerrainWorld and keep game presentation and deep diagnostics outside the candidate namespace",
-		"render collision edit persistence replay generation and failure behavior pass in both engines",
+		"render collision edit persistence replay generation and failure behavior pass on Godot 4.7",
 		"unsupported custom journal paths and disabled native persistence reject explicitly",
 		"old native world chunk and edit-journal formats remain unchanged",
 		"the deep profile runner is bounded and its terminated timeout attempt is not pass evidence",
@@ -40,7 +40,7 @@
 		"exact pinned candidate and native authority packages in the integration game",
 		"representative render collision edit save replay and fail-closed migration behavior",
 		"game-specific presentation and topology diagnostics separated from production terrain ownership",
-		"bounded Windows Godot 4.6.3 and 4.7 migration smoke"
+		"bounded Windows Godot 4.7 migration smoke"
 	],
 	"unqualified_scope": [
 		"CPU production release matrix and long-haul certification",
