@@ -78,6 +78,51 @@ The TQP-48 report status is `MEASURED_TARGET_MISS`, not `PASS`. It is still
 retained complete baseline evidence because the exact protocol completed, all
 required workload classes ran, power samples were continuous, and drift passed.
 
+## TQP-55 Through TQP-57 CPU Production Release Baseline
+
+Baseline id: `CPU_TERRAIN_STANDARD_1_0_2026_08_09`
+
+Program revision: `42`
+
+Pins:
+
+- production commit: `20f0a6e4b5fd32016e106a1bac9c1248f2d2a81f`;
+- production addon tree: `bd8b7c6ebde90c483ff354f97db09512008e6fcc`;
+- integration commit: `efadb8dd900056e2d7f8696685605281beafb36b`;
+- native authority commit: `f4abd7ab4f921f98aba4ee45b4453af0bae53cd8`;
+- canonical 87-file addon digest:
+  `df63530846029be9b39fe939c18b2cc20c43fbe961aa481428be6ebac174f96b`;
+- deterministic release ZIP digest:
+  `8df8d0a72096295b33f881d360049d3353325af01d3c3c17197b41109e697e76`.
+
+Retained evidence:
+
+- `res://labs/terrain_lab/results/cpu_production_release_reference_windows.json`
+- `res://addons/world_transvoxel_terrain_lab/standards/cpu_production_release_matrix_standard.json`
+- `res://addons/world_transvoxel_terrain_lab/standards/cpu_production_long_haul_standard.json`
+- `res://addons/world_transvoxel_terrain_lab/standards/cpu_production_release_standard.json`
+- `res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D041.json`
+
+Production-wrapper long-haul result:
+
+| Metric | Retained Result | Release Rule |
+|---|---:|---|
+| Duration | `60.200 s` | `>= 60 s` |
+| Residency cycles | `80` | `>= 8` |
+| Committed edits | `20` | `>= 2` |
+| Authoritative queries | `26` | `>= 2` |
+| Journal restarts | `6` | `>= 1` |
+| Static-memory growth | `1,010,044 bytes` | `<= 67,108,864 bytes` |
+| Queue rejections | `0` | `0` |
+| Clean shutdown | `true` | required |
+
+This one-minute wrapper test complements rather than replaces the retained
+TQP-49 `1802.580076 s` and `108000`-frame native/rendered drift run. The release
+is qualified only for Windows x86-64, Godot 4.7, Forward+, the pinned authority,
+and the declared reference hardware class. TQP-48's target misses remain part
+of the release evidence. GPU terrain, non-Windows systems, arbitrary hardware,
+game systems, and universal 16 W at 60 FPS claims are not qualified.
+
 ## CPU-Instrumented Development Baseline
 
 Development baseline id: `TERRAIN_PERFORMANCE_DEV_2026_08_08`
@@ -150,7 +195,8 @@ thermal drift.
 
 Shorter development runs are useful, but they must be written to separate files
 and must not replace retained qualification evidence. They can guide work, but
-they cannot qualify TQP-48, TQP-49, TQP-50, or Gate E.
+they cannot qualify TQP-48, TQP-49, TQP-50, or Gate E, and they cannot replace
+the pinned TQP-55 through TQP-57 production release evidence.
 
 The protected development command is:
 

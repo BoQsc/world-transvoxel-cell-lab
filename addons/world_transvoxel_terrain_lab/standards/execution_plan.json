@@ -1,11 +1,11 @@
 {
 	"schema": "world_transvoxel.terrain_lab.execution_plan.v1",
-	"plan_revision": 32,
-	"program_revision": 41,
+	"plan_revision": 33,
+	"program_revision": 42,
 	"policy": "single_human_tqp_dependency_order_fail_closed",
 	"human_authority": "res://docs/terrain_lab/TERRAIN_QUALIFICATION_PROGRAM.md",
-	"current_wave": "TQP-WAVE-04",
-	"recommended_next": ["TQP-55"],
+	"current_wave": "TQP-WAVE-05",
+	"recommended_next": ["TQP-58"],
 	"waves": [
 		{
 			"id": "TQP-WAVE-00",
@@ -76,7 +76,7 @@
 		{
 			"id": "TQP-WAVE-04",
 			"title": "Standalone CPU production terrain release",
-			"status": "active",
+			"status": "completed",
 			"steps": [
 				["TQP-51"],
 				["TQP-52"],
@@ -90,7 +90,7 @@
 		{
 			"id": "TQP-WAVE-05",
 			"title": "GPU backend qualification and release",
-			"status": "blocked",
+			"status": "active",
 			"steps": [
 				["TQP-58"],
 				["TQP-59"],

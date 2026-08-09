@@ -6,7 +6,7 @@ Qualification Program; it does not own production implementation and does not
 extend the Cell Lab root node.
 
 The [Terrain Qualification Program](TERRAIN_QUALIFICATION_PROGRAM.md) is the
-single human-readable roadmap. Program revision 41 contains TQP-01 through
+single human-readable roadmap. Program revision 42 contains TQP-01 through
 TQP-71 in ground-up execution order:
 
 - TQP-01 through TQP-50 are qualified only for their declared bounded scopes;
@@ -27,18 +27,18 @@ TQP-71 in ground-up execution order:
 - TQP-48 qualifies the exact GPU-board WPF60 baseline protocol with explicit
   target misses, TQP-49 qualifies complex adaptive soak/recovery, and TQP-50
   closes Gate E for the bounded Windows CPU authority envelope;
-- TQP-51 through TQP-54 qualify the standalone candidate boundary, runtime,
-  authoring, and pinned downstream migration; TQP-55 through TQP-57 remain the
-  blocked CPU release matrix, certification, and release;
+- TQP-51 through TQP-56 qualify the standalone candidate boundary, runtime,
+  authoring, migration, release matrix, and long-haul certification; TQP-57 is
+  the limited Windows CPU Terrain Standard 1.0 production release;
 - TQP-58 is the specified CPU-primary GPU architecture decision and TQP-59
   through TQP-64 are the blocked GPU qualification and release;
 - TQP-65 through TQP-70 retain implemented but unqualified post-release game
   systems, while TQP-71 networking remains blocked.
 
-The next promotion milestone is TQP-55, CPU Production Release Qualification
-Matrix. Gate E and the bounded TQP-51 through TQP-54 Windows candidate and
-migration scopes are qualified; release certification, the full low-power
-target pass, GPU backend, and cross-hardware claims remain unqualified.
+The next promotion milestone is TQP-58, GPU Architecture Decision. Gate F and
+the bounded CPU Terrain Standard 1.0 Windows release are qualified; the full
+low-power target pass, GPU backend, non-Windows, and cross-hardware claims
+remain unqualified.
 
 Godot 4.7 is the minimum and sole current qualification target. Godot 4.6
 results are retained only as historical observations; they are not rerun or

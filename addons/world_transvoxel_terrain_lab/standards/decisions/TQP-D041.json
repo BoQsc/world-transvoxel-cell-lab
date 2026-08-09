@@ -1,0 +1,36 @@
+{
+	"schema": "world_transvoxel.terrain_lab.decision.v1",
+	"id": "TQP-D041",
+	"date": "2026-08-09",
+	"decision": "Qualify TQP-55 and TQP-56, promote TQP-57 as the first limited Windows CPU reference production release, close Gate F, and advance the dependency-ordered program to TQP-58 without widening the release beyond its evidence.",
+	"affected_milestones": ["TQP-55", "TQP-56", "TQP-57", "TQP-58"],
+	"repositories": [
+		"world-transvoxel-cell-lab",
+		"world-transvoxel-terrain",
+		"world-transvoxel-integration-game",
+		"world-transvoxel"
+	],
+	"evidence": [
+		"world-transvoxel-terrain commit 20f0a6e4b5fd32016e106a1bac9c1248f2d2a81f and addon tree bd8b7c6ebde90c483ff354f97db09512008e6fcc",
+		"world-transvoxel-integration-game commit efadb8dd900056e2d7f8696685605281beafb36b repins and passes TQP-54 on Godot 4.7",
+		"TQP-55 deterministic 87-file package digest df63530846029be9b39fe939c18b2cc20c43fbe961aa481428be6ebac174f96b",
+		"TQP-56 60.2-second wrapper run with 80 cycles 20 edits 26 queries 6 restarts about 1 MB memory growth and zero queue rejections plus retained 1802.58-second TQP-49 evidence",
+		"TQP-57 reproducible ZIP digest 8df8d0a72096295b33f881d360049d3353325af01d3c3c17197b41109e697e76"
+	],
+	"qualified_scope": [
+		"Windows x86-64 Godot 4.7 Forward+ CPU Terrain Standard 1.0 reference matrix",
+		"standalone world-transvoxel-terrain 1.0.0 addon with exact external world-transvoxel authority",
+		"bounded production-wrapper and retained long-run evidence"
+	],
+	"unqualified_scope": [
+		"non-Windows arbitrary hardware GPU terrain complete-system power gameplay networking and universal 16 W 60 FPS claims"
+	],
+	"standards_changed": [
+		"Terrain Qualification Program revision 42",
+		"execution-plan revision 33",
+		"TQP-55 through TQP-57 production standards and retained evidence",
+		"Gate F promotion and TQP-58 next milestone"
+	],
+	"review": "The release is authoritative only inside the pinned matrix. TQP-48 target misses remain explicit; the release does not convert reference ceilings into universal guarantees.",
+	"downstream_impact": "The CPU production release becomes the differential baseline for TQP-58 through TQP-64. GPU work may improve measured behavior but cannot silently rewrite CPU authority or its retained evidence."
+}

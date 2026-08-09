@@ -1,0 +1,28 @@
+{
+	"schema": "world_transvoxel.terrain_lab.cpu_production_long_haul_standard.v1",
+	"milestone": "TQP-56",
+	"standard_id": "windows_cpu_production_wrapper_long_haul_v1",
+	"candidate_revision": "20f0a6e4b5fd32016e106a1bac9c1248f2d2a81f",
+	"source_contract": {
+		"path": "TQP56_LONG_HAUL_CONTRACT.json",
+		"sha256": "5f51e52d8c6cf2f8f84bd55081beea1f03e9b2a49d554d626161a268b7fbddb2"
+	},
+	"source_report": {
+		"path": "artifacts/tqp56_long_haul/tqp56_long_haul_report.json",
+		"sha256": "55fcdd5b79c996056fdc188ae17b6eebdd34e75608e1f94d4aceea23d9cf3f1b"
+	},
+	"minimum_wrapper_duration_seconds": 60,
+	"minimum_cycles": 8,
+	"minimum_edits": 2,
+	"minimum_queries": 2,
+	"minimum_restarts": 1,
+	"maximum_memory_growth_bytes": 67108864,
+	"maximum_queue_rejections": 0,
+	"retained_native_seconds": 1800,
+	"retained_frame_samples": 108000,
+	"qualified_scope": [
+		"bounded production-wrapper traversal residency edits queries restart replay origin shift fault queue memory and shutdown",
+		"retained 1800-second native rendered drift thermal power persistence recovery and shutdown evidence"
+	],
+	"explicitly_unqualified_scope": ["multi-day cross-hardware and GPU terrain execution"]
+}

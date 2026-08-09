@@ -48,11 +48,10 @@ static func run() -> Dictionary:
 		_expect(not str(record.get("exit", "")).is_empty(), milestone + " blocker exit missing", failures)
 		blocker_by_milestone[milestone] = record
 	for milestone in [
-		"TQP-55", "TQP-56", "TQP-57",
 		"TQP-59", "TQP-60", "TQP-61", "TQP-62", "TQP-63", "TQP-64", "TQP-71",
 	]:
 		_expect(blocker_by_milestone.has(milestone), "missing fail-closed blocker: " + milestone, failures)
-	_expect(blocker_by_milestone.size() == 10, "blocker catalog contains an unexpected milestone", failures)
+	_expect(blocker_by_milestone.size() == 7, "blocker catalog contains an unexpected milestone", failures)
 	_expect(
 		not ClassDB.class_exists("WtGpuTerrainBackend"),
 		"GPU backend exists but blocker catalog still declares it absent",
@@ -71,9 +70,9 @@ static func run() -> Dictionary:
 			"TQP-52": "qualified_production_runtime_contract_v1",
 			"TQP-53": "qualified_production_authoring_workflow_v1",
 			"TQP-54": "qualified_downstream_migration_v1",
-			"TQP-55": "blocked",
-			"TQP-56": "blocked",
-			"TQP-57": "blocked",
+			"TQP-55": "qualified_windows_cpu_release_matrix_v1",
+			"TQP-56": "qualified_windows_cpu_wrapper_and_retained_long_haul_v1",
+			"TQP-57": "production_cpu_terrain_standard_1_0_limited_windows_reference_release",
 			"TQP-58": "specified_pending_candidate_benefit_measurement",
 			"TQP-59": "blocked",
 			"TQP-60": "blocked",
@@ -93,9 +92,11 @@ static func run() -> Dictionary:
 			"TQP-52 pinned runtime API profiles readiness back-pressure and cancellation contract",
 			"TQP-53 bounded production authoring inspection repro and material-payload workflow",
 			"TQP-54 exact pinned downstream migration and representative runtime behavior",
+			"TQP-55 pinned Windows CPU production release matrix and deterministic package",
+			"TQP-56 bounded production-wrapper plus retained 1800-second long-haul evidence",
+			"TQP-57 CPU Terrain Standard 1.0 standalone limited Windows reference release",
 		],
 		"explicitly_unqualified_scope": [
-			"CPU production release matrix certification and release milestones TQP-55 through TQP-57",
 			"GPU backend milestones TQP-59 through TQP-64",
 			"TQP-58 measured GPU candidate benefit",
 			"TQP-71 networking and recovery",

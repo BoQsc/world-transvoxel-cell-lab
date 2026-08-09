@@ -1,0 +1,103 @@
+{
+	"schema": "world_transvoxel.terrain_lab.cpu_production_release_qualification.v1",
+	"date": "2026-08-09",
+	"status": "PASS",
+	"retained_complete": true,
+	"gate": "GATE_F",
+	"gate_promoted": true,
+	"candidate": {
+		"revision": "20f0a6e4b5fd32016e106a1bac9c1248f2d2a81f",
+		"addon_tree": "bd8b7c6ebde90c483ff354f97db09512008e6fcc",
+		"tracked_content_clean": true
+	},
+	"native_authority": {
+		"revision": "f4abd7ab4f921f98aba4ee45b4453af0bae53cd8",
+		"tracked_content_clean": true
+	},
+	"integration": {
+		"revision": "efadb8dd900056e2d7f8696685605281beafb36b",
+		"tracked_content_clean": true
+	},
+	"milestones": {
+		"TQP-55": {
+			"status": "PASS",
+			"standard_id": "windows_cpu_production_release_matrix_v1",
+			"matrix": {
+				"platforms": [
+					"windows-10-x86_64"
+				],
+				"engine_versions": [
+					"4.7"
+				],
+				"renderers": [
+					"forward_plus"
+				],
+				"profiles": [
+					"LOW_POWER",
+					"BALANCED",
+					"QUALITY",
+					"REFERENCE"
+				]
+			},
+			"package_digest_sha256": "df63530846029be9b39fe939c18b2cc20c43fbe961aa481428be6ebac174f96b",
+			"power_target_status": "retained_measured_target_miss"
+		},
+		"TQP-56": {
+			"status": "PASS",
+			"standard_id": "windows_cpu_production_wrapper_long_haul_v1",
+			"workload": {
+				"api_generation": 14,
+				"clean_shutdown": true,
+				"cycles": 80,
+				"duration_seconds": 60.2,
+				"edits": 20,
+				"fault_rejections": 2,
+				"maximum_queues": {
+					"collision": 0,
+					"render": 0,
+					"scheduler": 0,
+					"storage": 2
+				},
+				"memory_baseline_bytes": 26973006,
+				"memory_end_bytes": 27983050,
+				"memory_growth_bytes": 1010044,
+				"memory_peak_growth_bytes": 1084556,
+				"origin_shift_authority_coordinates_unchanged": true,
+				"queries": 26,
+				"queue_rejections": 0,
+				"restarts": 6,
+				"schema": "world_transvoxel_terrain.tqp56_godot_long_haul.v1",
+				"status": "PASS",
+				"world_revision": 0
+			},
+			"retained_native_seconds": 1800,
+			"retained_frame_samples": 108000
+		},
+		"TQP-57": {
+			"status": "PASS",
+			"standard_id": "cpu_terrain_standard_1_0_windows_reference_v1",
+			"release_id": "world-transvoxel-terrain-cpu-1.0.0",
+			"version": "1.0.0",
+			"release_boundary": "limited_windows_cpu_reference_release",
+			"package": {
+				"path": "artifacts/tqp57_release/world-transvoxel-terrain-1.0.0.zip",
+				"package_digest_sha256": "df63530846029be9b39fe939c18b2cc20c43fbe961aa481428be6ebac174f96b",
+				"zip_sha256": "8df8d0a72096295b33f881d360049d3353325af01d3c3c17197b41109e697e76",
+				"files": 87
+			}
+		}
+	},
+	"qualified_scope": [
+		"pinned Windows x86-64 Godot 4.7 Forward+ CPU production release matrix",
+		"four declared runtime profiles exact native artifacts and deterministic candidate package",
+		"bounded production-wrapper traversal residency edits queries restart replay origin shift fault queue memory and shutdown",
+		"retained 1800-second native rendered drift thermal power persistence recovery and shutdown evidence",
+		"CPU Terrain Standard 1.0 and deterministic standalone world-transvoxel-terrain 1.0.0 addon",
+		"pinned migration supported matrix and explicit unqualified scope"
+	],
+	"explicitly_unqualified_scope": [
+		"GPU execution non-Windows arbitrary hardware gameplay networking and universal performance claims"
+	],
+	"next_milestone": "TQP-58",
+	"failures": []
+}

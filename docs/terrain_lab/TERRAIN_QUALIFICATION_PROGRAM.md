@@ -178,13 +178,14 @@ promotion order: investigation may happen early, but qualification cannot skip
 an earlier dependency.
 
 The machine-readable `execution_plan.json` mirrors the same order but is not a
-second human roadmap. Program revision 41 preserves every qualified TQP-01
+second human roadmap. Program revision 42 preserves every qualified TQP-01
 through TQP-47 claim, keeps the ordered CPU/GPU release sequence from
 `TQP-D033`, corrects TQP-48's inherited low-power target through
 `TQP-D036`, and closes Gate E for the bounded CPU authority envelope through
 `TQP-D037`, qualifies the first three candidate runtime and integration
 milestones through `TQP-D039`, and sets Godot 4.7 as the sole current engine
-target through `TQP-D040` without advancing release certification.
+target through `TQP-D040`, and qualifies the limited CPU Terrain Standard 1.0
+release and closes Gate F through `TQP-D041`.
 Earlier identifier migrations remain retained in `TQP-D006`, `TQP-D017`, and
 `TQP-D030` as history.
 
@@ -1127,8 +1128,9 @@ game framework and has no runtime dependency on either lab.
 Execution order: TQP-51 -> TQP-52 -> TQP-53 -> TQP-54 -> TQP-55 -> TQP-56 ->
 TQP-57.
 
-Gate E and TQP-51 through TQP-54 are qualified. This phase is the active
-production wave and continues with the TQP-55 CPU release matrix.
+Gate E and TQP-51 through TQP-56 are qualified. TQP-57 is the first production
+release for its limited Windows reference matrix, Gate F is closed, and the
+active execution wave advances to the TQP-58 GPU architecture decision.
 
 ### TQP-51: Production Addon Boundary
 
@@ -1216,7 +1218,7 @@ makes no release claim.
 
 ### TQP-55: CPU Production Release Qualification Matrix
 
-Status: `blocked`. Owner: Terrain Qualification Program. Depends on: TQP-48,
+Status: `qualified`. Owner: Terrain Qualification Program. Depends on: TQP-48,
 TQP-49, TQP-51, TQP-52, TQP-53, TQP-54.
 
 Complete when supported platforms, renderers, native artifacts, hardware
@@ -1224,18 +1226,29 @@ classes, editor/runtime modes, upgrade paths, visuals, latency, frame pacing,
 memory, collision residency, power profiles, and explicitly unsupported scope
 form a reproducible CPU release bundle.
 
+The retained Windows x86-64, Godot 4.7, Forward+ matrix includes four profiles,
+exact debug/release native artifact pins, the reference hardware class, seven
+retained evidence sources, and an 87-file deterministic candidate package with
+canonical digest `df63530846029be9b39fe939c18b2cc20c43fbe961aa481428be6ebac174f96b`.
+TQP-48's measured target misses remain explicit.
+
 ### TQP-56: CPU Production Long-Haul Certification
 
-Status: `blocked`. Owner: Terrain Qualification Program. Depends on: TQP-55.
+Status: `qualified`. Owner: Terrain Qualification Program. Depends on: TQP-55.
 
 Complete when extended traversal, flight, editing, construction, save/load,
 streaming, origin shifting, fault injection, recovery, and shutdown pass the
 release matrix without correctness, memory, queue, performance, thermal, or
 power drift.
 
+The production wrapper passed 60.2 seconds, 80 residency cycles, 20 edits, 26
+queries, six journal restarts, about 1 MB net static-memory growth, zero queue
+rejections, and clean shutdown on Godot 4.7. TQP-49 retains the complementary
+1802.58-second, 108,000-frame drift evidence.
+
 ### TQP-57: CPU Production Terrain Standard And Standalone Release
 
-Status: `blocked`. Owner: Terrain Qualification Program and
+Status: `production`. Owner: Terrain Qualification Program and
 `world-transvoxel-terrain`. Depends on: TQP-56.
 
 Complete when the reviewed CPU evidence bundle, versioned standard, standalone
@@ -1243,6 +1256,14 @@ addon package, migration notes, supported matrix, and explicit unqualified
 scope are reproducible from pinned revisions. This closes Gate F and is the
 first production terrain release; later GPU and game-system work cannot revise
 its evidence silently.
+
+`world-transvoxel-terrain` version `1.0.0` is reproducible from production
+commit `20f0a6e4b5fd32016e106a1bac9c1248f2d2a81f`, exact addon tree
+`bd8b7c6ebde90c483ff354f97db09512008e6fcc`, and ZIP digest
+`8df8d0a72096295b33f881d360049d3353325af01d3c3c17197b41109e697e76`.
+The release is limited to its declared matrix and keeps GPU, non-Windows,
+arbitrary-hardware, gameplay, networking, and universal performance claims
+unqualified.
 
 ## Phase 6: GPU Backend Qualification And Release
 
@@ -1417,20 +1438,18 @@ The program records every milestone at a truthful evidence state:
   envelope. `TQP-48` now retains the exact GPU-board WPF60 baseline run,
   `TQP-49` passes the complex adaptive soak/recovery aggregation, and `TQP-50`
   closes Gate E for the bounded Windows CPU authority envelope.
-- `TQP-51` through `TQP-54` qualify the pinned standalone CPU candidate
-  boundary, runtime contract, authoring workflow, and downstream migration;
-  `TQP-55` through `TQP-57` remain blocked release work.
+- `TQP-51` through `TQP-56` qualify the pinned standalone CPU candidate,
+  migration, release matrix, and long-haul contracts; `TQP-57` is the limited
+  Windows CPU Terrain Standard 1.0 production release and closes Gate F.
 - `TQP-58` is the specified CPU-primary GPU architecture decision; `TQP-59`
   through `TQP-64` are blocked GPU implementation and release work.
 - `TQP-65` through `TQP-70` retain the previously implemented but unqualified
   destruction and structural reference behavior under revision-34 identifiers.
 - `TQP-71` networking remains blocked by a missing multiplayer authority model.
 
-The next dependency-ordered milestone is TQP-55, CPU Production Release
-Qualification Matrix. TQP-51 through TQP-54 establish the standalone candidate
-boundary, runtime and authoring contracts, and exact downstream migration
-without either lab at runtime. Release certification, the low-power target
-misses, GPU backend, and game-system behavior remain outside the qualified
+The next dependency-ordered milestone is TQP-58, GPU Architecture Decision.
+The CPU release remains the differential authority, the low-power target misses
+remain visible, and GPU or game-system behavior remains outside the qualified
 claim. A milestone may advance only when its declared evidence passes.
 
 ## What Comes Next
@@ -1642,3 +1661,6 @@ Retained decisions:
 - `TQP-D040`: make Godot 4.7 the minimum and sole current qualification
   target, treat earlier engine results as history rather than support, and
   require explicit qualification before admitting a newer Godot version.
+- `TQP-D041`: qualify the CPU release matrix and long-haul evidence, promote
+  CPU Terrain Standard 1.0 as a limited Windows reference production release,
+  close Gate F, and advance the active wave to TQP-58.

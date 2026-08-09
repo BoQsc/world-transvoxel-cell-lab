@@ -4,7 +4,7 @@ The Terrain Lab addon owns controlled experiments for the Terrain Qualification
 Program. It is separate from `world_transvoxel_cell_lab` even though both addons
 share this repository and the pinned `world_transvoxel` dependency.
 
-Current status: fail-closed program revision 41. All 71 milestones have a
+Current status: fail-closed program revision 42. All 71 milestones have a
 machine-readable evidence state. TQP-01 through TQP-50 retain their bounded
 qualified scopes; TQP-28 through TQP-43 establish the deterministic native
 field contract, LOD0 complex-field corpus, bounded adaptive selector, and
@@ -22,9 +22,9 @@ visual corpus, fast-arrival edits, targeted collision, and bounded rendering
 regression envelope. TQP-48 qualifies the exact GPU-board WPF60 baseline
 protocol with target misses retained, TQP-49 qualifies complex adaptive soak
 and recovery, and TQP-50 closes Gate E for the bounded Windows CPU authority
-envelope. TQP-51 through TQP-54 now qualify the pinned standalone CPU candidate
-boundary, runtime contract, authoring workflow, and downstream migration;
-TQP-55 through TQP-57 own the remaining CPU release work,
+envelope. TQP-51 through TQP-56 qualify the pinned standalone CPU candidate,
+runtime, authoring, migration, release matrix, and long-haul contracts; TQP-57
+is the limited Windows CPU Terrain Standard 1.0 production release,
 TQP-58 through TQP-64 own GPU qualification and release,
 and TQP-65 through TQP-71 keep game-oriented systems after terrain release.
 
@@ -42,7 +42,7 @@ production frame-time performance explicitly unqualified.
 
 - `world_transvoxel` is the current required native test dependency.
 - `world_transvoxel_terrain` is pinned as a qualification-only TQP-51 through
-  TQP-54 candidate.
+  TQP-57 production release target.
   Terrain Lab runtime code does not depend on or install it.
 
 ## Forbidden Dependencies
@@ -56,8 +56,8 @@ fixtures for edit semantics, material semantics, terrain-system policy,
 structural policy, observability, and backend decisions. It qualifies only the
 bounded native adaptive-terrain scopes backed by retained evidence and records
 the remaining gaps without widening those claims. These reference models are
-not a production terrain runtime. TQP-55 and later release/GPU milestones
-remain blocked and no fallback mesher exists.
+not a production terrain runtime. TQP-58 through TQP-64 GPU milestones remain
+separate, and no fallback mesher exists.
 
 Program document:
 

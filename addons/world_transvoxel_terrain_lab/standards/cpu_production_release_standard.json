@@ -1,0 +1,38 @@
+{
+	"schema": "world_transvoxel.terrain_lab.cpu_production_release_standard.v1",
+	"milestone": "TQP-57",
+	"gate": "GATE_F",
+	"standard_id": "cpu_terrain_standard_1_0_windows_reference_v1",
+	"release_id": "world-transvoxel-terrain-cpu-1.0.0",
+	"version": "1.0.0",
+	"candidate_revision": "20f0a6e4b5fd32016e106a1bac9c1248f2d2a81f",
+	"candidate_addon_tree": "bd8b7c6ebde90c483ff354f97db09512008e6fcc",
+	"integration_revision": "efadb8dd900056e2d7f8696685605281beafb36b",
+	"integration_package_pin_sha256": "976f45808005928c4a6b1bc6ff138841eb1265d15f8f9099f88ee42d5206046d",
+	"source_contract": {
+		"path": "TQP57_RELEASE_CONTRACT.json",
+		"sha256": "e162397dd474a0f49260634d468047ef0a8c74347fcf4cc0b8bd21bb542f2927"
+	},
+	"source_report": {
+		"path": "artifacts/tqp57_release/tqp57_release_report.json",
+		"sha256": "4319a2f5657da88f1c7f5b93300371f412ae81da41622dd4513c96fff72d38b3"
+	},
+	"manifest": {
+		"path": "artifacts/tqp57_release/world-transvoxel-terrain-1.0.0.manifest.json",
+		"sha256": "965581c9e9746ddcd3f77af3b00af719bf0355c310c186436327d168660dfdde"
+	},
+	"package": {
+		"path": "artifacts/tqp57_release/world-transvoxel-terrain-1.0.0.zip",
+		"package_digest_sha256": "df63530846029be9b39fe939c18b2cc20c43fbe961aa481428be6ebac174f96b",
+		"zip_sha256": "8df8d0a72096295b33f881d360049d3353325af01d3c3c17197b41109e697e76",
+		"files": 87
+	},
+	"release_boundary": "limited_windows_cpu_reference_release",
+	"qualified_scope": [
+		"CPU Terrain Standard 1.0 and deterministic standalone world-transvoxel-terrain 1.0.0 addon",
+		"pinned migration supported matrix and explicit unqualified scope"
+	],
+	"explicitly_unqualified_scope": [
+		"GPU execution non-Windows arbitrary hardware gameplay networking and universal performance claims"
+	]
+}

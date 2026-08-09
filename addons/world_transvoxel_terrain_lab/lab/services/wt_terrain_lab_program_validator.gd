@@ -226,6 +226,7 @@ static func validate(program: Dictionary, dependencies: Dictionary) -> Dictionar
 	_validate_cpu_closure_implementation(program, milestone_by_id, failures)
 	_validate_production_addon_boundary(program, milestone_by_id, failures)
 	_validate_cpu_production_first_batch(program, milestone_by_id, failures)
+	_validate_cpu_production_release(program, milestone_by_id, failures)
 	_validate_low_power_performance_profile(program, failures)
 	_validate_visual_evidence(program, milestone_by_id, failures)
 	_validate_dependency_boundary(program, dependencies, failures)
@@ -369,6 +370,7 @@ static func _validate_evidence_files(program: Dictionary, failures: Array[String
 		"TQP-D026", "TQP-D027", "TQP-D028", "TQP-D029", "TQP-D030",
 		"TQP-D031", "TQP-D032", "TQP-D033", "TQP-D034", "TQP-D035",
 		"TQP-D036", "TQP-D037", "TQP-D038", "TQP-D039", "TQP-D040",
+		"TQP-D041",
 	]:
 		_expect(decision_ids.has(required), "missing retained decision: " + required, failures)
 	for key in [
@@ -443,6 +445,10 @@ static func _validate_evidence_files(program: Dictionary, failures: Array[String
 		"production_authoring_workflow_standard",
 		"downstream_migration_standard",
 		"cpu_production_first_batch_evidence",
+		"cpu_production_release_matrix_standard",
+		"cpu_production_long_haul_standard",
+		"cpu_production_release_standard",
+		"cpu_production_release_evidence",
 		"wave_02_first_batch_evidence",
 		"wave_02_second_batch_evidence",
 		"execution_plan",
@@ -2393,9 +2399,103 @@ static func _validate_cpu_production_first_batch(
 		failures
 	)
 	_expect(int(migration_record.get("deep_gate_timeout_seconds", 0)) == 1800, "TQP-54 deep gate timeout changed", failures)
+
+
+static func _validate_cpu_production_release(
+	program: Dictionary,
+	milestone_by_id: Dictionary,
+	failures: Array[String]
+) -> void:
+	var matrix_standard := JsonLoader.load_dictionary(
+		str(program.get("cpu_production_release_matrix_standard", ""))
+	)
+	var long_standard := JsonLoader.load_dictionary(
+		str(program.get("cpu_production_long_haul_standard", ""))
+	)
+	var release_standard := JsonLoader.load_dictionary(
+		str(program.get("cpu_production_release_standard", ""))
+	)
+	var evidence := JsonLoader.load_dictionary(
+		str(program.get("cpu_production_release_evidence", ""))
+	)
 	_expect(
-		str((milestone_by_id.get("TQP-55", {}) as Dictionary).get("status", "")) == "blocked",
-		"TQP-55 advanced without a CPU production release matrix",
+		str(matrix_standard.get("schema", ""))
+			== "world_transvoxel.terrain_lab.cpu_production_release_matrix_standard.v1",
+		"TQP-55 release-matrix standard schema mismatch",
+		failures
+	)
+	_expect(
+		str(long_standard.get("schema", ""))
+			== "world_transvoxel.terrain_lab.cpu_production_long_haul_standard.v1",
+		"TQP-56 long-haul standard schema mismatch",
+		failures
+	)
+	_expect(
+		str(release_standard.get("schema", ""))
+			== "world_transvoxel.terrain_lab.cpu_production_release_standard.v1",
+		"TQP-57 release standard schema mismatch",
+		failures
+	)
+	_expect(
+		str(evidence.get("schema", ""))
+			== "world_transvoxel.terrain_lab.cpu_production_release_qualification.v1",
+		"CPU production release evidence schema mismatch",
+		failures
+	)
+	_expect(str(evidence.get("status", "")) == "PASS", "CPU production release evidence failed", failures)
+	_expect(bool(evidence.get("retained_complete", false)), "CPU production release evidence is incomplete", failures)
+	_expect(bool(evidence.get("gate_promoted", false)), "Gate F was not promoted", failures)
+	var candidate: Dictionary = evidence.get("candidate", {})
+	var expected_candidate: Dictionary = matrix_standard.get("candidate", {})
+	_expect(str(candidate.get("revision", "")) == str(expected_candidate.get("revision", "")), "release candidate revision changed", failures)
+	_expect(str(candidate.get("addon_tree", "")) == str(expected_candidate.get("addon_tree", "")), "release candidate addon tree changed", failures)
+	_expect(bool(candidate.get("tracked_content_clean", false)), "release candidate tracked content is dirty", failures)
+	var milestone_evidence: Dictionary = evidence.get("milestones", {})
+	for milestone_id in ["TQP-55", "TQP-56", "TQP-57"]:
+		_expect(
+			str((milestone_evidence.get(milestone_id, {}) as Dictionary).get("status", "")) == "PASS",
+			milestone_id + " release evidence failed",
+			failures
+		)
+	_expect(
+		str((milestone_by_id.get("TQP-55", {}) as Dictionary).get("status", "")) == "qualified",
+		"TQP-55 status differs from release-matrix evidence",
+		failures
+	)
+	_expect(
+		str((milestone_by_id.get("TQP-56", {}) as Dictionary).get("status", "")) == "qualified",
+		"TQP-56 status differs from long-haul evidence",
+		failures
+	)
+	_expect(
+		str((milestone_by_id.get("TQP-57", {}) as Dictionary).get("status", "")) == "production",
+		"TQP-57 status differs from release evidence",
+		failures
+	)
+	var matrix: Dictionary = (milestone_evidence.get("TQP-55", {}) as Dictionary).get("matrix", {})
+	_expect(matrix.get("engine_versions", []) == ["4.7"], "TQP-55 Godot matrix changed", failures)
+	_expect(
+		str((milestone_evidence.get("TQP-55", {}) as Dictionary).get("power_target_status", ""))
+			== "retained_measured_target_miss",
+		"TQP-55 power target miss was hidden",
+		failures
+	)
+	var workload: Dictionary = (milestone_evidence.get("TQP-56", {}) as Dictionary).get("workload", {})
+	_expect(float(workload.get("duration_seconds", 0.0)) >= 60.0, "TQP-56 wrapper duration changed", failures)
+	_expect(int(workload.get("queue_rejections", -1)) == 0, "TQP-56 queue rejection evidence changed", failures)
+	_expect(bool(workload.get("clean_shutdown", false)), "TQP-56 clean shutdown evidence changed", failures)
+	var release: Dictionary = milestone_evidence.get("TQP-57", {})
+	_expect(str(release.get("version", "")) == "1.0.0", "TQP-57 version changed", failures)
+	_expect(
+		str(release.get("release_boundary", "")) == "limited_windows_cpu_reference_release",
+		"TQP-57 release boundary widened",
+		failures
+	)
+	var package: Dictionary = release.get("package", {})
+	_expect(
+		str(package.get("package_digest_sha256", ""))
+			== str((release_standard.get("package", {}) as Dictionary).get("package_digest_sha256", "")),
+		"TQP-57 package digest changed",
 		failures
 	)
 
