@@ -1,0 +1,37 @@
+{
+	"schema": "world_transvoxel.terrain_lab.decision.v1",
+	"id": "TQP-D043",
+	"date": "2026-08-09",
+	"decision": "Preserve the TQP-57 CPU Terrain Standard 1.0 release and TQP-D041/TQP-D042 history, but withdraw automatic advancement to TQP-58. Require the ordered CPU_FINALIZATION_PRECONDITION (CPU-C1 attribution, CPU-C2 measured standard CPU architecture work, CPU-C3 final baseline and exhaustion review) before the GPU Architecture Decision is eligible. Keep TQP numbering unchanged.",
+	"affected_milestones": ["TQP-45", "TQP-47", "TQP-48", "TQP-55", "TQP-56", "TQP-57", "TQP-58"],
+	"repositories": [
+		"world-transvoxel-cell-lab",
+		"world-transvoxel-terrain",
+		"world-transvoxel"
+	],
+	"finding": "TQP-57 proves a bounded, correct assembled CPU release but does not prove that CPU costs are fully attributed or that standard CPU architecture options are exhausted. The accepted large-terrain report records multi-second settlement work, high scheduler and storage queues, and per-job service times, but has no accepted process-wide CPU telemetry correlated to those scenarios. Source inspection at the pinned authority revision shows two procedural generation workers while mesh jobs execute synchronously on one runtime control thread. TQP-45 also explicitly excludes production release latency targets. Therefore GPU consideration is premature.",
+	"evidence": [
+		"The accepted TQP-57 large report is pinned by SHA-256 fe40478daaae9872dc9e60dc2b61a4dc18b6e7798023a164913ce32b268f3f28 and remains the correctness baseline.",
+		"Ground traversal records 713 combined settlement frames, 608 mesh jobs with 7185.3 ms total mesh CPU service, and 2315 completed storage jobs with 12071.4 ms total worker service.",
+		"Cold teleport records 418 settlement frames, 480 mesh jobs with 7429.5 ms total mesh CPU service, and 2048 completed storage jobs with 13399.8 ms total worker service.",
+		"The retained 120-second process-CPU development observation uses 1.842 average active logical cores of four, but is a different low-power mixed workload and remains comparison-only.",
+		"world-transvoxel at 4f1fdb59e3c6200c8f823b99027b2d3f15563858 executes page_runtime_->execute_mesh_job synchronously inside WtReadOnlyWorldRuntime::process_scheduler_jobs on the control thread.",
+		"Two isolated instrumented assembled runs were excluded after each failed one different 90-frame nearest-rank p99 gate; neither may replace the accepted baseline."
+	],
+	"qualified_scope": [
+		"The TQP-57 CPU release remains the sole assembled correctness and differential authority for its pinned Windows Godot 4.7 matrix.",
+		"The present CPU-readiness audit is authoritative about advancement state: TQP-58 is blocked and no GPU implementation work is promoted."
+	],
+	"unqualified_scope": [
+		"Final CPU performance, production responsiveness targets, optimized release-runtime performance, parallel-meshing benefit, CPU-package power, whole-system power, and CPU architecture exhaustion",
+		"Any GPU architecture, implementation, performance, energy, or release claim"
+	],
+	"standards_changed": [
+		"Terrain Qualification Program revision 44",
+		"execution-plan revision 34",
+		"CPU finalization standard and fail-closed readiness evidence",
+		"TQP-58 status from specified to blocked without changing its identifier or later milestone order"
+	],
+	"review": "CPU-C1, CPU-C2, and CPU-C3 must pass in order. Any profiler run that fails its own correctness or performance gate is excluded. Improvements must use identical pinned workloads and preserve topology, LOD seams, edits, collision, persistence, determinism, memory, queues, and shutdown. Debug/editor and optimized release-runtime measurements must remain distinct.",
+	"downstream_impact": "The next work is CPU-C1 bottleneck attribution and benchmark repair, not GPU architecture. TQP-58 can become specified again only when cpu_finalization_readiness_windows.json reports PASS, retained_complete=true, tqp58_eligible=true, and no consistency failures."
+}

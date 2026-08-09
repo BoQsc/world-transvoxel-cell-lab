@@ -1,7 +1,7 @@
 {
 	"schema": "world_transvoxel.terrain_lab.qualification_state.v1",
 	"as_of": "2026-08-09",
-	"program_revision": 43,
+	"program_revision": 44,
 	"policy": "manifest status must match retained evidence and fail closed",
 	"statuses": {
 		"qualified": [
@@ -19,12 +19,20 @@
 		"implemented": [
 			"TQP-65", "TQP-66", "TQP-67", "TQP-68", "TQP-69", "TQP-70"
 		],
-		"specified": ["TQP-58"],
+		"specified": [],
 		"blocked": [
-			"TQP-59", "TQP-60", "TQP-61", "TQP-62", "TQP-63", "TQP-64", "TQP-71"
+			"TQP-58", "TQP-59", "TQP-60", "TQP-61", "TQP-62", "TQP-63", "TQP-64", "TQP-71"
 		],
 		"proposed": [],
 		"production": ["TQP-57"]
+	},
+	"preconditions": {
+		"CPU_FINALIZATION_PRECONDITION": {
+			"status": "blocked",
+			"standard": "res://addons/world_transvoxel_terrain_lab/standards/cpu_finalization_standard.json",
+			"evidence": "res://labs/terrain_lab/results/cpu_finalization_readiness_windows.json",
+			"blocks": ["TQP-58"]
+		}
 	},
 	"suites": [
 		{"id": "foundation", "schema": "world_transvoxel.terrain_lab.foundation_qualification.v1", "milestones": ["TQP-01", "TQP-02", "TQP-03", "TQP-04", "TQP-05"]},

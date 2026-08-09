@@ -227,6 +227,7 @@ static func validate(program: Dictionary, dependencies: Dictionary) -> Dictionar
 	_validate_production_addon_boundary(program, milestone_by_id, failures)
 	_validate_cpu_production_first_batch(program, milestone_by_id, failures)
 	_validate_cpu_production_release(program, milestone_by_id, failures)
+	_validate_cpu_finalization(program, milestone_by_id, failures)
 	_validate_low_power_performance_profile(program, failures)
 	_validate_visual_evidence(program, milestone_by_id, failures)
 	_validate_dependency_boundary(program, dependencies, failures)
@@ -370,7 +371,7 @@ static func _validate_evidence_files(program: Dictionary, failures: Array[String
 		"TQP-D026", "TQP-D027", "TQP-D028", "TQP-D029", "TQP-D030",
 		"TQP-D031", "TQP-D032", "TQP-D033", "TQP-D034", "TQP-D035",
 		"TQP-D036", "TQP-D037", "TQP-D038", "TQP-D039", "TQP-D040",
-		"TQP-D041",
+		"TQP-D041", "TQP-D042", "TQP-D043",
 	]:
 		_expect(decision_ids.has(required), "missing retained decision: " + required, failures)
 	for key in [
@@ -449,6 +450,8 @@ static func _validate_evidence_files(program: Dictionary, failures: Array[String
 		"cpu_production_long_haul_standard",
 		"cpu_production_release_standard",
 		"cpu_production_release_evidence",
+		"cpu_finalization_standard",
+		"cpu_finalization_evidence",
 		"wave_02_first_batch_evidence",
 		"wave_02_second_batch_evidence",
 		"execution_plan",
@@ -2496,6 +2499,72 @@ static func _validate_cpu_production_release(
 		str(package.get("package_digest_sha256", ""))
 			== str((release_standard.get("package", {}) as Dictionary).get("package_digest_sha256", "")),
 		"TQP-57 package digest changed",
+		failures
+	)
+
+
+static func _validate_cpu_finalization(
+	program: Dictionary,
+	milestone_by_id: Dictionary,
+	failures: Array[String]
+) -> void:
+	var standard := JsonLoader.load_dictionary(
+		str(program.get("cpu_finalization_standard", ""))
+	)
+	var evidence := JsonLoader.load_dictionary(
+		str(program.get("cpu_finalization_evidence", ""))
+	)
+	_expect(
+		str(standard.get("schema", ""))
+			== "world_transvoxel.terrain_lab.cpu_finalization_standard.v1",
+		"CPU finalization standard schema mismatch",
+		failures
+	)
+	_expect(
+		str(evidence.get("schema", ""))
+			== "world_transvoxel.terrain_lab.cpu_finalization_readiness.v1",
+		"CPU finalization evidence schema mismatch",
+		failures
+	)
+	_expect(
+		str(standard.get("gate_id", "")) == "CPU_FINALIZATION_PRECONDITION",
+		"CPU finalization gate identifier changed",
+		failures
+	)
+	_expect(
+		str(standard.get("applies_before", "")) == "TQP-58",
+		"CPU finalization no longer applies before TQP-58",
+		failures
+	)
+	var stages: Array = evidence.get("ordered_closure", [])
+	var stage_ids: Array[String] = []
+	for stage_value in stages:
+		var stage: Dictionary = stage_value
+		stage_ids.append(str(stage.get("id", "")))
+	_expect(
+		stage_ids == ["CPU-C1", "CPU-C2", "CPU-C3"],
+		"CPU finalization closure order changed",
+		failures
+	)
+	_expect(
+		(evidence.get("consistency_failures", []) as Array).is_empty(),
+		"CPU finalization evidence has consistency failures",
+		failures
+	)
+	var eligible := (
+		str(evidence.get("status", "")) == "PASS"
+		and bool(evidence.get("retained_complete", false))
+		and bool(evidence.get("tqp58_eligible", false))
+	)
+	var tqp58: Dictionary = milestone_by_id.get("TQP-58", {})
+	_expect(
+		str(tqp58.get("status", "")) == ("specified" if eligible else "blocked"),
+		"TQP-58 status differs from CPU finalization readiness",
+		failures
+	)
+	_expect(
+		"CPU_FINALIZATION_PRECONDITION" in tqp58.get("entry_conditions", []),
+		"TQP-58 CPU finalization entry condition is missing",
 		failures
 	)
 

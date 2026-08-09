@@ -119,6 +119,26 @@ def main() -> int:
         ),
         {},
     )
+
+    cpu_finalization_path = ROOT / manifest["cpu_finalization_evidence"].removeprefix(
+        "res://"
+    )
+    cpu_finalization = json.loads(cpu_finalization_path.read_text(encoding="utf-8"))
+    cpu_eligible = (
+        cpu_finalization.get("status") == "PASS"
+        and cpu_finalization.get("retained_complete") is True
+        and cpu_finalization.get("tqp58_eligible") is True
+        and cpu_finalization.get("consistency_failures") == []
+    )
+    if not cpu_eligible:
+        if current.get("entry_condition") != "CPU_FINALIZATION_PRECONDITION":
+            failures.append("active GPU wave is missing the CPU finalization entry condition")
+        if not str(plan.get("recommended_action", "")).startswith("Complete CPU-C1"):
+            failures.append("execution plan does not direct work to CPU-C1 first")
+        if plan.get("recommended_precondition_steps") != ["CPU-C1", "CPU-C2", "CPU-C3"]:
+            failures.append("CPU finalization precondition steps are missing or out of order")
+        if milestones.get("TQP-58", {}).get("status") != "blocked":
+            failures.append("TQP-58 must remain blocked until CPU finalization passes")
     expected_next: list[str] = []
     for step in current.get("steps", []):
         incomplete = [
@@ -142,7 +162,9 @@ def main() -> int:
     print(
         "WT_TQP_EXECUTION_PLAN_PASS "
         f"milestones={len(milestones)} waves={len(plan['waves'])} "
-        f"current={plan['current_wave']} next={','.join(expected_next)}"
+        f"current={plan['current_wave']} "
+        f"action={','.join(plan.get('recommended_precondition_steps', expected_next))} "
+        f"next_numbered={','.join(expected_next)}"
     )
     return 0
 

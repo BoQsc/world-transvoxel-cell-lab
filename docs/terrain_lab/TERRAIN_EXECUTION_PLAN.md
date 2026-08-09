@@ -12,6 +12,11 @@ machine-readable mirror used to reject missing milestones, duplicates,
 backward dependencies, incorrect wave state, and an invalid recommended-next
 item. It must not introduce work or ordering absent from the TQP.
 
+The current action is the CPU Finalization Precondition recorded inside the
+TQP: CPU-C1, then CPU-C2, then CPU-C3. `TQP-58` remains the next numbered
+milestone, but it is blocked and cannot be implemented or promoted until that
+precondition passes.
+
 Validate the mirror with:
 
 ```text

@@ -30,9 +30,12 @@ Work advances in this order:
    adaptive-terrain correctness with the native CPU authority;
 2. prove fast arrival, edit response, targeted collision, rendering, queues,
    memory, power, and long-running recovery at representative large-world scale;
-3. release the simplest qualified CPU production addon as the baseline;
-4. qualify and release GPU acceleration differentially against that baseline;
-5. only then qualify game-oriented systems such as explosions, collapse,
+3. release the simplest qualified CPU production addon as the correctness baseline;
+4. attribute its real CPU costs, apply and qualify measured standard CPU
+   improvements, and retain a final CPU performance baseline;
+5. only if that CPU finalization passes, evaluate and release GPU acceleration
+   differentially against the same baseline;
+6. only then qualify game-oriented systems such as explosions, collapse,
    fluids, vegetation, roads, and networking.
 
 Correctness and authority cannot be traded for a benchmark result. Performance
@@ -53,8 +56,9 @@ field, edit, coordinate, and resolution contracts
                 -> bounded terrain-system qualification
                     -> native adaptive-terrain qualification
                         -> standalone CPU production release
-                            -> GPU backend qualification and release
-                                -> optional post-release game systems
+                            -> CPU attribution, standard optimization, and final baseline
+                                -> GPU backend qualification and release
+                                    -> optional post-release game systems
 ```
 
 `world-transvoxel` is the production meshing dependency. The Cell Lab is a
@@ -108,7 +112,7 @@ destruction policy, gameplay, and world persistence do not belong in the
 | `implemented` | Candidate behavior exists but qualification is incomplete |
 | `qualified` | Required evidence passes for an explicitly declared scope |
 | `production` | Qualified behavior is integrated, supported, monitored, and releasable |
-| `blocked` | A named external dependency prevents meaningful progress |
+| `blocked` | A named dependency or required entry condition prevents promotion |
 
 Code existence alone cannot advance a milestone to `qualified`. Unsupported
 platforms, renderers, workloads, and scales must remain explicitly
@@ -132,6 +136,9 @@ Each milestone must identify which evidence classes it requires:
 Performance evidence requires warmup policy, sample count, p50, p95, p99,
 worst-case latency, retained and peak memory, build type, machine metadata, and
 the exact workload signature. A single average timing is not qualification.
+Percentiles must have enough independent samples for their intended rank. A
+90-frame nearest-rank p99 that is determined by one frame is diagnostic, not a
+stable architecture-promotion statistic.
 
 The specified low-power profile is
 `low_power_performance_profile.json`. It targets sustained 60 FPS inside a
@@ -164,6 +171,11 @@ human review in addition to automated checks.
   `TQP-50`. Gate D's bounded reference models do not satisfy this gate.
 - Gate F: the standalone CPU production terrain release requires `TQP-51`
   through `TQP-57` after Gate E.
+- CPU Finalization Precondition: before TQP-58 is eligible, `CPU-C1` bottleneck
+  attribution, `CPU-C2` measured standard CPU architecture work, and `CPU-C3`
+  final CPU baseline and exhaustion review must pass in that order. Gate F's
+  correctness release does not imply that CPU performance is understood or
+  exhausted.
 - Gate G: the GPU production backend release requires `TQP-58` through
   `TQP-64` after the CPU release; CPU authority remains the differential
   reference unless a later reviewed decision changes it.
@@ -178,15 +190,16 @@ promotion order: investigation may happen early, but qualification cannot skip
 an earlier dependency.
 
 The machine-readable `execution_plan.json` mirrors the same order but is not a
-second human roadmap. Program revision 43 preserves every qualified TQP-01
+second human roadmap. Program revision 44 preserves every qualified TQP-01
 through TQP-47 claim, keeps the ordered CPU/GPU release sequence from
 `TQP-D033`, corrects TQP-48's inherited low-power target through
 `TQP-D036`, and closes Gate E for the bounded CPU authority envelope through
 `TQP-D037`, qualifies the first three candidate runtime and integration
 milestones through `TQP-D039`, and sets Godot 4.7 as the sole current engine
 target through `TQP-D040`, records the first limited CPU Terrain Standard 1.0
-release through `TQP-D041`, and corrects its exact pins and Gate F basis with
-committed-tree assembled large-terrain evidence through `TQP-D042`.
+release through `TQP-D041`, corrects its exact pins and Gate F basis with
+committed-tree assembled large-terrain evidence through `TQP-D042`, and blocks
+TQP-58 behind ordered CPU finalization through `TQP-D043`.
 Earlier identifier migrations remain retained in `TQP-D006`, `TQP-D017`, and
 `TQP-D030` as history.
 
@@ -1132,8 +1145,9 @@ TQP-57.
 Gate E and TQP-51 through TQP-56 are qualified. TQP-57 is the first production
 release for its limited Windows reference matrix and now includes direct
 assembled 2048x256x2048 LOD0/LOD1/LOD2 acceptance. Gate F is closed on that
-corrected basis, and the active execution wave advances to the TQP-58 GPU
-architecture decision.
+corrected correctness basis. Advancement to TQP-58 is blocked until the CPU
+Finalization Precondition passes; Gate F did not prove CPU cost attribution,
+optimized release-runtime performance, or standard CPU architecture exhaustion.
 
 ### TQP-51: Production Addon Boundary
 
@@ -1282,21 +1296,67 @@ The captures retain abrupt reference material-class regions and coarse distant
 LOD silhouettes; final texture assets, art direction, and universally smooth
 large-terrain material presentation are not part of this production claim.
 
+### CPU Finalization Precondition Before TQP-58
+
+Status: `blocked`. Authority:
+`cpu_finalization_standard.json` and
+`cpu_finalization_readiness_windows.json`.
+
+This is an ordered entry condition, not a renumbered TQP milestone and not a
+second roadmap. It preserves TQP-57 as the released correctness baseline while
+preventing that release from being mistaken for a completed CPU performance
+architecture.
+
+1. `CPU-C1: Bottleneck Attribution And Benchmark Integrity` must establish
+   non-intrusive, scenario-correlated wall time, process CPU time, native phase
+   time, queue wait, publication latency, adequate percentile samples, and
+   separate debug/editor and optimized release-runtime measurements.
+2. `CPU-C2: Measured Standard CPU Architecture Work` must sweep procedural
+   worker counts, resolve or justify the synchronous control-thread mesh path,
+   and optimize scheduler, dependency, cache, cancellation, and priority costs
+   only where CPU-C1 proves material benefit. Every change reruns correctness,
+   topology, LOD, edit, collision, persistence, determinism, memory, and
+   shutdown regressions.
+3. `CPU-C3: Final CPU Baseline And Exhaustion Review` must define production
+   responsiveness targets, retain repeatable release-runtime profiles, classify
+   every remaining material bottleneck, and pass an independent fail-closed
+   eligibility report.
+
+The accepted TQP-57 run already identifies the main known cost. Ground
+traversal used 713 combined settlement frames, 608 serial mesh jobs totaling
+7185.3 ms of mesh CPU service, and 2315 storage/generation jobs totaling
+12071.4 ms of worker service. Cold teleport used 418 settlement frames,
+7429.5 ms of mesh CPU service, and 13399.8 ms of storage/generation worker
+service. Ordinary render submission remained comparatively small. The pinned
+native runtime uses two procedural generation workers but executes mesh jobs
+synchronously on one runtime control thread. Standard CPU parallel meshing has
+therefore not been exhausted.
+
+The accepted process-wide development observation averaged 1.842 active logical
+cores of four, but it used a different low-power mixed workload and remains
+comparison-only. Two fresh instrumented assembled runs are excluded: each
+completed the scenarios but failed one different 90-frame nearest-rank p99
+gate. They prove that the profiler and percentile protocol need correction;
+they do not replace the accepted baseline.
+
 ## Phase 6: GPU Backend Qualification And Release
 
-This phase starts only after the CPU production release. It evaluates GPU
+This phase starts only after the CPU production release and the CPU
+Finalization Precondition. It evaluates GPU
 acceleration against the same field, primitive, terrain, latency, power, and
 release contracts without replacing CPU authority by assumption.
 
 Execution order: TQP-58 -> TQP-59 -> TQP-60 -> TQP-61 -> TQP-62 -> TQP-63 ->
 TQP-64.
 
-TQP-58 is specified. Implementation milestones remain blocked until concrete
-GPU targets and a qualified CPU release exist.
+TQP-58 is blocked. GPU architecture work is ineligible until the CPU
+Finalization Precondition reports `PASS`, `retained_complete=true`,
+`tqp58_eligible=true`, and no consistency failures.
 
 ### TQP-58: GPU Architecture Decision
 
-Status: `specified`. Owner: Backend Qualification Lab. Depends on: Gate F.
+Status: `blocked`. Owner: Backend Qualification Lab. Depends on: Gate F and the
+CPU Finalization Precondition.
 
 Complete when field evaluation, meshing, buffer residency, rendering,
 collision readback, synchronization, target APIs, and expected benefit are
@@ -1459,16 +1519,18 @@ The program records every milestone at a truthful evidence state:
   migration, release matrix, and long-haul contracts; `TQP-57` is the limited
   Windows CPU Terrain Standard 1.0 production release and closes Gate F with
   committed-tree assembled 2048x256x2048 LOD0/LOD1/LOD2 evidence.
-- `TQP-58` is the specified CPU-primary GPU architecture decision; `TQP-59`
-  through `TQP-64` are blocked GPU implementation and release work.
+- `TQP-58` through `TQP-64` are blocked. TQP-58 cannot become specified until
+  CPU-C1 through CPU-C3 pass the CPU Finalization Precondition.
 - `TQP-65` through `TQP-70` retain the previously implemented but unqualified
   destruction and structural reference behavior under revision-34 identifiers.
 - `TQP-71` networking remains blocked by a missing multiplayer authority model.
 
-The next dependency-ordered milestone is TQP-58, GPU Architecture Decision.
-The CPU release remains the differential authority, the low-power target misses
+The next work is CPU-C1, Bottleneck Attribution And Benchmark Integrity. TQP-58
+remains the next numbered milestone but is not eligible work. The CPU release
+remains the differential correctness authority, the low-power target misses
 remain visible, and GPU or game-system behavior remains outside the qualified
-claim. A milestone may advance only when its declared evidence passes.
+claim. A milestone may advance only when its declared evidence and entry
+conditions pass.
 
 ## What Comes Next
 
@@ -1510,8 +1572,9 @@ authoritative bounded reference for native adaptive edited Transvoxel terrain;
 it does not by itself publish a production addon.
 
 TQP-51 through TQP-57 then create, integrate, certify, and release the separate
-standalone CPU production addon. TQP-58 through TQP-64 evaluate and release GPU
-acceleration only after that CPU baseline exists. TQP-65 through TQP-71 keep
+standalone CPU production addon. CPU-C1 through CPU-C3 must then attribute and
+finalize the CPU architecture. TQP-58 through TQP-64 evaluate and release GPU
+acceleration only after that CPU precondition passes. TQP-65 through TQP-71 keep
 explosions, support, fluids, vegetation, authored structures, collapse, and
 networking out of the critical terrain-standardization path. This order makes
 the release target explicit while preventing game systems or experimental GPU
@@ -1686,3 +1749,7 @@ Retained decisions:
   and Gate F evidentiary basis with the corrected world-transvoxel transition
   constraint implementation and committed-tree assembled large-terrain,
   mixed-LOD seam, collision, persistence, performance, and visual evidence.
+- `TQP-D043`: preserve the TQP-57 release and TQP numbering, withdraw automatic
+  advancement to TQP-58, and require ordered CPU-C1 attribution, CPU-C2 measured
+  standard CPU architecture work, and CPU-C3 final baseline and exhaustion
+  review before any GPU Architecture Decision is eligible.

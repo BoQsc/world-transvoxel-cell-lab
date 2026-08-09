@@ -1,0 +1,384 @@
+{
+	"schema": "world_transvoxel.terrain_lab.cpu_finalization_readiness.v1",
+	"date": "2026-08-09",
+	"gate_id": "CPU_FINALIZATION_PRECONDITION",
+	"status": "BLOCKED",
+	"retained_complete": false,
+	"tqp58_eligible": false,
+	"standard": {
+		"path": "addons/world_transvoxel_terrain_lab/standards/cpu_finalization_standard.json",
+		"sha256": "116e034c6e291b3a95f682ed440fffe66bd58881249f706708aef83f0433c085"
+	},
+	"accepted_cpu_release": {
+		"candidate_revision": "2184988ec7d317f6aedc212e6198997b60888dfa",
+		"native_authority_revision": "4f1fdb59e3c6200c8f823b99027b2d3f15563858",
+		"large_acceptance_report_sha256": "fe40478daaae9872dc9e60dc2b61a4dc18b6e7798023a164913ce32b268f3f28",
+		"large_acceptance_status": "PASS",
+		"frame_envelope": {
+			"p50_usec": 17735.0,
+			"p95_usec": 33233.0,
+			"p99_usec": 33233.0,
+			"sample_count": 36,
+			"worst_usec": 33233.0
+		},
+		"queue_peaks": {
+			"collision": 3,
+			"render": 0,
+			"scheduler": 224,
+			"storage": 467
+		},
+		"memory": {
+			"peak_static_bytes": 70118990,
+			"static_bytes": 65519026,
+			"video_bytes": 139745952
+		}
+	},
+	"accepted_scenario_costs": [
+		{
+			"id": "idle_steady",
+			"kind": "idle",
+			"status": "PASS",
+			"settlement_frames": {
+				"initial": 0,
+				"final": 0,
+				"combined": 0
+			},
+			"mesh": {
+				"jobs": 0,
+				"cpu_ms_total": 0.0,
+				"cpu_ms_per_job": 0.0
+			},
+			"storage_generation": {
+				"completed_jobs": 0,
+				"worker_cpu_ms_total": 0.0,
+				"worker_cpu_ms_per_job": 0.0
+			},
+			"publications": {
+				"render": 0,
+				"collision": 140
+			},
+			"frame_p95_ms": 16.776,
+			"render_cpu_p95_ms": 0.622,
+			"render_gpu_p95_ms": 3.633,
+			"edit_latency_ms": 0.0
+		},
+		{
+			"id": "ground_traversal",
+			"kind": "motion",
+			"status": "PASS",
+			"settlement_frames": {
+				"initial": 350,
+				"final": 363,
+				"combined": 713
+			},
+			"mesh": {
+				"jobs": 608,
+				"cpu_ms_total": 7185.303,
+				"cpu_ms_per_job": 11.818
+			},
+			"storage_generation": {
+				"completed_jobs": 2315,
+				"worker_cpu_ms_total": 12071.38,
+				"worker_cpu_ms_per_job": 5.214
+			},
+			"publications": {
+				"render": 657,
+				"collision": 987
+			},
+			"frame_p95_ms": 16.668,
+			"render_cpu_p95_ms": 0.679,
+			"render_gpu_p95_ms": 3.77,
+			"edit_latency_ms": 0.0
+		},
+		{
+			"id": "high_speed_flight",
+			"kind": "motion",
+			"status": "PASS",
+			"settlement_frames": {
+				"initial": 174,
+				"final": 297,
+				"combined": 471
+			},
+			"mesh": {
+				"jobs": 323,
+				"cpu_ms_total": 4595.089,
+				"cpu_ms_per_job": 14.226
+			},
+			"storage_generation": {
+				"completed_jobs": 1456,
+				"worker_cpu_ms_total": 9261.631,
+				"worker_cpu_ms_per_job": 6.361
+			},
+			"publications": {
+				"render": 328,
+				"collision": 432
+			},
+			"frame_p95_ms": 17.234,
+			"render_cpu_p95_ms": 0.934,
+			"render_gpu_p95_ms": 2.477,
+			"edit_latency_ms": 0.0
+		},
+		{
+			"id": "vertical_cave",
+			"kind": "motion",
+			"status": "PASS",
+			"settlement_frames": {
+				"initial": 356,
+				"final": 311,
+				"combined": 667
+			},
+			"mesh": {
+				"jobs": 398,
+				"cpu_ms_total": 6734.606,
+				"cpu_ms_per_job": 16.921
+			},
+			"storage_generation": {
+				"completed_jobs": 1714,
+				"worker_cpu_ms_total": 10977.168,
+				"worker_cpu_ms_per_job": 6.404
+			},
+			"publications": {
+				"render": 424,
+				"collision": 927
+			},
+			"frame_p95_ms": 18.128,
+			"render_cpu_p95_ms": 1.224,
+			"render_gpu_p95_ms": 6.048,
+			"edit_latency_ms": 0.0
+		},
+		{
+			"id": "adaptive_lod_churn",
+			"kind": "lod_churn",
+			"status": "PASS",
+			"settlement_frames": {
+				"initial": 305,
+				"final": 259,
+				"combined": 564
+			},
+			"mesh": {
+				"jobs": 375,
+				"cpu_ms_total": 5537.836,
+				"cpu_ms_per_job": 14.768
+			},
+			"storage_generation": {
+				"completed_jobs": 1651,
+				"worker_cpu_ms_total": 10484.151,
+				"worker_cpu_ms_per_job": 6.35
+			},
+			"publications": {
+				"render": 393,
+				"collision": 431
+			},
+			"frame_p95_ms": 18.709,
+			"render_cpu_p95_ms": 1.125,
+			"render_gpu_p95_ms": 5.153,
+			"edit_latency_ms": 0.0
+		},
+		{
+			"id": "cold_teleport",
+			"kind": "teleport",
+			"status": "PASS",
+			"settlement_frames": {
+				"initial": 418,
+				"final": 0,
+				"combined": 418
+			},
+			"mesh": {
+				"jobs": 480,
+				"cpu_ms_total": 7429.47,
+				"cpu_ms_per_job": 15.478
+			},
+			"storage_generation": {
+				"completed_jobs": 2048,
+				"worker_cpu_ms_total": 13399.845,
+				"worker_cpu_ms_per_job": 6.543
+			},
+			"publications": {
+				"render": 720,
+				"collision": 618
+			},
+			"frame_p95_ms": 16.75,
+			"render_cpu_p95_ms": 0.676,
+			"render_gpu_p95_ms": 4.644,
+			"edit_latency_ms": 0.0
+		},
+		{
+			"id": "digging",
+			"kind": "dig",
+			"status": "PASS",
+			"settlement_frames": {
+				"initial": 0,
+				"final": 0,
+				"combined": 0
+			},
+			"mesh": {
+				"jobs": 8,
+				"cpu_ms_total": 73.579,
+				"cpu_ms_per_job": 9.197
+			},
+			"storage_generation": {
+				"completed_jobs": 8,
+				"worker_cpu_ms_total": 41.524,
+				"worker_cpu_ms_per_job": 5.19
+			},
+			"publications": {
+				"render": 16,
+				"collision": 16
+			},
+			"frame_p95_ms": 16.654,
+			"render_cpu_p95_ms": 1.193,
+			"render_gpu_p95_ms": 5.477,
+			"edit_latency_ms": 203.766
+		},
+		{
+			"id": "construction",
+			"kind": "construct",
+			"status": "PASS",
+			"settlement_frames": {
+				"initial": 82,
+				"final": 0,
+				"combined": 82
+			},
+			"mesh": {
+				"jobs": 48,
+				"cpu_ms_total": 792.861,
+				"cpu_ms_per_job": 16.518
+			},
+			"storage_generation": {
+				"completed_jobs": 171,
+				"worker_cpu_ms_total": 934.403,
+				"worker_cpu_ms_per_job": 5.464
+			},
+			"publications": {
+				"render": 96,
+				"collision": 131
+			},
+			"frame_p95_ms": 17.767,
+			"render_cpu_p95_ms": 0.703,
+			"render_gpu_p95_ms": 16.552,
+			"edit_latency_ms": 153.933
+		},
+		{
+			"id": "far_return",
+			"kind": "far_return",
+			"status": "PASS",
+			"settlement_frames": {
+				"initial": 154,
+				"final": 0,
+				"combined": 154
+			},
+			"mesh": {
+				"jobs": 410,
+				"cpu_ms_total": 6473.499,
+				"cpu_ms_per_job": 15.789
+			},
+			"storage_generation": {
+				"completed_jobs": 1837,
+				"worker_cpu_ms_total": 12101.134,
+				"worker_cpu_ms_per_job": 6.587
+			},
+			"publications": {
+				"render": 586,
+				"collision": 650
+			},
+			"frame_p95_ms": 16.894,
+			"render_cpu_p95_ms": 0.758,
+			"render_gpu_p95_ms": 3.942,
+			"edit_latency_ms": 0.0
+		}
+	],
+	"cost_findings": {
+		"largest_settlement": {
+			"scenario": "ground_traversal",
+			"frames": 713
+		},
+		"largest_mesh_cpu_total": {
+			"scenario": "cold_teleport",
+			"cpu_ms": 7429.47
+		},
+		"largest_storage_worker_cpu_total": {
+			"scenario": "cold_teleport",
+			"worker_cpu_ms": 13399.845
+		},
+		"interpretation": [
+			"Ordinary render submission is small compared with streaming settlement work in the accepted run.",
+			"Storage and procedural generation use two workers, but mesh execution remains synchronous on one control thread.",
+			"Multi-second settlement is explained primarily by page generation and serial meshing throughput, with planner and queue wait not yet fully attributed."
+		]
+	},
+	"native_architecture": {
+		"authority_revision": "4f1fdb59e3c6200c8f823b99027b2d3f15563858",
+		"control_thread_count": 1,
+		"procedural_generation_worker_count_in_acceptance": 2,
+		"mesh_execution": "synchronous_control_thread",
+		"mesh_jobs_per_control_loop_limit": 4,
+		"standard_cpu_parallel_meshing_exhausted": false
+	},
+	"process_cpu_context": {
+		"status": "DEV_OBSERVATION_ONLY",
+		"comparison_only": true,
+		"workload": "120-second low-power mixed development workload; not the TQP-57 large acceptance",
+		"logical_cpu_count": 4,
+		"process_cpu_seconds": 218.84375,
+		"estimated_measurement_cpu_seconds": 221.11703482790574,
+		"average_active_core_equivalents": 1.8424828585043824,
+		"average_machine_cpu_capacity_percent": 46.06207146260956,
+		"cpu_package_power_available": false
+	},
+	"excluded_diagnostics": [
+		{
+			"date": "2026-08-09",
+			"count": 2,
+			"scope": "isolated TQP-57 windowed process-CPU profiling attempts",
+			"disposition": "EXCLUDED_FROM_BASELINE",
+			"reason": "each run completed scenarios but failed one different 90-frame nearest-rank p99 gate; the first also used intrusive per-thread sampling",
+			"finding": "the profiling protocol and p99 sample design require correction before process telemetry can qualify the assembled baseline"
+		}
+	],
+	"ordered_closure": [
+		{
+			"id": "CPU-C1",
+			"title": "Bottleneck Attribution And Benchmark Integrity",
+			"status": "blocked",
+			"depends_on": [],
+			"requirement_count": 5
+		},
+		{
+			"id": "CPU-C2",
+			"title": "Measured Standard CPU Architecture Work",
+			"status": "blocked",
+			"depends_on": [
+				"CPU-C1"
+			],
+			"requirement_count": 5
+		},
+		{
+			"id": "CPU-C3",
+			"title": "Final CPU Baseline And Exhaustion Review",
+			"status": "blocked",
+			"depends_on": [
+				"CPU-C2"
+			],
+			"requirement_count": 5
+		}
+	],
+	"open_blockers": [
+		"Production large-terrain acceptance has no accepted process-wide CPU telemetry correlated to its scenarios.",
+		"Native meshing executes synchronously on the single runtime control thread while only procedural generation has a configurable worker pool.",
+		"Queue wait, viewer planning, desired-set reconciliation, publication, and retirement phase costs are not fully attributed.",
+		"TQP-45 explicitly excludes production release latency targets, so permissive test timeouts are not production responsiveness standards.",
+		"The accepted large-terrain run is an editor/debug-native profile; optimized release-runtime parity and cost are not established.",
+		"The current 90-frame per-scenario nearest-rank p99 gate is too fragile for an instrumented architecture comparison.",
+		"Standard CPU worker and architecture alternatives have not been swept and regression-qualified under identical assembled workloads."
+	],
+	"promotion_invalidators": [
+		"A correctness-only PASS with multi-second timeouts",
+		"A debug/editor-only speed comparison",
+		"A single run or a run that failed its own correctness or frame gate",
+		"A benchmark with changed world, LOD, collision, edit, or visual workload",
+		"GPU-board watts relabelled as CPU-package or whole-system watts",
+		"Higher throughput obtained by stale work, missing collision, topology regressions, fallbacks, or weakened authority"
+	],
+	"consistency_failures": [],
+	"decision": "TQP-58 remains blocked. CPU correctness is retained, but CPU performance architecture is not finalized and standard CPU improvement paths are not exhausted."
+}

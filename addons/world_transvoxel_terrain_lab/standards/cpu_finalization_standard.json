@@ -1,0 +1,90 @@
+{
+	"schema": "world_transvoxel.terrain_lab.cpu_finalization_standard.v1",
+	"gate_id": "CPU_FINALIZATION_PRECONDITION",
+	"applies_before": "TQP-58",
+	"status": "blocked",
+	"purpose": "Establish why the authoritative CPU terrain has its measured latency and cost, exhaust measured standard CPU improvements, and retain a stable final CPU baseline before any GPU architecture decision is eligible.",
+	"authority_policy": {
+		"field_and_meshing_authority": "world-transvoxel",
+		"fallbacks_allowed": false,
+		"correctness_precedence": "No performance result may weaken topology, LOD seams, edits, collision, persistence, determinism, bounded ownership, or fail-closed behavior.",
+		"gpu_policy": "GPU work is a candidate only after this precondition passes; it is not an assumed destination or a substitute for unresolved CPU architecture work."
+	},
+	"accepted_baselines": {
+		"cpu_release": {
+			"candidate_revision": "2184988ec7d317f6aedc212e6198997b60888dfa",
+			"native_authority_revision": "4f1fdb59e3c6200c8f823b99027b2d3f15563858",
+			"large_acceptance_report_sha256": "fe40478daaae9872dc9e60dc2b61a4dc18b6e7798023a164913ce32b268f3f28",
+			"claim": "TQP-57 correctness and bounded release baseline; not CPU performance finalization"
+		},
+		"process_cpu_development_observation": {
+			"path": "res://labs/terrain_lab/results/terrain_performance_dev_windows.json",
+			"sha256": "dab349983d19a78cd3525820a5684e4691b0dce36a4c37947a867084f2e0c34e",
+			"status": "DEV_OBSERVATION_ONLY",
+			"claim": "comparison context only; cannot promote this precondition"
+		}
+	},
+	"ordered_closure": [
+		{
+			"id": "CPU-C1",
+			"title": "Bottleneck Attribution And Benchmark Integrity",
+			"status": "blocked",
+			"complete_when": [
+				"A non-intrusive process CPU profiler passes the same correctness workload instead of invalidating its frame gate.",
+				"Cold arrival, warm arrival, traversal, flight, LOD churn, digging, construction, collision, and idle costs are separated by wall time, process CPU time, native phase time, queue wait, and publication latency.",
+				"Planning and desired-set reconciliation, storage and generation, sampling, meshing, render publication, collision build and apply, retirement, cancellation, and idle work have explicit counters and distributions.",
+				"Performance distributions use enough samples that one nearest-rank sample cannot silently stand in for p99.",
+				"Debug/editor and optimized release-runtime costs are measured separately on the pinned Godot 4.7 and hardware profile."
+			]
+		},
+		{
+			"id": "CPU-C2",
+			"title": "Measured Standard CPU Architecture Work",
+			"status": "blocked",
+			"depends_on": ["CPU-C1"],
+			"complete_when": [
+				"Procedural generation worker counts are swept under identical workloads and the selected profile is justified by latency, CPU work, memory, queues, frame pacing, and energy boundary.",
+				"The serial control-thread mesh path is either replaced by a bounded prepare/execute/complete worker design or retained with measured proof that parallel meshing does not materially improve the target workload.",
+				"Scheduler queue structures, repeated sorting, dependency requests, cache misses, duplicate requests, stale work, cancellation, and viewer priority are optimized only where attribution proves material cost.",
+				"Collision remains spatially targeted and generation-aware; collision work is not globally expanded to improve a benchmark.",
+				"Each accepted change passes the full CPU authority, assembled mixed-LOD, edits, collision, persistence, determinism, memory, and shutdown regressions."
+			]
+		},
+		{
+			"id": "CPU-C3",
+			"title": "Final CPU Baseline And Exhaustion Review",
+			"status": "blocked",
+			"depends_on": ["CPU-C2"],
+			"complete_when": [
+				"Production responsiveness targets are explicit for first correct visual, collision coherence, local edit settlement, cold teleport, sustained movement, and return to an edited area.",
+				"Low-power, balanced, quality, and reference profiles have repeatable release-runtime baselines with frame pacing, CPU time, memory, queues, throughput, responsiveness, and separate GPU-board, CPU-package, and whole-system power boundaries where providers exist.",
+				"At least three comparable repetitions establish variance and confidence for promotion metrics; long soak remains reserved for the final candidate rather than every development iteration.",
+				"Every remaining material bottleneck is classified as resolved, intentionally bounded, hardware-limited, authority-constrained, or a measured GPU candidate.",
+				"An independent fail-closed report passes and records TQP-58 eligibility without changing the CPU authority."
+			]
+		}
+	],
+	"current_known_blockers": [
+		"Production large-terrain acceptance has no accepted process-wide CPU telemetry correlated to its scenarios.",
+		"Native meshing executes synchronously on the single runtime control thread while only procedural generation has a configurable worker pool.",
+		"Queue wait, viewer planning, desired-set reconciliation, publication, and retirement phase costs are not fully attributed.",
+		"TQP-45 explicitly excludes production release latency targets, so permissive test timeouts are not production responsiveness standards.",
+		"The accepted large-terrain run is an editor/debug-native profile; optimized release-runtime parity and cost are not established.",
+		"The current 90-frame per-scenario nearest-rank p99 gate is too fragile for an instrumented architecture comparison.",
+		"Standard CPU worker and architecture alternatives have not been swept and regression-qualified under identical assembled workloads."
+	],
+	"power_boundaries": {
+		"gpu_board": "nvidia-smi board power is GPU context only",
+		"cpu_package": "requires a trusted package-energy provider; must not be inferred from GPU-board power",
+		"whole_system": "requires a wall, DC-input, or platform telemetry provider; must remain separate",
+		"promotion_without_cpu_package_sensor": "CPU time, wall time, work throughput, and frame pacing may qualify architecture readiness, but no CPU-watt or whole-system-watt claim may be made."
+	},
+	"invalid_promotion_evidence": [
+		"A correctness-only PASS with multi-second timeouts",
+		"A debug/editor-only speed comparison",
+		"A single run or a run that failed its own correctness or frame gate",
+		"A benchmark with changed world, LOD, collision, edit, or visual workload",
+		"GPU-board watts relabelled as CPU-package or whole-system watts",
+		"Higher throughput obtained by stale work, missing collision, topology regressions, fallbacks, or weakened authority"
+	]
+}

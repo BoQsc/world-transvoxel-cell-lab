@@ -1,11 +1,13 @@
 {
 	"schema": "world_transvoxel.terrain_lab.execution_plan.v1",
-	"plan_revision": 33,
-	"program_revision": 43,
+	"plan_revision": 34,
+	"program_revision": 44,
 	"policy": "single_human_tqp_dependency_order_fail_closed",
 	"human_authority": "res://docs/terrain_lab/TERRAIN_QUALIFICATION_PROGRAM.md",
 	"current_wave": "TQP-WAVE-05",
 	"recommended_next": ["TQP-58"],
+	"recommended_precondition_steps": ["CPU-C1", "CPU-C2", "CPU-C3"],
+	"recommended_action": "Complete CPU-C1, CPU-C2, and CPU-C3 under CPU_FINALIZATION_PRECONDITION before TQP-58 is eligible.",
 	"waves": [
 		{
 			"id": "TQP-WAVE-00",
@@ -89,8 +91,9 @@
 		},
 		{
 			"id": "TQP-WAVE-05",
-			"title": "GPU backend qualification and release",
+			"title": "CPU finalization precondition, then GPU backend qualification and release",
 			"status": "active",
+			"entry_condition": "CPU_FINALIZATION_PRECONDITION",
 			"steps": [
 				["TQP-58"],
 				["TQP-59"],

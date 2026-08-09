@@ -213,6 +213,44 @@ python labs/terrain_lab/tools/terrain_performance_scorecard.py
 The generated scorecard pins the source report with SHA-256 so a stale or
 unexpectedly changed qualification result is visible.
 
+## CPU Finalization Readiness
+
+Readiness id: `CPU_FINALIZATION_PRECONDITION_2026_08_09`
+
+Evidence:
+
+- `res://addons/world_transvoxel_terrain_lab/standards/cpu_finalization_standard.json`
+- `res://labs/terrain_lab/results/cpu_finalization_readiness_windows.json`
+
+Status: `BLOCKED`; `TQP-58` eligibility is false. This does not revoke the
+TQP-57 correctness release. It records that CPU performance attribution,
+standard CPU architecture work, and the final CPU comparison baseline are not
+complete.
+
+The accepted TQP-57 assembled report remains pinned by SHA-256
+`fe40478daaae9872dc9e60dc2b61a4dc18b6e7798023a164913ce32b268f3f28`.
+Its most relevant accepted costs are:
+
+| Scenario | Settlement frames | Mesh jobs / CPU service | Storage jobs / worker service |
+|---|---:|---:|---:|
+| Ground traversal | `713` | `608 / 7185.3 ms` | `2315 / 12071.4 ms` |
+| Cold teleport | `418` | `480 / 7429.5 ms` | `2048 / 13399.8 ms` |
+| Vertical cave | `667` | `398 / 6734.6 ms` | `1714 / 10977.2 ms` |
+| Far return | `154` | `410 / 6473.5 ms` | `1837 / 12101.1 ms` |
+
+The native runtime uses two procedural generation workers in this profile but
+executes mesh jobs synchronously on one control thread. The accepted 120-second
+development observation averaged `1.842` active logical cores of four, but it
+is a different mixed workload and remains comparison-only. These facts make GPU
+work premature: standard CPU parallel meshing and complete phase attribution
+have not been exhausted.
+
+Two isolated process-CPU profiling attempts on the assembled workload are
+explicitly excluded. Both completed the scenarios but each failed one different
+90-frame nearest-rank p99 gate; the first also sampled every thread. The next
+baseline must repair the profiling protocol and percentile sample design before
+its process telemetry can be promoted.
+
 ## Run Policy
 
 The exact TQP-48 qualification run is intentionally expensive:
