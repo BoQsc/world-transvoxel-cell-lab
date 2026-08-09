@@ -1,11 +1,8 @@
 {
 	"schema": "world_transvoxel.terrain_lab.program_blockers.v1",
-	"as_of": "2026-08-08",
+	"as_of": "2026-08-09",
 	"policy": "blocked milestones remain unqualified and fail closed",
 	"blockers": [
-		{"milestone": "TQP-52", "code": "PRODUCTION_RUNTIME_API_ABSENT", "owner": "world-transvoxel-terrain", "exit": "TQP-51 candidate exposes the required runtime lifecycle, readiness, budget, and profile APIs"},
-		{"milestone": "TQP-53", "code": "PRODUCTION_AUTHORING_TARGET_ABSENT", "owner": "world-transvoxel-terrain", "exit": "TQP-52 runtime and the accepted TQP-44 visual corpus are available to an editor workflow"},
-		{"milestone": "TQP-54", "code": "DOWNSTREAM_PARITY_TARGET_UNPINNED", "owner": "Integration game and world-transvoxel-terrain", "exit": "candidate production addon and integration-game revisions are pinned with declared migration inputs"},
 		{"milestone": "TQP-55", "code": "CPU_RELEASE_MATRIX_PREREQUISITES_OPEN", "owner": "Terrain Qualification Program", "exit": "TQP-51 through TQP-54 pass on the declared CPU platform and quality matrix"},
 		{"milestone": "TQP-56", "code": "CPU_RELEASE_CANDIDATE_ABSENT", "owner": "Terrain Qualification Program", "exit": "TQP-55 produces a reproducible CPU release candidate"},
 		{"milestone": "TQP-57", "code": "CPU_FINAL_REVIEW_NOT_ELIGIBLE", "owner": "Terrain Qualification Program", "exit": "TQP-56 long-haul certification passes and the CPU evidence bundle receives human review"},

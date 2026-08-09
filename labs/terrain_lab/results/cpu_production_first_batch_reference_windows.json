@@ -1,0 +1,96 @@
+{
+	"schema": "world_transvoxel.terrain_lab.cpu_production_first_batch_qualification.v1",
+	"date": "2026-08-09",
+	"status": "PASS",
+	"retained_complete": true,
+	"platform": "windows-x86_64",
+	"candidate": {
+		"repository": "world-transvoxel-terrain",
+		"revision": "4e2f05c397755afd26df93738d40870032bbeaff",
+		"addon_tree": "1ca9f2625e0c54c41470086aedde2e4862d0fc4e",
+		"tracked_content_clean": true
+	},
+	"native_authority": {
+		"repository": "world-transvoxel",
+		"revision": "f4abd7ab4f921f98aba4ee45b4453af0bae53cd8",
+		"tracked_content_clean": true
+	},
+	"integration": {
+		"repository": "world-transvoxel-integration-game",
+		"revision": "2103c3eaec02b6bba2af9edbcb21f6275d0f4b4e",
+		"tracked_content_clean": true
+	},
+	"milestones": {
+		"TQP-52": {
+			"status": "PASS",
+			"qualification_status": "QUALIFIED_PRODUCTION_RUNTIME_CONTRACT_V1",
+			"standard_id": "qualified_production_runtime_contract_v1",
+			"api_version": 2,
+			"profiles": 4,
+			"readiness_scopes": 4,
+			"source_contract_sha256": "7486901eb476a83b5442a3b67aa23bf8c5d9ad35bffbf070e4a2081387dfbf24",
+			"source_report_sha256": "5d573f1722bcbb356a244de95c481b0ceb36b7e2bc3a16385cf52f43de25f8c4",
+			"engine_markers": {
+				"4.6.3": "WT_TERRAIN_TQP52_GODOT_PASS profiles=4 generation=2 backpressure=1 stale_viewer=1 smooth_edit=1 cancellation=1",
+				"4.7": "WT_TERRAIN_TQP52_GODOT_PASS profiles=4 generation=2 backpressure=1 stale_viewer=1 smooth_edit=1 cancellation=1"
+			}
+		},
+		"TQP-53": {
+			"status": "PASS",
+			"qualification_status": "QUALIFIED_PRODUCTION_AUTHORING_WORKFLOW_V1",
+			"standard_id": "qualified_production_authoring_workflow_v1",
+			"draft_undo_redo": true,
+			"durable_inverse_claim": false,
+			"repro_schema": "world_transvoxel_terrain.repro.v1",
+			"source_contract_sha256": "8f7550668954b0361c7615d9100b03b4a926a884ca64216f19ab2b3ecbfcbf63",
+			"source_report_sha256": "17960ab971ad9c3f2610de024ccb2b3c7cf708b898fd532c2e8b6d8b05bc3e2d",
+			"engine_markers": {
+				"4.6.3": "WT_TERRAIN_TQP53_GODOT_PASS draft=1 undo_redo=1 import=1 preview=1 repro=1 dock=static",
+				"4.7": "WT_TERRAIN_TQP53_GODOT_PASS draft=1 undo_redo=1 import=1 preview=1 repro=1 dock=static"
+			}
+		},
+		"TQP-54": {
+			"status": "PASS",
+			"qualification_status": "QUALIFIED_DOWNSTREAM_MIGRATION_V1",
+			"standard_id": "qualified_downstream_migration_v1",
+			"package_policy": "EXACT_PINNED_AUTHORITIES_NO_FALLBACKS",
+			"candidate_package": {
+				"repository": "world-transvoxel-terrain",
+				"commit": "4e2f05c397755afd26df93738d40870032bbeaff",
+				"addon_tree": "1ca9f2625e0c54c41470086aedde2e4862d0fc4e",
+				"package_digest_sha256": "afd0e17da130cc147d903039a079dcb2a99e2776c3408950da8e8caa447fde51",
+				"files": 87
+			},
+			"authority_package": {
+				"repository": "world-transvoxel",
+				"commit": "f4abd7ab4f921f98aba4ee45b4453af0bae53cd8",
+				"addon_tree": "6c9054cc15ef3c83c9d8da67744b7ae66010ced7",
+				"package_digest_sha256": "979b35485e7decd7a20fe0ba420dc7e1d9511d5a3d6a91313e00e474f3a847f9",
+				"files": 173
+			},
+			"project_import_engines": [
+				"4.6.3",
+				"4.7"
+			],
+			"runtime_smoke_markers": {
+				"4.6.3": "WT_TQP54_MIGRATION_GODOT_PASS render=1 collision=1 edit=committed journal=replayed failure=closed generation=3",
+				"4.7": "WT_TQP54_MIGRATION_GODOT_PASS render=1 collision=1 edit=committed journal=replayed failure=closed generation=3"
+			},
+			"deep_gate_timeout_seconds": 1800,
+			"release_claim": false
+		}
+	},
+	"qualified_scope": [
+		"TQP-52 candidate runtime API profiles readiness back-pressure and cancellation",
+		"TQP-53 production authoring inspection diagnostics repro and material-payload workflow",
+		"TQP-54 exact downstream package migration render collision edit persistence replay and failure behavior"
+	],
+	"explicitly_unqualified_scope": [
+		"TQP-55 CPU production release matrix",
+		"TQP-56 long-haul certification",
+		"TQP-57 standalone release",
+		"non-Windows GPU and game-system claims"
+	],
+	"next_milestone": "TQP-55",
+	"failures": []
+}

@@ -48,11 +48,11 @@ static func run() -> Dictionary:
 		_expect(not str(record.get("exit", "")).is_empty(), milestone + " blocker exit missing", failures)
 		blocker_by_milestone[milestone] = record
 	for milestone in [
-		"TQP-52", "TQP-53", "TQP-54", "TQP-55", "TQP-56", "TQP-57",
+		"TQP-55", "TQP-56", "TQP-57",
 		"TQP-59", "TQP-60", "TQP-61", "TQP-62", "TQP-63", "TQP-64", "TQP-71",
 	]:
 		_expect(blocker_by_milestone.has(milestone), "missing fail-closed blocker: " + milestone, failures)
-	_expect(blocker_by_milestone.size() == 13, "blocker catalog contains an unexpected milestone", failures)
+	_expect(blocker_by_milestone.size() == 10, "blocker catalog contains an unexpected milestone", failures)
 	_expect(
 		not ClassDB.class_exists("WtGpuTerrainBackend"),
 		"GPU backend exists but blocker catalog still declares it absent",
@@ -68,9 +68,9 @@ static func run() -> Dictionary:
 		"status": "PASS" if failures.is_empty() else "FAIL",
 		"scope_status": {
 			"TQP-51": "qualified_candidate_production_addon_boundary_v1",
-			"TQP-52": "blocked",
-			"TQP-53": "blocked",
-			"TQP-54": "blocked",
+			"TQP-52": "qualified_production_runtime_contract_v1",
+			"TQP-53": "qualified_production_authoring_workflow_v1",
+			"TQP-54": "qualified_downstream_migration_v1",
 			"TQP-55": "blocked",
 			"TQP-56": "blocked",
 			"TQP-57": "blocked",
@@ -90,9 +90,12 @@ static func run() -> Dictionary:
 		],
 		"qualified_scope": [
 			"TQP-51 pinned standalone candidate-addon boundary without a Terrain Lab runtime dependency",
+			"TQP-52 pinned runtime API profiles readiness back-pressure and cancellation contract",
+			"TQP-53 bounded production authoring inspection repro and material-payload workflow",
+			"TQP-54 exact pinned downstream migration and representative runtime behavior",
 		],
 		"explicitly_unqualified_scope": [
-			"CPU production runtime and release milestones TQP-52 through TQP-57",
+			"CPU production release matrix certification and release milestones TQP-55 through TQP-57",
 			"GPU backend milestones TQP-59 through TQP-64",
 			"TQP-58 measured GPU candidate benefit",
 			"TQP-71 networking and recovery",

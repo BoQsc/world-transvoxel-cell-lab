@@ -1,0 +1,50 @@
+{
+	"schema": "world_transvoxel.terrain_lab.downstream_migration_standard.v1",
+	"milestone": "TQP-54",
+	"standard_id": "qualified_downstream_migration_v1",
+	"evidence": "res://labs/terrain_lab/results/cpu_production_first_batch_reference_windows.json",
+	"integration": {
+		"repository": "world-transvoxel-integration-game",
+		"revision": "2103c3eaec02b6bba2af9edbcb21f6275d0f4b4e"
+	},
+	"candidate": {
+		"repository": "world-transvoxel-terrain",
+		"revision": "4e2f05c397755afd26df93738d40870032bbeaff",
+		"addon_tree": "1ca9f2625e0c54c41470086aedde2e4862d0fc4e",
+		"package_digest_sha256": "afd0e17da130cc147d903039a079dcb2a99e2776c3408950da8e8caa447fde51",
+		"files": 87
+	},
+	"native_authority": {
+		"repository": "world-transvoxel",
+		"revision": "f4abd7ab4f921f98aba4ee45b4453af0bae53cd8",
+		"addon_tree": "6c9054cc15ef3c83c9d8da67744b7ae66010ced7",
+		"package_digest_sha256": "979b35485e7decd7a20fe0ba420dc7e1d9511d5a3d6a91313e00e474f3a847f9",
+		"files": 173
+	},
+	"source_contracts": [
+		{"path": "TQP54_PACKAGE_PIN.json", "sha256": "2a7dfed8b1d030525bc5e09313dd07f6657f9de35abbb06a35aa9b800015d709"},
+		{"path": "TQP54_MIGRATION_CONTRACT.json", "sha256": "a91e87cca22c73d376f5a88e31282eaa17f09ef94b030ed0ffc34a9bd6481c0f"},
+		{"path": "docs/evidence/tqp54_migration_windows.json", "sha256": "e9e8112c08d4d2dadac55a4c172564419bcd44ae8621d856275b99497198c931"}
+	],
+	"required_engines": ["4.6.3", "4.7"],
+	"promotion_rules": [
+		"integration package contents match the exact candidate and native authority pins",
+		"game scripts use WtTerrainWorld and keep game presentation and deep diagnostics outside the candidate namespace",
+		"render collision edit persistence replay generation and failure behavior pass in both engines",
+		"unsupported custom journal paths and disabled native persistence reject explicitly",
+		"old native world chunk and edit-journal formats remain unchanged",
+		"the deep profile runner is bounded and its terminated timeout attempt is not pass evidence",
+		"migration qualification makes no standalone release claim"
+	],
+	"qualified_scope": [
+		"exact pinned candidate and native authority packages in the integration game",
+		"representative render collision edit save replay and fail-closed migration behavior",
+		"game-specific presentation and topology diagnostics separated from production terrain ownership",
+		"bounded Windows Godot 4.6.3 and 4.7 migration smoke"
+	],
+	"unqualified_scope": [
+		"CPU production release matrix and long-haul certification",
+		"the terminated unbounded deep flat-baseline attempt",
+		"non-Windows platforms GPU execution and general gameplay correctness"
+	]
+}

@@ -1,0 +1,48 @@
+{
+	"schema": "world_transvoxel.terrain_lab.decision.v1",
+	"id": "TQP-D039",
+	"date": "2026-08-09",
+	"decision": "Qualify TQP-52 through TQP-54 in dependency order for the pinned Windows CPU production candidate and integration migration while leaving TQP-55 and every later release claim fail-closed.",
+	"affected_milestones": [
+		"TQP-52",
+		"TQP-53",
+		"TQP-54",
+		"TQP-55",
+		"TQP-56",
+		"TQP-57"
+	],
+	"repositories": [
+		"world-transvoxel-cell-lab",
+		"world-transvoxel-terrain",
+		"world-transvoxel-integration-game",
+		"world-transvoxel"
+	],
+	"evidence": [
+		"world-transvoxel-terrain commit 4e2f05c397755afd26df93738d40870032bbeaff and addon tree 1ca9f2625e0c54c41470086aedde2e4862d0fc4e pass TQP-52 and TQP-53 on Godot 4.6.3 and 4.7",
+		"TQP-52 retains API version 2 four immutable profiles four readiness scopes bounded back-pressure cancellation and generation-aware state",
+		"TQP-53 retains production editor authoring preview diagnostics profile import/export repro export and native weighted-material behavior without a lab runtime dependency",
+		"world-transvoxel-integration-game commit 2103c3eaec02b6bba2af9edbcb21f6275d0f4b4e passes exact-package migration imports and runtime smokes on Godot 4.6.3 and 4.7",
+		"world-transvoxel commit f4abd7ab4f921f98aba4ee45b4453af0bae53cd8 remains the sole native terrain authority"
+	],
+	"qualified_scope": [
+		"TQP-52 candidate CPU runtime API profile readiness back-pressure and cancellation contract",
+		"TQP-53 bounded production authoring inspection repro and weighted-material workflow",
+		"TQP-54 exact downstream package migration render collision edit persistence replay and fail-closed behavior",
+		"Windows x86-64 Godot 4.6.3 and 4.7 retained evidence"
+	],
+	"unqualified_scope": [
+		"TQP-55 CPU production release matrix",
+		"TQP-56 long-haul certification",
+		"TQP-57 standalone CPU release",
+		"the terminated deep flat-baseline timeout attempt",
+		"non-Windows GPU gameplay and networking claims"
+	],
+	"standards_changed": [
+		"Terrain Qualification Program revision 40",
+		"execution-plan revision 31",
+		"production runtime authoring and downstream migration standards",
+		"TQP-55 becomes the next dependency-ordered milestone"
+	],
+	"review": "The promotion is evidence-bounded. The lab validates pinned external artifacts and does not load the production addon, reinterpret screenshots as correctness proof, treat power intent as measured performance, or infer release readiness from migration success.",
+	"downstream_impact": "The standalone CPU wave now has a qualified candidate runtime, authoring workflow, and pinned integration migration. The next work is the TQP-55 release matrix; long-haul certification and release remain blocked."
+}

@@ -1,0 +1,49 @@
+{
+	"schema": "world_transvoxel.terrain_lab.production_runtime_contract_standard.v1",
+	"milestone": "TQP-52",
+	"standard_id": "qualified_production_runtime_contract_v1",
+	"evidence": "res://labs/terrain_lab/results/cpu_production_first_batch_reference_windows.json",
+	"candidate": {
+		"repository": "world-transvoxel-terrain",
+		"revision": "4e2f05c397755afd26df93738d40870032bbeaff",
+		"addon_root": "addons/world_transvoxel_terrain",
+		"addon_tree": "1ca9f2625e0c54c41470086aedde2e4862d0fc4e"
+	},
+	"native_authority": {
+		"repository": "world-transvoxel",
+		"revision": "f4abd7ab4f921f98aba4ee45b4453af0bae53cd8"
+	},
+	"source_contract": {
+		"path": "TQP52_RUNTIME_CONTRACT.json",
+		"schema": "world_transvoxel_terrain.tqp52_runtime_contract.v1",
+		"sha256": "7486901eb476a83b5442a3b67aa23bf8c5d9ad35bffbf070e4a2081387dfbf24"
+	},
+	"source_report": {
+		"path": "artifacts/tqp52_runtime_contract/tqp52_runtime_contract_report.json",
+		"schema": "world_transvoxel_terrain.tqp52_runtime_evidence.v1",
+		"sha256": "5d573f1722bcbb356a244de95c481b0ceb36b7e2bc3a16385cf52f43de25f8c4"
+	},
+	"required_engines": ["4.6.3", "4.7"],
+	"required_api_version": 2,
+	"required_profiles": ["LOW_POWER", "BALANCED", "QUALITY", "REFERENCE"],
+	"required_readiness_scopes": ["render", "collision", "edit", "query"],
+	"promotion_rules": [
+		"world viewer edit query storage readiness and diagnostics APIs are versioned",
+		"readiness is generation-aware and separated by render collision edit and query",
+		"viewer and request capacities are bounded with explicit back-pressure",
+		"world transitions cancel wrapper requests and reject late completion",
+		"profiles declare resolution distance queues memory collision and power intent",
+		"both required Godot engines pass the retained runtime smoke"
+	],
+	"qualified_scope": [
+		"candidate public CPU runtime API version 2",
+		"four immutable built-in runtime profiles and declared tradeoffs",
+		"generation-aware readiness back-pressure cancellation and monotonic viewer revisions",
+		"bounded Windows Godot 4.6.3 and 4.7 runtime behavior"
+	],
+	"unqualified_scope": [
+		"release matrix and long-haul certification",
+		"measured per-profile power targets",
+		"non-Windows platforms and GPU execution"
+	]
+}

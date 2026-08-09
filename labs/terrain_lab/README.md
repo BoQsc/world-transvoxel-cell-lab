@@ -111,3 +111,14 @@ two-color capture isolates the exact corrected tangent seam.
 Terrain Lab scenes may depend on `world_transvoxel_terrain_lab` and the pinned
 production dependencies declared by their milestone. They must not depend on
 `world_transvoxel_cell_lab`.
+
+The retained TQP-52 through TQP-54 candidate and migration evidence is rebuilt
+from the exact sibling-repository pins with:
+
+```text
+python -B labs/terrain_lab/tools/qualify_cpu_production_first_batch.py
+```
+
+The qualifier verifies source-contract and report hashes, addon trees, package
+digests, tracked content, and both Godot engine markers. It does not install the
+production addon into the Terrain Lab runtime or make a TQP-55 release claim.

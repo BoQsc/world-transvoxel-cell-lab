@@ -1,0 +1,44 @@
+{
+	"schema": "world_transvoxel.terrain_lab.production_authoring_workflow_standard.v1",
+	"milestone": "TQP-53",
+	"standard_id": "qualified_production_authoring_workflow_v1",
+	"evidence": "res://labs/terrain_lab/results/cpu_production_first_batch_reference_windows.json",
+	"candidate": {
+		"repository": "world-transvoxel-terrain",
+		"revision": "4e2f05c397755afd26df93738d40870032bbeaff",
+		"addon_root": "addons/world_transvoxel_terrain",
+		"addon_tree": "1ca9f2625e0c54c41470086aedde2e4862d0fc4e"
+	},
+	"source_contract": {
+		"path": "TQP53_AUTHORING_CONTRACT.json",
+		"schema": "world_transvoxel_terrain.tqp53_authoring_contract.v1",
+		"sha256": "8f7550668954b0361c7615d9100b03b4a926a884ca64216f19ab2b3ecbfcbf63"
+	},
+	"source_report": {
+		"path": "artifacts/tqp53_authoring_workflow/tqp53_authoring_workflow_report.json",
+		"schema": "world_transvoxel_terrain.tqp53_authoring_evidence.v1",
+		"sha256": "17960ab971ad9c3f2610de024ccb2b3c7cf708b898fd532c2e8b6d8b05bc3e2d"
+	},
+	"required_engines": ["4.6.3", "4.7"],
+	"required_operations": ["carve", "construct", "fill", "paint", "restore", "place_volume"],
+	"promotion_rules": [
+		"the editor dock acts on WtTerrainWorld through the production addon API",
+		"brush drafts preview without committing persistent terrain state",
+		"undo and redo cover drafts and resource assignment but make no false durable inverse claim",
+		"profile import export diagnostics and one-action repro export are deterministic",
+		"production texture blending consumes native weighted material payloads",
+		"no Terrain Lab runtime dependency fallback mesher or duplicated procedural field exists",
+		"both required Godot engines pass the retained authoring smoke"
+	],
+	"qualified_scope": [
+		"production Terrain dock and WtTerrainWorld authoring workflow",
+		"sphere and box draft preview with carve construction fill paint restore and volume placement",
+		"profile import export readiness diagnostics and canonical repro export",
+		"generic weighted native eight-layer material presentation contract"
+	],
+	"unqualified_scope": [
+		"durable inverse edits after commit",
+		"art pipeline content quality outside the generic material contract",
+		"release certification non-Windows platforms and gameplay authoring systems"
+	]
+}

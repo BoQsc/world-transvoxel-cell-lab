@@ -198,6 +198,7 @@ static func validate(program: Dictionary, dependencies: Dictionary) -> Dictionar
 	_validate_fault_order_evidence(program, milestone_by_id, failures)
 	_validate_cpu_closure_implementation(program, milestone_by_id, failures)
 	_validate_production_addon_boundary(program, milestone_by_id, failures)
+	_validate_cpu_production_first_batch(program, milestone_by_id, failures)
 	_validate_low_power_performance_profile(program, failures)
 	_validate_visual_evidence(program, milestone_by_id, failures)
 	_validate_dependency_boundary(program, dependencies, failures)
@@ -340,7 +341,7 @@ static func _validate_evidence_files(program: Dictionary, failures: Array[String
 		"TQP-D021", "TQP-D022", "TQP-D023", "TQP-D024", "TQP-D025",
 		"TQP-D026", "TQP-D027", "TQP-D028", "TQP-D029", "TQP-D030",
 		"TQP-D031", "TQP-D032", "TQP-D033", "TQP-D034", "TQP-D035",
-		"TQP-D036", "TQP-D037", "TQP-D038",
+		"TQP-D036", "TQP-D037", "TQP-D038", "TQP-D039",
 	]:
 		_expect(decision_ids.has(required), "missing retained decision: " + required, failures)
 	for key in [
@@ -410,6 +411,10 @@ static func _validate_evidence_files(program: Dictionary, failures: Array[String
 		"native_adaptive_authority_gate_evidence",
 		"production_addon_boundary_standard",
 		"production_addon_boundary_evidence",
+		"production_runtime_contract_standard",
+		"production_authoring_workflow_standard",
+		"downstream_migration_standard",
+		"cpu_production_first_batch_evidence",
 		"wave_02_first_batch_evidence",
 		"wave_02_second_batch_evidence",
 		"execution_plan",
@@ -2124,9 +2129,233 @@ static func _validate_production_addon_boundary(
 		"TQP-51 status does not match retained production-addon boundary evidence",
 		failures
 	)
+
+
+static func _validate_cpu_production_first_batch(
+	program: Dictionary,
+	milestone_by_id: Dictionary,
+	failures: Array[String]
+) -> void:
+	var runtime_standard := JsonLoader.load_dictionary(
+		str(program.get("production_runtime_contract_standard", ""))
+	)
+	var authoring_standard := JsonLoader.load_dictionary(
+		str(program.get("production_authoring_workflow_standard", ""))
+	)
+	var migration_standard := JsonLoader.load_dictionary(
+		str(program.get("downstream_migration_standard", ""))
+	)
+	var evidence := JsonLoader.load_dictionary(
+		str(program.get("cpu_production_first_batch_evidence", ""))
+	)
 	_expect(
-		str((milestone_by_id.get("TQP-52", {}) as Dictionary).get("status", "")) == "blocked",
-		"TQP-52 advanced without runtime API and profile readiness evidence",
+		str(runtime_standard.get("schema", ""))
+			== "world_transvoxel.terrain_lab.production_runtime_contract_standard.v1",
+		"production runtime standard schema mismatch",
+		failures
+	)
+	_expect(
+		str(authoring_standard.get("schema", ""))
+			== "world_transvoxel.terrain_lab.production_authoring_workflow_standard.v1",
+		"production authoring standard schema mismatch",
+		failures
+	)
+	_expect(
+		str(migration_standard.get("schema", ""))
+			== "world_transvoxel.terrain_lab.downstream_migration_standard.v1",
+		"downstream migration standard schema mismatch",
+		failures
+	)
+	_expect(
+		str(evidence.get("schema", ""))
+			== "world_transvoxel.terrain_lab.cpu_production_first_batch_qualification.v1",
+		"CPU production first-batch evidence schema mismatch",
+		failures
+	)
+	_expect(str(evidence.get("status", "")) == "PASS", "CPU production first-batch evidence failed", failures)
+	_expect(bool(evidence.get("retained_complete", false)), "CPU production first-batch evidence is incomplete", failures)
+	_expect(str(evidence.get("platform", "")) == "windows-x86_64", "CPU production first-batch platform changed", failures)
+
+	var candidate: Dictionary = evidence.get("candidate", {})
+	var runtime_candidate: Dictionary = runtime_standard.get("candidate", {})
+	var authoring_candidate: Dictionary = authoring_standard.get("candidate", {})
+	for key in ["repository", "revision", "addon_tree"]:
+		_expect(
+			str(candidate.get(key, "")) == str(runtime_candidate.get(key, "")),
+			"TQP-52 candidate pin mismatch: " + key,
+			failures
+		)
+		_expect(
+			str(candidate.get(key, "")) == str(authoring_candidate.get(key, "")),
+			"TQP-53 candidate pin mismatch: " + key,
+			failures
+		)
+	_expect(bool(candidate.get("tracked_content_clean", false)), "candidate evidence has tracked changes", failures)
+	var authority: Dictionary = evidence.get("native_authority", {})
+	var authority_standard: Dictionary = runtime_standard.get("native_authority", {})
+	_expect(
+		str(authority.get("revision", "")) == str(authority_standard.get("revision", "")),
+		"native authority pin mismatch in CPU production evidence",
+		failures
+	)
+	_expect(bool(authority.get("tracked_content_clean", false)), "native authority evidence has tracked changes", failures)
+	var integration: Dictionary = evidence.get("integration", {})
+	var integration_standard: Dictionary = migration_standard.get("integration", {})
+	_expect(
+		str(integration.get("revision", "")) == str(integration_standard.get("revision", "")),
+		"TQP-54 integration revision mismatch",
+		failures
+	)
+	_expect(bool(integration.get("tracked_content_clean", false)), "integration evidence has tracked content changes", failures)
+	var migration_candidate: Dictionary = migration_standard.get("candidate", {})
+	_expect(
+		str(candidate.get("revision", "")) == str(migration_candidate.get("revision", "")),
+		"TQP-54 candidate revision differs from TQP-52/TQP-53",
+		failures
+	)
+	_expect(
+		str(candidate.get("addon_tree", "")) == str(migration_candidate.get("addon_tree", "")),
+		"TQP-54 candidate tree differs from TQP-52/TQP-53",
+		failures
+	)
+
+	var records: Dictionary = evidence.get("milestones", {})
+	var expected := {
+		"TQP-52": {
+			"standard": runtime_standard,
+			"qualification": "QUALIFIED_PRODUCTION_RUNTIME_CONTRACT_V1",
+			"scope": "qualified_production_runtime_contract_v1",
+		},
+		"TQP-53": {
+			"standard": authoring_standard,
+			"qualification": "QUALIFIED_PRODUCTION_AUTHORING_WORKFLOW_V1",
+			"scope": "qualified_production_authoring_workflow_v1",
+		},
+		"TQP-54": {
+			"standard": migration_standard,
+			"qualification": "QUALIFIED_DOWNSTREAM_MIGRATION_V1",
+			"scope": "qualified_downstream_migration_v1",
+		},
+	}
+	for milestone_id in expected:
+		var expected_record: Dictionary = expected[milestone_id]
+		var standard: Dictionary = expected_record["standard"]
+		var record: Dictionary = records.get(milestone_id, {})
+		var milestone: Dictionary = milestone_by_id.get(milestone_id, {})
+		_expect(str(standard.get("milestone", "")) == milestone_id, milestone_id + " standard identity mismatch", failures)
+		_expect(str(record.get("status", "")) == "PASS", milestone_id + " retained evidence failed", failures)
+		_expect(
+			str(record.get("qualification_status", "")) == str(expected_record["qualification"]),
+			milestone_id + " qualification status mismatch",
+			failures
+		)
+		_expect(
+			str(record.get("standard_id", "")) == str(standard.get("standard_id", "")),
+			milestone_id + " standard ID mismatch",
+			failures
+		)
+		_expect(str(milestone.get("status", "")) == "qualified", milestone_id + " is not qualified", failures)
+		_expect(
+			str(milestone.get("claim_scope", "")) == str(expected_record["scope"]),
+			milestone_id + " claim scope mismatch",
+			failures
+		)
+
+	var runtime_record: Dictionary = records.get("TQP-52", {})
+	_expect(int(runtime_record.get("api_version", 0)) == 2, "TQP-52 API version changed", failures)
+	_expect(int(runtime_record.get("profiles", 0)) == 4, "TQP-52 profile count changed", failures)
+	_expect(int(runtime_record.get("readiness_scopes", 0)) == 4, "TQP-52 readiness scope count changed", failures)
+	_expect(
+		str(runtime_record.get("source_contract_sha256", ""))
+			== str((runtime_standard.get("source_contract", {}) as Dictionary).get("sha256", "")),
+		"TQP-52 source contract digest changed",
+		failures
+	)
+	_expect(
+		str(runtime_record.get("source_report_sha256", ""))
+			== str((runtime_standard.get("source_report", {}) as Dictionary).get("sha256", "")),
+		"TQP-52 source report digest changed",
+		failures
+	)
+	var runtime_markers: Dictionary = runtime_record.get("engine_markers", {})
+	for engine_value in runtime_standard.get("required_engines", []):
+		var engine := str(engine_value)
+		_expect(
+			str(runtime_markers.get(engine, "")).begins_with("WT_TERRAIN_TQP52_GODOT_PASS"),
+			"TQP-52 engine marker missing: " + engine,
+			failures
+		)
+	_expect(runtime_markers.size() == 2, "TQP-52 engine evidence changed", failures)
+	var authoring_record: Dictionary = records.get("TQP-53", {})
+	_expect(bool(authoring_record.get("draft_undo_redo", false)), "TQP-53 draft undo/redo evidence missing", failures)
+	_expect(authoring_record.get("durable_inverse_claim", true) == false, "TQP-53 makes a durable inverse claim", failures)
+	_expect(str(authoring_record.get("repro_schema", "")) == "world_transvoxel_terrain.repro.v1", "TQP-53 repro schema changed", failures)
+	_expect(
+		str(authoring_record.get("source_contract_sha256", ""))
+			== str((authoring_standard.get("source_contract", {}) as Dictionary).get("sha256", "")),
+		"TQP-53 source contract digest changed",
+		failures
+	)
+	_expect(
+		str(authoring_record.get("source_report_sha256", ""))
+			== str((authoring_standard.get("source_report", {}) as Dictionary).get("sha256", "")),
+		"TQP-53 source report digest changed",
+		failures
+	)
+	var authoring_markers: Dictionary = authoring_record.get("engine_markers", {})
+	for engine_value in authoring_standard.get("required_engines", []):
+		var engine := str(engine_value)
+		_expect(
+			str(authoring_markers.get(engine, "")).begins_with("WT_TERRAIN_TQP53_GODOT_PASS"),
+			"TQP-53 engine marker missing: " + engine,
+			failures
+		)
+	_expect(authoring_markers.size() == 2, "TQP-53 engine evidence changed", failures)
+	var migration_record: Dictionary = records.get("TQP-54", {})
+	_expect(
+		str(migration_record.get("package_policy", "")) == "EXACT_PINNED_AUTHORITIES_NO_FALLBACKS",
+		"TQP-54 exact package policy changed",
+		failures
+	)
+	_expect(migration_record.get("release_claim", true) == false, "TQP-54 makes a release claim", failures)
+	var candidate_package: Dictionary = migration_record.get("candidate_package", {})
+	var authority_package: Dictionary = migration_record.get("authority_package", {})
+	_expect(
+		str(candidate_package.get("commit", "")) == str(migration_candidate.get("revision", "")),
+		"TQP-54 candidate package revision changed",
+		failures
+	)
+	for key in ["addon_tree", "package_digest_sha256", "files"]:
+		_expect(
+			candidate_package.get(key) == migration_candidate.get(key),
+			"TQP-54 candidate package changed: " + key,
+			failures
+		)
+	var migration_authority: Dictionary = migration_standard.get("native_authority", {})
+	_expect(
+		str(authority_package.get("commit", "")) == str(migration_authority.get("revision", "")),
+		"TQP-54 authority package revision changed",
+		failures
+	)
+	for key in ["addon_tree", "package_digest_sha256", "files"]:
+		_expect(
+			authority_package.get(key) == migration_authority.get(key),
+			"TQP-54 authority package changed: " + key,
+			failures
+		)
+	var migration_markers: Dictionary = migration_record.get("runtime_smoke_markers", {})
+	for engine_value in migration_standard.get("required_engines", []):
+		var engine := str(engine_value)
+		_expect(
+			str(migration_markers.get(engine, "")).begins_with("WT_TQP54_MIGRATION_GODOT_PASS"),
+			"TQP-54 engine marker missing: " + engine,
+			failures
+		)
+	_expect(migration_markers.size() == 2, "TQP-54 engine evidence changed", failures)
+	_expect(int(migration_record.get("deep_gate_timeout_seconds", 0)) == 1800, "TQP-54 deep gate timeout changed", failures)
+	_expect(
+		str((milestone_by_id.get("TQP-55", {}) as Dictionary).get("status", "")) == "blocked",
+		"TQP-55 advanced without a CPU production release matrix",
 		failures
 	)
 

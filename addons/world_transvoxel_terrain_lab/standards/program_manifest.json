@@ -1,6 +1,6 @@
 {
 	"schema": "world_transvoxel.terrain_lab.program.v2",
-	"program_revision": 39,
+	"program_revision": 40,
 	"lab_scope": "experimental_terrain_qualification",
 	"authority": "EVIDENCE_PROGRAM_ONLY",
 	"production_status": "NOT_PRODUCTION",
@@ -95,6 +95,10 @@
 	"native_adaptive_authority_gate_evidence": "res://labs/terrain_lab/results/native_adaptive_terrain_authority_gate_windows.json",
 	"production_addon_boundary_standard": "res://addons/world_transvoxel_terrain_lab/standards/production_addon_boundary_standard.json",
 	"production_addon_boundary_evidence": "res://labs/terrain_lab/results/production_addon_boundary_reference_windows.json",
+	"production_runtime_contract_standard": "res://addons/world_transvoxel_terrain_lab/standards/production_runtime_contract_standard.json",
+	"production_authoring_workflow_standard": "res://addons/world_transvoxel_terrain_lab/standards/production_authoring_workflow_standard.json",
+	"downstream_migration_standard": "res://addons/world_transvoxel_terrain_lab/standards/downstream_migration_standard.json",
+	"cpu_production_first_batch_evidence": "res://labs/terrain_lab/results/cpu_production_first_batch_reference_windows.json",
 	"wave_02_first_batch_evidence": "res://labs/terrain_lab/results/wave_02_first_batch_reference_windows.json",
 	"wave_02_second_batch_evidence": "res://labs/terrain_lab/results/wave_02_second_batch_reference_windows.json",
 	"execution_plan": "res://addons/world_transvoxel_terrain_lab/standards/execution_plan.json",
@@ -230,7 +234,8 @@
 		"res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D035.json",
 		"res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D036.json",
 		"res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D037.json",
-		"res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D038.json"
+		"res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D038.json",
+		"res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D039.json"
 	],
 	"milestones": [
 		{"id": "TQP-01", "title": "Operating Envelope", "status": "qualified", "domain": "foundation", "owner": "Terrain Qualification Program", "depends_on": [], "evidence_profile": "foundation", "contract_ref": "#tqp-01-operating-envelope", "claim_scope": "reference_envelope_v1"},
@@ -284,9 +289,9 @@
 		{"id": "TQP-49", "title": "Complex Adaptive Terrain Soak And Recovery", "status": "qualified", "domain": "native_adaptive_terrain", "owner": "Terrain Systems Lab", "depends_on": ["TQP-13", "TQP-15", "TQP-16", "TQP-26", "TQP-27", "TQP-34", "TQP-41", "TQP-42", "TQP-43", "TQP-44", "TQP-45", "TQP-46", "TQP-47", "TQP-48"], "evidence_profile": "systems", "contract_ref": "#tqp-49-complex-adaptive-terrain-soak-and-recovery", "claim_scope": "qualified_complex_adaptive_soak_recovery_windows_v1"},
 		{"id": "TQP-50", "title": "Native Adaptive Terrain Authority Gate", "status": "qualified", "domain": "native_adaptive_terrain", "owner": "Terrain Qualification Program", "depends_on": ["TQP-28", "TQP-29", "TQP-30", "TQP-31", "TQP-32", "TQP-33", "TQP-34", "TQP-35", "TQP-36", "TQP-37", "TQP-38", "TQP-39", "TQP-40", "TQP-41", "TQP-42", "TQP-43", "TQP-44", "TQP-45", "TQP-46", "TQP-47", "TQP-48", "TQP-49"], "evidence_profile": "systems", "contract_ref": "#tqp-50-native-adaptive-terrain-authority-gate", "claim_scope": "qualified_gate_e_native_adaptive_cpu_authority_windows_v1"},
 		{"id": "TQP-51", "title": "Production Addon Boundary", "status": "qualified", "domain": "production_qualification", "owner": "world-transvoxel-terrain", "depends_on": ["GATE_A", "GATE_B", "GATE_C", "GATE_D", "GATE_E"], "evidence_profile": "production", "contract_ref": "#tqp-51-production-addon-boundary", "claim_scope": "qualified_candidate_production_addon_boundary_v1"},
-		{"id": "TQP-52", "title": "Runtime API, Configuration Profiles, And Readiness States", "status": "blocked", "domain": "production_qualification", "owner": "world-transvoxel-terrain", "depends_on": ["TQP-15", "TQP-16", "TQP-19", "TQP-22", "TQP-24", "TQP-45", "TQP-46", "TQP-47", "TQP-48", "TQP-51"], "evidence_profile": "production", "contract_ref": "#tqp-52-runtime-api-configuration-profiles-and-readiness-states", "claim_scope": "candidate_production_runtime_contract"},
-		{"id": "TQP-53", "title": "Authoring And Inspection Workflow", "status": "blocked", "domain": "production_qualification", "owner": "world-transvoxel-terrain", "depends_on": ["TQP-08", "TQP-10", "TQP-11", "TQP-12", "TQP-13", "TQP-17", "TQP-21", "TQP-23", "TQP-26", "TQP-37", "TQP-38", "TQP-44", "TQP-51", "TQP-52"], "evidence_profile": "production", "contract_ref": "#tqp-53-authoring-and-inspection-workflow", "claim_scope": "candidate_production_authoring_workflow"},
-		{"id": "TQP-54", "title": "Downstream Integration And Migration", "status": "blocked", "domain": "production_qualification", "owner": "world-transvoxel-terrain and Integration game", "depends_on": ["TQP-16", "TQP-27", "TQP-41", "TQP-42", "TQP-49", "TQP-51", "TQP-52", "TQP-53"], "evidence_profile": "production", "contract_ref": "#tqp-54-downstream-integration-and-migration", "claim_scope": "downstream_parity_and_migration"},
+		{"id": "TQP-52", "title": "Runtime API, Configuration Profiles, And Readiness States", "status": "qualified", "domain": "production_qualification", "owner": "world-transvoxel-terrain", "depends_on": ["TQP-15", "TQP-16", "TQP-19", "TQP-22", "TQP-24", "TQP-45", "TQP-46", "TQP-47", "TQP-48", "TQP-51"], "evidence_profile": "production", "contract_ref": "#tqp-52-runtime-api-configuration-profiles-and-readiness-states", "claim_scope": "qualified_production_runtime_contract_v1"},
+		{"id": "TQP-53", "title": "Authoring And Inspection Workflow", "status": "qualified", "domain": "production_qualification", "owner": "world-transvoxel-terrain", "depends_on": ["TQP-08", "TQP-10", "TQP-11", "TQP-12", "TQP-13", "TQP-17", "TQP-21", "TQP-23", "TQP-26", "TQP-37", "TQP-38", "TQP-44", "TQP-51", "TQP-52"], "evidence_profile": "production", "contract_ref": "#tqp-53-authoring-and-inspection-workflow", "claim_scope": "qualified_production_authoring_workflow_v1"},
+		{"id": "TQP-54", "title": "Downstream Integration And Migration", "status": "qualified", "domain": "production_qualification", "owner": "world-transvoxel-terrain and Integration game", "depends_on": ["TQP-16", "TQP-27", "TQP-41", "TQP-42", "TQP-49", "TQP-51", "TQP-52", "TQP-53"], "evidence_profile": "production", "contract_ref": "#tqp-54-downstream-integration-and-migration", "claim_scope": "qualified_downstream_migration_v1"},
 		{"id": "TQP-55", "title": "CPU Production Release Qualification Matrix", "status": "blocked", "domain": "production_qualification", "owner": "Terrain Qualification Program", "depends_on": ["TQP-48", "TQP-49", "TQP-51", "TQP-52", "TQP-53", "TQP-54"], "evidence_profile": "production", "contract_ref": "#tqp-55-cpu-production-release-qualification-matrix", "claim_scope": "reproducible_cpu_release_bundle"},
 		{"id": "TQP-56", "title": "CPU Production Long-Haul Certification", "status": "blocked", "domain": "production_qualification", "owner": "Terrain Qualification Program", "depends_on": ["TQP-55"], "evidence_profile": "production", "contract_ref": "#tqp-56-cpu-production-long-haul-certification", "claim_scope": "declared_cpu_release_matrix"},
 		{"id": "TQP-57", "title": "CPU Production Terrain Standard And Standalone Release", "status": "blocked", "domain": "production_qualification", "owner": "Terrain Qualification Program and world-transvoxel-terrain", "depends_on": ["TQP-56"], "evidence_profile": "production", "contract_ref": "#tqp-57-cpu-production-terrain-standard-and-standalone-release", "claim_scope": "reviewed_cpu_standard_and_standalone_addon"},
@@ -347,7 +352,10 @@
 		"TQP-48 retained exact Windows GPU-board WPF60 long-run baseline protocol with complete samples and explicit target misses",
 		"TQP-49 retained Windows complex adaptive soak, recovery, drift, and dependency aggregation",
 		"TQP-50 Gate E native adaptive CPU terrain authority for the declared bounded Windows envelope",
-		"TQP-51 pinned standalone CPU candidate addon boundary with world-transvoxel as sole native terrain authority"
+		"TQP-51 pinned standalone CPU candidate addon boundary with world-transvoxel as sole native terrain authority",
+		"TQP-52 pinned CPU runtime API version 2 with four profiles and generation-aware readiness",
+		"TQP-53 bounded production authoring inspection repro and weighted-material workflow",
+		"TQP-54 exact pinned downstream migration with render collision edit persistence replay and failure evidence"
 	],
 	"explicitly_unqualified_scope": [
 		"production terrain runtime",
@@ -356,7 +364,7 @@
 		"GPU field or meshing authority",
 		"non-Windows platforms",
 		"visual behavior outside the accepted TQP-25 Windows reference corpus",
-		"standalone CPU production terrain runtime and release for TQP-52 through TQP-57",
+		"standalone CPU production release matrix long-haul certification and release for TQP-55 through TQP-57",
 		"GPU production terrain backend release for TQP-58 through TQP-64",
 		"complete qualification of implemented post-release TQP-65 through TQP-70 behavior",
 		"production save compatibility beyond the retained TQP-42 sparse procedural snapshot profile",
