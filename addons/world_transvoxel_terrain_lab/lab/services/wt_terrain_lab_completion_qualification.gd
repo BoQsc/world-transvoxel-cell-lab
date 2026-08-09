@@ -48,11 +48,11 @@ static func run() -> Dictionary:
 		_expect(not str(record.get("exit", "")).is_empty(), milestone + " blocker exit missing", failures)
 		blocker_by_milestone[milestone] = record
 	for milestone in [
-		"TQP-51", "TQP-52", "TQP-53", "TQP-54", "TQP-55", "TQP-56", "TQP-57",
+		"TQP-52", "TQP-53", "TQP-54", "TQP-55", "TQP-56", "TQP-57",
 		"TQP-59", "TQP-60", "TQP-61", "TQP-62", "TQP-63", "TQP-64", "TQP-71",
 	]:
 		_expect(blocker_by_milestone.has(milestone), "missing fail-closed blocker: " + milestone, failures)
-	_expect(blocker_by_milestone.size() == 14, "blocker catalog contains an unexpected milestone", failures)
+	_expect(blocker_by_milestone.size() == 13, "blocker catalog contains an unexpected milestone", failures)
 	_expect(
 		not ClassDB.class_exists("WtGpuTerrainBackend"),
 		"GPU backend exists but blocker catalog still declares it absent",
@@ -60,14 +60,14 @@ static func run() -> Dictionary:
 	)
 	_expect(
 		not ClassDB.class_exists("WtTerrainWorld"),
-		"production terrain addon exists but blocker catalog still declares it absent",
+		"production terrain addon leaked into the Terrain Lab runtime dependency boundary",
 		failures
 	)
 	return {
 		"schema": "world_transvoxel.terrain_lab.completion_qualification.v1",
 		"status": "PASS" if failures.is_empty() else "FAIL",
 		"scope_status": {
-			"TQP-51": "blocked",
+			"TQP-51": "qualified_candidate_production_addon_boundary_v1",
 			"TQP-52": "blocked",
 			"TQP-53": "blocked",
 			"TQP-54": "blocked",
@@ -88,8 +88,11 @@ static func run() -> Dictionary:
 		"specified_scope": [
 			"TQP-58 CPU-primary backend architecture decision and candidate promotion boundaries",
 		],
+		"qualified_scope": [
+			"TQP-51 pinned standalone candidate-addon boundary without a Terrain Lab runtime dependency",
+		],
 		"explicitly_unqualified_scope": [
-			"CPU production milestones TQP-51 through TQP-57",
+			"CPU production runtime and release milestones TQP-52 through TQP-57",
 			"GPU backend milestones TQP-59 through TQP-64",
 			"TQP-58 measured GPU candidate benefit",
 			"TQP-71 networking and recovery",

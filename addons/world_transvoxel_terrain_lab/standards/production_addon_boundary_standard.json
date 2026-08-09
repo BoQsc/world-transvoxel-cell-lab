@@ -1,0 +1,56 @@
+{
+	"schema": "world_transvoxel.terrain_lab.production_addon_boundary_standard.v1",
+	"milestone": "TQP-51",
+	"standard_id": "candidate_production_addon_boundary_v1",
+	"evidence": "res://labs/terrain_lab/results/production_addon_boundary_reference_windows.json",
+	"candidate": {
+		"repository": "world-transvoxel-terrain",
+		"revision": "fcf7aa04adb2bf3bcd97bfcfe2b72dc235767cb5",
+		"addon_root": "addons/world_transvoxel_terrain",
+		"addon_tree": "70f4b0844ce5cab9de9775aebaa91ccb6a4f4e70",
+		"candidate_id": "world-transvoxel-terrain-cpu-tqp51-1",
+		"boundary_contract_schema": "world_transvoxel.terrain.production_addon_boundary.v1",
+		"boundary_contract_sha256": "66ef08734f15ca32a85ab0179a41dff5aed9eec3556958da1b9c4e874978411b"
+	},
+	"native_authority": {
+		"repository": "world-transvoxel",
+		"revision": "f4abd7ab4f921f98aba4ee45b4453af0bae53cd8"
+	},
+	"required_contract_sections": [
+		"dependency",
+		"ownership",
+		"threading",
+		"lifetimes",
+		"extension_points",
+		"failure_policy",
+		"unsupported"
+	],
+	"required_static_validator_count": 16,
+	"required_runtime_regression_reports": {
+		"a4": "artifacts/a4_phase5_exit_review/a4_phase5_exit_review_report.json",
+		"a5": "artifacts/a5_phase5_exit_review/a5_phase5_exit_review_report.json",
+		"a6": "artifacts/a6_readiness_decision/a6_readiness_decision_report.json"
+	},
+	"promotion_rules": [
+		"candidate and native authority revisions match exactly and have no tracked worktree changes",
+		"machine boundary contract is valid and matches the pinned candidate identity",
+		"all static addon validators pass",
+		"A4 lifecycle edit storage recovery regression report passes",
+		"A5 reference scene and debug regression report passes",
+		"A6 package readiness regression report passes",
+		"no fallback mesher synthetic terrain surface vendored authority or lab runtime dependency exists",
+		"TQP-52 and later production claims remain unqualified"
+	],
+	"qualified_scope": [
+		"standalone installable addon boundary",
+		"pinned world-transvoxel CPU native authority dependency",
+		"runtime ownership threading resource lifetime extension failure and unsupported-behavior contracts",
+		"absence of addon-local terrain fallbacks and lab runtime dependencies"
+	],
+	"unqualified_scope": [
+		"TQP-52 production runtime API and profile readiness",
+		"TQP-53 production authoring and texture quality",
+		"integration migration release matrix long-haul certification and standalone release",
+		"GPU backend gameplay systems non-Windows and unmeasured hardware"
+	]
+}

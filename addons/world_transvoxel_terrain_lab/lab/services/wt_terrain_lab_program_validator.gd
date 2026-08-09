@@ -197,6 +197,7 @@ static func validate(program: Dictionary, dependencies: Dictionary) -> Dictionar
 	_validate_sparse_hierarchy_evidence(program, milestone_by_id, failures)
 	_validate_fault_order_evidence(program, milestone_by_id, failures)
 	_validate_cpu_closure_implementation(program, milestone_by_id, failures)
+	_validate_production_addon_boundary(program, milestone_by_id, failures)
 	_validate_low_power_performance_profile(program, failures)
 	_validate_visual_evidence(program, milestone_by_id, failures)
 	_validate_dependency_boundary(program, dependencies, failures)
@@ -339,7 +340,7 @@ static func _validate_evidence_files(program: Dictionary, failures: Array[String
 		"TQP-D021", "TQP-D022", "TQP-D023", "TQP-D024", "TQP-D025",
 		"TQP-D026", "TQP-D027", "TQP-D028", "TQP-D029", "TQP-D030",
 		"TQP-D031", "TQP-D032", "TQP-D033", "TQP-D034", "TQP-D035",
-		"TQP-D036", "TQP-D037",
+		"TQP-D036", "TQP-D037", "TQP-D038",
 	]:
 		_expect(decision_ids.has(required), "missing retained decision: " + required, failures)
 	for key in [
@@ -407,6 +408,8 @@ static func _validate_evidence_files(program: Dictionary, failures: Array[String
 		"complex_adaptive_soak_recovery_evidence",
 		"native_adaptive_authority_gate_standard",
 		"native_adaptive_authority_gate_evidence",
+		"production_addon_boundary_standard",
+		"production_addon_boundary_evidence",
 		"wave_02_first_batch_evidence",
 		"wave_02_second_batch_evidence",
 		"execution_plan",
@@ -2040,6 +2043,90 @@ static func _validate_terrain_observatory_evidence(
 	_expect(
 		str((milestone_by_id.get("TQP-26", {}) as Dictionary).get("status", "")) == "qualified",
 		"TQP-26 status does not match retained observatory evidence",
+		failures
+	)
+
+
+static func _validate_production_addon_boundary(
+	program: Dictionary,
+	milestone_by_id: Dictionary,
+	failures: Array[String]
+) -> void:
+	var standard := JsonLoader.load_dictionary(
+		str(program.get("production_addon_boundary_standard", ""))
+	)
+	var evidence := JsonLoader.load_dictionary(
+		str(program.get("production_addon_boundary_evidence", ""))
+	)
+	_expect(
+		str(standard.get("schema", ""))
+			== "world_transvoxel.terrain_lab.production_addon_boundary_standard.v1",
+		"production addon boundary standard schema mismatch",
+		failures
+	)
+	_expect(str(standard.get("milestone", "")) == "TQP-51", "production addon standard milestone changed", failures)
+	_expect(
+		str(evidence.get("schema", ""))
+			== "world_transvoxel.terrain_lab.production_addon_boundary_qualification.v1",
+		"production addon boundary evidence schema mismatch",
+		failures
+	)
+	_expect(str(evidence.get("milestone", "")) == "TQP-51", "production addon evidence milestone changed", failures)
+	_expect(str(evidence.get("status", "")) == "PASS", "production addon boundary evidence failed", failures)
+	_expect(bool(evidence.get("retained_complete", false)), "production addon boundary evidence is incomplete", failures)
+	_expect(
+		str(evidence.get("qualification_status", ""))
+			== "QUALIFIED_CANDIDATE_PRODUCTION_ADDON_BOUNDARY_V1",
+		"production addon boundary is not qualified",
+		failures
+	)
+	var candidate_standard: Dictionary = standard.get("candidate", {})
+	var candidate: Dictionary = evidence.get("candidate", {})
+	for key in ["revision", "addon_root", "addon_tree", "candidate_id", "boundary_contract_sha256"]:
+		_expect(
+			str(candidate.get(key, "")) == str(candidate_standard.get(key, "")),
+			"production addon candidate pin mismatch: " + key,
+			failures
+		)
+	_expect(bool(candidate.get("tracked_worktree_clean", false)), "production addon candidate evidence was dirty", failures)
+	_expect(candidate.get("fallback_mesher", true) == false, "production addon candidate permits a fallback mesher", failures)
+	_expect(candidate.get("silent_fallback", true) == false, "production addon candidate permits silent fallback", failures)
+	var authority_standard: Dictionary = standard.get("native_authority", {})
+	var authority: Dictionary = evidence.get("native_authority", {})
+	_expect(
+		str(authority.get("revision", "")) == str(authority_standard.get("revision", "")),
+		"production addon native authority pin mismatch",
+		failures
+	)
+	_expect(bool(authority.get("tracked_worktree_clean", false)), "production addon native authority evidence was dirty", failures)
+	var static_validation: Dictionary = evidence.get("static_validation", {})
+	_expect(str(static_validation.get("status", "")) == "PASS", "production addon static validation failed", failures)
+	_expect(
+		int(static_validation.get("validator_count", 0))
+			== int(standard.get("required_static_validator_count", -1)),
+		"production addon static validator coverage changed",
+		failures
+	)
+	var runtime: Dictionary = evidence.get("runtime_regression", {})
+	var expected_runtime := {
+		"a4": {"decision": "a4_complete", "validators": 9, "smokes": 6},
+		"a5": {"decision": "a5_complete", "validators": 7, "smokes": 4},
+		"a6": {"decision": "approve_validation_game_repository", "validators": 2, "smokes": 0},
+	}
+	for report_id in expected_runtime:
+		var report: Dictionary = runtime.get(report_id, {})
+		var expected: Dictionary = expected_runtime[report_id]
+		_expect(str(report.get("decision", "")) == str(expected.get("decision", "")), "production addon runtime decision changed: " + report_id, failures)
+		_expect(int(report.get("validators", -1)) == int(expected.get("validators", -2)), "production addon runtime validator coverage changed: " + report_id, failures)
+		_expect(int(report.get("smokes", -1)) == int(expected.get("smokes", -2)), "production addon runtime smoke coverage changed: " + report_id, failures)
+	_expect(
+		str((milestone_by_id.get("TQP-51", {}) as Dictionary).get("status", "")) == "qualified",
+		"TQP-51 status does not match retained production-addon boundary evidence",
+		failures
+	)
+	_expect(
+		str((milestone_by_id.get("TQP-52", {}) as Dictionary).get("status", "")) == "blocked",
+		"TQP-52 advanced without runtime API and profile readiness evidence",
 		failures
 	)
 

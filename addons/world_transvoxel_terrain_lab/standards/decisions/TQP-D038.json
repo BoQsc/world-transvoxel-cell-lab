@@ -1,0 +1,46 @@
+{
+	"schema": "world_transvoxel.terrain_lab.decision.v1",
+	"id": "TQP-D038",
+	"date": "2026-08-08",
+	"decision": "Qualify TQP-51 for the pinned standalone CPU production-addon boundary while leaving TQP-52 and every later production, integration, release, GPU, and game-system claim unqualified.",
+	"affected_milestones": [
+		"TQP-51",
+		"TQP-52",
+		"TQP-53",
+		"TQP-54",
+		"TQP-55",
+		"TQP-56",
+		"TQP-57"
+	],
+	"repositories": [
+		"world-transvoxel-cell-lab",
+		"world-transvoxel-terrain",
+		"world-transvoxel"
+	],
+	"evidence": [
+		"world-transvoxel-terrain commit fcf7aa04adb2bf3bcd97bfcfe2b72dc235767cb5 freezes candidate world-transvoxel-terrain-cpu-tqp51-1",
+		"the candidate pins world-transvoxel commit f4abd7ab4f921f98aba4ee45b4453af0bae53cd8 as the sole native terrain authority",
+		"production_addon_boundary_reference_windows.json passes 16 static validators and verifies retained A4 A5 and A6 Godot regression reports",
+		"the installable addon contains no fallback mesher synthetic terrain surface vendored upstream authority or lab runtime dependency"
+	],
+	"qualified_scope": [
+		"standalone installable addon boundary and exact candidate identity",
+		"runtime ownership dependency threading lifetime extension failure and unsupported-behavior contracts",
+		"pinned world-transvoxel CPU native authority and absence of addon-local terrain fallbacks",
+		"retention of the existing A4 A5 and A6 addon regression evidence"
+	],
+	"unqualified_scope": [
+		"TQP-52 runtime API configuration profile and readiness-state qualification",
+		"TQP-53 authoring inspection and production texture qualification",
+		"downstream migration release matrix long-haul certification and standalone production release",
+		"GPU backend gameplay systems non-Windows and unmeasured hardware"
+	],
+	"standards_changed": [
+		"Terrain Qualification Program revision 39",
+		"execution-plan revision 30",
+		"TQP-51 promotion state and retained production-addon boundary standard",
+		"TQP-52 becomes the next dependency-ordered milestone"
+	],
+	"review": "The candidate boundary is narrow and fail closed. Qualification does not infer production runtime quality from package existence, does not install the candidate as a Terrain Lab runtime dependency, and does not advance TQP-52.",
+	"downstream_impact": "The production-addon repository is now the pinned TQP-51 candidate. TQP-52 may qualify its public runtime and profile behavior against the retained terrain authority; integration and release work remain blocked."
+}

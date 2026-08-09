@@ -1,0 +1,150 @@
+{
+	"schema": "world_transvoxel.terrain_lab.production_addon_boundary_qualification.v1",
+	"milestone": "TQP-51",
+	"status": "PASS",
+	"qualification_status": "QUALIFIED_CANDIDATE_PRODUCTION_ADDON_BOUNDARY_V1",
+	"retained_complete": true,
+	"candidate": {
+		"repository": "world-transvoxel-terrain",
+		"revision": "fcf7aa04adb2bf3bcd97bfcfe2b72dc235767cb5",
+		"tracked_worktree_clean": true,
+		"addon_root": "addons/world_transvoxel_terrain",
+		"addon_tree": "70f4b0844ce5cab9de9775aebaa91ccb6a4f4e70",
+		"candidate_id": "world-transvoxel-terrain-cpu-tqp51-1",
+		"boundary_contract_sha256": "66ef08734f15ca32a85ab0179a41dff5aed9eec3556958da1b9c4e874978411b",
+		"boundary_status": "CANDIDATE_BOUNDARY_FROZEN",
+		"fallback_mesher": false,
+		"silent_fallback": false
+	},
+	"native_authority": {
+		"repository": "world-transvoxel",
+		"revision": "f4abd7ab4f921f98aba4ee45b4453af0bae53cd8",
+		"tracked_worktree_clean": true
+	},
+	"static_validation": {
+		"status": "PASS",
+		"validator_count": 16,
+		"validators": [
+			{
+				"script": "tools/validate_a1_contract.py",
+				"return_code": 0,
+				"marker": "WT_TERRAIN_A1_CONTRACT_PASS next=a2_addon_local_smoke_harness implementation=contract_only"
+			},
+			{
+				"script": "tools/validate_a2_smoke.py",
+				"return_code": 0,
+				"marker": "WT_TERRAIN_A2_CONTRACT_PASS next=a3_world_transvoxel_bridge implementation=smoke_only"
+			},
+			{
+				"script": "tools/validate_a3_bridge.py",
+				"return_code": 0,
+				"marker": "WT_TERRAIN_A3_CONTRACT_PASS next=a4_terrain_profile_edit_storage_recovery implementation=bridge_only"
+			},
+			{
+				"script": "tools/validate_a4_phase1.py",
+				"return_code": 0,
+				"marker": "WT_TERRAIN_A4_PHASE1_CONTRACT_PASS next=a4_phase2_bridge_edit_submission implementation=resource_semantics_only"
+			},
+			{
+				"script": "tools/validate_a4_phase2.py",
+				"return_code": 0,
+				"marker": "WT_TERRAIN_A4_PHASE2_CONTRACT_PASS next=a4_phase3_public_terrain_world_lifecycle implementation=bridge_storage_fixture"
+			},
+			{
+				"script": "tools/validate_a4_phase3.py",
+				"return_code": 0,
+				"marker": "WT_TERRAIN_A4_PHASE3_CONTRACT_PASS next=a4_phase4_reference_profile_runtime_cold_idle implementation=terrain_world_lifecycle"
+			},
+			{
+				"script": "tools/validate_a4_phase4.py",
+				"return_code": 0,
+				"marker": "WT_TERRAIN_A4_PHASE4_CONTRACT_PASS next=a4_phase5_a4_exit_review implementation=reference_profile_runtime_cold_idle"
+			},
+			{
+				"script": "tools/validate_a4_phase5.py",
+				"return_code": 0,
+				"marker": "WT_TERRAIN_A4_PHASE5_CONTRACT_PASS next=a5_local_reference_scene_debug_ui implementation=a4_exit_review"
+			},
+			{
+				"script": "tools/validate_a5_phase1.py",
+				"return_code": 0,
+				"marker": "WT_TERRAIN_A5_PHASE1_CONTRACT_PASS next=a5_phase2_local_reference_scene_scaffold implementation=debug_snapshot_contract"
+			},
+			{
+				"script": "tools/validate_a5_phase2.py",
+				"return_code": 0,
+				"marker": "WT_TERRAIN_A5_PHASE2_CONTRACT_PASS next=a5_phase3_backend_reference_scene_runtime_smoke implementation=local_reference_scene_scaffold"
+			},
+			{
+				"script": "tools/validate_a5_phase3.py",
+				"return_code": 0,
+				"marker": "WT_TERRAIN_A5_PHASE3_CONTRACT_PASS next=a5_phase4_debug_overlay_category_rendering implementation=backend_reference_scene_runtime_smoke"
+			},
+			{
+				"script": "tools/validate_a5_phase4.py",
+				"return_code": 0,
+				"marker": "WT_TERRAIN_A5_PHASE4_CONTRACT_PASS next=a5_phase5_a5_exit_review implementation=debug_overlay_category_rendering"
+			},
+			{
+				"script": "tools/validate_a5_phase5.py",
+				"return_code": 0,
+				"marker": "WT_TERRAIN_A5_PHASE5_CONTRACT_PASS next=a6_game_repository_readiness_decision implementation=a5_exit_review"
+			},
+			{
+				"script": "tools/validate_a6_readiness_decision.py",
+				"return_code": 0,
+				"marker": "WT_TERRAIN_A6_CONTRACT_PASS decision=approve_validation_game_repository implementation=readiness_decision next=separate_validation_game_repository_when_user_approves"
+			},
+			{
+				"script": "tools/validate_terrain_skeleton.py",
+				"return_code": 0,
+				"marker": "WT_TERRAIN_SKELETON_PASS addon=world-transvoxel-terrain implementation=deferred game_repository=deferred"
+			},
+			{
+				"script": "tools/validate_tqp51_boundary.py",
+				"return_code": 0,
+				"marker": "WT_TERRAIN_TQP51_BOUNDARY_PASS candidate=world-transvoxel-terrain-cpu-tqp51-1 next=tqp52_runtime_api_profiles_readiness"
+			}
+		]
+	},
+	"runtime_regression": {
+		"a4": {
+			"source": "artifacts/a4_phase5_exit_review/a4_phase5_exit_review_report.json",
+			"sha256": "bec639fcf524ba91e4f024eb8763d4aec1e3a8b62e7a590f54ed461af3047116",
+			"validators": 9,
+			"smokes": 6,
+			"decision": "a4_complete",
+			"step_count": 15
+		},
+		"a5": {
+			"source": "artifacts/a5_phase5_exit_review/a5_phase5_exit_review_report.json",
+			"sha256": "babb306e66f86d690e29a52ce94facc17e7dd830e6f0a9631e7dca0071d00e06",
+			"validators": 7,
+			"smokes": 4,
+			"decision": "a5_complete",
+			"step_count": 11
+		},
+		"a6": {
+			"source": "artifacts/a6_readiness_decision/a6_readiness_decision_report.json",
+			"sha256": "6cd62094ff6b58949549e4863bf88b7bdadfb627159a82c2ac261823f537b2a8",
+			"validators": 2,
+			"smokes": 0,
+			"decision": "approve_validation_game_repository",
+			"step_count": 2
+		}
+	},
+	"qualified_scope": [
+		"standalone installable addon boundary",
+		"pinned world-transvoxel CPU native authority dependency",
+		"runtime ownership threading resource lifetime extension failure and unsupported-behavior contracts",
+		"absence of addon-local terrain fallbacks and lab runtime dependencies"
+	],
+	"unqualified_scope": [
+		"TQP-52 production runtime API and profile readiness",
+		"TQP-53 production authoring and texture quality",
+		"integration migration release matrix long-haul certification and standalone release",
+		"GPU backend gameplay systems non-Windows and unmeasured hardware"
+	],
+	"next_milestone": "TQP-52",
+	"failures": []
+}

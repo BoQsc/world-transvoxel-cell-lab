@@ -30,7 +30,7 @@ world_transvoxel_cell_lab
 
 world_transvoxel_terrain_lab
     -> world_transvoxel
-    -> world_transvoxel_terrain only when a specified milestone requires it
+    -> pinned world_transvoxel_terrain candidate for qualification only
 
 world_transvoxel_cell_lab
     -X-> world_transvoxel_terrain_lab
@@ -40,10 +40,9 @@ world_transvoxel_cell_lab
 dependency. Experimental behavior is promoted into its owning production
 repository only after qualification.
 
-The monorepo does not currently vendor `world_transvoxel_terrain`. Gate A of
-the Terrain Qualification Program is specification work and requires only the
-pinned native addon. A terrain-runtime dependency will be pinned deliberately
-when the first specified milestone requires it.
+The monorepo does not vendor or install `world_transvoxel_terrain`. TQP-51 pins
+the sibling candidate repository for cross-repository qualification only; the
+Terrain Lab runtime continues to depend solely on the pinned native addon.
 
 ## Project Layout
 

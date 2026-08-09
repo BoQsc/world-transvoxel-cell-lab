@@ -1,7 +1,7 @@
 {
 	"schema": "world_transvoxel.terrain_lab.qualification_state.v1",
 	"as_of": "2026-08-08",
-	"program_revision": 38,
+	"program_revision": 39,
 	"policy": "manifest status must match retained evidence and fail closed",
 	"statuses": {
 		"qualified": [
@@ -13,14 +13,14 @@
 			"TQP-26", "TQP-27", "TQP-28", "TQP-29", "TQP-30",
 			"TQP-31", "TQP-32", "TQP-33", "TQP-34", "TQP-35", "TQP-36",
 			"TQP-37", "TQP-38", "TQP-39", "TQP-40", "TQP-41", "TQP-42", "TQP-43",
-			"TQP-44", "TQP-45", "TQP-46", "TQP-47", "TQP-48", "TQP-49", "TQP-50"
+			"TQP-44", "TQP-45", "TQP-46", "TQP-47", "TQP-48", "TQP-49", "TQP-50", "TQP-51"
 		],
 		"implemented": [
 			"TQP-65", "TQP-66", "TQP-67", "TQP-68", "TQP-69", "TQP-70"
 		],
 		"specified": ["TQP-58"],
 		"blocked": [
-			"TQP-51", "TQP-52", "TQP-53", "TQP-54", "TQP-55", "TQP-56", "TQP-57",
+			"TQP-52", "TQP-53", "TQP-54", "TQP-55", "TQP-56", "TQP-57",
 			"TQP-59", "TQP-60", "TQP-61", "TQP-62", "TQP-63", "TQP-64", "TQP-71"
 		],
 		"proposed": [],

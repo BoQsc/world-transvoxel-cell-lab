@@ -178,7 +178,7 @@ promotion order: investigation may happen early, but qualification cannot skip
 an earlier dependency.
 
 The machine-readable `execution_plan.json` mirrors the same order but is not a
-second human roadmap. Program revision 38 preserves every qualified TQP-01
+second human roadmap. Program revision 39 preserves every qualified TQP-01
 through TQP-47 claim, keeps the ordered CPU/GPU release sequence from
 `TQP-D033`, corrects TQP-48's inherited low-power target through
 `TQP-D036`, and closes Gate E for the bounded CPU authority envelope through
@@ -1125,12 +1125,12 @@ game framework and has no runtime dependency on either lab.
 Execution order: TQP-51 -> TQP-52 -> TQP-53 -> TQP-54 -> TQP-55 -> TQP-56 ->
 TQP-57.
 
-Gate E is qualified. This phase is now the active blocked wave and starts by
-creating a pinned candidate addon boundary for `world-transvoxel-terrain`.
+Gate E and TQP-51 are qualified. This phase is the active production wave and
+continues with TQP-52 runtime API, profile, and readiness-state qualification.
 
 ### TQP-51: Production Addon Boundary
 
-Status: `blocked`. Owner: `world-transvoxel-terrain`. Depends on: Gates A
+Status: `qualified`. Owner: `world-transvoxel-terrain`. Depends on: Gates A
 through E.
 
 Complete when runtime ownership, dependencies, threading, data and resource
@@ -1138,6 +1138,16 @@ lifetimes, extension points, errors, unsupported behavior, and the boundary
 between `world-transvoxel` primitives and production terrain orchestration are
 frozen. The addon must use the pinned native authority and must not contain a
 second fallback mesher or depend on lab presentation state.
+
+The retained Windows qualification pins `world-transvoxel-terrain` commit
+`fcf7aa04adb2bf3bcd97bfcfe2b72dc235767cb5`, addon tree
+`70f4b0844ce5cab9de9775aebaa91ccb6a4f4e70`, and `world-transvoxel` authority
+commit `f4abd7ab4f921f98aba4ee45b4453af0bae53cd8`. The candidate freezes ownership,
+threading, lifetimes, extension points, fail-closed errors, and unsupported
+scope; all sixteen static validators and retained A4, A5, and A6 Godot
+regression reports pass. This qualifies only the candidate package boundary.
+Runtime API/profile readiness, production textures and authoring, downstream
+migration, release certification, GPU work, and gameplay remain unqualified.
 
 ### TQP-52: Runtime API, Configuration Profiles, And Readiness States
 
@@ -1376,20 +1386,20 @@ The program records every milestone at a truthful evidence state:
   envelope. `TQP-48` now retains the exact GPU-board WPF60 baseline run,
   `TQP-49` passes the complex adaptive soak/recovery aggregation, and `TQP-50`
   closes Gate E for the bounded Windows CPU authority envelope.
-- `TQP-51` through `TQP-57` are blocked CPU production-addon work.
+- `TQP-51` is qualified for the pinned standalone CPU candidate-addon boundary;
+  `TQP-52` through `TQP-57` remain blocked production-runtime and release work.
 - `TQP-58` is the specified CPU-primary GPU architecture decision; `TQP-59`
   through `TQP-64` are blocked GPU implementation and release work.
 - `TQP-65` through `TQP-70` retain the previously implemented but unqualified
   destruction and structural reference behavior under revision-34 identifiers.
 - `TQP-71` networking remains blocked by a missing multiplayer authority model.
 
-The next dependency-ordered milestone is TQP-51, Production Addon Boundary.
-Gate E is closed only for the bounded CPU authority envelope; CPU production
-release work must now create a standalone `world-transvoxel-terrain` boundary
-without depending on either lab at runtime. The low-power target misses,
-production release, GPU backend, and game-system behavior remain outside the
-closed Gate E claim. A milestone may advance only when its declared evidence
-passes.
+The next dependency-ordered milestone is TQP-52, Runtime API, Configuration
+Profiles, And Readiness States. TQP-51 establishes only the standalone
+`world-transvoxel-terrain` candidate boundary without either lab at runtime.
+The low-power target misses, production runtime and release, GPU backend, and
+game-system behavior remain outside the qualified boundary claim. A milestone
+may advance only when its declared evidence passes.
 
 ## What Comes Next
 
@@ -1590,3 +1600,7 @@ Retained decisions:
   evidence, keep its target misses explicit, promote TQP-49 and TQP-50 from
   fail-closed reports, and close Gate E only for the bounded Windows CPU
   adaptive-terrain authority envelope.
+- `TQP-D038`: qualify the pinned TQP-51 standalone candidate-addon boundary,
+  retain `world-transvoxel` as sole native terrain authority, and leave TQP-52
+  and every later production, integration, release, GPU, and gameplay claim
+  unqualified.

@@ -3,7 +3,6 @@
 	"as_of": "2026-08-08",
 	"policy": "blocked milestones remain unqualified and fail closed",
 	"blockers": [
-		{"milestone": "TQP-51", "code": "PRODUCTION_ADDON_ABSENT", "owner": "world-transvoxel-terrain", "exit": "Gate E is qualified and a separate pinned candidate production addon exists"},
 		{"milestone": "TQP-52", "code": "PRODUCTION_RUNTIME_API_ABSENT", "owner": "world-transvoxel-terrain", "exit": "TQP-51 candidate exposes the required runtime lifecycle, readiness, budget, and profile APIs"},
 		{"milestone": "TQP-53", "code": "PRODUCTION_AUTHORING_TARGET_ABSENT", "owner": "world-transvoxel-terrain", "exit": "TQP-52 runtime and the accepted TQP-44 visual corpus are available to an editor workflow"},
 		{"milestone": "TQP-54", "code": "DOWNSTREAM_PARITY_TARGET_UNPINNED", "owner": "Integration game and world-transvoxel-terrain", "exit": "candidate production addon and integration-game revisions are pinned with declared migration inputs"},
