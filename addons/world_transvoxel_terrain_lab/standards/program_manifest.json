@@ -1,6 +1,6 @@
 {
 	"schema": "world_transvoxel.terrain_lab.program.v2",
-	"program_revision": 44,
+	"program_revision": 45,
 	"lab_scope": "experimental_terrain_qualification",
 	"authority": "EVIDENCE_PROGRAM_ONLY",
 	"production_status": "NOT_PRODUCTION",
@@ -252,7 +252,8 @@
 		"res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D040.json",
 		"res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D041.json",
 		"res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D042.json",
-		"res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D043.json"
+		"res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D043.json",
+		"res://addons/world_transvoxel_terrain_lab/standards/decisions/TQP-D044.json"
 	],
 	"milestones": [
 		{"id": "TQP-01", "title": "Operating Envelope", "status": "qualified", "domain": "foundation", "owner": "Terrain Qualification Program", "depends_on": [], "evidence_profile": "foundation", "contract_ref": "#tqp-01-operating-envelope", "claim_scope": "reference_envelope_v1"},
@@ -312,7 +313,7 @@
 		{"id": "TQP-55", "title": "CPU Production Release Qualification Matrix", "status": "qualified", "domain": "production_qualification", "owner": "Terrain Qualification Program", "depends_on": ["TQP-48", "TQP-49", "TQP-51", "TQP-52", "TQP-53", "TQP-54"], "evidence_profile": "production", "contract_ref": "#tqp-55-cpu-production-release-qualification-matrix", "claim_scope": "qualified_windows_cpu_release_matrix_v1"},
 		{"id": "TQP-56", "title": "CPU Production Long-Haul Certification", "status": "qualified", "domain": "production_qualification", "owner": "Terrain Qualification Program", "depends_on": ["TQP-55"], "evidence_profile": "production", "contract_ref": "#tqp-56-cpu-production-long-haul-certification", "claim_scope": "qualified_windows_cpu_wrapper_and_retained_long_haul_v1"},
 		{"id": "TQP-57", "title": "CPU Production Terrain Standard And Standalone Release", "status": "production", "domain": "production_qualification", "owner": "Terrain Qualification Program and world-transvoxel-terrain", "depends_on": ["TQP-56"], "evidence_profile": "production", "contract_ref": "#tqp-57-cpu-production-terrain-standard-and-standalone-release", "claim_scope": "cpu_terrain_standard_1_0_limited_windows_reference_release"},
-		{"id": "TQP-58", "title": "GPU Architecture Decision", "status": "blocked", "domain": "backend_qualification", "owner": "Backend Qualification Lab", "depends_on": ["GATE_F"], "entry_conditions": ["CPU_FINALIZATION_PRECONDITION"], "evidence_profile": "backend", "contract_ref": "#tqp-58-gpu-architecture-decision", "claim_scope": "decision_only_cpu_remains_reference"},
+		{"id": "TQP-58", "title": "GPU Architecture Decision", "status": "specified", "domain": "backend_qualification", "owner": "Backend Qualification Lab", "depends_on": ["GATE_F"], "entry_conditions": ["CPU_FINALIZATION_PRECONDITION"], "evidence_profile": "backend", "contract_ref": "#tqp-58-gpu-architecture-decision", "claim_scope": "decision_only_cpu_remains_reference"},
 		{"id": "TQP-59", "title": "GPU Field Evaluation", "status": "blocked", "domain": "backend_qualification", "owner": "Backend Qualification Lab", "depends_on": ["TQP-07", "TQP-08", "TQP-12", "TQP-28", "TQP-29", "TQP-58"], "evidence_profile": "backend", "contract_ref": "#tqp-59-gpu-field-evaluation", "claim_scope": "candidate_backend_only"},
 		{"id": "TQP-60", "title": "GPU Meshing Candidate", "status": "blocked", "domain": "backend_qualification", "owner": "Backend Qualification Lab", "depends_on": ["TQP-31", "TQP-33", "TQP-34", "TQP-58", "TQP-59"], "evidence_profile": "backend", "contract_ref": "#tqp-60-gpu-meshing-candidate", "claim_scope": "candidate_backend_only"},
 		{"id": "TQP-61", "title": "CPU/GPU Differential Corpus", "status": "blocked", "domain": "backend_qualification", "owner": "Backend Qualification Lab and Cell Lab", "depends_on": ["TQP-34", "TQP-50", "TQP-60"], "evidence_profile": "backend", "contract_ref": "#tqp-61-cpugpu-differential-corpus", "claim_scope": "candidate_backend_only"},

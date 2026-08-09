@@ -1,13 +1,13 @@
 {
 	"schema": "world_transvoxel.terrain_lab.execution_plan.v1",
-	"plan_revision": 34,
-	"program_revision": 44,
+	"plan_revision": 35,
+	"program_revision": 45,
 	"policy": "single_human_tqp_dependency_order_fail_closed",
 	"human_authority": "res://docs/terrain_lab/TERRAIN_QUALIFICATION_PROGRAM.md",
 	"current_wave": "TQP-WAVE-05",
 	"recommended_next": ["TQP-58"],
-	"recommended_precondition_steps": ["CPU-C1", "CPU-C2", "CPU-C3"],
-	"recommended_action": "Complete CPU-C1, CPU-C2, and CPU-C3 under CPU_FINALIZATION_PRECONDITION before TQP-58 is eligible.",
+	"recommended_precondition_steps": [],
+	"recommended_action": "Execute TQP-58 as a measured GPU architecture decision against the retained CPU authority; do not implement or promote a GPU backend by assumption.",
 	"waves": [
 		{
 			"id": "TQP-WAVE-00",

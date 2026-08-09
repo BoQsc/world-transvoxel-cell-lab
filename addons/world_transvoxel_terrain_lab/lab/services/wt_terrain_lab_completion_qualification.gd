@@ -43,7 +43,7 @@ static func run() -> Dictionary:
 	)
 	_expect(
 		str(cpu_finalization.get("schema", ""))
-			== "world_transvoxel.terrain_lab.cpu_finalization_readiness.v1",
+			== "world_transvoxel.terrain_lab.cpu_finalization_readiness.v2",
 		"CPU finalization evidence is missing or invalid",
 		failures
 	)
@@ -63,14 +63,34 @@ static func run() -> Dictionary:
 		_expect(not str(record.get("owner", "")).is_empty(), milestone + " blocker owner missing", failures)
 		_expect(not str(record.get("exit", "")).is_empty(), milestone + " blocker exit missing", failures)
 		blocker_by_milestone[milestone] = record
-	for milestone in [
-		"TQP-58", "TQP-59", "TQP-60", "TQP-61", "TQP-62", "TQP-63", "TQP-64", "TQP-71",
-	]:
+	var expected_blockers := [
+		"TQP-59", "TQP-60", "TQP-61", "TQP-62", "TQP-63", "TQP-64", "TQP-71",
+	]
+	if not cpu_finalization_passed:
+		expected_blockers.push_front("TQP-58")
+	for milestone in expected_blockers:
 		_expect(blocker_by_milestone.has(milestone), "missing fail-closed blocker: " + milestone, failures)
-	_expect(blocker_by_milestone.size() == 8, "blocker catalog contains an unexpected milestone", failures)
 	_expect(
-		not cpu_finalization_passed,
-		"CPU finalization passed but the TQP-58 blocker was not retired",
+		blocker_by_milestone.size() == expected_blockers.size(),
+		"blocker catalog contains an unexpected milestone",
+		failures
+	)
+	_expect(
+		blocker_by_milestone.has("TQP-58") != cpu_finalization_passed,
+		"TQP-58 blocker state differs from CPU finalization readiness",
+		failures
+	)
+	var gpu_eligibility: Dictionary = backend_decision.get(
+		"gpu_architecture_decision_eligibility", {}
+	)
+	_expect(
+		str(gpu_eligibility.get("status", ""))
+			== (
+				"ELIGIBLE_TQP58_SPECIFIED"
+				if cpu_finalization_passed
+				else "BLOCKED_CPU_FINALIZATION_INCOMPLETE"
+			),
+		"GPU architecture decision eligibility differs from CPU finalization",
 		failures
 	)
 	_expect(
@@ -94,7 +114,11 @@ static func run() -> Dictionary:
 			"TQP-55": "qualified_windows_cpu_release_matrix_v1",
 			"TQP-56": "qualified_windows_cpu_wrapper_and_retained_long_haul_v1",
 			"TQP-57": "production_cpu_terrain_standard_1_0_limited_windows_reference_release",
-			"TQP-58": "blocked_cpu_finalization_incomplete",
+			"TQP-58": (
+				"specified_gpu_architecture_decision_eligible"
+				if cpu_finalization_passed
+				else "blocked_cpu_finalization_incomplete"
+			),
 			"TQP-59": "blocked",
 			"TQP-60": "blocked",
 			"TQP-61": "blocked",
@@ -106,7 +130,11 @@ static func run() -> Dictionary:
 		"backend_decision": backend_decision,
 		"cpu_finalization": cpu_finalization,
 		"blockers": blocker_records,
-		"specified_scope": [],
+		"specified_scope": (
+			["TQP-58 measured GPU Architecture Decision against retained CPU authority"]
+			if cpu_finalization_passed
+			else []
+		),
 		"qualified_scope": [
 			"TQP-51 pinned standalone candidate-addon boundary without a Terrain Lab runtime dependency",
 			"TQP-52 pinned runtime API profiles readiness back-pressure and cancellation contract",
@@ -117,7 +145,7 @@ static func run() -> Dictionary:
 			"TQP-57 CPU Terrain Standard 1.0 standalone limited Windows reference release",
 		],
 		"explicitly_unqualified_scope": [
-			"CPU finalization and CPU architecture exhaustion",
+			"CPU production responsiveness target pass and CPU energy claims",
 			"GPU backend milestones TQP-58 through TQP-64",
 			"TQP-71 networking and recovery",
 		],

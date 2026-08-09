@@ -139,6 +139,15 @@ def main() -> int:
             failures.append("CPU finalization precondition steps are missing or out of order")
         if milestones.get("TQP-58", {}).get("status") != "blocked":
             failures.append("TQP-58 must remain blocked until CPU finalization passes")
+    else:
+        if current.get("entry_condition") != "CPU_FINALIZATION_PRECONDITION":
+            failures.append("active GPU wave is missing the qualified CPU entry condition")
+        if plan.get("recommended_precondition_steps") != []:
+            failures.append("completed CPU finalization steps remain recommended")
+        if not str(plan.get("recommended_action", "")).startswith("Execute TQP-58"):
+            failures.append("execution plan does not direct work to eligible TQP-58")
+        if milestones.get("TQP-58", {}).get("status") != "specified":
+            failures.append("eligible TQP-58 must be specified, not qualified or blocked")
     expected_next: list[str] = []
     for step in current.get("steps", []):
         incomplete = [
@@ -163,7 +172,7 @@ def main() -> int:
         "WT_TQP_EXECUTION_PLAN_PASS "
         f"milestones={len(milestones)} waves={len(plan['waves'])} "
         f"current={plan['current_wave']} "
-        f"action={','.join(plan.get('recommended_precondition_steps', expected_next))} "
+        f"action={','.join(plan.get('recommended_next', expected_next))} "
         f"next_numbered={','.join(expected_next)}"
     )
     return 0

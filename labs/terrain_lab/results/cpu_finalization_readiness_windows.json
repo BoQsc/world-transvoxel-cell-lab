@@ -1,384 +1,647 @@
 {
-	"schema": "world_transvoxel.terrain_lab.cpu_finalization_readiness.v1",
+	"schema": "world_transvoxel.terrain_lab.cpu_finalization_readiness.v2",
 	"date": "2026-08-09",
 	"gate_id": "CPU_FINALIZATION_PRECONDITION",
-	"status": "BLOCKED",
-	"retained_complete": false,
-	"tqp58_eligible": false,
+	"status": "PASS",
+	"retained_complete": true,
+	"tqp58_eligible": true,
 	"standard": {
 		"path": "addons/world_transvoxel_terrain_lab/standards/cpu_finalization_standard.json",
-		"sha256": "116e034c6e291b3a95f682ed440fffe66bd58881249f706708aef83f0433c085"
+		"sha256": "08ccda62527e12d03c13d1dfde73c73b046d642b13b5bc034b890819a83ab136"
+	},
+	"evidence_manifest": {
+		"path": "res://labs/terrain_lab/results/cpu_finalization/manifest.json",
+		"sha256": "d916b21044feeced20d523072b0ff232321013bbdbc235411e29e7b2119c6978",
+		"report_count": 24
+	},
+	"qualification_boundary": {
+		"platform": "Windows 10 x86_64",
+		"engine": "Godot 4.7.1 release runtime",
+		"renderer": "Forward+ Vulkan",
+		"hardware": "Intel 4-core host and NVIDIA GeForce GTX 1060 Max-Q",
+		"logical_cpu_limit": 3,
+		"logical_cpu_affinity": [
+			0,
+			1,
+			2
+		],
+		"build_parallelism_limit": 3,
+		"reason": "The development host must retain one logical CPU outside terrain qualification work for system stability."
 	},
 	"accepted_cpu_release": {
-		"candidate_revision": "2184988ec7d317f6aedc212e6198997b60888dfa",
-		"native_authority_revision": "4f1fdb59e3c6200c8f823b99027b2d3f15563858",
-		"large_acceptance_report_sha256": "fe40478daaae9872dc9e60dc2b61a4dc18b6e7798023a164913ce32b268f3f28",
-		"large_acceptance_status": "PASS",
-		"frame_envelope": {
-			"p50_usec": 17735.0,
-			"p95_usec": 33233.0,
-			"p99_usec": 33233.0,
-			"sample_count": 36,
-			"worst_usec": 33233.0
+		"candidate_revision": "8073b9da8954027d04583fb9b4698c919ff63758",
+		"native_authority_revision": "f0d88fe9f2d844190d11f26cbe9ed9919f7244d1",
+		"engine": "4.7.1",
+		"native_mode": "release_runtime_4_7_1",
+		"profile": "balanced",
+		"generation_workers": 2,
+		"meshing_workers": 2,
+		"logical_cpu_limit": 3,
+		"full_repeat_reports": [
+			"cpu3-c3-final-balanced-r1.json",
+			"cpu3-c3-final-balanced-r2.json",
+			"cpu3-c3-final-balanced-r3.json"
+		],
+		"claim": "Final authoritative CPU correctness, attribution, and architecture baseline under a three-logical-CPU qualification ceiling; production responsiveness goals remain separate."
+	},
+	"c1_mode_comparison": {
+		"debug_editor": {
+			"wall_seconds": 160.392316,
+			"process_cpu_seconds": 255.390625,
+			"average_active_core_equivalents": 1.592287,
+			"peak_boundary_rss_mib": 704.586,
+			"maximum_scenario_frame_p99_ms": 54.239,
+			"maximum_scenario_frame_worst_ms": 118.724
 		},
-		"queue_peaks": {
-			"collision": 3,
-			"render": 0,
-			"scheduler": 224,
-			"storage": 467
-		},
-		"memory": {
-			"peak_static_bytes": 70118990,
-			"static_bytes": 65519026,
-			"video_bytes": 139745952
+		"release_native_editor_host": {
+			"wall_seconds": 136.071525,
+			"process_cpu_seconds": 235.609375,
+			"average_active_core_equivalents": 1.731511,
+			"peak_boundary_rss_mib": 725.613,
+			"maximum_scenario_frame_p99_ms": 59.965,
+			"maximum_scenario_frame_worst_ms": 172.235
 		}
 	},
-	"accepted_scenario_costs": [
+	"c2_worker_sweeps": {
+		"selected_generation_workers": 2,
+		"selected_meshing_workers": 2,
+		"meshing": {
+			"1": {
+				"wall_seconds": 121.691809,
+				"process_cpu_seconds": 165.625,
+				"average_active_core_equivalents": 1.36102,
+				"peak_boundary_rss_mib": 681.508,
+				"maximum_scenario_frame_p99_ms": 66.74,
+				"maximum_scenario_frame_worst_ms": 94.789
+			},
+			"2": {
+				"wall_seconds": 79.662115,
+				"process_cpu_seconds": 137.0625,
+				"average_active_core_equivalents": 1.720548,
+				"peak_boundary_rss_mib": 693.855,
+				"maximum_scenario_frame_p99_ms": 39.561,
+				"maximum_scenario_frame_worst_ms": 65.967
+			},
+			"3": {
+				"wall_seconds": 79.700252,
+				"process_cpu_seconds": 135.890625,
+				"average_active_core_equivalents": 1.705021,
+				"peak_boundary_rss_mib": 685.449,
+				"maximum_scenario_frame_p99_ms": 45.68,
+				"maximum_scenario_frame_worst_ms": 68.476
+			}
+		},
+		"generation": {
+			"1": {
+				"wall_seconds": 102.278807,
+				"process_cpu_seconds": 152.390625,
+				"average_active_core_equivalents": 1.489953,
+				"peak_boundary_rss_mib": 675.48,
+				"maximum_scenario_frame_p99_ms": 43.409,
+				"maximum_scenario_frame_worst_ms": 51.939
+			},
+			"2": {
+				"wall_seconds": 79.662115,
+				"process_cpu_seconds": 137.0625,
+				"average_active_core_equivalents": 1.720548,
+				"peak_boundary_rss_mib": 693.855,
+				"maximum_scenario_frame_p99_ms": 39.561,
+				"maximum_scenario_frame_worst_ms": 65.967
+			},
+			"3": {
+				"wall_seconds": 87.018852,
+				"process_cpu_seconds": 140.609375,
+				"average_active_core_equivalents": 1.61585,
+				"peak_boundary_rss_mib": 718.309,
+				"maximum_scenario_frame_p99_ms": 50.175,
+				"maximum_scenario_frame_worst_ms": 81.841
+			}
+		}
+	},
+	"profile_repeatability": {
+		"low_power": {
+			"repetitions": 3,
+			"median": {
+				"wall_seconds": 112.831,
+				"process_cpu_seconds": 159.172,
+				"average_active_core_equivalents": 1.415,
+				"peak_boundary_rss_mib": 668.965,
+				"maximum_scenario_frame_p99_ms": 30.788,
+				"maximum_scenario_frame_worst_ms": 46.268
+			},
+			"wall_relative_range": 0.0498,
+			"cpu_relative_range": 0.0417,
+			"repeatable": true,
+			"runs": [
+				{
+					"wall_seconds": 112.830919,
+					"process_cpu_seconds": 159.171875,
+					"average_active_core_equivalents": 1.410712,
+					"peak_boundary_rss_mib": 663.074,
+					"maximum_scenario_frame_p99_ms": 30.654,
+					"maximum_scenario_frame_worst_ms": 42.924
+				},
+				{
+					"wall_seconds": 113.547308,
+					"process_cpu_seconds": 160.703125,
+					"average_active_core_equivalents": 1.415297,
+					"peak_boundary_rss_mib": 668.965,
+					"maximum_scenario_frame_p99_ms": 30.788,
+					"maximum_scenario_frame_worst_ms": 46.268
+				},
+				{
+					"wall_seconds": 107.928829,
+					"process_cpu_seconds": 154.0625,
+					"average_active_core_equivalents": 1.427445,
+					"peak_boundary_rss_mib": 674.578,
+					"maximum_scenario_frame_p99_ms": 31.472,
+					"maximum_scenario_frame_worst_ms": 47.483
+				}
+			]
+		},
+		"quality": {
+			"repetitions": 3,
+			"median": {
+				"wall_seconds": 93.376,
+				"process_cpu_seconds": 144.703,
+				"average_active_core_equivalents": 1.55,
+				"peak_boundary_rss_mib": 721.902,
+				"maximum_scenario_frame_p99_ms": 66.804,
+				"maximum_scenario_frame_worst_ms": 80.01
+			},
+			"wall_relative_range": 0.1378,
+			"cpu_relative_range": 0.0648,
+			"repeatable": true,
+			"runs": [
+				{
+					"wall_seconds": 86.443521,
+					"process_cpu_seconds": 139.859375,
+					"average_active_core_equivalents": 1.617928,
+					"peak_boundary_rss_mib": 676.883,
+					"maximum_scenario_frame_p99_ms": 69.772,
+					"maximum_scenario_frame_worst_ms": 153.472
+				},
+				{
+					"wall_seconds": 99.30981,
+					"process_cpu_seconds": 149.234375,
+					"average_active_core_equivalents": 1.502715,
+					"peak_boundary_rss_mib": 721.902,
+					"maximum_scenario_frame_p99_ms": 66.804,
+					"maximum_scenario_frame_worst_ms": 80.01
+				},
+				{
+					"wall_seconds": 93.376404,
+					"process_cpu_seconds": 144.703125,
+					"average_active_core_equivalents": 1.549675,
+					"peak_boundary_rss_mib": 724.953,
+					"maximum_scenario_frame_p99_ms": 47.224,
+					"maximum_scenario_frame_worst_ms": 62.559
+				}
+			]
+		},
+		"reference": {
+			"repetitions": 3,
+			"median": {
+				"wall_seconds": 100.98,
+				"process_cpu_seconds": 149.188,
+				"average_active_core_equivalents": 1.479,
+				"peak_boundary_rss_mib": 700.117,
+				"maximum_scenario_frame_p99_ms": 42.194,
+				"maximum_scenario_frame_worst_ms": 84.941
+			},
+			"wall_relative_range": 0.1688,
+			"cpu_relative_range": 0.0415,
+			"repeatable": true,
+			"runs": [
+				{
+					"wall_seconds": 107.096283,
+					"process_cpu_seconds": 149.1875,
+					"average_active_core_equivalents": 1.393022,
+					"peak_boundary_rss_mib": 700.117,
+					"maximum_scenario_frame_p99_ms": 46.999,
+					"maximum_scenario_frame_worst_ms": 84.941
+				},
+				{
+					"wall_seconds": 90.05483,
+					"process_cpu_seconds": 143.125,
+					"average_active_core_equivalents": 1.58931,
+					"peak_boundary_rss_mib": 691.074,
+					"maximum_scenario_frame_p99_ms": 41.749,
+					"maximum_scenario_frame_worst_ms": 75.102
+				},
+				{
+					"wall_seconds": 100.980153,
+					"process_cpu_seconds": 149.3125,
+					"average_active_core_equivalents": 1.478632,
+					"peak_boundary_rss_mib": 702.352,
+					"maximum_scenario_frame_p99_ms": 42.194,
+					"maximum_scenario_frame_worst_ms": 145.548
+				}
+			]
+		},
+		"balanced": {
+			"repetitions": 3,
+			"median": {
+				"wall_seconds": 145.678,
+				"process_cpu_seconds": 236.672,
+				"average_active_core_equivalents": 1.625,
+				"peak_boundary_rss_mib": 726.539,
+				"maximum_scenario_frame_p99_ms": 47.442,
+				"maximum_scenario_frame_worst_ms": 68.079
+			},
+			"wall_relative_range": 0.0517,
+			"cpu_relative_range": 0.0226,
+			"repeatable": true,
+			"runs": [
+				{
+					"wall_seconds": 150.722383,
+					"process_cpu_seconds": 233.0625,
+					"average_active_core_equivalents": 1.546303,
+					"peak_boundary_rss_mib": 728.805,
+					"maximum_scenario_frame_p99_ms": 47.442,
+					"maximum_scenario_frame_worst_ms": 68.079
+				},
+				{
+					"wall_seconds": 143.187437,
+					"process_cpu_seconds": 238.421875,
+					"average_active_core_equivalents": 1.665103,
+					"peak_boundary_rss_mib": 726.539,
+					"maximum_scenario_frame_p99_ms": 95.918,
+					"maximum_scenario_frame_worst_ms": 217.313
+				},
+				{
+					"wall_seconds": 145.677557,
+					"process_cpu_seconds": 236.671875,
+					"average_active_core_equivalents": 1.624628,
+					"peak_boundary_rss_mib": 725.785,
+					"maximum_scenario_frame_p99_ms": 46.927,
+					"maximum_scenario_frame_worst_ms": 66.117
+				}
+			]
+		}
+	},
+	"final_balanced_scenario_medians": {
+		"idle_steady": {
+			"frame_p99_ms": 31.534,
+			"frame_worst_ms": 34.242,
+			"first_visual_ms": 0.0,
+			"first_collision_ms": 7.745,
+			"settlement_ms": 10.956,
+			"edit_first_visual_ms": 0.0,
+			"edit_first_collision_ms": 0.0,
+			"edit_total_ms": 0.0
+		},
+		"ground_traversal": {
+			"frame_p99_ms": 46.927,
+			"frame_worst_ms": 55.913,
+			"first_visual_ms": 669.838,
+			"first_collision_ms": 87.037,
+			"settlement_ms": 7868.931,
+			"edit_first_visual_ms": 0.0,
+			"edit_first_collision_ms": 0.0,
+			"edit_total_ms": 0.0
+		},
+		"high_speed_flight": {
+			"frame_p99_ms": 38.52,
+			"frame_worst_ms": 55.222,
+			"first_visual_ms": 578.735,
+			"first_collision_ms": 105.045,
+			"settlement_ms": 3142.773,
+			"edit_first_visual_ms": 0.0,
+			"edit_first_collision_ms": 0.0,
+			"edit_total_ms": 0.0
+		},
+		"vertical_cave": {
+			"frame_p99_ms": 45.13,
+			"frame_worst_ms": 57.244,
+			"first_visual_ms": 464.587,
+			"first_collision_ms": 54.296,
+			"settlement_ms": 6445.212,
+			"edit_first_visual_ms": 0.0,
+			"edit_first_collision_ms": 0.0,
+			"edit_total_ms": 0.0
+		},
+		"adaptive_lod_churn": {
+			"frame_p99_ms": 42.35,
+			"frame_worst_ms": 47.972,
+			"first_visual_ms": 1557.419,
+			"first_collision_ms": 86.636,
+			"settlement_ms": 5754.503,
+			"edit_first_visual_ms": 0.0,
+			"edit_first_collision_ms": 0.0,
+			"edit_total_ms": 0.0
+		},
+		"cold_teleport": {
+			"frame_p99_ms": 23.755,
+			"frame_worst_ms": 25.655,
+			"first_visual_ms": 696.56,
+			"first_collision_ms": 63.847,
+			"settlement_ms": 7515.627,
+			"edit_first_visual_ms": 0.0,
+			"edit_first_collision_ms": 0.0,
+			"edit_total_ms": 0.0
+		},
+		"digging": {
+			"frame_p99_ms": 19.203,
+			"frame_worst_ms": 24.011,
+			"first_visual_ms": 0.0,
+			"first_collision_ms": 0.0,
+			"settlement_ms": 10.666,
+			"edit_first_visual_ms": 94.88,
+			"edit_first_collision_ms": 101.514,
+			"edit_total_ms": 187.148
+		},
+		"construction": {
+			"frame_p99_ms": 31.373,
+			"frame_worst_ms": 33.811,
+			"first_visual_ms": 241.218,
+			"first_collision_ms": 10.66,
+			"settlement_ms": 1452.29,
+			"edit_first_visual_ms": 69.445,
+			"edit_first_collision_ms": 24.808,
+			"edit_total_ms": 137.491
+		},
+		"far_return": {
+			"frame_p99_ms": 18.068,
+			"frame_worst_ms": 25.63,
+			"first_visual_ms": 1353.499,
+			"first_collision_ms": 74.423,
+			"settlement_ms": 3363.529,
+			"edit_first_visual_ms": 0.0,
+			"edit_first_collision_ms": 0.0,
+			"edit_total_ms": 0.0
+		}
+	},
+	"production_target_assessment": {
+		"status": "MISS",
+		"policy": "Goals are evaluated from the median of three final balanced repetitions and do not weaken correctness safety gates.",
+		"assessments": {
+			"sustained_frame_p99_ms": {
+				"target": 16.667,
+				"observations": {
+					"idle_steady": 31.534,
+					"ground_traversal": 46.927,
+					"high_speed_flight": 38.52,
+					"vertical_cave": 45.13,
+					"adaptive_lod_churn": 42.35,
+					"cold_teleport": 23.755,
+					"digging": 19.203,
+					"construction": 31.373,
+					"far_return": 18.068
+				},
+				"status": "MISS",
+				"misses": {
+					"idle_steady": 31.534,
+					"ground_traversal": 46.927,
+					"high_speed_flight": 38.52,
+					"vertical_cave": 45.13,
+					"adaptive_lod_churn": 42.35,
+					"cold_teleport": 23.755,
+					"digging": 19.203,
+					"construction": 31.373,
+					"far_return": 18.068
+				}
+			},
+			"first_correct_visual_relocation_ms": {
+				"target": 500.0,
+				"observations": {
+					"ground_traversal": 669.838,
+					"high_speed_flight": 578.735,
+					"vertical_cave": 464.587,
+					"adaptive_lod_churn": 1557.419,
+					"cold_teleport": 696.56,
+					"far_return": 1353.499
+				},
+				"status": "MISS",
+				"misses": {
+					"ground_traversal": 669.838,
+					"high_speed_flight": 578.735,
+					"adaptive_lod_churn": 1557.419,
+					"cold_teleport": 696.56,
+					"far_return": 1353.499
+				}
+			},
+			"collision_coherence_ms": {
+				"target": 100.0,
+				"observations": {
+					"ground_traversal": 87.037,
+					"high_speed_flight": 105.045,
+					"vertical_cave": 54.296,
+					"adaptive_lod_churn": 86.636,
+					"cold_teleport": 63.847,
+					"far_return": 74.423
+				},
+				"status": "MISS",
+				"misses": {
+					"high_speed_flight": 105.045
+				}
+			},
+			"local_edit_first_visual_ms": {
+				"target": 100.0,
+				"observations": {
+					"digging": 94.88,
+					"construction": 69.445
+				},
+				"status": "PASS",
+				"misses": {}
+			},
+			"local_edit_collision_ms": {
+				"target": 250.0,
+				"observations": {
+					"digging": 101.514,
+					"construction": 24.808
+				},
+				"status": "PASS",
+				"misses": {}
+			},
+			"local_edit_total_ms": {
+				"target": 500.0,
+				"observations": {
+					"digging": 187.148,
+					"construction": 137.491
+				},
+				"status": "PASS",
+				"misses": {}
+			},
+			"cold_teleport_settlement_ms": {
+				"target": 2000.0,
+				"observations": {
+					"cold_teleport": 7515.627
+				},
+				"status": "MISS",
+				"misses": {
+					"cold_teleport": 7515.627
+				}
+			},
+			"sustained_movement_settlement_ms": {
+				"target": 2000.0,
+				"observations": {
+					"ground_traversal": 7868.931,
+					"high_speed_flight": 3142.773,
+					"vertical_cave": 6445.212,
+					"adaptive_lod_churn": 5754.503
+				},
+				"status": "MISS",
+				"misses": {
+					"ground_traversal": 7868.931,
+					"high_speed_flight": 3142.773,
+					"vertical_cave": 6445.212,
+					"adaptive_lod_churn": 5754.503
+				}
+			},
+			"far_return_settlement_ms": {
+				"target": 2000.0,
+				"observations": {
+					"far_return": 3363.529
+				},
+				"status": "MISS",
+				"misses": {
+					"far_return": 3363.529
+				}
+			}
+		}
+	},
+	"final_balanced_phase_median_seconds": {
+		"control_active": 62.254,
+		"storage_completion": 54.237,
+		"storage_load": 119.217,
+		"mesh_prepare": 2.959,
+		"mesh_worker_execute": 69.273,
+		"mesh_worker_queue_wait_ns_total": 1339.642,
+		"viewer_planning": 0.892,
+		"scheduler_dispatch": 3.894,
+		"render_publication": 1.501,
+		"collision_apply": 0.585,
+		"main_process": 1.267,
+		"retirement": 0.144
+	},
+	"remaining_bottleneck_classification": [
 		{
-			"id": "idle_steady",
-			"kind": "idle",
-			"status": "PASS",
-			"settlement_frames": {
-				"initial": 0,
-				"final": 0,
-				"combined": 0
-			},
-			"mesh": {
-				"jobs": 0,
-				"cpu_ms_total": 0.0,
-				"cpu_ms_per_job": 0.0
-			},
-			"storage_generation": {
-				"completed_jobs": 0,
-				"worker_cpu_ms_total": 0.0,
-				"worker_cpu_ms_per_job": 0.0
-			},
-			"publications": {
-				"render": 0,
-				"collision": 140
-			},
-			"frame_p95_ms": 16.776,
-			"render_cpu_p95_ms": 0.622,
-			"render_gpu_p95_ms": 3.633,
-			"edit_latency_ms": 0.0
+			"id": "storage_generation_throughput",
+			"classification": "intentionally_bounded_cpu_path_and_measured_gpu_candidate",
+			"basis": "Two workers beat one; three increased wall time, memory, and tails under the three-core ceiling."
 		},
 		{
-			"id": "ground_traversal",
-			"kind": "motion",
-			"status": "PASS",
-			"settlement_frames": {
-				"initial": 350,
-				"final": 363,
-				"combined": 713
-			},
-			"mesh": {
-				"jobs": 608,
-				"cpu_ms_total": 7185.303,
-				"cpu_ms_per_job": 11.818
-			},
-			"storage_generation": {
-				"completed_jobs": 2315,
-				"worker_cpu_ms_total": 12071.38,
-				"worker_cpu_ms_per_job": 5.214
-			},
-			"publications": {
-				"render": 657,
-				"collision": 987
-			},
-			"frame_p95_ms": 16.668,
-			"render_cpu_p95_ms": 0.679,
-			"render_gpu_p95_ms": 3.77,
-			"edit_latency_ms": 0.0
+			"id": "mesh_execution_and_queue_wait",
+			"classification": "bounded_parallel_cpu_path_and_measured_gpu_candidate",
+			"basis": "Prepare/execute/complete workers are implemented; two workers are selected because three did not improve wall time and worsened p99."
 		},
 		{
-			"id": "high_speed_flight",
-			"kind": "motion",
-			"status": "PASS",
-			"settlement_frames": {
-				"initial": 174,
-				"final": 297,
-				"combined": 471
-			},
-			"mesh": {
-				"jobs": 323,
-				"cpu_ms_total": 4595.089,
-				"cpu_ms_per_job": 14.226
-			},
-			"storage_generation": {
-				"completed_jobs": 1456,
-				"worker_cpu_ms_total": 9261.631,
-				"worker_cpu_ms_per_job": 6.361
-			},
-			"publications": {
-				"render": 328,
-				"collision": 432
-			},
-			"frame_p95_ms": 17.234,
-			"render_cpu_p95_ms": 0.934,
-			"render_gpu_p95_ms": 2.477,
-			"edit_latency_ms": 0.0
+			"id": "storage_completion_control_work",
+			"classification": "authority_constrained_serial_admission",
+			"basis": "Completion validates and publishes authoritative immutable pages on the control path; two attempted shortcuts were measured and rejected."
 		},
 		{
-			"id": "vertical_cave",
-			"kind": "motion",
-			"status": "PASS",
-			"settlement_frames": {
-				"initial": 356,
-				"final": 311,
-				"combined": 667
-			},
-			"mesh": {
-				"jobs": 398,
-				"cpu_ms_total": 6734.606,
-				"cpu_ms_per_job": 16.921
-			},
-			"storage_generation": {
-				"completed_jobs": 1714,
-				"worker_cpu_ms_total": 10977.168,
-				"worker_cpu_ms_per_job": 6.404
-			},
-			"publications": {
-				"render": 424,
-				"collision": 927
-			},
-			"frame_p95_ms": 18.128,
-			"render_cpu_p95_ms": 1.224,
-			"render_gpu_p95_ms": 6.048,
-			"edit_latency_ms": 0.0
+			"id": "render_and_collision_publication",
+			"classification": "resolved_and_intentionally_targeted",
+			"basis": "Publication and collision phase time are small relative to storage and meshing; collision remains local and generation-aware."
 		},
 		{
-			"id": "adaptive_lod_churn",
-			"kind": "lod_churn",
-			"status": "PASS",
-			"settlement_frames": {
-				"initial": 305,
-				"final": 259,
-				"combined": 564
-			},
-			"mesh": {
-				"jobs": 375,
-				"cpu_ms_total": 5537.836,
-				"cpu_ms_per_job": 14.768
-			},
-			"storage_generation": {
-				"completed_jobs": 1651,
-				"worker_cpu_ms_total": 10484.151,
-				"worker_cpu_ms_per_job": 6.35
-			},
-			"publications": {
-				"render": 393,
-				"collision": 431
-			},
-			"frame_p95_ms": 18.709,
-			"render_cpu_p95_ms": 1.125,
-			"render_gpu_p95_ms": 5.153,
-			"edit_latency_ms": 0.0
-		},
-		{
-			"id": "cold_teleport",
-			"kind": "teleport",
-			"status": "PASS",
-			"settlement_frames": {
-				"initial": 418,
-				"final": 0,
-				"combined": 418
-			},
-			"mesh": {
-				"jobs": 480,
-				"cpu_ms_total": 7429.47,
-				"cpu_ms_per_job": 15.478
-			},
-			"storage_generation": {
-				"completed_jobs": 2048,
-				"worker_cpu_ms_total": 13399.845,
-				"worker_cpu_ms_per_job": 6.543
-			},
-			"publications": {
-				"render": 720,
-				"collision": 618
-			},
-			"frame_p95_ms": 16.75,
-			"render_cpu_p95_ms": 0.676,
-			"render_gpu_p95_ms": 4.644,
-			"edit_latency_ms": 0.0
-		},
-		{
-			"id": "digging",
-			"kind": "dig",
-			"status": "PASS",
-			"settlement_frames": {
-				"initial": 0,
-				"final": 0,
-				"combined": 0
-			},
-			"mesh": {
-				"jobs": 8,
-				"cpu_ms_total": 73.579,
-				"cpu_ms_per_job": 9.197
-			},
-			"storage_generation": {
-				"completed_jobs": 8,
-				"worker_cpu_ms_total": 41.524,
-				"worker_cpu_ms_per_job": 5.19
-			},
-			"publications": {
-				"render": 16,
-				"collision": 16
-			},
-			"frame_p95_ms": 16.654,
-			"render_cpu_p95_ms": 1.193,
-			"render_gpu_p95_ms": 5.477,
-			"edit_latency_ms": 203.766
-		},
-		{
-			"id": "construction",
-			"kind": "construct",
-			"status": "PASS",
-			"settlement_frames": {
-				"initial": 82,
-				"final": 0,
-				"combined": 82
-			},
-			"mesh": {
-				"jobs": 48,
-				"cpu_ms_total": 792.861,
-				"cpu_ms_per_job": 16.518
-			},
-			"storage_generation": {
-				"completed_jobs": 171,
-				"worker_cpu_ms_total": 934.403,
-				"worker_cpu_ms_per_job": 5.464
-			},
-			"publications": {
-				"render": 96,
-				"collision": 131
-			},
-			"frame_p95_ms": 17.767,
-			"render_cpu_p95_ms": 0.703,
-			"render_gpu_p95_ms": 16.552,
-			"edit_latency_ms": 153.933
-		},
-		{
-			"id": "far_return",
-			"kind": "far_return",
-			"status": "PASS",
-			"settlement_frames": {
-				"initial": 154,
-				"final": 0,
-				"combined": 154
-			},
-			"mesh": {
-				"jobs": 410,
-				"cpu_ms_total": 6473.499,
-				"cpu_ms_per_job": 15.789
-			},
-			"storage_generation": {
-				"completed_jobs": 1837,
-				"worker_cpu_ms_total": 12101.134,
-				"worker_cpu_ms_per_job": 6.587
-			},
-			"publications": {
-				"render": 586,
-				"collision": 650
-			},
-			"frame_p95_ms": 16.894,
-			"render_cpu_p95_ms": 0.758,
-			"render_gpu_p95_ms": 3.942,
-			"edit_latency_ms": 0.0
+			"id": "cpu_energy",
+			"classification": "hardware_measurement_unavailable",
+			"basis": "CPU time and active-core equivalents are retained, but no trusted CPU-package or whole-system energy provider exists."
 		}
 	],
-	"cost_findings": {
-		"largest_settlement": {
-			"scenario": "ground_traversal",
-			"frames": 713
-		},
-		"largest_mesh_cpu_total": {
-			"scenario": "cold_teleport",
-			"cpu_ms": 7429.47
-		},
-		"largest_storage_worker_cpu_total": {
-			"scenario": "cold_teleport",
-			"worker_cpu_ms": 13399.845
-		},
-		"interpretation": [
-			"Ordinary render submission is small compared with streaming settlement work in the accepted run.",
-			"Storage and procedural generation use two workers, but mesh execution remains synchronous on one control thread.",
-			"Multi-second settlement is explained primarily by page generation and serial meshing throughput, with planner and queue wait not yet fully attributed."
-		]
-	},
-	"native_architecture": {
-		"authority_revision": "4f1fdb59e3c6200c8f823b99027b2d3f15563858",
-		"control_thread_count": 1,
-		"procedural_generation_worker_count_in_acceptance": 2,
-		"mesh_execution": "synchronous_control_thread",
-		"mesh_jobs_per_control_loop_limit": 4,
-		"standard_cpu_parallel_meshing_exhausted": false
-	},
-	"process_cpu_context": {
-		"status": "DEV_OBSERVATION_ONLY",
-		"comparison_only": true,
-		"workload": "120-second low-power mixed development workload; not the TQP-57 large acceptance",
-		"logical_cpu_count": 4,
-		"process_cpu_seconds": 218.84375,
-		"estimated_measurement_cpu_seconds": 221.11703482790574,
-		"average_active_core_equivalents": 1.8424828585043824,
-		"average_machine_cpu_capacity_percent": 46.06207146260956,
-		"cpu_package_power_available": false
-	},
-	"excluded_diagnostics": [
-		{
-			"date": "2026-08-09",
-			"count": 2,
-			"scope": "isolated TQP-57 windowed process-CPU profiling attempts",
-			"disposition": "EXCLUDED_FROM_BASELINE",
-			"reason": "each run completed scenarios but failed one different 90-frame nearest-rank p99 gate; the first also used intrusive per-thread sampling",
-			"finding": "the profiling protocol and p99 sample design require correction before process telemetry can qualify the assembled baseline"
-		}
+	"known_target_misses": [
+		"Sustained 60 Hz p99 frame pacing is not achieved on the declared host.",
+		"Several relocation first-visual and settlement targets are not achieved.",
+		"High-speed-flight collision coherence narrowly misses the 100 ms goal.",
+		"No CPU-package or whole-system watt target can be evaluated without a trusted provider."
 	],
+	"power_boundaries": {
+		"gpu_board": "nvidia-smi board power is GPU context only",
+		"cpu_package": "requires a trusted package-energy provider; must not be inferred from GPU-board power",
+		"whole_system": "requires a wall, DC-input, or platform telemetry provider; must remain separate",
+		"promotion_without_cpu_package_sensor": "CPU time, wall time, work throughput, active-core equivalents, and frame pacing may qualify architecture readiness, but no CPU-watt or whole-system-watt claim may be made."
+	},
+	"historical_excluded_evidence": {
+		"pre_affinity_comparison_baseline": {
+			"wall_seconds": 73.486752,
+			"process_cpu_seconds": 141.25,
+			"average_active_core_equivalents": 1.922115,
+			"peak_boundary_rss_mib": 682.461,
+			"maximum_scenario_frame_p99_ms": 25.806,
+			"maximum_scenario_frame_worst_ms": 30.137
+		},
+		"rejected_optimizations": {
+			"dev-storage-completion-single-scan.json": {
+				"wall_seconds": 77.318687,
+				"process_cpu_seconds": 140.75,
+				"average_active_core_equivalents": 1.820388,
+				"peak_boundary_rss_mib": 689.98,
+				"maximum_scenario_frame_p99_ms": 32.901,
+				"maximum_scenario_frame_worst_ms": 67.298
+			},
+			"dev-worker-side-page-decode.json": {
+				"wall_seconds": 81.773517,
+				"process_cpu_seconds": 141.484375,
+				"average_active_core_equivalents": 1.730198,
+				"peak_boundary_rss_mib": 684.906,
+				"maximum_scenario_frame_p99_ms": 32.899,
+				"maximum_scenario_frame_worst_ms": 33.092
+			}
+		},
+		"failed_profile_reports": {
+			"low_power": [
+				"frame worst exceeded: cold_teleport"
+			],
+			"quality": [
+				"frame worst exceeded: far_return"
+			]
+		}
+	},
 	"ordered_closure": [
 		{
 			"id": "CPU-C1",
 			"title": "Bottleneck Attribution And Benchmark Integrity",
-			"status": "blocked",
+			"status": "qualified",
 			"depends_on": [],
-			"requirement_count": 5
+			"evidence": [
+				"cpu3-c1-debug-balanced-r1.json",
+				"cpu3-c1-release-native-host-balanced-r1.json",
+				"cpu3-c3-final-balanced-r1.json",
+				"cpu3-c3-final-balanced-r2.json",
+				"cpu3-c3-final-balanced-r3.json"
+			]
 		},
 		{
 			"id": "CPU-C2",
 			"title": "Measured Standard CPU Architecture Work",
-			"status": "blocked",
+			"status": "qualified",
 			"depends_on": [
 				"CPU-C1"
 			],
-			"requirement_count": 5
+			"evidence": [
+				"cpu3-c2-release-w1-r1.json",
+				"cpu3-c2-release-w2-r1.json",
+				"cpu3-c2-release-w3-r1.json",
+				"cpu3-c2-generation-g1-m2.json",
+				"cpu3-c2-generation-g3-m2.json"
+			]
 		},
 		{
 			"id": "CPU-C3",
 			"title": "Final CPU Baseline And Exhaustion Review",
-			"status": "blocked",
+			"status": "qualified",
 			"depends_on": [
 				"CPU-C2"
 			],
-			"requirement_count": 5
+			"evidence": [
+				"cpu3-c3-profile-low-power-r1.json",
+				"cpu3-c3-profile-low-power-r2.json",
+				"cpu3-c3-profile-low-power-r3.json",
+				"cpu3-c3-profile-quality-r1.json",
+				"cpu3-c3-profile-quality-r2.json",
+				"cpu3-c3-profile-quality-r3.json",
+				"cpu3-c3-profile-reference-r1.json",
+				"cpu3-c3-profile-reference-r2.json",
+				"cpu3-c3-profile-reference-r3.json",
+				"cpu3-c3-final-balanced-r1.json",
+				"cpu3-c3-final-balanced-r2.json",
+				"cpu3-c3-final-balanced-r3.json"
+			]
 		}
 	],
-	"open_blockers": [
-		"Production large-terrain acceptance has no accepted process-wide CPU telemetry correlated to its scenarios.",
-		"Native meshing executes synchronously on the single runtime control thread while only procedural generation has a configurable worker pool.",
-		"Queue wait, viewer planning, desired-set reconciliation, publication, and retirement phase costs are not fully attributed.",
-		"TQP-45 explicitly excludes production release latency targets, so permissive test timeouts are not production responsiveness standards.",
-		"The accepted large-terrain run is an editor/debug-native profile; optimized release-runtime parity and cost are not established.",
-		"The current 90-frame per-scenario nearest-rank p99 gate is too fragile for an instrumented architecture comparison.",
-		"Standard CPU worker and architecture alternatives have not been swept and regression-qualified under identical assembled workloads."
-	],
-	"promotion_invalidators": [
-		"A correctness-only PASS with multi-second timeouts",
-		"A debug/editor-only speed comparison",
-		"A single run or a run that failed its own correctness or frame gate",
-		"A benchmark with changed world, LOD, collision, edit, or visual workload",
-		"GPU-board watts relabelled as CPU-package or whole-system watts",
-		"Higher throughput obtained by stale work, missing collision, topology regressions, fallbacks, or weakened authority"
-	],
 	"consistency_failures": [],
-	"decision": "TQP-58 remains blocked. CPU correctness is retained, but CPU performance architecture is not finalized and standard CPU improvement paths are not exhausted."
+	"decision": "CPU-C1 through CPU-C3 pass under the retained three-logical-CPU boundary. TQP-58 is eligible for a measured architecture decision. CPU remains the correctness authority, and recorded performance target misses prevent any claim that CPU terrain performance is complete."
 }

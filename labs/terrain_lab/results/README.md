@@ -2,6 +2,29 @@
 
 This directory retains machine-readable Terrain Qualification Program evidence.
 
+All CPU-intensive Python and Godot commands on the qualification host must run
+through `labs/terrain_lab/tools/run_with_cpu_limit.py`. It fails closed above
+three logical CPUs, pins the parent before launch, and verifies the child
+inherited the same affinity. Native builds additionally use `scons -j3`.
+
+## CPU Finalization Evidence
+
+`cpu_finalization/manifest.json` digest-pins the 24 reports used by CPU-C1,
+CPU-C2, and CPU-C3, including current three-logical-CPU qualification runs and
+clearly separated historical failed or rejected experiments.
+`cpu_finalization_readiness_windows.json` is rebuilt and checked with:
+
+```text
+python -B labs/terrain_lab/tools/retain_cpu_finalization_evidence.py
+python -B labs/terrain_lab/tools/run_with_cpu_limit.py --logical-cpus 3 -- \
+  python -B labs/terrain_lab/tools/audit_cpu_finalization.py --require-eligible
+```
+
+The retained audit reports `PASS` for ordered CPU finalization and `MISS` for
+the independent production responsiveness target assessment. TQP-58 eligibility
+must never be presented as a 60 Hz, wattage, relocation, settlement, or GPU
+qualification claim.
+
 `native_field_reference_windows.json` retains the focused TQP-28 field contract
 and TQP-29 fourteen-fixture native LOD0 complex-field corpus:
 

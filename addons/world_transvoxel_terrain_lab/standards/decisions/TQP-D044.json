@@ -1,0 +1,46 @@
+{
+	"schema": "world_transvoxel.terrain_lab.decision.v1",
+	"id": "TQP-D044",
+	"date": "2026-08-09",
+	"decision": "Qualify the ordered CPU_FINALIZATION_PRECONDITION under a hard three-logical-CPU host ceiling, retain the resulting CPU architecture and performance baseline, and return TQP-58 to specified eligibility without selecting or promoting a GPU backend.",
+	"affected_milestones": ["TQP-45", "TQP-47", "TQP-48", "TQP-55", "TQP-56", "TQP-57", "TQP-58"],
+	"repositories": [
+		"world-transvoxel-cell-lab",
+		"world-transvoxel",
+		"world-transvoxel-terrain"
+	],
+	"alternatives_considered": [
+		"leave TQP-58 blocked despite complete CPU-C1, CPU-C2, and CPU-C3 evidence",
+		"promote a GPU implementation immediately from CPU target misses",
+		"use four logical CPUs and risk destabilizing the qualification host",
+		"accept unbounded worker counts or an optimization that regresses the pinned workload"
+	],
+	"evidence_used": [
+		"cpu_finalization_standard.json version 2",
+		"cpu_finalization_readiness_windows.json version 2",
+		"24 digest-pinned retained reports in cpu_finalization/manifest.json",
+		"three-repeat low-power, quality, reference, and balanced release-runtime profiles",
+		"one-, two-, and three-worker generation and meshing sweeps",
+		"rejected storage-completion and worker-side-decode experiments"
+	],
+	"qualified_scope": [
+		"CPU-C1 attribution, CPU-C2 measured standard CPU architecture work, and CPU-C3 final baseline and exhaustion review on the pinned Windows Godot 4.7.1 host",
+		"world-transvoxel commit f0d88fe9f2d844190d11f26cbe9ed9919f7244d1 as the sole native CPU authority with bounded parallel meshing",
+		"world-transvoxel-terrain commit 8073b9da8954027d04583fb9b4698c919ff63758 as the accepted CPU release candidate",
+		"two generation workers and two meshing workers as the selected balanced profile under affinity [0, 1, 2]",
+		"TQP-58 eligibility to perform a measured architecture decision"
+	],
+	"unqualified_scope": [
+		"sustained 60 Hz frame pacing, universal relocation or settlement targets, CPU-package watts, whole-system watts, and performance on untested hardware",
+		"any GPU architecture selection, GPU implementation, GPU correctness equivalence, GPU performance benefit, or GPU release",
+		"TQP-58 qualification and TQP-59 through TQP-64 advancement"
+	],
+	"standards_changed": [
+		"Terrain Qualification Program revision 45",
+		"execution-plan revision 35",
+		"CPU finalization standard and retained readiness evidence version 2",
+		"TQP-58 status from blocked to specified without changing its identifier or later milestone order"
+	],
+	"review": "All promotable runs are source-clean, use Godot 4.7.1 release-runtime evidence where required, expose exactly three logical CPUs, retain no fallback, and pass topology, LOD, edit, collision, persistence, queue, memory, and shutdown checks. The final target assessment remains MISS, so CPU terrain is not described as production-performance complete.",
+	"downstream_impact": "The next work is TQP-58 itself. CPU remains the correctness and differential authority. TQP-58 must compare measured architecture options and may decide to retain CPU-only operation; it cannot treat target misses as automatic evidence for GPU promotion."
+}

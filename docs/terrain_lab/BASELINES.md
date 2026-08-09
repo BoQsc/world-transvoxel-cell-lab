@@ -222,41 +222,54 @@ Evidence:
 - `res://addons/world_transvoxel_terrain_lab/standards/cpu_finalization_standard.json`
 - `res://labs/terrain_lab/results/cpu_finalization_readiness_windows.json`
 
-Status: `BLOCKED`; `TQP-58` eligibility is false. This does not revoke the
-TQP-57 correctness release. It records that CPU performance attribution,
-standard CPU architecture work, and the final CPU comparison baseline are not
-complete.
+Status: `PASS`; retained complete; `TQP-58` eligibility is true. This qualifies
+CPU-C1 through CPU-C3 and does not convert the target assessment into a pass.
+CPU remains the correctness and differential authority.
 
-The accepted TQP-57 assembled report remains pinned by SHA-256
-`fe40478daaae9872dc9e60dc2b61a4dc18b6e7798023a164913ce32b268f3f28`.
-Its most relevant accepted costs are:
+The retained manifest SHA-256 is
+`d916b21044feeced20d523072b0ff232321013bbdbc235411e29e7b2119c6978` and
+covers 24 exact reports. Promotable evidence pins:
 
-| Scenario | Settlement frames | Mesh jobs / CPU service | Storage jobs / worker service |
-|---|---:|---:|---:|
-| Ground traversal | `713` | `608 / 7185.3 ms` | `2315 / 12071.4 ms` |
-| Cold teleport | `418` | `480 / 7429.5 ms` | `2048 / 13399.8 ms` |
-| Vertical cave | `667` | `398 / 6734.6 ms` | `1714 / 10977.2 ms` |
-| Far return | `154` | `410 / 6473.5 ms` | `1837 / 12101.1 ms` |
+- `world-transvoxel`: `f0d88fe9f2d844190d11f26cbe9ed9919f7244d1`
+- `world-transvoxel-terrain`: `8073b9da8954027d04583fb9b4698c919ff63758`
+- Godot: `4.7.1` release runtime, Forward+ Vulkan, Windows x86-64
+- CPU boundary: affinity `[0, 1, 2]`, maximum three logical CPUs, builds `-j3`
+- selected balanced workers: generation `2`, meshing `2`
 
-The native runtime uses two procedural generation workers in this profile but
-executes mesh jobs synchronously on one control thread. The accepted 120-second
-development observation averaged `1.842` active logical cores of four, but it
-is a different mixed workload and remains comparison-only. These facts make GPU
-work premature: standard CPU parallel meshing and complete phase attribution
-have not been exhausted.
+The one/two/three-worker sweeps select two workers for both generation and
+meshing. Three meshing workers provide no wall-time gain and worsen p99; three
+generation workers worsen wall time, memory, and tails. Two measured shortcuts
+also regress the pinned comparison and remain excluded.
 
-Two isolated process-CPU profiling attempts on the assembled workload are
-explicitly excluded. Both completed the scenarios but each failed one different
-90-frame nearest-rank p99 gate; the first also sampled every thread. The next
-baseline must repair the profiling protocol and percentile sample design before
-its process telemetry can be promoted.
+| Release-runtime profile | Median wall | Median CPU | Active cores | Peak RSS | Max scenario p99 |
+|---|---:|---:|---:|---:|---:|
+| Low power, 1/1 | `112.831 s` | `159.172 s` | `1.415` | `668.965 MiB` | `30.788 ms` |
+| Quality, 3/3 | `93.376 s` | `144.703 s` | `1.550` | `721.902 MiB` | `66.804 ms` |
+| Reference, 2/2 | `100.980 s` | `149.188 s` | `1.479` | `700.117 MiB` | `42.194 ms` |
+| Balanced full nine, 2/2 | `145.678 s` | `236.672 s` | `1.625` | `726.539 MiB` | `47.442 ms` |
+
+All three balanced repetitions pass LOD0/LOD1/LOD2 topology, seams, edits,
+targeted collision, persistence, queues, memory, and clean shutdown. Digging and
+construction pass the declared local edit targets: median total latency is
+`187.148 ms` and `137.491 ms`. Sustained 60 Hz p99, several first-visual and
+settlement targets, and high-speed-flight collision coherence (`105.045 ms`
+against `100 ms`) miss. CPU-package and whole-system watts remain unavailable
+and must not be inferred from GPU-board power.
+
+The largest retained phase totals are storage loading (`119.217 s`), mesh
+worker execution (`69.273 worker-s`), control activity (`62.254 s`), storage
+completion (`54.237 s`), and aggregate mesh queue wait (`1339.642 worker-s`).
+Render publication (`1.501 s`) and targeted collision apply (`0.585 s`) are not
+the dominant costs. These measurements make TQP-58 a valid decision task; they
+do not prove that GPU acceleration is automatically the correct answer.
 
 ## Run Policy
 
 The exact TQP-48 qualification run is intentionally expensive:
 
 ```text
-python labs/terrain_lab/tools/measure_low_power_profiles.py --execute
+python -B labs/terrain_lab/tools/run_with_cpu_limit.py --logical-cpus 3 -- \
+  python -B labs/terrain_lab/tools/measure_low_power_profiles.py --execute
 ```
 
 It uses a 300-second warmup and 1800-second measurement window. Use it for
@@ -272,7 +285,8 @@ the pinned TQP-55 through TQP-57 production release evidence.
 The protected development command is:
 
 ```text
-python labs/terrain_lab/tools/measure_low_power_profiles.py --execute --development-run
+python -B labs/terrain_lab/tools/run_with_cpu_limit.py --logical-cpus 3 -- \
+  python -B labs/terrain_lab/tools/measure_low_power_profiles.py --execute --development-run
 ```
 
 It defaults to a 30-second warmup and 120-second measurement and writes only to

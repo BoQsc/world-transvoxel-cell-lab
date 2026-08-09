@@ -5,7 +5,7 @@
 	"reference_backend": "world_transvoxel_cpu",
 	"gpu_architecture_decision_eligibility": {
 		"milestone": "TQP-58",
-		"status": "BLOCKED_CPU_FINALIZATION_INCOMPLETE",
+		"status": "ELIGIBLE_TQP58_SPECIFIED",
 		"required_precondition": "CPU_FINALIZATION_PRECONDITION",
 		"evidence": "res://labs/terrain_lab/results/cpu_finalization_readiness_windows.json"
 	},

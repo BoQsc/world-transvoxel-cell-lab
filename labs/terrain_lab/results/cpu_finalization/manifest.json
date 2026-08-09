@@ -1,0 +1,126 @@
+{
+	"schema": "world_transvoxel.terrain_lab.cpu_finalization_manifest.v1",
+	"report_count": 24,
+	"reports": [
+		{
+			"name": "cpu3-c1-debug-balanced-r1.json",
+			"bytes": 1919584,
+			"sha256": "e6c3d41951ac3ae48ac7c375ecbb1a8db17368d827405266a7a2d9ffa59b0ccd"
+		},
+		{
+			"name": "cpu3-c1-release-native-host-balanced-r1.json",
+			"bytes": 1907982,
+			"sha256": "ea8610bc89f43b56ee2f955b0f440530b3bd8f196ff6c3c1871191c766f5979f"
+		},
+		{
+			"name": "cpu3-c2-release-w1-r1.json",
+			"bytes": 1095968,
+			"sha256": "869ebd4830ab4d8420a50f67e2dece5b4b5685d1d5a99a7c6066754838784f4b"
+		},
+		{
+			"name": "cpu3-c2-release-w2-r1.json",
+			"bytes": 1092747,
+			"sha256": "8c0404783a1b7a578d1ea7e72bf91751848761d9c7bd6de92a921cce3c7259ac"
+		},
+		{
+			"name": "cpu3-c2-release-w3-r1.json",
+			"bytes": 1091478,
+			"sha256": "176b09488f552a203347495e542224c29d09da4473ff369cf95f2313bfd9eb1f"
+		},
+		{
+			"name": "cpu3-c2-generation-g1-m2.json",
+			"bytes": 1090000,
+			"sha256": "3fad582765cc01a7b64e59b35253a02365609625ecefc9bc65249fd3fce38d26"
+		},
+		{
+			"name": "cpu3-c2-generation-g3-m2.json",
+			"bytes": 1093038,
+			"sha256": "12b8ed742e52e28865be5b32adc5fe772d6936b8f0fdd0aad0d9713a3dead916"
+		},
+		{
+			"name": "cpu3-c3-profile-low-power-r1.json",
+			"bytes": 1091441,
+			"sha256": "8ae6bd7168be336d8afafb71cc4ac81bd8d4489970e8629f541cf07e6efe204c"
+		},
+		{
+			"name": "cpu3-c3-profile-low-power-r2.json",
+			"bytes": 1093129,
+			"sha256": "6c5db5ccea4d24ff1cb6301c26bb9a4e28522ce615193aaca636292837634b11"
+		},
+		{
+			"name": "cpu3-c3-profile-low-power-r3.json",
+			"bytes": 1090564,
+			"sha256": "e4253bd2379fa47744d83d6e6630cf16c1cd27c67992a2b9c2193456dd3bd773"
+		},
+		{
+			"name": "cpu3-c3-profile-quality-r1.json",
+			"bytes": 1092759,
+			"sha256": "03385214d2b483bcf127906b564e3782a66fbc5f246200522732b6fd36890629"
+		},
+		{
+			"name": "cpu3-c3-profile-quality-r2.json",
+			"bytes": 1094475,
+			"sha256": "a73e10e17f50adb2894d2920f3f35c1f2b0edf5efe06fe09ed96b1567b7d0a5b"
+		},
+		{
+			"name": "cpu3-c3-profile-quality-r3.json",
+			"bytes": 1093332,
+			"sha256": "6336201ad6c85bac0f6917a8defe2c3234121b97be079d407f1adc0f2340826c"
+		},
+		{
+			"name": "cpu3-c3-profile-reference-r1.json",
+			"bytes": 1096060,
+			"sha256": "f69904ec53ed907abfbcca19044207ed2072b601e33e2f3abad4d3492c337935"
+		},
+		{
+			"name": "cpu3-c3-profile-reference-r2.json",
+			"bytes": 1094551,
+			"sha256": "9114c788f534dadc21b46cd22e294dc76ea216b98b40d4190a82578c73183414"
+		},
+		{
+			"name": "cpu3-c3-profile-reference-r3.json",
+			"bytes": 1094067,
+			"sha256": "cba9d91dddbb31f19433dc75c78b245fafc8ce3ee81c210b574e8aece5ab94e0"
+		},
+		{
+			"name": "cpu3-c3-final-balanced-r1.json",
+			"bytes": 1910041,
+			"sha256": "0a85ced6ba80ac92f6d1da0946c6435d0d42b02b89f4eedea464ba2225a3a345"
+		},
+		{
+			"name": "cpu3-c3-final-balanced-r2.json",
+			"bytes": 1909030,
+			"sha256": "b4b4e27f4347559855385667dc4a0230b8fc28eceee3658a6422860220cf5745"
+		},
+		{
+			"name": "cpu3-c3-final-balanced-r3.json",
+			"bytes": 1907995,
+			"sha256": "b91d29d5fe7710fb6d5bdb43dec3254f5ec3b9ced2d976a905ad2e7a57d6bc63"
+		},
+		{
+			"name": "cpu-c2-generation-g2-m2.json",
+			"bytes": 1090030,
+			"sha256": "7c8abef8644dee70b16a0647a13cc008f6c49c14758bedd66926d98d0754a16b"
+		},
+		{
+			"name": "cpu-c3-profile-low-power-w1-runtime-result.json",
+			"bytes": 821040,
+			"sha256": "61ac2498977b8f8ed2ab3212ca16ab08b8b804179c04fd6367567696d1256fb8"
+		},
+		{
+			"name": "cpu-c3-profile-quality-w4-runtime-result.json",
+			"bytes": 818684,
+			"sha256": "e5604a88dfe7e5072be483fc838327b8a8816267ad1af42c29d02aea6365aab8"
+		},
+		{
+			"name": "dev-storage-completion-single-scan.json",
+			"bytes": 1090100,
+			"sha256": "421b2ae9caaf0b799b35784cf211295b6b70b79cd8c6c4a61bf8fca276f66391"
+		},
+		{
+			"name": "dev-worker-side-page-decode.json",
+			"bytes": 1090402,
+			"sha256": "6bc9430cf10e0d9c1817e5a4cb1a79dfee5964d50d6a6d1ad8eda59389636c15"
+		}
+	]
+}

@@ -6,7 +6,7 @@ Qualification Program; it does not own production implementation and does not
 extend the Cell Lab root node.
 
 The [Terrain Qualification Program](TERRAIN_QUALIFICATION_PROGRAM.md) is the
-single human-readable roadmap. Program revision 44 contains TQP-01 through
+single human-readable roadmap. Program revision 45 contains TQP-01 through
 TQP-71 in ground-up execution order:
 
 - TQP-01 through TQP-50 are qualified only for their declared bounded scopes;
@@ -31,19 +31,18 @@ TQP-71 in ground-up execution order:
   authoring, migration, release matrix, and long-haul certification; TQP-57 is
   the limited Windows CPU Terrain Standard 1.0 production release with direct
   assembled 2048x256x2048 LOD0/LOD1/LOD2 acceptance;
-- TQP-58 through TQP-64 are blocked GPU work; TQP-58 is ineligible until the
-  ordered CPU-C1 attribution, CPU-C2 standard CPU architecture work, and CPU-C3
-  final CPU baseline pass the CPU Finalization Precondition;
+- TQP-58 is specified after the ordered CPU-C1 attribution, CPU-C2 standard CPU
+  architecture work, and CPU-C3 final CPU baseline pass under a hard
+  three-logical-CPU ceiling; TQP-59 through TQP-64 remain blocked GPU work;
 - TQP-65 through TQP-70 retain implemented but unqualified post-release game
   systems, while TQP-71 networking remains blocked.
 
-The next work is CPU-C1, Bottleneck Attribution And Benchmark Integrity. TQP-58
-remains the next numbered milestone but is blocked. Gate F and the bounded CPU
+The next work is TQP-58, GPU Architecture Decision. Gate F and the bounded CPU
 Terrain Standard 1.0 Windows release remain qualified correctness baselines on
-the corrected committed-tree basis in `TQP-D042`; `TQP-D043` records that this
-does not prove CPU performance attribution or architecture exhaustion. The full
-low-power target pass, GPU backend, non-Windows, and cross-hardware claims remain
-unqualified.
+the corrected committed-tree basis in `TQP-D042`; `TQP-D043` required CPU
+finalization and `TQP-D044` qualifies it without claiming the recorded
+production responsiveness targets pass. The GPU backend, non-Windows, and
+cross-hardware claims remain unqualified.
 
 Godot 4.7 is the minimum and sole current qualification target. Godot 4.6
 results are retained only as historical observations; they are not rerun or
@@ -52,7 +51,7 @@ explicit qualification decision before replacing or expanding the matrix.
 
 The [What Comes Next](TERRAIN_QUALIFICATION_PROGRAM.md#what-comes-next)
 section records the completed CPU authority and standalone-release path, the
-current CPU finalization precondition, the blocked GPU qualification wave, and
+qualified CPU finalization precondition, the eligible TQP-58 decision, and
 the later game-oriented systems. The
 dependency order remains authoritative even when investigation happens ahead
 of promotion.

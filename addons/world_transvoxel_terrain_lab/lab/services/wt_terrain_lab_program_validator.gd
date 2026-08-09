@@ -371,7 +371,7 @@ static func _validate_evidence_files(program: Dictionary, failures: Array[String
 		"TQP-D026", "TQP-D027", "TQP-D028", "TQP-D029", "TQP-D030",
 		"TQP-D031", "TQP-D032", "TQP-D033", "TQP-D034", "TQP-D035",
 		"TQP-D036", "TQP-D037", "TQP-D038", "TQP-D039", "TQP-D040",
-		"TQP-D041", "TQP-D042", "TQP-D043",
+		"TQP-D041", "TQP-D042", "TQP-D043", "TQP-D044",
 	]:
 		_expect(decision_ids.has(required), "missing retained decision: " + required, failures)
 	for key in [
@@ -597,6 +597,17 @@ static func _validate_qualification_state(
 			"blocked milestone lacks an exit condition: " + str(milestone_id),
 			failures
 		)
+	var preconditions: Dictionary = state.get("preconditions", {})
+	var cpu_finalization: Dictionary = preconditions.get(
+		"CPU_FINALIZATION_PRECONDITION", {}
+	)
+	_expect(
+		str(cpu_finalization.get("status", "")) == "qualified"
+			and (cpu_finalization.get("blocks", []) as Array).is_empty()
+			and cpu_finalization.get("admits", []) == ["TQP-58"],
+		"CPU finalization precondition state is inconsistent",
+		failures
+	)
 	var retained_path := str(state.get("retained_report", ""))
 	_expect(FileAccess.file_exists(retained_path), "retained qualification report is missing", failures)
 	if FileAccess.file_exists(retained_path):
@@ -2514,15 +2525,18 @@ static func _validate_cpu_finalization(
 	var evidence := JsonLoader.load_dictionary(
 		str(program.get("cpu_finalization_evidence", ""))
 	)
+	var backend_decision := JsonLoader.load_dictionary(
+		str(program.get("backend_decision", ""))
+	)
 	_expect(
 		str(standard.get("schema", ""))
-			== "world_transvoxel.terrain_lab.cpu_finalization_standard.v1",
+			== "world_transvoxel.terrain_lab.cpu_finalization_standard.v2",
 		"CPU finalization standard schema mismatch",
 		failures
 	)
 	_expect(
 		str(evidence.get("schema", ""))
-			== "world_transvoxel.terrain_lab.cpu_finalization_readiness.v1",
+			== "world_transvoxel.terrain_lab.cpu_finalization_readiness.v2",
 		"CPU finalization evidence schema mismatch",
 		failures
 	)
@@ -2536,6 +2550,23 @@ static func _validate_cpu_finalization(
 		"CPU finalization no longer applies before TQP-58",
 		failures
 	)
+	var boundary: Dictionary = standard.get("qualification_boundary", {})
+	var affinity: Array = boundary.get("logical_cpu_affinity", [])
+	_expect(
+		int(boundary.get("logical_cpu_limit", -1)) == 3
+			and affinity.size() == 3
+			and int(affinity[0]) == 0
+			and int(affinity[1]) == 1
+			and int(affinity[2]) == 2
+			and int(boundary.get("build_parallelism_limit", -1)) == 3,
+		"CPU finalization three-logical-CPU boundary changed",
+		failures
+	)
+	_expect(
+		str(standard.get("status", "")) == "qualified",
+		"CPU finalization standard is not qualified",
+		failures
+	)
 	var stages: Array = evidence.get("ordered_closure", [])
 	var stage_ids: Array[String] = []
 	for stage_value in stages:
@@ -2546,6 +2577,13 @@ static func _validate_cpu_finalization(
 		"CPU finalization closure order changed",
 		failures
 	)
+	for stage_value in stages:
+		var stage: Dictionary = stage_value
+		_expect(
+			str(stage.get("status", "")) == "qualified",
+			"CPU finalization stage is not qualified: " + str(stage.get("id", "")),
+			failures
+		)
 	_expect(
 		(evidence.get("consistency_failures", []) as Array).is_empty(),
 		"CPU finalization evidence has consistency failures",
@@ -2565,6 +2603,15 @@ static func _validate_cpu_finalization(
 	_expect(
 		"CPU_FINALIZATION_PRECONDITION" in tqp58.get("entry_conditions", []),
 		"TQP-58 CPU finalization entry condition is missing",
+		failures
+	)
+	var gpu_eligibility: Dictionary = backend_decision.get(
+		"gpu_architecture_decision_eligibility", {}
+	)
+	_expect(
+		str(gpu_eligibility.get("status", ""))
+			== ("ELIGIBLE_TQP58_SPECIFIED" if eligible else "BLOCKED_CPU_FINALIZATION_INCOMPLETE"),
+		"backend architecture eligibility differs from CPU finalization readiness",
 		failures
 	)
 

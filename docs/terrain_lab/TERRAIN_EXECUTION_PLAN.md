@@ -12,13 +12,14 @@ machine-readable mirror used to reject missing milestones, duplicates,
 backward dependencies, incorrect wave state, and an invalid recommended-next
 item. It must not introduce work or ordering absent from the TQP.
 
-The current action is the CPU Finalization Precondition recorded inside the
-TQP: CPU-C1, then CPU-C2, then CPU-C3. `TQP-58` remains the next numbered
-milestone, but it is blocked and cannot be implemented or promoted until that
-precondition passes.
+CPU-C1, CPU-C2, and CPU-C3 are qualified under the retained three-logical-CPU
+boundary. The current action is TQP-58, GPU Architecture Decision. TQP-58 is
+specified, not qualified: execute its measured decision contract without
+assuming that a GPU backend must be selected or promoted.
 
 Validate the mirror with:
 
 ```text
-python labs/terrain_lab/tools/validate_execution_plan.py
+python -B labs/terrain_lab/tools/run_with_cpu_limit.py --logical-cpus 3 -- \
+  python -B labs/terrain_lab/tools/validate_execution_plan.py
 ```
