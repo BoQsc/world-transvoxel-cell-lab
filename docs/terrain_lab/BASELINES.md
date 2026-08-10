@@ -263,6 +263,35 @@ Render publication (`1.501 s`) and targeted collision apply (`0.585 s`) are not
 the dominant costs. These measurements make TQP-58 a valid decision task; they
 do not prove that GPU acceleration is automatically the correct answer.
 
+## CPU Production Closure
+
+Evidence:
+
+- `res://addons/world_transvoxel_terrain_lab/standards/cpu_production_closure_standard.json`
+- `res://labs/terrain_lab/results/cpu_production_closure_windows.json`
+
+Status: `PASS`; all six ordered TQP-R01 through TQP-R06 correction subgates are
+retained complete. Evidence pins `world-transvoxel`
+`d73fd37211797b043797d072020a48a2eaed7383`, terrain implementation
+`81cb3302b134098786aa988d0a69f8c7353ec4cb`, and terrain evidence
+`50c8759d18f0880231cbbb88294cad2b90bc4efe` under affinity `[0, 1, 2]` and
+build limit `-j3`.
+
+The broad 2048x256x2048-cell acceptance observes LOD0 through LOD3 over 512
+global coarse roots with zero overlaps, generation errors, or topology
+failures. Its 2,700 samples report maximum scenario p50 `16.308 ms`, maximum
+scenario p99 `70.161 ms`, worst single frame `98.044 ms`, and zero frames over
+100 ms. The process averages `1.642` occupied cores and peaks at
+`1,172,578,304` bytes RSS. Temporal continuity and prefetched-arrival evidence
+also pass; collision remains explicitly requested rather than generated for
+every visual chunk.
+
+The self-contained `world-transvoxel-terrain` `1.1.0-rc1` clean-install bundle
+has digest `8dc0482fe55b3765ed0bdf376141af2cf6d6f07ff78e855942a731b4d4250f57`.
+This qualifies a release candidate, not public Godot Asset Library acceptance.
+CPU-package and whole-system watts remain unqualified, and no sustained
+60 FPS/16 W result is claimed.
+
 ## Run Policy
 
 The exact TQP-48 qualification run is intentionally expensive:

@@ -1,0 +1,56 @@
+{
+  "schema": "world_transvoxel.terrain_lab.cpu_production_closure_standard.v1",
+  "precondition": "CPU_PRODUCTION_CLOSURE_PRECONDITION",
+  "status": "qualified",
+  "execution_order": [
+    "TQP-R01_CONSTRUCTION_MATERIAL_OWNERSHIP",
+    "TQP-R02_TEMPORAL_STREAMING_CONTINUITY",
+    "TQP-R03_GLOBAL_COARSE_COVERAGE_LOCAL_REFINEMENT",
+    "TQP-R04_CACHE_PREFETCH_TARGETED_COLLISION_READINESS",
+    "TQP-R05_BOUNDED_CPU_PRODUCTION_BASELINE",
+    "TQP-R06_SELF_CONTAINED_GODOT_4_7_RELEASE_BUNDLE"
+  ],
+  "authority_policy": {
+    "terrain_authority": "world-transvoxel",
+    "fallback_mesher": false,
+    "fallback_field": false,
+    "maximum_logical_cpu_count": 3,
+    "native_build_jobs": 3,
+    "engine": "4.7",
+    "renderer": "forward_plus"
+  },
+  "acceptance": {
+    "volume_cells": [2048, 256, 2048],
+    "required_lods": [0, 1, 2, 3],
+    "global_coarse_roots": 512,
+    "lod0_equivalent_coverage_cells": 262144,
+    "maximum_coarse_ready_latency_usec": 5000000,
+    "minimum_frame_samples": 2700,
+    "minimum_temporal_monitored_frames": 2000,
+    "minimum_temporal_topology_samples": 60,
+    "minimum_prefetched_visual_lod0_chunks": 64,
+    "maximum_scenario_p99_usec": 100000,
+    "maximum_worst_frame_usec": 500000,
+    "maximum_edit_visual_latency_usec": 5000000,
+    "maximum_edit_collision_latency_usec": 5000000,
+    "maximum_coverage_overlaps": 0,
+    "maximum_topology_failures": 0,
+    "maximum_generation_mismatches": 0,
+    "maximum_repainted_existing_solid_samples": 0,
+    "prefetched_arrival_storage_requests": 0,
+    "prefetched_arrival_mesh_jobs": 0,
+    "maximum_prefetched_arrival_collision_latency_usec": 100000,
+    "requires_self_contained_bundle": true,
+    "requires_clean_install_smoke": true
+  },
+  "power_boundary": {
+    "cpu_package_watts": "unqualified_without_trusted_energy_provider",
+    "whole_system_watts": "unqualified_without_trusted_energy_provider",
+    "gpu_board_watts": "separate_metric_not_cpu_power"
+  },
+  "admission": {
+    "admits": ["TQP-58"],
+    "does_not_select_gpu_architecture": true,
+    "does_not_claim_public_asset_library_acceptance": true
+  }
+}

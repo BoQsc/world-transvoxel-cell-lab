@@ -1,11 +1,12 @@
 {
 	"schema": "world_transvoxel.terrain_lab.execution_plan.v1",
-	"plan_revision": 35,
-	"program_revision": 45,
+	"plan_revision": 36,
+	"program_revision": 46,
 	"policy": "single_human_tqp_dependency_order_fail_closed",
 	"human_authority": "res://docs/terrain_lab/TERRAIN_QUALIFICATION_PROGRAM.md",
 	"current_wave": "TQP-WAVE-05",
 	"recommended_next": ["TQP-58"],
+	"completed_preconditions": ["CPU_FINALIZATION_PRECONDITION", "CPU_PRODUCTION_CLOSURE_PRECONDITION"],
 	"recommended_precondition_steps": [],
 	"recommended_action": "Execute TQP-58 as a measured GPU architecture decision against the retained CPU authority; do not implement or promote a GPU backend by assumption.",
 	"waves": [
@@ -91,9 +92,10 @@
 		},
 		{
 			"id": "TQP-WAVE-05",
-			"title": "CPU finalization precondition, then GPU backend qualification and release",
+			"title": "CPU closures, then GPU backend qualification and release",
 			"status": "active",
 			"entry_condition": "CPU_FINALIZATION_PRECONDITION",
+			"entry_conditions": ["CPU_FINALIZATION_PRECONDITION", "CPU_PRODUCTION_CLOSURE_PRECONDITION"],
 			"steps": [
 				["TQP-58"],
 				["TQP-59"],

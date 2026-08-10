@@ -1,0 +1,51 @@
+{
+	"schema": "world_transvoxel.terrain_lab.decision.v1",
+	"id": "TQP-D045",
+	"date": "2026-08-10",
+	"decision": "Preserve the TQP-57 CPU Terrain Standard 1.0 release as history and require a qualified six-step CPU production closure before TQP-58, using the corrected authority, terrain implementation, broad terrain, temporal continuity, prefetch readiness, bounded performance, and self-contained Godot 4.7 release evidence.",
+	"affected_milestones": ["TQP-45", "TQP-46", "TQP-47", "TQP-48", "TQP-55", "TQP-56", "TQP-57", "TQP-58"],
+	"repositories": [
+		"world-transvoxel-cell-lab",
+		"world-transvoxel",
+		"world-transvoxel-terrain"
+	],
+	"ordered_subgates": [
+		"TQP-R01 construction material ownership",
+		"TQP-R02 temporal streaming continuity",
+		"TQP-R03 global coarse coverage and local refinement",
+		"TQP-R04 cache, prefetch, and targeted collision readiness",
+		"TQP-R05 bounded CPU production baseline",
+		"TQP-R06 self-contained Godot 4.7 release bundle"
+	],
+	"evidence_used": [
+		"cpu_production_closure_standard.json version 1",
+		"cpu_production_closure_windows.json version 1",
+		"world-transvoxel revision d73fd37211797b043797d072020a48a2eaed7383",
+		"world-transvoxel-terrain implementation revision 81cb3302b134098786aa988d0a69f8c7353ec4cb",
+		"world-transvoxel-terrain evidence revision 50c8759d18f0880231cbbb88294cad2b90bc4efe",
+		"digest-pinned broad acceptance, temporal continuity, prefetch readiness, closure, and clean-install bundle reports"
+	],
+	"qualified_scope": [
+		"2048x256x2048-cell bounded Windows terrain with 512 global coarse roots and observed LOD0 through LOD3 local refinement",
+		"construction material ownership without repainting existing solid samples",
+		"temporal streaming continuity with zero retained overlap or topology failures",
+		"visual prefetch separated from targeted collision demand and zero storage or mesh work at the prefetched arrival",
+		"2700-frame three-logical-CPU release-runtime baseline with retained process telemetry",
+		"self-contained world-transvoxel-terrain 1.1.0-rc1 Godot 4.7 bundle with a clean extracted-project smoke pass",
+		"TQP-58 eligibility for a measured architecture decision"
+	],
+	"unqualified_scope": [
+		"public Godot Asset Library submission, moderation, or acceptance",
+		"sustained 60 FPS at 16 GPU-board watts, CPU-package watts, or whole-system watts",
+		"performance on untested hardware or outside the retained Windows reference envelope",
+		"any GPU architecture selection, implementation, correctness equivalence, performance benefit, or release"
+	],
+	"standards_changed": [
+		"Terrain Qualification Program revision 46",
+		"execution-plan revision 36",
+		"CPU production closure standard and retained evidence version 1",
+		"TQP-58 now requires both qualified CPU preconditions without changing milestone numbering"
+	],
+	"review": "All six correction subgates pass under affinity [0, 1, 2] and -j3 build limits. Current evidence separates scenario p99 ceiling 70.161 ms from worst single frame 98.044 ms, retains zero frames over 100 ms, and leaves unavailable power measurements explicitly unqualified.",
+	"downstream_impact": "TQP-58 may now compare GPU architecture options against the corrected CPU release candidate. CPU world-transvoxel remains the correctness authority, and no GPU promotion or public Asset Library acceptance is implied."
+}

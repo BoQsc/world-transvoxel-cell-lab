@@ -6,8 +6,11 @@
 	"gpu_architecture_decision_eligibility": {
 		"milestone": "TQP-58",
 		"status": "ELIGIBLE_TQP58_SPECIFIED",
-		"required_precondition": "CPU_FINALIZATION_PRECONDITION",
-		"evidence": "res://labs/terrain_lab/results/cpu_finalization_readiness_windows.json"
+		"required_preconditions": ["CPU_FINALIZATION_PRECONDITION", "CPU_PRODUCTION_CLOSURE_PRECONDITION"],
+		"evidence": [
+			"res://labs/terrain_lab/results/cpu_finalization_readiness_windows.json",
+			"res://labs/terrain_lab/results/cpu_production_closure_windows.json"
+		]
 	},
 	"decisions": {
 		"field_evaluation": {

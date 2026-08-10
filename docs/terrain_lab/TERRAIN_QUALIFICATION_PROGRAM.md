@@ -176,9 +176,15 @@ human review in addition to automated checks.
   final CPU baseline and exhaustion review must pass in that order. Gate F's
   correctness release does not imply that CPU performance is understood or
   exhausted.
+- CPU Production Closure Precondition: after CPU finalization and before
+  TQP-58, `TQP-R01` through `TQP-R06` must correct and retain construction
+  material ownership, temporal continuity, global coarse coverage, local
+  refinement, prefetch and targeted collision readiness, bounded performance,
+  and a self-contained Godot 4.7 release candidate in that order.
 - Gate G: the GPU production backend release requires `TQP-58` through
-  `TQP-64` after the CPU release; CPU authority remains the differential
-  reference unless a later reviewed decision changes it.
+  `TQP-64` after the CPU release and both CPU preconditions; CPU authority
+  remains the differential reference unless a later reviewed decision changes
+  it.
 - Gate H: optional post-release game systems occupy `TQP-65` through `TQP-71`.
   Gate H is not a prerequisite for releasing the terrain addon.
 
@@ -190,7 +196,7 @@ promotion order: investigation may happen early, but qualification cannot skip
 an earlier dependency.
 
 The machine-readable `execution_plan.json` mirrors the same order but is not a
-second human roadmap. Program revision 45 preserves every qualified TQP-01
+second human roadmap. Program revision 46 preserves every qualified TQP-01
 through TQP-47 claim, keeps the ordered CPU/GPU release sequence from
 `TQP-D033`, corrects TQP-48's inherited low-power target through
 `TQP-D036`, and closes Gate E for the bounded CPU authority envelope through
@@ -201,7 +207,8 @@ release through `TQP-D041`, corrects its exact pins and Gate F basis with
 committed-tree assembled large-terrain evidence through `TQP-D042`, blocks
 TQP-58 behind ordered CPU finalization through `TQP-D043`, and qualifies that
 precondition under a three-logical-CPU ceiling through `TQP-D044` without
-selecting a GPU architecture.
+selecting a GPU architecture, then closes six discovered production-terrain
+gaps through `TQP-D045` before allowing TQP-58 to proceed.
 Earlier identifier migrations remain retained in `TQP-D006`, `TQP-D017`, and
 `TQP-D030` as history.
 
@@ -1144,13 +1151,15 @@ game framework and has no runtime dependency on either lab.
 Execution order: TQP-51 -> TQP-52 -> TQP-53 -> TQP-54 -> TQP-55 -> TQP-56 ->
 TQP-57.
 
-Gate E and TQP-51 through TQP-56 are qualified. TQP-57 is the first production
-release for its limited Windows reference matrix and now includes direct
+Gate E and TQP-51 through TQP-56 are qualified. TQP-57 remains the historical
+first production release for its limited Windows reference matrix, with direct
 assembled 2048x256x2048 LOD0/LOD1/LOD2 acceptance. Gate F is closed on that
-corrected correctness basis. Gate F did not prove CPU cost attribution,
-optimized release-runtime performance, or standard CPU architecture exhaustion;
-the separate CPU Finalization Precondition now supplies that evidence under
-`TQP-D044` and admits TQP-58 without widening Gate F.
+correctness basis. Gate F did not prove CPU cost attribution, optimized
+release-runtime performance, standard CPU architecture exhaustion, global
+coarse coverage, temporal streaming continuity, or a self-contained current
+release bundle. The CPU Finalization and CPU Production Closure preconditions
+now supply that later evidence under `TQP-D044` and `TQP-D045` without silently
+rewriting TQP-57 history.
 
 ### TQP-51: Production Addon Boundary
 
@@ -1298,6 +1307,8 @@ history and makes this assembled evidence mandatory for Gate F.
 The captures retain abrupt reference material-class regions and coarse distant
 LOD silhouettes; final texture assets, art direction, and universally smooth
 large-terrain material presentation are not part of this production claim.
+This `1.0.0` record is historical. Current architecture and release-candidate
+decisions must also use the qualified CPU Production Closure Precondition below.
 
 ### CPU Finalization Precondition Before TQP-58
 
@@ -1348,25 +1359,99 @@ measured and ready for TQP-58, not that production terrain performance is
 complete. CPU-package and whole-system watts remain unqualified because no
 trusted sensor exists.
 
+### CPU Production Closure Precondition Before TQP-58
+
+Status: `qualified`. Authority:
+`cpu_production_closure_standard.json` and
+`cpu_production_closure_windows.json`.
+
+This is the ordered correction program required by `TQP-D045`. It does not add
+or reorder numbered TQP milestones. Every run is bounded to logical CPUs
+`[0, 1, 2]`, native builds are limited to `-j3`, `world-transvoxel` is the sole
+terrain authority, and fallback meshing or field implementations are forbidden.
+
+#### TQP-R01: Construction Material Ownership
+
+Status: `PASS`. Construction owns the material of newly solid samples and does
+not repaint pre-existing solid terrain. The retained construction probe reports
+zero repainted existing-solid samples, while digging and construction remain
+part of the same authoritative edit, persistence, visual, and collision path.
+
+#### TQP-R02: Temporal Streaming Continuity
+
+Status: `PASS`. The retained camera traversal monitors 2,270 frames and 78
+topology samples, with zero overlaps and zero topology failures. Eleven close,
+far, motion, and return captures support the machine evidence; screenshots do
+not replace the topology checks.
+
+#### TQP-R03: Global Coarse Coverage And Local Refinement
+
+Status: `PASS`. The 2048x256x2048-cell catalog contains 299,520 pages and 512
+global coarse roots, representing 262,144 LOD0-equivalent coverage cells.
+Observed active terrain includes LOD0 `160`, LOD1 `116`, LOD2 `88`, and LOD3
+`505`, with zero coverage overlaps, generation errors, or topology failures.
+Global coarse coverage became ready in `3.474 s`; local refinement remains
+viewer-driven.
+
+#### TQP-R04: Cache Prefetch And Targeted Collision Readiness
+
+Status: `PASS`. Visual prefetch and collision demand are separate. Sixty-four
+LOD0 visual chunks were ready before arrival; the prefetched arrival issued
+zero storage requests and zero mesh jobs. Collision remained explicit and
+became ready in `23.588 ms`. Authority cache eviction now repairs collision
+readiness instead of leaving a visually ready but physically stale chunk.
+
+#### TQP-R05: Bounded CPU Production Baseline
+
+Status: `PASS`. The nine-scenario release-runtime run retains 2,700 frame
+samples. Maximum scenario p50 is `16.308 ms`, maximum scenario p99 is
+`70.161 ms`, the worst single frame is `98.044 ms`, and no frame exceeds
+100 ms. Wall time is `191.405 s`; process CPU time is `314.219 s`, averaging
+`1.642` occupied cores or `54.721%` of the three-core capacity. Peak process
+RSS is `1,172,578,304` bytes. Digging reaches visual and collision readiness in
+`90.189 ms` and `109.456 ms`; construction reaches them in `75.786 ms` and
+`96.567 ms`. These numbers are a comparison baseline, not a universal hardware
+guarantee or a sustained 60 FPS/16 W claim. CPU-package and whole-system power
+remain unqualified because no trusted energy provider was available.
+
+#### TQP-R06: Self-Contained Godot 4.7 Release Bundle
+
+Status: `PASS`. `world-transvoxel-terrain` `1.1.0-rc1` is retained as a
+self-contained 114-file, 1,872,479-byte ZIP with digest
+`8dc0482fe55b3765ed0bdf376141af2cf6d6f07ff78e855942a731b4d4250f57`.
+A clean extracted Godot 4.7 project passed startup smoke with authority version
+`1.0.16-dev`, backend `transvoxel_mit_official`, and fallback disabled. This is
+a qualified release candidate; Godot Asset Library submission, moderation, and
+acceptance are not claimed.
+
+The closure pins `world-transvoxel`
+`d73fd37211797b043797d072020a48a2eaed7383`, terrain implementation
+`81cb3302b134098786aa988d0a69f8c7353ec4cb`, and terrain evidence
+`50c8759d18f0880231cbbb88294cad2b90bc4efe`. Its six digest-pinned retained
+sources include broad acceptance, temporal continuity, prefetch readiness,
+closure, clean-install report, and release ZIP evidence. The closure reports
+`PASS`, `retained_complete=true`, `tqp58_eligible=true`, and no consistency
+failures.
+
 ## Phase 6: GPU Backend Qualification And Release
 
-This phase starts only after the CPU production release and the CPU
-Finalization Precondition. It evaluates GPU
+This phase starts only after the CPU production release, CPU Finalization
+Precondition, and CPU Production Closure Precondition. It evaluates GPU
 acceleration against the same field, primitive, terrain, latency, power, and
 release contracts without replacing CPU authority by assumption.
 
 Execution order: TQP-58 -> TQP-59 -> TQP-60 -> TQP-61 -> TQP-62 -> TQP-63 ->
 TQP-64.
 
-The CPU Finalization Precondition reports `PASS`, `retained_complete=true`,
+Both CPU preconditions report `PASS`, `retained_complete=true`,
 `tqp58_eligible=true`, and no consistency failures. TQP-58 is therefore
 specified and eligible to execute. This does not select a GPU architecture or
 qualify any GPU implementation.
 
 ### TQP-58: GPU Architecture Decision
 
-Status: `specified`. Owner: Backend Qualification Lab. Depends on: Gate F and the
-CPU Finalization Precondition.
+Status: `specified`. Owner: Backend Qualification Lab. Depends on: Gate F, the
+CPU Finalization Precondition, and the CPU Production Closure Precondition.
 
 Complete when field evaluation, meshing, buffer residency, rendering,
 collision readback, synchronization, target APIs, and expected benefit are
@@ -1528,20 +1613,25 @@ The program records every milestone at a truthful evidence state:
 - `TQP-51` through `TQP-56` qualify the pinned standalone CPU candidate,
   migration, release matrix, and long-haul contracts; `TQP-57` is the limited
   Windows CPU Terrain Standard 1.0 production release and closes Gate F with
-  committed-tree assembled 2048x256x2048 LOD0/LOD1/LOD2 evidence.
-- `TQP-58` is specified after CPU-C1 through CPU-C3 pass the CPU Finalization
-  Precondition; `TQP-59` through `TQP-64` remain blocked.
+  historical committed-tree assembled 2048x256x2048 LOD0/LOD1/LOD2 evidence.
+- `TQP-R01` through `TQP-R06` qualify the corrected current CPU release
+  candidate with construction ownership, temporal continuity, global coarse
+  coverage, observed LOD0 through LOD3, prefetch and targeted collision
+  readiness, bounded performance telemetry, and a clean self-contained Godot
+  4.7 bundle.
+- `TQP-58` is specified after both CPU preconditions pass; `TQP-59` through
+  `TQP-64` remain blocked.
 - `TQP-65` through `TQP-70` retain the previously implemented but unqualified
   destruction and structural reference behavior under revision-34 identifiers.
 - `TQP-71` networking remains blocked by a missing multiplayer authority model.
 
 The next work is TQP-58, GPU Architecture Decision. It must compare separate
 field, meshing, residency, rendering, collision-readback, synchronization, API,
-and expected-benefit choices against the retained CPU baseline. The CPU release
-remains the differential correctness authority, the performance target misses
-remain visible, and GPU or game-system behavior remains outside the qualified
-claim. A milestone may advance only when its declared evidence and entry
-conditions pass.
+and expected-benefit choices against the retained corrected CPU baseline. The
+CPU release candidate remains the differential correctness authority, the
+performance and power claim boundaries remain visible, and GPU or game-system
+behavior remains outside the qualified claim. A milestone may advance only
+when its declared evidence and entry conditions pass.
 
 ## What Comes Next
 
@@ -1584,7 +1674,8 @@ it does not by itself publish a production addon.
 
 TQP-51 through TQP-57 then create, integrate, certify, and release the separate
 standalone CPU production addon. CPU-C1 through CPU-C3 now attribute and
-finalize the CPU architecture under the retained three-logical-CPU boundary.
+finalize the CPU architecture under the retained three-logical-CPU boundary;
+TQP-R01 through TQP-R06 close the discovered current production-terrain gaps.
 TQP-58 is next; TQP-58 through TQP-64 evaluate and release GPU acceleration
 without revoking CPU authority. TQP-65 through TQP-71 keep
 explosions, support, fluids, vegetation, authored structures, collapse, and
@@ -1769,3 +1860,9 @@ Retained decisions:
   ceiling, retain the measured target misses and rejected optimizations, and
   make TQP-58 specified and eligible without selecting or promoting a GPU
   backend.
+- `TQP-D045`: preserve TQP-57 and its 1.0.0 evidence as history, require the
+  ordered TQP-R01 through TQP-R06 CPU Production Closure Precondition, pin the
+  corrected authority and terrain revisions plus current 1.1.0-rc1 evidence,
+  and allow TQP-58 only after both CPU preconditions pass. The release candidate
+  is self-contained but is not claimed as submitted to or accepted by the Godot
+  Asset Library.

@@ -130,20 +130,62 @@ def main() -> int:
         and cpu_finalization.get("tqp58_eligible") is True
         and cpu_finalization.get("consistency_failures") == []
     )
+    cpu_production_closure_path = ROOT / manifest[
+        "cpu_production_closure_evidence"
+    ].removeprefix("res://")
+    cpu_production_closure = json.loads(
+        cpu_production_closure_path.read_text(encoding="utf-8")
+    )
+    production_eligible = (
+        cpu_production_closure.get("status") == "PASS"
+        and cpu_production_closure.get("retained_complete") is True
+        and cpu_production_closure.get("tqp58_eligible") is True
+        and cpu_production_closure.get("consistency_failures") == []
+        and cpu_production_closure.get("logical_cpu_affinity") == [0, 1, 2]
+        and cpu_production_closure.get("native_build_jobs") == 3
+        and [
+            (subgate.get("id"), subgate.get("status"))
+            for subgate in cpu_production_closure.get("subgates", [])
+        ]
+        == [(f"TQP-R{number:02d}", "PASS") for number in range(1, 7)]
+    )
+    required_preconditions = [
+        "CPU_FINALIZATION_PRECONDITION",
+        "CPU_PRODUCTION_CLOSURE_PRECONDITION",
+    ]
+    if current.get("entry_condition") != "CPU_FINALIZATION_PRECONDITION":
+        failures.append("active GPU wave is missing its primary CPU entry condition")
+    if current.get("entry_conditions") != required_preconditions:
+        failures.append("active GPU wave CPU entry conditions are missing or out of order")
+    if milestones.get("TQP-58", {}).get("entry_conditions") != required_preconditions:
+        failures.append("TQP-58 CPU entry conditions are missing or out of order")
+
     if not cpu_eligible:
-        if current.get("entry_condition") != "CPU_FINALIZATION_PRECONDITION":
-            failures.append("active GPU wave is missing the CPU finalization entry condition")
         if not str(plan.get("recommended_action", "")).startswith("Complete CPU-C1"):
             failures.append("execution plan does not direct work to CPU-C1 first")
         if plan.get("recommended_precondition_steps") != ["CPU-C1", "CPU-C2", "CPU-C3"]:
             failures.append("CPU finalization precondition steps are missing or out of order")
         if milestones.get("TQP-58", {}).get("status") != "blocked":
             failures.append("TQP-58 must remain blocked until CPU finalization passes")
+    elif not production_eligible:
+        if not str(plan.get("recommended_action", "")).startswith("Complete TQP-R01"):
+            failures.append("execution plan does not direct work to TQP-R01 first")
+        if plan.get("recommended_precondition_steps") != [
+            "TQP-R01",
+            "TQP-R02",
+            "TQP-R03",
+            "TQP-R04",
+            "TQP-R05",
+            "TQP-R06",
+        ]:
+            failures.append("CPU production closure steps are missing or out of order")
+        if milestones.get("TQP-58", {}).get("status") != "blocked":
+            failures.append("TQP-58 must remain blocked until CPU production closure passes")
     else:
-        if current.get("entry_condition") != "CPU_FINALIZATION_PRECONDITION":
-            failures.append("active GPU wave is missing the qualified CPU entry condition")
+        if plan.get("completed_preconditions") != required_preconditions:
+            failures.append("qualified CPU preconditions are missing or out of order")
         if plan.get("recommended_precondition_steps") != []:
-            failures.append("completed CPU finalization steps remain recommended")
+            failures.append("completed CPU precondition steps remain recommended")
         if not str(plan.get("recommended_action", "")).startswith("Execute TQP-58"):
             failures.append("execution plan does not direct work to eligible TQP-58")
         if milestones.get("TQP-58", {}).get("status") != "specified":

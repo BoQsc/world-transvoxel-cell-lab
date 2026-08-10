@@ -228,6 +228,7 @@ static func validate(program: Dictionary, dependencies: Dictionary) -> Dictionar
 	_validate_cpu_production_first_batch(program, milestone_by_id, failures)
 	_validate_cpu_production_release(program, milestone_by_id, failures)
 	_validate_cpu_finalization(program, milestone_by_id, failures)
+	_validate_cpu_production_closure(program, milestone_by_id, failures)
 	_validate_low_power_performance_profile(program, failures)
 	_validate_visual_evidence(program, milestone_by_id, failures)
 	_validate_dependency_boundary(program, dependencies, failures)
@@ -371,7 +372,7 @@ static func _validate_evidence_files(program: Dictionary, failures: Array[String
 		"TQP-D026", "TQP-D027", "TQP-D028", "TQP-D029", "TQP-D030",
 		"TQP-D031", "TQP-D032", "TQP-D033", "TQP-D034", "TQP-D035",
 		"TQP-D036", "TQP-D037", "TQP-D038", "TQP-D039", "TQP-D040",
-		"TQP-D041", "TQP-D042", "TQP-D043", "TQP-D044",
+		"TQP-D041", "TQP-D042", "TQP-D043", "TQP-D044", "TQP-D045",
 	]:
 		_expect(decision_ids.has(required), "missing retained decision: " + required, failures)
 	for key in [
@@ -452,6 +453,8 @@ static func _validate_evidence_files(program: Dictionary, failures: Array[String
 		"cpu_production_release_evidence",
 		"cpu_finalization_standard",
 		"cpu_finalization_evidence",
+		"cpu_production_closure_standard",
+		"cpu_production_closure_evidence",
 		"wave_02_first_batch_evidence",
 		"wave_02_second_batch_evidence",
 		"execution_plan",
@@ -539,6 +542,20 @@ static func _validate_execution_plan(
 		"execution plan recommended_next differs from the first incomplete active step",
 		failures
 	)
+	var required_preconditions := [
+		"CPU_FINALIZATION_PRECONDITION",
+		"CPU_PRODUCTION_CLOSURE_PRECONDITION",
+	]
+	_expect(
+		plan.get("completed_preconditions", []) == required_preconditions,
+		"execution plan completed CPU preconditions are missing or out of order",
+		failures
+	)
+	_expect(
+		active_wave.get("entry_conditions", []) == required_preconditions,
+		"active GPU wave CPU entry conditions are missing or out of order",
+		failures
+	)
 
 
 static func _validate_qualification_state(
@@ -606,6 +623,16 @@ static func _validate_qualification_state(
 			and (cpu_finalization.get("blocks", []) as Array).is_empty()
 			and cpu_finalization.get("admits", []) == ["TQP-58"],
 		"CPU finalization precondition state is inconsistent",
+		failures
+	)
+	var cpu_production_closure: Dictionary = preconditions.get(
+		"CPU_PRODUCTION_CLOSURE_PRECONDITION", {}
+	)
+	_expect(
+		str(cpu_production_closure.get("status", "")) == "qualified"
+			and (cpu_production_closure.get("blocks", []) as Array).is_empty()
+			and cpu_production_closure.get("admits", []) == ["TQP-58"],
+		"CPU production closure precondition state is inconsistent",
 		failures
 	)
 	var retained_path := str(state.get("retained_report", ""))
@@ -2612,6 +2639,271 @@ static func _validate_cpu_finalization(
 		str(gpu_eligibility.get("status", ""))
 			== ("ELIGIBLE_TQP58_SPECIFIED" if eligible else "BLOCKED_CPU_FINALIZATION_INCOMPLETE"),
 		"backend architecture eligibility differs from CPU finalization readiness",
+		failures
+	)
+
+
+static func _validate_cpu_production_closure(
+	program: Dictionary,
+	milestone_by_id: Dictionary,
+	failures: Array[String]
+) -> void:
+	var standard := JsonLoader.load_dictionary(
+		str(program.get("cpu_production_closure_standard", ""))
+	)
+	var evidence := JsonLoader.load_dictionary(
+		str(program.get("cpu_production_closure_evidence", ""))
+	)
+	_expect(
+		str(standard.get("schema", ""))
+			== "world_transvoxel.terrain_lab.cpu_production_closure_standard.v1",
+		"CPU production closure standard schema mismatch",
+		failures
+	)
+	_expect(
+		str(evidence.get("schema", ""))
+			== "world_transvoxel.terrain_lab.cpu_production_closure_evidence.v1",
+		"CPU production closure evidence schema mismatch",
+		failures
+	)
+	_expect(
+		str(standard.get("precondition", "")) == "CPU_PRODUCTION_CLOSURE_PRECONDITION"
+			and str(evidence.get("precondition", "")) == "CPU_PRODUCTION_CLOSURE_PRECONDITION",
+		"CPU production closure precondition identifier changed",
+		failures
+	)
+	var admission: Dictionary = standard.get("admission", {})
+	_expect(
+		str(standard.get("status", "")) == "qualified"
+			and admission.get("admits", []) == ["TQP-58"]
+			and bool(admission.get("does_not_select_gpu_architecture", false))
+			and bool(admission.get("does_not_claim_public_asset_library_acceptance", false)),
+		"CPU production closure admission boundary changed",
+		failures
+	)
+	var expected_order := [
+		"TQP-R01_CONSTRUCTION_MATERIAL_OWNERSHIP",
+		"TQP-R02_TEMPORAL_STREAMING_CONTINUITY",
+		"TQP-R03_GLOBAL_COARSE_COVERAGE_LOCAL_REFINEMENT",
+		"TQP-R04_CACHE_PREFETCH_TARGETED_COLLISION_READINESS",
+		"TQP-R05_BOUNDED_CPU_PRODUCTION_BASELINE",
+		"TQP-R06_SELF_CONTAINED_GODOT_4_7_RELEASE_BUNDLE",
+	]
+	_expect(
+		standard.get("execution_order", []) == expected_order,
+		"CPU production closure order changed",
+		failures
+	)
+	var subgate_ids: Array[String] = []
+	for subgate_value in evidence.get("subgates", []):
+		var subgate: Dictionary = subgate_value
+		subgate_ids.append(str(subgate.get("id", "")))
+		_expect(
+			str(subgate.get("status", "")) == "PASS",
+			"CPU production closure subgate did not pass: " + str(subgate.get("id", "")),
+			failures
+		)
+	_expect(
+		subgate_ids == ["TQP-R01", "TQP-R02", "TQP-R03", "TQP-R04", "TQP-R05", "TQP-R06"],
+		"CPU production closure evidence order changed",
+		failures
+	)
+	var authority_policy: Dictionary = standard.get("authority_policy", {})
+	_expect(
+		str(authority_policy.get("terrain_authority", "")) == "world-transvoxel"
+			and not bool(authority_policy.get("fallback_mesher", true))
+			and not bool(authority_policy.get("fallback_field", true))
+			and int(authority_policy.get("maximum_logical_cpu_count", -1)) == 3
+			and int(authority_policy.get("native_build_jobs", -1)) == 3
+			and str(authority_policy.get("engine", "")) == "4.7",
+		"CPU production closure authority boundary changed",
+		failures
+	)
+	var affinity: Array = evidence.get("logical_cpu_affinity", [])
+	_expect(
+		affinity.size() == 3
+			and int(affinity[0]) == 0
+			and int(affinity[1]) == 1
+			and int(affinity[2]) == 2
+			and int(evidence.get("native_build_jobs", -1)) == 3,
+		"CPU production closure three-logical-CPU boundary changed",
+		failures
+	)
+	_expect(
+		str(evidence.get("authority_revision", ""))
+			== "d73fd37211797b043797d072020a48a2eaed7383"
+			and str(evidence.get("terrain_implementation_revision", ""))
+				== "81cb3302b134098786aa988d0a69f8c7353ec4cb"
+			and str(evidence.get("terrain_evidence_revision", ""))
+				== "50c8759d18f0880231cbbb88294cad2b90bc4efe",
+		"CPU production closure revisions changed",
+		failures
+	)
+	var acceptance: Dictionary = standard.get("acceptance", {})
+	var measurements: Dictionary = evidence.get("measurements", {})
+	var volume_cells: Array = acceptance.get("volume_cells", [])
+	_expect(
+		volume_cells.size() == 3
+			and int(volume_cells[0]) == 2048
+			and int(volume_cells[1]) == 256
+			and int(volume_cells[2]) == 2048,
+		"CPU production closure volume changed",
+		failures
+	)
+	_expect(
+		int(measurements.get("broad_scenarios", 0)) == 9
+			and int(measurements.get("catalog_pages", 0)) == 299520,
+		"CPU production closure broad terrain dimensions changed",
+		failures
+	)
+	var lod_counts: Dictionary = measurements.get("observed_lod_counts", {})
+	var all_lods_observed := true
+	for lod in range(4):
+		all_lods_observed = all_lods_observed and int(lod_counts.get(str(lod), 0)) > 0
+	_expect(all_lods_observed, "CPU production closure did not observe LOD0 through LOD3", failures)
+	_expect(
+		int(measurements.get("global_coarse_roots", -1))
+			== int(acceptance.get("global_coarse_roots", -2))
+			and int(measurements.get("lod0_equivalent_coverage_cells", -1))
+				== int(acceptance.get("lod0_equivalent_coverage_cells", -2)),
+		"CPU production closure global coverage changed",
+		failures
+	)
+	_expect(
+		int(measurements.get("coarse_ready_latency_usec", 0))
+			<= int(acceptance.get("maximum_coarse_ready_latency_usec", -1))
+			and int(measurements.get("coverage_overlaps", -1))
+				<= int(acceptance.get("maximum_coverage_overlaps", -1))
+			and int(measurements.get("generation_errors", -1))
+				<= int(acceptance.get("maximum_generation_mismatches", -1))
+			and int(measurements.get("broad_topology_failures", -1))
+				<= int(acceptance.get("maximum_topology_failures", -1)),
+		"CPU production closure broad terrain acceptance regressed",
+		failures
+	)
+	_expect(
+		int(measurements.get("frame_samples", 0)) >= int(acceptance.get("minimum_frame_samples", 0))
+			and int(measurements.get("scenario_p99_ceiling_usec", 0))
+				<= int(acceptance.get("maximum_scenario_p99_usec", -1))
+			and int(measurements.get("worst_frame_usec", 0))
+				<= int(acceptance.get("maximum_worst_frame_usec", -1)),
+		"CPU production closure frame baseline is outside its acceptance envelope",
+		failures
+	)
+	_expect(
+		is_zero_approx(float(measurements.get("stutter_fraction_over_100ms", -1.0)))
+			and float(measurements.get("average_cpu_cores", 4.0)) <= 3.0,
+		"CPU production closure stutter or CPU-capacity boundary regressed",
+		failures
+	)
+	_expect(
+		int(measurements.get("repainted_existing_solid_samples", -1)) == 0
+			and int(measurements.get("temporal_overlaps", -1)) == 0
+			and int(measurements.get("temporal_topology_failures", -1)) == 0
+			and int(measurements.get("arrival_storage_requests", -1)) == 0
+			and int(measurements.get("arrival_mesh_jobs", -1)) == 0,
+		"CPU production closure correctness or readiness regression",
+		failures
+	)
+	_expect(
+		int(measurements.get("dig_visual_latency_usec", 0))
+			<= int(acceptance.get("maximum_edit_visual_latency_usec", -1))
+			and int(measurements.get("construct_visual_latency_usec", 0))
+				<= int(acceptance.get("maximum_edit_visual_latency_usec", -1))
+			and int(measurements.get("dig_collision_latency_usec", 0))
+				<= int(acceptance.get("maximum_edit_collision_latency_usec", -1))
+			and int(measurements.get("construct_collision_latency_usec", 0))
+				<= int(acceptance.get("maximum_edit_collision_latency_usec", -1)),
+		"CPU production closure edit latency regressed",
+		failures
+	)
+	_expect(
+		int(measurements.get("temporal_monitored_frames", 0))
+			>= int(acceptance.get("minimum_temporal_monitored_frames", 0))
+			and int(measurements.get("temporal_topology_samples", 0))
+				>= int(acceptance.get("minimum_temporal_topology_samples", 0))
+			and int(measurements.get("prefetched_visual_lod0_chunks", 0))
+				>= int(acceptance.get("minimum_prefetched_visual_lod0_chunks", 0))
+			and int(measurements.get("arrival_collision_latency_usec", 0))
+				<= int(acceptance.get("maximum_prefetched_arrival_collision_latency_usec", -1)),
+		"CPU production closure temporal or prefetch readiness regressed",
+		failures
+	)
+	var release_bundle: Dictionary = evidence.get("release_bundle", {})
+	_expect(
+		str(release_bundle.get("version", "")) == "1.1.0-rc1"
+			and bool(release_bundle.get("self_contained", false))
+			and str(release_bundle.get("clean_install_smoke", "")) == "PASS"
+			and str(release_bundle.get("authority_version", "")) == "1.0.16-dev"
+			and str(release_bundle.get("backend", "")) == "transvoxel_mit_official"
+			and not bool(release_bundle.get("fallback", true))
+			and int(release_bundle.get("files", 0)) == int(measurements.get("bundle_files", -1))
+			and int(release_bundle.get("bytes", 0)) == int(measurements.get("bundle_bytes", -1))
+			and str(release_bundle.get("sha256", ""))
+				== "8dc0482fe55b3765ed0bdf376141af2cf6d6f07ff78e855942a731b4d4250f57",
+		"CPU production closure release bundle evidence changed",
+		failures
+	)
+	var retained_sources: Array = evidence.get("retained_sources", [])
+	_expect(retained_sources.size() == 6, "CPU production closure retained source count changed", failures)
+	var expected_source_paths := [
+		"artifacts/tqp57_large_terrain_acceptance/tqp57_large_terrain_acceptance_report.json",
+		"artifacts/cpu_temporal_continuity/cpu_temporal_continuity_report.json",
+		"artifacts/cpu_prefetch_readiness/cpu_prefetch_readiness_report.json",
+		"artifacts/cpu_production_closure/cpu_production_closure_report.json",
+		"artifacts/cpu_release_bundle/cpu_release_bundle_report.json",
+		"artifacts/cpu_release_bundle/world-transvoxel-terrain-cpu-1.1.0-rc1.zip",
+	]
+	var expected_source_digests := [
+		"b936fd3557ba9a95d516b2816accab20c82be339054dfde4574e4e6fd0a79963",
+		"3aa03c9347ed915b55aa992eae53ed3c71358d49479785f087fb70e8554e3ee7",
+		"c9cc67f42eee272e881c31b0d9a6a9bce99798535a566121c535f958033cb2cc",
+		"a0bf52cb134bf0a7ed348538bc777a34bd2e7a5f5e6e6afd4a6dad0e0c81aa31",
+		"071c19991c6c6116688f5ada25a42d511e462672188a070bb197befaabf900b0",
+		"8dc0482fe55b3765ed0bdf376141af2cf6d6f07ff78e855942a731b4d4250f57",
+	]
+	for index in range(min(retained_sources.size(), expected_source_paths.size())):
+		var retained_value = retained_sources[index]
+		var retained: Dictionary = retained_value
+		_expect(
+			str(retained.get("repository", "")) == "world-transvoxel-terrain"
+				and str(retained.get("path", "")) == expected_source_paths[index]
+				and str(retained.get("sha256", "")) == expected_source_digests[index],
+			"CPU production closure retained source is invalid",
+			failures
+		)
+	_expect(
+		str(evidence.get("status", "")) == "PASS"
+			and bool(evidence.get("retained_complete", false))
+			and bool(evidence.get("tqp58_eligible", false))
+			and (evidence.get("consistency_failures", []) as Array).is_empty(),
+		"CPU production closure is not eligible",
+		failures
+	)
+	var power: Dictionary = evidence.get("power", {})
+	_expect(
+		str(power.get("status", "")) == "UNQUALIFIED_NO_TRUSTED_ENERGY_PROVIDER"
+			and power.get("cpu_package_watts") == null
+			and power.get("whole_system_watts") == null
+			and power.get("gpu_board_watts") == null,
+		"CPU production closure power claim boundary changed",
+		failures
+	)
+	var tqp58: Dictionary = milestone_by_id.get("TQP-58", {})
+	_expect(
+		tqp58.get("entry_conditions", [])
+			== ["CPU_FINALIZATION_PRECONDITION", "CPU_PRODUCTION_CLOSURE_PRECONDITION"],
+		"TQP-58 CPU production closure entry condition is missing",
+		failures
+	)
+	var backend_decision := JsonLoader.load_dictionary(str(program.get("backend_decision", "")))
+	var gpu_eligibility: Dictionary = backend_decision.get(
+		"gpu_architecture_decision_eligibility", {}
+	)
+	_expect(
+		gpu_eligibility.get("required_preconditions", [])
+			== ["CPU_FINALIZATION_PRECONDITION", "CPU_PRODUCTION_CLOSURE_PRECONDITION"],
+		"backend architecture decision is missing the CPU production closure",
 		failures
 	)
 
