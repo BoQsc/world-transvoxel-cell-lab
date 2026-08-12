@@ -1,0 +1,38 @@
+{
+  "schema": "world_transvoxel.terrain_lab.cpu_human_baseline_trace_standard.v1",
+  "precondition": "CPU_HUMAN_BASELINE_TRACE_PRECONDITION",
+  "applies_before": "TQP-58",
+  "logical_cpu_affinity": [0, 1, 2],
+  "fallback_allowed": false,
+  "ordered_steps": [
+    {
+      "id": "CPU-B1",
+      "title": "Post-Correction Authoritative Human Baseline",
+      "complete_when": "three complete reviewed-integration runs retain flight frame behavior, movement blocking, relocation-first-edit latency, queues, process CPU, memory, exact pins, and target misses without changing terrain behavior"
+    },
+    {
+      "id": "CPU-B2",
+      "title": "Real-Time Causal Terrain Pipeline Trace",
+      "complete_when": "input, movement, demand, storage, sampling, meshing, transition work, staging, render publication, collision publication, queue state, worker activity, main-thread time, and freeze intervals share causal identifiers and a bounded rolling trace with measured overhead"
+    },
+    {
+      "id": "CPU-B3",
+      "title": "Cautious Remediation And Exhaustion Review",
+      "complete_when": "only trace-proven bottlenecks receive one-variable standard remedies, each with A/B baseline comparison and full correctness plus human regression, followed by an independent CPU exhaustion and GPU-eligibility decision"
+    }
+  ],
+  "promotion_rules": [
+    "CPU-B1 must retain measured misses rather than require an artificial pass",
+    "CPU-B2 is observation-only and must measure its own overhead",
+    "CPU-B3 cannot start from queue sizes or aggregate timing alone; causal attribution is mandatory",
+    "each remediation changes one causal factor and preserves the retained correctness authority",
+    "TQP-58 remains blocked until CPU-B1, CPU-B2, and CPU-B3 pass in order"
+  ],
+  "forbidden_shortcuts": [
+    "scheduler reshuffling without causal trace evidence",
+    "increasing workers beyond the three-logical-CPU host boundary",
+    "weakening readiness, collision, topology, LOD, persistence, or publication correctness",
+    "selecting GPU acceleration solely because the CPU target is missed",
+    "using averages or screenshots as substitutes for event-order evidence"
+  ]
+}

@@ -1,8 +1,9 @@
 {
 	"schema": "world_transvoxel.terrain_lab.program_blockers.v1",
-	"as_of": "2026-08-09",
+	"as_of": "2026-08-12",
 	"policy": "blocked milestones remain unqualified and fail closed",
 	"blockers": [
+		{"milestone": "TQP-58", "code": "CPU_CAUSAL_ATTRIBUTION_INCOMPLETE", "owner": "Terrain Systems Lab and Integration game", "exit": "CPU-B2 captures real-time causal traces for flight stutter and delayed first edit, then CPU-B3 completes careful one-variable remediation and an independent exhaustion review"},
 		{"milestone": "TQP-59", "code": "GPU_FIELD_BACKEND_ABSENT", "owner": "Backend Qualification Lab", "exit": "the CPU Finalization Precondition and TQP-58 pass and a candidate GPU field evaluator is available for analytical and differential testing"},
 		{"milestone": "TQP-60", "code": "GPU_MESHER_ABSENT", "owner": "Backend Qualification Lab", "exit": "candidate GPU regular, transition, and assembled adaptive terrain mesher exists"},
 		{"milestone": "TQP-61", "code": "GPU_DIFFERENTIAL_TARGET_ABSENT", "owner": "Backend Qualification Lab", "exit": "TQP-60 candidate can execute the shared primitive and Gate E terrain corpus"},

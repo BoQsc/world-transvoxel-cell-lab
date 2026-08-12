@@ -181,8 +181,14 @@ human review in addition to automated checks.
   material ownership, temporal continuity, global coarse coverage, local
   refinement, prefetch and targeted collision readiness, bounded performance,
   and a self-contained Godot 4.7 release candidate in that order.
+- CPU Human Baseline And Trace Precondition: after the two retained CPU
+  closures and before TQP-58, `CPU-B1` must freeze the reviewed integration
+  behavior, `CPU-B2` must provide a real-time causal terrain-pipeline trace,
+  and `CPU-B3` must permit only trace-proven one-variable remediation followed
+  by an independent exhaustion review. A target miss does not itself select a
+  GPU architecture.
 - Gate G: the GPU production backend release requires `TQP-58` through
-  `TQP-64` after the CPU release and both CPU preconditions; CPU authority
+  `TQP-64` after the CPU release and all three CPU preconditions; CPU authority
   remains the differential reference unless a later reviewed decision changes
   it.
 - Gate H: optional post-release game systems occupy `TQP-65` through `TQP-71`.
@@ -196,7 +202,7 @@ promotion order: investigation may happen early, but qualification cannot skip
 an earlier dependency.
 
 The machine-readable `execution_plan.json` mirrors the same order but is not a
-second human roadmap. Program revision 46 preserves every qualified TQP-01
+second human roadmap. Program revision 47 preserves every qualified TQP-01
 through TQP-47 claim, keeps the ordered CPU/GPU release sequence from
 `TQP-D033`, corrects TQP-48's inherited low-power target through
 `TQP-D036`, and closes Gate E for the bounded CPU authority envelope through
@@ -208,7 +214,9 @@ committed-tree assembled large-terrain evidence through `TQP-D042`, blocks
 TQP-58 behind ordered CPU finalization through `TQP-D043`, and qualifies that
 precondition under a three-logical-CPU ceiling through `TQP-D044` without
 selecting a GPU architecture, then closes six discovered production-terrain
-gaps through `TQP-D045` before allowing TQP-58 to proceed.
+gaps through `TQP-D045`, then retains the corrected human-equivalent CPU
+baseline and blocks TQP-58 behind causal tracing and careful remediation
+through `TQP-D046`.
 Earlier identifier migrations remain retained in `TQP-D006`, `TQP-D017`, and
 `TQP-D030` as history.
 
@@ -1433,25 +1441,66 @@ closure, clean-install report, and release ZIP evidence. The closure reports
 `PASS`, `retained_complete=true`, `tqp58_eligible=true`, and no consistency
 failures.
 
+### CPU Human Baseline And Trace Precondition Before TQP-58
+
+Status: `in progress`. Authority:
+`cpu_human_baseline_trace_standard.json` and
+`cpu_human_baseline_trace_readiness_windows.json`.
+
+This ordered precondition supersedes immediate TQP-58 advancement without
+revoking the older CPU Finalization or CPU Production Closure evidence. Those
+reports remain valid for their pinned implementations, but they do not measure
+the reviewed exact-mask integration state retained on 2026-08-12.
+
+1. `CPU-B1: Post-Correction Authoritative Human Baseline` is `PASS`. Three
+   complete Godot 4.7 editor/debug g23 runs under logical CPUs `[0, 1, 2]`
+   retain the reviewed integration and authority identity. The result is
+   `MEASURED_TARGET_MISS`, which is valid baseline evidence rather than a
+   correctness failure.
+2. `CPU-B2: Real-Time Causal Terrain Pipeline Trace` is `NEXT`. It must connect
+   input and movement through demand, storage, sampling, meshing, transition
+   work, staging, render publication, collision publication, queue state,
+   worker activity, main-thread time, and freeze intervals. It must retain a
+   bounded rolling trace, causal identifiers, human marker capture, and measured
+   instrumentation overhead.
+3. `CPU-B3: Cautious Remediation And Exhaustion Review` is `BLOCKED`. It may
+   change only trace-proven bottlenecks, one causal factor at a time, with A/B
+   comparison against CPU-B1 plus complete correctness and human regressions.
+
+CPU-B1 records full-route frame p99 median `23.162 ms`, full-route worst frame
+maximum `100.428 ms`, movement-phase worst frame `40.329 ms`, and one
+30-frame consecutive movement block. Authority commit latency is only
+`33.330-66.661 ms`, while relocation to exact render and collision readiness
+is `14532.785 ms`, `316.719 ms`, and `13206.199 ms`; median exact readiness is
+`13206.199 ms`. Scheduler queue maxima are `762`, `723`, and `795`, and pending
+replacement maxima are `757`, `723`, and `799`.
+
+These measurements narrow the delayed-edit symptom to work after authority
+commit, but they do not attribute its cause. Storage, sampling, meshing,
+scheduling, staging, render publication, collision publication, and main-thread
+contention remain unresolved alternatives until CPU-B2. CPU-package and
+whole-system watts remain unqualified.
+
 ## Phase 6: GPU Backend Qualification And Release
 
 This phase starts only after the CPU production release, CPU Finalization
-Precondition, and CPU Production Closure Precondition. It evaluates GPU
+Precondition, CPU Production Closure Precondition, and CPU Human Baseline And
+Trace Precondition. It evaluates GPU
 acceleration against the same field, primitive, terrain, latency, power, and
 release contracts without replacing CPU authority by assumption.
 
 Execution order: TQP-58 -> TQP-59 -> TQP-60 -> TQP-61 -> TQP-62 -> TQP-63 ->
 TQP-64.
 
-Both CPU preconditions report `PASS`, `retained_complete=true`,
-`tqp58_eligible=true`, and no consistency failures. TQP-58 is therefore
-specified and eligible to execute. This does not select a GPU architecture or
-qualify any GPU implementation.
+The first two CPU preconditions remain qualified. CPU-B1 is retained, CPU-B2 is
+next, and CPU-B3 is blocked. TQP-58 is therefore blocked. This does not select a
+GPU architecture or qualify any GPU implementation.
 
 ### TQP-58: GPU Architecture Decision
 
-Status: `specified`. Owner: Backend Qualification Lab. Depends on: Gate F, the
-CPU Finalization Precondition, and the CPU Production Closure Precondition.
+Status: `blocked`. Owner: Backend Qualification Lab. Depends on: Gate F, the
+CPU Finalization Precondition, CPU Production Closure Precondition, and CPU
+Human Baseline And Trace Precondition.
 
 Complete when field evaluation, meshing, buffer residency, rendering,
 collision readback, synchronization, target APIs, and expected benefit are
@@ -1619,19 +1668,18 @@ The program records every milestone at a truthful evidence state:
   coverage, observed LOD0 through LOD3, prefetch and targeted collision
   readiness, bounded performance telemetry, and a clean self-contained Godot
   4.7 bundle.
-- `TQP-58` is specified after both CPU preconditions pass; `TQP-59` through
-  `TQP-64` remain blocked.
+- `CPU-B1` retains the reviewed post-correction baseline, `CPU-B2` is next,
+  `CPU-B3` is blocked, and `TQP-58` through `TQP-64` remain blocked.
 - `TQP-65` through `TQP-70` retain the previously implemented but unqualified
   destruction and structural reference behavior under revision-34 identifiers.
 - `TQP-71` networking remains blocked by a missing multiplayer authority model.
 
-The next work is TQP-58, GPU Architecture Decision. It must compare separate
-field, meshing, residency, rendering, collision-readback, synchronization, API,
-and expected-benefit choices against the retained corrected CPU baseline. The
-CPU release candidate remains the differential correctness authority, the
-performance and power claim boundaries remain visible, and GPU or game-system
-behavior remains outside the qualified claim. A milestone may advance only
-when its declared evidence and entry conditions pass.
+The next work is CPU-B2, Real-Time Causal Terrain Pipeline Trace. It must explain
+flight stutter and delayed first edit after relocation in event order before
+any scheduler, queue, storage, meshing, publication, collision, or GPU change.
+CPU-B3 and TQP-58 remain blocked. The CPU release candidate remains the
+differential correctness authority, and a milestone may advance only when its
+declared evidence and entry conditions pass.
 
 ## What Comes Next
 
@@ -1676,8 +1724,10 @@ TQP-51 through TQP-57 then create, integrate, certify, and release the separate
 standalone CPU production addon. CPU-C1 through CPU-C3 now attribute and
 finalize the CPU architecture under the retained three-logical-CPU boundary;
 TQP-R01 through TQP-R06 close the discovered current production-terrain gaps.
-TQP-58 is next; TQP-58 through TQP-64 evaluate and release GPU acceleration
-without revoking CPU authority. TQP-65 through TQP-71 keep
+CPU-B1 retains the reviewed human-equivalent target miss, CPU-B2 is the next
+causal-trace milestone, and CPU-B3 permits only careful trace-proven changes.
+Only after they pass may TQP-58 through TQP-64 evaluate and release GPU
+acceleration without revoking CPU authority. TQP-65 through TQP-71 keep
 explosions, support, fluids, vegetation, authored structures, collapse, and
 networking out of the critical terrain-standardization path. This order makes
 the release target explicit while preventing game systems or experimental GPU
@@ -1866,3 +1916,7 @@ Retained decisions:
   and allow TQP-58 only after both CPU preconditions pass. The release candidate
   is self-contained but is not claimed as submitted to or accepted by the Godot
   Asset Library.
+- `TQP-D046`: retain the reviewed post-correction CPU human baseline as CPU-B1,
+  make CPU-B2 real-time causal terrain-pipeline tracing the next work, block
+  CPU-B3 remediation until attribution exists, and block TQP-58 until all three
+  steps pass without weakening CPU correctness authority.

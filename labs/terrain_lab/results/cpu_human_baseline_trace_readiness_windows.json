@@ -1,0 +1,57 @@
+{
+  "schema": "world_transvoxel.terrain_lab.cpu_human_baseline_trace_readiness.v1",
+  "precondition": "CPU_HUMAN_BASELINE_TRACE_PRECONDITION",
+  "status": "IN_PROGRESS",
+  "retained_complete": false,
+  "tqp58_eligible": false,
+  "as_of": "2026-08-12",
+  "logical_cpu_affinity": [0, 1, 2],
+  "steps": [
+    {
+      "id": "CPU-B1",
+      "status": "PASS",
+      "source_repository": "world-transvoxel-integration-game",
+      "evidence_commit": "32adc3164b4bbd7b2b13b0fccbfefadd980231d1",
+      "measurement_commit": "413eaa5c9c612bd0ee3bf939b233723d9d2a8080",
+      "authority_commit": "f30818b9ce0f0b3f9ddb75726db5522d97167404",
+      "evidence_path": "docs/evidence/authoritative_cpu_human_baseline_20260812/baseline.json",
+      "evidence_sha256": "5f2552537503237572268565f98fd2f7683a6e2ef8097497a1867d0c51fdc34f",
+      "result": "MEASURED_TARGET_MISS"
+    },
+    {
+      "id": "CPU-B2",
+      "status": "NEXT",
+      "result": "UNRESOLVED_REQUIRES_REAL_TIME_PIPELINE_TRACE"
+    },
+    {
+      "id": "CPU-B3",
+      "status": "BLOCKED",
+      "blocked_by": "CPU-B2"
+    }
+  ],
+  "baseline": {
+    "runtime": "Godot 4.7.1 editor/debug Forward+ Vulkan",
+    "profile": "g23_four_biomes_lakes_mountains_roads_2k_256_on_demand",
+    "runs": 3,
+    "full_route_frame_p99_median_ms": 23.162,
+    "full_route_worst_frame_maximum_ms": 100.428,
+    "movement_phase_worst_frame_maximum_ms": 40.329,
+    "blocked_movement_frames": [8, 52, 11],
+    "maximum_consecutive_blocked_frames": [4, 30, 6],
+    "authority_commit_ms": [49.914, 66.661, 33.33],
+    "relocation_to_exact_visual_ready_ms": [14532.785, 316.719, 13206.199],
+    "relocation_to_exact_collision_ready_ms": [14532.785, 316.719, 13206.199],
+    "maximum_scheduler_queued_jobs": [762, 723, 795],
+    "maximum_pending_chunk_replacements": [757, 723, 799],
+    "average_active_cores_median": 1.3926788411,
+    "peak_process_tree_rss_bytes_maximum": 869793792
+  },
+  "interpretation": {
+    "correctness": "retained separately and not revoked by this performance miss",
+    "first_edit": "authority commit is comparatively short; highly variable delay follows commit before exact render and collision publication",
+    "flight": "intermittent movement blocking and movement-phase hitches are reproduced",
+    "root_cause": "not attributed by aggregate measurements",
+    "power": "unqualified because no trusted watt sensor was available"
+  },
+  "consistency_failures": []
+}

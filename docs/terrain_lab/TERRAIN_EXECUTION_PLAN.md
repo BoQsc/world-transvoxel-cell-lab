@@ -12,10 +12,12 @@ machine-readable mirror used to reject missing milestones, duplicates,
 backward dependencies, incorrect wave state, and an invalid recommended-next
 item. It must not introduce work or ordering absent from the TQP.
 
-CPU-C1, CPU-C2, and CPU-C3 are qualified under the retained three-logical-CPU
-boundary. The current action is TQP-58, GPU Architecture Decision. TQP-58 is
-specified, not qualified: execute its measured decision contract without
-assuming that a GPU backend must be selected or promoted.
+CPU-C1 through CPU-C3 and TQP-R01 through TQP-R06 remain qualified under the
+retained three-logical-CPU boundary. CPU-B1 now retains the reviewed
+post-correction human baseline. The current action is CPU-B2, Real-Time Causal
+Terrain Pipeline Trace. CPU-B3 and TQP-58 are blocked; do not modify scheduling
+or select a GPU architecture until the trace explains the measured delays and
+movement stalls.
 
 Validate the mirror with:
 

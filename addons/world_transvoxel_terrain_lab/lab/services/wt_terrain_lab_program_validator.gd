@@ -229,6 +229,7 @@ static func validate(program: Dictionary, dependencies: Dictionary) -> Dictionar
 	_validate_cpu_production_release(program, milestone_by_id, failures)
 	_validate_cpu_finalization(program, milestone_by_id, failures)
 	_validate_cpu_production_closure(program, milestone_by_id, failures)
+	_validate_cpu_human_baseline_trace(program, milestone_by_id, failures)
 	_validate_low_power_performance_profile(program, failures)
 	_validate_visual_evidence(program, milestone_by_id, failures)
 	_validate_dependency_boundary(program, dependencies, failures)
@@ -373,6 +374,7 @@ static func _validate_evidence_files(program: Dictionary, failures: Array[String
 		"TQP-D031", "TQP-D032", "TQP-D033", "TQP-D034", "TQP-D035",
 		"TQP-D036", "TQP-D037", "TQP-D038", "TQP-D039", "TQP-D040",
 		"TQP-D041", "TQP-D042", "TQP-D043", "TQP-D044", "TQP-D045",
+		"TQP-D046",
 	]:
 		_expect(decision_ids.has(required), "missing retained decision: " + required, failures)
 	for key in [
@@ -455,6 +457,8 @@ static func _validate_evidence_files(program: Dictionary, failures: Array[String
 		"cpu_finalization_evidence",
 		"cpu_production_closure_standard",
 		"cpu_production_closure_evidence",
+		"cpu_human_baseline_trace_standard",
+		"cpu_human_baseline_trace_evidence",
 		"wave_02_first_batch_evidence",
 		"wave_02_second_batch_evidence",
 		"execution_plan",
@@ -537,6 +541,16 @@ static func _validate_execution_plan(
 				expected_next.append(str(milestone_value))
 		if not expected_next.is_empty():
 			break
+	var cpu_human_trace := JsonLoader.load_dictionary(
+		str(program.get("cpu_human_baseline_trace_evidence", ""))
+	)
+	var cpu_human_eligible := (
+		str(cpu_human_trace.get("status", "")) == "PASS"
+		and bool(cpu_human_trace.get("retained_complete", false))
+		and bool(cpu_human_trace.get("tqp58_eligible", false))
+	)
+	if not cpu_human_eligible:
+		expected_next = []
 	_expect(
 		plan.get("recommended_next", []) == expected_next,
 		"execution plan recommended_next differs from the first incomplete active step",
@@ -545,10 +559,22 @@ static func _validate_execution_plan(
 	var required_preconditions := [
 		"CPU_FINALIZATION_PRECONDITION",
 		"CPU_PRODUCTION_CLOSURE_PRECONDITION",
+		"CPU_HUMAN_BASELINE_TRACE_PRECONDITION",
 	]
 	_expect(
-		plan.get("completed_preconditions", []) == required_preconditions,
+		plan.get("completed_preconditions", [])
+			== required_preconditions.slice(0, 2),
 		"execution plan completed CPU preconditions are missing or out of order",
+		failures
+	)
+	_expect(
+		plan.get("completed_precondition_steps", []) == ["CPU-B1"],
+		"execution plan completed CPU human steps are missing or out of order",
+		failures
+	)
+	_expect(
+		plan.get("recommended_precondition_steps", []) == ["CPU-B2", "CPU-B3"],
+		"execution plan CPU human next steps are missing or out of order",
 		failures
 	)
 	_expect(
@@ -633,6 +659,16 @@ static func _validate_qualification_state(
 			and (cpu_production_closure.get("blocks", []) as Array).is_empty()
 			and cpu_production_closure.get("admits", []) == ["TQP-58"],
 		"CPU production closure precondition state is inconsistent",
+		failures
+	)
+	var cpu_human_trace: Dictionary = preconditions.get(
+		"CPU_HUMAN_BASELINE_TRACE_PRECONDITION", {}
+	)
+	_expect(
+		str(cpu_human_trace.get("status", "")) == "in_progress"
+			and cpu_human_trace.get("blocks", []) == ["TQP-58"]
+			and (cpu_human_trace.get("admits", []) as Array).is_empty(),
+		"CPU human baseline/trace precondition state is inconsistent",
 		failures
 	)
 	var retained_path := str(state.get("retained_report", ""))
@@ -2622,23 +2658,10 @@ static func _validate_cpu_finalization(
 		and bool(evidence.get("tqp58_eligible", false))
 	)
 	var tqp58: Dictionary = milestone_by_id.get("TQP-58", {})
-	_expect(
-		str(tqp58.get("status", "")) == ("specified" if eligible else "blocked"),
-		"TQP-58 status differs from CPU finalization readiness",
-		failures
-	)
+	_expect(eligible, "CPU finalization readiness is no longer eligible", failures)
 	_expect(
 		"CPU_FINALIZATION_PRECONDITION" in tqp58.get("entry_conditions", []),
 		"TQP-58 CPU finalization entry condition is missing",
-		failures
-	)
-	var gpu_eligibility: Dictionary = backend_decision.get(
-		"gpu_architecture_decision_eligibility", {}
-	)
-	_expect(
-		str(gpu_eligibility.get("status", ""))
-			== ("ELIGIBLE_TQP58_SPECIFIED" if eligible else "BLOCKED_CPU_FINALIZATION_INCOMPLETE"),
-		"backend architecture eligibility differs from CPU finalization readiness",
 		failures
 	)
 
@@ -2890,9 +2913,13 @@ static func _validate_cpu_production_closure(
 		failures
 	)
 	var tqp58: Dictionary = milestone_by_id.get("TQP-58", {})
+	var required_preconditions := [
+		"CPU_FINALIZATION_PRECONDITION",
+		"CPU_PRODUCTION_CLOSURE_PRECONDITION",
+		"CPU_HUMAN_BASELINE_TRACE_PRECONDITION",
+	]
 	_expect(
-		tqp58.get("entry_conditions", [])
-			== ["CPU_FINALIZATION_PRECONDITION", "CPU_PRODUCTION_CLOSURE_PRECONDITION"],
+		tqp58.get("entry_conditions", []) == required_preconditions,
 		"TQP-58 CPU production closure entry condition is missing",
 		failures
 	)
@@ -2901,9 +2928,112 @@ static func _validate_cpu_production_closure(
 		"gpu_architecture_decision_eligibility", {}
 	)
 	_expect(
-		gpu_eligibility.get("required_preconditions", [])
-			== ["CPU_FINALIZATION_PRECONDITION", "CPU_PRODUCTION_CLOSURE_PRECONDITION"],
+		gpu_eligibility.get("required_preconditions", []) == required_preconditions,
 		"backend architecture decision is missing the CPU production closure",
+		failures
+	)
+
+
+static func _validate_cpu_human_baseline_trace(
+	program: Dictionary,
+	milestone_by_id: Dictionary,
+	failures: Array[String]
+) -> void:
+	var standard := JsonLoader.load_dictionary(
+		str(program.get("cpu_human_baseline_trace_standard", ""))
+	)
+	var evidence := JsonLoader.load_dictionary(
+		str(program.get("cpu_human_baseline_trace_evidence", ""))
+	)
+	var standard_affinity: Array = standard.get("logical_cpu_affinity", [])
+	_expect(
+		str(standard.get("schema", ""))
+			== "world_transvoxel.terrain_lab.cpu_human_baseline_trace_standard.v1"
+			and str(standard.get("precondition", ""))
+				== "CPU_HUMAN_BASELINE_TRACE_PRECONDITION"
+			and str(standard.get("applies_before", "")) == "TQP-58"
+			and standard_affinity.size() == 3
+			and int(standard_affinity[0]) == 0
+			and int(standard_affinity[1]) == 1
+			and int(standard_affinity[2]) == 2
+			and not bool(standard.get("fallback_allowed", true)),
+		"CPU human baseline/trace standard changed",
+		failures
+	)
+	var ordered_ids: Array[String] = []
+	for step_value in standard.get("ordered_steps", []):
+		ordered_ids.append(str((step_value as Dictionary).get("id", "")))
+	_expect(
+		ordered_ids == ["CPU-B1", "CPU-B2", "CPU-B3"],
+		"CPU human baseline/trace order changed",
+		failures
+	)
+	var evidence_steps: Array = evidence.get("steps", [])
+	var step_states: Array[String] = []
+	for step_value in evidence_steps:
+		var step: Dictionary = step_value
+		step_states.append("%s:%s" % [str(step.get("id", "")), str(step.get("status", ""))])
+	var evidence_affinity: Array = evidence.get("logical_cpu_affinity", [])
+	_expect(
+		str(evidence.get("schema", ""))
+			== "world_transvoxel.terrain_lab.cpu_human_baseline_trace_readiness.v1"
+			and str(evidence.get("status", "")) == "IN_PROGRESS"
+			and not bool(evidence.get("retained_complete", true))
+			and not bool(evidence.get("tqp58_eligible", true))
+			and evidence_affinity.size() == 3
+			and int(evidence_affinity[0]) == 0
+			and int(evidence_affinity[1]) == 1
+			and int(evidence_affinity[2]) == 2
+			and (evidence.get("consistency_failures", []) as Array).is_empty()
+			and ",".join(step_states) == "CPU-B1:PASS,CPU-B2:NEXT,CPU-B3:BLOCKED",
+		"CPU human baseline/trace readiness changed",
+		failures
+	)
+	if not evidence_steps.is_empty():
+		var baseline_step: Dictionary = evidence_steps[0]
+		_expect(
+			str(baseline_step.get("evidence_commit", ""))
+				== "32adc3164b4bbd7b2b13b0fccbfefadd980231d1"
+				and str(baseline_step.get("measurement_commit", ""))
+					== "413eaa5c9c612bd0ee3bf939b233723d9d2a8080"
+				and str(baseline_step.get("authority_commit", ""))
+					== "f30818b9ce0f0b3f9ddb75726db5522d97167404"
+				and str(baseline_step.get("evidence_sha256", ""))
+					== "5f2552537503237572268565f98fd2f7683a6e2ef8097497a1867d0c51fdc34f"
+				and str(baseline_step.get("result", "")) == "MEASURED_TARGET_MISS",
+			"CPU-B1 evidence identity changed",
+			failures
+		)
+	var baseline: Dictionary = evidence.get("baseline", {})
+	var exact_ready: Array = baseline.get("relocation_to_exact_visual_ready_ms", [])
+	var blocked_frames: Array = baseline.get("maximum_consecutive_blocked_frames", [])
+	_expect(
+		int(baseline.get("runs", 0)) == 3
+			and exact_ready.size() == 3
+			and is_equal_approx(float(exact_ready[0]), 14532.785)
+			and is_equal_approx(float(exact_ready[1]), 316.719)
+			and is_equal_approx(float(exact_ready[2]), 13206.199)
+			and blocked_frames.size() == 3
+			and int(blocked_frames[0]) == 4
+			and int(blocked_frames[1]) == 30
+			and int(blocked_frames[2]) == 6,
+		"CPU-B1 retained measurements changed",
+		failures
+	)
+	var tqp58: Dictionary = milestone_by_id.get("TQP-58", {})
+	_expect(
+		str(tqp58.get("status", "")) == "blocked",
+		"TQP-58 must remain blocked before CPU-B2 and CPU-B3 pass",
+		failures
+	)
+	var backend_decision := JsonLoader.load_dictionary(str(program.get("backend_decision", "")))
+	var gpu_eligibility: Dictionary = backend_decision.get(
+		"gpu_architecture_decision_eligibility", {}
+	)
+	_expect(
+		str(gpu_eligibility.get("status", ""))
+			== "BLOCKED_CPU_CAUSAL_ATTRIBUTION_INCOMPLETE",
+		"GPU architecture decision must remain blocked before causal attribution",
 		failures
 	)
 

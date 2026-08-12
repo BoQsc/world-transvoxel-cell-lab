@@ -1,7 +1,7 @@
 {
 	"schema": "world_transvoxel.terrain_lab.qualification_state.v1",
-	"as_of": "2026-08-10",
-	"program_revision": 46,
+	"as_of": "2026-08-12",
+	"program_revision": 47,
 	"policy": "manifest status must match retained evidence and fail closed",
 	"statuses": {
 		"qualified": [
@@ -19,9 +19,9 @@
 		"implemented": [
 			"TQP-65", "TQP-66", "TQP-67", "TQP-68", "TQP-69", "TQP-70"
 		],
-		"specified": ["TQP-58"],
+		"specified": [],
 		"blocked": [
-			"TQP-59", "TQP-60", "TQP-61", "TQP-62", "TQP-63", "TQP-64", "TQP-71"
+			"TQP-58", "TQP-59", "TQP-60", "TQP-61", "TQP-62", "TQP-63", "TQP-64", "TQP-71"
 		],
 		"proposed": [],
 		"production": ["TQP-57"]
@@ -40,6 +40,13 @@
 			"evidence": "res://labs/terrain_lab/results/cpu_production_closure_windows.json",
 			"blocks": [],
 			"admits": ["TQP-58"]
+		},
+		"CPU_HUMAN_BASELINE_TRACE_PRECONDITION": {
+			"status": "in_progress",
+			"standard": "res://addons/world_transvoxel_terrain_lab/standards/cpu_human_baseline_trace_standard.json",
+			"evidence": "res://labs/terrain_lab/results/cpu_human_baseline_trace_readiness_windows.json",
+			"blocks": ["TQP-58"],
+			"admits": []
 		}
 	},
 	"suites": [

@@ -292,6 +292,32 @@ This qualifies a release candidate, not public Godot Asset Library acceptance.
 CPU-package and whole-system watts remain unqualified, and no sustained
 60 FPS/16 W result is claimed.
 
+## Post-Correction CPU Human Baseline
+
+Readiness id: `CPU_HUMAN_BASELINE_TRACE_PRECONDITION_2026_08_12`
+
+Evidence:
+
+- `res://addons/world_transvoxel_terrain_lab/standards/cpu_human_baseline_trace_standard.json`
+- `res://labs/terrain_lab/results/cpu_human_baseline_trace_readiness_windows.json`
+- source report: `world-transvoxel-integration-game` commit `32adc31`,
+  `docs/evidence/authoritative_cpu_human_baseline_20260812/baseline.json`
+
+Status: `IN_PROGRESS`. CPU-B1 is `PASS`, CPU-B2 is `NEXT`, CPU-B3 is
+`BLOCKED`, and TQP-58 is ineligible. This supersedes only the advancement state;
+it does not revoke the older pinned CPU-C or TQP-R evidence.
+
+The three Godot 4.7 editor/debug g23 runs use affinity `[0, 1, 2]`. Median
+full-route p99 is `23.162 ms`; maximum full-route frame is `100.428 ms` and
+maximum movement-phase frame is `40.329 ms`. One run blocks movement for 30
+consecutive frames. Authority commit takes `33.330-66.661 ms`, while exact
+render/collision readiness after relocation takes `14532.785 ms`, `316.719 ms`,
+and `13206.199 ms`.
+
+The delay is therefore measured after authority commit but is not causally
+attributed. CPU-B2 must capture the real-time ordered pipeline before any
+scheduler, queue, storage, meshing, publication, collision, or GPU change.
+
 ## Run Policy
 
 The exact TQP-48 qualification run is intentionally expensive:

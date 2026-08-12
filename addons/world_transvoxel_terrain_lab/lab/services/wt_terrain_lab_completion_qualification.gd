@@ -15,6 +15,12 @@ const BLOCKERS_PATH := (
 const CPU_FINALIZATION_PATH := (
 	"res://labs/terrain_lab/results/cpu_finalization_readiness_windows.json"
 )
+const CPU_PRODUCTION_CLOSURE_PATH := (
+	"res://labs/terrain_lab/results/cpu_production_closure_windows.json"
+)
+const CPU_HUMAN_BASELINE_TRACE_PATH := (
+	"res://labs/terrain_lab/results/cpu_human_baseline_trace_readiness_windows.json"
+)
 
 
 static func run() -> Dictionary:
@@ -22,6 +28,8 @@ static func run() -> Dictionary:
 	var backend_decision := JsonLoader.load_dictionary(BACKEND_DECISION_PATH)
 	var blockers := JsonLoader.load_dictionary(BLOCKERS_PATH)
 	var cpu_finalization := JsonLoader.load_dictionary(CPU_FINALIZATION_PATH)
+	var cpu_production_closure := JsonLoader.load_dictionary(CPU_PRODUCTION_CLOSURE_PATH)
+	var cpu_human_trace := JsonLoader.load_dictionary(CPU_HUMAN_BASELINE_TRACE_PATH)
 	_expect(
 		str(backend_decision.get("schema", ""))
 			== "world_transvoxel.terrain_lab.backend_architecture_decision.v1",
@@ -53,6 +61,23 @@ static func run() -> Dictionary:
 		and bool(cpu_finalization.get("tqp58_eligible", false))
 		and (cpu_finalization.get("consistency_failures", []) as Array).is_empty()
 	)
+	var cpu_production_closure_passed := (
+		str(cpu_production_closure.get("status", "")) == "PASS"
+		and bool(cpu_production_closure.get("retained_complete", false))
+		and bool(cpu_production_closure.get("tqp58_eligible", false))
+		and (cpu_production_closure.get("consistency_failures", []) as Array).is_empty()
+	)
+	var cpu_human_trace_passed := (
+		str(cpu_human_trace.get("status", "")) == "PASS"
+		and bool(cpu_human_trace.get("retained_complete", false))
+		and bool(cpu_human_trace.get("tqp58_eligible", false))
+		and (cpu_human_trace.get("consistency_failures", []) as Array).is_empty()
+	)
+	var gpu_decision_eligible := (
+		cpu_finalization_passed
+		and cpu_production_closure_passed
+		and cpu_human_trace_passed
+	)
 	var blocker_records: Array = blockers.get("blockers", [])
 	var blocker_by_milestone := {}
 	for record_value in blocker_records:
@@ -66,7 +91,7 @@ static func run() -> Dictionary:
 	var expected_blockers := [
 		"TQP-59", "TQP-60", "TQP-61", "TQP-62", "TQP-63", "TQP-64", "TQP-71",
 	]
-	if not cpu_finalization_passed:
+	if not gpu_decision_eligible:
 		expected_blockers.push_front("TQP-58")
 	for milestone in expected_blockers:
 		_expect(blocker_by_milestone.has(milestone), "missing fail-closed blocker: " + milestone, failures)
@@ -76,8 +101,8 @@ static func run() -> Dictionary:
 		failures
 	)
 	_expect(
-		blocker_by_milestone.has("TQP-58") != cpu_finalization_passed,
-		"TQP-58 blocker state differs from CPU finalization readiness",
+		blocker_by_milestone.has("TQP-58") != gpu_decision_eligible,
+		"TQP-58 blocker state differs from CPU precondition readiness",
 		failures
 	)
 	var gpu_eligibility: Dictionary = backend_decision.get(
@@ -85,12 +110,8 @@ static func run() -> Dictionary:
 	)
 	_expect(
 		str(gpu_eligibility.get("status", ""))
-			== (
-				"ELIGIBLE_TQP58_SPECIFIED"
-				if cpu_finalization_passed
-				else "BLOCKED_CPU_FINALIZATION_INCOMPLETE"
-			),
-		"GPU architecture decision eligibility differs from CPU finalization",
+			== "BLOCKED_CPU_CAUSAL_ATTRIBUTION_INCOMPLETE",
+		"GPU architecture decision eligibility differs from CPU preconditions",
 		failures
 	)
 	_expect(
@@ -116,8 +137,8 @@ static func run() -> Dictionary:
 			"TQP-57": "production_cpu_terrain_standard_1_0_limited_windows_reference_release",
 			"TQP-58": (
 				"specified_gpu_architecture_decision_eligible"
-				if cpu_finalization_passed
-				else "blocked_cpu_finalization_incomplete"
+				if gpu_decision_eligible
+				else "blocked_cpu_causal_attribution_incomplete"
 			),
 			"TQP-59": "blocked",
 			"TQP-60": "blocked",
@@ -129,10 +150,12 @@ static func run() -> Dictionary:
 		},
 		"backend_decision": backend_decision,
 		"cpu_finalization": cpu_finalization,
+		"cpu_production_closure": cpu_production_closure,
+		"cpu_human_baseline_trace": cpu_human_trace,
 		"blockers": blocker_records,
 		"specified_scope": (
 			["TQP-58 measured GPU Architecture Decision against retained CPU authority"]
-			if cpu_finalization_passed
+			if gpu_decision_eligible
 			else []
 		),
 		"qualified_scope": [

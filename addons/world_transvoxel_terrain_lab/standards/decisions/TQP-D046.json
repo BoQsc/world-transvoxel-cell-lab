@@ -1,0 +1,44 @@
+{
+  "schema": "world_transvoxel.terrain_lab.decision.v1",
+  "id": "TQP-D046",
+  "date": "2026-08-12",
+  "decision": "Retain the reviewed integration game's post-correction three-CPU human baseline, withdraw immediate advancement to TQP-58, and require ordered CPU-B1 baseline, CPU-B2 real-time causal tracing, and CPU-B3 cautious one-variable remediation plus exhaustion review before any GPU architecture decision.",
+  "affected_milestones": ["TQP-45", "TQP-47", "TQP-48", "TQP-57", "TQP-58"],
+  "affected_repositories": [
+    "world-transvoxel-cell-lab",
+    "world-transvoxel-integration-game",
+    "world-transvoxel"
+  ],
+  "alternatives_rejected": [
+    "continue reshuffling scheduler and queue behavior without a causal trace",
+    "treat older CPU-C3 or TQP-R05 evidence as proof of the corrected integration state",
+    "advance directly to TQP-58 because aggregate CPU targets miss",
+    "weaken exact render or collision readiness to make the delayed edit appear fast"
+  ],
+  "evidence": [
+    "world-transvoxel-integration-game commit 32adc3164b4bbd7b2b13b0fccbfefadd980231d1",
+    "authoritative_cpu_human_baseline_20260812 baseline SHA-256 5f2552537503237572268565f98fd2f7683a6e2ef8097497a1867d0c51fdc34f",
+    "three complete Godot 4.7 editor/debug g23 runs under logical CPUs [0,1,2]",
+    "relocation-to-exact-readiness values 14532.785 ms, 316.719 ms, and 13206.199 ms",
+    "blocked movement runs up to 30 consecutive frames and movement-phase frames up to 40.329 ms"
+  ],
+  "qualified_scope": [
+    "CPU-B1 post-correction baseline retention",
+    "exact comparison identity and claim boundaries",
+    "mandatory trace-before-remediation order"
+  ],
+  "explicitly_unqualified_scope": [
+    "root cause of delayed first edit",
+    "root cause of flight stutter",
+    "any CPU optimization",
+    "release-export equivalence",
+    "CPU or whole-system watts",
+    "GPU architecture eligibility or selection"
+  ],
+  "standards_changed": [
+    "CPU_HUMAN_BASELINE_TRACE_PRECONDITION introduced",
+    "TQP-58 status changed from specified to blocked",
+    "CPU-B2 real-time causal terrain pipeline trace becomes the next work"
+  ],
+  "downstream_impact": "No runtime implementation is promoted by this decision. Future CPU changes require causal trace evidence, one-variable A/B comparison, complete correctness regressions, and human review. TQP-58 may become specified again only after CPU-B2 and CPU-B3 pass."
+}
