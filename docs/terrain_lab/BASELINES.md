@@ -300,11 +300,14 @@ Evidence:
 
 - `res://addons/world_transvoxel_terrain_lab/standards/cpu_human_baseline_trace_standard.json`
 - `res://labs/terrain_lab/results/cpu_human_baseline_trace_readiness_windows.json`
-- source report: `world-transvoxel-integration-game` commit `32adc31`,
+- CPU-B1 source report: `world-transvoxel-integration-game` commit `32adc31`,
   `docs/evidence/authoritative_cpu_human_baseline_20260812/baseline.json`
+- CPU-B2 source report: evidence commit `0950e3d`, measurement commit
+  `5c07dc6`, authority commit `f7a583d`,
+  `docs/evidence/cpu_b2_causal_trace_20260813/qualification.json`
 
-Status: `IN_PROGRESS`. CPU-B1 is `PASS`, CPU-B2 is `NEXT`, CPU-B3 is
-`BLOCKED`, and TQP-58 is ineligible. This supersedes only the advancement state;
+Status: `IN_PROGRESS`. CPU-B1 and CPU-B2 are `PASS`, CPU-B3 is `NEXT`, and
+TQP-58 is ineligible. This supersedes only the advancement state;
 it does not revoke the older pinned CPU-C or TQP-R evidence.
 
 The three Godot 4.7 editor/debug g23 runs use affinity `[0, 1, 2]`. Median
@@ -314,9 +317,21 @@ consecutive frames. Authority commit takes `33.330-66.661 ms`, while exact
 render/collision readiness after relocation takes `14532.785 ms`, `316.719 ms`,
 and `13206.199 ms`.
 
-The delay is therefore measured after authority commit but is not causally
-attributed. CPU-B2 must capture the real-time ordered pipeline before any
-scheduler, queue, storage, meshing, publication, collision, or GPU change.
+CPU-B2 attributes the delayed edit to global visibility staging after all four
+edited chunks reach both Godot sinks: last sink `250.569 ms`, replacement ready
+`250.586 ms`, visibility batch `13182.573 ms`, and post-sink wait
+`12932.004 ms`. The first blocker has 757 replacements and 2,402 retirements.
+Observed movement rejection is collision-readiness gating during relocation
+backlog, while accepted frame-time spikes remain separate and unresolved.
+
+The route also retains 296 explicitly paired transition-mask starts, successful
+finishes, and consumed completions across 24 masks, with no unmatched identity
+or invalid mask. The trace is disabled by default. The retained pair observes
+26.0% more wall time and 21.0% more process CPU; frame p99 and maximum are lower
+in the traced half, so a single pair cannot qualify universal frame overhead.
+CPU-B3 performance comparisons must use trace-off runs. CPU-B3 may change only
+one proven factor at a time and must rerun complete correctness and human
+regression gates before any exhaustion or GPU decision.
 
 ## Run Policy
 

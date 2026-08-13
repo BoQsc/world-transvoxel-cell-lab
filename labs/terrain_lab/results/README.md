@@ -7,6 +7,21 @@ through `labs/terrain_lab/tools/run_with_cpu_limit.py`. It fails closed above
 three logical CPUs, pins the parent before launch, and verifies the child
 inherited the same affinity. Native builds additionally use `scons -j3`.
 
+## CPU-B2 Causal Trace Evidence
+
+`cpu_human_baseline_trace_readiness_windows.json` pins the integration report
+and compact causal slice retained at `world-transvoxel-integration-game` commit
+`0950e3d`. CPU-B2 passes only observation and attribution: edited chunks finish
+their native and Godot sink work before a relocation-wide visibility barrier,
+and observed movement rejection comes from collision readiness during backlog.
+The route also has 296 explicitly paired transition-mask starts, successful
+finishes, and consumed completions with no mismatch. The largest traced
+movement hitch was accepted and remains unresolved.
+
+Tracing is disabled by default and is not a performance baseline. CPU-B3 uses
+trace-off A/B runs, changes one causal factor at a time, and retains full
+correctness plus human regressions. TQP-58 remains blocked.
+
 ## CPU Finalization Evidence
 
 `cpu_finalization/manifest.json` digest-pins the 24 reports used by CPU-C1,

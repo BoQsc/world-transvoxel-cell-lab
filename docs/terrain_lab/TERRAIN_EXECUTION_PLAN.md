@@ -13,11 +13,12 @@ backward dependencies, incorrect wave state, and an invalid recommended-next
 item. It must not introduce work or ordering absent from the TQP.
 
 CPU-C1 through CPU-C3 and TQP-R01 through TQP-R06 remain qualified under the
-retained three-logical-CPU boundary. CPU-B1 now retains the reviewed
-post-correction human baseline. The current action is CPU-B2, Real-Time Causal
-Terrain Pipeline Trace. CPU-B3 and TQP-58 are blocked; do not modify scheduling
-or select a GPU architecture until the trace explains the measured delays and
-movement stalls.
+retained three-logical-CPU boundary. CPU-B1 retains the reviewed post-correction
+human baseline and CPU-B2 retains causal attribution. The current action is
+CPU-B3, Cautious Remediation And Exhaustion Review. Change one trace-proven
+factor at a time, use trace-off A/B measurements, preserve all correctness and
+human regressions, and keep TQP-58 blocked until the independent exhaustion
+review passes.
 
 Validate the mirror with:
 

@@ -1,15 +1,15 @@
 {
 	"schema": "world_transvoxel.terrain_lab.execution_plan.v1",
-	"plan_revision": 37,
-	"program_revision": 47,
+	"plan_revision": 38,
+	"program_revision": 48,
 	"policy": "single_human_tqp_dependency_order_fail_closed",
 	"human_authority": "res://docs/terrain_lab/TERRAIN_QUALIFICATION_PROGRAM.md",
 	"current_wave": "TQP-WAVE-05",
 	"recommended_next": [],
 	"completed_preconditions": ["CPU_FINALIZATION_PRECONDITION", "CPU_PRODUCTION_CLOSURE_PRECONDITION"],
-	"completed_precondition_steps": ["CPU-B1"],
-	"recommended_precondition_steps": ["CPU-B2", "CPU-B3"],
-	"recommended_action": "Complete CPU-B2 real-time causal terrain pipeline tracing before any remediation; CPU-B3 and TQP-58 remain blocked.",
+	"completed_precondition_steps": ["CPU-B1", "CPU-B2"],
+	"recommended_precondition_steps": ["CPU-B3"],
+	"recommended_action": "Complete CPU-B3 cautious one-variable remediation and exhaustion review; TQP-58 remains blocked.",
 	"waves": [
 		{
 			"id": "TQP-WAVE-00",

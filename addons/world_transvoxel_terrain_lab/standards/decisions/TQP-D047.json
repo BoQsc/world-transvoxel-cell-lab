@@ -1,0 +1,47 @@
+{
+  "schema": "world_transvoxel.terrain_lab.decision.v1",
+  "id": "TQP-D047",
+  "date": "2026-08-13",
+  "decision": "Qualify CPU-B2 observation and causal attribution, advance CPU-B3 as the sole next work, and keep TQP-58 blocked until cautious one-variable remediation plus independent CPU exhaustion review passes.",
+  "affected_milestones": ["TQP-45", "TQP-47", "TQP-57", "TQP-58"],
+  "affected_repositories": [
+    "world-transvoxel-cell-lab",
+    "world-transvoxel-integration-game",
+    "world-transvoxel"
+  ],
+  "alternatives_rejected": [
+    "treat native edit meshing as the multi-second delay after edited chunks reached both Godot sinks",
+    "treat every flight stutter as collision-gate rejection when the largest traced frame hitch was accepted",
+    "use the intrusive trace-on run as the CPU performance baseline",
+    "change multiple scheduler, queue, visibility, collision, or worker policies together",
+    "advance directly to TQP-58 before CPU-B3"
+  ],
+  "evidence": [
+    "world-transvoxel-integration-game evidence commit 0950e3dfece191b25eb8094fbf6c1217ffe0207f",
+    "CPU-B2 measurement commit 5c07dc6ea7580533fac79e185f0e20d2659e8af2",
+    "world-transvoxel authority commit f7a583d9e22ae39bc4d9e99178da3f782a2abe61",
+    "qualification SHA-256 d5cced62da4a89728027d16d65a2ffb6732fa2f259abbfc857b05bdf4d86ea76",
+    "causal slice SHA-256 803f0af99a4440f52de655597e43b536b27da5c14553981f18e7da0e97a83c66",
+    "paired trace-off and trace-on Godot 4.7 route under logical CPUs [0,1,2]"
+  ],
+  "qualified_scope": [
+    "bounded loss-accounted causal trace from native demand through Godot sinks and visibility staging",
+    "296 explicitly paired transition-mask mesh starts, successful finishes, and consumed completions with no identity or mask mismatch",
+    "delayed first-edit attribution to a relocation-wide visibility staging barrier on the pinned route",
+    "observed movement rejection attribution to collision readiness during relocation backlog",
+    "measured trace overhead and disabled-by-default observer policy"
+  ],
+  "explicitly_unqualified_scope": [
+    "any performance remediation",
+    "complete attribution of flight frame-time spikes",
+    "cross-hardware trace overhead",
+    "CPU-package or whole-system watts",
+    "GPU architecture eligibility or selection"
+  ],
+  "standards_changed": [
+    "CPU-B2 status changed from NEXT to PASS",
+    "CPU-B3 status changed from BLOCKED to NEXT",
+    "TQP-58 blocker narrowed from missing attribution to incomplete remediation and exhaustion review"
+  ],
+  "downstream_impact": "CPU-B3 may test one trace-proven causal factor at a time. Performance decisions use trace-off A/B runs, and every candidate must preserve complete authority, topology, LOD, edit, collision, persistence, and human regressions. TQP-58 remains blocked."
+}

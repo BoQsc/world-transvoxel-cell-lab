@@ -202,7 +202,7 @@ promotion order: investigation may happen early, but qualification cannot skip
 an earlier dependency.
 
 The machine-readable `execution_plan.json` mirrors the same order but is not a
-second human roadmap. Program revision 47 preserves every qualified TQP-01
+second human roadmap. Program revision 48 preserves every qualified TQP-01
 through TQP-47 claim, keeps the ordered CPU/GPU release sequence from
 `TQP-D033`, corrects TQP-48's inherited low-power target through
 `TQP-D036`, and closes Gate E for the bounded CPU authority envelope through
@@ -216,7 +216,8 @@ precondition under a three-logical-CPU ceiling through `TQP-D044` without
 selecting a GPU architecture, then closes six discovered production-terrain
 gaps through `TQP-D045`, then retains the corrected human-equivalent CPU
 baseline and blocks TQP-58 behind causal tracing and careful remediation
-through `TQP-D046`.
+through `TQP-D046`, then qualifies CPU-B2 attribution and advances only CPU-B3
+through `TQP-D047`.
 Earlier identifier migrations remain retained in `TQP-D006`, `TQP-D017`, and
 `TQP-D030` as history.
 
@@ -1457,13 +1458,13 @@ the reviewed exact-mask integration state retained on 2026-08-12.
    retain the reviewed integration and authority identity. The result is
    `MEASURED_TARGET_MISS`, which is valid baseline evidence rather than a
    correctness failure.
-2. `CPU-B2: Real-Time Causal Terrain Pipeline Trace` is `NEXT`. It must connect
-   input and movement through demand, storage, sampling, meshing, transition
-   work, staging, render publication, collision publication, queue state,
-   worker activity, main-thread time, and freeze intervals. It must retain a
-   bounded rolling trace, causal identifiers, human marker capture, and measured
-   instrumentation overhead.
-3. `CPU-B3: Cautious Remediation And Exhaustion Review` is `BLOCKED`. It may
+2. `CPU-B2: Real-Time Causal Terrain Pipeline Trace` is `PASS`. The bounded,
+   loss-accounted trace connects input and movement through native demand,
+   storage, sampling, meshing, explicit transition-mask work, publication, both
+   Godot sinks, replacement readiness, visibility staging, queue state, worker
+   activity, main-thread observations, and human markers. It also retains
+   paired observer overhead.
+3. `CPU-B3: Cautious Remediation And Exhaustion Review` is `NEXT`. It may
    change only trace-proven bottlenecks, one causal factor at a time, with A/B
    comparison against CPU-B1 plus complete correctness and human regressions.
 
@@ -1475,11 +1476,25 @@ is `14532.785 ms`, `316.719 ms`, and `13206.199 ms`; median exact readiness is
 `13206.199 ms`. Scheduler queue maxima are `762`, `723`, and `795`, and pending
 replacement maxima are `757`, `723`, and `799`.
 
-These measurements narrow the delayed-edit symptom to work after authority
-commit, but they do not attribute its cause. Storage, sampling, meshing,
-scheduling, staging, render publication, collision publication, and main-thread
-contention remain unresolved alternatives until CPU-B2. CPU-package and
-whole-system watts remain unqualified.
+CPU-B2 follows all four edited replacement chunks through both Godot sinks and
+replacement readiness by `250.586 ms`. The first subsequent blocker still has
+757 unrelated replacements and 2,402 retirements. The global visibility batch
+publishes 415 render and 112 collision records at `13182.573 ms`, leaving
+`12932.004 ms` after edited-chunk sink completion. Delayed first-edit visibility
+is therefore attributed to the conservative relocation-wide visibility staging
+barrier on this pinned route, not to slow native meshing of the edited chunks.
+
+The trace directly retains 296 transition-mask mesh starts, 296 successful
+finishes, and 296 consumed completions across 24 nonzero masks, with no
+unmatched identities or invalid masks. This proves transition work traverses
+the route; it does not substitute event presence for geometric qualification.
+
+The traced route has 15 movement rejections, all from the production
+collision-readiness gate during a large relocation backlog. Its largest
+movement-frame hitch, `45.647 ms`, is accepted, so collision-gated rejection
+and frame-time spikes are separate CPU-B3 targets. Tracing is materially
+intrusive and remains disabled by default; traced latency is not a performance
+baseline. CPU-package and whole-system watts remain unqualified.
 
 ## Phase 6: GPU Backend Qualification And Release
 
@@ -1492,9 +1507,9 @@ release contracts without replacing CPU authority by assumption.
 Execution order: TQP-58 -> TQP-59 -> TQP-60 -> TQP-61 -> TQP-62 -> TQP-63 ->
 TQP-64.
 
-The first two CPU preconditions remain qualified. CPU-B1 is retained, CPU-B2 is
-next, and CPU-B3 is blocked. TQP-58 is therefore blocked. This does not select a
-GPU architecture or qualify any GPU implementation.
+The first two CPU preconditions remain qualified. CPU-B1 and CPU-B2 are
+retained, and CPU-B3 is next. TQP-58 is therefore blocked. This does not select
+a GPU architecture or qualify any GPU implementation.
 
 ### TQP-58: GPU Architecture Decision
 
@@ -1668,16 +1683,16 @@ The program records every milestone at a truthful evidence state:
   coverage, observed LOD0 through LOD3, prefetch and targeted collision
   readiness, bounded performance telemetry, and a clean self-contained Godot
   4.7 bundle.
-- `CPU-B1` retains the reviewed post-correction baseline, `CPU-B2` is next,
-  `CPU-B3` is blocked, and `TQP-58` through `TQP-64` remain blocked.
+- `CPU-B1` and `CPU-B2` retain the reviewed baseline and causal attribution,
+  `CPU-B3` is next, and `TQP-58` through `TQP-64` remain blocked.
 - `TQP-65` through `TQP-70` retain the previously implemented but unqualified
   destruction and structural reference behavior under revision-34 identifiers.
 - `TQP-71` networking remains blocked by a missing multiplayer authority model.
 
-The next work is CPU-B2, Real-Time Causal Terrain Pipeline Trace. It must explain
-flight stutter and delayed first edit after relocation in event order before
-any scheduler, queue, storage, meshing, publication, collision, or GPU change.
-CPU-B3 and TQP-58 remain blocked. The CPU release candidate remains the
+The next work is CPU-B3, Cautious Remediation And Exhaustion Review. Its first
+candidate must address only one CPU-B2-proven factor, use trace-off A/B
+measurements, and preserve the full correctness and human regression envelope.
+TQP-58 remains blocked. The CPU release candidate remains the
 differential correctness authority, and a milestone may advance only when its
 declared evidence and entry conditions pass.
 
@@ -1724,8 +1739,8 @@ TQP-51 through TQP-57 then create, integrate, certify, and release the separate
 standalone CPU production addon. CPU-C1 through CPU-C3 now attribute and
 finalize the CPU architecture under the retained three-logical-CPU boundary;
 TQP-R01 through TQP-R06 close the discovered current production-terrain gaps.
-CPU-B1 retains the reviewed human-equivalent target miss, CPU-B2 is the next
-causal-trace milestone, and CPU-B3 permits only careful trace-proven changes.
+CPU-B1 retains the reviewed human-equivalent target miss, CPU-B2 retains its
+causal attribution, and CPU-B3 is the next careful trace-proven change gate.
 Only after they pass may TQP-58 through TQP-64 evaluate and release GPU
 acceleration without revoking CPU authority. TQP-65 through TQP-71 keep
 explosions, support, fluids, vegetation, authored structures, collapse, and
@@ -1920,3 +1935,6 @@ Retained decisions:
   make CPU-B2 real-time causal terrain-pipeline tracing the next work, block
   CPU-B3 remediation until attribution exists, and block TQP-58 until all three
   steps pass without weakening CPU correctness authority.
+- `TQP-D047`: qualify CPU-B2 delayed-visibility and observed movement-rejection
+  attribution with measured observer overhead, advance only CPU-B3 cautious
+  one-variable remediation and exhaustion review, and keep TQP-58 blocked.

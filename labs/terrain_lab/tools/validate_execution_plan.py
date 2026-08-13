@@ -174,6 +174,34 @@ def main() -> int:
         )
         == [14532.785, 316.719, 13206.199]
     )
+    cpu_b2 = cpu_human_trace.get("steps", [{}, {}])[1]
+    cpu_b2_retained = (
+        len(cpu_human_steps) == 3
+        and cpu_human_steps[:2] == [("CPU-B1", "PASS"), ("CPU-B2", "PASS")]
+        and cpu_b2.get("evidence_commit")
+        == "0950e3dfece191b25eb8094fbf6c1217ffe0207f"
+        and cpu_b2.get("measurement_commit")
+        == "5c07dc6ea7580533fac79e185f0e20d2659e8af2"
+        and cpu_b2.get("authority_commit")
+        == "f7a583d9e22ae39bc4d9e99178da3f782a2abe61"
+        and cpu_b2.get("evidence_sha256")
+        == "d5cced62da4a89728027d16d65a2ffb6732fa2f259abbfc857b05bdf4d86ea76"
+        and cpu_b2.get("causal_slice_sha256")
+        == "803f0af99a4440f52de655597e43b536b27da5c14553981f18e7da0e97a83c66"
+        and cpu_human_trace.get("cpu_b2", {}).get("status") == "PASS"
+        and cpu_human_trace.get("cpu_b2", {}).get(
+            "visibility_wait_after_last_sink_ms"
+        ) == 12932.0035
+        and cpu_human_trace.get("cpu_b2", {}).get(
+            "transition_work", {}
+        ).get("classification") == "EXPLICIT_TRANSITION_MESH_CHAIN_CONFIRMED"
+        and cpu_human_trace.get("cpu_b2", {}).get(
+            "transition_work", {}
+        ).get("unmatched_completion_consumptions") == 0
+        and cpu_human_trace.get("cpu_b2", {}).get("observer_overhead", {}).get(
+            "performance_baseline_allowed"
+        ) is False
+    )
     cpu_human_eligible = (
         cpu_human_trace.get("status") == "PASS"
         and cpu_human_trace.get("retained_complete") is True
@@ -230,12 +258,20 @@ def main() -> int:
             "CPU_PRODUCTION_CLOSURE_PRECONDITION",
         ]:
             failures.append("completed preconditions are missing or out of order")
-        if plan.get("completed_precondition_steps") != ["CPU-B1"]:
-            failures.append("completed CPU human steps are missing or out of order")
-        if plan.get("recommended_precondition_steps") != ["CPU-B2", "CPU-B3"]:
-            failures.append("CPU-B2 and CPU-B3 are missing or out of order")
-        if not str(plan.get("recommended_action", "")).startswith("Complete CPU-B2"):
-            failures.append("execution plan does not direct work to CPU-B2 next")
+        if cpu_b2_retained:
+            if plan.get("completed_precondition_steps") != ["CPU-B1", "CPU-B2"]:
+                failures.append("completed CPU-B1 and CPU-B2 steps are missing or out of order")
+            if plan.get("recommended_precondition_steps") != ["CPU-B3"]:
+                failures.append("CPU-B3 is not the sole next precondition step")
+            if not str(plan.get("recommended_action", "")).startswith("Complete CPU-B3"):
+                failures.append("execution plan does not direct work to CPU-B3 next")
+        else:
+            if plan.get("completed_precondition_steps") != ["CPU-B1"]:
+                failures.append("completed CPU human steps are missing or out of order")
+            if plan.get("recommended_precondition_steps") != ["CPU-B2", "CPU-B3"]:
+                failures.append("CPU-B2 and CPU-B3 are missing or out of order")
+            if not str(plan.get("recommended_action", "")).startswith("Complete CPU-B2"):
+                failures.append("execution plan does not direct work to CPU-B2 next")
         if milestones.get("TQP-58", {}).get("status") != "blocked":
             failures.append("TQP-58 must remain blocked until CPU-B2 and CPU-B3 pass")
     else:

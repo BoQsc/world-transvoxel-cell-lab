@@ -1,7 +1,7 @@
 {
 	"schema": "world_transvoxel.terrain_lab.qualification_state.v1",
-	"as_of": "2026-08-12",
-	"program_revision": 47,
+	"as_of": "2026-08-13",
+	"program_revision": 48,
 	"policy": "manifest status must match retained evidence and fail closed",
 	"statuses": {
 		"qualified": [
