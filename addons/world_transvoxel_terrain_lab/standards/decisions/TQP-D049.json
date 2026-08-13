@@ -1,0 +1,40 @@
+{
+  "schema": "world_transvoxel.terrain_lab.decision.v1",
+  "id": "TQP-D049",
+  "date": "2026-08-13",
+  "decision": "Accept the exact CPU-B3 regional edit-publication candidate for continued qualification with three named release-blocking limitations, complete its human-regression substep, and leave only independent CPU exhaustion review before any TQP-58 eligibility decision.",
+  "affected_milestones": ["TQP-47", "TQP-57", "TQP-58"],
+  "affected_repositories": ["world-transvoxel-cell-lab", "world-transvoxel-integration-game", "world-transvoxel"],
+  "alternatives_rejected": [
+    "claim production readiness from a generally acceptable human session",
+    "treat a temporary see-through LOD slice as correct or harmless",
+    "treat reduced first-edit delay as an achieved responsiveness target",
+    "advance automatically to GPU architecture selection"
+  ],
+  "evidence": [
+    "integration human-review commit bf59a98f51ada8cd9ef6fe1a71100984b87046c0",
+    "human-review SHA-256 81142cdc1ac5f3ffeaccd5fc8e6d2ca6bf5e984433ed2eae3affcfc86f55da93",
+    "tested authority commit a8bba838a8860ba30bdb79887ad66ba17028ad18",
+    "tested candidate commit eb8a69c19801bb3e52837e3c565159827b560d3d",
+    "Godot 4.7.1 fullscreen g23 production-texture session under logical CPUs [0,1,2] with tracing disabled"
+  ],
+  "qualified_scope": [
+    "human regression completed for the exact retained package",
+    "extended flight, relocation, landing, post-relocation digging, and LOD replacement inspected",
+    "no newly observed rejection-level correctness failure"
+  ],
+  "explicitly_unqualified_scope": [
+    "temporally seamless LOD presentation",
+    "flight responsiveness target",
+    "instant first edit after relocation",
+    "production release acceptance",
+    "CPU exhaustion",
+    "GPU architecture eligibility or selection"
+  ],
+  "standards_changed": [
+    "CPU-B3 human regression changed from pending to ACCEPTED_WITH_KNOWN_LIMITATIONS",
+    "temporary LOD opening, residual flight responsiveness, and relocation first-edit delay are retained as release-blocking limitations",
+    "CPU-B3 remains IN_PROGRESS with independent exhaustion review as its sole remaining substep"
+  ],
+  "downstream_impact": "The exact candidate may be labeled and shared as a human-accepted qualification candidate. It must not be represented as seamless, performance-qualified, production-ready, CPU-exhausted, or GPU-eligible."
+}

@@ -40,7 +40,11 @@
       "evidence_path": "docs/evidence/cpu_b3_regional_publication_20260813/qualification.json",
       "evidence_sha256": "c61d0a415b29d737667ab8d980185f96803f2524f1e0432cde3df4e9d7fe24ae",
       "result": "CORRECTNESS_HOTFIX_RETAINED_PERFORMANCE_TARGET_MISS",
-      "remaining": ["HUMAN_REGRESSION_REVIEW", "INDEPENDENT_CPU_EXHAUSTION_REVIEW"]
+      "human_review_commit": "bf59a98f51ada8cd9ef6fe1a71100984b87046c0",
+      "human_review_path": "docs/evidence/cpu_b3_regional_publication_20260813/human_review.json",
+      "human_review_sha256": "81142cdc1ac5f3ffeaccd5fc8e6d2ca6bf5e984433ed2eae3affcfc86f55da93",
+      "human_review_status": "ACCEPTED_WITH_KNOWN_LIMITATIONS",
+      "remaining": ["INDEPENDENT_CPU_EXHAUSTION_REVIEW"]
     }
   ],
   "baseline": {
@@ -159,7 +163,16 @@
       "reason": "improved edit publication but materially regressed collision-gated traversal",
       "reverted": true
     },
-    "claim_boundary": "the selected candidate is retained as a correctness hotfix only; performance still misses, human regression is incomplete, CPU exhaustion is not established, and TQP-58 remains blocked"
+    "human_review": {
+      "status": "ACCEPTED_WITH_KNOWN_LIMITATIONS",
+      "new_rejection_level_correctness_failure": false,
+      "release_blocking_limitations": [
+        "TEMPORARY_LOD_SEE_THROUGH_SLICE",
+        "RESIDUAL_FLIGHT_RESPONSIVENESS",
+        "RELOCATION_FIRST_EDIT_DELAY"
+      ]
+    },
+    "claim_boundary": "the selected candidate is retained as a correctness hotfix and has completed human regression with known release-blocking limitations; performance still misses, CPU exhaustion is not established, and TQP-58 remains blocked"
   },
   "consistency_failures": []
 }

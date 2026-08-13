@@ -216,8 +216,14 @@ def main() -> int:
         == "c61d0a415b29d737667ab8d980185f96803f2524f1e0432cde3df4e9d7fe24ae"
         and cpu_b3.get("result")
         == "CORRECTNESS_HOTFIX_RETAINED_PERFORMANCE_TARGET_MISS"
+        and cpu_b3.get("human_review_commit")
+        == "bf59a98f51ada8cd9ef6fe1a71100984b87046c0"
+        and cpu_b3.get("human_review_sha256")
+        == "81142cdc1ac5f3ffeaccd5fc8e6d2ca6bf5e984433ed2eae3affcfc86f55da93"
+        and cpu_b3.get("human_review_status")
+        == "ACCEPTED_WITH_KNOWN_LIMITATIONS"
         and cpu_b3.get("remaining")
-        == ["HUMAN_REGRESSION_REVIEW", "INDEPENDENT_CPU_EXHAUSTION_REVIEW"]
+        == ["INDEPENDENT_CPU_EXHAUSTION_REVIEW"]
         and cpu_human_trace.get("cpu_b3", {}).get("status") == "IN_PROGRESS"
         and cpu_human_trace.get("cpu_b3", {}).get("trace_off_medians", {}).get(
             "relocation_to_visual_ready_ms"
@@ -225,6 +231,16 @@ def main() -> int:
         and cpu_human_trace.get("cpu_b3", {}).get(
             "rejected_viewer_region_experiment", {}
         ).get("reverted") is True
+        and cpu_human_trace.get("cpu_b3", {}).get("human_review", {}).get("status")
+        == "ACCEPTED_WITH_KNOWN_LIMITATIONS"
+        and cpu_human_trace.get("cpu_b3", {}).get("human_review", {}).get(
+            "release_blocking_limitations"
+        )
+        == [
+            "TEMPORARY_LOD_SEE_THROUGH_SLICE",
+            "RESIDUAL_FLIGHT_RESPONSIVENESS",
+            "RELOCATION_FIRST_EDIT_DELAY",
+        ]
     )
     cpu_human_eligible = (
         cpu_human_trace.get("status") == "PASS"

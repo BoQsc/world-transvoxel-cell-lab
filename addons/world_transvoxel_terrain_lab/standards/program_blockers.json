@@ -3,7 +3,7 @@
 	"as_of": "2026-08-13",
 	"policy": "blocked milestones remain unqualified and fail closed",
 	"blockers": [
-		{"milestone": "TQP-58", "code": "CPU_B3_HUMAN_AND_EXHAUSTION_REVIEW_INCOMPLETE", "owner": "Terrain Systems Lab and Integration game", "exit": "the retained CPU-B3 regional edit candidate passes human regression review and an independent review establishes whether standard CPU remedies are exhausted"},
+		{"milestone": "TQP-58", "code": "CPU_B3_EXHAUSTION_REVIEW_INCOMPLETE", "owner": "Terrain Systems Lab and Integration game", "exit": "an independent review of the human-accepted CPU-B3 candidate and its retained target misses establishes whether standard CPU remedies are exhausted"},
 		{"milestone": "TQP-59", "code": "GPU_FIELD_BACKEND_ABSENT", "owner": "Backend Qualification Lab", "exit": "the CPU Finalization Precondition and TQP-58 pass and a candidate GPU field evaluator is available for analytical and differential testing"},
 		{"milestone": "TQP-60", "code": "GPU_MESHER_ABSENT", "owner": "Backend Qualification Lab", "exit": "candidate GPU regular, transition, and assembled adaptive terrain mesher exists"},
 		{"milestone": "TQP-61", "code": "GPU_DIFFERENTIAL_TARGET_ABSENT", "owner": "Backend Qualification Lab", "exit": "TQP-60 candidate can execute the shared primitive and Gate E terrain corpus"},

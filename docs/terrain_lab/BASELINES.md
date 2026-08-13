@@ -308,6 +308,9 @@ Evidence:
 - CPU-B3 source report: evidence commit `6bd1e7f`, candidate commit `eb8a69c`,
   authority commit `a8bba83`,
   `docs/evidence/cpu_b3_regional_publication_20260813/qualification.json`
+- CPU-B3 human review: commit `bf59a98`, SHA-256
+  `81142cdc1ac5f3ffeaccd5fc8e6d2ca6bf5e984433ed2eae3affcfc86f55da93`,
+  `docs/evidence/cpu_b3_regional_publication_20260813/human_review.json`
 
 Status: `IN_PROGRESS`. CPU-B1 and CPU-B2 are `PASS`; CPU-B3 retains a
 correctness hotfix candidate but remains `IN_PROGRESS`; TQP-58 is ineligible.
@@ -346,6 +349,12 @@ blocked frames. This remains `MEASURED_TARGET_MISS`. The broader viewer-region
 experiment was rejected and reverted after median blocked frames rose to 236
 and median physics-target wait reached `2885.357 ms`. Human regression and the
 independent CPU exhaustion review remain open.
+
+Human regression is `ACCEPTED_WITH_KNOWN_LIMITATIONS`: no new rejection-level
+correctness failure was observed, but a temporary see-through LOD slice,
+residual flight responsiveness problems, and a smaller first-edit delay after
+long relocation remain release-blocking. Human review is complete; independent
+CPU exhaustion review remains open.
 
 ## Run Policy
 

@@ -374,7 +374,7 @@ static func _validate_evidence_files(program: Dictionary, failures: Array[String
 		"TQP-D031", "TQP-D032", "TQP-D033", "TQP-D034", "TQP-D035",
 		"TQP-D036", "TQP-D037", "TQP-D038", "TQP-D039", "TQP-D040",
 		"TQP-D041", "TQP-D042", "TQP-D043", "TQP-D044", "TQP-D045",
-		"TQP-D046", "TQP-D047", "TQP-D048",
+		"TQP-D046", "TQP-D047", "TQP-D048", "TQP-D049",
 	]:
 		_expect(decision_ids.has(required), "missing retained decision: " + required, failures)
 	for key in [
@@ -3020,6 +3020,7 @@ static func _validate_cpu_human_baseline_trace(
 			failures
 		)
 		var remediation_step: Dictionary = evidence_steps[2]
+		var remaining_reviews: Array = remediation_step.get("remaining", [])
 		_expect(
 			str(remediation_step.get("evidence_commit", ""))
 				== "6bd1e7f11229e25fd5965856e0b3b38b80335554"
@@ -3030,12 +3031,20 @@ static func _validate_cpu_human_baseline_trace(
 				and str(remediation_step.get("evidence_sha256", ""))
 					== "c61d0a415b29d737667ab8d980185f96803f2524f1e0432cde3df4e9d7fe24ae"
 				and str(remediation_step.get("result", ""))
-					== "CORRECTNESS_HOTFIX_RETAINED_PERFORMANCE_TARGET_MISS",
+					== "CORRECTNESS_HOTFIX_RETAINED_PERFORMANCE_TARGET_MISS"
+				and str(remediation_step.get("human_review_commit", ""))
+					== "bf59a98f51ada8cd9ef6fe1a71100984b87046c0"
+				and str(remediation_step.get("human_review_sha256", ""))
+					== "81142cdc1ac5f3ffeaccd5fc8e6d2ca6bf5e984433ed2eae3affcfc86f55da93"
+				and str(remediation_step.get("human_review_status", ""))
+					== "ACCEPTED_WITH_KNOWN_LIMITATIONS"
+				and remaining_reviews == ["INDEPENDENT_CPU_EXHAUSTION_REVIEW"],
 			"CPU-B3 evidence identity changed",
 			failures
 		)
 		var cpu_b3: Dictionary = evidence.get("cpu_b3", {})
 		var cpu_b3_medians: Dictionary = cpu_b3.get("trace_off_medians", {})
+		var human_review: Dictionary = cpu_b3.get("human_review", {})
 		_expect(
 			str(cpu_b3.get("status", "")) == "IN_PROGRESS"
 				and is_equal_approx(
@@ -3048,7 +3057,15 @@ static func _validate_cpu_human_baseline_trace(
 					(cpu_b3.get("rejected_viewer_region_experiment", {}) as Dictionary).get(
 						"reverted", false
 					)
-				),
+				)
+				and str(human_review.get("status", ""))
+					== "ACCEPTED_WITH_KNOWN_LIMITATIONS"
+				and not bool(human_review.get("new_rejection_level_correctness_failure", true))
+				and human_review.get("release_blocking_limitations", []) == [
+					"TEMPORARY_LOD_SEE_THROUGH_SLICE",
+					"RESIDUAL_FLIGHT_RESPONSIVENESS",
+					"RELOCATION_FIRST_EDIT_DELAY",
+				],
 			"CPU-B3 retained measurements changed",
 			failures
 		)
@@ -3080,7 +3097,7 @@ static func _validate_cpu_human_baseline_trace(
 	)
 	_expect(
 		str(gpu_eligibility.get("status", ""))
-			== "BLOCKED_CPU_B3_HUMAN_AND_EXHAUSTION_REVIEW_INCOMPLETE",
+			== "BLOCKED_CPU_B3_EXHAUSTION_REVIEW_INCOMPLETE",
 		"GPU architecture decision must remain blocked before CPU-B3 review",
 		failures
 	)
