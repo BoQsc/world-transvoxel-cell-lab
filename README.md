@@ -12,7 +12,7 @@ lab ownership over another.
 | Addon | Status | Responsibility |
 | --- | --- | --- |
 | `world_transvoxel_cell_lab` | Qualified milestones 1-29 | Native cells, transitions, chunks, seams, minimized repros, controlled terrain fixtures, and primitive benchmarks |
-| `world_transvoxel_terrain_lab` | CPU-B2 causal attribution retained; CPU-B3 next; TQP-58 blocked | Controlled research into edit semantics, materials, resolution, adaptive terrain, large terrain, structural behavior, GPU candidates, and system performance |
+| `world_transvoxel_terrain_lab` | CPU-B3A road-filtered capture active; TQP-58 blocked | Controlled research into edit semantics, materials, resolution, adaptive terrain, large terrain, structural behavior, GPU candidates, and system performance |
 
 The production addons and game remain separate repositories:
 

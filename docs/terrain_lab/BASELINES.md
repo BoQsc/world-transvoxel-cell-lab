@@ -314,6 +314,10 @@ Evidence:
 - CPU-B3 exhaustion review: commit `953e51f`, SHA-256
   `c91110aa12c230dc1470b1ae410138ee800ae57e31e51456ce2763e0cebcba49`,
   `docs/evidence/cpu_b3_regional_publication_20260813/exhaustion_review.json`
+- CPU-B3A first bounded capture: evidence commit `cb50b7d`, measurement commit
+  `ca9ce0f`, result SHA-256
+  `349f0ee8a62ef154c9544ba79c367175b7a166e5ed2357001406991a87bb9027`,
+  `docs/evidence/cpu_b3a_lod_opening_20260813/result.json`
 
 Status: `IN_PROGRESS`. CPU-B1 and CPU-B2 are `PASS`; CPU-B3 retains a
 correctness hotfix candidate but remains `IN_PROGRESS`; TQP-58 is ineligible.
@@ -364,6 +368,15 @@ revoke the candidate, but it fails CPU-B3 and TQP-58 eligibility because the
 temporary LOD opening is unattributed, flight variance is only partially
 attributed, regional component-remedy classes remain open, and the evidence
 does not prove CPU saturation. CPU-B3A through CPU-B3E are next in order.
+
+The first CPU-B3A route is retained as
+`IN_PROGRESS_EVENT_NOT_REPRODUCED`. It sampled 64 dark candidate rays, excluded
+all 64 against authored G23 road geometry, and left zero road-clear opening
+rays. The complete local native trace contains 72,723 events with zero consumer
+gaps or capture/downstream drops. The screenshot is supporting only, and the
+83.25 ms mean synchronous observer cost disqualifies the run as a performance
+baseline. This attempt neither closes CPU-B3A nor weakens the original human
+opening report.
 
 ## Run Policy
 

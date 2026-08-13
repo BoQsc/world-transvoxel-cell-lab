@@ -22,7 +22,7 @@
     }
   ],
   "cpu_b3_continuation": [
-    {"id": "CPU-B3A", "title": "Temporary LOD Opening Causal Capture", "complete_when": "an exact marker and bounded trace classify the opening as geometry, residency, retirement, visibility, or publication ordering without changing policy first"},
+    {"id": "CPU-B3A", "title": "Temporary LOD Opening Causal Capture", "complete_when": "a road-clear same-ray render opening with collision or authoritative density support, exact chunk state, and overlapping native lifecycle events classifies the opening as geometry, residency, retirement, visibility, or publication ordering without changing policy first; screenshots and aggregate queue counts cannot complete the step"},
     {"id": "CPU-B3B", "title": "Flight Responsiveness Attribution", "complete_when": "trace-off and trace-on evidence separates input latency, frame hitches, collision readiness, demand admission, and queue growth"},
     {"id": "CPU-B3C", "title": "Regional Publication Component Audit", "complete_when": "exact component membership and superseded viewer-plan ownership are accounted for across replacement generations"},
     {"id": "CPU-B3D", "title": "One Trace-Proven Standard CPU Remedy", "complete_when": "at most one newly proven factor changes and trace-off A/B, complete correctness, and human regression pass"},

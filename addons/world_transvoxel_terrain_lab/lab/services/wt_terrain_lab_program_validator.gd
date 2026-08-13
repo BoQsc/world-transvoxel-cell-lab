@@ -375,6 +375,7 @@ static func _validate_evidence_files(program: Dictionary, failures: Array[String
 		"TQP-D036", "TQP-D037", "TQP-D038", "TQP-D039", "TQP-D040",
 		"TQP-D041", "TQP-D042", "TQP-D043", "TQP-D044", "TQP-D045",
 		"TQP-D046", "TQP-D047", "TQP-D048", "TQP-D049", "TQP-D050",
+		"TQP-D051",
 	]:
 		_expect(decision_ids.has(required), "missing retained decision: " + required, failures)
 	for key in [
@@ -3061,6 +3062,7 @@ static func _validate_cpu_human_baseline_trace(
 		var cpu_b3_medians: Dictionary = cpu_b3.get("trace_off_medians", {})
 		var human_review: Dictionary = cpu_b3.get("human_review", {})
 		var exhaustion_review: Dictionary = cpu_b3.get("independent_exhaustion_review", {})
+		var cpu_b3a_attempt: Dictionary = cpu_b3.get("cpu_b3a_attempt", {})
 		_expect(
 			str(cpu_b3.get("status", "")) == "IN_PROGRESS"
 				and is_equal_approx(
@@ -3095,6 +3097,34 @@ static func _validate_cpu_human_baseline_trace(
 					"CPU-B3E repeat independent exhaustion review",
 				],
 			"CPU-B3 retained measurements changed",
+			failures
+		)
+		_expect(
+			str(cpu_b3a_attempt.get("status", "")) == "IN_PROGRESS_EVENT_NOT_REPRODUCED"
+				and str(cpu_b3a_attempt.get("classification", ""))
+					== "BOUNDED_ROAD_FILTERED_ROUTE_NO_EVENT"
+				and str(cpu_b3a_attempt.get("evidence_commit", ""))
+					== "cb50b7dd1134f1dbbd0ac0d2f0837177ef703141"
+				and str(cpu_b3a_attempt.get("measurement_commit", ""))
+					== "ca9ce0f42ae4cb411a54d0b6c84b6c9dc52332de"
+				and str(cpu_b3a_attempt.get("authority_commit", ""))
+					== "a8bba838a8860ba30bdb79887ad66ba17028ad18"
+				and str(cpu_b3a_attempt.get("result_sha256", ""))
+					== "349f0ee8a62ef154c9544ba79c367175b7a166e5ed2357001406991a87bb9027"
+				and int(cpu_b3a_attempt.get("candidate_rays", -1)) == 64
+				and int(cpu_b3a_attempt.get("excluded_authored_road_rays", -1)) == 64
+				and int(cpu_b3a_attempt.get("road_clear_rendered_rays", -1)) == 0
+				and int(cpu_b3a_attempt.get("road_clear_direct_opening_rays", -1)) == 0
+				and int(cpu_b3a_attempt.get("native_event_count", -1)) == 72723
+				and int(cpu_b3a_attempt.get("native_consumer_gap_event_count", -1)) == 0
+				and int(cpu_b3a_attempt.get("native_local_dropped_event_count", -1)) == 0
+				and int(cpu_b3a_attempt.get("downstream_dropped_event_count", -1)) == 0
+				and not bool(cpu_b3a_attempt.get("screenshots_are_authority", true))
+				and not bool(cpu_b3a_attempt.get("aggregate_queue_counts_are_authority", true))
+				and not bool(cpu_b3a_attempt.get("performance_baseline_allowed", true))
+				and not bool(cpu_b3a_attempt.get("implementation_changed", true))
+				and not bool(cpu_b3a_attempt.get("terrain_behavior_changed", true)),
+			"CPU-B3A bounded no-event evidence changed",
 			failures
 		)
 	var baseline: Dictionary = evidence.get("baseline", {})

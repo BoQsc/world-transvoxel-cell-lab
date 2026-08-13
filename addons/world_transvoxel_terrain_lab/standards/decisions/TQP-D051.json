@@ -1,0 +1,44 @@
+{
+  "schema": "world_transvoxel.terrain_lab.decision.v1",
+  "id": "TQP-D051",
+  "date": "2026-08-13",
+  "decision": "Retain the first road-filtered CPU-B3A capture as an in-progress no-event result, keep the human opening report active, and require exact causal evidence before classification or remediation.",
+  "affected_milestones": ["TQP-47", "TQP-57", "TQP-58"],
+  "affected_repositories": ["world-transvoxel-cell-lab", "world-transvoxel-integration-game", "world-transvoxel"],
+  "alternatives_rejected": [
+    "classify authored road geometry as a temporary LOD opening",
+    "use screenshots or aggregate queue counts as primary defect authority",
+    "treat one bounded no-event route as proof that the human-reported opening is absent",
+    "use the synchronous diagnostic run as a frame-time or performance baseline",
+    "advance CPU-B3B or TQP-58 without completing CPU-B3A"
+  ],
+  "evidence": [
+    "integration evidence commit cb50b7dd1134f1dbbd0ac0d2f0837177ef703141",
+    "measurement implementation commit ca9ce0f42ae4cb411a54d0b6c84b6c9dc52332de",
+    "result SHA-256 349f0ee8a62ef154c9544ba79c367175b7a166e5ed2357001406991a87bb9027",
+    "native trace SHA-256 d9891506622089b940a9ef5176534204e310d739198015eb3ba5c50af863c055",
+    "authority commit a8bba838a8860ba30bdb79887ad66ba17028ad18",
+    "Godot 4.7.1 route under logical CPUs [0,1,2]"
+  ],
+  "qualified_scope": [
+    "reusable CPU-B3A road-filtered same-ray causal observer",
+    "bounded no-event result with complete retained local native trace",
+    "explicit image, authored-feature, and performance claim boundaries",
+    "terrain implementation and behavior unchanged"
+  ],
+  "explicitly_unqualified_scope": [
+    "absence of the human-reported temporary opening",
+    "CPU-B3A completion",
+    "temporary LOD opening root cause",
+    "frame-time or throughput performance from this observer run",
+    "CPU-B3B advancement",
+    "GPU architecture eligibility or selection"
+  ],
+  "standards_changed": [
+    "CPU-B3A positive classification now requires road-clear render, collision or authoritative density, exact chunk, and native lifecycle evidence",
+    "screenshots and aggregate queue totals are explicitly supporting evidence only",
+    "bounded event-not-reproduced captures remain in progress",
+    "CPU-B3A remains the current ordered action"
+  ],
+  "downstream_impact": "Repeat the retained observer during the next exact human reproduction. Do not change terrain policy, begin CPU-B3B, or begin TQP-58 until CPU-B3A has causal event evidence or a separately reviewed exit criterion."
+}

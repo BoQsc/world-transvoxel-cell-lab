@@ -203,6 +203,7 @@ def main() -> int:
         ) is False
     )
     cpu_b3 = cpu_human_trace.get("steps", [{}, {}, {}])[2]
+    cpu_b3a_attempt = cpu_human_trace.get("cpu_b3", {}).get("cpu_b3a_attempt", {})
     cpu_b3_retained = (
         len(cpu_human_steps) == 3
         and cpu_human_steps[2] == ("CPU-B3", "IN_PROGRESS")
@@ -258,6 +259,30 @@ def main() -> int:
         and cpu_human_trace.get("cpu_b3", {}).get(
             "independent_exhaustion_review", {}
         ).get("tqp58_eligible") is False
+        and cpu_b3a_attempt.get("status") == "IN_PROGRESS_EVENT_NOT_REPRODUCED"
+        and cpu_b3a_attempt.get("classification")
+        == "BOUNDED_ROAD_FILTERED_ROUTE_NO_EVENT"
+        and cpu_b3a_attempt.get("evidence_commit")
+        == "cb50b7dd1134f1dbbd0ac0d2f0837177ef703141"
+        and cpu_b3a_attempt.get("measurement_commit")
+        == "ca9ce0f42ae4cb411a54d0b6c84b6c9dc52332de"
+        and cpu_b3a_attempt.get("authority_commit")
+        == "a8bba838a8860ba30bdb79887ad66ba17028ad18"
+        and cpu_b3a_attempt.get("result_sha256")
+        == "349f0ee8a62ef154c9544ba79c367175b7a166e5ed2357001406991a87bb9027"
+        and cpu_b3a_attempt.get("candidate_rays") == 64
+        and cpu_b3a_attempt.get("excluded_authored_road_rays") == 64
+        and cpu_b3a_attempt.get("road_clear_rendered_rays") == 0
+        and cpu_b3a_attempt.get("road_clear_direct_opening_rays") == 0
+        and cpu_b3a_attempt.get("native_event_count") == 72723
+        and cpu_b3a_attempt.get("native_consumer_gap_event_count") == 0
+        and cpu_b3a_attempt.get("native_local_dropped_event_count") == 0
+        and cpu_b3a_attempt.get("downstream_dropped_event_count") == 0
+        and cpu_b3a_attempt.get("screenshots_are_authority") is False
+        and cpu_b3a_attempt.get("aggregate_queue_counts_are_authority") is False
+        and cpu_b3a_attempt.get("performance_baseline_allowed") is False
+        and cpu_b3a_attempt.get("implementation_changed") is False
+        and cpu_b3a_attempt.get("terrain_behavior_changed") is False
     )
     cpu_human_eligible = (
         cpu_human_trace.get("status") == "PASS"

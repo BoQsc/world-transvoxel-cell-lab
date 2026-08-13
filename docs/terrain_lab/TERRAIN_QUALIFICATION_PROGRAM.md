@@ -202,7 +202,7 @@ promotion order: investigation may happen early, but qualification cannot skip
 an earlier dependency.
 
 The machine-readable `execution_plan.json` mirrors the same order but is not a
-second human roadmap. Program revision 51 preserves every qualified TQP-01
+second human roadmap. Program revision 52 preserves every qualified TQP-01
 through TQP-47 claim, keeps the ordered CPU/GPU release sequence from
 `TQP-D033`, corrects TQP-48's inherited low-power target through
 `TQP-D036`, and closes Gate E for the bounded CPU authority envelope through
@@ -220,8 +220,10 @@ through `TQP-D046`, then qualifies CPU-B2 attribution and advances only CPU-B3
 through `TQP-D047`, then retains the first CPU-B3 correctness hotfix candidate,
 rejects the broader viewer-region experiment, and keeps CPU-B3 in progress
 through `TQP-D048`, completes the exact candidate's human regression with known
-limitations through `TQP-D049`, then completes the independent review with a
-fail-closed not-exhausted decision through `TQP-D050`.
+limitations through `TQP-D049`, completes the independent review with a
+fail-closed not-exhausted decision through `TQP-D050`, then retains the first
+road-filtered CPU-B3A no-event capture without advancing the step through
+`TQP-D051`.
 Earlier identifier migrations remain retained in `TQP-D006`, `TQP-D017`, and
 `TQP-D030` as history.
 
@@ -1542,6 +1544,25 @@ CPU-B3 continues in this fail-closed order:
    trace-off A/B, complete correctness, and human regression.
 5. `CPU-B3E`: repeat the independent exhaustion review.
 
+The first CPU-B3A attempt is retained at integration evidence commit `cb50b7d`
+over measurement commit `ca9ce0f`, authority commit `a8bba838`, and Godot
+4.7.1 under logical CPUs `[0, 1, 2]`. It changes neither terrain implementation
+nor behavior. The fixed 528-frame route stayed at least 132.94 cells from every
+authored G23 road centerline, and every dark candidate ray was independently
+checked against the authored road segments. All 64 candidate rays were inside
+the 32-cell road exclusion; zero road-clear opening rays remained.
+
+This result is `IN_PROGRESS_EVENT_NOT_REPRODUCED`, not a pass and not evidence
+that the human-reported opening is absent. The retained 72,723-event native
+trace has zero consumer sequence gaps, local capture drops, or downstream
+drops. Its source ring wrapped 7,187 already-drained events without losing the
+complete local trace. A positive CPU-B3A classification requires a road-clear
+same-ray render opening, collision or authoritative density crossing, exact
+chunk state, and overlapping native lifecycle events. Screenshots and aggregate
+queue totals are supporting evidence only. The synchronous observer averaged
+83.25 ms per sample and cannot support frame-time or performance claims.
+CPU-B3A therefore remains the current step; CPU-B3B and TQP-58 do not advance.
+
 ## Phase 6: GPU Backend Qualification And Release
 
 This phase starts only after the CPU production release, CPU Finalization
@@ -1790,7 +1811,8 @@ finalize the CPU architecture under the retained three-logical-CPU boundary;
 TQP-R01 through TQP-R06 close the discovered current production-terrain gaps.
 CPU-B1 retains the reviewed human-equivalent target miss, CPU-B2 retains its
 causal attribution, and CPU-B3 retains one human-reviewed correctness candidate
-while CPU-B3A through CPU-B3E remain open after a completed not-exhausted review.
+while CPU-B3A through CPU-B3E remain open after a completed not-exhausted review
+and one bounded CPU-B3A route that did not reproduce a road-clear event.
 Only after they pass may TQP-58 through TQP-64 evaluate and release GPU
 acceleration without revoking CPU authority. TQP-65 through TQP-71 keep
 explosions, support, fluids, vegetation, authored structures, collapse, and
@@ -2001,3 +2023,8 @@ Retained decisions:
   `NOT_EXHAUSTED_ADDITIONAL_CPU_ATTRIBUTION_AND_REMEDIATION_REQUIRED`, retain
   CPU and TQP-58 fail-closed status, and require CPU-B3A through CPU-B3E in
   order before another eligibility decision.
+- `TQP-D051`: retain the first road-filtered CPU-B3A capture as
+  `IN_PROGRESS_EVENT_NOT_REPRODUCED`, require authored-feature exclusion and
+  exact render, density or collision, chunk, and native lifecycle evidence for
+  a positive opening classification, reject screenshots and queue totals as
+  primary authority, and keep CPU-B3A plus TQP-58 fail closed.
