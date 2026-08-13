@@ -32,8 +32,15 @@
     },
     {
       "id": "CPU-B3",
-      "status": "NEXT",
-      "result": "TRACE_PROVEN_ONE_VARIABLE_REMEDIATION_REQUIRED"
+      "status": "IN_PROGRESS",
+      "source_repository": "world-transvoxel-integration-game",
+      "evidence_commit": "6bd1e7f11229e25fd5965856e0b3b38b80335554",
+      "candidate_commit": "eb8a69c19801bb3e52837e3c565159827b560d3d",
+      "authority_commit": "a8bba838a8860ba30bdb79887ad66ba17028ad18",
+      "evidence_path": "docs/evidence/cpu_b3_regional_publication_20260813/qualification.json",
+      "evidence_sha256": "c61d0a415b29d737667ab8d980185f96803f2524f1e0432cde3df4e9d7fe24ae",
+      "result": "CORRECTNESS_HOTFIX_RETAINED_PERFORMANCE_TARGET_MISS",
+      "remaining": ["HUMAN_REGRESSION_REVIEW", "INDEPENDENT_CPU_EXHAUSTION_REVIEW"]
     }
   ],
   "baseline": {
@@ -57,7 +64,7 @@
     "correctness": "retained separately and not revoked by this performance miss",
     "first_edit": "the four edited replacement chunks reached storage, sampling, meshing, publication, render sink, collision sink, and replacement readiness by 250.586 ms; a relocation-wide visibility barrier delayed activation by another 12932.004 ms",
     "flight": "observed movement rejection is the collision-readiness gate during relocation backlog; the largest traced movement-frame hitch was accepted and remains a separate CPU-B3 target",
-    "root_cause": "delayed first-edit visibility is attributed to global visibility staging after relocation; observed movement rejection is attributed to collision readiness under relocation backlog",
+    "root_cause": "CPU-B3 replaces the relocation-wide edit barrier with exact cross-LOD regional publication, but the retained candidate still has a 3822.632 ms median readiness delay and misses traversal targets",
     "power": "unqualified because no trusted watt sensor was available"
   },
   "cpu_b2": {
@@ -110,6 +117,49 @@
       "performance_baseline_allowed": false
     },
     "claim_boundary": "CPU-B2 proves explicit transition-mask work and attributes delayed visibility plus observed collision-gated movement rejection on the pinned route; it does not remediate them, prove geometry from event presence alone, or fully attribute flight frame-time spikes"
+  },
+  "cpu_b3": {
+    "status": "IN_PROGRESS",
+    "qualification_schema": "world_transvoxel.cpu_b3_qualification.v1",
+    "selected_scope": "exact cross-LOD edit-region publication with one bounded batch of matching-generation coverage priority requests",
+    "correctness": {
+      "godot_debug_mixed_ownership_frames": 0,
+      "godot_release_mixed_ownership_frames": 0,
+      "regional_replacements": 8,
+      "regional_retirements": 1,
+      "visual_collision_divergence_frames_maximum": 0,
+      "production_streaming_hash": "39db05c67fc2f4b8d8beaab2e7da927ae968efb3d75118bcd80c5523116d9b3b",
+      "production_lod_streaming_hash": "7c9071d1c31da0397e48db0338c299b8bf923dbb0e80448ae11cf049c3c0d2fb"
+    },
+    "trace_off_medians": {
+      "relocation_to_visual_ready_ms": 3822.632,
+      "relocation_to_collision_ready_ms": 3822.632,
+      "frame_p99_ms": 25.397,
+      "frame_maximum_ms": 51.242,
+      "blocked_frames": 11,
+      "maximum_consecutive_blocked_frames": 3,
+      "maximum_pending_chunk_replacements": 783,
+      "maximum_scheduler_queued_jobs": 774,
+      "average_active_cores": 1.4513778952139094
+    },
+    "causal_observation": {
+      "last_edit_replacement_sink_ms": 1167.6322,
+      "regional_publication_ms": 3155.9663,
+      "post_sink_wait_ms": 1988.3341,
+      "publication_component_replacements": 267,
+      "publication_component_retirements": 31,
+      "coverage_priority_requests": 207,
+      "coverage_priority_applied": 206
+    },
+    "rejected_viewer_region_experiment": {
+      "authority_commit": "82e8419868a7a100697b404667deec845fd83169",
+      "integration_commit": "e23e0c2b1bfdb69aebbdf5d45ee8cfe51119579a",
+      "authority_revert_commit": "b305c7e9c0b3818037b878909177c465eff8e61d",
+      "integration_revert_commit": "a4a67b96b5f4f096d527ad9b19a3dae35011254c",
+      "reason": "improved edit publication but materially regressed collision-gated traversal",
+      "reverted": true
+    },
+    "claim_boundary": "the selected candidate is retained as a correctness hotfix only; performance still misses, human regression is incomplete, CPU exhaustion is not established, and TQP-58 remains blocked"
   },
   "consistency_failures": []
 }

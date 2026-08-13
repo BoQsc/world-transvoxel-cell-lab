@@ -1,0 +1,40 @@
+{
+  "schema": "world_transvoxel.terrain_lab.decision.v1",
+  "id": "TQP-D048",
+  "date": "2026-08-13",
+  "decision": "Retain the CPU-B3 exact regional edit-publication candidate as a correctness hotfix, reject and revert broader viewer-region publication, and keep CPU-B3 plus TQP-58 blocked on human regression and independent CPU exhaustion review.",
+  "affected_milestones": ["TQP-45", "TQP-47", "TQP-57", "TQP-58"],
+  "affected_repositories": ["world-transvoxel-cell-lab", "world-transvoxel-integration-game", "world-transvoxel"],
+  "alternatives_rejected": [
+    "publish ordinary viewer LOD replacements as independent exact regions because it materially regressed collision-gated traversal",
+    "treat the retained candidate as a CPU performance pass",
+    "declare CPU remedies exhausted without human regression and independent review",
+    "advance directly to TQP-58 or select a GPU architecture"
+  ],
+  "evidence": [
+    "world-transvoxel authority commit a8bba838a8860ba30bdb79887ad66ba17028ad18",
+    "integration candidate commit eb8a69c19801bb3e52837e3c565159827b560d3d",
+    "integration evidence commit 6bd1e7f11229e25fd5965856e0b3b38b80335554",
+    "CPU-B3 qualification SHA-256 c61d0a415b29d737667ab8d980185f96803f2524f1e0432cde3df4e9d7fe24ae",
+    "rejected authority experiment 82e8419868a7a100697b404667deec845fd83169 reverted by b305c7e9c0b3818037b878909177c465eff8e61d",
+    "rejected integration experiment e23e0c2b1bfdb69aebbdf5d45ee8cfe51119579a reverted by a4a67b96b5f4f096d527ad9b19a3dae35011254c"
+  ],
+  "qualified_scope": [
+    "exact cross-LOD edited-region publication with complete matching-generation replacement and retirement coverage",
+    "one bounded batch of matching-generation coverage priority requests",
+    "unchanged production streaming and LOD hashes",
+    "zero mixed render/collision ownership frames and zero visual/collision divergence in retained automated evidence"
+  ],
+  "explicitly_unqualified_scope": [
+    "CPU performance target pass",
+    "selected-candidate human regression acceptance",
+    "independent CPU exhaustion",
+    "GPU architecture eligibility or selection"
+  ],
+  "standards_changed": [
+    "CPU-B3 status changed from NEXT to IN_PROGRESS",
+    "the retained regional edit candidate and rejected viewer-region experiment are pinned",
+    "TQP-58 blocker narrowed to CPU-B3 human regression and independent exhaustion review"
+  ],
+  "downstream_impact": "The retained candidate may proceed only to focused human regression and independent CPU exhaustion review. Its measured target miss remains explicit, and TQP-58 remains blocked."
+}

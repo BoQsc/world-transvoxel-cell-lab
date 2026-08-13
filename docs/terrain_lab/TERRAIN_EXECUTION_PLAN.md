@@ -15,10 +15,10 @@ item. It must not introduce work or ordering absent from the TQP.
 CPU-C1 through CPU-C3 and TQP-R01 through TQP-R06 remain qualified under the
 retained three-logical-CPU boundary. CPU-B1 retains the reviewed post-correction
 human baseline and CPU-B2 retains causal attribution. The current action is
-CPU-B3, Cautious Remediation And Exhaustion Review. Change one trace-proven
-factor at a time, use trace-off A/B measurements, preserve all correctness and
-human regressions, and keep TQP-58 blocked until the independent exhaustion
-review passes.
+the remaining CPU-B3 review. The exact regional edit-publication candidate has
+automated correctness and trace-off A/B evidence but still misses the
+performance target. Complete focused human regression, then make an independent
+CPU exhaustion decision. Keep TQP-58 blocked until both pass.
 
 Validate the mirror with:
 

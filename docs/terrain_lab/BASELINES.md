@@ -305,9 +305,13 @@ Evidence:
 - CPU-B2 source report: evidence commit `0950e3d`, measurement commit
   `5c07dc6`, authority commit `f7a583d`,
   `docs/evidence/cpu_b2_causal_trace_20260813/qualification.json`
+- CPU-B3 source report: evidence commit `6bd1e7f`, candidate commit `eb8a69c`,
+  authority commit `a8bba83`,
+  `docs/evidence/cpu_b3_regional_publication_20260813/qualification.json`
 
-Status: `IN_PROGRESS`. CPU-B1 and CPU-B2 are `PASS`, CPU-B3 is `NEXT`, and
-TQP-58 is ineligible. This supersedes only the advancement state;
+Status: `IN_PROGRESS`. CPU-B1 and CPU-B2 are `PASS`; CPU-B3 retains a
+correctness hotfix candidate but remains `IN_PROGRESS`; TQP-58 is ineligible.
+This supersedes only the advancement state;
 it does not revoke the older pinned CPU-C or TQP-R evidence.
 
 The three Godot 4.7 editor/debug g23 runs use affinity `[0, 1, 2]`. Median
@@ -332,6 +336,16 @@ in the traced half, so a single pair cannot qualify universal frame overhead.
 CPU-B3 performance comparisons must use trace-off runs. CPU-B3 may change only
 one proven factor at a time and must rerun complete correctness and human
 regression gates before any exhaustion or GPU decision.
+
+The retained CPU-B3 candidate publishes exact cross-LOD edited regions and
+batches matching-generation coverage priority. It preserves the production
+streaming hashes and records zero mixed ownership or visual/collision divergence.
+Its three-run trace-off medians are `3822.632 ms` exact readiness, `25.397 ms`
+frame p99, `51.242 ms` maximum frame, 11 blocked frames, and three consecutive
+blocked frames. This remains `MEASURED_TARGET_MISS`. The broader viewer-region
+experiment was rejected and reverted after median blocked frames rose to 236
+and median physics-target wait reached `2885.357 ms`. Human regression and the
+independent CPU exhaustion review remain open.
 
 ## Run Policy
 

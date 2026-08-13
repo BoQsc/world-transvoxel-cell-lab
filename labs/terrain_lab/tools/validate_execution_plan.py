@@ -202,6 +202,30 @@ def main() -> int:
             "performance_baseline_allowed"
         ) is False
     )
+    cpu_b3 = cpu_human_trace.get("steps", [{}, {}, {}])[2]
+    cpu_b3_retained = (
+        len(cpu_human_steps) == 3
+        and cpu_human_steps[2] == ("CPU-B3", "IN_PROGRESS")
+        and cpu_b3.get("evidence_commit")
+        == "6bd1e7f11229e25fd5965856e0b3b38b80335554"
+        and cpu_b3.get("candidate_commit")
+        == "eb8a69c19801bb3e52837e3c565159827b560d3d"
+        and cpu_b3.get("authority_commit")
+        == "a8bba838a8860ba30bdb79887ad66ba17028ad18"
+        and cpu_b3.get("evidence_sha256")
+        == "c61d0a415b29d737667ab8d980185f96803f2524f1e0432cde3df4e9d7fe24ae"
+        and cpu_b3.get("result")
+        == "CORRECTNESS_HOTFIX_RETAINED_PERFORMANCE_TARGET_MISS"
+        and cpu_b3.get("remaining")
+        == ["HUMAN_REGRESSION_REVIEW", "INDEPENDENT_CPU_EXHAUSTION_REVIEW"]
+        and cpu_human_trace.get("cpu_b3", {}).get("status") == "IN_PROGRESS"
+        and cpu_human_trace.get("cpu_b3", {}).get("trace_off_medians", {}).get(
+            "relocation_to_visual_ready_ms"
+        ) == 3822.632
+        and cpu_human_trace.get("cpu_b3", {}).get(
+            "rejected_viewer_region_experiment", {}
+        ).get("reverted") is True
+    )
     cpu_human_eligible = (
         cpu_human_trace.get("status") == "PASS"
         and cpu_human_trace.get("retained_complete") is True
@@ -259,6 +283,8 @@ def main() -> int:
         ]:
             failures.append("completed preconditions are missing or out of order")
         if cpu_b2_retained:
+            if not cpu_b3_retained:
+                failures.append("retained CPU-B3 candidate evidence is missing or inconsistent")
             if plan.get("completed_precondition_steps") != ["CPU-B1", "CPU-B2"]:
                 failures.append("completed CPU-B1 and CPU-B2 steps are missing or out of order")
             if plan.get("recommended_precondition_steps") != ["CPU-B3"]:

@@ -374,7 +374,7 @@ static func _validate_evidence_files(program: Dictionary, failures: Array[String
 		"TQP-D031", "TQP-D032", "TQP-D033", "TQP-D034", "TQP-D035",
 		"TQP-D036", "TQP-D037", "TQP-D038", "TQP-D039", "TQP-D040",
 		"TQP-D041", "TQP-D042", "TQP-D043", "TQP-D044", "TQP-D045",
-		"TQP-D046",
+		"TQP-D046", "TQP-D047", "TQP-D048",
 	]:
 		_expect(decision_ids.has(required), "missing retained decision: " + required, failures)
 	for key in [
@@ -568,12 +568,12 @@ static func _validate_execution_plan(
 		failures
 	)
 	_expect(
-		plan.get("completed_precondition_steps", []) == ["CPU-B1"],
+		plan.get("completed_precondition_steps", []) == ["CPU-B1", "CPU-B2"],
 		"execution plan completed CPU human steps are missing or out of order",
 		failures
 	)
 	_expect(
-		plan.get("recommended_precondition_steps", []) == ["CPU-B2", "CPU-B3"],
+		plan.get("recommended_precondition_steps", []) == ["CPU-B3"],
 		"execution plan CPU human next steps are missing or out of order",
 		failures
 	)
@@ -2985,7 +2985,7 @@ static func _validate_cpu_human_baseline_trace(
 			and int(evidence_affinity[1]) == 1
 			and int(evidence_affinity[2]) == 2
 			and (evidence.get("consistency_failures", []) as Array).is_empty()
-			and ",".join(step_states) == "CPU-B1:PASS,CPU-B2:NEXT,CPU-B3:BLOCKED",
+			and ",".join(step_states) == "CPU-B1:PASS,CPU-B2:PASS,CPU-B3:IN_PROGRESS",
 		"CPU human baseline/trace readiness changed",
 		failures
 	)
@@ -3002,6 +3002,54 @@ static func _validate_cpu_human_baseline_trace(
 					== "5f2552537503237572268565f98fd2f7683a6e2ef8097497a1867d0c51fdc34f"
 				and str(baseline_step.get("result", "")) == "MEASURED_TARGET_MISS",
 			"CPU-B1 evidence identity changed",
+			failures
+		)
+	if evidence_steps.size() >= 3:
+		var attribution_step: Dictionary = evidence_steps[1]
+		_expect(
+			str(attribution_step.get("evidence_commit", ""))
+				== "0950e3dfece191b25eb8094fbf6c1217ffe0207f"
+				and str(attribution_step.get("measurement_commit", ""))
+					== "5c07dc6ea7580533fac79e185f0e20d2659e8af2"
+				and str(attribution_step.get("authority_commit", ""))
+					== "f7a583d9e22ae39bc4d9e99178da3f782a2abe61"
+				and str(attribution_step.get("evidence_sha256", ""))
+					== "d5cced62da4a89728027d16d65a2ffb6732fa2f259abbfc857b05bdf4d86ea76"
+				and str(attribution_step.get("result", "")) == "CAUSAL_ATTRIBUTION_PASS",
+			"CPU-B2 evidence identity changed",
+			failures
+		)
+		var remediation_step: Dictionary = evidence_steps[2]
+		_expect(
+			str(remediation_step.get("evidence_commit", ""))
+				== "6bd1e7f11229e25fd5965856e0b3b38b80335554"
+				and str(remediation_step.get("candidate_commit", ""))
+					== "eb8a69c19801bb3e52837e3c565159827b560d3d"
+				and str(remediation_step.get("authority_commit", ""))
+					== "a8bba838a8860ba30bdb79887ad66ba17028ad18"
+				and str(remediation_step.get("evidence_sha256", ""))
+					== "c61d0a415b29d737667ab8d980185f96803f2524f1e0432cde3df4e9d7fe24ae"
+				and str(remediation_step.get("result", ""))
+					== "CORRECTNESS_HOTFIX_RETAINED_PERFORMANCE_TARGET_MISS",
+			"CPU-B3 evidence identity changed",
+			failures
+		)
+		var cpu_b3: Dictionary = evidence.get("cpu_b3", {})
+		var cpu_b3_medians: Dictionary = cpu_b3.get("trace_off_medians", {})
+		_expect(
+			str(cpu_b3.get("status", "")) == "IN_PROGRESS"
+				and is_equal_approx(
+					float(cpu_b3_medians.get("relocation_to_visual_ready_ms", 0.0)),
+					3822.632
+				)
+				and is_equal_approx(float(cpu_b3_medians.get("frame_p99_ms", 0.0)), 25.397)
+				and int(cpu_b3_medians.get("blocked_frames", -1)) == 11
+				and bool(
+					(cpu_b3.get("rejected_viewer_region_experiment", {}) as Dictionary).get(
+						"reverted", false
+					)
+				),
+			"CPU-B3 retained measurements changed",
 			failures
 		)
 	var baseline: Dictionary = evidence.get("baseline", {})
@@ -3032,8 +3080,8 @@ static func _validate_cpu_human_baseline_trace(
 	)
 	_expect(
 		str(gpu_eligibility.get("status", ""))
-			== "BLOCKED_CPU_CAUSAL_ATTRIBUTION_INCOMPLETE",
-		"GPU architecture decision must remain blocked before causal attribution",
+			== "BLOCKED_CPU_B3_HUMAN_AND_EXHAUSTION_REVIEW_INCOMPLETE",
+		"GPU architecture decision must remain blocked before CPU-B3 review",
 		failures
 	)
 

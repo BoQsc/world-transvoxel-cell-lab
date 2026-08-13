@@ -202,7 +202,7 @@ promotion order: investigation may happen early, but qualification cannot skip
 an earlier dependency.
 
 The machine-readable `execution_plan.json` mirrors the same order but is not a
-second human roadmap. Program revision 48 preserves every qualified TQP-01
+second human roadmap. Program revision 49 preserves every qualified TQP-01
 through TQP-47 claim, keeps the ordered CPU/GPU release sequence from
 `TQP-D033`, corrects TQP-48's inherited low-power target through
 `TQP-D036`, and closes Gate E for the bounded CPU authority envelope through
@@ -217,7 +217,9 @@ selecting a GPU architecture, then closes six discovered production-terrain
 gaps through `TQP-D045`, then retains the corrected human-equivalent CPU
 baseline and blocks TQP-58 behind causal tracing and careful remediation
 through `TQP-D046`, then qualifies CPU-B2 attribution and advances only CPU-B3
-through `TQP-D047`.
+through `TQP-D047`, then retains the first CPU-B3 correctness hotfix candidate,
+rejects the broader viewer-region experiment, and keeps CPU-B3 in progress
+through `TQP-D048`.
 Earlier identifier migrations remain retained in `TQP-D006`, `TQP-D017`, and
 `TQP-D030` as history.
 
@@ -1464,9 +1466,11 @@ the reviewed exact-mask integration state retained on 2026-08-12.
    Godot sinks, replacement readiness, visibility staging, queue state, worker
    activity, main-thread observations, and human markers. It also retains
    paired observer overhead.
-3. `CPU-B3: Cautious Remediation And Exhaustion Review` is `NEXT`. It may
-   change only trace-proven bottlenecks, one causal factor at a time, with A/B
-   comparison against CPU-B1 plus complete correctness and human regressions.
+3. `CPU-B3: Cautious Remediation And Exhaustion Review` is `IN_PROGRESS`. Its
+   retained candidate publishes exact cross-LOD edited regions and issues one
+   bounded batch of matching-generation coverage priority requests. Automated
+   correctness and trace-off A/B evidence pass, but the performance target,
+   human regression review, and independent exhaustion review do not.
 
 CPU-B1 records full-route frame p99 median `23.162 ms`, full-route worst frame
 maximum `100.428 ms`, movement-phase worst frame `40.329 ms`, and one
@@ -1496,6 +1500,21 @@ and frame-time spikes are separate CPU-B3 targets. Tracing is materially
 intrusive and remains disabled by default; traced latency is not a performance
 baseline. CPU-package and whole-system watts remain unqualified.
 
+CPU-B3 retains authority commit `a8bba838`, integration candidate `eb8a69c1`,
+and evidence commit `6bd1e7f1`. Debug and release tests observe zero mixed
+ownership frames, eight exact replacements, one retirement, unchanged
+production streaming hashes, and zero visual/collision divergence. Three
+trace-off runs record median exact render and collision readiness of
+`3822.632 ms`, frame p99 `25.397 ms`, maximum frame `51.242 ms`, 11 blocked
+frames, and three consecutive blocked frames. This is a correctness hotfix
+candidate with `MEASURED_TARGET_MISS`, not a performance pass.
+
+A broader viewer-region publication experiment improved post-sink edit
+publication but increased median blocked frames to 236, consecutive blocked
+frames to 63, and physics-target wait to `2885.357 ms`. Commits `82e84198` and
+`e23e0c2b` are rejected and explicitly reverted. They are absent from the
+retained authority and package.
+
 ## Phase 6: GPU Backend Qualification And Release
 
 This phase starts only after the CPU production release, CPU Finalization
@@ -1508,8 +1527,9 @@ Execution order: TQP-58 -> TQP-59 -> TQP-60 -> TQP-61 -> TQP-62 -> TQP-63 ->
 TQP-64.
 
 The first two CPU preconditions remain qualified. CPU-B1 and CPU-B2 are
-retained, and CPU-B3 is next. TQP-58 is therefore blocked. This does not select
-a GPU architecture or qualify any GPU implementation.
+retained, and CPU-B3 is in progress pending selected-candidate human regression
+and independent CPU exhaustion review. TQP-58 is therefore blocked. This does
+not select a GPU architecture or qualify any GPU implementation.
 
 ### TQP-58: GPU Architecture Decision
 
@@ -1683,16 +1703,18 @@ The program records every milestone at a truthful evidence state:
   coverage, observed LOD0 through LOD3, prefetch and targeted collision
   readiness, bounded performance telemetry, and a clean self-contained Godot
   4.7 bundle.
-- `CPU-B1` and `CPU-B2` retain the reviewed baseline and causal attribution,
-  `CPU-B3` is next, and `TQP-58` through `TQP-64` remain blocked.
+- `CPU-B1` and `CPU-B2` retain the reviewed baseline and causal attribution.
+  `CPU-B3` retains one correctness hotfix candidate but remains in progress;
+  `TQP-58` through `TQP-64` remain blocked.
 - `TQP-65` through `TQP-70` retain the previously implemented but unqualified
   destruction and structural reference behavior under revision-34 identifiers.
 - `TQP-71` networking remains blocked by a missing multiplayer authority model.
 
-The next work is CPU-B3, Cautious Remediation And Exhaustion Review. Its first
-candidate must address only one CPU-B2-proven factor, use trace-off A/B
-measurements, and preserve the full correctness and human regression envelope.
-TQP-58 remains blocked. The CPU release candidate remains the
+The next work is the remaining CPU-B3 review: focused human regression of the
+retained regional edit candidate, followed by an independent decision on
+whether standard CPU remedies are exhausted. The candidate has automated
+correctness evidence but still misses the performance target. TQP-58 remains
+blocked. The CPU release candidate remains the
 differential correctness authority, and a milestone may advance only when its
 declared evidence and entry conditions pass.
 
@@ -1740,7 +1762,8 @@ standalone CPU production addon. CPU-C1 through CPU-C3 now attribute and
 finalize the CPU architecture under the retained three-logical-CPU boundary;
 TQP-R01 through TQP-R06 close the discovered current production-terrain gaps.
 CPU-B1 retains the reviewed human-equivalent target miss, CPU-B2 retains its
-causal attribution, and CPU-B3 is the next careful trace-proven change gate.
+causal attribution, and CPU-B3 retains one correctness candidate while human
+regression and independent exhaustion review remain open.
 Only after they pass may TQP-58 through TQP-64 evaluate and release GPU
 acceleration without revoking CPU authority. TQP-65 through TQP-71 keep
 explosions, support, fluids, vegetation, authored structures, collapse, and
@@ -1938,3 +1961,7 @@ Retained decisions:
 - `TQP-D047`: qualify CPU-B2 delayed-visibility and observed movement-rejection
   attribution with measured observer overhead, advance only CPU-B3 cautious
   one-variable remediation and exhaustion review, and keep TQP-58 blocked.
+- `TQP-D048`: retain the CPU-B3 exact regional edit-publication candidate as a
+  correctness hotfix, reject and revert broader viewer-region publication,
+  keep the measured performance miss explicit, and leave CPU-B3 plus TQP-58
+  blocked on human regression and independent CPU exhaustion review.

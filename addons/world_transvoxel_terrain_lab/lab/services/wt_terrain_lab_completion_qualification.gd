@@ -110,7 +110,7 @@ static func run() -> Dictionary:
 	)
 	_expect(
 		str(gpu_eligibility.get("status", ""))
-			== "BLOCKED_CPU_CAUSAL_ATTRIBUTION_INCOMPLETE",
+			== "BLOCKED_CPU_B3_HUMAN_AND_EXHAUSTION_REVIEW_INCOMPLETE",
 		"GPU architecture decision eligibility differs from CPU preconditions",
 		failures
 	)
@@ -138,7 +138,7 @@ static func run() -> Dictionary:
 			"TQP-58": (
 				"specified_gpu_architecture_decision_eligible"
 				if gpu_decision_eligible
-				else "blocked_cpu_causal_attribution_incomplete"
+				else "blocked_cpu_b3_human_and_exhaustion_review_incomplete"
 			),
 			"TQP-59": "blocked",
 			"TQP-60": "blocked",
