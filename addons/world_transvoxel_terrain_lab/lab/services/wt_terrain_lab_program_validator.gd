@@ -374,7 +374,7 @@ static func _validate_evidence_files(program: Dictionary, failures: Array[String
 		"TQP-D031", "TQP-D032", "TQP-D033", "TQP-D034", "TQP-D035",
 		"TQP-D036", "TQP-D037", "TQP-D038", "TQP-D039", "TQP-D040",
 		"TQP-D041", "TQP-D042", "TQP-D043", "TQP-D044", "TQP-D045",
-		"TQP-D046", "TQP-D047", "TQP-D048", "TQP-D049",
+		"TQP-D046", "TQP-D047", "TQP-D048", "TQP-D049", "TQP-D050",
 	]:
 		_expect(decision_ids.has(required), "missing retained decision: " + required, failures)
 	for key in [
@@ -2968,6 +2968,14 @@ static func _validate_cpu_human_baseline_trace(
 		"CPU human baseline/trace order changed",
 		failures
 	)
+	var continuation_ids: Array[String] = []
+	for step_value in standard.get("cpu_b3_continuation", []):
+		continuation_ids.append(str((step_value as Dictionary).get("id", "")))
+	_expect(
+		continuation_ids == ["CPU-B3A", "CPU-B3B", "CPU-B3C", "CPU-B3D", "CPU-B3E"],
+		"CPU-B3 continuation order changed",
+		failures
+	)
 	var evidence_steps: Array = evidence.get("steps", [])
 	var step_states: Array[String] = []
 	for step_value in evidence_steps:
@@ -3038,13 +3046,21 @@ static func _validate_cpu_human_baseline_trace(
 					== "81142cdc1ac5f3ffeaccd5fc8e6d2ca6bf5e984433ed2eae3affcfc86f55da93"
 				and str(remediation_step.get("human_review_status", ""))
 					== "ACCEPTED_WITH_KNOWN_LIMITATIONS"
-				and remaining_reviews == ["INDEPENDENT_CPU_EXHAUSTION_REVIEW"],
+				and str(remediation_step.get("exhaustion_review_commit", ""))
+					== "953e51fdfa902f93c8eedde28c33cbe5d3437908"
+				and str(remediation_step.get("exhaustion_review_sha256", ""))
+					== "c91110aa12c230dc1470b1ae410138ee800ae57e31e51456ce2763e0cebcba49"
+				and str(remediation_step.get("exhaustion_review_status", "")) == "COMPLETE"
+				and str(remediation_step.get("exhaustion_decision", ""))
+					== "NOT_EXHAUSTED_ADDITIONAL_CPU_ATTRIBUTION_AND_REMEDIATION_REQUIRED"
+				and remaining_reviews == continuation_ids,
 			"CPU-B3 evidence identity changed",
 			failures
 		)
 		var cpu_b3: Dictionary = evidence.get("cpu_b3", {})
 		var cpu_b3_medians: Dictionary = cpu_b3.get("trace_off_medians", {})
 		var human_review: Dictionary = cpu_b3.get("human_review", {})
+		var exhaustion_review: Dictionary = cpu_b3.get("independent_exhaustion_review", {})
 		_expect(
 			str(cpu_b3.get("status", "")) == "IN_PROGRESS"
 				and is_equal_approx(
@@ -3065,6 +3081,18 @@ static func _validate_cpu_human_baseline_trace(
 					"TEMPORARY_LOD_SEE_THROUGH_SLICE",
 					"RESIDUAL_FLIGHT_RESPONSIVENESS",
 					"RELOCATION_FIRST_EDIT_DELAY",
+				]
+				and str(exhaustion_review.get("review_status", "")) == "COMPLETE"
+				and str(exhaustion_review.get("decision", ""))
+					== "NOT_EXHAUSTED_ADDITIONAL_CPU_ATTRIBUTION_AND_REMEDIATION_REQUIRED"
+				and not bool(exhaustion_review.get("cpu_b3_pass", true))
+				and not bool(exhaustion_review.get("tqp58_eligible", true))
+				and exhaustion_review.get("ordered_next_work", []) == [
+					"CPU-B3A temporary LOD opening causal capture and classification",
+					"CPU-B3B flight frame-time and movement responsiveness attribution",
+					"CPU-B3C exact regional publication-component ownership audit",
+					"CPU-B3D at most one newly trace-proven standard CPU remedy with full A/B correctness and human regression",
+					"CPU-B3E repeat independent exhaustion review",
 				],
 			"CPU-B3 retained measurements changed",
 			failures
@@ -3097,8 +3125,8 @@ static func _validate_cpu_human_baseline_trace(
 	)
 	_expect(
 		str(gpu_eligibility.get("status", ""))
-			== "BLOCKED_CPU_B3_EXHAUSTION_REVIEW_INCOMPLETE",
-		"GPU architecture decision must remain blocked before CPU-B3 review",
+			== "BLOCKED_CPU_B3_NOT_EXHAUSTED",
+		"GPU architecture decision must remain blocked while CPU-B3 is not exhausted",
 		failures
 	)
 

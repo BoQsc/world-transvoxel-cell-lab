@@ -202,7 +202,7 @@ promotion order: investigation may happen early, but qualification cannot skip
 an earlier dependency.
 
 The machine-readable `execution_plan.json` mirrors the same order but is not a
-second human roadmap. Program revision 50 preserves every qualified TQP-01
+second human roadmap. Program revision 51 preserves every qualified TQP-01
 through TQP-47 claim, keeps the ordered CPU/GPU release sequence from
 `TQP-D033`, corrects TQP-48's inherited low-power target through
 `TQP-D036`, and closes Gate E for the bounded CPU authority envelope through
@@ -219,8 +219,9 @@ baseline and blocks TQP-58 behind causal tracing and careful remediation
 through `TQP-D046`, then qualifies CPU-B2 attribution and advances only CPU-B3
 through `TQP-D047`, then retains the first CPU-B3 correctness hotfix candidate,
 rejects the broader viewer-region experiment, and keeps CPU-B3 in progress
-through `TQP-D048`, then completes the exact candidate's human regression with
-known limitations through `TQP-D049`.
+through `TQP-D048`, completes the exact candidate's human regression with known
+limitations through `TQP-D049`, then completes the independent review with a
+fail-closed not-exhausted decision through `TQP-D050`.
 Earlier identifier migrations remain retained in `TQP-D006`, `TQP-D017`, and
 `TQP-D030` as history.
 
@@ -1471,8 +1472,9 @@ the reviewed exact-mask integration state retained on 2026-08-12.
    retained candidate publishes exact cross-LOD edited regions and issues one
    bounded batch of matching-generation coverage priority requests. Automated
    correctness and trace-off A/B evidence pass. Human regression is
-   `ACCEPTED_WITH_KNOWN_LIMITATIONS`; the performance target and independent
-   exhaustion review do not pass.
+   `ACCEPTED_WITH_KNOWN_LIMITATIONS`. The independent review is complete with
+   decision `NOT_EXHAUSTED_ADDITIONAL_CPU_ATTRIBUTION_AND_REMEDIATION_REQUIRED`;
+   the performance target and CPU-B3 do not pass.
 
 CPU-B1 records full-route frame p99 median `23.162 ms`, full-route worst frame
 maximum `100.428 ms`, movement-phase worst frame `40.329 ms`, and one
@@ -1522,8 +1524,23 @@ rejection-level correctness failure. The review remains explicitly limited: a
 small see-through LOD slice can appear while content loads and correct itself
 after several seconds, flight responsiveness remains imperfect, and the first
 edit after a long relocation retains a smaller noticeable delay. These are
-release-blocking limitations, not accepted production behavior. Only the
-independent CPU exhaustion review remains in CPU-B3.
+release-blocking limitations, not accepted production behavior.
+
+The independent review verifies the frozen candidate and retained report
+digests without changing implementation. It does not establish exhaustion:
+the temporary LOD opening is unattributed, flight frame-time variance is only
+partially attributed, the retained edit path waits `1988.3341 ms` after its
+sinks for a 267-replacement/31-retirement component, and average active cores
+of `1.451` with large queues does not prove useful CPU saturation.
+
+CPU-B3 continues in this fail-closed order:
+
+1. `CPU-B3A`: capture and classify the temporary LOD opening.
+2. `CPU-B3B`: attribute flight frame-time and movement responsiveness.
+3. `CPU-B3C`: audit exact regional publication-component ownership.
+4. `CPU-B3D`: apply at most one newly trace-proven standard CPU remedy with
+   trace-off A/B, complete correctness, and human regression.
+5. `CPU-B3E`: repeat the independent exhaustion review.
 
 ## Phase 6: GPU Backend Qualification And Release
 
@@ -1537,9 +1554,9 @@ Execution order: TQP-58 -> TQP-59 -> TQP-60 -> TQP-61 -> TQP-62 -> TQP-63 ->
 TQP-64.
 
 The first two CPU preconditions remain qualified. CPU-B1 and CPU-B2 are
-retained, and CPU-B3 is in progress. Its human regression is complete with
-known limitations; the independent exhaustion review remains. TQP-58 is
-therefore blocked. This does
+retained, and CPU-B3 is in progress. Human regression and the independent
+review are complete, but the review found CPU work not exhausted. TQP-58 is
+therefore blocked behind CPU-B3A through CPU-B3E. This does
 not select a GPU architecture or qualify any GPU implementation.
 
 ### TQP-58: GPU Architecture Decision
@@ -1721,10 +1738,9 @@ The program records every milestone at a truthful evidence state:
   destruction and structural reference behavior under revision-34 identifiers.
 - `TQP-71` networking remains blocked by a missing multiplayer authority model.
 
-The next work is the independent CPU-B3 exhaustion decision for the retained
-regional edit candidate. Automated correctness and human regression are
-complete, but the performance target and three named release limitations remain.
-TQP-58 remains
+The next work is CPU-B3A temporary LOD opening causal capture and
+classification. The independent review is complete and found CPU work not
+exhausted; performance and three named release limitations remain. TQP-58 remains
 blocked. The CPU release candidate remains the
 differential correctness authority, and a milestone may advance only when its
 declared evidence and entry conditions pass.
@@ -1774,7 +1790,7 @@ finalize the CPU architecture under the retained three-logical-CPU boundary;
 TQP-R01 through TQP-R06 close the discovered current production-terrain gaps.
 CPU-B1 retains the reviewed human-equivalent target miss, CPU-B2 retains its
 causal attribution, and CPU-B3 retains one human-reviewed correctness candidate
-while independent exhaustion review remains open.
+while CPU-B3A through CPU-B3E remain open after a completed not-exhausted review.
 Only after they pass may TQP-58 through TQP-64 evaluate and release GPU
 acceleration without revoking CPU authority. TQP-65 through TQP-71 keep
 explosions, support, fluids, vegetation, authored structures, collapse, and
@@ -1981,3 +1997,7 @@ Retained decisions:
   flight responsiveness, and relocation first-edit delay as release-blocking
   limitations, and leave independent CPU exhaustion review as the sole
   remaining CPU-B3 substep.
+- `TQP-D050`: complete the independent CPU-B3 review with decision
+  `NOT_EXHAUSTED_ADDITIONAL_CPU_ATTRIBUTION_AND_REMEDIATION_REQUIRED`, retain
+  CPU and TQP-58 fail-closed status, and require CPU-B3A through CPU-B3E in
+  order before another eligibility decision.

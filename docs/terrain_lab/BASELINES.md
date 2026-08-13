@@ -311,6 +311,9 @@ Evidence:
 - CPU-B3 human review: commit `bf59a98`, SHA-256
   `81142cdc1ac5f3ffeaccd5fc8e6d2ca6bf5e984433ed2eae3affcfc86f55da93`,
   `docs/evidence/cpu_b3_regional_publication_20260813/human_review.json`
+- CPU-B3 exhaustion review: commit `953e51f`, SHA-256
+  `c91110aa12c230dc1470b1ae410138ee800ae57e31e51456ce2763e0cebcba49`,
+  `docs/evidence/cpu_b3_regional_publication_20260813/exhaustion_review.json`
 
 Status: `IN_PROGRESS`. CPU-B1 and CPU-B2 are `PASS`; CPU-B3 retains a
 correctness hotfix candidate but remains `IN_PROGRESS`; TQP-58 is ineligible.
@@ -347,14 +350,20 @@ Its three-run trace-off medians are `3822.632 ms` exact readiness, `25.397 ms`
 frame p99, `51.242 ms` maximum frame, 11 blocked frames, and three consecutive
 blocked frames. This remains `MEASURED_TARGET_MISS`. The broader viewer-region
 experiment was rejected and reverted after median blocked frames rose to 236
-and median physics-target wait reached `2885.357 ms`. Human regression and the
-independent CPU exhaustion review remain open.
+and median physics-target wait reached `2885.357 ms`.
 
 Human regression is `ACCEPTED_WITH_KNOWN_LIMITATIONS`: no new rejection-level
 correctness failure was observed, but a temporary see-through LOD slice,
 residual flight responsiveness problems, and a smaller first-edit delay after
 long relocation remain release-blocking. Human review is complete; independent
-CPU exhaustion review remains open.
+CPU exhaustion was not established.
+
+The independent review is now complete with decision
+`NOT_EXHAUSTED_ADDITIONAL_CPU_ATTRIBUTION_AND_REMEDIATION_REQUIRED`. It does not
+revoke the candidate, but it fails CPU-B3 and TQP-58 eligibility because the
+temporary LOD opening is unattributed, flight variance is only partially
+attributed, regional component-remedy classes remain open, and the evidence
+does not prove CPU saturation. CPU-B3A through CPU-B3E are next in order.
 
 ## Run Policy
 

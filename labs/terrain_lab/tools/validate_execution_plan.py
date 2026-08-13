@@ -222,8 +222,15 @@ def main() -> int:
         == "81142cdc1ac5f3ffeaccd5fc8e6d2ca6bf5e984433ed2eae3affcfc86f55da93"
         and cpu_b3.get("human_review_status")
         == "ACCEPTED_WITH_KNOWN_LIMITATIONS"
+        and cpu_b3.get("exhaustion_review_commit")
+        == "953e51fdfa902f93c8eedde28c33cbe5d3437908"
+        and cpu_b3.get("exhaustion_review_sha256")
+        == "c91110aa12c230dc1470b1ae410138ee800ae57e31e51456ce2763e0cebcba49"
+        and cpu_b3.get("exhaustion_review_status") == "COMPLETE"
+        and cpu_b3.get("exhaustion_decision")
+        == "NOT_EXHAUSTED_ADDITIONAL_CPU_ATTRIBUTION_AND_REMEDIATION_REQUIRED"
         and cpu_b3.get("remaining")
-        == ["INDEPENDENT_CPU_EXHAUSTION_REVIEW"]
+        == ["CPU-B3A", "CPU-B3B", "CPU-B3C", "CPU-B3D", "CPU-B3E"]
         and cpu_human_trace.get("cpu_b3", {}).get("status") == "IN_PROGRESS"
         and cpu_human_trace.get("cpu_b3", {}).get("trace_off_medians", {}).get(
             "relocation_to_visual_ready_ms"
@@ -241,6 +248,16 @@ def main() -> int:
             "RESIDUAL_FLIGHT_RESPONSIVENESS",
             "RELOCATION_FIRST_EDIT_DELAY",
         ]
+        and cpu_human_trace.get("cpu_b3", {}).get(
+            "independent_exhaustion_review", {}
+        ).get("review_status") == "COMPLETE"
+        and cpu_human_trace.get("cpu_b3", {}).get(
+            "independent_exhaustion_review", {}
+        ).get("decision")
+        == "NOT_EXHAUSTED_ADDITIONAL_CPU_ATTRIBUTION_AND_REMEDIATION_REQUIRED"
+        and cpu_human_trace.get("cpu_b3", {}).get(
+            "independent_exhaustion_review", {}
+        ).get("tqp58_eligible") is False
     )
     cpu_human_eligible = (
         cpu_human_trace.get("status") == "PASS"

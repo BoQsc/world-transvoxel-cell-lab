@@ -6,7 +6,7 @@ Qualification Program; it does not own production implementation and does not
 extend the Cell Lab root node.
 
 The [Terrain Qualification Program](TERRAIN_QUALIFICATION_PROGRAM.md) is the
-single human-readable roadmap. Program revision 50 contains TQP-01 through
+single human-readable roadmap. Program revision 51 contains TQP-01 through
 TQP-71 in ground-up execution order:
 
 - TQP-01 through TQP-50 are qualified only for their declared bounded scopes;
@@ -51,8 +51,9 @@ current CPU production closure and self-contained `1.1.0-rc1` bundle without
 claiming public Asset Library acceptance. `TQP-D046` retains the reviewed
 human-equivalent target miss, `TQP-D047` qualifies CPU-B2 attribution, and
 `TQP-D048` retains the narrow CPU-B3 correctness candidate while rejecting the
-broader viewer-region experiment, and `TQP-D049` records human acceptance with
-three release-blocking limitations. TQP-58 remains blocked. The GPU backend, non-Windows, and
+broader viewer-region experiment, `TQP-D049` records human acceptance with
+three release-blocking limitations, and `TQP-D050` completes a not-exhausted
+CPU review. CPU-B3A is next and TQP-58 remains blocked. The GPU backend, non-Windows, and
 cross-hardware claims remain unqualified.
 
 Godot 4.7 is the minimum and sole current qualification target. Godot 4.6

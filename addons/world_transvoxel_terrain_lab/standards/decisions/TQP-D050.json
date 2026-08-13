@@ -1,0 +1,42 @@
+{
+  "schema": "world_transvoxel.terrain_lab.decision.v1",
+  "id": "TQP-D050",
+  "date": "2026-08-13",
+  "decision": "Complete the independent CPU-B3 exhaustion review with a NOT_EXHAUSTED decision, keep CPU-B3 in progress and TQP-58 blocked, and require CPU-B3A through CPU-B3E in fail-closed order.",
+  "affected_milestones": ["TQP-47", "TQP-57", "TQP-58"],
+  "affected_repositories": ["world-transvoxel-cell-lab", "world-transvoxel-integration-game", "world-transvoxel"],
+  "alternatives_rejected": [
+    "treat the independent review as incomplete because its answer is negative",
+    "inherit the older CPU-C3 exhaustion result across the later CPU-B3 implementation and evidence change",
+    "declare CPU exhausted from target misses without saturation evidence",
+    "select GPU architecture while release-blocking defects remain unattributed or standard CPU remedy classes remain open"
+  ],
+  "evidence": [
+    "integration exhaustion-review commit 953e51fdfa902f93c8eedde28c33cbe5d3437908",
+    "exhaustion-review SHA-256 c91110aa12c230dc1470b1ae410138ee800ae57e31e51456ce2763e0cebcba49",
+    "human candidate tag human-accepted-cpu-b3-candidate-2026-08-13 at bf59a98f51ada8cd9ef6fe1a71100984b87046c0",
+    "authority candidate a8bba838a8860ba30bdb79887ad66ba17028ad18",
+    "three trace-off runs and one retained causal pair under logical CPUs [0,1,2]"
+  ],
+  "qualified_scope": [
+    "independent exhaustion review completed without changing terrain implementation",
+    "frozen candidate and source-evidence integrity verified",
+    "correctness authority remains retained",
+    "CPU exhaustion and TQP-58 ineligibility decided fail closed"
+  ],
+  "explicitly_unqualified_scope": [
+    "CPU-B3 completion",
+    "temporary LOD opening attribution",
+    "complete flight frame-time attribution",
+    "exhaustion of regional publication-component remedy classes",
+    "CPU saturation",
+    "GPU architecture eligibility or selection"
+  ],
+  "standards_changed": [
+    "the CPU-B3 independent review changed from pending to COMPLETE",
+    "the exhaustion decision is NOT_EXHAUSTED_ADDITIONAL_CPU_ATTRIBUTION_AND_REMEDIATION_REQUIRED",
+    "CPU-B3A through CPU-B3E are the ordered continuation",
+    "the TQP-58 blocker changed from review incomplete to CPU-B3 not exhausted"
+  ],
+  "downstream_impact": "Next execute CPU-B3A temporary LOD opening causal capture. Do not change worker limits, revive broad viewer-region publication, or begin TQP-58 before CPU-B3E passes."
+}

@@ -44,7 +44,12 @@
       "human_review_path": "docs/evidence/cpu_b3_regional_publication_20260813/human_review.json",
       "human_review_sha256": "81142cdc1ac5f3ffeaccd5fc8e6d2ca6bf5e984433ed2eae3affcfc86f55da93",
       "human_review_status": "ACCEPTED_WITH_KNOWN_LIMITATIONS",
-      "remaining": ["INDEPENDENT_CPU_EXHAUSTION_REVIEW"]
+      "exhaustion_review_commit": "953e51fdfa902f93c8eedde28c33cbe5d3437908",
+      "exhaustion_review_path": "docs/evidence/cpu_b3_regional_publication_20260813/exhaustion_review.json",
+      "exhaustion_review_sha256": "c91110aa12c230dc1470b1ae410138ee800ae57e31e51456ce2763e0cebcba49",
+      "exhaustion_review_status": "COMPLETE",
+      "exhaustion_decision": "NOT_EXHAUSTED_ADDITIONAL_CPU_ATTRIBUTION_AND_REMEDIATION_REQUIRED",
+      "remaining": ["CPU-B3A", "CPU-B3B", "CPU-B3C", "CPU-B3D", "CPU-B3E"]
     }
   ],
   "baseline": {
@@ -172,7 +177,28 @@
         "RELOCATION_FIRST_EDIT_DELAY"
       ]
     },
-    "claim_boundary": "the selected candidate is retained as a correctness hotfix and has completed human regression with known release-blocking limitations; performance still misses, CPU exhaustion is not established, and TQP-58 remains blocked"
+    "independent_exhaustion_review": {
+      "review_status": "COMPLETE",
+      "decision": "NOT_EXHAUSTED_ADDITIONAL_CPU_ATTRIBUTION_AND_REMEDIATION_REQUIRED",
+      "cpu_b3_pass": false,
+      "tqp58_eligible": false,
+      "implementation_changed": false,
+      "failed_exit_criteria": [
+        "trace_off_performance_target_pass",
+        "release_blocking_human_limitations_absent",
+        "all_material_bottlenecks_causally_attributed",
+        "all_trace_supported_standard_cpu_remedies_exhausted",
+        "independent_gpu_eligibility_established"
+      ],
+      "ordered_next_work": [
+        "CPU-B3A temporary LOD opening causal capture and classification",
+        "CPU-B3B flight frame-time and movement responsiveness attribution",
+        "CPU-B3C exact regional publication-component ownership audit",
+        "CPU-B3D at most one newly trace-proven standard CPU remedy with full A/B correctness and human regression",
+        "CPU-B3E repeat independent exhaustion review"
+      ]
+    },
+    "claim_boundary": "the selected correctness candidate has completed human regression and an independent exhaustion review; that review found CPU work not exhausted, so CPU-B3 remains in progress and TQP-58 remains blocked"
   },
   "consistency_failures": []
 }

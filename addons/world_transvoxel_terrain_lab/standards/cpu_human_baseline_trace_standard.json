@@ -21,12 +21,20 @@
       "complete_when": "only trace-proven bottlenecks receive one-variable standard remedies, each with A/B baseline comparison and full correctness plus human regression, followed by an independent CPU exhaustion and GPU-eligibility decision"
     }
   ],
+  "cpu_b3_continuation": [
+    {"id": "CPU-B3A", "title": "Temporary LOD Opening Causal Capture", "complete_when": "an exact marker and bounded trace classify the opening as geometry, residency, retirement, visibility, or publication ordering without changing policy first"},
+    {"id": "CPU-B3B", "title": "Flight Responsiveness Attribution", "complete_when": "trace-off and trace-on evidence separates input latency, frame hitches, collision readiness, demand admission, and queue growth"},
+    {"id": "CPU-B3C", "title": "Regional Publication Component Audit", "complete_when": "exact component membership and superseded viewer-plan ownership are accounted for across replacement generations"},
+    {"id": "CPU-B3D", "title": "One Trace-Proven Standard CPU Remedy", "complete_when": "at most one newly proven factor changes and trace-off A/B, complete correctness, and human regression pass"},
+    {"id": "CPU-B3E", "title": "Repeated Independent Exhaustion Review", "complete_when": "a fresh fail-closed report decides CPU exhaustion and TQP-58 eligibility against the resulting exact candidate"}
+  ],
   "promotion_rules": [
     "CPU-B1 must retain measured misses rather than require an artificial pass",
     "CPU-B2 is observation-only and must measure its own overhead",
     "CPU-B2 transition evidence must pair explicit nonzero-mask start, successful finish, and consumed completion identities; aggregate counters are insufficient",
     "CPU-B3 cannot start from queue sizes or aggregate timing alone; causal attribution is mandatory",
     "each remediation changes one causal factor and preserves the retained correctness authority",
+    "a completed NOT_EXHAUSTED review returns CPU-B3 to its declared continuation rather than advancing TQP-58",
     "TQP-58 remains blocked until CPU-B1, CPU-B2, and CPU-B3 pass in order"
   ],
   "forbidden_shortcuts": [
