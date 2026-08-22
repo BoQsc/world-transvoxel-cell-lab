@@ -206,17 +206,17 @@ def main() -> int:
     cpu_b3a_attempt = cpu_human_trace.get("cpu_b3", {}).get("cpu_b3a_attempt", {})
     cpu_b3_retained = (
         len(cpu_human_steps) == 3
-        and cpu_human_steps[2] == ("CPU-B3", "IN_PROGRESS")
+        and cpu_human_steps[2] == ("CPU-B3", "PASS")
         and cpu_b3.get("evidence_commit")
-        == "6bd1e7f11229e25fd5965856e0b3b38b80335554"
+        == "53eb8e6b1c9a7900c26c57f04e5947aada320518"
         and cpu_b3.get("candidate_commit")
-        == "eb8a69c19801bb3e52837e3c565159827b560d3d"
+        == "9518d303f895845efce8afea04e763f24dea695c"
         and cpu_b3.get("authority_commit")
-        == "a8bba838a8860ba30bdb79887ad66ba17028ad18"
+        == "b35491948e126f6f660f64ad89532acbc50895bc"
         and cpu_b3.get("evidence_sha256")
-        == "c61d0a415b29d737667ab8d980185f96803f2524f1e0432cde3df4e9d7fe24ae"
+        == "0c00b7bb64ca2f905a8626ec38832a8ade05f11cdbab5968372cd01ac6ca513b"
         and cpu_b3.get("result")
-        == "CORRECTNESS_HOTFIX_RETAINED_PERFORMANCE_TARGET_MISS"
+        == "AUTHORITATIVE_CPU_BASELINE_FROZEN_PERFORMANCE_TARGET_MISSED"
         and cpu_b3.get("human_review_commit")
         == "bf59a98f51ada8cd9ef6fe1a71100984b87046c0"
         and cpu_b3.get("human_review_sha256")
@@ -224,15 +224,14 @@ def main() -> int:
         and cpu_b3.get("human_review_status")
         == "ACCEPTED_WITH_KNOWN_LIMITATIONS"
         and cpu_b3.get("exhaustion_review_commit")
-        == "953e51fdfa902f93c8eedde28c33cbe5d3437908"
+        == "53eb8e6b1c9a7900c26c57f04e5947aada320518"
         and cpu_b3.get("exhaustion_review_sha256")
-        == "c91110aa12c230dc1470b1ae410138ee800ae57e31e51456ce2763e0cebcba49"
+        == "0c00b7bb64ca2f905a8626ec38832a8ade05f11cdbab5968372cd01ac6ca513b"
         and cpu_b3.get("exhaustion_review_status") == "COMPLETE"
         and cpu_b3.get("exhaustion_decision")
-        == "NOT_EXHAUSTED_ADDITIONAL_CPU_ATTRIBUTION_AND_REMEDIATION_REQUIRED"
-        and cpu_b3.get("remaining")
-        == ["CPU-B3A", "CPU-B3B", "CPU-B3C", "CPU-B3D", "CPU-B3E"]
-        and cpu_human_trace.get("cpu_b3", {}).get("status") == "IN_PROGRESS"
+        == "EXHAUSTED_STANDARD_CPU_REMEDIES_GPU_DECISION_ELIGIBLE"
+        and cpu_b3.get("remaining") == []
+        and cpu_human_trace.get("cpu_b3", {}).get("status") == "PASS"
         and cpu_human_trace.get("cpu_b3", {}).get("trace_off_medians", {}).get(
             "relocation_to_visual_ready_ms"
         ) == 3822.632
@@ -253,12 +252,14 @@ def main() -> int:
             "independent_exhaustion_review", {}
         ).get("review_status") == "COMPLETE"
         and cpu_human_trace.get("cpu_b3", {}).get(
-            "independent_exhaustion_review", {}
-        ).get("decision")
-        == "NOT_EXHAUSTED_ADDITIONAL_CPU_ATTRIBUTION_AND_REMEDIATION_REQUIRED"
+            "final_closure", {}
+        ).get("status") == "PASS_CPU_REFERENCE_FROZEN_PERFORMANCE_TARGET_MISSED"
         and cpu_human_trace.get("cpu_b3", {}).get(
-            "independent_exhaustion_review", {}
-        ).get("tqp58_eligible") is False
+            "final_closure", {}
+        ).get("standard_cpu_remedies_exhausted") is True
+        and cpu_human_trace.get("cpu_b3", {}).get(
+            "final_closure", {}
+        ).get("tqp58_eligible") is True
         and cpu_b3a_attempt.get("status") == "IN_PROGRESS_EVENT_NOT_REPRODUCED"
         and cpu_b3a_attempt.get("classification")
         == "BOUNDED_ROAD_FILTERED_ROUTE_NO_EVENT"
@@ -365,10 +366,10 @@ def main() -> int:
             failures.append("qualified CPU human steps are missing or out of order")
         if plan.get("recommended_precondition_steps") != []:
             failures.append("completed precondition steps remain recommended")
-        if not str(plan.get("recommended_action", "")).startswith("Execute TQP-58"):
-            failures.append("execution plan does not direct work to eligible TQP-58")
-        if milestones.get("TQP-58", {}).get("status") != "specified":
-            failures.append("eligible TQP-58 must be specified, not qualified or blocked")
+        if not str(plan.get("recommended_action", "")).startswith("Execute TQP-59"):
+            failures.append("execution plan does not direct work to TQP-59")
+        if milestones.get("TQP-58", {}).get("status") != "qualified":
+            failures.append("completed TQP-58 decision must be qualified")
     expected_next: list[str] = []
     for step in current.get("steps", []):
         incomplete = [

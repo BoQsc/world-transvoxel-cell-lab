@@ -4,7 +4,7 @@ The Terrain Lab addon owns controlled experiments for the Terrain Qualification
 Program. It is separate from `world_transvoxel_cell_lab` even though both addons
 share this repository and the pinned `world_transvoxel` dependency.
 
-Current status: fail-closed program revision 46. All 71 milestones have a
+Current status: fail-closed program revision 53. All 71 milestones have a
 machine-readable evidence state. TQP-01 through TQP-50 retain their bounded
 qualified scopes; TQP-28 through TQP-43 establish the deterministic native
 field contract, LOD0 complex-field corpus, bounded adaptive selector, and
@@ -28,8 +28,10 @@ is the historical limited Windows CPU Terrain Standard 1.0 release. The
 TQP-R01 through TQP-R06 production closure qualifies the corrected current
 LOD0-through-LOD3 CPU release candidate, temporal continuity, global coarse
 coverage, visual prefetch, targeted collision, bounded telemetry, and clean
-Godot 4.7 bundle. TQP-58 through TQP-64 own GPU qualification and release,
-and TQP-65 through TQP-71 keep game-oriented systems after terrain release.
+Godot 4.7 bundle. CPU-B1 through CPU-B3 freeze the final CPU reference with a
+performance target miss. TQP-58 qualifies the decision-only GPU architecture;
+TQP-59 through TQP-64 own GPU implementation qualification and release, and
+TQP-65 through TQP-71 keep game-oriented systems after terrain release.
 
 Godot 4.7 is the minimum and sole current qualification target. Older engine
 results are historical evidence, not a support requirement; newer versions
@@ -59,8 +61,8 @@ fixtures for edit semantics, material semantics, terrain-system policy,
 structural policy, observability, and backend decisions. It qualifies only the
 bounded native adaptive-terrain scopes backed by retained evidence and records
 the remaining gaps without widening those claims. These reference models are
-not a production terrain runtime. TQP-58 through TQP-64 GPU milestones remain
-separate, and no fallback mesher exists.
+not a production terrain runtime. TQP-59 through TQP-64 GPU implementation
+milestones remain separate, and no fallback mesher exists.
 
 Program document:
 

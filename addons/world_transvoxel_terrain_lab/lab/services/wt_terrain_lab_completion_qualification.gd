@@ -110,8 +110,8 @@ static func run() -> Dictionary:
 	)
 	_expect(
 		str(gpu_eligibility.get("status", ""))
-			== "BLOCKED_CPU_B3_NOT_EXHAUSTED",
-		"GPU architecture decision eligibility must reflect CPU-B3 not exhausted",
+			== "QUALIFIED_TQP58_DECISION_COMPLETE",
+		"GPU architecture decision must reflect the qualified TQP-58 boundary",
 		failures
 	)
 	_expect(
@@ -135,11 +135,7 @@ static func run() -> Dictionary:
 			"TQP-55": "qualified_windows_cpu_release_matrix_v1",
 			"TQP-56": "qualified_windows_cpu_wrapper_and_retained_long_haul_v1",
 			"TQP-57": "production_cpu_terrain_standard_1_0_limited_windows_reference_release",
-			"TQP-58": (
-				"specified_gpu_architecture_decision_eligible"
-				if gpu_decision_eligible
-				else "blocked_cpu_b3_not_exhausted"
-			),
+			"TQP-58": "qualified_gpu_architecture_decision_only",
 			"TQP-59": "blocked",
 			"TQP-60": "blocked",
 			"TQP-61": "blocked",
@@ -153,11 +149,7 @@ static func run() -> Dictionary:
 		"cpu_production_closure": cpu_production_closure,
 		"cpu_human_baseline_trace": cpu_human_trace,
 		"blockers": blocker_records,
-		"specified_scope": (
-			["TQP-58 measured GPU Architecture Decision against retained CPU authority"]
-			if gpu_decision_eligible
-			else []
-		),
+		"specified_scope": [],
 		"qualified_scope": [
 			"TQP-51 pinned standalone candidate-addon boundary without a Terrain Lab runtime dependency",
 			"TQP-52 pinned runtime API profiles readiness back-pressure and cancellation contract",
@@ -166,10 +158,11 @@ static func run() -> Dictionary:
 			"TQP-55 pinned Windows CPU production release matrix and deterministic package",
 			"TQP-56 bounded production-wrapper plus retained 1800-second long-haul evidence",
 			"TQP-57 CPU Terrain Standard 1.0 standalone limited Windows reference release",
+			"TQP-58 measured GPU field and Transvoxel meshing candidate architecture under retained CPU authority",
 		],
 		"explicitly_unqualified_scope": [
 			"CPU production responsiveness target pass and CPU energy claims",
-			"GPU backend milestones TQP-58 through TQP-64",
+			"GPU backend implementation milestones TQP-59 through TQP-64",
 			"TQP-71 networking and recovery",
 		],
 		"failures": failures,

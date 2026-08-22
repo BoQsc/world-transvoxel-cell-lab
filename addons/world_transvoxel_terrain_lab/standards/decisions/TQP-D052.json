@@ -1,0 +1,48 @@
+{
+  "schema": "world_transvoxel.terrain_lab.decision.v1",
+  "id": "TQP-D052",
+  "date": "2026-08-23",
+  "decision": "Close CPU-B3 as a frozen correctness and comparison baseline with explicit performance target misses, qualify TQP-58 as a decision-only milestone, and select GPU field evaluation plus regular and transition meshing as bounded candidates under CPU control authority.",
+  "affected_milestones": ["TQP-47", "TQP-57", "TQP-58", "TQP-59", "TQP-60", "TQP-61", "TQP-62"],
+  "affected_repositories": ["world-transvoxel-cell-lab", "world-transvoxel-integration-game", "world-transvoxel"],
+  "alternatives_rejected": [
+    "continue unbounded CPU scheduler experiments after focused standard candidates were measured and rejected",
+    "treat the CPU performance target miss as a correctness failure",
+    "replace CPU world-state, edit, persistence, publication, or collision authority with GPU ownership",
+    "claim that TQP-58 qualifies an implemented or production GPU backend",
+    "use a silent runtime fallback that obscures GPU failure"
+  ],
+  "evidence": [
+    "world-transvoxel authority b35491948e126f6f660f64ad89532acbc50895bc",
+    "world-transvoxel-integration-game evidence commit 53eb8e6b1c9a7900c26c57f04e5947aada320518",
+    "final CPU qualification SHA-256 0c00b7bb64ca2f905a8626ec38832a8ade05f11cdbab5968372cd01ac6ca513b",
+    "GPU architecture decision SHA-256 4ea34f2dc1113f93bba469684af221aee65e805327f2fe61d81d4c92349a85ae",
+    "62 native debug/release executables and 10 Godot 4.7.2 smokes passed under logical CPUs [0,1,2]",
+    "three-run trace-off median frame p99 38.660 ms and relocation readiness 8692.049 ms",
+    "lossless 138608-event causal trace classified global visibility staging and collision-readiness backlog"
+  ],
+  "qualified_scope": [
+    "final CPU correctness and performance-comparison baseline",
+    "CPU-B3 completion and TQP-58 eligibility",
+    "decision to evaluate GPU field work and regular plus transition meshing",
+    "CPU ownership of state, edits, revisions, stale rejection, atomic publication, persistence, and initial targeted collision",
+    "explicit CPU reference mode with no silent fallback"
+  ],
+  "explicitly_unqualified_scope": [
+    "CPU production responsiveness target pass",
+    "absence of every transient presentation limitation",
+    "GPU implementation correctness",
+    "GPU performance or energy benefit",
+    "GPU collision readback",
+    "cross-hardware GPU support",
+    "GPU production terrain backend release"
+  ],
+  "standards_changed": [
+    "CPU_HUMAN_BASELINE_TRACE_PRECONDITION is qualified with CPU-B1 through CPU-B3 complete",
+    "TQP-58 is qualified as decision-only",
+    "TQP-59 is the next numbered milestone",
+    "GPU result identity must include page key, LOD, generation, source revision, world revision, and transition mask",
+    "CPU, GPU-board, and whole-system power remain separate measurement boundaries"
+  ],
+  "downstream_impact": "Implement no production GPU backend yet. Execute TQP-59 analytical and CPU-differential field evaluation first, retain CPU world-transvoxel as the reference oracle, and leave TQP-60 through TQP-64 blocked until their own evidence passes."
+}

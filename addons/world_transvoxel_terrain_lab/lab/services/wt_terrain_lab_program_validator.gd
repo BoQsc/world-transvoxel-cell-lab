@@ -375,7 +375,7 @@ static func _validate_evidence_files(program: Dictionary, failures: Array[String
 		"TQP-D036", "TQP-D037", "TQP-D038", "TQP-D039", "TQP-D040",
 		"TQP-D041", "TQP-D042", "TQP-D043", "TQP-D044", "TQP-D045",
 		"TQP-D046", "TQP-D047", "TQP-D048", "TQP-D049", "TQP-D050",
-		"TQP-D051",
+		"TQP-D051", "TQP-D052",
 	]:
 		_expect(decision_ids.has(required), "missing retained decision: " + required, failures)
 	for key in [
@@ -563,18 +563,17 @@ static func _validate_execution_plan(
 		"CPU_HUMAN_BASELINE_TRACE_PRECONDITION",
 	]
 	_expect(
-		plan.get("completed_preconditions", [])
-			== required_preconditions.slice(0, 2),
+		plan.get("completed_preconditions", []) == required_preconditions,
 		"execution plan completed CPU preconditions are missing or out of order",
 		failures
 	)
 	_expect(
-		plan.get("completed_precondition_steps", []) == ["CPU-B1", "CPU-B2"],
+		plan.get("completed_precondition_steps", []) == ["CPU-B1", "CPU-B2", "CPU-B3"],
 		"execution plan completed CPU human steps are missing or out of order",
 		failures
 	)
 	_expect(
-		plan.get("recommended_precondition_steps", []) == ["CPU-B3"],
+		(plan.get("recommended_precondition_steps", []) as Array).is_empty(),
 		"execution plan CPU human next steps are missing or out of order",
 		failures
 	)
@@ -666,9 +665,9 @@ static func _validate_qualification_state(
 		"CPU_HUMAN_BASELINE_TRACE_PRECONDITION", {}
 	)
 	_expect(
-		str(cpu_human_trace.get("status", "")) == "in_progress"
-			and cpu_human_trace.get("blocks", []) == ["TQP-58"]
-			and (cpu_human_trace.get("admits", []) as Array).is_empty(),
+		str(cpu_human_trace.get("status", "")) == "qualified"
+			and (cpu_human_trace.get("blocks", []) as Array).is_empty()
+			and cpu_human_trace.get("admits", []) == ["TQP-58"],
 		"CPU human baseline/trace precondition state is inconsistent",
 		failures
 	)
@@ -2986,15 +2985,15 @@ static func _validate_cpu_human_baseline_trace(
 	_expect(
 		str(evidence.get("schema", ""))
 			== "world_transvoxel.terrain_lab.cpu_human_baseline_trace_readiness.v1"
-			and str(evidence.get("status", "")) == "IN_PROGRESS"
-			and not bool(evidence.get("retained_complete", true))
-			and not bool(evidence.get("tqp58_eligible", true))
+			and str(evidence.get("status", "")) == "PASS"
+			and bool(evidence.get("retained_complete", false))
+			and bool(evidence.get("tqp58_eligible", false))
 			and evidence_affinity.size() == 3
 			and int(evidence_affinity[0]) == 0
 			and int(evidence_affinity[1]) == 1
 			and int(evidence_affinity[2]) == 2
 			and (evidence.get("consistency_failures", []) as Array).is_empty()
-			and ",".join(step_states) == "CPU-B1:PASS,CPU-B2:PASS,CPU-B3:IN_PROGRESS",
+			and ",".join(step_states) == "CPU-B1:PASS,CPU-B2:PASS,CPU-B3:PASS",
 		"CPU human baseline/trace readiness changed",
 		failures
 	)
@@ -3032,15 +3031,15 @@ static func _validate_cpu_human_baseline_trace(
 		var remaining_reviews: Array = remediation_step.get("remaining", [])
 		_expect(
 			str(remediation_step.get("evidence_commit", ""))
-				== "6bd1e7f11229e25fd5965856e0b3b38b80335554"
+				== "53eb8e6b1c9a7900c26c57f04e5947aada320518"
 				and str(remediation_step.get("candidate_commit", ""))
-					== "eb8a69c19801bb3e52837e3c565159827b560d3d"
+					== "9518d303f895845efce8afea04e763f24dea695c"
 				and str(remediation_step.get("authority_commit", ""))
-					== "a8bba838a8860ba30bdb79887ad66ba17028ad18"
+					== "b35491948e126f6f660f64ad89532acbc50895bc"
 				and str(remediation_step.get("evidence_sha256", ""))
-					== "c61d0a415b29d737667ab8d980185f96803f2524f1e0432cde3df4e9d7fe24ae"
+					== "0c00b7bb64ca2f905a8626ec38832a8ade05f11cdbab5968372cd01ac6ca513b"
 				and str(remediation_step.get("result", ""))
-					== "CORRECTNESS_HOTFIX_RETAINED_PERFORMANCE_TARGET_MISS"
+					== "AUTHORITATIVE_CPU_BASELINE_FROZEN_PERFORMANCE_TARGET_MISSED"
 				and str(remediation_step.get("human_review_commit", ""))
 					== "bf59a98f51ada8cd9ef6fe1a71100984b87046c0"
 				and str(remediation_step.get("human_review_sha256", ""))
@@ -3048,13 +3047,13 @@ static func _validate_cpu_human_baseline_trace(
 				and str(remediation_step.get("human_review_status", ""))
 					== "ACCEPTED_WITH_KNOWN_LIMITATIONS"
 				and str(remediation_step.get("exhaustion_review_commit", ""))
-					== "953e51fdfa902f93c8eedde28c33cbe5d3437908"
+					== "53eb8e6b1c9a7900c26c57f04e5947aada320518"
 				and str(remediation_step.get("exhaustion_review_sha256", ""))
-					== "c91110aa12c230dc1470b1ae410138ee800ae57e31e51456ce2763e0cebcba49"
+					== "0c00b7bb64ca2f905a8626ec38832a8ade05f11cdbab5968372cd01ac6ca513b"
 				and str(remediation_step.get("exhaustion_review_status", "")) == "COMPLETE"
 				and str(remediation_step.get("exhaustion_decision", ""))
-					== "NOT_EXHAUSTED_ADDITIONAL_CPU_ATTRIBUTION_AND_REMEDIATION_REQUIRED"
-				and remaining_reviews == continuation_ids,
+					== "EXHAUSTED_STANDARD_CPU_REMEDIES_GPU_DECISION_ELIGIBLE"
+				and remaining_reviews.is_empty(),
 			"CPU-B3 evidence identity changed",
 			failures
 		)
@@ -3063,8 +3062,9 @@ static func _validate_cpu_human_baseline_trace(
 		var human_review: Dictionary = cpu_b3.get("human_review", {})
 		var exhaustion_review: Dictionary = cpu_b3.get("independent_exhaustion_review", {})
 		var cpu_b3a_attempt: Dictionary = cpu_b3.get("cpu_b3a_attempt", {})
+		var final_closure: Dictionary = cpu_b3.get("final_closure", {})
 		_expect(
-			str(cpu_b3.get("status", "")) == "IN_PROGRESS"
+			str(cpu_b3.get("status", "")) == "PASS"
 				and is_equal_approx(
 					float(cpu_b3_medians.get("relocation_to_visual_ready_ms", 0.0)),
 					3822.632
@@ -3085,17 +3085,17 @@ static func _validate_cpu_human_baseline_trace(
 					"RELOCATION_FIRST_EDIT_DELAY",
 				]
 				and str(exhaustion_review.get("review_status", "")) == "COMPLETE"
-				and str(exhaustion_review.get("decision", ""))
-					== "NOT_EXHAUSTED_ADDITIONAL_CPU_ATTRIBUTION_AND_REMEDIATION_REQUIRED"
-				and not bool(exhaustion_review.get("cpu_b3_pass", true))
-				and not bool(exhaustion_review.get("tqp58_eligible", true))
-				and exhaustion_review.get("ordered_next_work", []) == [
-					"CPU-B3A temporary LOD opening causal capture and classification",
-					"CPU-B3B flight frame-time and movement responsiveness attribution",
-					"CPU-B3C exact regional publication-component ownership audit",
-					"CPU-B3D at most one newly trace-proven standard CPU remedy with full A/B correctness and human regression",
-					"CPU-B3E repeat independent exhaustion review",
-				],
+				and str(final_closure.get("status", ""))
+					== "PASS_CPU_REFERENCE_FROZEN_PERFORMANCE_TARGET_MISSED"
+				and str(final_closure.get("authority_commit", ""))
+					== "b35491948e126f6f660f64ad89532acbc50895bc"
+				and int(final_closure.get("native_debug_release_executables_passed", 0)) == 62
+				and int(final_closure.get("godot_smoke_scripts_passed", 0)) == 10
+				and int(final_closure.get("causal_drops_or_gaps", -1)) == 0
+				and bool(final_closure.get("standard_cpu_remedies_exhausted", false))
+				and bool(final_closure.get("cpu_b3_pass", false))
+				and bool(final_closure.get("tqp58_eligible", false))
+				and not bool(final_closure.get("gpu_backend_promoted", true)),
 			"CPU-B3 retained measurements changed",
 			failures
 		)
@@ -3145,8 +3145,8 @@ static func _validate_cpu_human_baseline_trace(
 	)
 	var tqp58: Dictionary = milestone_by_id.get("TQP-58", {})
 	_expect(
-		str(tqp58.get("status", "")) == "blocked",
-		"TQP-58 must remain blocked before CPU-B2 and CPU-B3 pass",
+		str(tqp58.get("status", "")) == "qualified",
+		"TQP-58 decision must be qualified after CPU-B1 through CPU-B3 pass",
 		failures
 	)
 	var backend_decision := JsonLoader.load_dictionary(str(program.get("backend_decision", "")))
@@ -3155,8 +3155,8 @@ static func _validate_cpu_human_baseline_trace(
 	)
 	_expect(
 		str(gpu_eligibility.get("status", ""))
-			== "BLOCKED_CPU_B3_NOT_EXHAUSTED",
-		"GPU architecture decision must remain blocked while CPU-B3 is not exhausted",
+			== "QUALIFIED_TQP58_DECISION_COMPLETE",
+		"GPU architecture decision eligibility differs from retained TQP-58 evidence",
 		failures
 	)
 

@@ -4,15 +4,15 @@
 	"milestone_count": 71,
 	"status_counts": {
 		"proposed": 0,
-		"specified": 1,
+		"specified": 0,
 		"implemented": 6,
-		"qualified": 56,
+		"qualified": 57,
 		"production": 1,
 		"blocked": 7
 	},
 	"proposed_milestone_count": 0,
-	"specified_milestone_count": 1,
-	"qualified_milestone_count": 56,
+	"specified_milestone_count": 0,
+	"qualified_milestone_count": 57,
 	"gate_statuses": {
 		"GATE_A": "QUALIFIED",
 		"GATE_B": "QUALIFIED",
@@ -132,7 +132,7 @@
 				"GPU field evaluation",
 				"TQP-65 fragmentation, collision, and production cost"
 			],
-			"elapsed_ms": 95091.898,
+			"elapsed_ms": 81802.257,
 			"provenance": {
 				"workload_signature": "edit_semantics_reference_v1",
 				"build_type": "debug",
@@ -140,13 +140,13 @@
 				"architecture": "x86_64",
 				"cpu": "Intel(R) Core(TM) i5-7300HQ CPU @ 2.50GHz",
 				"gpu": "",
-				"driver": "vulkan",
-				"godot_version": "4.7.1-stable (steam)",
+				"driver": "opengl3",
+				"godot_version": "4.7.2-stable (steam)",
 				"backend_revision": "545a7554551c4772a7889da59378f08fe74cc57e33924993e385e72c8f389ca3"
 			},
 			"memory": {
-				"retained_bytes": 33330048,
-				"peak_bytes": 91011708
+				"retained_bytes": 33525038,
+				"peak_bytes": 91215742
 			},
 			"gate_b": {
 				"schema": "world_transvoxel.terrain_lab.edit_gate_b_qualification.v1",
@@ -180,7 +180,7 @@
 								],
 								"geometry_signature": "47a2219c0eaea6e3364797b228a756647af88d080887d011a0b83b86d0e68792",
 								"collision_signature": "3d4e05d601f943907691165f980c2fe7d5927adc0348432111cbb3e679736eac",
-								"elapsed_usec": 105101,
+								"elapsed_usec": 80646,
 								"failures": []
 							},
 							{
@@ -194,7 +194,7 @@
 								],
 								"geometry_signature": "047d15519714ea6b765987f4d8539693c91dc4e9516ad8ce00f4afd8855a7408",
 								"collision_signature": "511adbe35c25c1750ca8ed8ddb8758250a3b46d299f9840999f7ad578e98a555",
-								"elapsed_usec": 91093,
+								"elapsed_usec": 83008,
 								"failures": []
 							},
 							{
@@ -208,7 +208,7 @@
 								],
 								"geometry_signature": "53b72bcf767731b341c57b1fdee0d0725fc29fed1b46abc72ad346a98400372f",
 								"collision_signature": "35bd93e68a92bff43383e59d54ff20baf77e3c64858340949a9cae097e02ea24",
-								"elapsed_usec": 92810,
+								"elapsed_usec": 83352,
 								"failures": []
 							},
 							{
@@ -222,7 +222,7 @@
 								],
 								"geometry_signature": "2502d395952d5b37e118aeea66d90137f386de44027533a0945622e9bbd5de13",
 								"collision_signature": "57148b1fa32c05bf592b25b0bd286bf1c96d0a0144194a1d0cf814d4cbfd0cd2",
-								"elapsed_usec": 102254,
+								"elapsed_usec": 80394,
 								"failures": []
 							},
 							{
@@ -236,7 +236,7 @@
 								],
 								"geometry_signature": "03efb765b05d9590686c78715b49f3fc22a070192998bd5ca61592d636c95087",
 								"collision_signature": "781c1f0535e47b2f6bac029ab21bbc829f6699b817fd9d58a1d857ad4611f582",
-								"elapsed_usec": 98213,
+								"elapsed_usec": 86690,
 								"failures": []
 							},
 							{
@@ -250,7 +250,7 @@
 								],
 								"geometry_signature": "19e7bd5098200d48c0092d0d8a5f480072c2f15b6d387e80da5654681b480ab6",
 								"collision_signature": "7f381183b3777b01be0c566679462431118e4ff0c0f67eca6211175f9d699d37",
-								"elapsed_usec": 96382,
+								"elapsed_usec": 88995,
 								"failures": []
 							},
 							{
@@ -264,16 +264,16 @@
 								],
 								"geometry_signature": "afd8f0d1a43c49d564b3bf13b8c04dab4819cbc5724c4b078300acc1aa548cd9",
 								"collision_signature": "031d62a09266ca78cafe3d582be7b2f5c877204adab1fe014e312913b736f83b",
-								"elapsed_usec": 109998,
+								"elapsed_usec": 89306,
 								"failures": []
 							}
 						],
 						"performance": {
 							"sample_count": 100,
-							"p50_usec": 1132.0,
-							"p95_usec": 2007.0,
-							"p99_usec": 4199.0,
-							"worst_usec": 4717.0
+							"p50_usec": 1113.0,
+							"p95_usec": 1492.0,
+							"p99_usec": 1585.0,
+							"worst_usec": 1604.0
 						}
 					},
 					{
@@ -3344,29 +3344,29 @@
 						"performance": {
 							"transaction_append": {
 								"sample_count": 246,
-								"p50_usec": 517.0,
-								"p95_usec": 1522.0,
-								"p99_usec": 6610.0,
-								"worst_usec": 11067.0
+								"p50_usec": 442.0,
+								"p95_usec": 769.0,
+								"p99_usec": 1117.0,
+								"worst_usec": 1357.0
 							},
 							"query_batch_64": {
 								"sample_count": 100,
-								"p50_usec": 716.0,
-								"p95_usec": 1309.0,
-								"p99_usec": 1797.0,
-								"worst_usec": 2190.0
+								"p50_usec": 696.0,
+								"p95_usec": 929.0,
+								"p99_usec": 1217.0,
+								"worst_usec": 1493.0
 							},
 							"native_chunk_rebuild": {
 								"sample_count": 100,
-								"p50_usec": 303162.0,
-								"p95_usec": 477970.0,
-								"p99_usec": 696679.0,
-								"worst_usec": 764919.0
+								"p50_usec": 299592.0,
+								"p95_usec": 418603.0,
+								"p99_usec": 437225.0,
+								"worst_usec": 468087.0
 							}
 						},
 						"memory": {
-							"retained_bytes": 61396256,
-							"peak_bytes": 91011708
+							"retained_bytes": 61591246,
+							"peak_bytes": 91215742
 						}
 					}
 				],
@@ -3430,10 +3430,10 @@
 					"scope": "reference_debug_workload_not_production_frame_budget",
 					"budget_evaluation": "OBSERVATION_ONLY_COMBINED_RUN",
 					"measured": {
-						"brush_batch_p95_usec": 2007.0,
-						"transaction_append_p95_usec": 1522.0,
-						"query_batch_64_p95_usec": 1309.0,
-						"native_chunk_rebuild_p95_usec": 477970.0,
+						"brush_batch_p95_usec": 1492.0,
+						"transaction_append_p95_usec": 769.0,
+						"query_batch_64_p95_usec": 929.0,
+						"native_chunk_rebuild_p95_usec": 418603.0,
 						"journal_bytes": 946099,
 						"largest_spatial_bucket": 15
 					},
@@ -3481,15 +3481,15 @@
 					"architecture": "x86_64",
 					"cpu": "Intel(R) Core(TM) i5-7300HQ CPU @ 2.50GHz",
 					"gpu": "",
-					"driver": "vulkan",
-					"godot_version": "4.7.1-stable (steam)",
+					"driver": "opengl3",
+					"godot_version": "4.7.2-stable (steam)",
 					"backend_revision": "545a7554551c4772a7889da59378f08fe74cc57e33924993e385e72c8f389ca3"
 				},
 				"memory": {
-					"retained_bytes": 33332788,
-					"peak_bytes": 91011708
+					"retained_bytes": 33527778,
+					"peak_bytes": 91215742
 				},
-				"elapsed_ms": 95088.427,
+				"elapsed_ms": 81798.613,
 				"failures": []
 			},
 			"milestones": [
@@ -3527,7 +3527,7 @@
 							],
 							"geometry_signature": "47a2219c0eaea6e3364797b228a756647af88d080887d011a0b83b86d0e68792",
 							"collision_signature": "3d4e05d601f943907691165f980c2fe7d5927adc0348432111cbb3e679736eac",
-							"elapsed_usec": 105101,
+							"elapsed_usec": 80646,
 							"failures": []
 						},
 						{
@@ -3541,7 +3541,7 @@
 							],
 							"geometry_signature": "047d15519714ea6b765987f4d8539693c91dc4e9516ad8ce00f4afd8855a7408",
 							"collision_signature": "511adbe35c25c1750ca8ed8ddb8758250a3b46d299f9840999f7ad578e98a555",
-							"elapsed_usec": 91093,
+							"elapsed_usec": 83008,
 							"failures": []
 						},
 						{
@@ -3555,7 +3555,7 @@
 							],
 							"geometry_signature": "53b72bcf767731b341c57b1fdee0d0725fc29fed1b46abc72ad346a98400372f",
 							"collision_signature": "35bd93e68a92bff43383e59d54ff20baf77e3c64858340949a9cae097e02ea24",
-							"elapsed_usec": 92810,
+							"elapsed_usec": 83352,
 							"failures": []
 						},
 						{
@@ -3569,7 +3569,7 @@
 							],
 							"geometry_signature": "2502d395952d5b37e118aeea66d90137f386de44027533a0945622e9bbd5de13",
 							"collision_signature": "57148b1fa32c05bf592b25b0bd286bf1c96d0a0144194a1d0cf814d4cbfd0cd2",
-							"elapsed_usec": 102254,
+							"elapsed_usec": 80394,
 							"failures": []
 						},
 						{
@@ -3583,7 +3583,7 @@
 							],
 							"geometry_signature": "03efb765b05d9590686c78715b49f3fc22a070192998bd5ca61592d636c95087",
 							"collision_signature": "781c1f0535e47b2f6bac029ab21bbc829f6699b817fd9d58a1d857ad4611f582",
-							"elapsed_usec": 98213,
+							"elapsed_usec": 86690,
 							"failures": []
 						},
 						{
@@ -3597,7 +3597,7 @@
 							],
 							"geometry_signature": "19e7bd5098200d48c0092d0d8a5f480072c2f15b6d387e80da5654681b480ab6",
 							"collision_signature": "7f381183b3777b01be0c566679462431118e4ff0c0f67eca6211175f9d699d37",
-							"elapsed_usec": 96382,
+							"elapsed_usec": 88995,
 							"failures": []
 						},
 						{
@@ -3611,16 +3611,16 @@
 							],
 							"geometry_signature": "afd8f0d1a43c49d564b3bf13b8c04dab4819cbc5724c4b078300acc1aa548cd9",
 							"collision_signature": "031d62a09266ca78cafe3d582be7b2f5c877204adab1fe014e312913b736f83b",
-							"elapsed_usec": 109998,
+							"elapsed_usec": 89306,
 							"failures": []
 						}
 					],
 					"performance": {
 						"sample_count": 100,
-						"p50_usec": 1132.0,
-						"p95_usec": 2007.0,
-						"p99_usec": 4199.0,
-						"worst_usec": 4717.0
+						"p50_usec": 1113.0,
+						"p95_usec": 1492.0,
+						"p99_usec": 1585.0,
+						"worst_usec": 1604.0
 					}
 				},
 				{
@@ -6691,29 +6691,29 @@
 					"performance": {
 						"transaction_append": {
 							"sample_count": 246,
-							"p50_usec": 517.0,
-							"p95_usec": 1522.0,
-							"p99_usec": 6610.0,
-							"worst_usec": 11067.0
+							"p50_usec": 442.0,
+							"p95_usec": 769.0,
+							"p99_usec": 1117.0,
+							"worst_usec": 1357.0
 						},
 						"query_batch_64": {
 							"sample_count": 100,
-							"p50_usec": 716.0,
-							"p95_usec": 1309.0,
-							"p99_usec": 1797.0,
-							"worst_usec": 2190.0
+							"p50_usec": 696.0,
+							"p95_usec": 929.0,
+							"p99_usec": 1217.0,
+							"worst_usec": 1493.0
 						},
 						"native_chunk_rebuild": {
 							"sample_count": 100,
-							"p50_usec": 303162.0,
-							"p95_usec": 477970.0,
-							"p99_usec": 696679.0,
-							"worst_usec": 764919.0
+							"p50_usec": 299592.0,
+							"p95_usec": 418603.0,
+							"p99_usec": 437225.0,
+							"worst_usec": 468087.0
 						}
 					},
 					"memory": {
-						"retained_bytes": 61396256,
-						"peak_bytes": 91011708
+						"retained_bytes": 61591246,
+						"peak_bytes": 91215742
 					}
 				},
 				{
@@ -6817,8 +6817,8 @@
 				"architecture": "x86_64",
 				"cpu": "Intel(R) Core(TM) i5-7300HQ CPU @ 2.50GHz",
 				"gpu": "",
-				"driver": "vulkan",
-				"godot_version": "4.7.1-stable (steam)",
+				"driver": "opengl3",
+				"godot_version": "4.7.2-stable (steam)",
 				"backend_revision": "545a7554551c4772a7889da59378f08fe74cc57e33924993e385e72c8f389ca3"
 			},
 			"milestones": [
@@ -6876,18 +6876,18 @@
 					},
 					"performance": {
 						"sample_count": 100,
-						"p50_usec": 3356.0,
-						"p95_usec": 4712.0,
-						"p99_usec": 5162.0,
-						"worst_usec": 5621.0,
+						"p50_usec": 4021.0,
+						"p95_usec": 10501.0,
+						"p99_usec": 15933.0,
+						"worst_usec": 17033.0,
 						"warmup_iterations": 10,
 						"blends_per_sample": 512,
 						"budget_p95_usec": 30000.0,
 						"budget_evaluation": "OBSERVATION_ONLY_COMBINED_RUN"
 					},
 					"memory": {
-						"retained_bytes": 33358256,
-						"peak_bytes": 91011708
+						"retained_bytes": 33553246,
+						"peak_bytes": 91215742
 					},
 					"provenance": {
 						"workload_signature": "tqp18_material_blending_reference_v1",
@@ -6896,8 +6896,8 @@
 						"architecture": "x86_64",
 						"cpu": "Intel(R) Core(TM) i5-7300HQ CPU @ 2.50GHz",
 						"gpu": "",
-						"driver": "vulkan",
-						"godot_version": "4.7.1-stable (steam)",
+						"driver": "opengl3",
+						"godot_version": "4.7.2-stable (steam)",
 						"backend_revision": "545a7554551c4772a7889da59378f08fe74cc57e33924993e385e72c8f389ca3"
 					},
 					"visual_evidence": {
@@ -7048,10 +7048,10 @@
 					},
 					"performance": {
 						"sample_count": 100,
-						"p50_usec": 6405.0,
-						"p95_usec": 7869.0,
-						"p99_usec": 8392.0,
-						"worst_usec": 8623.0,
+						"p50_usec": 7100.0,
+						"p95_usec": 17448.0,
+						"p99_usec": 49441.0,
+						"worst_usec": 79517.0,
 						"warmup_iterations": 10,
 						"mapping_operations_per_sample": 2048,
 						"budget_p95_usec": 50000.0,
@@ -7059,8 +7059,8 @@
 						"budget_evaluation": "OBSERVATION_ONLY_COMBINED_RUN"
 					},
 					"memory": {
-						"retained_bytes": 33382284,
-						"peak_bytes": 91011708
+						"retained_bytes": 33577274,
+						"peak_bytes": 91215742
 					},
 					"provenance": {
 						"workload_signature": "tqp21_reference_triplanar_texture_array_v1",
@@ -7069,8 +7069,8 @@
 						"architecture": "x86_64",
 						"cpu": "Intel(R) Core(TM) i5-7300HQ CPU @ 2.50GHz",
 						"gpu": "",
-						"driver": "vulkan",
-						"godot_version": "4.7.1-stable (steam)",
+						"driver": "opengl3",
+						"godot_version": "4.7.2-stable (steam)",
 						"backend_revision": "545a7554551c4772a7889da59378f08fe74cc57e33924993e385e72c8f389ca3"
 					},
 					"visual_evidence": {
@@ -7177,10 +7177,10 @@
 					},
 					"performance": {
 						"sample_count": 100,
-						"p50_usec": 16096.0,
-						"p95_usec": 18057.0,
-						"p99_usec": 18803.0,
-						"worst_usec": 19042.0,
+						"p50_usec": 18287.0,
+						"p95_usec": 31508.0,
+						"p99_usec": 38909.0,
+						"worst_usec": 42910.0,
 						"warmup_iterations": 10,
 						"operations_per_sample": 4096,
 						"budget_p95_usec": 50000.0,
@@ -7188,8 +7188,8 @@
 						"budget_evaluation": "OBSERVATION_ONLY_COMBINED_RUN"
 					},
 					"memory": {
-						"retained_bytes": 33401544,
-						"peak_bytes": 91011708
+						"retained_bytes": 33596534,
+						"peak_bytes": 91215742
 					},
 					"provenance": {
 						"workload_signature": "tqp23_reference_surface_shading_v1",
@@ -7198,8 +7198,8 @@
 						"architecture": "x86_64",
 						"cpu": "Intel(R) Core(TM) i5-7300HQ CPU @ 2.50GHz",
 						"gpu": "",
-						"driver": "vulkan",
-						"godot_version": "4.7.1-stable (steam)",
+						"driver": "opengl3",
+						"godot_version": "4.7.2-stable (steam)",
 						"backend_revision": "545a7554551c4772a7889da59378f08fe74cc57e33924993e385e72c8f389ca3"
 					},
 					"qualified_scope": [
@@ -7321,8 +7321,8 @@
 						"architecture": "x86_64",
 						"cpu": "Intel(R) Core(TM) i5-7300HQ CPU @ 2.50GHz",
 						"gpu": "",
-						"driver": "vulkan",
-						"godot_version": "4.7.1-stable (steam)",
+						"driver": "opengl3",
+						"godot_version": "4.7.2-stable (steam)",
 						"backend_revision": "545a7554551c4772a7889da59378f08fe74cc57e33924993e385e72c8f389ca3"
 					},
 					"failures": []
@@ -7370,8 +7370,8 @@
 				"architecture": "x86_64",
 				"cpu": "Intel(R) Core(TM) i5-7300HQ CPU @ 2.50GHz",
 				"gpu": "",
-				"driver": "vulkan",
-				"godot_version": "4.7.1-stable (steam)",
+				"driver": "opengl3",
+				"godot_version": "4.7.2-stable (steam)",
 				"backend_revision": "545a7554551c4772a7889da59378f08fe74cc57e33924993e385e72c8f389ca3"
 			},
 			"milestones": [
@@ -7682,18 +7682,18 @@
 					},
 					"performance": {
 						"sample_count": 100,
-						"p50_usec": 35811.0,
-						"p95_usec": 37700.0,
-						"p99_usec": 39897.0,
-						"worst_usec": 40164.0,
+						"p50_usec": 36334.0,
+						"p95_usec": 51257.0,
+						"p99_usec": 74515.0,
+						"worst_usec": 97216.0,
 						"warmup_iterations": 10,
 						"path_updates_per_sample": 64,
 						"budget_p95_usec": 150000.0,
 						"budget_evaluation": "OBSERVATION_ONLY_COMBINED_RUN"
 					},
 					"memory": {
-						"retained_bytes": 33498444,
-						"peak_bytes": 91011708
+						"retained_bytes": 33693434,
+						"peak_bytes": 91215742
 					},
 					"provenance": {
 						"workload_signature": "tqp19_streaming_window_reference_v1",
@@ -7702,8 +7702,8 @@
 						"architecture": "x86_64",
 						"cpu": "Intel(R) Core(TM) i5-7300HQ CPU @ 2.50GHz",
 						"gpu": "",
-						"driver": "vulkan",
-						"godot_version": "4.7.1-stable (steam)",
+						"driver": "opengl3",
+						"godot_version": "4.7.2-stable (steam)",
 						"backend_revision": "545a7554551c4772a7889da59378f08fe74cc57e33924993e385e72c8f389ca3"
 					},
 					"qualified_scope": [
@@ -7895,18 +7895,18 @@
 					},
 					"performance": {
 						"sample_count": 100,
-						"p50_usec": 4465.0,
-						"p95_usec": 5959.0,
-						"p99_usec": 8002.0,
-						"worst_usec": 8973.0,
+						"p50_usec": 4712.0,
+						"p95_usec": 7599.0,
+						"p99_usec": 9143.0,
+						"worst_usec": 10805.0,
 						"warmup_iterations": 10,
 						"coordinate_round_trips_per_sample": 1024,
 						"budget_p95_usec": 15000.0,
 						"budget_evaluation": "OBSERVATION_ONLY_COMBINED_RUN"
 					},
 					"memory": {
-						"retained_bytes": 33528156,
-						"peak_bytes": 91011708
+						"retained_bytes": 33723146,
+						"peak_bytes": 91215742
 					},
 					"provenance": {
 						"workload_signature": "tqp20_cpu_large_world_coordinate_reference_v1",
@@ -7915,8 +7915,8 @@
 						"architecture": "x86_64",
 						"cpu": "Intel(R) Core(TM) i5-7300HQ CPU @ 2.50GHz",
 						"gpu": "",
-						"driver": "vulkan",
-						"godot_version": "4.7.1-stable (steam)",
+						"driver": "opengl3",
+						"godot_version": "4.7.2-stable (steam)",
 						"backend_revision": "545a7554551c4772a7889da59378f08fe74cc57e33924993e385e72c8f389ca3"
 					},
 					"qualified_scope": [
@@ -8015,10 +8015,10 @@
 					},
 					"performance": {
 						"sample_count": 100,
-						"p50_usec": 95648.0,
-						"p95_usec": 100937.0,
-						"p99_usec": 112194.0,
-						"worst_usec": 144646.0,
+						"p50_usec": 87719.0,
+						"p95_usec": 114687.0,
+						"p99_usec": 120305.0,
+						"worst_usec": 129016.0,
 						"warmup_iterations": 10,
 						"views_per_sample": 16,
 						"budget_p95_usec": 300000.0,
@@ -8026,8 +8026,8 @@
 						"budget_evaluation": "OBSERVATION_ONLY_COMBINED_RUN"
 					},
 					"memory": {
-						"retained_bytes": 33545112,
-						"peak_bytes": 91011708
+						"retained_bytes": 33740102,
+						"peak_bytes": 91215742
 					},
 					"provenance": {
 						"workload_signature": "tqp22_cpu_horizontal_visibility_residency_reference_v1",
@@ -8036,8 +8036,8 @@
 						"architecture": "x86_64",
 						"cpu": "Intel(R) Core(TM) i5-7300HQ CPU @ 2.50GHz",
 						"gpu": "",
-						"driver": "vulkan",
-						"godot_version": "4.7.1-stable (steam)",
+						"driver": "opengl3",
+						"godot_version": "4.7.2-stable (steam)",
 						"backend_revision": "545a7554551c4772a7889da59378f08fe74cc57e33924993e385e72c8f389ca3"
 					},
 					"qualified_scope": [
@@ -8468,8 +8468,8 @@
 						"architecture": "x86_64",
 						"cpu": "Intel(R) Core(TM) i5-7300HQ CPU @ 2.50GHz",
 						"gpu": "",
-						"driver": "vulkan",
-						"godot_version": "4.7.1-stable (steam)",
+						"driver": "opengl3",
+						"godot_version": "4.7.2-stable (steam)",
 						"backend_revision": "545a7554551c4772a7889da59378f08fe74cc57e33924993e385e72c8f389ca3"
 					},
 					"failures": []
@@ -9500,8 +9500,8 @@
 				"architecture": "x86_64",
 				"cpu": "Intel(R) Core(TM) i5-7300HQ CPU @ 2.50GHz",
 				"gpu": "",
-				"driver": "vulkan",
-				"godot_version": "4.7.1-stable (steam)",
+				"driver": "opengl3",
+				"godot_version": "4.7.2-stable (steam)",
 				"backend_revision": "545a7554551c4772a7889da59378f08fe74cc57e33924993e385e72c8f389ca3"
 			},
 			"milestones": [
@@ -9573,7 +9573,7 @@
 				"TQP-55": "qualified_windows_cpu_release_matrix_v1",
 				"TQP-56": "qualified_windows_cpu_wrapper_and_retained_long_haul_v1",
 				"TQP-57": "production_cpu_terrain_standard_1_0_limited_windows_reference_release",
-				"TQP-58": "specified_gpu_architecture_decision_eligible",
+				"TQP-58": "qualified_gpu_architecture_decision_only",
 				"TQP-59": "blocked",
 				"TQP-60": "blocked",
 				"TQP-61": "blocked",
@@ -9584,34 +9584,46 @@
 			},
 			"backend_decision": {
 				"schema": "world_transvoxel.terrain_lab.backend_architecture_decision.v1",
-				"decision_id": "TQP-D003",
+				"decision_id": "TQP-D052",
 				"status": "QUALIFIED_DECISION",
 				"reference_backend": "world_transvoxel_cpu",
+				"selected_candidate_architecture": "GPU_FIELD_AND_TRANSVOXEL_MESH_CANDIDATE_WITH_CPU_CONTROL_AUTHORITY",
+				"silent_runtime_fallback": false,
 				"gpu_architecture_decision_eligibility": {
 					"milestone": "TQP-58",
-					"status": "ELIGIBLE_TQP58_SPECIFIED",
-					"required_precondition": "CPU_FINALIZATION_PRECONDITION",
-					"evidence": "res://labs/terrain_lab/results/cpu_finalization_readiness_windows.json"
+					"status": "QUALIFIED_TQP58_DECISION_COMPLETE",
+					"required_preconditions": [
+						"CPU_FINALIZATION_PRECONDITION",
+						"CPU_PRODUCTION_CLOSURE_PRECONDITION",
+						"CPU_HUMAN_BASELINE_TRACE_PRECONDITION"
+					],
+					"evidence": [
+						"res://labs/terrain_lab/results/cpu_finalization_readiness_windows.json",
+						"res://labs/terrain_lab/results/cpu_production_closure_windows.json",
+						"res://labs/terrain_lab/results/cpu_human_baseline_trace_readiness_windows.json",
+						"world-transvoxel-integration-game:docs/evidence/cpu_final_authoritative_baseline_20260822/qualification.json",
+						"world-transvoxel-integration-game:docs/evidence/gpu_architecture_decision_20260823/qualification.json"
+					]
 				},
 				"decisions": {
 					"field_evaluation": {
 						"current": "cpu",
-						"gpu_candidate": "BLOCKED_NO_IMPLEMENTATION",
+						"gpu_candidate": "SELECTED_FOR_TQP59_QUALIFICATION",
 						"promotion_requirement": "TQP-59 analytical and CPU differential evidence against the Gate E field corpus and released CPU addon"
 					},
 					"meshing": {
 						"current_authority": "world_transvoxel_cpu",
-						"gpu_candidate": "BLOCKED_NO_IMPLEMENTATION",
+						"gpu_candidate": "SELECTED_AFTER_TQP59_FOR_TQP60_QUALIFICATION",
 						"promotion_requirement": "TQP-60 and TQP-61 primitive plus Gate E terrain differential evidence"
 					},
 					"buffer_residency": {
 						"current": "cpu_generation_then_render_upload",
-						"gpu_candidate": "BLOCKED_NO_IMPLEMENTATION",
+						"gpu_candidate": "DEFERRED_TO_TQP62_AFTER_MESH_DIFFERENTIAL",
 						"promotion_requirement": "TQP-62 synchronization, reuse, stale rejection, targeted collision, and recovery evidence"
 					},
 					"collision": {
 						"current": "cpu_authoritative_publication",
-						"gpu_readback": "UNQUALIFIED",
+						"gpu_readback": "DEFERRED_CPU_TARGETED_COLLISION_RETAINED",
 						"promotion_requirement": "versioned readback within publication and latency budgets"
 					}
 				},
@@ -9625,15 +9637,18 @@
 					"correctness_regression_allowed": false
 				},
 				"qualified_scope": [
-					"CPU world-transvoxel remains the pinned reference and sole meshing authority",
-					"GPU field, meshing, residency, and collision readback are separate promotion decisions"
+					"CPU world-transvoxel remains the pinned correctness reference and control authority",
+					"GPU field and regular plus transition meshing are selected candidate scopes",
+					"GPU residency, rendering, and collision readback remain separate promotion decisions",
+					"GPU results require CPU validation of page key, LOD, generation, source revision, world revision, and transition mask"
 				],
 				"explicitly_unqualified_scope": [
-					"GPU field evaluation",
-					"GPU regular or transition meshing",
+					"GPU field correctness or performance",
+					"GPU regular or transition meshing correctness or performance",
 					"GPU buffer publication",
 					"GPU collision readback",
-					"cross-hardware GPU behavior"
+					"cross-hardware GPU behavior",
+					"GPU production release"
 				]
 			},
 			"cpu_finalization": {
@@ -10283,6 +10298,462 @@
 				"consistency_failures": [],
 				"decision": "CPU-C1 through CPU-C3 pass under the retained three-logical-CPU boundary. TQP-58 is eligible for a measured architecture decision. CPU remains the correctness authority, and recorded performance target misses prevent any claim that CPU terrain performance is complete."
 			},
+			"cpu_production_closure": {
+				"schema": "world_transvoxel.terrain_lab.cpu_production_closure_evidence.v1",
+				"precondition": "CPU_PRODUCTION_CLOSURE_PRECONDITION",
+				"status": "PASS",
+				"retained_complete": true,
+				"tqp58_eligible": true,
+				"as_of": "2026-08-10",
+				"platform": "windows_x86_64",
+				"engine": "4.7",
+				"renderer": "forward_plus",
+				"authority_revision": "d73fd37211797b043797d072020a48a2eaed7383",
+				"terrain_implementation_revision": "81cb3302b134098786aa988d0a69f8c7353ec4cb",
+				"terrain_evidence_revision": "50c8759d18f0880231cbbb88294cad2b90bc4efe",
+				"logical_cpu_affinity": [
+					0.0,
+					1.0,
+					2.0
+				],
+				"native_build_jobs": 3.0,
+				"subgates": [
+					{
+						"id": "TQP-R01",
+						"title": "Construction Material Ownership",
+						"status": "PASS"
+					},
+					{
+						"id": "TQP-R02",
+						"title": "Temporal Streaming Continuity",
+						"status": "PASS"
+					},
+					{
+						"id": "TQP-R03",
+						"title": "Global Coarse Coverage And Local Refinement",
+						"status": "PASS"
+					},
+					{
+						"id": "TQP-R04",
+						"title": "Cache Prefetch And Targeted Collision Readiness",
+						"status": "PASS"
+					},
+					{
+						"id": "TQP-R05",
+						"title": "Bounded CPU Production Baseline",
+						"status": "PASS"
+					},
+					{
+						"id": "TQP-R06",
+						"title": "Self-Contained Godot 4.7 Release Bundle",
+						"status": "PASS"
+					}
+				],
+				"measurements": {
+					"broad_scenarios": 9.0,
+					"catalog_pages": 299520.0,
+					"global_coarse_roots": 512.0,
+					"lod0_equivalent_coverage_cells": 262144.0,
+					"observed_lod_counts": {
+						"0": 160.0,
+						"1": 116.0,
+						"2": 88.0,
+						"3": 505.0
+					},
+					"coarse_ready_latency_usec": 3473957.0,
+					"coverage_overlaps": 0.0,
+					"generation_errors": 0.0,
+					"broad_topology_failures": 0.0,
+					"frame_samples": 2700.0,
+					"scenario_p50_ceiling_usec": 16308.0,
+					"scenario_p99_ceiling_usec": 70161.0,
+					"worst_frame_usec": 98044.0,
+					"stutter_fraction_over_100ms": 0.0,
+					"process_cpu_seconds": 314.21875,
+					"wall_seconds": 191.4052632,
+					"average_cpu_cores": 1.6416411166,
+					"three_cpu_capacity_utilization_percent": 54.7213705529,
+					"peak_rss_bytes": 1172578304.0,
+					"peak_static_memory_bytes": 74242073.0,
+					"peak_video_memory_bytes": 144360032.0,
+					"maximum_scheduler_queue": 236.0,
+					"maximum_storage_queue": 505.0,
+					"maximum_render_queue": 0.0,
+					"maximum_collision_queue": 3.0,
+					"dig_visual_latency_usec": 90189.0,
+					"dig_collision_latency_usec": 109456.0,
+					"construct_visual_latency_usec": 75786.0,
+					"construct_collision_latency_usec": 96567.0,
+					"repainted_existing_solid_samples": 0.0,
+					"temporal_monitored_frames": 2270.0,
+					"temporal_topology_samples": 78.0,
+					"temporal_overlaps": 0.0,
+					"temporal_topology_failures": 0.0,
+					"prefetched_visual_lod0_chunks": 64.0,
+					"arrival_storage_requests": 0.0,
+					"arrival_mesh_jobs": 0.0,
+					"arrival_collision_latency_usec": 23588.0,
+					"bundle_files": 114.0,
+					"bundle_bytes": 1872479.0
+				},
+				"release_bundle": {
+					"version": "1.1.0-rc1",
+					"self_contained": true,
+					"clean_install_smoke": "PASS",
+					"authority_version": "1.0.16-dev",
+					"backend": "transvoxel_mit_official",
+					"fallback": false,
+					"files": 114.0,
+					"bytes": 1872479.0,
+					"sha256": "8dc0482fe55b3765ed0bdf376141af2cf6d6f07ff78e855942a731b4d4250f57"
+				},
+				"retained_sources": [
+					{
+						"repository": "world-transvoxel-terrain",
+						"path": "artifacts/tqp57_large_terrain_acceptance/tqp57_large_terrain_acceptance_report.json",
+						"sha256": "b936fd3557ba9a95d516b2816accab20c82be339054dfde4574e4e6fd0a79963"
+					},
+					{
+						"repository": "world-transvoxel-terrain",
+						"path": "artifacts/cpu_temporal_continuity/cpu_temporal_continuity_report.json",
+						"sha256": "3aa03c9347ed915b55aa992eae53ed3c71358d49479785f087fb70e8554e3ee7"
+					},
+					{
+						"repository": "world-transvoxel-terrain",
+						"path": "artifacts/cpu_prefetch_readiness/cpu_prefetch_readiness_report.json",
+						"sha256": "c9cc67f42eee272e881c31b0d9a6a9bce99798535a566121c535f958033cb2cc"
+					},
+					{
+						"repository": "world-transvoxel-terrain",
+						"path": "artifacts/cpu_production_closure/cpu_production_closure_report.json",
+						"sha256": "a0bf52cb134bf0a7ed348538bc777a34bd2e7a5f5e6e6afd4a6dad0e0c81aa31"
+					},
+					{
+						"repository": "world-transvoxel-terrain",
+						"path": "artifacts/cpu_release_bundle/cpu_release_bundle_report.json",
+						"sha256": "071c19991c6c6116688f5ada25a42d511e462672188a070bb197befaabf900b0"
+					},
+					{
+						"repository": "world-transvoxel-terrain",
+						"path": "artifacts/cpu_release_bundle/world-transvoxel-terrain-cpu-1.1.0-rc1.zip",
+						"sha256": "8dc0482fe55b3765ed0bdf376141af2cf6d6f07ff78e855942a731b4d4250f57"
+					}
+				],
+				"power": {
+					"status": "UNQUALIFIED_NO_TRUSTED_ENERGY_PROVIDER",
+					"cpu_package_watts": null,
+					"whole_system_watts": null,
+					"gpu_board_watts": null
+				},
+				"consistency_failures": []
+			},
+			"cpu_human_baseline_trace": {
+				"schema": "world_transvoxel.terrain_lab.cpu_human_baseline_trace_readiness.v1",
+				"precondition": "CPU_HUMAN_BASELINE_TRACE_PRECONDITION",
+				"status": "PASS",
+				"retained_complete": true,
+				"tqp58_eligible": true,
+				"as_of": "2026-08-23",
+				"logical_cpu_affinity": [
+					0.0,
+					1.0,
+					2.0
+				],
+				"steps": [
+					{
+						"id": "CPU-B1",
+						"status": "PASS",
+						"source_repository": "world-transvoxel-integration-game",
+						"evidence_commit": "32adc3164b4bbd7b2b13b0fccbfefadd980231d1",
+						"measurement_commit": "413eaa5c9c612bd0ee3bf939b233723d9d2a8080",
+						"authority_commit": "f30818b9ce0f0b3f9ddb75726db5522d97167404",
+						"evidence_path": "docs/evidence/authoritative_cpu_human_baseline_20260812/baseline.json",
+						"evidence_sha256": "5f2552537503237572268565f98fd2f7683a6e2ef8097497a1867d0c51fdc34f",
+						"result": "MEASURED_TARGET_MISS"
+					},
+					{
+						"id": "CPU-B2",
+						"status": "PASS",
+						"source_repository": "world-transvoxel-integration-game",
+						"evidence_commit": "0950e3dfece191b25eb8094fbf6c1217ffe0207f",
+						"measurement_commit": "5c07dc6ea7580533fac79e185f0e20d2659e8af2",
+						"authority_commit": "f7a583d9e22ae39bc4d9e99178da3f782a2abe61",
+						"evidence_path": "docs/evidence/cpu_b2_causal_trace_20260813/qualification.json",
+						"evidence_sha256": "d5cced62da4a89728027d16d65a2ffb6732fa2f259abbfc857b05bdf4d86ea76",
+						"causal_slice_sha256": "803f0af99a4440f52de655597e43b536b27da5c14553981f18e7da0e97a83c66",
+						"result": "CAUSAL_ATTRIBUTION_PASS"
+					},
+					{
+						"id": "CPU-B3",
+						"status": "PASS",
+						"source_repository": "world-transvoxel-integration-game",
+						"evidence_commit": "53eb8e6b1c9a7900c26c57f04e5947aada320518",
+						"candidate_commit": "9518d303f895845efce8afea04e763f24dea695c",
+						"authority_commit": "b35491948e126f6f660f64ad89532acbc50895bc",
+						"evidence_path": "docs/evidence/cpu_final_authoritative_baseline_20260822/qualification.json",
+						"evidence_sha256": "0c00b7bb64ca2f905a8626ec38832a8ade05f11cdbab5968372cd01ac6ca513b",
+						"result": "AUTHORITATIVE_CPU_BASELINE_FROZEN_PERFORMANCE_TARGET_MISSED",
+						"human_review_commit": "bf59a98f51ada8cd9ef6fe1a71100984b87046c0",
+						"human_review_path": "docs/evidence/cpu_b3_regional_publication_20260813/human_review.json",
+						"human_review_sha256": "81142cdc1ac5f3ffeaccd5fc8e6d2ca6bf5e984433ed2eae3affcfc86f55da93",
+						"human_review_status": "ACCEPTED_WITH_KNOWN_LIMITATIONS",
+						"exhaustion_review_commit": "53eb8e6b1c9a7900c26c57f04e5947aada320518",
+						"exhaustion_review_path": "docs/evidence/cpu_final_authoritative_baseline_20260822/qualification.json",
+						"exhaustion_review_sha256": "0c00b7bb64ca2f905a8626ec38832a8ade05f11cdbab5968372cd01ac6ca513b",
+						"exhaustion_review_status": "COMPLETE",
+						"exhaustion_decision": "EXHAUSTED_STANDARD_CPU_REMEDIES_GPU_DECISION_ELIGIBLE",
+						"remaining": []
+					}
+				],
+				"baseline": {
+					"runtime": "Godot 4.7.1 editor/debug Forward+ Vulkan",
+					"profile": "g23_four_biomes_lakes_mountains_roads_2k_256_on_demand",
+					"runs": 3.0,
+					"full_route_frame_p99_median_ms": 23.162,
+					"full_route_worst_frame_maximum_ms": 100.428,
+					"movement_phase_worst_frame_maximum_ms": 40.329,
+					"blocked_movement_frames": [
+						8.0,
+						52.0,
+						11.0
+					],
+					"maximum_consecutive_blocked_frames": [
+						4.0,
+						30.0,
+						6.0
+					],
+					"authority_commit_ms": [
+						49.914,
+						66.661,
+						33.33
+					],
+					"relocation_to_exact_visual_ready_ms": [
+						14532.785,
+						316.719,
+						13206.199
+					],
+					"relocation_to_exact_collision_ready_ms": [
+						14532.785,
+						316.719,
+						13206.199
+					],
+					"maximum_scheduler_queued_jobs": [
+						762.0,
+						723.0,
+						795.0
+					],
+					"maximum_pending_chunk_replacements": [
+						757.0,
+						723.0,
+						799.0
+					],
+					"average_active_cores_median": 1.3926788411,
+					"peak_process_tree_rss_bytes_maximum": 869793792.0
+				},
+				"interpretation": {
+					"correctness": "retained separately and not revoked by this performance miss",
+					"first_edit": "the four edited replacement chunks reached storage, sampling, meshing, publication, render sink, collision sink, and replacement readiness by 250.586 ms; a relocation-wide visibility barrier delayed activation by another 12932.004 ms",
+					"flight": "observed movement rejection is the collision-readiness gate during relocation backlog; the largest traced movement-frame hitch was accepted and remains a separate CPU-B3 target",
+					"root_cause": "CPU-B3 replaces the relocation-wide edit barrier with exact cross-LOD regional publication, but the retained candidate still has a 3822.632 ms median readiness delay and misses traversal targets",
+					"power": "unqualified because no trusted watt sensor was available"
+				},
+				"cpu_b2": {
+					"status": "PASS",
+					"trace_schema": "world_transvoxel.cpu_causal_trace.v2",
+					"qualification_schema": "world_transvoxel.cpu_b2_qualification.v3",
+					"logical_cpu_affinity": [
+						0.0,
+						1.0,
+						2.0
+					],
+					"trace_disabled_by_default": true,
+					"native_event_count": 97907.0,
+					"consumer_gap_event_count": 0.0,
+					"local_dropped_event_count": 0.0,
+					"downstream_dropped_event_count": 0.0,
+					"edit_replacement_count": 4.0,
+					"last_edit_replacement_sink_ms": 250.5693,
+					"last_edit_replacement_ready_ms": 250.5857,
+					"visibility_batch_ms": 13182.5728,
+					"visibility_wait_after_last_sink_ms": 12932.0035,
+					"first_blocker": {
+						"pending_chunk_replacements": 757.0,
+						"pending_chunk_retirements": 2402.0
+					},
+					"published_batch": {
+						"render_records": 415.0,
+						"collision_records": 112.0
+					},
+					"transition_work": {
+						"classification": "EXPLICIT_TRANSITION_MESH_CHAIN_CONFIRMED",
+						"started_events": 296.0,
+						"finished_events": 296.0,
+						"completion_consumed_events": 296.0,
+						"transition_mask_count": 24.0,
+						"unmatched_started_jobs": 0.0,
+						"unmatched_finished_jobs": 0.0,
+						"unmatched_completion_consumptions": 0.0,
+						"invalid_transition_masks": 0.0
+					},
+					"movement": {
+						"frames": 1020.0,
+						"blocked_frames": 15.0,
+						"sampled_blocked_frames": 3.0,
+						"classification": "COLLISION_READINESS_GATE_DURING_RELOCATION_BACKLOG",
+						"largest_movement_frame_ms": 45.647,
+						"largest_movement_frame_accepted": true
+					},
+					"observer_overhead": {
+						"wall_time_relative_delta": 0.260114528182304,
+						"process_cpu_relative_delta": 0.210295956648604,
+						"frame_p99_relative_delta": -0.127556493753677,
+						"frame_maximum_relative_delta": -0.0753617037212729,
+						"performance_baseline_allowed": false
+					},
+					"claim_boundary": "CPU-B2 proves explicit transition-mask work and attributes delayed visibility plus observed collision-gated movement rejection on the pinned route; it does not remediate them, prove geometry from event presence alone, or fully attribute flight frame-time spikes"
+				},
+				"cpu_b3": {
+					"status": "PASS",
+					"qualification_schema": "world_transvoxel.cpu_b3_qualification.v1",
+					"selected_scope": "exact cross-LOD edit-region publication with one bounded batch of matching-generation coverage priority requests",
+					"correctness": {
+						"godot_debug_mixed_ownership_frames": 0.0,
+						"godot_release_mixed_ownership_frames": 0.0,
+						"regional_replacements": 8.0,
+						"regional_retirements": 1.0,
+						"visual_collision_divergence_frames_maximum": 0.0,
+						"production_streaming_hash": "39db05c67fc2f4b8d8beaab2e7da927ae968efb3d75118bcd80c5523116d9b3b",
+						"production_lod_streaming_hash": "7c9071d1c31da0397e48db0338c299b8bf923dbb0e80448ae11cf049c3c0d2fb"
+					},
+					"trace_off_medians": {
+						"relocation_to_visual_ready_ms": 3822.632,
+						"relocation_to_collision_ready_ms": 3822.632,
+						"frame_p99_ms": 25.397,
+						"frame_maximum_ms": 51.242,
+						"blocked_frames": 11.0,
+						"maximum_consecutive_blocked_frames": 3.0,
+						"maximum_pending_chunk_replacements": 783.0,
+						"maximum_scheduler_queued_jobs": 774.0,
+						"average_active_cores": 1.45137789521391
+					},
+					"causal_observation": {
+						"last_edit_replacement_sink_ms": 1167.6322,
+						"regional_publication_ms": 3155.9663,
+						"post_sink_wait_ms": 1988.3341,
+						"publication_component_replacements": 267.0,
+						"publication_component_retirements": 31.0,
+						"coverage_priority_requests": 207.0,
+						"coverage_priority_applied": 206.0
+					},
+					"rejected_viewer_region_experiment": {
+						"authority_commit": "82e8419868a7a100697b404667deec845fd83169",
+						"integration_commit": "e23e0c2b1bfdb69aebbdf5d45ee8cfe51119579a",
+						"authority_revert_commit": "b305c7e9c0b3818037b878909177c465eff8e61d",
+						"integration_revert_commit": "a4a67b96b5f4f096d527ad9b19a3dae35011254c",
+						"reason": "improved edit publication but materially regressed collision-gated traversal",
+						"reverted": true
+					},
+					"human_review": {
+						"status": "ACCEPTED_WITH_KNOWN_LIMITATIONS",
+						"new_rejection_level_correctness_failure": false,
+						"release_blocking_limitations": [
+							"TEMPORARY_LOD_SEE_THROUGH_SLICE",
+							"RESIDUAL_FLIGHT_RESPONSIVENESS",
+							"RELOCATION_FIRST_EDIT_DELAY"
+						]
+					},
+					"independent_exhaustion_review": {
+						"review_status": "COMPLETE",
+						"decision": "NOT_EXHAUSTED_ADDITIONAL_CPU_ATTRIBUTION_AND_REMEDIATION_REQUIRED",
+						"cpu_b3_pass": false,
+						"tqp58_eligible": false,
+						"implementation_changed": false,
+						"failed_exit_criteria": [
+							"trace_off_performance_target_pass",
+							"release_blocking_human_limitations_absent",
+							"all_material_bottlenecks_causally_attributed",
+							"all_trace_supported_standard_cpu_remedies_exhausted",
+							"independent_gpu_eligibility_established"
+						],
+						"ordered_next_work": [
+							"CPU-B3A temporary LOD opening causal capture and classification",
+							"CPU-B3B flight frame-time and movement responsiveness attribution",
+							"CPU-B3C exact regional publication-component ownership audit",
+							"CPU-B3D at most one newly trace-proven standard CPU remedy with full A/B correctness and human regression",
+							"CPU-B3E repeat independent exhaustion review"
+						]
+					},
+					"cpu_b3a_attempt": {
+						"status": "IN_PROGRESS_EVENT_NOT_REPRODUCED",
+						"classification": "BOUNDED_ROAD_FILTERED_ROUTE_NO_EVENT",
+						"evidence_commit": "cb50b7dd1134f1dbbd0ac0d2f0837177ef703141",
+						"measurement_commit": "ca9ce0f42ae4cb411a54d0b6c84b6c9dc52332de",
+						"authority_commit": "a8bba838a8860ba30bdb79887ad66ba17028ad18",
+						"result_sha256": "349f0ee8a62ef154c9544ba79c367175b7a166e5ed2357001406991a87bb9027",
+						"native_trace_sha256": "d9891506622089b940a9ef5176534204e310d739198015eb3ba5c50af863c055",
+						"godot": "4.7.1.stable.steam.a13da4feb",
+						"logical_cpu_affinity": [
+							0.0,
+							1.0,
+							2.0
+						],
+						"implementation_changed": false,
+						"terrain_behavior_changed": false,
+						"route_frames": 528.0,
+						"sample_count": 132.0,
+						"minimum_viewer_route_road_centerline_clearance_cells": 132.941176470588,
+						"candidate_ray_road_exclusion_cells": 32.0,
+						"candidate_rays": 64.0,
+						"excluded_authored_road_rays": 64.0,
+						"road_clear_rendered_rays": 0.0,
+						"road_clear_direct_opening_rays": 0.0,
+						"native_event_count": 72723.0,
+						"native_consumer_gap_event_count": 0.0,
+						"native_local_dropped_event_count": 0.0,
+						"downstream_dropped_event_count": 0.0,
+						"screenshots_are_authority": false,
+						"aggregate_queue_counts_are_authority": false,
+						"observer_capture_us_mean": 83251.9166666667,
+						"performance_baseline_allowed": false,
+						"claim_boundary": "one bounded road-filtered route did not reproduce a road-clear opening; this does not disprove the human report or complete CPU-B3A"
+					},
+					"final_closure": {
+						"status": "PASS_CPU_REFERENCE_FROZEN_PERFORMANCE_TARGET_MISSED",
+						"authority_commit": "b35491948e126f6f660f64ad89532acbc50895bc",
+						"integration_evidence_commit": "53eb8e6b1c9a7900c26c57f04e5947aada320518",
+						"integration_causal_commit": "9518d303f895845efce8afea04e763f24dea695c",
+						"qualification_sha256": "0c00b7bb64ca2f905a8626ec38832a8ade05f11cdbab5968372cd01ac6ca513b",
+						"godot": "4.7.2",
+						"logical_cpu_affinity": [
+							0.0,
+							1.0,
+							2.0
+						],
+						"native_debug_release_executables_passed": 62.0,
+						"godot_smoke_scripts_passed": 10.0,
+						"source_validator_hard_failures": 0.0,
+						"trace_off_runs": 3.0,
+						"trace_off_status": "MEASURED_TARGET_MISS",
+						"frame_p99_median_ms": 38.66,
+						"relocation_visual_collision_ready_median_ms": 8692.049,
+						"average_active_core_equivalents_median": 1.5344,
+						"causal_native_events": 138608.0,
+						"causal_drops_or_gaps": 0.0,
+						"edited_required_chunks_last_sink_ms": 1474.252,
+						"first_visibility_batch_ms": 7772.796,
+						"visibility_wait_after_last_sink_ms": 6298.544,
+						"edit_classification": "GLOBAL_VISIBILITY_STAGING_BARRIER_AFTER_RELOCATION",
+						"movement_classification": "COLLISION_READINESS_GATE_DURING_RELOCATION_BACKLOG",
+						"standard_cpu_remedies_exhausted": true,
+						"cpu_b3_pass": true,
+						"tqp58_eligible": true,
+						"new_human_visual_review_claimed": false,
+						"gpu_backend_promoted": false
+					},
+					"claim_boundary": "CPU-B3 closes correctness, causal attribution, bounded standard CPU remediation, resource ownership, source structure, and final comparison measurement. Performance remains a target miss, known temporal presentation limitations remain release blockers, and no GPU implementation is qualified."
+				},
+				"consistency_failures": []
+			},
 			"blockers": [
 				{
 					"milestone": "TQP-59",
@@ -10327,9 +10798,7 @@
 					"exit": "a concrete multiplayer authority model advances beyond single-player local authority"
 				}
 			],
-			"specified_scope": [
-				"TQP-58 measured GPU Architecture Decision against retained CPU authority"
-			],
+			"specified_scope": [],
 			"qualified_scope": [
 				"TQP-51 pinned standalone candidate-addon boundary without a Terrain Lab runtime dependency",
 				"TQP-52 pinned runtime API profiles readiness back-pressure and cancellation contract",
@@ -10337,11 +10806,12 @@
 				"TQP-54 exact pinned downstream migration and representative runtime behavior",
 				"TQP-55 pinned Windows CPU production release matrix and deterministic package",
 				"TQP-56 bounded production-wrapper plus retained 1800-second long-haul evidence",
-				"TQP-57 CPU Terrain Standard 1.0 standalone limited Windows reference release"
+				"TQP-57 CPU Terrain Standard 1.0 standalone limited Windows reference release",
+				"TQP-58 measured GPU field and Transvoxel meshing candidate architecture under retained CPU authority"
 			],
 			"explicitly_unqualified_scope": [
 				"CPU production responsiveness target pass and CPU energy claims",
-				"GPU backend milestones TQP-58 through TQP-64",
+				"GPU backend implementation milestones TQP-59 through TQP-64",
 				"TQP-71 networking and recovery"
 			],
 			"failures": []

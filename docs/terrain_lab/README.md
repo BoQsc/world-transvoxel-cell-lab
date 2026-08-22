@@ -6,7 +6,7 @@ Qualification Program; it does not own production implementation and does not
 extend the Cell Lab root node.
 
 The [Terrain Qualification Program](TERRAIN_QUALIFICATION_PROGRAM.md) is the
-single human-readable roadmap. Program revision 52 contains TQP-01 through
+single human-readable roadmap. Program revision 53 contains TQP-01 through
 TQP-71 in ground-up execution order:
 
 - TQP-01 through TQP-50 are qualified only for their declared bounded scopes;
@@ -34,15 +34,15 @@ TQP-71 in ground-up execution order:
   construction ownership, temporal continuity, global coarse coverage,
   LOD0-through-LOD3 refinement, prefetch and targeted collision readiness,
   bounded performance, and a self-contained Godot 4.7 release candidate;
-- CPU-B1 and CPU-B2 retain the reviewed post-correction baseline and causal
-  attribution under a hard three-logical-CPU ceiling; CPU-B3 retains one
-  correctness candidate but remains in progress, and TQP-58 through TQP-64
-  remain blocked GPU work;
+- CPU-B1 through CPU-B3 retain the reviewed post-correction baseline, causal
+  attribution, final CPU correctness reference, and explicit performance miss
+  under a hard three-logical-CPU ceiling; TQP-58 qualifies the decision-only
+  GPU architecture and TQP-59 through TQP-64 remain blocked GPU work;
 - TQP-65 through TQP-70 retain implemented but unqualified post-release game
   systems, while TQP-71 networking remains blocked.
 
-The next work is independent CPU exhaustion review for the human-accepted exact
-regional edit-publication candidate. Gate F and
+The next work is TQP-59 analytical and CPU-differential GPU field evaluation.
+Gate F and
 the bounded CPU Terrain Standard 1.0 Windows release remain qualified correctness baselines on
 the corrected committed-tree basis in `TQP-D042`; `TQP-D043` required CPU
 finalization and `TQP-D044` qualifies it without claiming the recorded
@@ -54,8 +54,9 @@ human-equivalent target miss, `TQP-D047` qualifies CPU-B2 attribution, and
 broader viewer-region experiment, `TQP-D049` records human acceptance with
 three release-blocking limitations, and `TQP-D050` completes a not-exhausted
 CPU review. `TQP-D051` retains a road-filtered CPU-B3A no-event capture without
-mistaking roads or screenshots for opening authority. CPU-B3A remains current
-and TQP-58 remains blocked. The GPU backend, non-Windows, and
+mistaking roads or screenshots for opening authority. `TQP-D052` closes the
+subsequent bounded CPU investigation, freezes the final CPU reference, and
+qualifies TQP-58 as a decision only. The GPU backend, non-Windows, and
 cross-hardware claims remain unqualified.
 
 Godot 4.7 is the minimum and sole current qualification target. Godot 4.6
@@ -65,8 +66,9 @@ explicit qualification decision before replacing or expanding the matrix.
 
 The [What Comes Next](TERRAIN_QUALIFICATION_PROGRAM.md#what-comes-next)
 section records the completed CPU authority and standalone-release path, the
-two qualified historical CPU preconditions, the active CPU-B1 through CPU-B3
-precondition, blocked TQP-58, and the later game-oriented systems. The
+two qualified historical CPU preconditions, the completed CPU-B1 through
+CPU-B3 precondition, qualified TQP-58 decision, and later game-oriented
+systems. The
 dependency order remains authoritative even when investigation happens ahead
 of promotion.
 

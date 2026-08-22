@@ -12,16 +12,13 @@ machine-readable mirror used to reject missing milestones, duplicates,
 backward dependencies, incorrect wave state, and an invalid recommended-next
 item. It must not introduce work or ordering absent from the TQP.
 
-CPU-C1 through CPU-C3 and TQP-R01 through TQP-R06 remain qualified under the
-retained three-logical-CPU boundary. CPU-B1 retains the reviewed post-correction
-human baseline and CPU-B2 retains causal attribution. The current action remains
-CPU-B3A temporary LOD opening causal capture and classification. Its first
-road-filtered bounded route retained a complete causal trace but reproduced no
-road-clear event; it is not a pass. The independent review is complete with
-decision
-`NOT_EXHAUSTED_ADDITIONAL_CPU_ATTRIBUTION_AND_REMEDIATION_REQUIRED`. Execute
-CPU-B3A through CPU-B3E in order and keep TQP-58 blocked until the repeated
-review establishes exhaustion and eligibility.
+CPU-C1 through CPU-C3, TQP-R01 through TQP-R06, and CPU-B1 through CPU-B3 are
+qualified under the retained three-logical-CPU boundary. The final CPU
+correctness reference is frozen with an explicit performance target miss.
+TQP-58 is qualified as a decision-only milestone selecting GPU field evaluation
+plus regular and transition meshing as bounded candidates while CPU control
+remains authoritative. Execute TQP-59 next; TQP-60 through TQP-64 remain
+blocked on their own evidence.
 
 Validate the mirror with:
 

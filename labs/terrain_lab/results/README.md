@@ -20,7 +20,8 @@ movement hitch was accepted and remains unresolved.
 
 Tracing is disabled by default and is not a performance baseline. CPU-B3 uses
 trace-off A/B runs, changes one causal factor at a time, and retains full
-correctness plus human regressions. TQP-58 remains blocked.
+correctness plus human regressions. The superseding 2026-08-23 final CPU
+closure qualifies TQP-58 as a decision only; TQP-59 is next.
 
 ## CPU Finalization Evidence
 

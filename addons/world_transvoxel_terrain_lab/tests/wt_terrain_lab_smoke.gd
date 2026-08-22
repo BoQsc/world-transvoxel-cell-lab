@@ -695,7 +695,7 @@ func _run() -> void:
 	if int(validation.get("milestone_count", 0)) != 71:
 		_fail("terrain program milestone count changed")
 		return
-	if int(validation.get("qualified_milestone_count", 0)) != 56:
+	if int(validation.get("qualified_milestone_count", 0)) != 57:
 		_fail("qualified reference milestone count changed")
 		return
 	if int(validation.get("specified_milestone_count", -1)) != 0:
@@ -711,7 +711,7 @@ func _run() -> void:
 	if int(status_counts.get("production", 0)) != 1:
 		_fail("production release milestone count changed")
 		return
-	if int(status_counts.get("blocked", 0)) != 8:
+	if int(status_counts.get("blocked", 0)) != 7:
 		_fail("fail-closed milestone count changed")
 		return
 	var dependencies: Dictionary = validation.get("dependencies", {})

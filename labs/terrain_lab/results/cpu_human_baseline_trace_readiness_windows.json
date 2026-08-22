@@ -1,10 +1,10 @@
 {
   "schema": "world_transvoxel.terrain_lab.cpu_human_baseline_trace_readiness.v1",
   "precondition": "CPU_HUMAN_BASELINE_TRACE_PRECONDITION",
-  "status": "IN_PROGRESS",
-  "retained_complete": false,
-  "tqp58_eligible": false,
-  "as_of": "2026-08-13",
+  "status": "PASS",
+  "retained_complete": true,
+  "tqp58_eligible": true,
+  "as_of": "2026-08-23",
   "logical_cpu_affinity": [0, 1, 2],
   "steps": [
     {
@@ -32,24 +32,24 @@
     },
     {
       "id": "CPU-B3",
-      "status": "IN_PROGRESS",
+      "status": "PASS",
       "source_repository": "world-transvoxel-integration-game",
-      "evidence_commit": "6bd1e7f11229e25fd5965856e0b3b38b80335554",
-      "candidate_commit": "eb8a69c19801bb3e52837e3c565159827b560d3d",
-      "authority_commit": "a8bba838a8860ba30bdb79887ad66ba17028ad18",
-      "evidence_path": "docs/evidence/cpu_b3_regional_publication_20260813/qualification.json",
-      "evidence_sha256": "c61d0a415b29d737667ab8d980185f96803f2524f1e0432cde3df4e9d7fe24ae",
-      "result": "CORRECTNESS_HOTFIX_RETAINED_PERFORMANCE_TARGET_MISS",
+      "evidence_commit": "53eb8e6b1c9a7900c26c57f04e5947aada320518",
+      "candidate_commit": "9518d303f895845efce8afea04e763f24dea695c",
+      "authority_commit": "b35491948e126f6f660f64ad89532acbc50895bc",
+      "evidence_path": "docs/evidence/cpu_final_authoritative_baseline_20260822/qualification.json",
+      "evidence_sha256": "0c00b7bb64ca2f905a8626ec38832a8ade05f11cdbab5968372cd01ac6ca513b",
+      "result": "AUTHORITATIVE_CPU_BASELINE_FROZEN_PERFORMANCE_TARGET_MISSED",
       "human_review_commit": "bf59a98f51ada8cd9ef6fe1a71100984b87046c0",
       "human_review_path": "docs/evidence/cpu_b3_regional_publication_20260813/human_review.json",
       "human_review_sha256": "81142cdc1ac5f3ffeaccd5fc8e6d2ca6bf5e984433ed2eae3affcfc86f55da93",
       "human_review_status": "ACCEPTED_WITH_KNOWN_LIMITATIONS",
-      "exhaustion_review_commit": "953e51fdfa902f93c8eedde28c33cbe5d3437908",
-      "exhaustion_review_path": "docs/evidence/cpu_b3_regional_publication_20260813/exhaustion_review.json",
-      "exhaustion_review_sha256": "c91110aa12c230dc1470b1ae410138ee800ae57e31e51456ce2763e0cebcba49",
+      "exhaustion_review_commit": "53eb8e6b1c9a7900c26c57f04e5947aada320518",
+      "exhaustion_review_path": "docs/evidence/cpu_final_authoritative_baseline_20260822/qualification.json",
+      "exhaustion_review_sha256": "0c00b7bb64ca2f905a8626ec38832a8ade05f11cdbab5968372cd01ac6ca513b",
       "exhaustion_review_status": "COMPLETE",
-      "exhaustion_decision": "NOT_EXHAUSTED_ADDITIONAL_CPU_ATTRIBUTION_AND_REMEDIATION_REQUIRED",
-      "remaining": ["CPU-B3A", "CPU-B3B", "CPU-B3C", "CPU-B3D", "CPU-B3E"]
+      "exhaustion_decision": "EXHAUSTED_STANDARD_CPU_REMEDIES_GPU_DECISION_ELIGIBLE",
+      "remaining": []
     }
   ],
   "baseline": {
@@ -128,7 +128,7 @@
     "claim_boundary": "CPU-B2 proves explicit transition-mask work and attributes delayed visibility plus observed collision-gated movement rejection on the pinned route; it does not remediate them, prove geometry from event presence alone, or fully attribute flight frame-time spikes"
   },
   "cpu_b3": {
-    "status": "IN_PROGRESS",
+    "status": "PASS",
     "qualification_schema": "world_transvoxel.cpu_b3_qualification.v1",
     "selected_scope": "exact cross-LOD edit-region publication with one bounded batch of matching-generation coverage priority requests",
     "correctness": {
@@ -228,7 +228,36 @@
       "performance_baseline_allowed": false,
       "claim_boundary": "one bounded road-filtered route did not reproduce a road-clear opening; this does not disprove the human report or complete CPU-B3A"
     },
-    "claim_boundary": "the selected correctness candidate has completed human regression and an independent exhaustion review; that review found CPU work not exhausted, so CPU-B3 remains in progress and TQP-58 remains blocked"
+    "final_closure": {
+      "status": "PASS_CPU_REFERENCE_FROZEN_PERFORMANCE_TARGET_MISSED",
+      "authority_commit": "b35491948e126f6f660f64ad89532acbc50895bc",
+      "integration_evidence_commit": "53eb8e6b1c9a7900c26c57f04e5947aada320518",
+      "integration_causal_commit": "9518d303f895845efce8afea04e763f24dea695c",
+      "qualification_sha256": "0c00b7bb64ca2f905a8626ec38832a8ade05f11cdbab5968372cd01ac6ca513b",
+      "godot": "4.7.2",
+      "logical_cpu_affinity": [0, 1, 2],
+      "native_debug_release_executables_passed": 62,
+      "godot_smoke_scripts_passed": 10,
+      "source_validator_hard_failures": 0,
+      "trace_off_runs": 3,
+      "trace_off_status": "MEASURED_TARGET_MISS",
+      "frame_p99_median_ms": 38.66,
+      "relocation_visual_collision_ready_median_ms": 8692.049,
+      "average_active_core_equivalents_median": 1.5344,
+      "causal_native_events": 138608,
+      "causal_drops_or_gaps": 0,
+      "edited_required_chunks_last_sink_ms": 1474.252,
+      "first_visibility_batch_ms": 7772.796,
+      "visibility_wait_after_last_sink_ms": 6298.544,
+      "edit_classification": "GLOBAL_VISIBILITY_STAGING_BARRIER_AFTER_RELOCATION",
+      "movement_classification": "COLLISION_READINESS_GATE_DURING_RELOCATION_BACKLOG",
+      "standard_cpu_remedies_exhausted": true,
+      "cpu_b3_pass": true,
+      "tqp58_eligible": true,
+      "new_human_visual_review_claimed": false,
+      "gpu_backend_promoted": false
+    },
+    "claim_boundary": "CPU-B3 closes correctness, causal attribution, bounded standard CPU remediation, resource ownership, source structure, and final comparison measurement. Performance remains a target miss, known temporal presentation limitations remain release blockers, and no GPU implementation is qualified."
   },
   "consistency_failures": []
 }

@@ -1,37 +1,41 @@
 {
 	"schema": "world_transvoxel.terrain_lab.backend_architecture_decision.v1",
-	"decision_id": "TQP-D003",
+	"decision_id": "TQP-D052",
 	"status": "QUALIFIED_DECISION",
 	"reference_backend": "world_transvoxel_cpu",
+	"selected_candidate_architecture": "GPU_FIELD_AND_TRANSVOXEL_MESH_CANDIDATE_WITH_CPU_CONTROL_AUTHORITY",
+	"silent_runtime_fallback": false,
 	"gpu_architecture_decision_eligibility": {
 		"milestone": "TQP-58",
-		"status": "BLOCKED_CPU_B3_NOT_EXHAUSTED",
+		"status": "QUALIFIED_TQP58_DECISION_COMPLETE",
 		"required_preconditions": ["CPU_FINALIZATION_PRECONDITION", "CPU_PRODUCTION_CLOSURE_PRECONDITION", "CPU_HUMAN_BASELINE_TRACE_PRECONDITION"],
 		"evidence": [
 			"res://labs/terrain_lab/results/cpu_finalization_readiness_windows.json",
 			"res://labs/terrain_lab/results/cpu_production_closure_windows.json",
-			"res://labs/terrain_lab/results/cpu_human_baseline_trace_readiness_windows.json"
+			"res://labs/terrain_lab/results/cpu_human_baseline_trace_readiness_windows.json",
+			"world-transvoxel-integration-game:docs/evidence/cpu_final_authoritative_baseline_20260822/qualification.json",
+			"world-transvoxel-integration-game:docs/evidence/gpu_architecture_decision_20260823/qualification.json"
 		]
 	},
 	"decisions": {
 		"field_evaluation": {
 			"current": "cpu",
-			"gpu_candidate": "BLOCKED_NO_IMPLEMENTATION",
+			"gpu_candidate": "SELECTED_FOR_TQP59_QUALIFICATION",
 			"promotion_requirement": "TQP-59 analytical and CPU differential evidence against the Gate E field corpus and released CPU addon"
 		},
 		"meshing": {
 			"current_authority": "world_transvoxel_cpu",
-			"gpu_candidate": "BLOCKED_NO_IMPLEMENTATION",
+			"gpu_candidate": "SELECTED_AFTER_TQP59_FOR_TQP60_QUALIFICATION",
 			"promotion_requirement": "TQP-60 and TQP-61 primitive plus Gate E terrain differential evidence"
 		},
 		"buffer_residency": {
 			"current": "cpu_generation_then_render_upload",
-			"gpu_candidate": "BLOCKED_NO_IMPLEMENTATION",
+			"gpu_candidate": "DEFERRED_TO_TQP62_AFTER_MESH_DIFFERENTIAL",
 			"promotion_requirement": "TQP-62 synchronization, reuse, stale rejection, targeted collision, and recovery evidence"
 		},
 		"collision": {
 			"current": "cpu_authoritative_publication",
-			"gpu_readback": "UNQUALIFIED",
+			"gpu_readback": "DEFERRED_CPU_TARGETED_COLLISION_RETAINED",
 			"promotion_requirement": "versioned readback within publication and latency budgets"
 		}
 	},
@@ -42,14 +46,17 @@
 		"correctness_regression_allowed": false
 	},
 	"qualified_scope": [
-		"CPU world-transvoxel remains the pinned reference and sole meshing authority",
-		"GPU field, meshing, residency, and collision readback are separate promotion decisions"
+		"CPU world-transvoxel remains the pinned correctness reference and control authority",
+		"GPU field and regular plus transition meshing are selected candidate scopes",
+		"GPU residency, rendering, and collision readback remain separate promotion decisions",
+		"GPU results require CPU validation of page key, LOD, generation, source revision, world revision, and transition mask"
 	],
 	"explicitly_unqualified_scope": [
-		"GPU field evaluation",
-		"GPU regular or transition meshing",
+		"GPU field correctness or performance",
+		"GPU regular or transition meshing correctness or performance",
 		"GPU buffer publication",
 		"GPU collision readback",
-		"cross-hardware GPU behavior"
+		"cross-hardware GPU behavior",
+		"GPU production release"
 	]
 }

@@ -202,7 +202,7 @@ promotion order: investigation may happen early, but qualification cannot skip
 an earlier dependency.
 
 The machine-readable `execution_plan.json` mirrors the same order but is not a
-second human roadmap. Program revision 52 preserves every qualified TQP-01
+second human roadmap. Program revision 53 preserves every qualified TQP-01
 through TQP-47 claim, keeps the ordered CPU/GPU release sequence from
 `TQP-D033`, corrects TQP-48's inherited low-power target through
 `TQP-D036`, and closes Gate E for the bounded CPU authority envelope through
@@ -223,7 +223,8 @@ through `TQP-D048`, completes the exact candidate's human regression with known
 limitations through `TQP-D049`, completes the independent review with a
 fail-closed not-exhausted decision through `TQP-D050`, then retains the first
 road-filtered CPU-B3A no-event capture without advancing the step through
-`TQP-D051`.
+`TQP-D051`, then closes the completed CPU-B3 audit and qualifies the
+decision-only TQP-58 GPU architecture boundary through `TQP-D052`.
 Earlier identifier migrations remain retained in `TQP-D006`, `TQP-D017`, and
 `TQP-D030` as history.
 
@@ -1450,7 +1451,7 @@ failures.
 
 ### CPU Human Baseline And Trace Precondition Before TQP-58
 
-Status: `in progress`. Authority:
+Status: `qualified`. Authority:
 `cpu_human_baseline_trace_standard.json` and
 `cpu_human_baseline_trace_readiness_windows.json`.
 
@@ -1470,13 +1471,12 @@ the reviewed exact-mask integration state retained on 2026-08-12.
    Godot sinks, replacement readiness, visibility staging, queue state, worker
    activity, main-thread observations, and human markers. It also retains
    paired observer overhead.
-3. `CPU-B3: Cautious Remediation And Exhaustion Review` is `IN_PROGRESS`. Its
-   retained candidate publishes exact cross-LOD edited regions and issues one
-   bounded batch of matching-generation coverage priority requests. Automated
-   correctness and trace-off A/B evidence pass. Human regression is
-   `ACCEPTED_WITH_KNOWN_LIMITATIONS`. The independent review is complete with
-   decision `NOT_EXHAUSTED_ADDITIONAL_CPU_ATTRIBUTION_AND_REMEDIATION_REQUIRED`;
-   the performance target and CPU-B3 do not pass.
+3. `CPU-B3: Cautious Remediation And Exhaustion Review` is `PASS`. The program
+   completed opening, flight, publication-component, queue, scheduler,
+   resource, and source-structure audits; measured narrow CPU candidates; and
+   rejected and reverted regressions. The final CPU reference passes 62 native
+   debug/release executables and ten Godot 4.7.2 smokes. Its performance target
+   remains missed, which is retained rather than rewritten as a pass.
 
 CPU-B1 records full-route frame p99 median `23.162 ms`, full-route worst frame
 maximum `100.428 ms`, movement-phase worst frame `40.329 ms`, and one
@@ -1528,14 +1528,15 @@ after several seconds, flight responsiveness remains imperfect, and the first
 edit after a long relocation retains a smaller noticeable delay. These are
 release-blocking limitations, not accepted production behavior.
 
-The independent review verifies the frozen candidate and retained report
-digests without changing implementation. It does not establish exhaustion:
+The 2026-08-13 independent review verified the frozen candidate and retained
+report digests without changing implementation. At that checkpoint it did not
+establish exhaustion:
 the temporary LOD opening is unattributed, flight frame-time variance is only
 partially attributed, the retained edit path waits `1988.3341 ms` after its
 sinks for a 267-replacement/31-retirement component, and average active cores
 of `1.451` with large queues does not prove useful CPU saturation.
 
-CPU-B3 continues in this fail-closed order:
+CPU-B3 then continued in this fail-closed order:
 
 1. `CPU-B3A`: capture and classify the temporary LOD opening.
 2. `CPU-B3B`: attribute flight frame-time and movement responsiveness.
@@ -1552,7 +1553,7 @@ authored G23 road centerline, and every dark candidate ray was independently
 checked against the authored road segments. All 64 candidate rays were inside
 the 32-cell road exclusion; zero road-clear opening rays remained.
 
-This result is `IN_PROGRESS_EVENT_NOT_REPRODUCED`, not a pass and not evidence
+That result was `IN_PROGRESS_EVENT_NOT_REPRODUCED`, not a pass and not evidence
 that the human-reported opening is absent. The retained 72,723-event native
 trace has zero consumer sequence gaps, local capture drops, or downstream
 drops. Its source ring wrapped 7,187 already-drained events without losing the
@@ -1561,7 +1562,21 @@ same-ray render opening, collision or authoritative density crossing, exact
 chunk state, and overlapping native lifecycle events. Screenshots and aggregate
 queue totals are supporting evidence only. The synchronous observer averaged
 83.25 ms per sample and cannot support frame-time or performance claims.
-CPU-B3A therefore remains the current step; CPU-B3B and TQP-58 do not advance.
+At that checkpoint CPU-B3A remained current; CPU-B3B and TQP-58 did not advance.
+
+The paragraph above is retained first-attempt history. `TQP-D052` supersedes
+its active-state conclusion after CPU-B3A through CPU-B3Q completed the bounded
+investigation. The final authority is
+`b35491948e126f6f660f64ad89532acbc50895bc` and the final integration evidence
+is `53eb8e6b1c9a7900c26c57f04e5947aada320518`. Three trace-off runs retain
+median frame p99 `38.660 ms` and median relocation render/collision readiness
+`8692.049 ms`. A lossless 138,608-event causal run records edited chunks at
+both sinks by `1474.252 ms`, global visibility at `7772.796 ms`, and zero
+queued storage requests at the largest movement frame. The remaining material
+cost is serial CPU meshing feeding a conservative global
+visibility/replacement/collision backlog. CPU-B3 therefore closes as a
+correctness and comparison baseline with a performance target miss; known
+temporal presentation limitations remain production-release blockers.
 
 ## Phase 6: GPU Backend Qualification And Release
 
@@ -1574,15 +1589,14 @@ release contracts without replacing CPU authority by assumption.
 Execution order: TQP-58 -> TQP-59 -> TQP-60 -> TQP-61 -> TQP-62 -> TQP-63 ->
 TQP-64.
 
-The first two CPU preconditions remain qualified. CPU-B1 and CPU-B2 are
-retained, and CPU-B3 is in progress. Human regression and the independent
-review are complete, but the review found CPU work not exhausted. TQP-58 is
-therefore blocked behind CPU-B3A through CPU-B3E. This does
-not select a GPU architecture or qualify any GPU implementation.
+All three CPU preconditions are qualified. CPU-B1 through CPU-B3 retain the
+reviewed baseline, causal attribution, bounded standard CPU experiments, full
+correctness sweep, and final performance target miss. TQP-58 is complete as a
+decision only. It does not qualify any GPU implementation.
 
 ### TQP-58: GPU Architecture Decision
 
-Status: `blocked`. Owner: Backend Qualification Lab. Depends on: Gate F, the
+Status: `qualified`. Owner: Backend Qualification Lab. Depends on: Gate F, the
 CPU Finalization Precondition, CPU Production Closure Precondition, and CPU
 Human Baseline And Trace Precondition.
 
@@ -1591,6 +1605,15 @@ collision readback, synchronization, target APIs, and expected benefit are
 separate measured decisions. CPU and GPU candidates must run identical pinned
 profiles, and promotion requires a material frame-pacing, throughput, or
 energy-efficiency benefit without correctness regression.
+
+Decision: retain CPU ownership of world state, storage, edits, revisions,
+desired sets, transition masks, stale-result rejection, atomic publication,
+persistence, and initial targeted collision. Select GPU density, gradient, and
+material evaluation plus regular and transition mesh extraction as bounded
+candidate scopes. GPU results must carry exact page, LOD, generation, source
+revision, world revision, and transition-mask identity for CPU validation.
+CPU reference mode remains explicit; silent fallback is forbidden. GPU
+collision readback is deferred to TQP-62.
 
 ### TQP-59: GPU Field Evaluation
 
@@ -1752,19 +1775,19 @@ The program records every milestone at a truthful evidence state:
   coverage, observed LOD0 through LOD3, prefetch and targeted collision
   readiness, bounded performance telemetry, and a clean self-contained Godot
   4.7 bundle.
-- `CPU-B1` and `CPU-B2` retain the reviewed baseline and causal attribution.
-  `CPU-B3` retains one correctness hotfix candidate but remains in progress;
-  `TQP-58` through `TQP-64` remain blocked.
+- `CPU-B1` through `CPU-B3` retain the reviewed baseline, causal attribution,
+  final CPU correctness reference, and explicit performance target miss.
+  `TQP-58` qualifies the decision-only GPU candidate architecture; `TQP-59`
+  through `TQP-64` remain blocked.
 - `TQP-65` through `TQP-70` retain the previously implemented but unqualified
   destruction and structural reference behavior under revision-34 identifiers.
 - `TQP-71` networking remains blocked by a missing multiplayer authority model.
 
-The next work is CPU-B3A temporary LOD opening causal capture and
-classification. The independent review is complete and found CPU work not
-exhausted; performance and three named release limitations remain. TQP-58 remains
-blocked. The CPU release candidate remains the
-differential correctness authority, and a milestone may advance only when its
-declared evidence and entry conditions pass.
+The next work is TQP-59 analytical and CPU-differential GPU field evaluation.
+Performance and the named temporal release limitations remain explicit. The
+CPU release candidate remains the differential correctness authority, and a
+milestone may advance only when its declared evidence and entry conditions
+pass.
 
 ## What Comes Next
 
@@ -1810,11 +1833,11 @@ standalone CPU production addon. CPU-C1 through CPU-C3 now attribute and
 finalize the CPU architecture under the retained three-logical-CPU boundary;
 TQP-R01 through TQP-R06 close the discovered current production-terrain gaps.
 CPU-B1 retains the reviewed human-equivalent target miss, CPU-B2 retains its
-causal attribution, and CPU-B3 retains one human-reviewed correctness candidate
-while CPU-B3A through CPU-B3E remain open after a completed not-exhausted review
-and one bounded CPU-B3A route that did not reproduce a road-clear event.
-Only after they pass may TQP-58 through TQP-64 evaluate and release GPU
-acceleration without revoking CPU authority. TQP-65 through TQP-71 keep
+causal attribution, and CPU-B3 freezes the final CPU correctness and comparison
+baseline after bounded standard-remedy exhaustion. TQP-58 selects GPU field
+evaluation and regular plus transition meshing as candidates without revoking
+CPU control authority. TQP-59 through TQP-64 must separately qualify and
+release that work. TQP-65 through TQP-71 keep
 explosions, support, fluids, vegetation, authored structures, collapse, and
 networking out of the critical terrain-standardization path. This order makes
 the release target explicit while preventing game systems or experimental GPU
@@ -2028,3 +2051,7 @@ Retained decisions:
   exact render, density or collision, chunk, and native lifecycle evidence for
   a positive opening classification, reject screenshots and queue totals as
   primary authority, and keep CPU-B3A plus TQP-58 fail closed.
+- `TQP-D052`: close CPU-B3 with the exact final correctness and performance
+  comparison record, retain its performance target miss, qualify TQP-58 as a
+  decision-only milestone, select GPU field plus regular and transition
+  meshing as bounded candidates, and advance only TQP-59.

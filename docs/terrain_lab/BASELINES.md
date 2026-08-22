@@ -378,6 +378,22 @@ gaps or capture/downstream drops. The screenshot is supporting only, and the
 baseline. This attempt neither closes CPU-B3A nor weakens the original human
 opening report.
 
+## Final CPU-B3 Baseline
+
+`TQP-D052` supersedes the active-state conclusion above without deleting the
+first-attempt evidence. The final authority is
+`b35491948e126f6f660f64ad89532acbc50895bc`; integration evidence commit
+`53eb8e6b1c9a7900c26c57f04e5947aada320518` freezes the exact CPU reference.
+All 62 native debug/release executables and ten Godot 4.7.2 smokes pass under
+logical CPUs `[0, 1, 2]`.
+
+Three trace-off runs remain `MEASURED_TARGET_MISS`: median frame p99 is
+`38.660 ms` and median relocation render/collision readiness is `8692.049 ms`.
+The lossless causal run attributes the dominant remaining delay to serial CPU
+meshing feeding a conservative global visibility/replacement/collision
+backlog. This is the comparison baseline admitted by TQP-58; it is not a CPU
+performance pass or a GPU backend qualification.
+
 ## Run Policy
 
 The exact TQP-48 qualification run is intentionally expensive:
