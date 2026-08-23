@@ -1,7 +1,7 @@
 {
 	"schema": "world_transvoxel.terrain_lab.qualification_state.v1",
 	"as_of": "2026-08-23",
-	"program_revision": 53,
+	"program_revision": 54,
 	"policy": "manifest status must match retained evidence and fail closed",
 	"statuses": {
 		"qualified": [
@@ -48,6 +48,12 @@
 			"blocks": [],
 			"admits": ["TQP-58"]
 		}
+	},
+	"foreground_priority_reconciliation": {
+		"decision_id": "TQP-D053",
+		"status": "CANDIDATE_REJECTED_DEFAULT_OFF",
+		"standard": "res://addons/world_transvoxel_terrain_lab/standards/foreground_priority_reconciliation.json",
+		"recommended_next": "TQP-59"
 	},
 	"suites": [
 		{"id": "foundation", "schema": "world_transvoxel.terrain_lab.foundation_qualification.v1", "milestones": ["TQP-01", "TQP-02", "TQP-03", "TQP-04", "TQP-05"]},

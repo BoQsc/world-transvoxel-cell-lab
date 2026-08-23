@@ -42,6 +42,10 @@ TQP-71 in ground-up execution order:
   systems, while TQP-71 networking remains blocked.
 
 The next work is TQP-59 analytical and CPU-differential GPU field evaluation.
+`TQP-D053` records the intervening order-balanced foreground-priority check:
+the bounded authority mechanism is valid, but the automatic g23 policy is
+rejected and remains off because readiness and frame tails worsened in both
+run orders.
 Gate F and
 the bounded CPU Terrain Standard 1.0 Windows release remain qualified correctness baselines on
 the corrected committed-tree basis in `TQP-D042`; `TQP-D043` required CPU

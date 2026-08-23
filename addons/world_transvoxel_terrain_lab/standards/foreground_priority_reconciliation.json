@@ -1,0 +1,29 @@
+{
+	"schema": "world_transvoxel.terrain_lab.foreground_priority_reconciliation.v1",
+	"decision_id": "TQP-D053",
+	"status": "CANDIDATE_REJECTED_DEFAULT_OFF",
+	"authority_commit": "68e5b3de33cc774f00145094de68f1ec34759f48",
+	"integration_candidate_commit": "7d2e850af7a26bdf2837b88356c3d33d4f6ff836",
+	"integration_evidence_commit": "aae193c5d0f7b72985ca03b1f7ffc8f0b40a73b0",
+	"evidence": "world-transvoxel-integration-game:docs/evidence/cpu_foreground_priority_ab_20260823/qualification.json",
+	"mechanism_contract": {
+		"bounded_sources": 8,
+		"bounded_keys_per_source": 64,
+		"revisioned": true,
+		"exact_base_priority_restoration": true,
+		"changes_residency_or_lod_topology": false,
+		"changes_visual_or_collision_roles": false
+	},
+	"production_policy": {
+		"profile": "g23_four_biomes_lakes_mountains_roads_2k_256_on_demand",
+		"automatic_player_support_and_cursor_focus": false,
+		"diagnostic_toggle_retained": true,
+		"reason": "order-balanced A/B worsened relocation-to-readiness, frame tails, and blocked movement in both run orders"
+	},
+	"paired_readiness_delta_ms": {
+		"disabled_first": 618.422,
+		"enabled_first": 273.409
+	},
+	"claim_boundary": "The tested automatic policy is rejected for the pinned CPU system. The bounded mechanism remains diagnostic and does not qualify a broader priority policy or GPU backend.",
+	"recommended_next": "TQP-59"
+}

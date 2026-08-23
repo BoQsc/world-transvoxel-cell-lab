@@ -202,7 +202,7 @@ promotion order: investigation may happen early, but qualification cannot skip
 an earlier dependency.
 
 The machine-readable `execution_plan.json` mirrors the same order but is not a
-second human roadmap. Program revision 53 preserves every qualified TQP-01
+second human roadmap. Program revision 54 preserves every qualified TQP-01
 through TQP-47 claim, keeps the ordered CPU/GPU release sequence from
 `TQP-D033`, corrects TQP-48's inherited low-power target through
 `TQP-D036`, and closes Gate E for the bounded CPU authority envelope through
@@ -224,7 +224,9 @@ limitations through `TQP-D049`, completes the independent review with a
 fail-closed not-exhausted decision through `TQP-D050`, then retains the first
 road-filtered CPU-B3A no-event capture without advancing the step through
 `TQP-D051`, then closes the completed CPU-B3 audit and qualifies the
-decision-only TQP-58 GPU architecture boundary through `TQP-D052`.
+decision-only TQP-58 GPU architecture boundary through `TQP-D052`, then
+rejects automatic player-support and cursor-target priority after an
+order-balanced three-CPU differential through `TQP-D053`.
 Earlier identifier migrations remain retained in `TQP-D006`, `TQP-D017`, and
 `TQP-D030` as history.
 
@@ -1578,6 +1580,34 @@ visibility/replacement/collision backlog. CPU-B3 therefore closes as a
 correctness and comparison baseline with a performance target miss; known
 temporal presentation limitations remain production-release blockers.
 
+### Foreground Priority Reconciliation
+
+Status: `complete; production policy rejected`. This late bounded CPU check
+does not reopen CPU-B3 or insert a second roadmap. Authority commit
+`68e5b3de33cc774f00145094de68f1ec34759f48` adds revisioned, capacity-bounded
+player-support and cursor-focus priority leases which alter only the priority
+of already-desired chunks. They cannot create chunks, expand residency or LOD
+topology, or add visual or collision roles. Exact base priorities are restored
+on lease change or release.
+
+Integration candidate `7d2e850af7a26bdf2837b88356c3d33d4f6ff836`
+exposes a 100 ms/key-change-aware policy, HUD and causal events, an explicit
+runtime toggle, and order-balanced A/B tooling. Evidence commit
+`aae193c5d0f7b72985ca03b1f7ffc8f0b40a73b0` proves the candidate activated:
+the two enabled runs matched 367 and 374 existing keys and changed 51 and 63
+effective priorities with zero missing keys. Nevertheless, enabled readiness
+was 618.422 ms later in disabled-first order and 273.409 ms later in
+enabled-first order. Frame p95, frame p99, and blocked movement also worsened
+in both pairs. The queue-depth direction was inconsistent and is not used as
+the rejection basis.
+
+The g23 production default therefore remains off. The lease API and
+`Tilde+R`/command-line controls remain diagnostic surfaces, not accepted
+optimization. A committed edit already has the highest scheduling priority;
+the retained delay is downstream of edit acceptance and chiefly concerns
+readiness and publication. This result neither promotes GPU work by assumption
+nor changes TQP-58: TQP-59 remains next.
+
 ## Phase 6: GPU Backend Qualification And Release
 
 This phase starts only after the CPU production release, CPU Finalization
@@ -1591,8 +1621,10 @@ TQP-64.
 
 All three CPU preconditions are qualified. CPU-B1 through CPU-B3 retain the
 reviewed baseline, causal attribution, bounded standard CPU experiments, full
-correctness sweep, and final performance target miss. TQP-58 is complete as a
-decision only. It does not qualify any GPU implementation.
+correctness sweep, and final performance target miss. The late foreground
+priority hypothesis is also reconciled and rejected as an automatic production
+policy. TQP-58 is complete as a decision only. It does not qualify any GPU
+implementation.
 
 ### TQP-58: GPU Architecture Decision
 
@@ -2055,3 +2087,8 @@ Retained decisions:
   comparison record, retain its performance target miss, qualify TQP-58 as a
   decision-only milestone, select GPU field plus regular and transition
   meshing as bounded candidates, and advance only TQP-59.
+- `TQP-D053`: retain authority commit `68e5b3de`, integration candidate
+  `7d2e850`, and evidence commit `aae193c` for bounded foreground priority;
+  prove support and cursor leases change only existing demand priority, reject
+  their automatic g23 production policy after both A/B orders worsen readiness
+  and frame tails, leave the production default off, and keep TQP-59 next.

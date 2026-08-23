@@ -1,6 +1,6 @@
 {
 	"schema": "world_transvoxel.terrain_lab.program.v2",
-	"program_revision": 53,
+	"program_revision": 54,
 	"lab_scope": "experimental_terrain_qualification",
 	"authority": "EVIDENCE_PROGRAM_ONLY",
 	"production_status": "NOT_PRODUCTION",
@@ -18,6 +18,7 @@
 	"operating_envelope": "res://addons/world_transvoxel_terrain_lab/standards/operating_envelope.json",
 	"qualification_state": "res://addons/world_transvoxel_terrain_lab/standards/qualification_state.json",
 	"backend_decision": "res://addons/world_transvoxel_terrain_lab/standards/backend_architecture_decision.json",
+	"foreground_priority_reconciliation": "res://addons/world_transvoxel_terrain_lab/standards/foreground_priority_reconciliation.json",
 	"blocker_catalog": "res://addons/world_transvoxel_terrain_lab/standards/program_blockers.json",
 	"low_power_performance_profile": "res://addons/world_transvoxel_terrain_lab/standards/low_power_performance_profile.json",
 	"visual_evidence": "res://addons/world_transvoxel_terrain_lab/standards/visual_evidence.json",

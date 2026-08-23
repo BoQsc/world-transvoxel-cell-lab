@@ -1,7 +1,7 @@
 {
 	"schema": "world_transvoxel.terrain_lab.execution_plan.v1",
-	"plan_revision": 43,
-	"program_revision": 53,
+	"plan_revision": 44,
+	"program_revision": 54,
 	"policy": "single_human_tqp_dependency_order_fail_closed",
 	"human_authority": "res://docs/terrain_lab/TERRAIN_QUALIFICATION_PROGRAM.md",
 	"current_wave": "TQP-WAVE-05",
@@ -9,7 +9,7 @@
 	"completed_preconditions": ["CPU_FINALIZATION_PRECONDITION", "CPU_PRODUCTION_CLOSURE_PRECONDITION", "CPU_HUMAN_BASELINE_TRACE_PRECONDITION"],
 	"completed_precondition_steps": ["CPU-B1", "CPU-B2", "CPU-B3"],
 	"recommended_precondition_steps": [],
-	"recommended_action": "Execute TQP-59 analytical and CPU-differential GPU field evaluation against the frozen authoritative CPU baseline; TQP-58 selected only the candidate architecture and did not promote a GPU backend.",
+	"recommended_action": "Execute TQP-59 analytical and CPU-differential GPU field evaluation against the frozen authoritative CPU baseline; the late foreground-priority policy was rejected and TQP-58 selected only the candidate architecture without promoting a GPU backend.",
 	"waves": [
 		{
 			"id": "TQP-WAVE-00",

@@ -17,7 +17,9 @@ qualified under the retained three-logical-CPU boundary. The final CPU
 correctness reference is frozen with an explicit performance target miss.
 TQP-58 is qualified as a decision-only milestone selecting GPU field evaluation
 plus regular and transition meshing as bounded candidates while CPU control
-remains authoritative. Execute TQP-59 next; TQP-60 through TQP-64 remain
+remains authoritative. The late bounded foreground-priority hypothesis was
+tested in both run orders and rejected as an automatic production policy; it
+does not alter the sequence. Execute TQP-59 next; TQP-60 through TQP-64 remain
 blocked on their own evidence.
 
 Validate the mirror with:
